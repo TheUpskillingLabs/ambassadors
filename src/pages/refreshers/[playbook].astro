@@ -1,4 +1,5 @@
 ---
+import { u } from "../../lib/url";
 /* One cheat sheet per playbook. Prints on a single page. */
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
@@ -14,7 +15,7 @@ const { r } = Astro.props;
 ---
 <Base title={`${r.title} · ${t("refresher.title")}`} nav="refreshers" bodyClass="page-refresher">
   <div class="wrap refresher">
-    <a class="back no-print" href="/refreshers/"><span aria-hidden="true">←</span> {t("refresher.title")}</a>
+    <a class="back no-print" href={u("/refreshers/")}><span aria-hidden="true">←</span> {t("refresher.title")}</a>
     <div class="head-meta">
       <span class="lbl lbl-teal">{t("refresher.title")}</span>
       <span class="lbl">{r.readTime} {t("page.minRead")}</span>
@@ -44,7 +45,7 @@ const { r } = Astro.props;
 
     <div class="no-print story-actions">
       <button class="btn btn-ghost btn-sm" type="button" onclick="window.print()"><Icon name="print" size={18} /> {t("refresher.print")}</button>
-      <a class="see" href={`/playbooks/${r.playbook}/`}>{t("refresher.fullPlaybook")} →</a>
+      <a class="see" href={u(`/playbooks/${r.playbook}/`)}>{t("refresher.fullPlaybook")} →</a>
     </div>
   </div>
 </Base>

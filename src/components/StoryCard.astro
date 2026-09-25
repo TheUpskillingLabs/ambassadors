@@ -1,4 +1,5 @@
 ---
+import { u } from "../lib/url";
 /* The reader's saved 30-second why (Your Story). Filled in the browser;
    shows a prompt to write one when nothing is saved. */
 import { t } from "../lib/i18n";
@@ -8,7 +9,7 @@ import { t } from "../lib/i18n";
     <div class="lbl lbl-teal">{t("page.yourWhy")}</div>
     <blockquote class="story-text t-body" data-story-text hidden></blockquote>
     <p class="t-small" data-story-empty>{t("page.noStoryYet")}</p>
-    <a class="see" href="/your-story/" data-story-link data-edit={t("page.editYourStory")}>{t("page.writeYourStory")} →</a>
+    <a class="see" href={u("/your-story/")} data-story-link data-edit={t("page.editYourStory")}>{t("page.writeYourStory")} →</a>
   </div>
 </section>
 <script>

@@ -12,7 +12,8 @@ It uses the same design system as OLOS: the brand tokens, type scale, buttons, c
 - Geologica, self-hosted via `@fontsource-variable/geologica` (OFL).
 - QR codes are generated in the browser with `qrcode-generator`.
 - A service worker (`dist/sw.js`, generated at build) precaches every page, so the site works offline after the first visit. It can be installed as a PWA.
-- Deploys to Vercel as a static site (`vercel.json`).
+- Deploys to **GitHub Pages** via `.github/workflows/deploy-pages.yml` on every push to `main`. PRs build and type-check but don't deploy. For this to work, **Settings → Pages → Build and deployment → Source** must be set to **GitHub Actions**. The "Deploy from a branch" option runs Jekyll on the raw repo and fails.
+- The site works at any base path. The workflow passes the Pages path (`/ambassadors` on `theupskillinglabs.github.io`, or `/` on a custom domain) as `BASE_PATH`. Every internal link goes through `u()` in `src/lib/url.ts`, so new links in components should use it too. A root deploy (Vercel via `vercel.json`, or a custom domain) needs no configuration.
 
 ```sh
 nvm use            # Node 22.12+

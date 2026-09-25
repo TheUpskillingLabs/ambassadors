@@ -1,4 +1,5 @@
 ---
+import { u } from "../../lib/url";
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import PageHeader from "../../components/PageHeader.astro";
@@ -11,7 +12,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "long", day: "nu
 const c = help.coordinator;
 ---
 <Base title={t("help.title")} nav="help">
-  <PageHeader back={{ href: "/", label: t("nav.home") }} title={t("help.title")} />
+  <PageHeader back={{ href: u("/"), label: t("nav.home") }} title={t("help.title")} />
   <div class="wrap page-body">
     <section class="card">
       <div class="card-body">
@@ -26,11 +27,11 @@ const c = help.coordinator;
     <section class="tpl" id="whats-new" data-newest={newest}>
       <h2 class="tpl-h">{t("help.whatsNew")}</h2>
       <ol class="updates">
-        {updates.map((u) => (
-          <li class="update" data-date={u.data.date.toISOString().slice(0, 10)}>
-            <time class="lbl" datetime={u.data.date.toISOString().slice(0, 10)}>{fmt(u.data.date)}</time>
-            <p class="t-body">{u.data.change}</p>
-            {u.data.link && <a class="see" href={u.data.link}>{t("help.open")} →</a>}
+        {updates.map((up) => (
+          <li class="update" data-date={up.data.date.toISOString().slice(0, 10)}>
+            <time class="lbl" datetime={up.data.date.toISOString().slice(0, 10)}>{fmt(up.data.date)}</time>
+            <p class="t-body">{up.data.change}</p>
+            {up.data.link && <a class="see" href={u(up.data.link)}>{t("help.open")} →</a>}
           </li>
         ))}
       </ol>

@@ -1,4 +1,5 @@
 ---
+import { u } from "../lib/url";
 /* The boilerplate deck — six 1920×1080 slides mirroring the Room talk
    shape. Copy comes from content/site/deck.json; slides 5 and 6 are filled
    in the browser from data/schedule.json (next session) and get a QR code
@@ -30,13 +31,13 @@ const slides = deck.slides;
           <h2 class="sl-question">{deck.openingQuestion}</h2>
         </div>
         <div class="sl-rail">
-          {deck.partners.map((p) => <img src={p.src} alt={p.alt} width={p.width} height={p.height} class="sl-partner" />)}
+          {deck.partners.map((p) => <img src={u(p.src)} alt={p.alt} width={p.width} height={p.height} class="sl-partner" />)}
         </div>
         </>
       )}
 
       {s.key === "story" && (
-        <div class="sl-photo" role="img" aria-label={deck.photo.alt} style={`background-image:url(${deck.photo.src})`}></div>
+        <div class="sl-photo" role="img" aria-label={deck.photo.alt} style={`background-image:url(${u(deck.photo.src)})`}></div>
       )}
 
       {s.key === "what" && (
@@ -81,7 +82,7 @@ const slides = deck.slides;
       )}
 
       {(s.bg === "cover" || s.bg === "navy" || s.bg === "ink") && (
-        <img class="sl-logo" src="/assets/logo-lockup-white.png" alt="The Upskilling Labs" width="384" height="144" />
+        <img class="sl-logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="384" height="144" />
       )}
     </section>
   ))}

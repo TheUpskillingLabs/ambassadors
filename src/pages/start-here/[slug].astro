@@ -1,4 +1,5 @@
 ---
+import { u } from "../../lib/url";
 import GuidePage from "../../components/GuidePage.astro";
 import { sectionPages, pageSlug } from "../../lib/content";
 import sections from "../../../content/site/sections.json";
@@ -8,4 +9,4 @@ export async function getStaticPaths() {
 }
 const { entry, siblings } = Astro.props;
 ---
-<GuidePage entry={entry} siblings={siblings} sectionTitle={sections.startHere.title} sectionHref="/start-here/" nav="start-here" />
+<GuidePage entry={entry} siblings={siblings} sectionTitle={sections.startHere.title} sectionHref={u("/start-here/")} nav="start-here" />

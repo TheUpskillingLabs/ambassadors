@@ -23,9 +23,13 @@ const SKIP = [/^sw\.js$/, /^icons\/icon-512\.png$/, /\.map$/];
 const FONT_OK = /geologica-latin-wght-normal/;
 
 export default function offline() {
+  let base = "";
   return {
     name: "ambassador-guide-offline",
     hooks: {
+      "astro:config:done": ({ config }) => {
+        base = config.base.replace(/\/+$/, "");
+      },
       "astro:build:done": async ({ dir, logger }) => {
         const root = fileURLToPath(dir);
         const files = (await walk(root)).map((f) => path.relative(root, f).split(path.sep).join("/"));
@@ -34,20 +38,22 @@ export default function offline() {
           if (SKIP.some((re) => re.test(f))) continue;
           if (f.endsWith(".woff2") && !FONT_OK.test(f)) continue;
           if (f.endsWith(".woff")) continue;
-          if (f === "index.html") urls.push("/");
-          else if (f.endsWith("/index.html")) urls.push("/" + f.slice(0, -"index.html".length));
-          else urls.push("/" + f);
+          if (f === "index.html") urls.push(base + "/");
+          else if (f.endsWith("/index.html")) urls.push(base + "/" + f.slice(0, -"index.html".length));
+          else urls.push(base + "/" + f);
         }
         urls.sort();
         const hash = createHash("sha256").update(urls.join("\n") + Date.now()).digest("hex").slice(0, 10);
         const template = await readFile(new URL("../../scripts/sw-template.js", import.meta.url), "utf8");
         const sw = template
           .replace("__CACHE_NAME__", `guide-${hash}`)
-          .replace("__PRECACHE__", JSON.stringify(urls, null, 0));
+          .replace("__PRECACHE__", JSON.stringify(urls, null, 0))
+          .replace("__BASE__", base);
         await writeFile(path.join(root, "sw.js"), sw);
         let bytes = 0;
         for (const u of urls) {
-          const f = u.endsWith("/") ? u + "index.html" : u;
+          const rel = u.slice(base.length);
+          const f = rel.endsWith("/") ? rel + "index.html" : rel;
           bytes += (await stat(path.join(root, f))).size;
         }
         logger.info(`sw.js: precaching ${urls.length} files (${Math.round(bytes / 1024)} KB)`);

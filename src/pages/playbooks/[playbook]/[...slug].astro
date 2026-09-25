@@ -1,4 +1,5 @@
 ---
+import { u } from "../../../lib/url";
 /* The playbook page template — every page in both playbooks:
    title · read time · In 30 seconds · why · shape · examples (not lines) ·
    more detail · watch out for · try it · Done · Previous/Next. */
@@ -39,7 +40,7 @@ const hasBody = Boolean(entry.body?.trim());
 ---
 <Base title={isOverview ? d.title : `${d.title} · ${book.title}`} description={d.summary} nav="playbooks">
   <PageHeader
-    back={isOverview ? { href: "/playbooks/", label: t("nav.playbooks") } : { href: overviewHref, label: book.title }}
+    back={isOverview ? { href: u("/playbooks/"), label: t("nav.playbooks") } : { href: overviewHref, label: book.title }}
     eyebrow={`${book.title} · ${i + 1}/${pages.length}`}
     title={d.title}
     readTime={d.readTime}

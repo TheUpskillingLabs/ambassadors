@@ -1,4 +1,5 @@
 ---
+import { u } from "../lib/url";
 /* Home. First visit: Start Here first. Returning (Start Here complete):
    Refreshers, Present now and what's new first. The state attribute is set
    before paint by the inline script in Base.astro. */
@@ -24,7 +25,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "n
       <h1 class="t-display">{t("home.firstTitle")}</h1>
       <p class="t-lede">{t("home.firstLede")}</p>
       <div class="btn-row">
-        <a class="btn btn-teal" href="/start-here/">{t("home.firstCta")} <Icon name="arrow-right" size={18} /></a>
+        <a class="btn btn-teal" href={u("/start-here/")}>{t("home.firstCta")} <Icon name="arrow-right" size={18} /></a>
       </div>
       <ProgressMeter ids={shIds} />
     </div>
@@ -45,7 +46,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "n
         <h2 class="section-h">{t("home.refreshersTitle")}</h2>
         <div class="stack">
           {refreshers.map((r) => (
-            <a class="card tappable row-card" href={`/refreshers/${r.data.playbook}/`}>
+            <a class="card tappable row-card" href={u(`/refreshers/${r.data.playbook}/`)}>
               <span class="row-icon"><Icon name="refreshers" /></span>
               <span class="toc-main">
                 <span class="t-h4">{r.data.title}</span>
@@ -61,8 +62,8 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "n
           <div class="present-inner on-dark">
             <NextSession compact />
             <div class="btn-row">
-              <a class="btn btn-white" href="/present/"><Icon name="play" size={18} /> {t("home.presentCta")}</a>
-              <a class="btn btn-ghost" href="/present/?short">{t("home.shortCta")}</a>
+              <a class="btn btn-white" href={u("/present/")}><Icon name="play" size={18} /> {t("home.presentCta")}</a>
+              <a class="btn btn-ghost" href={u("/present/?short")}>{t("home.shortCta")}</a>
             </div>
           </div>
         </div>
@@ -70,7 +71,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "n
       {latest && (
         <section>
           <h2 class="section-h">{t("home.whatsNew")} <span class="news-dot" role="img" aria-label={t("home.newDot")}></span></h2>
-          <a class="card tappable row-card" href="/help/#whats-new">
+          <a class="card tappable row-card" href={u("/help/#whats-new")}>
             <span class="toc-main">
               <span class="lbl">{fmt(latest.data.date)}</span>
               <span class="t-body">{latest.data.change}</span>
@@ -84,7 +85,7 @@ const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "n
       <h2 class="section-h">{t("home.allSections")}</h2>
       <div class="tiles">
         {sections.sections.map((s) => (
-          <a class="tile card tappable" href={s.href}>
+          <a class="tile card tappable" href={u(s.href)}>
             <span class="t-h4">{s.title}{s.id === "help" && <span class="news-dot" aria-hidden="true"></span>}</span>
             <span class="t-small">{s.blurb}</span>
           </a>

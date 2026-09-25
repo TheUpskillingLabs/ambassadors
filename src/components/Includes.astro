@@ -1,4 +1,5 @@
 ---
+import { u } from "../lib/url";
 /* Structured content pulled into a guide page by its `include` field. */
 import { getCollection, getEntries } from "astro:content";
 import { t } from "../lib/i18n";
@@ -35,10 +36,10 @@ const kinds = [["brand", t("include.brandTerms")], ["method", t("include.methodT
             <div><dt class="lbl lbl-teal">{t("include.theAsk")}</dt><dd class="ask">{a.theAsk}</dd></div>
             <div><dt class="lbl">{t("include.whereToFind")}</dt><dd><ul class="bullets">{a.whereToFind.map((w) => <li>{w}</li>)}</ul></dd></div>
             {a.questions.length > 0 && (
-              <div><dt class="lbl">{t("include.commonQuestions")}</dt><dd><ul class="bullets">{a.questions.map((q) => <li><a class="inline-link" href={`/know-the-labs/common-questions/#${q.id}`}>{q.data.question}</a></li>)}</ul></dd></div>
+              <div><dt class="lbl">{t("include.commonQuestions")}</dt><dd><ul class="bullets">{a.questions.map((q) => <li><a class="inline-link" href={u(`/know-the-labs/common-questions/#${q.id}`)}>{q.data.question}</a></li>)}</ul></dd></div>
             )}
           </dl>
-          <a class="see" href={`/practice/?audience=${a.scenarioAudience}`}>{t("practice.withAudience")} →</a>
+          <a class="see" href={u(`/practice/?audience=${a.scenarioAudience}`)}>{t("practice.withAudience")} →</a>
         </div>
       </article>
     ))}

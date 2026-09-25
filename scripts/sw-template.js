@@ -4,6 +4,7 @@
    when online), cache fallback. Assets: cache first. */
 const CACHE = "__CACHE_NAME__";
 const PRECACHE = __PRECACHE__;
+const BASE = "__BASE__"; // "" at the root, "/ambassadors" on GitHub Pages
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -44,7 +45,7 @@ self.addEventListener("fetch", (event) => {
           return res;
         })
         .catch(() =>
-          caches.match(pageKey(url)).then((hit) => hit || caches.match("/offline/"))
+          caches.match(pageKey(url)).then((hit) => hit || caches.match(BASE + "/offline/"))
         )
     );
     return;

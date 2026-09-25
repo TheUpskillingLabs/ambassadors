@@ -4,6 +4,8 @@
    in sync over a BroadcastChannel, so ?notes on a laptop drives the
    audience window. */
 
+import { u } from "../lib/url";
+
 const W = 1920;
 const H = 1080;
 
@@ -117,7 +119,7 @@ export function initDeck(): void {
 
   document.querySelector<HTMLAnchorElement>("[data-open-audience]")?.addEventListener("click", (e) => {
     e.preventDefault();
-    window.open(`/present/${short ? "?short" : ""}#${slides[i].dataset.n}`, "ag-audience");
+    window.open(u(`/present/${short ? "?short" : ""}#${slides[i].dataset.n}`), "ag-audience");
   });
 
   // Timer (notes view): click to reset.

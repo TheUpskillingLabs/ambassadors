@@ -1,5 +1,6 @@
 /* Build-time helpers over the content collections. */
 import { getCollection, type CollectionEntry } from "astro:content";
+import { u } from "./url";
 
 export type PlaybookId = "conversation" | "room";
 
@@ -15,7 +16,7 @@ export async function playbookPages(pb: PlaybookId) {
 
 export function playbookHref(e: CollectionEntry<"playbooks">): string {
   const slug = pageSlug(e.id);
-  return slug === "overview" ? `/playbooks/${e.data.playbook}/` : `/playbooks/${e.data.playbook}/${slug}/`;
+  return u(slug === "overview" ? `/playbooks/${e.data.playbook}/` : `/playbooks/${e.data.playbook}/${slug}/`);
 }
 
 /** Progress id for a page — stable, used as the localStorage key. */
@@ -29,7 +30,7 @@ export async function sectionPages(section: CollectionEntry<"pages">["data"]["se
 }
 
 export function sectionHref(e: CollectionEntry<"pages">): string {
-  return `/${e.data.section}/${pageSlug(e.id)}/`;
+  return u(`/${e.data.section}/${pageSlug(e.id)}/`);
 }
 
 export function sectionProgressId(e: CollectionEntry<"pages">): string {
@@ -42,5 +43,5 @@ export async function startHereIds(): Promise<string[]> {
 
 export async function latestUpdate(): Promise<string> {
   const ups = await getCollection("updates");
-  return ups.map((u) => u.data.date.toISOString().slice(0, 10)).sort().pop() ?? "";
+  return ups.map((e) => e.data.date.toISOString().slice(0, 10)).sort().pop() ?? "";
 }
