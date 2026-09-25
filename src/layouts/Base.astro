@@ -1,0 +1,118 @@
+---
+import "@fontsource-variable/geologica/wght.css";
+import "../styles/colors_and_type.css";
+import "../styles/system.css";
+import "../styles/guide.css";
+import Icon from "../components/Icon.astro";
+import { t } from "../lib/i18n";
+import { startHereIds, latestUpdate } from "../lib/content";
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Which tab / nav item is active. */
+  nav?: "home" | "start-here" | "know-the-labs" | "playbooks" | "your-story" | "refreshers" | "deck" | "help";
+  /** Page-level class on <body> (e.g. "page-home"). */
+  bodyClass?: string;
+}
+const { title, description = t("siteTagline"), nav, bodyClass = "" } = Astro.props;
+const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · The Upskilling Labs`;
+const shIds = await startHereIds();
+const newest = await latestUpdate();
+
+const primary = [
+  { key: "home", href: "/", label: t("nav.home"), icon: "home" },
+  { key: "playbooks", href: "/playbooks/", label: t("nav.playbooks"), icon: "playbooks" },
+  { key: "refreshers", href: "/refreshers/", label: t("nav.refreshers"), icon: "refreshers" },
+  { key: "deck", href: "/deck/", label: t("nav.deck"), icon: "deck" },
+] as const;
+const desktop = [
+  { key: "home", href: "/", label: t("nav.home") },
+  { key: "start-here", href: "/start-here/", label: t("nav.startHere"), extra: true },
+  { key: "know-the-labs", href: "/know-the-labs/", label: t("nav.knowTheLabs"), extra: true },
+  { key: "playbooks", href: "/playbooks/", label: t("nav.playbooks") },
+  { key: "your-story", href: "/your-story/", label: t("nav.yourStory"), extra: true },
+  { key: "refreshers", href: "/refreshers/", label: t("nav.refreshers") },
+  { key: "deck", href: "/deck/", label: t("nav.deck") },
+  { key: "help", href: "/help/", label: t("nav.help") },
+];
+---
+<!doctype html>
+<html lang="en" data-visit="first">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#00141B" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- Home switches layout once Start Here is complete. Set before paint so
+         the page never flashes the wrong layout. -->
+    <script is:inline define:vars={{ shIds, newest }}>
+      try {
+        var p = JSON.parse(localStorage.getItem("ag.progress.v1") || "{}");
+        var done = shIds.length > 0 && shIds.every(function (id) { return p[id]; });
+        document.documentElement.dataset.visit = done ? "returning" : "first";
+        var seen = JSON.parse(localStorage.getItem("ag.updatesSeen.v1") || '""');
+        if (newest && newest > seen) document.documentElement.dataset.news = "1";
+      } catch (e) {}
+    </script>
+  </head>
+  <body class={bodyClass}>
+    <a class="skip" href="#main">{t("skipToContent")}</a>
+    <header class="appbar">
+      <div class="appbar-inner">
+        <a class="brand" href="/">
+          <img src="/assets/logo-lockup-white.png" alt={t("brandAlt")} width="384" height="144" />
+          <span class="brand-name">{t("siteName")}</span>
+        </a>
+        <nav class="appbar-links" aria-label={t("nav.sections")}>
+          {desktop.map((d) => (
+            <a class:list={["nav-link", { "nl-extra": d.extra }]} href={d.href} aria-current={nav === d.key ? "page" : undefined}>
+              {d.label}
+              {d.key === "help" && <span class="news-dot" aria-hidden="true"></span>}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+
+    <footer class="sitefoot">
+      <div class="sitefoot-inner">
+        <img src="/assets/logo-lockup-white.png" alt={t("brandAlt")} width="384" height="144" loading="lazy" class="foot-logo" />
+        <p>{t("footer.legal")}</p>
+        <p class="foot-row">
+          <a href="https://theupskillinglabs.org">{t("footer.site")}</a>
+          <span>{t("footer.license")}</span>
+        </p>
+      </div>
+    </footer>
+
+    <nav class="tabbar" aria-label={t("nav.primary")}>
+      {primary.map((p) => (
+        <a class="tab" href={p.href} aria-current={nav === p.key ? "page" : undefined}>
+          <Icon name={p.icon} />
+          <span>{p.label}</span>
+        </a>
+      ))}
+    </nav>
+
+    <script>
+      import "../scripts/progress";
+      if ("serviceWorker" in navigator && import.meta.env.PROD) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js").catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+---
+/* The landing page of a multi-page section: lede, progress, page list. */
+import type { CollectionEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHeader from "./PageHeader.astro";
+import ProgressMeter from "./ProgressMeter.astro";
+import Icon from "./Icon.astro";
+import { t } from "../lib/i18n";
+import { sectionHref, sectionProgressId } from "../lib/content";
+interface Props { title: string; lede: string; pages: CollectionEntry<"pages">[]; nav: "start-here" | "know-the-labs" }
+const { title, lede, pages, nav } = Astro.props;
+const total = pages.reduce((n, p) => n + p.data.readTime, 0);
+---
+<Base title={title} description={lede} nav={nav}>
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={title} lede={lede} readTime={total}>
+    <ProgressMeter ids={pages.filter((p) => p.data.tracked).map(sectionProgressId)} />
+  </PageHeader>
+  <div class="wrap page-body">
+    <ol class="toc">
+      {pages.map((p, i) => (
+        <li>
+          <a class="toc-item card tappable" href={sectionHref(p)} data-read-id={sectionProgressId(p)}>
+            <span class="toc-n">{String(i + 1).padStart(2, "0")}</span>
+            <span class="toc-main">
+              <span class="t-h4">{p.data.title}</span>
+              <span class="t-small">{p.data.readTime} {t("page.minRead")}</span>
+            </span>
+            <span class="toc-check" aria-hidden="true"><Icon name="check" size={18} /></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <slot />
+  </div>
+</Base>

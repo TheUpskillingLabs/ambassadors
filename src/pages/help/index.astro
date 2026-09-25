@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Placeholder from "../../components/Placeholder.astro";
+import { t } from "../../lib/i18n";
+import help from "../../../content/site/help.json";
+const updates = (await getCollection("updates")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const newest = updates[0]?.data.date.toISOString().slice(0, 10) ?? "";
+const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+const c = help.coordinator;
+---
+<Base title={t("help.title")} nav="help">
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={t("help.title")} />
+  <div class="wrap page-body">
+    <section class="card">
+      <div class="card-body">
+        <div class="head-meta"><h2 class="lbl lbl-teal">{t("help.contact")}</h2><Placeholder show={help.placeholder} /></div>
+        <p class="t-h3">{c.name}</p>
+        <p class="t-small">{c.role}</p>
+        <p class="t-body">{c.note}</p>
+        <a class="see" href={`mailto:${c.email}`}>{c.email}</a>
+      </div>
+    </section>
+
+    <section class="tpl" id="whats-new" data-newest={newest}>
+      <h2 class="tpl-h">{t("help.whatsNew")}</h2>
+      <ol class="updates">
+        {updates.map((u) => (
+          <li class="update" data-date={u.data.date.toISOString().slice(0, 10)}>
+            <time class="lbl" datetime={u.data.date.toISOString().slice(0, 10)}>{fmt(u.data.date)}</time>
+            <p class="t-body">{u.data.change}</p>
+            {u.data.link && <a class="see" href={u.data.link}>{t("help.open")} →</a>}
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="tpl">
+      <h2 class="tpl-h">{t("help.progress")}</h2>
+      <p class="t-body">{t("help.progressLede")}</p>
+      <button class="btn btn-ghost btn-sm" type="button" data-reset data-confirm={t("help.resetConfirm")} data-done={t("help.resetDone")}>{t("help.reset")}</button>
+      <p class="t-small" data-reset-msg role="status"></p>
+    </section>
+  </div>
+  <script>
+    import { progress, updatesSeen } from "../../lib/store";
+    const wn = document.getElementById("whats-new")!;
+    const seen = updatesSeen.get();
+    // Mark entries newer than the last visit, then record this visit.
+    wn.querySelectorAll<HTMLElement>(".update").forEach((li) => {
+      if (li.dataset.date! > seen) li.classList.add("is-new");
+    });
+    updatesSeen.set(wn.dataset.newest!);
+    delete document.documentElement.dataset.news;
+
+    const btn = document.querySelector<HTMLButtonElement>("[data-reset]")!;
+    btn.addEventListener("click", () => {
+      if (!confirm(btn.dataset.confirm)) return;
+      progress.reset();
+      document.querySelector("[data-reset-msg]")!.textContent = btn.dataset.done!;
+    });
+  </script>
+</Base>

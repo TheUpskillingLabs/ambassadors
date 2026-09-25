@@ -1,0 +1,115 @@
+---
+/* The boilerplate deck — six 1920×1080 slides mirroring the Room talk
+   shape. Copy comes from content/site/deck.json; slides 5 and 6 are filled
+   in the browser from data/schedule.json (next session) and get a QR code
+   generated client-side. Brand rules: Geologica only, flush left, teal
+   eyebrows on dark / teal-deep on paper, white lockup on dark slides only
+   (bottom-left), paper slides carry no logo, QR slide on paper. */
+import deck from "../../content/site/deck.json";
+import ladder from "../../content/site/ladder.json";
+import { t } from "../lib/i18n";
+const slides = deck.slides;
+---
+<div class="slides" data-slides>
+  {slides.map((s) => (
+    <section
+      class:list={["slide", `bg-${s.bg}`, { grain: s.bg === "cover", current: s.n === 1 }]}
+      data-n={s.n}
+      data-key={s.key}
+      data-cue={s.cue}
+      data-notes={s.notes}
+      aria-roledescription="slide"
+      aria-label={`${t("present.slide")} ${s.n}`}
+    >
+      {deck.placeholder && <span class="sl-ph">{t("present.placeholder")}</span>}
+
+      {s.key === "question" && (
+        <>
+        <div class="sl-body">
+          <p class="sl-eyebrow">{s.eyebrow}</p>
+          <h2 class="sl-question">{deck.openingQuestion}</h2>
+        </div>
+        <div class="sl-rail">
+          {deck.partners.map((p) => <img src={p.src} alt={p.alt} width={p.width} height={p.height} class="sl-partner" />)}
+        </div>
+        </>
+      )}
+
+      {s.key === "story" && (
+        <div class="sl-photo" role="img" aria-label={deck.photo.alt} style={`background-image:url(${deck.photo.src})`}></div>
+      )}
+
+      {s.key === "what" && (
+        <div class="sl-body">
+          <p class="sl-eyebrow">{s.eyebrow}</p>
+          <h2 class="sl-sentence">{deck.oneSentence}</h2>
+          <ol class="sl-ladder">
+            {ladder.rungs.map((r, i) => (
+              <li><span class="sl-rung-n">{String(i + 1).padStart(2, "0")}</span><span class="sl-rung-l">{r.label}</span></li>
+            ))}
+          </ol>
+        </div>
+      )}
+
+      {s.key === "proof" && (
+        <div class="sl-body">
+          <p class="sl-eyebrow">{s.eyebrow}</p>
+          <p class="sl-stat">{deck.proof.stat}</p>
+          <p class="sl-stat-label">{deck.proof.label}</p>
+        </div>
+      )}
+
+      {s.key === "ask" && (
+        <div class="sl-body">
+          <p class="sl-eyebrow">{s.eyebrow}</p>
+          <h2 class="sl-date" data-ask-date>{t("present.comingSoon")}</h2>
+          <p class="sl-where" data-ask-where></p>
+          <p class="sl-expect" data-ask-expect>{deck.askFallback}</p>
+          <span class="sl-join">{t("present.joinCta")}</span>
+        </div>
+      )}
+
+      {s.key === "join" && (
+        <div class="sl-body sl-join-grid">
+          <div class="sl-qr" data-qr={deck.joinUrl} role="img" aria-label={`QR code: ${deck.joinUrlLabel}`}></div>
+          <div>
+            <p class="sl-eyebrow">{s.eyebrow}</p>
+            <p class="sl-url">{deck.joinUrlLabel}</p>
+            <p class="sl-join-date" data-join-date>{t("present.comingSoon")}</p>
+          </div>
+        </div>
+      )}
+
+      {(s.bg === "cover" || s.bg === "navy" || s.bg === "ink") && (
+        <img class="sl-logo" src="/assets/logo-lockup-white.png" alt="The Upskilling Labs" width="384" height="144" />
+      )}
+    </section>
+  ))}
+</div>
+
+<script>
+  import qrcode from "qrcode-generator";
+  import { nextSession, formatSession } from "../lib/schedule";
+
+  // Slides 5 and 6: the next upcoming session, never stale.
+  const s = nextSession();
+  if (s) {
+    const f = formatSession(s);
+    document.querySelectorAll<HTMLElement>("[data-ask-date]").forEach((el) => (el.textContent = f.day));
+    document.querySelectorAll<HTMLElement>("[data-ask-where]").forEach((el) => (el.textContent = `${f.time} · ${s.location}`));
+    document.querySelectorAll<HTMLElement>("[data-ask-expect]").forEach((el) => (el.textContent = s.expect));
+    document.querySelectorAll<HTMLElement>("[data-join-date]").forEach((el) => (el.textContent = `${s.title} · ${f.day}, ${f.time}`));
+  }
+
+  // QR, drawn as one SVG path in ink on white (scans reliably on paper).
+  document.querySelectorAll<HTMLElement>("[data-qr]").forEach((el) => {
+    const qr = qrcode(0, "M");
+    qr.addData(el.dataset.qr!);
+    qr.make();
+    const n = qr.getModuleCount();
+    const m = 4; // quiet zone, in modules
+    let d = "";
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) d += `M${c + m} ${r + m}h1v1h-1z`;
+    el.innerHTML = `<svg viewBox="0 0 ${n + m * 2} ${n + m * 2}" shape-rendering="crispEdges" aria-hidden="true"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#00141B"/></svg>`;
+  });
+</script>

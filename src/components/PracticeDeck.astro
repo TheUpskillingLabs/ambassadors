@@ -1,0 +1,121 @@
+---
+/* Read-and-reveal scenario cards. Filter by mode and audience; shuffle.
+   No scoring, no typing. Reads content/scenarios — the same files the
+   prospect game will read. */
+import { getCollection } from "astro:content";
+import { t } from "../lib/i18n";
+import Icon from "./Icon.astro";
+import Placeholder from "./Placeholder.astro";
+interface Props { mode?: "conversation" | "room" | "all"; audience?: string }
+const { mode = "all", audience = "all" } = Astro.props;
+const scenarios = (await getCollection("scenarios")).map((s) => s.data);
+const modes = ["conversation", "room"] as const;
+const auds = ["participant", "workshop", "mentor", "problem-owner"] as const;
+const countTpl = t("practice.count", { n: "{n}" });
+---
+<section class="practice" data-practice data-mode={mode} data-audience={audience}>
+  <div class="filters">
+    <div class="filter-row" role="group" aria-label={t("practice.mode")}>
+      <span class="lbl">{t("practice.mode")}</span>
+      <button class="chip" type="button" data-filter="mode" data-value="all" aria-pressed={mode === "all" ? "true" : "false"}>{t("practice.all")}</button>
+      {modes.map((m) => (
+        <button class="chip" type="button" data-filter="mode" data-value={m} aria-pressed={mode === m ? "true" : "false"}>{t(`practice.modes.${m}`)}</button>
+      ))}
+    </div>
+    <div class="filter-row" role="group" aria-label={t("practice.audience")}>
+      <span class="lbl">{t("practice.audience")}</span>
+      <button class="chip" type="button" data-filter="audience" data-value="all" aria-pressed={audience === "all" ? "true" : "false"}>{t("practice.all")}</button>
+      {auds.map((a) => (
+        <button class="chip" type="button" data-filter="audience" data-value={a} aria-pressed={audience === a ? "true" : "false"}>{t(`practice.audiences.${a}`)}</button>
+      ))}
+    </div>
+    <div class="filter-foot">
+      <span class="t-small" data-count data-template={countTpl} aria-live="polite"></span>
+      <button class="btn btn-ghost btn-sm" type="button" data-shuffle><Icon name="shuffle" size={18} /> {t("practice.shuffle")}</button>
+    </div>
+  </div>
+
+  <ol class="scenarios" data-list>
+    {scenarios.map((s) => (
+      <li class="scenario card" data-mode={s.mode} data-audience={s.audience} data-id={s.id}>
+        <div class="card-body">
+          <div class="sc-meta">
+            <span class="lbl lbl-teal">{t(`practice.modes.${s.mode}`)}</span>
+            <span class="lbl">{t(`practice.audiences.${s.audience}`)}</span>
+            <Placeholder show={s.placeholder} />
+          </div>
+          <p class="sc-setup t-h4">{s.setup}</p>
+          <p class="sc-prompt t-small">{t("practice.prompt")}</p>
+          <button class="btn btn-ghost-teal btn-sm" type="button" aria-expanded="false" aria-controls={`reveal-${s.id}`} data-reveal data-show={t("practice.reveal")} data-hide={t("practice.hide")}>{t("practice.reveal")}</button>
+          <div class="sc-reveal" id={`reveal-${s.id}`} hidden>
+            <div class="lbl">{t("practice.example")}</div>
+            <p class="t-body">{s.goodResponse}</p>
+            <div class="lbl">{t("practice.why")}</div>
+            <p class="t-body">{s.why}</p>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ol>
+  <p class="t-body" data-empty hidden>{t("practice.empty")}</p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-practice]").forEach((root) => {
+    const list = root.querySelector<HTMLElement>("[data-list]")!;
+    const cards = () => Array.from(list.children) as HTMLElement[];
+    const state = { mode: root.dataset.mode!, audience: root.dataset.audience! };
+    const count = root.querySelector<HTMLElement>("[data-count]")!;
+    const empty = root.querySelector<HTMLElement>("[data-empty]")!;
+
+    function apply() {
+      let n = 0;
+      for (const c of cards()) {
+        const ok = (state.mode === "all" || c.dataset.mode === state.mode) &&
+          (state.audience === "all" || c.dataset.audience === state.audience);
+        c.hidden = !ok;
+        if (ok) n++;
+      }
+      count.textContent = count.dataset.template!.replace("{n}", String(n));
+      empty.hidden = n > 0;
+      root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => {
+        b.setAttribute("aria-pressed", String(state[b.dataset.filter as "mode" | "audience"] === b.dataset.value));
+      });
+    }
+
+    root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => {
+      b.addEventListener("click", () => {
+        state[b.dataset.filter as "mode" | "audience"] = b.dataset.value!;
+        apply();
+      });
+    });
+
+    root.querySelector("[data-shuffle]")!.addEventListener("click", () => {
+      const cs = cards();
+      for (let i = cs.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cs[i], cs[j]] = [cs[j], cs[i]];
+      }
+      cs.forEach((c) => {
+        // Collapse reveals so a shuffled card starts fresh.
+        const btn = c.querySelector<HTMLButtonElement>("[data-reveal]")!;
+        btn.setAttribute("aria-expanded", "false");
+        btn.textContent = btn.dataset.show!;
+        c.querySelector<HTMLElement>(".sc-reveal")!.hidden = true;
+        list.appendChild(c);
+      });
+    });
+
+    root.querySelectorAll<HTMLButtonElement>("[data-reveal]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const panel = document.getElementById(btn.getAttribute("aria-controls")!)!;
+        const open = btn.getAttribute("aria-expanded") !== "true";
+        btn.setAttribute("aria-expanded", String(open));
+        btn.textContent = open ? btn.dataset.hide! : btn.dataset.show!;
+        panel.hidden = !open;
+      });
+    });
+
+    apply();
+  });
+</script>

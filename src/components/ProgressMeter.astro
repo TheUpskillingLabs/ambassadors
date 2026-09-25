@@ -1,0 +1,10 @@
+---
+import { t } from "../lib/i18n";
+interface Props { ids: string[]; dark?: boolean }
+const { ids, dark = false } = Astro.props;
+const template = t("page.ofRead", { total: ids.length });
+---
+<div class:list={["meter", { "meter-dark": dark }]} data-progress-ids={JSON.stringify(ids)}>
+  <span class="pips" aria-hidden="true">{ids.map(() => <i class="pip"></i>)}</span>
+  <span class="meter-label" data-progress-label data-template={template} aria-live="polite">0 {template}</span>
+</div>

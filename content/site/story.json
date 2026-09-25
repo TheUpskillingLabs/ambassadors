@@ -1,0 +1,15 @@
+{
+  "$comment": "Your Story worksheet. The draft is assembled by joining the non-empty answers in order, with each prompt's lead-in.",
+  "placeholder": true,
+  "prompts": [
+    { "id": "before", "label": "What brought you in?", "help": "Where were you when you first found The Labs? One or two sentences.", "example": "I'd just left a job I'd had for eleven years and wasn't sure what came next.", "leadIn": "" },
+    { "id": "moment", "label": "A moment that stuck", "help": "One specific moment. What happened, who was there?", "example": "In my first Build Cycle, our Pod interviewed library staff, and I realized I was good at asking questions nobody else thought of.", "leadIn": "" },
+    { "id": "why", "label": "Why you keep coming back", "help": "What do you get from it now?", "example": "I keep coming back because I learn faster with other people than I ever did alone.", "leadIn": "" },
+    { "id": "for-them", "label": "Who you'd tell", "help": "Optional. Who do you think it's for?", "example": "If you're figuring out what's next, it's a good place to start.", "leadIn": "" }
+  ],
+  "examples": [
+    { "name": "[PLACEHOLDER] Past Build Cycle participant", "text": "Last year I was job hunting after a long time in one role, and I was learning AI tools alone at night. A friend brought me to a workshop at the library. Three months later I'd built a working prototype with four people I'd never met, and I presented it to a full room. I keep coming back because I learn faster with other people. If you're figuring out what's next, come to one workshop." },
+    { "name": "[PLACEHOLDER] Mentor", "text": "I've worked in design for fifteen years, and I wanted to give back in a way that wasn't another panel. At my first Labs session, a Pod was stuck on how to interview people without leading them. We worked it out in twenty minutes, and they used it for the rest of the cycle. That's why I stay: small help, at the right moment, goes a long way." },
+    { "name": "[PLACEHOLDER] Library partner", "text": "Our branch runs a lot of programs, but few that bring strangers together to build something. When The Labs started meeting here, I watched people who'd come in alone leave as a team. That's what a library is for. Now I tell anyone who asks what's on: come Thursday, it's free, and you'll meet people." }
+  ]
+}

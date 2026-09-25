@@ -1,0 +1,26 @@
+---
+/* The reader's saved 30-second why (Your Story). Filled in the browser;
+   shows a prompt to write one when nothing is saved. */
+import { t } from "../lib/i18n";
+---
+<section class="story-card card" data-story-card>
+  <div class="card-body">
+    <div class="lbl lbl-teal">{t("page.yourWhy")}</div>
+    <blockquote class="story-text t-body" data-story-text hidden></blockquote>
+    <p class="t-small" data-story-empty>{t("page.noStoryYet")}</p>
+    <a class="see" href="/your-story/" data-story-link data-edit={t("page.editYourStory")}>{t("page.writeYourStory")} →</a>
+  </div>
+</section>
+<script>
+  import { story } from "../lib/store";
+  const s = story.get();
+  document.querySelectorAll<HTMLElement>("[data-story-card]").forEach((card) => {
+    if (!s.draft.trim()) return;
+    const q = card.querySelector<HTMLElement>("[data-story-text]")!;
+    q.textContent = s.draft;
+    q.hidden = false;
+    card.querySelector<HTMLElement>("[data-story-empty]")!.hidden = true;
+    const link = card.querySelector<HTMLElement>("[data-story-link]")!;
+    link.textContent = `${link.dataset.edit} →`;
+  });
+</script>

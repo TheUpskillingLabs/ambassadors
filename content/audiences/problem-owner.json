@@ -1,0 +1,21 @@
+{
+  "order": 5,
+  "name": "Problem owner",
+  "priority": false,
+  "scenarioAudience": "problem-owner",
+  "whoTheyAre": "A person or organization living with a real problem, like a library, a nonprofit, or a local agency, who'd talk with a team about it.",
+  "whatTheyGet": "A team that investigates their problem, talks to the people living it, and builds an open-source prototype.",
+  "theAsk": "Talk with a Build Cycle team about a problem you're facing.",
+  "whereToFind": [
+    "Libraries and community centers",
+    "Local nonprofits",
+    "Workforce organizations",
+    "Neighborhood and community associations"
+  ],
+  "commonQuestions": [
+    "bring-a-problem",
+    "projects",
+    "legal-status"
+  ],
+  "placeholder": true
+}

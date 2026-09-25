@@ -1,0 +1,127 @@
+/* ════ Component layer — the subset of the OLOS/onboarding-proto system this
+   site uses (buttons, cards, chips, fields, surfaces, grain). Ported from
+   OLOS app/globals.css; change it there first, then here. ════ */
+
+/* ── base ── */
+*, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html {
+  background-color: var(--paper);
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  min-height: 100svh;
+}
+h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
+button, input, select, textarea { font-family: inherit; }
+button, a, [role="button"], summary, label[for] { touch-action: manipulation; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; height: auto; }
+[hidden] { display: none !important; }
+
+/* 2px teal focus ring, 2px offset — everywhere. */
+:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+:focus:not(:focus-visible) { outline: none; }
+
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* ── grain ── */
+.grain { position: relative; }
+.grain::before {
+  content: ""; position: absolute; inset: 0; background-image: var(--grain);
+  mix-blend-mode: overlay; opacity: 0.5; pointer-events: none;
+}
+.grain > * { position: relative; }
+
+/* ── surfaces ── */
+.s-cover { color: var(--od1); background: var(--cover); }
+.s-ink { color: var(--od1); background: var(--ink); }
+.s-navy { color: var(--od1); background: var(--navy); }
+
+/* ── buttons ──
+   Rule: only things you can press may look like this (filled or outlined
+   rounded box). Labels, counters and statuses are plain text. */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; border: none; border-radius: var(--r);
+  font-weight: 600; font-size: 15px; line-height: 20px; letter-spacing: 0.01em;
+  cursor: pointer; padding: 14px 24px; text-decoration: none; text-align: center;
+  transition: opacity 0.15s, transform 0.1s, box-shadow 0.15s, background 0.15s;
+}
+.btn:active { transform: scale(0.98); }
+.btn-block { width: 100%; }
+.btn-red { background: var(--red); color: #fff; }
+.btn-teal { background: var(--teal-deep); color: #fff; }
+.btn-ink { background: var(--ink); color: #fff; }
+.btn-white { background: #fff; color: var(--ink); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule-ink); }
+.btn-ghost-teal { background: transparent; color: var(--teal-deep); border: 1px solid rgba(0, 148, 160, 0.45); }
+.btn-sm { font-size: 13px; padding: 10px 16px; min-height: 44px; }
+.btn:disabled { opacity: 0.34; cursor: not-allowed; }
+.on-dark .btn-ghost { color: var(--od1); border-color: rgba(255, 255, 255, 0.42); }
+@media (hover: hover) {
+  .btn:hover { opacity: 0.9; }
+  .btn-red:hover, .btn-teal:hover, .btn-ink:hover { box-shadow: var(--shadow); opacity: 1; }
+}
+.see { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 14px; font-weight: 600; color: var(--teal-deep); }
+.on-dark .see { color: var(--od1); }
+
+/* ── cards ── */
+.card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--r); }
+:where(a.card) { display: block; color: inherit; }
+.card-body { padding: 20px; }
+.card.tappable { transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.1, 1), box-shadow 0.2s, border-color 0.2s; }
+@media (hover: hover) {
+  .card.tappable:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: transparent; }
+}
+
+/* ── chips (filters) ── */
+.chip {
+  flex-shrink: 0; min-height: 44px; padding: 10px 16px; border-radius: var(--r);
+  border: 1px solid var(--rule); background: var(--white); font-size: 14px; font-weight: 600;
+  color: var(--charcoal); cursor: pointer; white-space: nowrap; transition: all 0.14s;
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+.chip:active { transform: scale(0.97); }
+
+/* ── status dot ── */
+.status { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--meta); }
+.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--meta-soft); }
+.status.active { color: var(--teal-deep); }
+.status.active::before { background: var(--teal); box-shadow: 0 0 0 3px rgba(0, 148, 160, 0.18); }
+
+/* ── forms ── */
+.field { display: flex; flex-direction: column; gap: 8px; }
+.field label, .field .field-label { font-size: 12px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--meta); line-height: 16px; }
+.field input, .field textarea {
+  background: var(--white); border: 1px solid var(--rule); border-radius: var(--r); color: var(--ink);
+  font-size: 16px; line-height: 24px; padding: 14px 16px; outline: none; width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field input:focus, .field textarea:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0, 148, 160, 0.14); }
+.field input::placeholder, .field textarea::placeholder { color: var(--meta); }
+.field textarea { resize: vertical; min-height: 104px; }
+
+/* ── rules ── */
+.ed-rule { border: 0; border-top: 2px solid var(--ink); margin: 0; }
+.rule { border: none; border-top: 1px solid var(--rule); width: 100%; margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important; scroll-behavior: auto !important;
+  }
+}

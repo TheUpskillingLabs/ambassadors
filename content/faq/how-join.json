@@ -1,0 +1,10 @@
+{
+  "order": 10,
+  "question": "How do I join?",
+  "answer": "Go to theupskillinglabs.org and choose Join The Labs. Ambassadors don't take sign-ups directly.",
+  "audiences": [
+    "participant",
+    "workshop"
+  ],
+  "placeholder": true
+}

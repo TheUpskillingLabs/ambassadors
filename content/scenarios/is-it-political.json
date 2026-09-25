@@ -1,0 +1,13 @@
+{
+  "id": "is-it-political",
+  "audience": "workshop",
+  "mode": "conversation",
+  "setup": "Someone asks: \"Is this a political thing?\"",
+  "goodResponse": "\"No. The Labs is nonpartisan. It's about people learning by building things together.\"",
+  "why": "It's short, true, and doesn't take the bait.",
+  "tags": [
+    "objections",
+    "nonpartisan"
+  ],
+  "placeholder": true
+}

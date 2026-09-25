@@ -1,0 +1,83 @@
+/* ════════════════════════════════════════════════════════════════════════
+   The Labs brand tokens + type scale.
+
+   Ported verbatim from OLOS app/globals.css (itself ported from the
+   onboarding-proto brand source). When the brand kit's colors_and_type.css
+   is available, replace this file with it; nothing else in the site defines
+   colors or type.
+
+   Rules (owner decisions, carried from OLOS):
+     · One radius — var(--r) 14px on every rectangular container. No pills;
+       genuine circles only (dots, pips).
+     · Warm paper is the only light page background. Dark (ink / cover
+       gradient) is for covers, nav bars, footers, and dark slides.
+     · 4px baseline grid.
+   ════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --ink: #00141b;
+  --navy: #03232a;
+  --forest: #005f68;
+  --teal: #0094a0;        /* focus rings + accents only */
+  --teal-deep: #007882;   /* text accents, links, CTAs on light */
+  --red: #e11d2a;         /* reserved for "Join The Labs" */
+  --paper: #f6f4ef;
+  --paper-edge: #e8e5df;
+  --tint: #ecf3f4;
+  --tint-edge: #d8e8ea;
+  --white: #ffffff;
+  --charcoal: #444444;
+  --slate: #4a5557;
+  --meta: #5f6b70;
+  --meta-soft: #8a979b;   /* never for body text */
+  --od1: rgba(255, 255, 255, 0.95);
+  --od2: rgba(255, 255, 255, 0.64);
+  --od3: rgba(255, 255, 255, 0.4);
+  --rule-d: rgba(255, 255, 255, 0.16);
+  --rule: rgba(0, 20, 27, 0.1);
+  --rule-soft: rgba(0, 20, 27, 0.07);
+  --rule-ink: rgba(0, 20, 27, 0.85);
+  --r: 14px;
+  --pad: 24px;
+  --prose: 760px;
+  --maxw: 1200px;
+  --shadow: 0 1px 2px rgba(0, 20, 27, 0.05), 0 6px 20px rgba(0, 20, 27, 0.06);
+  --shadow-lg: 0 12px 40px rgba(0, 20, 27, 0.16);
+  --font-sans: "Geologica Variable", "Geologica", system-ui, -apple-system, sans-serif;
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --grain: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMjAnIGhlaWdodD0nMjIwJz48ZmlsdGVyIGlkPSduJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC45JyBudW1PY3RhdmVzPScyJyBzdGl0Y2hUaWxlcz0nc3RpdGNoJy8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPScwIDAgMCAwIDEgIDAgMCAwIDAgMSAgMCAwIDAgMCAxICAwIDAgMCAwLjUgMCcvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIGZpbHRlcj0ndXJsKCNuKScgb3BhY2l0eT0nMC41NScvPjwvc3ZnPg==");
+  --cover:
+    radial-gradient(120% 80% at 0% 100%, rgba(0, 148, 160, 0.55) 0%, transparent 56%),
+    radial-gradient(110% 70% at 100% 0%, rgba(0, 148, 160, 0.4) 0%, transparent 50%),
+    linear-gradient(160deg, var(--ink) 0%, var(--navy) 55%, var(--forest) 120%);
+}
+@media (min-width: 1024px) {
+  :root { --pad: 40px; }
+}
+
+/* ── type scale ── */
+.t-display { font-weight: 700; font-size: 44px; line-height: 48px; letter-spacing: -0.03em; }
+.t-h1 { font-weight: 700; font-size: 32px; line-height: 36px; letter-spacing: -0.026em; }
+.t-h2 { font-weight: 700; font-size: 26px; line-height: 32px; letter-spacing: -0.02em; }
+.t-h3 { font-weight: 600; font-size: 20px; line-height: 28px; letter-spacing: -0.016em; }
+.t-h4 { font-weight: 600; font-size: 17px; line-height: 24px; letter-spacing: -0.01em; }
+.t-lede { font-weight: 400; font-size: 18px; line-height: 28px; letter-spacing: -0.01em; color: var(--slate); }
+.t-body { font-weight: 400; font-size: 16px; line-height: 24px; color: var(--charcoal); }
+.t-small { font-weight: 400; font-size: 13px; line-height: 20px; color: var(--meta); }
+.lbl { font-weight: 500; font-size: 12px; line-height: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--meta); }
+.lbl-teal { color: var(--teal-deep); }
+.idx { font-weight: 700; font-size: 18px; line-height: 24px; letter-spacing: -0.01em; color: var(--teal-deep); }
+.t-stat { font-weight: 700; font-size: 64px; line-height: 64px; letter-spacing: -0.04em; color: var(--teal-deep); }
+.on-dark, .on-dark .t-display, .on-dark .t-h1, .on-dark .t-h2, .on-dark .t-h3 { color: var(--od1); }
+.on-dark .t-lede, .on-dark .t-body { color: var(--od2); }
+.on-dark .t-small, .on-dark .lbl { color: var(--od2); }
+.on-dark .lbl-teal, .on-dark .idx, .on-dark .t-stat { color: var(--teal); }
+
+@media (min-width: 1024px) {
+  .t-display { font-size: 76px; line-height: 80px; letter-spacing: -0.04em; }
+  .t-h1 { font-size: 48px; line-height: 52px; letter-spacing: -0.034em; }
+  .t-h2 { font-size: 34px; line-height: 40px; }
+  .t-h3 { font-size: 24px; line-height: 32px; }
+  .t-lede { font-size: 20px; line-height: 32px; }
+  .t-stat { font-size: 88px; line-height: 88px; }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "host-cuts-time",
+  "audience": "workshop",
+  "mode": "room",
+  "setup": "You were promised five minutes. As you walk up, the host whispers: \"Can you do one?\"",
+  "goodResponse": "Switch to the 60-second version: question, ask, QR. \"Quick show of hands: who's tried an AI tool this year? We run free, hands-on workshops. The next one's Thursday. The link's on the screen.\"",
+  "why": "Keeping the ask and the QR matters more than the middle. Hosts remember who kept to time.",
+  "tags": [
+    "time",
+    "short-version"
+  ],
+  "placeholder": true
+}

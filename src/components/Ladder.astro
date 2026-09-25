@@ -1,0 +1,14 @@
+---
+import ladder from "../../content/site/ladder.json";
+import Placeholder from "./Placeholder.astro";
+---
+<ol class="ladder">
+  {ladder.rungs.map((r, i) => (
+    <li class="rung">
+      <span class="rung-n">{String(i + 1).padStart(2, "0")}</span>
+      <span class="rung-label">{r.label}</span>
+      <span class="rung-detail">{r.detail}</span>
+    </li>
+  ))}
+</ol>
+<Placeholder show={ladder.placeholder} />

@@ -1,0 +1,11 @@
+{
+  "order": 9,
+  "question": "Where does it happen?",
+  "answer": "In person, mostly in libraries and partner spaces. The first chapter is in Washington, DC. The site lists the next dates and places.",
+  "audiences": [
+    "participant",
+    "workshop",
+    "mentor"
+  ],
+  "placeholder": true
+}

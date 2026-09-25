@@ -1,0 +1,11 @@
+---
+import GuidePage from "../../components/GuidePage.astro";
+import { sectionPages, pageSlug } from "../../lib/content";
+import sections from "../../../content/site/sections.json";
+export async function getStaticPaths() {
+  const pages = await sectionPages("know-the-labs");
+  return pages.map((entry) => ({ params: { slug: pageSlug(entry.id) }, props: { entry, siblings: pages } }));
+}
+const { entry, siblings } = Astro.props;
+---
+<GuidePage entry={entry} siblings={siblings} sectionTitle={sections.knowTheLabs.title} sectionHref="/know-the-labs/" nav="know-the-labs" />

@@ -1,0 +1,45 @@
+---
+/* A plain guide page (Start Here, Know the Labs, and utility pages):
+   header, "In 30 seconds", Markdown body, included content, Done, pager. */
+import { render, type CollectionEntry } from "astro:content";
+import Base from "../layouts/Base.astro";
+import PageHeader from "./PageHeader.astro";
+import ProgressMeter from "./ProgressMeter.astro";
+import Includes from "./Includes.astro";
+import DoneBar from "./DoneBar.astro";
+import Pager from "./Pager.astro";
+import { t } from "../lib/i18n";
+import { sectionHref, sectionProgressId } from "../lib/content";
+
+interface Props {
+  entry: CollectionEntry<"pages">;
+  siblings: CollectionEntry<"pages">[];
+  sectionTitle: string;
+  sectionHref: string;
+  nav: "start-here" | "know-the-labs" | "your-story" | "deck";
+}
+const { entry, siblings, sectionTitle, sectionHref: sHref, nav } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const tracked = siblings.filter((s) => s.data.tracked);
+const i = siblings.findIndex((s) => s.id === entry.id);
+const prev = siblings[i - 1] ?? null;
+const next = siblings[i + 1] ?? null;
+const link = (e: CollectionEntry<"pages"> | null) => e && { href: sectionHref(e), title: e.data.navLabel ?? e.data.title };
+const pid = sectionProgressId(entry);
+---
+<Base title={d.title} description={d.summary} nav={nav}>
+  <PageHeader back={{ href: sHref, label: sectionTitle }} eyebrow={sectionTitle} title={d.title} readTime={d.readTime} placeholder={d.placeholder}>
+    {d.tracked && tracked.length > 1 && <ProgressMeter ids={tracked.map(sectionProgressId)} />}
+  </PageHeader>
+  <article class="wrap page-body" data-page-id={d.tracked ? pid : undefined}>
+    <section class="summary-box">
+      <h2 class="lbl lbl-teal">{t("page.inThirtySeconds")}</h2>
+      <p class="t-lede">{d.summary}</p>
+    </section>
+    <div class="prose"><Content /></div>
+    <Includes include={d.include} />
+    {d.tracked && <DoneBar id={pid} nextHref={next ? sectionHref(next) : undefined} />}
+    <Pager prev={link(prev)} next={link(next)} overview={{ href: sHref, label: `${t("page.backTo")} ${sectionTitle}` }} />
+  </article>
+</Base>

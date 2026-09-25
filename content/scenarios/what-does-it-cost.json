@@ -1,0 +1,14 @@
+{
+  "id": "what-does-it-cost",
+  "audience": "workshop",
+  "mode": "conversation",
+  "setup": "After a workshop, someone asks: \"So what does the Build Cycle cost?\"",
+  "goodResponse": "\"It's free. What it does cost is time: six in-person events over three months and a short check-in each week.\"",
+  "why": "It's accurate and it names the real cost up front, so nobody is surprised later.",
+  "tags": [
+    "objections",
+    "cost",
+    "time"
+  ],
+  "placeholder": true
+}

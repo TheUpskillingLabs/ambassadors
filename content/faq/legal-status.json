@@ -1,0 +1,10 @@
+{
+  "order": 8,
+  "question": "Is The Labs a nonprofit?",
+  "answer": "The Labs is a fiscally sponsored project of Superbloom Design, a registered 501(c)(3). The Labs' own 501(c)(3) status is pending.",
+  "audiences": [
+    "mentor",
+    "problem-owner"
+  ],
+  "placeholder": true
+}

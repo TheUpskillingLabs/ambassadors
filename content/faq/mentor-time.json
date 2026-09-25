@@ -1,0 +1,9 @@
+{
+  "order": 6,
+  "question": "What does mentoring involve?",
+  "answer": "Mentors guide Pods through real problems and help when a team is stuck. You can mentor a single workshop or a whole Build Cycle.",
+  "audiences": [
+    "mentor"
+  ],
+  "placeholder": true
+}

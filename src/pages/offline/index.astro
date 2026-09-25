@@ -1,0 +1,14 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import { t } from "../../lib/i18n";
+---
+<Base title={t("offline.title")}>
+  <PageHeader title={t("offline.title")} lede={t("offline.lede")} />
+  <div class="wrap page-body">
+    <div class="btn-row">
+      <a class="btn btn-teal" href="/refreshers/">{t("nav.refreshers")}</a>
+      <a class="btn btn-ghost" href="/present/">{t("deck.presentNow")}</a>
+    </div>
+  </div>
+</Base>

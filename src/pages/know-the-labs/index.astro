@@ -1,0 +1,7 @@
+---
+import SectionIndex from "../../components/SectionIndex.astro";
+import { sectionPages } from "../../lib/content";
+import sections from "../../../content/site/sections.json";
+const pages = await sectionPages("know-the-labs");
+---
+<SectionIndex title={sections.knowTheLabs.title} lede={sections.knowTheLabs.lede} pages={pages} nav="know-the-labs" />

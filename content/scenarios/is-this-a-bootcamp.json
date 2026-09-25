@@ -1,0 +1,12 @@
+{
+  "id": "is-this-a-bootcamp",
+  "audience": "workshop",
+  "mode": "conversation",
+  "setup": "Someone asks: \"Is this like a coding bootcamp?\"",
+  "goodResponse": "\"Not really. There's no curriculum to get through. You work with a small team on a real problem and learn what you need along the way.\"",
+  "why": "It corrects the comparison in plain words and describes what actually happens.",
+  "tags": [
+    "positioning"
+  ],
+  "placeholder": true
+}

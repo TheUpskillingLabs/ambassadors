@@ -1,0 +1,13 @@
+{
+  "id": "not-technical",
+  "audience": "workshop",
+  "mode": "conversation",
+  "setup": "At a library table, someone says: \"I'm not technical.\"",
+  "goodResponse": "\"Most people who join aren't. The workshops are hands-on and start from zero. What made you stop by the table?\"",
+  "why": "It takes the worry seriously, answers it in one line, and hands the conversation back to them.",
+  "tags": [
+    "objections",
+    "experience"
+  ],
+  "placeholder": true
+}
