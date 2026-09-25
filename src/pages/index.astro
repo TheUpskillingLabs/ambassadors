@@ -12,6 +12,8 @@ import Icon from "../components/Icon.astro";
 import { u } from "../lib/url";
 import { t } from "../lib/i18n";
 import { readinessPath, COVERS } from "../lib/content";
+import ob from "../../content/site/onboarding.json";
+import Orb from "../components/Orb.astro";
 const path = await readinessPath();
 const refreshers = (await getCollection("refreshers")).sort((a) => (a.data.playbook === "conversation" ? -1 : 1));
 const updates = (await getCollection("updates")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
@@ -20,18 +22,34 @@ const scenarioCount = (await getCollection("scenarios")).length;
 const pathData = path.map((g, i) => ({ id: g.id, num: String(i + 1).padStart(2, "0"), cover: g.cover, title: g.title, href: g.href, kind: g.kind, steps: g.steps.map((s) => ({ id: s.id, title: s.title, href: s.href, readTime: s.readTime })) }));
 const first = path[0];
 ---
-<Base nav="home">
+<Base nav="home" gate>
   <div class="wrap">
     <section class="hello">
-      <p class="kicker">{t("home.eyebrow")}</p>
-      <h1 class="only-first">{t("home.firstTitle")}</h1>
-      <h1 class="only-returning" data-hello-returning data-ready={t("home.readyTitle")}>{t("home.returningTitle")}</h1>
-      <p class="session-line"><span class="dot" aria-hidden="true"></span><span data-session-line data-before={t("home.sessionBefore")}>{t("home.noSession")}</span></p>
+      <h1 class="only-first" data-hello-first data-named={t("home.firstTitleNamed")}>{t("home.firstTitle")}</h1>
+      <h1 class="only-returning" data-hello-returning data-named={t("home.returningTitleNamed")} data-ready={t("home.readyTitle")}>{t("home.returningTitle")}</h1>
+      <p class="session-line" data-session-wrap><span class="dot" aria-hidden="true"></span><span data-session-line data-before={t("home.sessionBefore")}>{t("home.noSession")}</span></p>
     </section>
 
-    <div class="home2" data-home={JSON.stringify(pathData)}
+    <div class="home2" data-home={JSON.stringify(pathData)} data-focus-map={JSON.stringify(Object.fromEntries(ob.type.options.map((o) => [o.id, { title: o.focus.title, href: u(o.focus.href), label: o.label }])))}
       data-of-read={t("home.groupOfRead")} data-done={t("home.groupDone")} data-story-saved={t("home.storySaved")}
       data-story-not={t("home.storyNotYet")} data-ready={t("home.readiness")} data-min-left={t("home.minLeft")}>
+
+      <!-- Event mode: countdown + a 2-minute plan -->
+      <section class="event-card s-cover grain" data-event-card hidden
+        data-today={t("event.today")} data-tomorrow={t("event.tomorrow")} data-days={t("event.days")}
+        data-refresh-conv={u("/refreshers/conversation/")} data-refresh-room={u("/refreshers/room/")} data-practice={u("/practice/")}>
+        <Orb class="ev-orb" />
+        <div class="ev-inner on-dark">
+          <p class="kicker" data-ev-when></p>
+          <p class="ev-count" data-ev-count></p>
+          <ol class="ev-plan">
+            <li><a class="ev-step" href="#" data-ev-refresh><span class="ev-n">1</span><span><b>{t("event.step1")}</b></span><Icon name="chevron" size={18} /></a></li>
+            <li><a class="ev-step" href="#" data-ev-practice><span class="ev-n">2</span><span><b>{t("event.step2")}</b></span><Icon name="chevron" size={18} /></a></li>
+            <li><a class="ev-step" href={u("/present/?practice")}><span class="ev-n">3</span><span><b>{t("event.step3")}</b></span><Icon name="chevron" size={18} /></a></li>
+          </ol>
+          <a class="see" href={u("/welcome/?edit")}>{t("event.change")} →</a>
+        </div>
+      </section>
 
       <!-- Returning: before your next event -->
       <section class="only-returning">
@@ -47,7 +65,7 @@ const first = path[0];
             <li>
               <a class="lc" href={u(`/refreshers/${r.data.playbook}/`)}>
                 <Cover variant={COVERS[r.data.playbook]}><span class="cv-label">{t("refresher.title")}</span></Cover>
-                <span class="lc-text"><span class="lc-title">{r.data.title}</span><span class="lc-sub">{r.data.readTime} {t("page.minRead")} · {r.data.shape.map((s) => s.step).join(" → ")}</span></span>
+                <span class="lc-text"><span class="lc-title">{r.data.title}</span><span class="lc-sub">{r.data.readTime} min</span></span>
               </a>
             </li>
           ))}
@@ -62,7 +80,7 @@ const first = path[0];
 
       <!-- Up next (or You're ready) -->
       <section>
-        <div class="rail-head"><h2 class="rail-title">{t("home.upNext")}</h2></div>
+        <div class="rail-head" data-up-head><h2 class="rail-title">{t("home.upNext")}</h2></div>
         <a class="lc hero-card" href={first.steps[0].href} data-upnext data-present={u("/present/")} data-ready-title={t("home.readyHeading")}>
           <Cover variant={first.cover} tall><span class="cv-over" data-up-over hidden><span class="t-h2">{t("home.readyTitle")}</span><span class="t-body">{t("home.readyBody")}</span></span></Cover>
           <span class="lc-text">
@@ -70,6 +88,20 @@ const first = path[0];
             <span class="lc-sub" data-up-sub>{t("home.firstCardKicker", { n: first.steps.length, min: first.steps.reduce((n, s) => n + s.readTime, 0) })}</span>
             <span class="lc-bar" aria-hidden="true"><i data-up-bar></i></span>
           </span>
+        </a>
+        <div class="amb-card s-cover grain" data-amb hidden data-types={JSON.stringify(Object.fromEntries(ob.type.options.map((o) => [o.id, o.label])))} data-since={t("home.readySince")}>
+          <Orb class="amb-orb" />
+          <div class="amb-inner on-dark">
+            <p class="kicker">{t("home.ambKicker")}</p>
+            <p class="amb-name" data-amb-name>{t("home.ambDefaultName")}</p>
+            <p class="amb-role">{t("home.ambRole")}</p>
+            <p class="t-small" data-amb-since></p>
+            <img class="amb-logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="384" height="144" />
+          </div>
+        </div>
+        <a class="row focus-row" href="#" data-focus hidden data-tpl={t("home.focusFor")}>
+          <span class="row-main"><span class="row-sub" data-focus-kicker></span><span class="row-title" data-focus-title></span></span>
+          <span class="row-end"><Icon name="chevron" size={20} /></span>
         </a>
       </section>
 
@@ -90,24 +122,23 @@ const first = path[0];
             </li>
           ))}
         </ol>
-        <p class="t-small only-first path-note">{t("home.pathNote")}</p>
       </section>
 
       <!-- Tools -->
       <section>
         <div class="rail-head"><h2 class="rail-title">{t("home.toolsTitle")}</h2></div>
         <ul class="rail small">
-          <li class="only-first"><a class="lc" href={u("/practice/")}><Cover variant={COVERS.practice} /><span class="lc-text"><span class="lc-title">{t("home.toolPractice")}</span><span class="lc-sub">{t("home.practiceSub", { n: scenarioCount })}</span></span></a></li>
-          <li class="only-first"><a class="lc" href={u("/refreshers/")}><Cover variant={COVERS.refreshers} /><span class="lc-text"><span class="lc-title">{t("nav.refreshers")}</span><span class="lc-sub">{t("home.toolRefreshSub")}</span></span></a></li>
-          <li><a class="lc" href={u("/deck/")}><Cover variant={COVERS.deck} /><span class="lc-text"><span class="lc-title">{t("nav.deck")}</span><span class="lc-sub">{t("home.toolDeckSub")}</span></span></a></li>
-          <li><a class="lc" href={u("/help/")}><Cover variant={COVERS.help} /><span class="lc-text"><span class="lc-title">{t("home.toolHelp")}<span class="news-dot" role="img" aria-label={t("home.newDot")}></span></span><span class="lc-sub">{latest ? t("home.latestUpdate", { change: latest.data.change }) : t("home.toolHelpSub")}</span></span></a></li>
+          <li class="only-first"><a class="lc" href={u("/practice/")}><Cover variant={COVERS.practice} /><span class="lc-text"><span class="lc-title">{t("home.toolPractice")}</span></span></a></li>
+          <li class="only-first"><a class="lc" href={u("/refreshers/")}><Cover variant={COVERS.refreshers} /><span class="lc-text"><span class="lc-title">{t("nav.refreshers")}</span></span></a></li>
+          <li><a class="lc" href={u("/deck/")}><Cover variant={COVERS.deck} /><span class="lc-text"><span class="lc-title">{t("nav.deck")}</span></span></a></li>
+          <li><a class="lc" href={u("/help/")}><Cover variant={COVERS.help} /><span class="lc-text"><span class="lc-title">{t("home.toolHelp")}<span class="news-dot" role="img" aria-label={t("home.newDot")}></span></span></span></a></li>
         </ul>
       </section>
     </div>
   </div>
 
   <script>
-    import { progress, story } from "../lib/store";
+    import { progress, story, profile, daysUntil } from "../lib/store";
     import { nextSession, formatSession } from "../lib/schedule";
     type Step = { id: string; title: string; href: string; readTime: number };
     type Group = { id: string; num: string; cover: string; title: string; href: string; kind: "pages" | "story"; steps: Step[] };
@@ -172,7 +203,7 @@ const first = path[0];
         title.textContent = g.kind === "story" || next.r === 0 ? g.title : next.step.title;
         sub.textContent = g.kind === "story"
           ? d.storyNot!
-          : `${g.title} · ${d.ofRead!.replace("{n}", String(next.r)).replace("{total}", String(total))} · ${next.step.readTime} min`;
+          : `${g.kind === "story" || next.r === 0 ? "" : g.title + " · "}${d.ofRead!.replace("{n}", String(next.r)).replace("{total}", String(total))} · ${next.step.readTime} min`;
         bar.style.width = `${(next.r / total) * 100}%`;
       } else {
         up.href = up.dataset.present!;
@@ -184,9 +215,62 @@ const first = path[0];
         bar.style.width = "100%";
         const h = document.querySelector<HTMLElement>("[data-hello-returning]")!;
         h.textContent = h.dataset.ready!;
+        // The ambassador card: a moment for finishing the whole path.
+        const prof = profile.get().readySince ? profile.get() : profile.set({ readySince: Date.now() });
+        const amb = root.querySelector<HTMLElement>("[data-amb]")!;
+        up.hidden = true;
+        amb.hidden = false;
+        root.querySelector<HTMLElement>("[data-up-head]")!.hidden = true;
+        if (prof.name) amb.querySelector("[data-amb-name]")!.textContent = prof.name;
+        const types = JSON.parse(amb.dataset.types!);
+        amb.querySelector("[data-amb-since]")!.textContent = amb.dataset.since!
+          .replace("{date}", new Date(prof.readySince!).toLocaleDateString(undefined, { month: "long", year: "numeric" }))
+          + (prof.type ? ` · ${types[prof.type]}` : "");
       }
     }
     paint();
     document.addEventListener("ag:progress", paint);
+    personalize();
+
+    function personalize() {
+      const p = profile.get();
+      // Greeting by name.
+      if (p.name) {
+        const f = document.querySelector<HTMLElement>("[data-hello-first]")!;
+        f.textContent = f.dataset.named!.replace("{name}", p.name);
+        const r = document.querySelector<HTMLElement>("[data-hello-returning]")!;
+        if (r.textContent !== r.dataset.ready) r.textContent = r.dataset.named!.replace("{name}", p.name);
+      }
+      // Picked for you.
+      const map = JSON.parse(root.dataset.focusMap!);
+      const focus = root.querySelector<HTMLAnchorElement>("[data-focus]")!;
+      if (p.type && map[p.type]) {
+        focus.href = map[p.type].href;
+        focus.querySelector("[data-focus-kicker]")!.textContent = focus.dataset.tpl!;
+        focus.querySelector("[data-focus-title]")!.textContent = map[p.type].title;
+        focus.hidden = false;
+      }
+      // Room-first ambassadors see The Room refresher first.
+      if (p.mode === "room") {
+        const rail = root.querySelector<HTMLElement>(".only-returning .rail");
+        const room = rail?.querySelector<HTMLElement>('a[href$="/refreshers/room/"]')?.parentElement;
+        if (rail && room) rail.insertBefore(room, rail.children[1]);
+      }
+      // Event mode: countdown and a 2-minute plan for the next 14 days.
+      const card = root.querySelector<HTMLElement>("[data-event-card]")!;
+      if (p.eventDate) {
+        const days = daysUntil(p.eventDate);
+        if (days >= 0 && days <= 14) {
+          const [y, m, dd] = p.eventDate.split("-").map(Number);
+          card.querySelector("[data-ev-when]")!.textContent = new Date(y, m - 1, dd).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+          card.querySelector("[data-ev-count]")!.textContent = days === 0 ? card.dataset.today! : days === 1 ? card.dataset.tomorrow! : card.dataset.days!.replace("{n}", String(days));
+          const mode = p.mode === "room" ? "room" : "conversation";
+          card.querySelector<HTMLAnchorElement>("[data-ev-refresh]")!.href = mode === "room" ? card.dataset.refreshRoom! : card.dataset.refreshConv!;
+          card.querySelector<HTMLAnchorElement>("[data-ev-practice]")!.href = `${card.dataset.practice}?mode=${mode}`;
+          card.hidden = false;
+          document.querySelector<HTMLElement>("[data-session-wrap]")!.hidden = true;
+        }
+      }
+    }
   </script>
 </Base>

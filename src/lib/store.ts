@@ -7,6 +7,7 @@ const KEYS = {
   story: "ag.story.v1",
   updatesSeen: "ag.updatesSeen.v1",
   practice: "ag.practice.v1",
+  profile: "ag.profile.v1",
 } as const;
 
 function read<T>(key: string, fallback: T): T {
@@ -99,6 +100,39 @@ export const practice = {
     write(KEYS.practice, all);
   },
 };
+
+export type Profile = {
+  name?: string;
+  type?: "participant" | "mentor" | "partner" | "volunteer";
+  mode?: "conversation" | "room" | "both";
+  eventDate?: string; // YYYY-MM-DD, local
+  onboarded?: number; // timestamp; set on finish or skip
+  readySince?: number; // first time the whole path was complete
+};
+
+/** The ambassador's own answers from onboarding. Device-only. */
+export const profile = {
+  get(): Profile {
+    return read<Profile>(KEYS.profile, {});
+  },
+  set(p: Partial<Profile>): Profile {
+    const next = { ...this.get(), ...p };
+    write(KEYS.profile, next);
+    return next;
+  },
+  clear(): void {
+    remove(KEYS.profile);
+  },
+};
+
+/** Whole days from today to a local YYYY-MM-DD date (0 = today). */
+export function daysUntil(date: string): number {
+  const [y, m, d] = date.split("-").map(Number);
+  const target = new Date(y, m - 1, d).getTime();
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  return Math.round((target - today) / 86400000);
+}
 
 /** Spoken-length estimate: ~150 words per minute (65–85 words ≈ 30 s). */
 export function wordStats(text: string): { words: number; seconds: number } {

@@ -1,0 +1,100 @@
+{
+  "$comment": "First-run onboarding (/welcome/). Types mirror the spec's ambassador types; `focus` is the page each type needs most. Answers stay on the device.",
+  "placeholder": true,
+  "cover": {
+    "kicker": "Ambassador Guide",
+    "title": "Help people find The Labs.",
+    "body": "One minute to set up. Then learn to explain, talk, and present.",
+    "cta": "Begin",
+    "skip": "Skip",
+    "privacy": "No account. Stays on this device."
+  },
+  "name": {
+    "q": "Your first name?",
+    "help": "Only this device sees it.",
+    "placeholder": "First name",
+    "cta": "Continue",
+    "skip": "Skip"
+  },
+  "type": {
+    "q": "Which is you?",
+    "help": "",
+    "options": [
+      {
+        "id": "participant",
+        "label": "Build Cycle alum",
+        "sub": "We'll show the whole ladder.",
+        "focus": {
+          "title": "The ladder",
+          "href": "/know-the-labs/the-ladder/"
+        }
+      },
+      {
+        "id": "mentor",
+        "label": "Mentor or expert",
+        "sub": "We'll focus on inviting, not advising.",
+        "focus": {
+          "title": "Adapting by audience",
+          "href": "/playbooks/conversation/adapting/"
+        }
+      },
+      {
+        "id": "partner",
+        "label": "Partner organization",
+        "sub": "We'll start with what The Labs is.",
+        "focus": {
+          "title": "Language",
+          "href": "/know-the-labs/language/"
+        }
+      },
+      {
+        "id": "volunteer",
+        "label": "New volunteer",
+        "sub": "We'll take it in order.",
+        "focus": {
+          "title": "The role",
+          "href": "/start-here/role/"
+        }
+      }
+    ]
+  },
+  "mode": {
+    "q": "How will you reach people?",
+    "help": "",
+    "options": [
+      {
+        "id": "conversation",
+        "label": "One-on-one",
+        "sub": ""
+      },
+      {
+        "id": "room",
+        "label": "To a room",
+        "sub": ""
+      },
+      {
+        "id": "both",
+        "label": "Both",
+        "sub": ""
+      }
+    ]
+  },
+  "event": {
+    "q": "Next event?",
+    "help": "We'll plan your refresh.",
+    "label": "Event date",
+    "cta": "Continue",
+    "none": "Not yet"
+  },
+  "plan": {
+    "kicker": "Your plan",
+    "titleNamed": "Your plan, {name}.",
+    "title": "Your plan.",
+    "focusLabel": "Start with",
+    "eventLabel": "Your event",
+    "eventLine": "{when} · {perDay} min a day",
+    "cta": "Start: {title}",
+    "edit": "Edit answers",
+    "eventSoon": "{when} · refresh and run the deck"
+  }
+}

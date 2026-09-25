@@ -69,6 +69,7 @@ These also need real values:
 
 | Route | What |
 | --- | --- |
+| `/welcome/` | First-run onboarding: name, ambassador type, outreach mode, next event, then a personal plan. Home sends brand-new visitors here, and it can be skipped. `?edit` changes the answers. |
 | `/` | Home. First visit leads with Start Here; once Start Here is complete it leads with Refreshers, Present now, and what's new. |
 | `/start-here/`, `/know-the-labs/` | Section overview with "n of N read", plus one page per topic |
 | `/playbooks/conversation/…`, `/playbooks/room/…` | Playbook pages (Overview, then each step, then Practice) |
@@ -90,12 +91,13 @@ The site follows The Labs Brand Style Guide via the OLOS design system. Some rul
 - Clickable rows are white cards with a trailing chevron (`Row.astro`). Information panels are tinted (`.panel`) or plain text, never white boxes, so anything that looks like a card can be pressed.
 - Cover art (`Cover.astro`: brand gradient, grain, and the SVG orb from OLOS) stands in for photos. Each section keeps one cover everywhere (`COVERS` in `src/lib/content.ts`), and a cover's `name` morphs it into the page hero through cross-document View Transitions, with no JavaScript. Reduced motion turns this off.
 - Every gesture has a button and a key. The practice deck supports swipe, button, and keyboard input (→ Had it, ← Not yet, ↑ Close, Space reveals, Z undoes).
+- Keep copy as short as it can be. One idea per line, no helper text where a title is enough.
 - One 14px radius, no pills. Circles are only for controls that really are round (the deck's action buttons). Red is only for "Join The Labs". Teal is for focus rings and accents; use teal-deep for text on light backgrounds.
 - The white logo lockup goes only on dark surfaces. Never put two dark sections in a row.
 
 ## Privacy
 
-The site never collects personal information. Read progress (`ag.progress.v1`), the story draft (`ag.story.v1`), and the last-seen update (`ag.updatesSeen.v1`) live only in the browser's `localStorage`. There are no cookies, and analytics aren't enabled.
+The site never collects personal information. Read progress (`ag.progress.v1`), the story draft (`ag.story.v1`), and the last-seen update (`ag.updatesSeen.v1`), practice self-checks (`ag.practice.v1`), and onboarding answers (`ag.profile.v1`) live only in the browser's `localStorage`. There are no cookies, and analytics aren't enabled.
 
 ## Assets
 
