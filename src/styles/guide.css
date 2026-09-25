@@ -62,7 +62,8 @@ body { padding-bottom: calc(57px + env(safe-area-inset-bottom)); }
 .page-body { display: flex; flex-direction: column; gap: 32px; padding-top: 24px; }
 .page-body > * { min-width: 0; }
 
-.ph-chip { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--slate); border: 1px dashed var(--meta); border-radius: var(--r); padding: 3px 8px; line-height: 16px; }
+/* A status label, not a control: plain text, never boxed (nothing that isn't a button may look like one). */
+.ph-chip { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--slate); line-height: 16px; }
 
 /* ── progress meter ── */
 .meter { display: flex; align-items: center; gap: 12px; margin-top: 16px; }
@@ -80,13 +81,13 @@ body { padding-bottom: calc(57px + env(safe-area-inset-bottom)); }
 .shape { list-style: none; padding: 0; counter-reset: s; display: flex; flex-direction: column; }
 .shape li { counter-increment: s; display: grid; grid-template-columns: 40px 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--rule); color: var(--charcoal); }
 .shape li::before { content: counter(s, decimal-leading-zero); font-weight: 700; color: var(--teal-deep); font-variant-numeric: tabular-nums; }
-.examples ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-.examples li { background: var(--white); border: 1px solid var(--rule); border-left: 3px solid var(--teal); border-radius: var(--r); padding: 14px 16px; color: var(--ink); }
+/* Quotes, not choices: a teal rule and no box, so they can't be mistaken for tappable rows. */
+.examples ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+.examples li { border-left: 3px solid var(--teal); padding: 2px 0 2px 16px; color: var(--ink); }
 .watch, .bullets { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; }
 .watch li, .bullets li { position: relative; padding-left: 22px; color: var(--charcoal); }
 .watch li::before, .bullets li::before { content: ""; position: absolute; left: 3px; top: 9px; width: 6px; height: 6px; border-radius: 50%; background: var(--ink); }
-.tryit { border-left: 4px solid var(--teal-deep); }
-.tryit .t-h4 { margin-top: 6px; }
+.tryit { border-left: 3px solid var(--teal-deep); padding-left: 16px; gap: 6px; }
 
 /* ── Markdown prose ── */
 .prose { color: var(--charcoal); }
@@ -127,8 +128,11 @@ body { padding-bottom: calc(57px + env(safe-area-inset-bottom)); }
 .book .card-body { display: flex; flex-direction: column; gap: 8px; height: 100%; }
 .book .meter { margin-top: 4px; }
 .book-pages { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-.book-pages li { font-size: 12px; font-weight: 600; color: var(--slate); padding: 4px 8px; border: 1px solid var(--rule); border-radius: var(--r); }
-.book-pages li.is-read { color: var(--teal-deep); border-color: rgba(0, 148, 160, 0.45); }
+/* A plain run of page names, separated by dots — not pills. */
+.book-pages { gap: 0 4px; }
+.book-pages li { font-size: 13px; color: var(--slate); }
+.book-pages li:not(:last-child)::after { content: " ·"; color: var(--meta); }
+.book-pages li.is-read { color: var(--teal-deep); font-weight: 600; }
 
 /* ── home ── */
 .home-head { padding: 32px 0 8px; }

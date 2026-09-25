@@ -51,7 +51,9 @@ img { max-width: 100%; height: auto; }
 .s-ink { color: var(--od1); background: var(--ink); }
 .s-navy { color: var(--od1); background: var(--navy); }
 
-/* ── buttons ── */
+/* ── buttons ──
+   Rule: only things you can press may look like this (filled or outlined
+   rounded box). Labels, counters and statuses are plain text. */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 48px; border: none; border-radius: var(--r);

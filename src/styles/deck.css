@@ -30,7 +30,7 @@ body.deck { color: var(--od1); user-select: none; -webkit-user-select: none; }
 
 /* white lockup: dark slides only, bottom-left, ~48px tall */
 .sl-logo { position: absolute; left: 144px; bottom: 72px; height: 48px; width: auto; }
-.sl-ph { position: absolute; top: 48px; left: 144px; font-size: 20px; font-weight: 600; letter-spacing: 0.08em; padding: 6px 12px; border: 2px dashed currentColor; border-radius: var(--r); opacity: 0.6; }
+.sl-ph { position: absolute; top: 56px; left: 144px; font-size: 20px; font-weight: 600; letter-spacing: 0.08em; opacity: 0.6; }
 
 /* 1 — opening question */
 .sl-question { font-weight: 700; font-size: 112px; line-height: 120px; letter-spacing: -0.035em; max-width: 1500px; }
@@ -60,7 +60,8 @@ body.deck { color: var(--od1); user-select: none; -webkit-user-select: none; }
 .sl-date { font-weight: 700; font-size: 120px; line-height: 128px; letter-spacing: -0.04em; }
 .sl-where { font-size: 48px; line-height: 60px; color: var(--od2); margin-top: 24px; }
 .sl-expect { font-size: 44px; line-height: 60px; color: var(--od1); margin-top: 48px; max-width: 1400px; }
-.sl-join { display: inline-block; margin-top: 64px; background: var(--red); color: #fff; font-weight: 600; font-size: 44px; line-height: 52px; padding: 28px 48px; border-radius: var(--r); }
+/* Words on a projected slide, not a control: a red rule over the line, never a filled box. */
+.sl-join { display: inline-block; margin-top: 64px; color: var(--od1); font-weight: 700; font-size: 56px; line-height: 64px; letter-spacing: -0.02em; border-top: 6px solid var(--red); padding-top: 24px; }
 
 /* 6 — join: large QR on paper */
 .sl-join-grid { display: grid; grid-template-columns: 640px 1fr; gap: 112px; align-items: center; top: 180px; }
@@ -83,8 +84,9 @@ body.deck { color: var(--od1); user-select: none; -webkit-user-select: none; }
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: inline-flex; align-items: center;
 }
 .ctl[aria-pressed="true"] { background: var(--white); color: var(--ink); }
-.ctl-count { font: 600 14px/20px var(--font-sans); color: var(--od1); background: rgba(0, 20, 27, 0.72); padding: 12px 14px; border-radius: var(--r); font-variant-numeric: tabular-nums; }
-.deck-hint { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: rgba(0, 20, 27, 0.72); padding: 6px 12px; border-radius: var(--r); font-size: 13px; color: var(--od2); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+/* Status line (slide count + keys): an unbounded caption over a bottom scrim, flush left — not a boxed label that could read as a button. */
+.deck-hint { position: fixed; left: 0; right: 0; bottom: 0; padding: 32px 16px max(12px, env(safe-area-inset-bottom)); background: linear-gradient(to bottom, transparent, rgba(0, 20, 27, 0.72)); font-size: 13px; line-height: 20px; color: var(--od1); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.deck-hint [data-counter] { font-weight: 600; font-variant-numeric: tabular-nums; }
 .controls-on .deck-hint { opacity: 1; }
 
 /* phone speaker cues */

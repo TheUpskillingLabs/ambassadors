@@ -81,6 +81,14 @@ These also need real values:
 | `/present/?practice` | Talk cues shown under each slide |
 | `/help/` | Coordinator contact, what's new, and Reset progress |
 
+## Design rules
+
+The site follows The Labs Brand Style Guide via the OLOS design system. Some rules are easy to break by accident:
+
+- **Never let anything look like a button unless it is one.** Filled or outlined rounded boxes (`.btn`, `.chip`, `.ctl`) are only for things you can press. Labels, statuses, counters, page lists, and example quotes are plain text or text with a rule, never boxed. On slides, "Join The Labs" is words over a red rule, because nobody can press a projected slide.
+- One 14px radius, no pills. Red is only for "Join The Labs". Teal is for focus rings and accents; use teal-deep for text on light backgrounds.
+- The white logo lockup goes only on dark surfaces. Never put two dark sections in a row.
+
 ## Privacy
 
 The site never collects personal information. Read progress (`ag.progress.v1`), the story draft (`ag.story.v1`), and the last-seen update (`ag.updatesSeen.v1`) live only in the browser's `localStorage`. There are no cookies, and analytics aren't enabled.

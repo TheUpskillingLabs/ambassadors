@@ -68,11 +68,10 @@ import deck from "../../../content/site/deck.json";
 
       <div class="controls" data-controls>
         <a class="ctl" href="/deck/" data-ctl>{t("present.exit")}</a>
-        <span class="ctl-count" data-counter></span>
         <button class="ctl" type="button" data-ctl data-toggle-cues aria-pressed="false">{t("present.cues")}</button>
         <button class="ctl" type="button" data-ctl data-fullscreen>{t("present.fullscreen")}</button>
       </div>
-      <p class="deck-hint" data-hint>{t("present.hint")}</p>
+      <p class="deck-hint" data-hint><span data-counter></span> · {t("present.hint")}</p>
     </div>
 
     <script>
