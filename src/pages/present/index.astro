@@ -13,7 +13,7 @@ import "../../styles/system.css";
 import "../../styles/deck.css";
 import Slides from "../../components/Slides.astro";
 import Icon from "../../components/Icon.astro";
-import { t } from "../../lib/i18n";
+import { t, ui } from "../../lib/i18n";
 import deck from "../../../content/site/deck.json";
 ---
 <!doctype html>
@@ -46,8 +46,9 @@ import deck from "../../../content/site/deck.json";
       <aside class="notes-pane on-dark" data-notes-pane hidden>
         <div class="np-top">
           <span class="np-count" data-counter></span>
-          <button class="np-timer" type="button" data-timer title={t("present.resetTimer")}>00:00</button>
+          <button class="np-timer" type="button" data-timer title={t("present.resetTimer")} aria-label={t("present.resetTimer")}>0:00</button>
         </div>
+        <p class="np-pace" data-pace role="status" data-on={t("present.paceOn")} data-behind={t("present.paceBehind")} data-ahead={t("present.paceAhead")}></p>
         <div class="lbl">{t("present.talkCue")}</div>
         <p class="np-cue" data-cue-text></p>
         <p class="np-notes" data-notes-text></p>
@@ -71,7 +72,16 @@ import deck from "../../../content/site/deck.json";
         <a class="ctl" href={u("/deck/")} data-ctl>{t("present.exit")}</a>
         <button class="ctl" type="button" data-ctl data-toggle-cues aria-pressed="false">{t("present.cues")}</button>
         <button class="ctl" type="button" data-ctl data-fullscreen>{t("present.fullscreen")}</button>
+        <button class="ctl" type="button" data-ctl data-help-open aria-label={t("present.keys")}>?</button>
       </div>
+      <div class="blank" data-blank hidden></div>
+      <dialog class="keys" data-help aria-labelledby="keys-h">
+        <h2 id="keys-h" class="t-h3">{t("present.keys")}</h2>
+        <dl class="keys-list">
+          {ui.present.keyListItems.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+        <form method="dialog"><button class="btn btn-ink btn-sm">{t("present.close")}</button></form>
+      </dialog>
       <p class="deck-hint" data-hint><span data-counter></span> · {t("present.hint")}</p>
     </div>
 

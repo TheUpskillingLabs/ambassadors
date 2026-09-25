@@ -1,34 +1,32 @@
 ---
-import { u } from "../../lib/url";
 import Base from "../../layouts/Base.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import NextSession from "../../components/NextSession.astro";
+import Row from "../../components/Row.astro";
 import Icon from "../../components/Icon.astro";
+import { u } from "../../lib/url";
 import { t } from "../../lib/i18n";
 ---
 <Base title={t("deck.title")} description={t("deck.lede")} nav="deck">
-  <PageHeader back={{ href: u("/"), label: t("nav.home") }} title={t("deck.title")} lede={t("deck.lede")} />
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={t("deck.title")} lede={t("deck.lede")} />
   <div class="wrap page-body">
-    <section class="present-card s-cover grain">
-      <div class="present-inner on-dark">
-        <h2 class="t-h2">{t("deck.presentNow")}</h2>
-        <p class="t-body">{t("deck.presentLede")}</p>
+    <section class="cover s-cover grain">
+      <div class="cover-inner on-dark">
+        <NextSession compact />
         <div class="btn-row">
           <a class="btn btn-white" href={u("/present/")}><Icon name="play" size={18} /> {t("deck.presentNow")}</a>
-          <a class="btn btn-ghost" href={u("/present/?short")}>{t("deck.short")}</a>
+          <a class="see" href={u("/present/?short")}>{t("deck.short")} →</a>
         </div>
-        <div class="btn-row">
-          <a class="see" href={u("/present/?notes")}>{t("deck.notes")} →</a>
-          <a class="see" href={u("/present/?practice")}>{t("deck.practice")} →</a>
-        </div>
+        <p class="t-small">{t("deck.presentLede")}</p>
       </div>
     </section>
-    <div class="card"><div class="card-body"><NextSession /></div></div>
-    <a class="book card tappable" href={u("/deck/customize/")}>
-      <div class="card-body">
-        <h2 class="t-h3">{t("deck.customize")}</h2>
-        <p class="t-body">{t("deck.customizeLede")}</p>
-      </div>
-    </a>
+    <section>
+      <h2 class="section-label">{t("deck.moreWays")}</h2>
+      <ul class="rows">
+        <li><Row href="/present/?notes" title={t("deck.notes")} sub={t("deck.notesSub")} /></li>
+        <li><Row href="/present/?practice" title={t("deck.practice")} sub={t("deck.practiceSub")} /></li>
+        <li><Row href="/deck/customize/" title={t("deck.customize")} sub={t("deck.customizeLede")} /></li>
+      </ul>
+    </section>
   </div>
 </Base>

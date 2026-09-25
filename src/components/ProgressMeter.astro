@@ -1,10 +1,12 @@
 ---
+/* Segmented progress ("3 of 6 read"). A status indicator, never a control.
+   Filled segments are read; `current` outlines the page you're on. */
 import { t } from "../lib/i18n";
-interface Props { ids: string[]; dark?: boolean }
-const { ids, dark = false } = Astro.props;
+interface Props { ids: string[]; current?: number }
+const { ids, current = -1 } = Astro.props;
 const template = t("page.ofRead", { total: ids.length });
 ---
-<div class:list={["meter", { "meter-dark": dark }]} data-progress-ids={JSON.stringify(ids)}>
-  <span class="pips" aria-hidden="true">{ids.map(() => <i class="pip"></i>)}</span>
-  <span class="meter-label" data-progress-label data-template={template} aria-live="polite">0 {template}</span>
+<div class="meter" data-progress-ids={JSON.stringify(ids)}>
+  <span class="pips" aria-hidden="true">{ids.map((_, i) => <i class:list={["pip", { here: i === current }]}></i>)}</span>
+  <span class="meter-label" data-progress-label data-template={template}>0 {template}</span>
 </div>

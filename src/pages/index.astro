@@ -1,96 +1,180 @@
 ---
-import { u } from "../lib/url";
-/* Home. First visit: Start Here first. Returning (Start Here complete):
-   Refreshers, Present now and what's new first. The state attribute is set
-   before paint by the inline script in Base.astro. */
+/* Home: one screen that answers "what should I do now?"
+   First visit (Start Here incomplete): Start Here is the one action.
+   Returning: Present now and the Refreshers come first, then
+   "Continue where you left off", then the readiness path.
+   The visit state is set before paint by the inline script in Base.astro;
+   everything else is filled in by the script below from localStorage. */
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
 import ProgressMeter from "../components/ProgressMeter.astro";
 import NextSession from "../components/NextSession.astro";
+import Row from "../components/Row.astro";
 import Icon from "../components/Icon.astro";
+import { u } from "../lib/url";
 import { t } from "../lib/i18n";
-import { startHereIds } from "../lib/content";
-import sections from "../../content/site/sections.json";
-const shIds = await startHereIds();
+import { readinessPath } from "../lib/content";
+const path = await readinessPath();
+const startHere = path[0];
 const refreshers = (await getCollection("refreshers")).sort((a) => (a.data.playbook === "conversation" ? -1 : 1));
 const updates = (await getCollection("updates")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const latest = updates[0];
-const fmt = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+const shMinutes = startHere.steps.reduce((n, s) => n + s.readTime, 0);
+const pathData = path.map((g) => ({ id: g.id, title: g.title, href: g.href, kind: g.kind, steps: g.steps.map((s) => ({ id: s.id, title: s.title, href: s.href, readTime: s.readTime })) }));
 ---
-<Base nav="home" bodyClass="page-home">
-  <!-- First visit -->
-  <section class="home-head only-first">
+<Base nav="home">
+  <section class="home-head">
     <div class="wrap">
-      <span class="lbl lbl-teal">{t("home.eyebrow")}</span>
-      <h1 class="t-display">{t("home.firstTitle")}</h1>
-      <p class="t-lede">{t("home.firstLede")}</p>
-      <div class="btn-row">
-        <a class="btn btn-teal" href={u("/start-here/")}>{t("home.firstCta")} <Icon name="arrow-right" size={18} /></a>
-      </div>
-      <ProgressMeter ids={shIds} />
+      <p class="kicker">{t("home.eyebrow")}</p>
+      <h1 class="t-h1 only-first">{t("home.firstTitle")}</h1>
+      <h1 class="t-h1 only-returning">{t("home.returningTitle")}</h1>
+      <p class="t-lede head-lede only-first">{t("home.firstLede")}</p>
     </div>
   </section>
 
-  <!-- Returning -->
-  <section class="home-head only-returning">
-    <div class="wrap">
-      <span class="lbl lbl-teal">{t("home.eyebrow")}</span>
-      <h1 class="t-h1">{t("home.returningTitle")}</h1>
-      <p class="t-lede">{t("home.returningLede")}</p>
-    </div>
-  </section>
-
-  <div class="wrap page-body">
-    <div class="only-returning home-grid">
-      <section>
-        <h2 class="section-h">{t("home.refreshersTitle")}</h2>
-        <div class="stack">
-          {refreshers.map((r) => (
-            <a class="card tappable row-card" href={u(`/refreshers/${r.data.playbook}/`)}>
-              <span class="row-icon"><Icon name="refreshers" /></span>
-              <span class="toc-main">
-                <span class="t-h4">{r.data.title}</span>
-                <span class="t-small">{r.data.readTime} {t("page.minRead")} · {r.data.shape.map((s) => s.step).join(" → ")}</span>
-              </span>
-            </a>
-          ))}
+  <div class="wrap home-body" data-home={JSON.stringify(pathData)}
+    data-of-read={t("home.groupOfRead")} data-done={t("home.groupDone")} data-story-saved={t("home.storySaved")}
+    data-story-not={t("home.storyNotYet")} data-ready={t("home.readiness")} data-min-left={t("home.minLeft")}>
+    <!-- First visit: the one thing to do -->
+    <section class="cover s-cover grain only-first">
+      <div class="cover-inner on-dark">
+        <p class="kicker">{t("home.firstCardKicker", { n: startHere.steps.length, min: shMinutes })}</p>
+        <h2 class="t-h2">{t("home.firstCardTitle")}</h2>
+        <p class="t-body">{t("home.firstCardBody")}</p>
+        <div class="btn-row">
+          <a class="btn btn-white" href={startHere.steps[0].href} data-first-cta>{t("home.firstCta")} <Icon name="arrow-right" size={18} /></a>
         </div>
-      </section>
-      <section>
-        <h2 class="section-h">{t("home.presentTitle")}</h2>
-        <div class="present-card s-cover grain">
-          <div class="present-inner on-dark">
-            <NextSession compact />
-            <div class="btn-row">
-              <a class="btn btn-white" href={u("/present/")}><Icon name="play" size={18} /> {t("home.presentCta")}</a>
-              <a class="btn btn-ghost" href={u("/present/?short")}>{t("home.shortCta")}</a>
-            </div>
-          </div>
-        </div>
-      </section>
-      {latest && (
-        <section>
-          <h2 class="section-h">{t("home.whatsNew")} <span class="news-dot" role="img" aria-label={t("home.newDot")}></span></h2>
-          <a class="card tappable row-card" href={u("/help/#whats-new")}>
-            <span class="toc-main">
-              <span class="lbl">{fmt(latest.data.date)}</span>
-              <span class="t-body">{latest.data.change}</span>
-            </span>
-          </a>
-        </section>
-      )}
-    </div>
-
-    <section>
-      <h2 class="section-h">{t("home.allSections")}</h2>
-      <div class="tiles">
-        {sections.sections.map((s) => (
-          <a class="tile card tappable" href={u(s.href)}>
-            <span class="t-h4">{s.title}{s.id === "help" && <span class="news-dot" aria-hidden="true"></span>}</span>
-            <span class="t-small">{s.blurb}</span>
-          </a>
-        ))}
+        <ProgressMeter ids={startHere.steps.map((s) => s.id)} />
       </div>
     </section>
+
+    <!-- Returning: present, refresh -->
+    <section class="cover s-cover grain only-returning">
+      <div class="cover-inner on-dark">
+        <NextSession compact />
+        <div class="btn-row">
+          <a class="btn btn-white" href={u("/present/")}><Icon name="play" size={18} /> {t("home.presentCta")}</a>
+          <a class="see" href={u("/present/?short")}>{t("home.shortCta")} →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="only-returning">
+      <h2 class="section-label">{t("home.refreshersTitle")}</h2>
+      <ul class="rows">
+        {refreshers.map((r) => (
+          <li><Row href={`/refreshers/${r.data.playbook}/`} title={r.data.title} sub={`${r.data.readTime} ${t("page.minRead")} · ${r.data.shape.map((s) => s.step).join(" → ")}`} /></li>
+        ))}
+      </ul>
+    </section>
+
+    <section data-continue-block hidden>
+      <h2 class="section-label">{t("home.resume")}</h2>
+      <a class="row" href="#" data-continue-row>
+        <span class="row-main">
+          <span class="row-title" data-continue-title></span>
+          <span class="row-sub" data-continue-sub></span>
+        </span>
+        <span class="row-end"><Icon name="chevron" size={20} /></span>
+      </a>
+    </section>
+
+    <section>
+      <h2 class="section-label">{t("home.pathTitle")} <span class="readiness" data-readiness></span></h2>
+      <ol class="rows">
+        {path.map((g) => (
+          <li>
+            <a class="row" href={g.href} data-group={g.id}>
+              <span class="ring" aria-hidden="true"><span class="ring-n" data-ring-n></span></span>
+              <span class="row-main">
+                <span class="row-title">{g.title}</span>
+                <span class="row-sub" data-group-sub>{g.kind === "story" ? t("home.storyNotYet") : t("home.groupOfRead").replace("{n}", "0").replace("{total}", String(g.steps.length))}</span>
+              </span>
+              <span class="row-end"><Icon name="chevron" size={20} /></span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p class="t-small only-first path-note">{t("home.pathNote")}</p>
+    </section>
+
+    <section>
+      <h2 class="section-label">{t("home.toolsTitle")}</h2>
+      <ul class="rows">
+        <li><Row href="/practice/" title={t("home.toolPractice")} sub={t("home.toolPracticeSub")} /></li>
+        <li class="only-first"><Row href="/refreshers/" title={t("nav.refreshers")} sub={t("home.toolRefreshSub")} /></li>
+        <li class="only-first"><Row href="/deck/" title={t("nav.deck")} sub={t("home.toolDeckSub")} /></li>
+        <li>
+          <Row href="/help/" title={t("home.toolHelp")} sub={latest ? t("home.latestUpdate", { change: latest.data.change }) : t("home.toolHelpSub")}>
+            <span slot="title-end" class="news-dot" role="img" aria-label={t("home.newDot")}></span>
+          </Row>
+        </li>
+      </ul>
+    </section>
   </div>
+
+  <script>
+    import { progress, story } from "../lib/store";
+    type Step = { id: string; title: string; href: string; readTime: number };
+    type Group = { id: string; title: string; href: string; kind: "pages" | "story"; steps: Step[] };
+    const root = document.querySelector<HTMLElement>("[data-home]")!;
+    const groups: Group[] = JSON.parse(root.dataset.home!);
+    const tpl = {
+      ofRead: root.dataset.ofRead!, done: root.dataset.done!, storySaved: root.dataset.storySaved!, storyNot: root.dataset.storyNot!,
+      ready: root.dataset.ready!, minLeft: root.dataset.minLeft!,
+    };
+
+    function paint() {
+      const read = progress.all();
+      const hasStory = Boolean(story.get().draft.trim());
+      let groupsDone = 0;
+      let next: { step: Step; group: Group } | null = null;
+
+      for (const g of groups) {
+        const row = root.querySelector<HTMLElement>(`[data-group="${g.id}"]`)!;
+        const ring = row.querySelector<HTMLElement>(".ring")!;
+        const n = row.querySelector<HTMLElement>("[data-ring-n]")!;
+        const sub = row.querySelector<HTMLElement>("[data-group-sub]")!;
+        let pct = 0, complete = false;
+        if (g.kind === "story") {
+          complete = hasStory; pct = hasStory ? 100 : 0;
+          n.textContent = hasStory ? "✓" : "";
+          sub.textContent = hasStory ? tpl.storySaved : tpl.storyNot;
+          if (!hasStory && !next) next = { step: { id: "story", title: g.title, href: g.href, readTime: 10 }, group: g };
+        } else {
+          const r = g.steps.filter((s) => read[s.id]).length;
+          complete = r === g.steps.length; pct = Math.round((r / g.steps.length) * 100);
+          n.textContent = complete ? "✓" : r ? String(r) : "";
+          const left = g.steps.filter((s) => !read[s.id]).reduce((m, s) => m + s.readTime, 0);
+          sub.textContent = complete ? tpl.done : `${tpl.ofRead.replace("{n}", String(r)).replace("{total}", String(g.steps.length))}${r ? " · " + tpl.minLeft.replace("{min}", String(left)) : ""}`;
+          const first = g.steps.find((s) => !read[s.id]);
+          if (first && !next) next = { step: first, group: g };
+          // Row goes straight to the next unread page in that group.
+          (row as HTMLAnchorElement).href = first && r > 0 ? first.href : g.href;
+        }
+        ring.style.setProperty("--p", String(pct));
+        ring.classList.toggle("full", complete);
+        if (complete) groupsDone++;
+      }
+
+      root.querySelector("[data-readiness]")!.textContent = tpl.ready.replace("{n}", String(groupsDone)).replace("{total}", String(groups.length));
+
+      // "Continue where you left off": only once Start Here is under way.
+      const block = root.querySelector<HTMLElement>("[data-continue-block]")!;
+      const started = Object.keys(read).length > 0;
+      if (next && started) {
+        const a = root.querySelector<HTMLAnchorElement>("[data-continue-row]")!;
+        a.href = next.step.href;
+        root.querySelector("[data-continue-title]")!.textContent = next.step.title;
+        root.querySelector("[data-continue-sub]")!.textContent = next.group.kind === "story" ? next.group.title : `${next.group.title} · ${next.step.readTime} min`;
+        block.hidden = false;
+      } else block.hidden = true;
+
+      // First-visit button starts at the first unread Start Here page.
+      const sh = groups[0].steps.find((s) => !read[s.id]);
+      if (sh) root.querySelector<HTMLAnchorElement>("[data-first-cta]")!.href = sh.href;
+    }
+    paint();
+    document.addEventListener("ag:progress", paint);
+  </script>
 </Base>

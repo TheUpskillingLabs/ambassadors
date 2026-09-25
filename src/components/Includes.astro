@@ -23,9 +23,9 @@ const kinds = [["brand", t("include.brandTerms")], ["method", t("include.methodT
 {include === "audiences" && (
   <div class="profiles">
     {audiences.map((a) => (
-      <article class="profile card" id={a.id}>
-        <div class="card-body">
-          <div class="head-meta">
+      <article class="profile" id={a.id}>
+        <div class="cb">
+          <div class="meta">
             {a.priority && <span class="status active">{t("include.priority")}</span>}
             <Placeholder show={a.placeholder} />
           </div>
@@ -51,8 +51,8 @@ const kinds = [["brand", t("include.brandTerms")], ["method", t("include.methodT
     <h2 class="t-h3">{label}</h2>
     <dl class="gloss">
       {glossary.filter((g) => g.kind === k).map((g) => (
-        <div class="gloss-item card" id={g.id}>
-          <div class="card-body">
+        <div class="gloss-item" id={g.id}>
+          <div class="cb">
             <dt class="t-h4">{g.term} <Placeholder show={g.placeholder} /></dt>
             <dd>
               <p class="t-body">{g.definition}</p>
@@ -69,7 +69,7 @@ const kinds = [["brand", t("include.brandTerms")], ["method", t("include.methodT
 {include === "faq" && (
   <div class="faq">
     {faq.map((f) => (
-      <details class="faq-item card" id={f.id}>
+      <details class="faq-item" id={f.id}>
         <summary class="t-h4">{f.data.question}</summary>
         <div class="faq-a">
           <p class="t-body">{f.data.answer}</p>
@@ -84,8 +84,8 @@ const kinds = [["brand", t("include.brandTerms")], ["method", t("include.methodT
   <div class="story-examples">
     <p class="lbl">{t("page.examples")}</p>
     {story.examples.map((e) => (
-      <figure class="card">
-        <div class="card-body">
+      <figure>
+        <div class="cb">
           <blockquote class="t-body">{e.text}</blockquote>
           <figcaption class="t-small">{e.name}</figcaption>
         </div>

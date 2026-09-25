@@ -19,6 +19,7 @@ watchOutFor:
   - "Collecting names or numbers yourself. Send people to the site."
   - "Pushing after a 'not now.' Say thanks and leave the door open."
 tryIt: "Look up the next session in the Deck. Practice saying the date, place, and site in one breath."
+showInvite: true
 placeholder: true
 ---
 

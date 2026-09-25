@@ -1,34 +1,43 @@
 ---
-import { u } from "../../lib/url";
 import Base from "../../layouts/Base.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import ProgressMeter from "../../components/ProgressMeter.astro";
+import Row from "../../components/Row.astro";
 import { t } from "../../lib/i18n";
 import { playbookPages, playbookHref, playbookProgressId } from "../../lib/content";
 import sections from "../../../content/site/sections.json";
 const books = await Promise.all((["conversation", "room"] as const).map(async (id) => {
   const pages = await playbookPages(id);
-  return { id, ...sections.playbooks.items[id], pages, href: playbookHref(pages[0]), minutes: pages.reduce((n, p) => n + p.data.readTime, 0) };
+  return { id, ...sections.playbooks.items[id], pages, minutes: pages.reduce((n, p) => n + p.data.readTime, 0) };
 }));
 ---
 <Base title={sections.playbooks.title} description={sections.playbooks.lede} nav="playbooks">
-  <PageHeader back={{ href: u("/"), label: t("nav.home") }} title={sections.playbooks.title} lede={sections.playbooks.lede} />
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={sections.playbooks.title} lede={sections.playbooks.lede} />
   <div class="wrap page-body">
-    <div class="book-grid">
-      {books.map((b) => (
-        <a class="book card tappable" href={b.href}>
-          <div class="card-body">
-            <div class="head-meta"><span class="lbl lbl-teal">{b.mode}</span><span class="lbl">{b.minutes} {t("page.minRead")}</span></div>
-            <h2 class="t-h2">{b.title}</h2>
-            <p class="t-body">{b.blurb}</p>
-            <ProgressMeter ids={b.pages.map(playbookProgressId)} />
-            <ol class="book-pages">
-              {b.pages.map((p) => <li data-read-id={playbookProgressId(p)}>{p.data.navLabel ?? p.data.title}</li>)}
-            </ol>
-          </div>
+    {books.map((b) => (
+      <section class="block">
+        <p class="kicker">{b.mode} · {b.minutes} {t("page.minRead")}</p>
+        <h2 class="t-h2">{b.title}</h2>
+        <p class="t-body">{b.blurb}</p>
+        <ProgressMeter ids={b.pages.map(playbookProgressId)} />
+        <a class="btn btn-teal btn-block" href={playbookHref(b.pages[0])}
+          data-continue={JSON.stringify(b.pages.map((p) => ({ id: playbookProgressId(p), href: playbookHref(p), title: p.data.navLabel ?? p.data.title })))}
+          data-start={t("page.startWith", { title: b.title })} data-cont={t("page.continueWith", { title: "{title}" })} data-review={t("page.reviewFrom", { title: b.title })}>
+          <span data-continue-label>{t("page.startWith", { title: b.title })}</span>
         </a>
-      ))}
-    </div>
-    <a class="see" href={u("/practice/")}>{t("practice.allLink")} →</a>
+        <ol class="rows">
+          {b.pages.map((p, i) => (
+            <li><Row href={playbookHref(p)} title={p.data.navLabel ?? p.data.title} sub={`${p.data.readTime} ${t("page.minRead")}`} lead={String(i + 1)} readId={playbookProgressId(p)} /></li>
+          ))}
+        </ol>
+      </section>
+    ))}
+    <section class="block">
+      <h2 class="section-label">{t("home.toolsTitle")}</h2>
+      <ul class="rows">
+        <li><Row href="/practice/" title={t("practice.allLink")} sub={t("home.toolPracticeSub")} /></li>
+        <li><Row href="/refreshers/" title={t("nav.refreshers")} sub={t("home.toolRefreshSub")} /></li>
+      </ul>
+    </section>
   </div>
 </Base>

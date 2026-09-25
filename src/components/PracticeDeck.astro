@@ -1,7 +1,11 @@
 ---
-/* Read-and-reveal scenario cards. Filter by mode and audience; shuffle.
-   No scoring, no typing. Reads content/scenarios — the same files the
-   prospect game will read. */
+/* Practice — one scenario at a time, read-and-reveal, no scoring.
+   1. Read the setup. 2. "Say it in your head first": Reveal appears after a
+   short pause (thinking of an answer before seeing one is what makes
+   practice stick). 3. Reveal the example and why it works. 4. Optional,
+   private self-check (Had it / Close / Not yet), saved on this device and
+   only used to bring the cards you found hard back first.
+   Reads content/scenarios — the same files the prospect game will read. */
 import { getCollection } from "astro:content";
 import { t } from "../lib/i18n";
 import Icon from "./Icon.astro";
@@ -11,111 +15,137 @@ const { mode = "all", audience = "all" } = Astro.props;
 const scenarios = (await getCollection("scenarios")).map((s) => s.data);
 const modes = ["conversation", "room"] as const;
 const auds = ["participant", "workshop", "mentor", "problem-owner"] as const;
-const countTpl = t("practice.count", { n: "{n}" });
+const firstId = scenarios.find((s) => (mode === "all" || s.mode === mode) && (audience === "all" || s.audience === audience))?.id;
+const checks = [["had", t("practice.had")], ["close", t("practice.close")], ["not", t("practice.notYet")]] as const;
 ---
-<section class="practice" data-practice data-mode={mode} data-audience={audience}>
+<section class="practice" data-practice data-mode={mode} data-audience={audience}
+  data-count-tpl={t("practice.position")} data-last-tpl={t("practice.lastTime")}
+  data-labels={JSON.stringify({ had: t("practice.had"), close: t("practice.close"), not: t("practice.notYet") })}>
   <div class="filters">
     <div class="filter-row" role="group" aria-label={t("practice.mode")}>
       <span class="lbl">{t("practice.mode")}</span>
       <button class="chip" type="button" data-filter="mode" data-value="all" aria-pressed={mode === "all" ? "true" : "false"}>{t("practice.all")}</button>
-      {modes.map((m) => (
-        <button class="chip" type="button" data-filter="mode" data-value={m} aria-pressed={mode === m ? "true" : "false"}>{t(`practice.modes.${m}`)}</button>
-      ))}
+      {modes.map((m) => <button class="chip" type="button" data-filter="mode" data-value={m} aria-pressed={mode === m ? "true" : "false"}>{t(`practice.modes.${m}`)}</button>)}
     </div>
     <div class="filter-row" role="group" aria-label={t("practice.audience")}>
       <span class="lbl">{t("practice.audience")}</span>
       <button class="chip" type="button" data-filter="audience" data-value="all" aria-pressed={audience === "all" ? "true" : "false"}>{t("practice.all")}</button>
-      {auds.map((a) => (
-        <button class="chip" type="button" data-filter="audience" data-value={a} aria-pressed={audience === a ? "true" : "false"}>{t(`practice.audiences.${a}`)}</button>
-      ))}
-    </div>
-    <div class="filter-foot">
-      <span class="t-small" data-count data-template={countTpl} aria-live="polite"></span>
-      <button class="btn btn-ghost btn-sm" type="button" data-shuffle><Icon name="shuffle" size={18} /> {t("practice.shuffle")}</button>
+      {auds.map((a) => <button class="chip" type="button" data-filter="audience" data-value={a} aria-pressed={audience === a ? "true" : "false"}>{t(`practice.audiences.${a}`)}</button>)}
     </div>
   </div>
 
-  <ol class="scenarios" data-list>
+  <div data-cards aria-live="polite">
     {scenarios.map((s) => (
-      <li class="scenario card" data-mode={s.mode} data-audience={s.audience} data-id={s.id}>
-        <div class="card-body">
-          <div class="sc-meta">
-            <span class="lbl lbl-teal">{t(`practice.modes.${s.mode}`)}</span>
-            <span class="lbl">{t(`practice.audiences.${s.audience}`)}</span>
-            <Placeholder show={s.placeholder} />
-          </div>
-          <p class="sc-setup t-h4">{s.setup}</p>
-          <p class="sc-prompt t-small">{t("practice.prompt")}</p>
-          <button class="btn btn-ghost-teal btn-sm" type="button" aria-expanded="false" aria-controls={`reveal-${s.id}`} data-reveal data-show={t("practice.reveal")} data-hide={t("practice.hide")}>{t("practice.reveal")}</button>
-          <div class="sc-reveal" id={`reveal-${s.id}`} hidden>
-            <div class="lbl">{t("practice.example")}</div>
-            <p class="t-body">{s.goodResponse}</p>
-            <div class="lbl">{t("practice.why")}</div>
-            <p class="t-body">{s.why}</p>
+      <article class="pc-card" data-id={s.id} data-mode={s.mode} data-audience={s.audience} hidden={s.id !== firstId}>
+        <p class="pc-meta">
+          <span class="mode">{t(`practice.modes.${s.mode}`)}</span>
+          <span>{t(`practice.audiences.${s.audience}`)}</span>
+          <span class="pc-last" data-last></span>
+          <Placeholder show={s.placeholder} />
+        </p>
+        <p class="pc-setup">{s.setup}</p>
+        <p class="pc-think"><span>{t("practice.prompt")}</span><span class="bar" aria-hidden="true"><i></i></span></p>
+        <button class="btn btn-teal btn-sm pc-reveal-btn" type="button" data-reveal aria-expanded="false" aria-controls={`ans-${s.id}`}><Icon name="eye" size={18} /> {t("practice.reveal")}</button>
+        <div class="pc-answer" id={`ans-${s.id}`} hidden>
+          <p class="lbl">{t("practice.example")}</p>
+          <p class="t-body">{s.goodResponse}</p>
+          <p class="lbl">{t("practice.why")}</p>
+          <p class="t-body pc-why">{s.why}</p>
+          <div class="selfcheck" role="group" aria-label={t("practice.selfCheck")}>
+            <p class="t-small">{t("practice.selfCheck")}</p>
+            <div class="selfcheck-btns">
+              {checks.map(([v, label]) => <button class="chip" type="button" data-check={v} aria-pressed="false">{label}</button>)}
+            </div>
           </div>
         </div>
-      </li>
+      </article>
     ))}
-  </ol>
-  <p class="t-body" data-empty hidden>{t("practice.empty")}</p>
+    <p class="pc-empty" data-empty hidden>{t("practice.empty")}</p>
+  </div>
+
+  <div class="pc-nav">
+    <button class="btn btn-ghost btn-sm" type="button" data-prev><Icon name="arrow-left" size={18} /> {t("page.previous")}</button>
+    <span class="pc-count" data-count></span>
+    <button class="btn btn-ink btn-sm" type="button" data-next>{t("page.next")} <Icon name="arrow-right" size={18} /></button>
+  </div>
+  <button class="btn btn-ghost btn-sm pc-shuffle" type="button" data-shuffle><Icon name="shuffle" size={18} /> {t("practice.shuffle")}</button>
 </section>
 
 <script>
-  document.querySelectorAll<HTMLElement>("[data-practice]").forEach((root) => {
-    const list = root.querySelector<HTMLElement>("[data-list]")!;
-    const cards = () => Array.from(list.children) as HTMLElement[];
-    const state = { mode: root.dataset.mode!, audience: root.dataset.audience! };
-    const count = root.querySelector<HTMLElement>("[data-count]")!;
-    const empty = root.querySelector<HTMLElement>("[data-empty]")!;
+  import { practice, type SelfCheck } from "../lib/store";
+  const ORDER: Record<string, number> = { not: 0, close: 1, "": 2, had: 3 };
 
-    function apply() {
-      let n = 0;
-      for (const c of cards()) {
-        const ok = (state.mode === "all" || c.dataset.mode === state.mode) &&
-          (state.audience === "all" || c.dataset.audience === state.audience);
-        c.hidden = !ok;
-        if (ok) n++;
-      }
-      count.textContent = count.dataset.template!.replace("{n}", String(n));
-      empty.hidden = n > 0;
-      root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => {
-        b.setAttribute("aria-pressed", String(state[b.dataset.filter as "mode" | "audience"] === b.dataset.value));
-      });
+  document.querySelectorAll<HTMLElement>("[data-practice]").forEach((root) => {
+    const all = Array.from(root.querySelectorAll<HTMLElement>(".pc-card"));
+    const labels = JSON.parse(root.dataset.labels!);
+    const state = { mode: root.dataset.mode!, audience: root.dataset.audience! };
+    let deck: HTMLElement[] = [];
+    let at = 0;
+    let timer: number | undefined;
+
+    const checks = () => practice.all();
+    function build(shuffle = false) {
+      const c = checks();
+      deck = all.filter((el) =>
+        (state.mode === "all" || el.dataset.mode === state.mode) &&
+        (state.audience === "all" || el.dataset.audience === state.audience));
+      if (shuffle) for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+      // Cards you marked "Not yet" or "Close" come back first.
+      deck.sort((a, b) => ORDER[c[a.dataset.id!] ?? ""] - ORDER[c[b.dataset.id!] ?? ""]);
+      at = 0;
+      root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) =>
+        b.setAttribute("aria-pressed", String(state[b.dataset.filter as "mode" | "audience"] === b.dataset.value)));
+      show();
     }
 
-    root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => {
-      b.addEventListener("click", () => {
-        state[b.dataset.filter as "mode" | "audience"] = b.dataset.value!;
-        apply();
-      });
-    });
+    function show() {
+      clearTimeout(timer);
+      all.forEach((el) => (el.hidden = true));
+      const empty = root.querySelector<HTMLElement>("[data-empty]")!;
+      empty.hidden = deck.length > 0;
+      root.querySelector<HTMLElement>(".pc-nav")!.hidden = deck.length === 0;
+      if (!deck.length) return;
+      const card = deck[at];
+      const c = checks()[card.dataset.id!];
+      card.querySelector<HTMLElement>("[data-last]")!.textContent = c ? root.dataset.lastTpl!.replace("{v}", labels[c]) : "";
+      card.querySelector<HTMLElement>(".pc-answer")!.hidden = true;
+      card.querySelector("[data-reveal]")!.setAttribute("aria-expanded", "false");
+      card.querySelectorAll<HTMLButtonElement>("[data-check]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.check === c)));
+      card.hidden = false;
+      // Think first: Reveal fades in after a short pause.
+      card.classList.add("thinking");
+      timer = window.setTimeout(() => card.classList.remove("thinking"), 2500);
+      root.querySelector<HTMLElement>("[data-count]")!.textContent = root.dataset.countTpl!.replace("{n}", String(at + 1)).replace("{total}", String(deck.length));
+      (root.querySelector("[data-prev]") as HTMLButtonElement).disabled = at === 0;
+      (root.querySelector("[data-next]") as HTMLButtonElement).disabled = at === deck.length - 1;
+    }
 
-    root.querySelector("[data-shuffle]")!.addEventListener("click", () => {
-      const cs = cards();
-      for (let i = cs.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [cs[i], cs[j]] = [cs[j], cs[i]];
-      }
-      cs.forEach((c) => {
-        // Collapse reveals so a shuffled card starts fresh.
-        const btn = c.querySelector<HTMLButtonElement>("[data-reveal]")!;
-        btn.setAttribute("aria-expanded", "false");
-        btn.textContent = btn.dataset.show!;
-        c.querySelector<HTMLElement>(".sc-reveal")!.hidden = true;
-        list.appendChild(c);
-      });
-    });
+    root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => b.addEventListener("click", () => {
+      state[b.dataset.filter as "mode" | "audience"] = b.dataset.value!;
+      build();
+    }));
+    root.querySelector("[data-next]")!.addEventListener("click", () => { if (at < deck.length - 1) { at++; show(); } });
+    root.querySelector("[data-prev]")!.addEventListener("click", () => { if (at > 0) { at--; show(); } });
+    root.querySelector("[data-shuffle]")!.addEventListener("click", () => build(true));
 
-    root.querySelectorAll<HTMLButtonElement>("[data-reveal]").forEach((btn) => {
+    all.forEach((card) => {
+      const btn = card.querySelector<HTMLButtonElement>("[data-reveal]")!;
       btn.addEventListener("click", () => {
-        const panel = document.getElementById(btn.getAttribute("aria-controls")!)!;
-        const open = btn.getAttribute("aria-expanded") !== "true";
-        btn.setAttribute("aria-expanded", String(open));
-        btn.textContent = open ? btn.dataset.hide! : btn.dataset.show!;
-        panel.hidden = !open;
+        card.classList.remove("thinking");
+        card.querySelector<HTMLElement>(".pc-answer")!.hidden = false;
+        btn.setAttribute("aria-expanded", "true");
       });
+      card.querySelectorAll<HTMLButtonElement>("[data-check]").forEach((b) => b.addEventListener("click", () => {
+        practice.set(card.dataset.id!, b.dataset.check as SelfCheck);
+        card.querySelectorAll<HTMLButtonElement>("[data-check]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+        card.querySelector<HTMLElement>("[data-last]")!.textContent = root.dataset.lastTpl!.replace("{v}", labels[b.dataset.check!]);
+      }));
     });
 
-    apply();
+    // ?mode=room / ?audience=workshop preselect a filter (the /practice page).
+    const q = new URLSearchParams(location.search);
+    if (q.get("mode")) state.mode = q.get("mode")!;
+    if (q.get("audience")) state.audience = q.get("audience")!;
+    build();
   });
 </script>

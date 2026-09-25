@@ -23,6 +23,17 @@ function paint(): void {
     el.dataset.complete = String(n === ids.length);
   });
 
+  // Section landings: one button that starts, continues, or reviews.
+  document.querySelectorAll<HTMLAnchorElement>("[data-continue]").forEach((a) => {
+    const steps: { id: string; href: string; title: string }[] = JSON.parse(a.dataset.continue!);
+    const next = steps.find((s) => !p[s.id]);
+    const label = a.querySelector<HTMLElement>("[data-continue-label]")!;
+    const started = steps.some((s) => p[s.id]);
+    if (!next) { a.href = steps[0].href; label.textContent = a.dataset.review!; }
+    else if (started) { a.href = next.href; label.textContent = a.dataset.cont!.replace("{title}", next.title); }
+    else { a.href = steps[0].href; label.textContent = a.dataset.start!; }
+  });
+
   document.querySelectorAll<HTMLButtonElement>("[data-done]").forEach((btn) => {
     const read = Boolean(p[btn.dataset.done!]);
     btn.classList.toggle("is-read", read);

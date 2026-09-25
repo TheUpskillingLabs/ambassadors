@@ -12,8 +12,8 @@ const updated = new Date(deck.templateLastUpdated + "T12:00:00Z").toLocaleDateSt
 <Base title={entry.data.title} description={entry.data.summary} nav="deck">
   <PageHeader back={{ href: u("/deck/"), label: t("deck.title") }} eyebrow={t("deck.title")} title={entry.data.title} readTime={entry.data.readTime} placeholder={entry.data.placeholder} />
   <div class="wrap page-body">
-    <section class="summary-box">
-      <h2 class="lbl lbl-teal">{t("page.inThirtySeconds")}</h2>
+    <section class="panel lead">
+      <h2 class="block-h">{t("page.inThirtySeconds")}</h2>
       <p class="t-lede">{entry.data.summary}</p>
     </section>
     <div class="btn-row">
@@ -22,9 +22,9 @@ const updated = new Date(deck.templateLastUpdated + "T12:00:00Z").toLocaleDateSt
     </div>
     <p class="t-small">{t("deck.lastUpdated")}: {updated}. {t("deck.copyFresh")}</p>
     <div class="prose"><Content /></div>
-    <section class="tpl">
-      <h2 class="tpl-h">{t("deck.proofPoints")}</h2>
-      <ul class="watch">{deck.proofSet.map((p) => <li><b>{p.stat}</b> {p.label}</li>)}</ul>
+    <section class="block">
+      <h2 class="block-h">{t("deck.proofPoints")}</h2>
+      <ul class="bullets">{deck.proofSet.map((p) => <li><b>{p.stat}</b> {p.label}</li>)}</ul>
     </section>
   </div>
 </Base>

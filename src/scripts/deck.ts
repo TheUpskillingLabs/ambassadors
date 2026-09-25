@@ -122,31 +122,66 @@ export function initDeck(): void {
     window.open(u(`/present/${short ? "?short" : ""}#${slides[i].dataset.n}`), "ag-audience");
   });
 
-  // Timer (notes view): click to reset.
+  // Pacing timer (notes view): elapsed time against the talk shape's
+  // per-slide budgets. Status is text as well as color. Click to reset.
   const timer = document.querySelector<HTMLButtonElement>("[data-timer]");
+  const pace = document.querySelector<HTMLElement>("[data-pace]");
+  const budget = slides.map((sl) => Number(sl.dataset.seconds || 0));
+  const totalBudget = budget.reduce((a, b) => a + b, 0);
+  const mmss = (sec: number) => `${Math.floor(sec / 60)}:${String(Math.abs(sec) % 60).padStart(2, "0")}`;
   if (timer && notes) {
     let start = Date.now();
     timer.addEventListener("click", () => (start = Date.now()));
     setInterval(() => {
-      const s = Math.floor((Date.now() - start) / 1000);
-      timer.textContent = `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
+      const el = Math.floor((Date.now() - start) / 1000);
+      timer.textContent = mmss(el);
+      if (!pace) return;
+      const before = budget.slice(0, i).reduce((a, b) => a + b, 0);
+      const by = el - (before + budget[i]);
+      const state = before - el > 20 ? "ahead" : by > 5 ? "behind" : "on";
+      pace.dataset.state = state;
+      pace.textContent = pace.dataset[state]!.replace("{t}", mmss(Math.abs(state === "ahead" ? before - el : by))).replace("{total}", mmss(totalBudget));
     }, 500);
   }
 
+  // Blank screen (B / . black, W / , white), jump (number + Enter), help (?).
+  const blank = document.querySelector<HTMLElement>("[data-blank]")!;
+  const help = document.querySelector<HTMLDialogElement>("[data-help]")!;
+  const setBlank = (mode: "" | "black" | "white") => {
+    blank.dataset.mode = blank.dataset.mode === mode ? "" : mode;
+    blank.hidden = !blank.dataset.mode;
+  };
+  document.querySelector("[data-help-open]")?.addEventListener("click", () => help.showModal());
+  let digits = "";
+
   // ── input ──
   document.addEventListener("keydown", (e) => {
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.metaKey || e.ctrlKey || e.altKey || help.open) return;
     const k = e.key;
-    if (["ArrowRight", "ArrowDown", "PageDown", " ", "Enter"].includes(k)) {
+    if (/^[0-9]$/.test(k)) { digits += k; return; }
+    if (k === "Enter" && digits) {
+      e.preventDefault();
+      const at = slides.findIndex((sl) => sl.dataset.n === String(Number(digits)));
+      show(at >= 0 ? at : Math.min(slides.length, Number(digits)) - 1);
+      digits = ""; setBlank(""); blank.hidden = true; blank.dataset.mode = "";
+      return;
+    }
+    digits = "";
+    if (k === "b" || k === "B" || k === ".") { setBlank("black"); return; }
+    if (k === "w" || k === "W" || k === ",") { setBlank("white"); return; }
+    if (k === "?") { help.showModal(); return; }
+    if (blank.dataset.mode) { blank.dataset.mode = ""; blank.hidden = true; }
+    if (["ArrowRight", "ArrowDown", "PageDown", " ", "Enter", "n", "N"].includes(k)) {
       if (k === "Enter" && (e.target as HTMLElement).closest("button, a")) return;
       e.preventDefault(); next();
-    } else if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace"].includes(k)) {
+    } else if (["ArrowLeft", "ArrowUp", "PageUp", "Backspace", "p", "P"].includes(k)) {
       e.preventDefault(); prev();
     } else if (k === "Home") { e.preventDefault(); show(0); }
     else if (k === "End") { e.preventDefault(); show(slides.length - 1); }
     else if (k === "f" || k === "F") toggleFs();
     wake();
   });
+  blank.addEventListener("click", () => { blank.dataset.mode = ""; blank.hidden = true; });
 
   const stage = document.querySelector<HTMLElement>("[data-viewport=main]")!;
   let sx = 0, sy = 0, st = 0, swiped = false;

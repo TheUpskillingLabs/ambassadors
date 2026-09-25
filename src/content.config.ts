@@ -33,6 +33,8 @@ const playbooks = defineCollection({
     practice: z.boolean().default(false),
     /** Shows the reader's saved 30-second why (Your Story). */
     showStory: z.boolean().default(false),
+    /** Shows a dated invite filled from the next session in schedule.json. */
+    showInvite: z.boolean().default(false),
     placeholder,
   }),
 });

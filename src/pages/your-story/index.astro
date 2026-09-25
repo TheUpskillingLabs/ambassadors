@@ -1,61 +1,107 @@
 ---
-import { u } from "../../lib/url";
+/* Your Story — one question per screen (the OLOS onboarding flow), then a
+   draft you can edit freely, a word band (about 65–85 words is 30 seconds
+   spoken), and a rehearsal view with a 30-second timer. Everything stays in
+   localStorage. Returning with a saved draft opens straight on the draft. */
 import Base from "../../layouts/Base.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import Icon from "../../components/Icon.astro";
+import { u } from "../../lib/url";
 import { t } from "../../lib/i18n";
 import story from "../../../content/site/story.json";
+const n = story.prompts.length;
 ---
 <Base title={t("story.title")} description={t("story.lede")} nav="your-story" bodyClass="page-story">
-  <PageHeader back={{ href: u("/"), label: t("nav.home") }} title={t("story.title")} lede={t("story.lede")} readTime={10} placeholder={story.placeholder} />
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={t("story.title")} lede={t("story.lede")} readTime={10} placeholder={story.placeholder}>
+    <div class="meter no-print" aria-hidden="true" data-flow-meter>
+      <span class="pips">{Array.from({ length: n + 1 }, () => <i class="pip"></i>)}</span>
+      <span class="meter-label" data-flow-label></span>
+    </div>
+  </PageHeader>
+
   <div class="wrap page-body">
-    <form class="worksheet" data-worksheet onsubmit="return false">
+    <form class="flow" data-flow onsubmit="return false" data-step-tpl={t("story.stepOf")} data-draft-label={t("story.draftStep")}
+      data-short={t("story.bandShort")} data-ok={t("story.bandOk")} data-long={t("story.bandLong")}
+      data-rh-start={t("story.rhStart")} data-rh-stop={t("story.rhStop")}
+      data-rh-go={t("story.rhGo")} data-rh-wrap={t("story.rhWrap")} data-rh-over={t("story.rhOver")}>
       {story.prompts.map((p, i) => (
-        <div class="field prompt no-print">
-          <label for={`q-${p.id}`}><span class="idx">{String(i + 1).padStart(2, "0")}</span> {p.label}</label>
-          <p class="t-small" id={`h-${p.id}`}>{p.help}</p>
-          <textarea id={`q-${p.id}`} name={p.id} rows="3" aria-describedby={`h-${p.id}`} placeholder={`${t("story.examplePrefix")} ${p.example}`} data-answer={p.id} data-lead={p.leadIn}></textarea>
-        </div>
+        <section class="flow-step field no-print" data-step={i} hidden={i !== 0}>
+          <label class="flow-q" for={`q-${p.id}`}>{p.label}</label>
+          <p class="flow-help" id={`h-${p.id}`}>{p.help}</p>
+          <textarea id={`q-${p.id}`} name={p.id} rows="4" aria-describedby={`h-${p.id}`} placeholder={`${t("story.examplePrefix")} ${p.example}`} data-answer={p.id} data-lead={p.leadIn}></textarea>
+          <div class="flow-actions">
+            {i > 0 ? <button class="btn btn-ghost btn-sm" type="button" data-go={i - 1}><Icon name="arrow-left" size={18} /> {t("page.previous")}</button> : <span></span>}
+            <button class="btn btn-teal" type="button" data-go={i + 1}>{i === n - 1 ? t("story.assemble") : t("story.continue")} <Icon name="arrow-right" size={18} /></button>
+          </div>
+        </section>
       ))}
-      <div class="no-print assemble-row">
-        <button class="btn btn-teal" type="button" data-assemble>{t("story.assemble")}</button>
-        <p class="t-small">{t("story.reassembleNote")}</p>
-      </div>
 
-      <div class="field draft">
-        <label for="draft">{t("story.draftLabel")}</label>
-        <textarea id="draft" rows="7" data-draft aria-describedby="draft-stats" class="no-print"></textarea>
-        <p class="print-only story-text" data-draft-print></p>
-        <p class="draft-stats" id="draft-stats" aria-live="polite">
-          <span><b data-words>0</b> {t("story.words")}</span>
-          <span>≈ <b data-seconds>0</b> {t("story.seconds")}</span>
-          <span class="t-small">{t("story.target")}</span>
-        </p>
-        <p class="t-small saved-note" data-saved hidden><Icon name="check" size={16} /> {t("story.saved")}</p>
-      </div>
+      <section class="flow-step" data-step={n} hidden>
+        <div class="field draft">
+          <label for="draft" class="flow-q">{t("story.draftLabel")}</label>
+          <p class="flow-help no-print">{t("story.draftHelp")}</p>
+          <textarea id="draft" rows="7" data-draft aria-describedby="wordband" class="no-print"></textarea>
+          <p class="print-only story-text" data-draft-print></p>
+        </div>
+        <div class="wordband no-print" id="wordband" aria-live="polite">
+          <div class="wordband-track" aria-hidden="true"><span class="wordband-target"></span><span class="wordband-fill" data-fill></span></div>
+          <p class="wordband-text"><span><b data-words>0</b> {t("story.words")}</span><span>≈ <b data-seconds>0</b> {t("story.seconds")}</span><span data-band-msg></span></p>
+          <p class="saved-note" data-saved hidden><Icon name="check" size={16} /> {t("story.saved")}</p>
+        </div>
 
-      <div class="no-print story-actions">
-        <button class="btn btn-ghost btn-sm" type="button" onclick="window.print()"><Icon name="print" size={18} /> {t("story.print")}</button>
-        <a class="see" href={u("/your-story/examples/")}>{t("story.examples")} →</a>
-        <button class="btn btn-ghost btn-sm" type="button" data-clear data-confirm={t("story.clearConfirm")}>{t("story.clear")}</button>
-      </div>
+        <section class="rehearse no-print" aria-labelledby="rh-h">
+          <h2 class="block-h rh-h" id="rh-h">{t("story.rehearse")}</h2>
+          <p class="rh-text" data-rh-text></p>
+          <div class="rh-bar">
+            <span class="rh-time" data-rh-time>0:30</span>
+            <span class="rh-status" data-rh-status role="status">{t("story.rhReady")}</span>
+            <div class="btn-row">
+              <button class="btn btn-white btn-sm" type="button" data-rh-start><Icon name="timer" size={18} /> <span data-rh-start-label>{t("story.rhStart")}</span></button>
+            </div>
+          </div>
+        </section>
+
+        <div class="flow-actions no-print">
+          <button class="btn btn-ghost btn-sm" type="button" data-go="0"><Icon name="rotate" size={18} /> {t("story.redo")}</button>
+          <button class="btn btn-ghost btn-sm" type="button" onclick="window.print()"><Icon name="print" size={18} /> {t("story.print")}</button>
+        </div>
+        <p class="no-print"><a class="see" href={u("/your-story/examples/")}>{t("story.examples")} →</a></p>
+        <p class="no-print"><button class="btn btn-ghost btn-sm" type="button" data-clear data-confirm={t("story.clearConfirm")}>{t("story.clear")}</button></p>
+      </section>
     </form>
   </div>
 
   <script>
     import { story, wordStats } from "../../lib/store";
-    const form = document.querySelector<HTMLFormElement>("[data-worksheet]")!;
+    const form = document.querySelector<HTMLFormElement>("[data-flow]")!;
+    const steps = Array.from(form.querySelectorAll<HTMLElement>("[data-step]"));
     const answers = Array.from(form.querySelectorAll<HTMLTextAreaElement>("[data-answer]"));
     const draft = form.querySelector<HTMLTextAreaElement>("[data-draft]")!;
     const saved = form.querySelector<HTMLElement>("[data-saved]")!;
+    const last = steps.length - 1;
+    const bandMsg = form.querySelector<HTMLElement>("[data-band-msg]")!;
+    const MSG = { short: form.dataset.short, ok: form.dataset.ok, long: form.dataset.long };
 
-    const printCopy = form.querySelector<HTMLElement>("[data-draft-print]")!;
+    function go(i: number, focus = true) {
+      steps.forEach((s, k) => (s.hidden = k !== i));
+      document.querySelectorAll<HTMLElement>("[data-flow-meter] .pip").forEach((p, k) => {
+        p.classList.toggle("on", k < i || (k === i && i === last));
+        p.classList.toggle("here", k === i);
+      });
+      document.querySelector("[data-flow-label]")!.textContent = i === last
+        ? form.dataset.draftLabel!
+        : form.dataset.stepTpl!.replace("{n}", String(i + 1)).replace("{total}", String(last));
+      if (focus) steps[i].querySelector<HTMLElement>("textarea")?.focus();
+    }
+
     function stats() {
-      printCopy.textContent = draft.value;
       const s = wordStats(draft.value);
       form.querySelector("[data-words]")!.textContent = String(s.words);
       form.querySelector("[data-seconds]")!.textContent = String(s.seconds);
-      form.querySelector(".draft-stats")!.classList.toggle("over", s.words > 85);
+      form.querySelector<HTMLElement>("[data-fill]")!.style.width = `${Math.min(100, (s.words / 120) * 100)}%`;
+      bandMsg.textContent = s.words === 0 ? "" : s.words < 65 ? MSG.short! : s.words <= 85 ? MSG.ok! : MSG.long!;
+      form.querySelector("[data-draft-print]")!.textContent = draft.value;
+      form.querySelector("[data-rh-text]")!.textContent = draft.value || "—";
     }
     function save() {
       const a: Record<string, string> = {};
@@ -63,32 +109,54 @@ import story from "../../../content/site/story.json";
       story.save({ answers: a, draft: draft.value });
       saved.hidden = false;
     }
-
-    const s = story.get();
-    answers.forEach((el) => (el.value = s.answers[el.dataset.answer!] ?? ""));
-    draft.value = s.draft;
-    if (s.savedAt) saved.hidden = false;
-    stats();
-
-    let timer: number | undefined;
-    form.addEventListener("input", () => {
-      stats();
-      clearTimeout(timer);
-      timer = window.setTimeout(save, 400);
-    });
-
-    form.querySelector("[data-assemble]")!.addEventListener("click", () => {
+    function assemble() {
       draft.value = answers
         .map((el) => ({ v: el.value.trim(), lead: el.dataset.lead ?? "" }))
         .filter((a) => a.v)
-        .map(({ v, lead }) => {
-          const sentence = /[.?!]$/.test(v) ? v : v + ".";
-          return lead ? `${lead} ${sentence}` : sentence;
-        })
+        .map(({ v, lead }) => { const s = /[.?!]$/.test(v) ? v : v + "."; return lead ? `${lead} ${s}` : s; })
         .join(" ");
-      stats();
+    }
+
+    // Restore.
+    const s0 = story.get();
+    answers.forEach((el) => (el.value = s0.answers[el.dataset.answer!] ?? ""));
+    draft.value = s0.draft;
+    if (s0.savedAt) saved.hidden = false;
+    stats();
+    go(s0.draft.trim() ? last : 0, false);
+
+    form.querySelectorAll<HTMLButtonElement>("[data-go]").forEach((b) => b.addEventListener("click", () => {
+      const to = Number(b.dataset.go);
+      // Building the draft only fills an empty box, so edits are never lost.
+      if (to === last && !draft.value.trim()) { assemble(); stats(); }
       save();
-      draft.focus();
+      go(to);
+    }));
+
+    let debounce: number | undefined;
+    form.addEventListener("input", () => { stats(); clearTimeout(debounce); debounce = window.setTimeout(save, 400); });
+
+    // Rehearse: 30-second countdown; status is text + color.
+    const time = form.querySelector<HTMLElement>("[data-rh-time]")!;
+    const status = form.querySelector<HTMLElement>("[data-rh-status]")!;
+    const startLabel = form.querySelector<HTMLElement>("[data-rh-start-label]")!;
+    let tick: number | undefined, t0 = 0;
+    const fmt = (sec: number) => `${sec < 0 ? "+" : ""}${Math.floor(Math.abs(sec) / 60)}:${String(Math.abs(sec) % 60).padStart(2, "0")}`;
+    form.querySelector("[data-rh-start]")!.addEventListener("click", () => {
+      if (tick) {
+        clearInterval(tick); tick = undefined;
+        startLabel.textContent = form.dataset.rhStart!;
+        return;
+      }
+      t0 = Date.now();
+      startLabel.textContent = form.dataset.rhStop!;
+      tick = window.setInterval(() => {
+        const left = 30 - Math.floor((Date.now() - t0) / 1000);
+        time.textContent = fmt(left);
+        const st = left > 10 ? "go" : left >= 0 ? "wrap" : "over";
+        status.dataset.state = st;
+        status.textContent = form.dataset[{ go: "rhGo", wrap: "rhWrap", over: "rhOver" }[st]]!;
+      }, 250);
     });
 
     const clear = form.querySelector<HTMLButtonElement>("[data-clear]")!;
@@ -99,6 +167,7 @@ import story from "../../../content/site/story.json";
       draft.value = "";
       saved.hidden = true;
       stats();
+      go(0);
     });
   </script>
 </Base>
