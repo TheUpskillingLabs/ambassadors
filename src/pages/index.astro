@@ -94,7 +94,7 @@ const first = path[0];
           <div class="amb-inner on-dark">
             <p class="kicker">{t("home.ambKicker")}</p>
             <p class="amb-name" data-amb-name>{t("home.ambDefaultName")}</p>
-            <p class="amb-role">{t("home.ambRole")}</p>
+            <p class="amb-role" data-amb-role>{t("home.ambRole")}</p>
             <p class="t-small" data-amb-since></p>
             <img class="amb-logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="384" height="144" />
           </div>
@@ -224,8 +224,8 @@ const first = path[0];
         if (prof.name) amb.querySelector("[data-amb-name]")!.textContent = prof.name;
         const types = JSON.parse(amb.dataset.types!);
         amb.querySelector("[data-amb-since]")!.textContent = amb.dataset.since!
-          .replace("{date}", new Date(prof.readySince!).toLocaleDateString(undefined, { month: "long", year: "numeric" }))
-          + (prof.type ? ` · ${types[prof.type]}` : "");
+          .replace("{date}", new Date(prof.readySince!).toLocaleDateString(undefined, { month: "short", year: "numeric" }));
+        if (prof.type) amb.querySelector("[data-amb-role]")!.textContent += ` · ${types[prof.type]}`;
       }
     }
     paint();

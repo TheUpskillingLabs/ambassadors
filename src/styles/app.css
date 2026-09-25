@@ -278,3 +278,4 @@ body.no-chrome { padding-bottom: 0; }
 .focus-row { margin-top: 12px; }
 @media (prefers-reduced-motion: reduce) { .ev-orb, .amb-orb { animation: none; } .amb-card { animation: none; } }
 .meter:has(.pip.here) .meter-label { display: none; }
+.amb-inner .t-small, .amb-role { padding-right: 96px; }
