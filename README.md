@@ -37,6 +37,7 @@ npm run check      # type-check
 | Deck copy, ladder, Your Story prompts, coordinator contact, section list | `content/site/*.json` |
 | Every UI string a component renders | `content/site/ui.en.json` |
 | **Upcoming sessions (the only moving data)** | `data/schedule.json` |
+| The ambassador pin: production art, spec, and Blender notes | `design/pin/` |
 
 Components don't hard-code copy. To add a translation later, add `content/site/ui.<locale>.json` and per-locale content folders.
 
@@ -114,6 +115,7 @@ Evidence-based cuts, so the owner can review them (details in the "Ambassador gu
   - **Who will you ask?** Three names, each sent a dated invite from the ambassador's own phone that ends "say [name] sent you".
   - **The if-then plan.**
   - **Text my coordinator.**
+  - **The pin.** Home shows the ambassador pin as the goal. Once all five parts of the path are done, "Stuck? Text your coordinator" becomes "Text your coordinator for your pin". The coordinator confirms completion, because the site can't see anyone's progress.
 
   Nothing is sent by the site.
 

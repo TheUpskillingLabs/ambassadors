@@ -1,8 +1,8 @@
 ---
 /* End of a reading page. The one primary action lives in a sticky bottom
    bar (like a listing page's Reserve bar): "Up next: Invite · [Done →]".
-   Tapping it marks the page read and moves on. The end-of-page links are
-   the read sentinel — reaching them also marks the page read. */
+   Tapping it marks the page read and moves on. The end-of-page link is
+   the read sentinel — reaching it also marks the page read. */
 import { u } from "../lib/url";
 import { t } from "../lib/i18n";
 import Icon from "./Icon.astro";
@@ -16,7 +16,6 @@ const readText = next ? t("page.nextShort") : t("page.backShort");
 ---
 <nav class="nb-end" aria-label={t("page.pageNav")} data-read-sentinel>
   {prev ? <a class="see" href={u(prev.href)} rel="prev">← {prev.title}</a> : <span></span>}
-  <a class="see" href={u(up.href)}>{t("page.backToTitle", { title: up.title })}</a>
 </nav>
 <div class="actionbar2">
   <span class="ab-info"><span class="ab-kicker">{next ? t("page.upNext") : up.title}</span><span class="ab-title">{next ? next.title : info}</span></span>

@@ -4,6 +4,8 @@
    2. Up next: make your plan → next unread page → send your 3 invites →
       present. One card that changes state.
    3. Your path as a plain list, plus "Stuck? Text your coordinator".
+      Finishing the path earns the ambassador pin (design/pin/), so the
+      pin sits under the title and the coordinator line turns into the claim.
    Refreshers, Deck and Help live in the tab bar. */
 import Base from "../layouts/Base.astro";
 import Icon from "../components/Icon.astro";
@@ -26,6 +28,7 @@ const states = {
     <section class="hello">
       <h1 class="only-first">{t("home.firstTitle")}</h1>
       <h1 class="only-returning">{t("home.returningTitle")}</h1>
+      <p class="pin-goal"><img src={u("/pin.svg")} width="40" height="40" alt="" />{t("home.pin")}</p>
     </section>
 
     <div class="home2" data-home={JSON.stringify(pathData)} data-states={JSON.stringify(states)}
@@ -68,7 +71,8 @@ const states = {
         </ol>
       </section>
 
-      <p class="stuck"><CoordinatorLink label={t("coord.stuck")} /></p>
+      <p class="stuck" data-stuck><CoordinatorLink label={t("coord.stuck")} /></p>
+      <p class="stuck" data-claim hidden><CoordinatorLink label={t("coord.pin")} /></p>
     </div>
   </div>
 
@@ -107,6 +111,10 @@ const states = {
         a.classList.toggle("is-read", complete);
         if (complete) done++;
       }
+      const all = done === groups.length;
+      root.querySelector<HTMLElement>("[data-stuck]")!.hidden = all;
+      root.querySelector<HTMLElement>("[data-claim]")!.hidden = !all;
+      document.querySelector<HTMLElement>(".pin-goal")!.hidden = all;
       root.querySelector("[data-readiness]")!.textContent = d.ready!.replace("{n}", String(done)).replace("{total}", String(groups.length));
 
       // One next step: plan → next page → send invites → present.
