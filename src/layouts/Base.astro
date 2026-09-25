@@ -4,7 +4,9 @@ import "@fontsource-variable/geologica/wght.css";
 import "../styles/colors_and_type.css";
 import "../styles/system.css";
 import "../styles/guide.css";
+import "../styles/app.css";
 import Icon from "../components/Icon.astro";
+import OrbDefs from "../components/OrbDefs.astro";
 import { t } from "../lib/i18n";
 import { startHereIds, latestUpdate } from "../lib/content";
 
@@ -63,6 +65,7 @@ const desktop = [
     </script>
   </head>
   <body class={bodyClass}>
+    <OrbDefs />
     <a class="skip" href="#main">{t("skipToContent")}</a>
     <header class="appbar">
       <div class="appbar-inner">

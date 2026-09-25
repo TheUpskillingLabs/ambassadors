@@ -46,7 +46,14 @@
     "stepOf": "{section} · {n} of {total}",
     "startWith": "Start with {title}",
     "continueWith": "Continue: {title}",
-    "reviewFrom": "All read. Review from the start"
+    "reviewFrom": "All read. Review from the start",
+    "upNext": "Up next",
+    "upNextTitle": "Up next: {title}",
+    "lastPage": "Last page of {title}",
+    "doneShort": "Done",
+    "nextShort": "Next",
+    "finish": "Finish",
+    "backShort": "Back"
   },
   "home": {
     "eyebrow": "Ambassador Guide",
@@ -83,7 +90,15 @@
     "storySaved": "Saved on this device",
     "storyNotYet": "Not written yet",
     "readiness": "{n} of {total} ready",
-    "minLeft": "{min} min left"
+    "minLeft": "{min} min left",
+    "sessionBefore": "Next session ·",
+    "readyTitle": "You're ready.",
+    "readyHeading": "Present with confidence",
+    "readyBody": "Refresh the night before, then present from any browser.",
+    "upNext": "Up next",
+    "presentSub": "Full screen, from any browser",
+    "practiceTitle": "Practice situations",
+    "practiceSub": "{n} situations to swipe through"
   },
   "practice": {
     "title": "Practice",
@@ -108,7 +123,7 @@
       "problem-owner": "Problem owner",
       "workshop": "Workshop"
     },
-    "lede": "Read each situation, decide what you'd say, then reveal an example reply. No scoring, no typing.",
+    "lede": "Swipe through real situations. Think of your answer, flip the card, and see an example. No scores.",
     "allLink": "All practice scenarios",
     "withAudience": "Practice with this audience",
     "position": "{n} of {total}",
@@ -116,7 +131,17 @@
     "had": "Had it",
     "close": "Close",
     "notYet": "Not yet",
-    "selfCheck": "How close was yours? Only you see this."
+    "selfCheck": "How close was yours? Swipe right if you had it, left if not yet, up if close. Only you see this.",
+    "flipBack": "Flip back",
+    "filters": "Filters",
+    "card": "Practice card",
+    "roundDone": "Round done",
+    "roundTitle": "Here's how that round went.",
+    "reviewHard": "Go again with the {n} to review",
+    "startOver": "Shuffle and start over",
+    "undo": "Undo",
+    "keys": "Space reveals · → Had it · ← Not yet · ↑ Close · Z undoes",
+    "showCards": "Show cards"
   },
   "story": {
     "title": "Your Story",

@@ -8,7 +8,7 @@ import ProgressMeter from "./ProgressMeter.astro";
 import Row from "./Row.astro";
 import { u } from "../lib/url";
 import { t } from "../lib/i18n";
-import { sectionHref, sectionProgressId } from "../lib/content";
+import { sectionHref, sectionProgressId, COVERS } from "../lib/content";
 interface Props { title: string; lede: string; pages: CollectionEntry<"pages">[]; nav: "start-here" | "know-the-labs" }
 const { title, lede, pages, nav } = Astro.props;
 const total = pages.reduce((n, p) => n + p.data.readTime, 0);
@@ -16,7 +16,7 @@ const tracked = pages.filter((p) => p.data.tracked);
 const steps = tracked.map((p) => ({ id: sectionProgressId(p), href: sectionHref(p), title: p.data.navLabel ?? p.data.title }));
 ---
 <Base title={title} description={lede} nav={nav}>
-  <PageHeader back={{ href: "/", label: t("nav.home") }} title={title} lede={lede} readTime={total}>
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={title} lede={lede} readTime={total} cover={{ variant: COVERS[nav], name: nav }}>
     <ProgressMeter ids={steps.map((s) => s.id)} />
   </PageHeader>
   <div class="wrap page-body">

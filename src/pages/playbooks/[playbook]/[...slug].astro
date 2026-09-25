@@ -13,7 +13,7 @@ import PracticeDeck from "../../../components/PracticeDeck.astro";
 import NextBar from "../../../components/NextBar.astro";
 import Icon from "../../../components/Icon.astro";
 import { t } from "../../../lib/i18n";
-import { playbookPages, playbookHref, playbookProgressId, pageSlug } from "../../../lib/content";
+import { playbookPages, playbookHref, playbookProgressId, pageSlug, COVERS } from "../../../lib/content";
 import sections from "../../../../content/site/sections.json";
 
 export async function getStaticPaths() {
@@ -45,6 +45,7 @@ const hasBody = Boolean(entry.body?.trim());
     title={d.title}
     readTime={d.readTime}
     placeholder={d.placeholder}
+    cover={{ variant: COVERS[d.playbook], name: d.playbook }}
   >
     <ProgressMeter ids={pages.map(playbookProgressId)} current={i} />
   </PageHeader>

@@ -1,178 +1,190 @@
 ---
-/* Home: one screen that answers "what should I do now?"
-   First visit (Start Here incomplete): Start Here is the one action.
-   Returning: Present now and the Refreshers come first, then
-   "Continue where you left off", then the readiness path.
-   The visit state is set before paint by the inline script in Base.astro;
-   everything else is filled in by the script below from localStorage. */
+/* Home — browse like a travel app, act like a checklist.
+   First visit: "Up next" is Start Here, then the path rail and tools.
+   Returning (Start Here done): "Before your next event" comes first
+   (Present now, both refreshers, practice), then "Up next", then the path.
+   Ready (whole path done): the hero says so and points at the deck.
+   Visit state is set before paint (Base.astro); the rest from localStorage. */
 import { getCollection } from "astro:content";
 import Base from "../layouts/Base.astro";
-import ProgressMeter from "../components/ProgressMeter.astro";
-import NextSession from "../components/NextSession.astro";
-import Row from "../components/Row.astro";
+import Cover from "../components/Cover.astro";
 import Icon from "../components/Icon.astro";
 import { u } from "../lib/url";
 import { t } from "../lib/i18n";
-import { readinessPath } from "../lib/content";
+import { readinessPath, COVERS } from "../lib/content";
 const path = await readinessPath();
-const startHere = path[0];
 const refreshers = (await getCollection("refreshers")).sort((a) => (a.data.playbook === "conversation" ? -1 : 1));
 const updates = (await getCollection("updates")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 const latest = updates[0];
-const shMinutes = startHere.steps.reduce((n, s) => n + s.readTime, 0);
-const pathData = path.map((g) => ({ id: g.id, title: g.title, href: g.href, kind: g.kind, steps: g.steps.map((s) => ({ id: s.id, title: s.title, href: s.href, readTime: s.readTime })) }));
+const scenarioCount = (await getCollection("scenarios")).length;
+const pathData = path.map((g, i) => ({ id: g.id, num: String(i + 1).padStart(2, "0"), cover: g.cover, title: g.title, href: g.href, kind: g.kind, steps: g.steps.map((s) => ({ id: s.id, title: s.title, href: s.href, readTime: s.readTime })) }));
+const first = path[0];
 ---
 <Base nav="home">
-  <section class="home-head">
-    <div class="wrap">
+  <div class="wrap">
+    <section class="hello">
       <p class="kicker">{t("home.eyebrow")}</p>
-      <h1 class="t-h1 only-first">{t("home.firstTitle")}</h1>
-      <h1 class="t-h1 only-returning">{t("home.returningTitle")}</h1>
-      <p class="t-lede head-lede only-first">{t("home.firstLede")}</p>
-    </div>
-  </section>
-
-  <div class="wrap home-body" data-home={JSON.stringify(pathData)}
-    data-of-read={t("home.groupOfRead")} data-done={t("home.groupDone")} data-story-saved={t("home.storySaved")}
-    data-story-not={t("home.storyNotYet")} data-ready={t("home.readiness")} data-min-left={t("home.minLeft")}>
-    <!-- First visit: the one thing to do -->
-    <section class="cover s-cover grain only-first">
-      <div class="cover-inner on-dark">
-        <p class="kicker">{t("home.firstCardKicker", { n: startHere.steps.length, min: shMinutes })}</p>
-        <h2 class="t-h2">{t("home.firstCardTitle")}</h2>
-        <p class="t-body">{t("home.firstCardBody")}</p>
-        <div class="btn-row">
-          <a class="btn btn-white" href={startHere.steps[0].href} data-first-cta>{t("home.firstCta")} <Icon name="arrow-right" size={18} /></a>
-        </div>
-        <ProgressMeter ids={startHere.steps.map((s) => s.id)} />
-      </div>
+      <h1 class="only-first">{t("home.firstTitle")}</h1>
+      <h1 class="only-returning" data-hello-returning data-ready={t("home.readyTitle")}>{t("home.returningTitle")}</h1>
+      <p class="session-line"><span class="dot" aria-hidden="true"></span><span data-session-line data-before={t("home.sessionBefore")}>{t("home.noSession")}</span></p>
     </section>
 
-    <!-- Returning: present, refresh -->
-    <section class="cover s-cover grain only-returning">
-      <div class="cover-inner on-dark">
-        <NextSession compact />
-        <div class="btn-row">
-          <a class="btn btn-white" href={u("/present/")}><Icon name="play" size={18} /> {t("home.presentCta")}</a>
-          <a class="see" href={u("/present/?short")}>{t("home.shortCta")} →</a>
-        </div>
-      </div>
-    </section>
+    <div class="home2" data-home={JSON.stringify(pathData)}
+      data-of-read={t("home.groupOfRead")} data-done={t("home.groupDone")} data-story-saved={t("home.storySaved")}
+      data-story-not={t("home.storyNotYet")} data-ready={t("home.readiness")} data-min-left={t("home.minLeft")}>
 
-    <section class="only-returning">
-      <h2 class="section-label">{t("home.refreshersTitle")}</h2>
-      <ul class="rows">
-        {refreshers.map((r) => (
-          <li><Row href={`/refreshers/${r.data.playbook}/`} title={r.data.title} sub={`${r.data.readTime} ${t("page.minRead")} · ${r.data.shape.map((s) => s.step).join(" → ")}`} /></li>
-        ))}
-      </ul>
-    </section>
-
-    <section data-continue-block hidden>
-      <h2 class="section-label">{t("home.resume")}</h2>
-      <a class="row" href="#" data-continue-row>
-        <span class="row-main">
-          <span class="row-title" data-continue-title></span>
-          <span class="row-sub" data-continue-sub></span>
-        </span>
-        <span class="row-end"><Icon name="chevron" size={20} /></span>
-      </a>
-    </section>
-
-    <section>
-      <h2 class="section-label">{t("home.pathTitle")} <span class="readiness" data-readiness></span></h2>
-      <ol class="rows">
-        {path.map((g) => (
+      <!-- Returning: before your next event -->
+      <section class="only-returning">
+        <div class="rail-head"><h2 class="rail-title">{t("home.refreshersTitle")}</h2></div>
+        <ul class="rail">
           <li>
-            <a class="row" href={g.href} data-group={g.id}>
-              <span class="ring" aria-hidden="true"><span class="ring-n" data-ring-n></span></span>
-              <span class="row-main">
-                <span class="row-title">{g.title}</span>
-                <span class="row-sub" data-group-sub>{g.kind === "story" ? t("home.storyNotYet") : t("home.groupOfRead").replace("{n}", "0").replace("{total}", String(g.steps.length))}</span>
-              </span>
-              <span class="row-end"><Icon name="chevron" size={20} /></span>
+            <a class="lc" href={u("/present/")}>
+              <Cover variant={COVERS.deck}><span class="cv-label">{t("deck.title")}</span></Cover>
+              <span class="lc-text"><span class="lc-title">{t("home.presentCta")}<Icon name="play" size={18} /></span><span class="lc-sub">{t("home.presentSub")}</span></span>
             </a>
           </li>
-        ))}
-      </ol>
-      <p class="t-small only-first path-note">{t("home.pathNote")}</p>
-    </section>
+          {refreshers.map((r) => (
+            <li>
+              <a class="lc" href={u(`/refreshers/${r.data.playbook}/`)}>
+                <Cover variant={COVERS[r.data.playbook]}><span class="cv-label">{t("refresher.title")}</span></Cover>
+                <span class="lc-text"><span class="lc-title">{r.data.title}</span><span class="lc-sub">{r.data.readTime} {t("page.minRead")} · {r.data.shape.map((s) => s.step).join(" → ")}</span></span>
+              </a>
+            </li>
+          ))}
+          <li>
+            <a class="lc" href={u("/practice/")}>
+              <Cover variant={COVERS.practice}><span class="cv-label">{t("home.toolPractice")}</span></Cover>
+              <span class="lc-text"><span class="lc-title">{t("home.practiceTitle")}</span><span class="lc-sub">{t("home.practiceSub", { n: scenarioCount })}</span></span>
+            </a>
+          </li>
+        </ul>
+      </section>
 
-    <section>
-      <h2 class="section-label">{t("home.toolsTitle")}</h2>
-      <ul class="rows">
-        <li><Row href="/practice/" title={t("home.toolPractice")} sub={t("home.toolPracticeSub")} /></li>
-        <li class="only-first"><Row href="/refreshers/" title={t("nav.refreshers")} sub={t("home.toolRefreshSub")} /></li>
-        <li class="only-first"><Row href="/deck/" title={t("nav.deck")} sub={t("home.toolDeckSub")} /></li>
-        <li>
-          <Row href="/help/" title={t("home.toolHelp")} sub={latest ? t("home.latestUpdate", { change: latest.data.change }) : t("home.toolHelpSub")}>
-            <span slot="title-end" class="news-dot" role="img" aria-label={t("home.newDot")}></span>
-          </Row>
-        </li>
-      </ul>
-    </section>
+      <!-- Up next (or You're ready) -->
+      <section>
+        <div class="rail-head"><h2 class="rail-title">{t("home.upNext")}</h2></div>
+        <a class="lc hero-card" href={first.steps[0].href} data-upnext data-present={u("/present/")} data-ready-title={t("home.readyHeading")}>
+          <Cover variant={first.cover} tall><span class="cv-over" data-up-over hidden><span class="t-h2">{t("home.readyTitle")}</span><span class="t-body">{t("home.readyBody")}</span></span></Cover>
+          <span class="lc-text">
+            <span class="lc-title"><span data-up-title>{first.title}</span><Icon name="arrow-right" size={20} /></span>
+            <span class="lc-sub" data-up-sub>{t("home.firstCardKicker", { n: first.steps.length, min: first.steps.reduce((n, s) => n + s.readTime, 0) })}</span>
+            <span class="lc-bar" aria-hidden="true"><i data-up-bar></i></span>
+          </span>
+        </a>
+      </section>
+
+      <!-- The path -->
+      <section>
+        <div class="rail-head"><h2 class="rail-title">{t("home.pathTitle")}</h2><span class="rail-meta" data-readiness></span></div>
+        <ol class="rail">
+          {pathData.map((g) => (
+            <li>
+              <a class="lc" href={g.href} data-group={g.id}>
+                <Cover variant={g.cover} num={g.num} name={g.id} />
+                <span class="lc-text">
+                  <span class="lc-title">{g.title}<span class="lc-check" aria-hidden="true"><Icon name="check" size={14} /></span></span>
+                  <span class="lc-sub" data-group-sub>{g.kind === "story" ? t("home.storyNotYet") : t("home.groupOfRead").replace("{n}", "0").replace("{total}", String(g.steps.length))}</span>
+                  <span class="lc-bar" aria-hidden="true"><i data-group-bar></i></span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        <p class="t-small only-first path-note">{t("home.pathNote")}</p>
+      </section>
+
+      <!-- Tools -->
+      <section>
+        <div class="rail-head"><h2 class="rail-title">{t("home.toolsTitle")}</h2></div>
+        <ul class="rail small">
+          <li class="only-first"><a class="lc" href={u("/practice/")}><Cover variant={COVERS.practice} /><span class="lc-text"><span class="lc-title">{t("home.toolPractice")}</span><span class="lc-sub">{t("home.practiceSub", { n: scenarioCount })}</span></span></a></li>
+          <li class="only-first"><a class="lc" href={u("/refreshers/")}><Cover variant={COVERS.refreshers} /><span class="lc-text"><span class="lc-title">{t("nav.refreshers")}</span><span class="lc-sub">{t("home.toolRefreshSub")}</span></span></a></li>
+          <li><a class="lc" href={u("/deck/")}><Cover variant={COVERS.deck} /><span class="lc-text"><span class="lc-title">{t("nav.deck")}</span><span class="lc-sub">{t("home.toolDeckSub")}</span></span></a></li>
+          <li><a class="lc" href={u("/help/")}><Cover variant={COVERS.help} /><span class="lc-text"><span class="lc-title">{t("home.toolHelp")}<span class="news-dot" role="img" aria-label={t("home.newDot")}></span></span><span class="lc-sub">{latest ? t("home.latestUpdate", { change: latest.data.change }) : t("home.toolHelpSub")}</span></span></a></li>
+        </ul>
+      </section>
+    </div>
   </div>
 
   <script>
     import { progress, story } from "../lib/store";
+    import { nextSession, formatSession } from "../lib/schedule";
     type Step = { id: string; title: string; href: string; readTime: number };
-    type Group = { id: string; title: string; href: string; kind: "pages" | "story"; steps: Step[] };
+    type Group = { id: string; num: string; cover: string; title: string; href: string; kind: "pages" | "story"; steps: Step[] };
     const root = document.querySelector<HTMLElement>("[data-home]")!;
     const groups: Group[] = JSON.parse(root.dataset.home!);
-    const tpl = {
-      ofRead: root.dataset.ofRead!, done: root.dataset.done!, storySaved: root.dataset.storySaved!, storyNot: root.dataset.storyNot!,
-      ready: root.dataset.ready!, minLeft: root.dataset.minLeft!,
-    };
+    const d = root.dataset;
+    const COVER_RE = /\bcv-(cover|teal|forest|navy|ink)\b/;
+
+    // "Next session · Thursday, October 15, 6:00 PM · Martin Luther King Jr. Memorial Library"
+    const s = nextSession();
+    if (s) {
+      const f = formatSession(s);
+      const el = document.querySelector<HTMLElement>("[data-session-line]")!;
+      const b = document.createElement("b");
+      b.textContent = `${f.day}, ${f.time}`;
+      el.replaceChildren(`${el.dataset.before} `, b, ` · ${s.location.split(",")[0]}`);
+    }
 
     function paint() {
       const read = progress.all();
       const hasStory = Boolean(story.get().draft.trim());
-      let groupsDone = 0;
-      let next: { step: Step; group: Group } | null = null;
-
+      let done = 0;
+      let next: { step: Step; group: Group; r: number } | null = null;
       for (const g of groups) {
-        const row = root.querySelector<HTMLElement>(`[data-group="${g.id}"]`)!;
-        const ring = row.querySelector<HTMLElement>(".ring")!;
-        const n = row.querySelector<HTMLElement>("[data-ring-n]")!;
-        const sub = row.querySelector<HTMLElement>("[data-group-sub]")!;
+        const a = root.querySelector<HTMLAnchorElement>(`[data-group="${g.id}"]`)!;
+        const sub = a.querySelector<HTMLElement>("[data-group-sub]")!;
+        const bar = a.querySelector<HTMLElement>("[data-group-bar]")!;
         let pct = 0, complete = false;
         if (g.kind === "story") {
           complete = hasStory; pct = hasStory ? 100 : 0;
-          n.textContent = hasStory ? "✓" : "";
-          sub.textContent = hasStory ? tpl.storySaved : tpl.storyNot;
-          if (!hasStory && !next) next = { step: { id: "story", title: g.title, href: g.href, readTime: 10 }, group: g };
+          sub.textContent = hasStory ? d.storySaved! : d.storyNot!;
+          if (!hasStory && !next) next = { step: { id: "story", title: g.title, href: g.href, readTime: 10 }, group: g, r: 0 };
         } else {
-          const r = g.steps.filter((s) => read[s.id]).length;
-          complete = r === g.steps.length; pct = Math.round((r / g.steps.length) * 100);
-          n.textContent = complete ? "✓" : r ? String(r) : "";
-          const left = g.steps.filter((s) => !read[s.id]).reduce((m, s) => m + s.readTime, 0);
-          sub.textContent = complete ? tpl.done : `${tpl.ofRead.replace("{n}", String(r)).replace("{total}", String(g.steps.length))}${r ? " · " + tpl.minLeft.replace("{min}", String(left)) : ""}`;
-          const first = g.steps.find((s) => !read[s.id]);
-          if (first && !next) next = { step: first, group: g };
-          // Row goes straight to the next unread page in that group.
-          (row as HTMLAnchorElement).href = first && r > 0 ? first.href : g.href;
+          const r = g.steps.filter((x) => read[x.id]).length;
+          complete = r === g.steps.length; pct = (r / g.steps.length) * 100;
+          const left = g.steps.filter((x) => !read[x.id]).reduce((m, x) => m + x.readTime, 0);
+          sub.textContent = complete ? d.done! : `${d.ofRead!.replace("{n}", String(r)).replace("{total}", String(g.steps.length))}${r ? " · " + d.minLeft!.replace("{min}", String(left)) : ""}`;
+          const firstUnread = g.steps.find((x) => !read[x.id]);
+          if (firstUnread && !next) next = { step: firstUnread, group: g, r };
+          if (firstUnread && r > 0) a.href = firstUnread.href;
         }
-        ring.style.setProperty("--p", String(pct));
-        ring.classList.toggle("full", complete);
-        if (complete) groupsDone++;
+        bar.style.width = `${pct}%`;
+        a.classList.toggle("done", complete);
+        if (complete) done++;
       }
+      root.querySelector("[data-readiness]")!.textContent = d.ready!.replace("{n}", String(done)).replace("{total}", String(groups.length));
 
-      root.querySelector("[data-readiness]")!.textContent = tpl.ready.replace("{n}", String(groupsDone)).replace("{total}", String(groups.length));
-
-      // "Continue where you left off": only once Start Here is under way.
-      const block = root.querySelector<HTMLElement>("[data-continue-block]")!;
-      const started = Object.keys(read).length > 0;
-      if (next && started) {
-        const a = root.querySelector<HTMLAnchorElement>("[data-continue-row]")!;
-        a.href = next.step.href;
-        root.querySelector("[data-continue-title]")!.textContent = next.step.title;
-        root.querySelector("[data-continue-sub]")!.textContent = next.group.kind === "story" ? next.group.title : `${next.group.title} · ${next.step.readTime} min`;
-        block.hidden = false;
-      } else block.hidden = true;
-
-      // First-visit button starts at the first unread Start Here page.
-      const sh = groups[0].steps.find((s) => !read[s.id]);
-      if (sh) root.querySelector<HTMLAnchorElement>("[data-first-cta]")!.href = sh.href;
+      // Up next hero — or "You're ready" once the whole path is done.
+      const up = root.querySelector<HTMLAnchorElement>("[data-upnext]")!;
+      const cover = up.querySelector<HTMLElement>(".cv")!;
+      const over = up.querySelector<HTMLElement>("[data-up-over]")!;
+      const num = cover.querySelector<HTMLElement>(".cv-num");
+      const title = up.querySelector<HTMLElement>("[data-up-title]")!;
+      const sub = up.querySelector<HTMLElement>("[data-up-sub]")!;
+      const bar = up.querySelector<HTMLElement>("[data-up-bar]")!;
+      if (next) {
+        const g = next.group;
+        const total = g.kind === "story" ? 1 : g.steps.length;
+        up.href = next.step.href;
+        cover.className = cover.className.replace(COVER_RE, `cv-${g.cover}`);
+        over.hidden = true;
+        title.textContent = g.kind === "story" || next.r === 0 ? g.title : next.step.title;
+        sub.textContent = g.kind === "story"
+          ? d.storyNot!
+          : `${g.title} · ${d.ofRead!.replace("{n}", String(next.r)).replace("{total}", String(total))} · ${next.step.readTime} min`;
+        bar.style.width = `${(next.r / total) * 100}%`;
+      } else {
+        up.href = up.dataset.present!;
+        cover.className = cover.className.replace(COVER_RE, "cv-cover");
+        if (num) num.hidden = true;
+        over.hidden = false;
+        title.textContent = up.dataset.readyTitle!;
+        sub.textContent = "";
+        bar.style.width = "100%";
+        const h = document.querySelector<HTMLElement>("[data-hello-returning]")!;
+        h.textContent = h.dataset.ready!;
+      }
     }
     paint();
     document.addEventListener("ag:progress", paint);

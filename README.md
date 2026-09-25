@@ -88,7 +88,9 @@ The site follows The Labs Brand Style Guide via the OLOS design system. Some rul
 
 - **Never let anything look like a button unless it is one.** Filled or outlined rounded boxes (`.btn`, `.chip`, `.ctl`) are only for things you can press. Labels, statuses, counters, page lists, and example quotes are plain text or text with a rule, never boxed. On slides, "Join The Labs" is words over a red rule, because nobody can press a projected slide.
 - Clickable rows are white cards with a trailing chevron (`Row.astro`). Information panels are tinted (`.panel`) or plain text, never white boxes, so anything that looks like a card can be pressed.
-- One 14px radius, no pills. Red is only for "Join The Labs". Teal is for focus rings and accents; use teal-deep for text on light backgrounds.
+- Cover art (`Cover.astro`: brand gradient, grain, and the SVG orb from OLOS) stands in for photos. Each section keeps one cover everywhere (`COVERS` in `src/lib/content.ts`), and a cover's `name` morphs it into the page hero through cross-document View Transitions, with no JavaScript. Reduced motion turns this off.
+- Every gesture has a button and a key. The practice deck supports swipe, button, and keyboard input (→ Had it, ← Not yet, ↑ Close, Space reveals, Z undoes).
+- One 14px radius, no pills. Circles are only for controls that really are round (the deck's action buttons). Red is only for "Join The Labs". Teal is for focus rings and accents; use teal-deep for text on light backgrounds.
 - The white logo lockup goes only on dark surfaces. Never put two dark sections in a row.
 
 ## Privacy

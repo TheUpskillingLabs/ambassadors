@@ -1,7 +1,8 @@
 ---
-/* End of a page: one primary action that marks the page read and moves on
-   ("Done · Next: Invite"), plus quiet links back. Its top edge is the
-   read sentinel — reaching it also marks the page read. */
+/* End of a reading page. The one primary action lives in a sticky bottom
+   bar (like a listing page's Reserve bar): "Up next: Invite · [Done →]".
+   Tapping it marks the page read and moves on. The end-of-page links are
+   the read sentinel — reaching them also marks the page read. */
 import { u } from "../lib/url";
 import { t } from "../lib/i18n";
 import Icon from "./Icon.astro";
@@ -9,19 +10,21 @@ type L = { href: string; title: string } | null;
 interface Props { id?: string; next: L; prev?: L; up: { href: string; title: string } }
 const { id, next, prev, up } = Astro.props;
 const target = next ?? up;
-const doneText = next ? t("page.doneNext", { title: next.title }) : t("page.doneBack", { title: up.title });
-const readText = next ? t("page.nextTo", { title: next.title }) : t("page.backToTitle", { title: up.title });
+const info = next ? t("page.upNextTitle", { title: next.title }) : t("page.lastPage", { title: up.title });
+const doneText = next ? t("page.doneShort") : t("page.finish");
+const readText = next ? t("page.nextShort") : t("page.backShort");
 ---
-<nav class="nextbar" aria-label={t("page.pageNav")} data-read-sentinel>
+<nav class="nb-end" aria-label={t("page.pageNav")} data-read-sentinel>
+  {prev ? <a class="see" href={u(prev.href)} rel="prev">← {prev.title}</a> : <span></span>}
+  <a class="see" href={u(up.href)}>{t("page.backToTitle", { title: up.title })}</a>
+</nav>
+<div class="actionbar2">
+  <span class="ab-info"><span class="ab-kicker">{next ? t("page.upNext") : up.title}</span><span class="ab-title">{next ? next.title : info}</span></span>
   {id ? (
-    <button class="btn btn-teal btn-block" type="button" data-done={id} data-next-href={u(target.href)} data-done-text={doneText} data-read-text={readText}>
-      <span data-done-label>{doneText}</span><Icon name="arrow-right" size={20} />
+    <button class="btn btn-teal" type="button" data-done={id} data-next-href={u(target.href)} data-done-text={doneText} data-read-text={readText}>
+      <span data-done-label>{doneText}</span><Icon name="arrow-right" size={18} />
     </button>
   ) : (
-    <a class="btn btn-teal btn-block" href={u(target.href)}><span>{readText}</span><Icon name="arrow-right" size={20} /></a>
+    <a class="btn btn-teal" href={u(target.href)}><span>{readText}</span><Icon name="arrow-right" size={18} /></a>
   )}
-  <div class="nb-links">
-    {prev ? <a class="see" href={u(prev.href)} rel="prev">← {t("page.prevTo", { title: prev.title })}</a> : <span></span>}
-    {next && <a class="see" href={u(up.href)}>{t("page.backToTitle", { title: up.title })}</a>}
-  </div>
-</nav>
+</div>

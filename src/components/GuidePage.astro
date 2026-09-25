@@ -8,7 +8,7 @@ import ProgressMeter from "./ProgressMeter.astro";
 import Includes from "./Includes.astro";
 import NextBar from "./NextBar.astro";
 import { t } from "../lib/i18n";
-import { sectionHref, sectionProgressId } from "../lib/content";
+import { sectionHref, sectionProgressId, COVERS } from "../lib/content";
 
 interface Props {
   entry: CollectionEntry<"pages">;
@@ -33,6 +33,7 @@ const ti = tracked.findIndex((s) => s.id === entry.id);
     title={d.title}
     readTime={d.readTime}
     placeholder={d.placeholder}
+    cover={COVERS[d.section] ? { variant: COVERS[d.section], name: d.section } : undefined}
   >
     {d.tracked && tracked.length > 1 && <ProgressMeter ids={tracked.map(sectionProgressId)} current={ti} />}
   </PageHeader>
