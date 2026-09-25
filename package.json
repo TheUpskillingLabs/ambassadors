@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run lint:copy && astro build",
+    "build": "npm run lint:copy && astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "lint:copy": "node scripts/lint-copy.mjs",
