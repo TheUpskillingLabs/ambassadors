@@ -13,7 +13,7 @@ const RULES = [
   [/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u, "no emoji"],
 ];
 // Files (or JSON keys) that quote banned words in order to forbid them.
-const ALLOW_FILES = new Set(["content/pages/know-the-labs/common-questions.md", "content/site/ui.en.json"]);
+const ALLOW_FILES = new Set(["content/steps/labs.md", "content/site/ui.en.json"]);
 const ALLOW_KEYS = new Set(["dont", "$comment"]);
 
 async function walk(dir) {
@@ -39,7 +39,7 @@ for (const file of [...(await walk("content")), "data/schedule.json"]) {
   const text = await readFile(file, "utf8");
   const chunks = file.endsWith(".json")
     ? strings(JSON.parse(text), "", [])
-    : text.split("\n").map((l, i) => [`line ${i + 1}`, l]);
+    : text.split("\n").map((l, i) => [`line ${i + 1}`, l.replace(/<!--.*?-->/g, "")]); // block markers aren't copy
   for (const [where, s] of chunks) {
     for (const [re, why] of RULES) {
       if (re.test(s)) { problems++; console.log(`${file} (${where}): ${why}\n    ${s.trim().slice(0, 140)}`); }

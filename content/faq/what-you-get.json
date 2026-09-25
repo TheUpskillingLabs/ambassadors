@@ -2,9 +2,5 @@
   "order": 4,
   "question": "What do I walk away with?",
   "answer": "Something real you helped build, proof of it you can show, and people who've seen what you can do.",
-  "audiences": [
-    "participant",
-    "workshop"
-  ],
   "placeholder": true
 }

@@ -1,6 +1,6 @@
 # Ambassador Guide
 
-A mobile-first learning site that gets Upskilling Labs ambassadors ready to represent The Labs: Start Here, Know the Labs, two playbooks (The Conversation and The Room), Your Story, Refreshers, Help & Updates, and a boilerplate deck you can present from `/present`.
+A mobile-first site that gets Upskilling Labs ambassadors ready to represent The Labs. It's one path of five steps, one page each: **The Labs → The Conversation → Your Story → The Room → Practice**. Finishing the path earns the ambassador pin. There's also a boilerplate deck you can present from `/present`.
 
 It uses the same design system as OLOS: the brand tokens, type scale, buttons, cards, and ink chrome are ported from `OLOS/app/globals.css`.
 
@@ -28,13 +28,10 @@ npm run check      # type-check
 
 | What | Where |
 | --- | --- |
-| Playbook pages (one Markdown file each, following the page template) | `content/playbooks/{conversation,room}/*.md` |
-| Start Here, Know the Labs, and the other guide pages | `content/pages/<section>/*.md` |
-| Practice scenarios (the prospect game will read these too) | `content/scenarios/*.json` |
-| Audience profiles (Who we recruit) | `content/audiences/*.json` |
-| FAQ, glossary, what's-new log | `content/faq/`, `content/glossary/`, `content/updates/` |
-| Refresher cheat sheets | `content/refreshers/*.json` |
-| Deck copy, ladder, Your Story prompts, coordinator contact, section list | `content/site/*.json` |
+| **The five steps** (one Markdown file each, in `order`) | `content/steps/*.md` |
+| Practice situations (the prospect game will read these too) | `content/scenarios/*.json` |
+| Questions you'll get (shown on The Labs) | `content/faq/*.json` |
+| Deck copy, ladder, Your Story questions, coordinator contact | `content/site/*.json` |
 | Every UI string a component renders | `content/site/ui.en.json` |
 | **Upcoming sessions (the only moving data)** | `data/schedule.json` |
 | The ambassador pin: production art, spec, and Blender notes | `design/pin/` |
@@ -43,13 +40,13 @@ Components don't hard-code copy. To add a translation later, add `content/site/u
 
 ## Common edits (no developer needed)
 
-You can make all of these in GitHub's web editor. Open the file, click the pencil icon, and commit. Vercel redeploys within a minute or two.
+You can make all of these in GitHub's web editor. Open the file, click the pencil icon, and commit. The site redeploys within a couple of minutes.
 
-- **Next session:** add an entry to `data/schedule.json`. The deck (slides 5 and 6), Home, and the refreshers pick up the next future session automatically, and past sessions drop off without anyone touching them. If there's no future session, slide 5 says "Next dates coming soon" and the QR still points to theupskillinglabs.org.
-- **What's new:** add a file to `content/updates/`, for example `2026-10-01-new-scenarios.json` containing `{ "date": "2026-10-01", "change": "…", "link": "/practice/" }`. Home shows a dot until the ambassador opens Help.
-- **A practice scenario:** copy any file in `content/scenarios/` and give it a new `id` and filename.
+- **A step's copy:** edit its file in `content/steps/`. It's plain Markdown. To place a built-in block, put one of these on its own line: `<!-- ladder -->`, `<!-- faq -->`, `<!-- story -->` (the reader's saved 30-second why), `<!-- asks -->` (Who will you ask?), or `<!-- present -->` (the deck buttons). A misspelled name fails the build and names the file.
+- **Next session:** add an entry to `data/schedule.json`. The deck (slides 5 and 6) and the invite text pick up the next future session automatically, and past sessions drop off on their own.
+- **A practice situation:** copy any file in `content/scenarios/` and give it a new `id` and filename. `"core": true` puts it in the first round, which should stay at 6.
 
-Every build validates the files against the schemas. If a required field is missing, or a playbook page has more than 3 examples, the build fails with a message naming the file. `npm run lint:copy` also runs on every build. It flags the brand's banned words (course, class, student, lesson, module), "TUL", exclamation points, emoji, "civic problems", and "Sign up / Get started".
+Every build validates the files against the schemas in `src/content.config.ts`. `npm run lint:copy` also runs on every build. It flags the brand's banned words (course, class, student, lesson, module), "TUL", exclamation points, emoji, "civic problems", and "Sign up / Get started".
 
 ## Replacing placeholder copy
 
@@ -62,7 +59,6 @@ grep -rl "placeholder: true\|\"placeholder\": true" content/
 These also need real values:
 
 - `content/site/help.json`: the coordinator's name and email (currently `coordinator@example.org`).
-- `content/site/deck.json`: `templateUrl` and `assetsUrl`, which should be the Canva template and asset library links.
 - `data/schedule.json`: real dates and places.
 - `content/site/story.json`: example stories from real people, with their permission and credit.
 
@@ -70,62 +66,48 @@ These also need real values:
 
 | Route | What |
 | --- | --- |
-| `/welcome/` | The 1-minute plan: outreach mode, next event, and an if-then plan for your first conversation. Optional. |
-| `/` | Home. First visit leads with Start Here; once Start Here is complete it leads with Refreshers, Present now, and what's new. |
-| `/start-here/`, `/know-the-labs/` | Section overview with "n of N read", plus one page per topic |
-| `/playbooks/conversation/…`, `/playbooks/room/…` | Playbook pages (Overview, then each step, then Practice) |
-| `/practice/` | All scenarios. `?mode=room`, `?audience=workshop` preselect a filter. |
-| `/your-story/` | Worksheet that builds a 30-second why, with word count and speaking time. Saved on the device. |
-| `/refreshers/{conversation,room}/` | One-page cheat sheets (printable) |
-| `/deck/`, `/deck/customize/` | Present now; how to tailor the Canva template |
+| `/` | Home: one button (Start, Continue, or, once all five are done, "Text your coordinator for your pin") and the five steps. |
+| `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/` | The five steps. Each ends with **Done**, which checks it off and opens the next. |
 | `/present/` | Full-screen deck. Arrows, click, and swipe move between slides; F toggles full screen. |
 | `/present/?short` | 60-second version (slides 1, 5, 6) |
 | `/present/?notes` | Laptop notes view: current slide, next slide, cues, and a timer. It drives any presentation window open on the same device. |
 | `/present/?practice` | Talk cues shown under each slide |
-| `/help/` | Coordinator contact, what's new, and Reset progress |
 
 ## Design rules
 
 The site follows The Labs Brand Style Guide via the OLOS design system. Some rules are easy to break by accident:
 
 - **Never let anything look like a button unless it is one.** Filled or outlined rounded boxes (`.btn`, `.chip`, `.ctl`) are only for things you can press. Labels, statuses, counters, page lists, and example quotes are plain text or text with a rule, never boxed. On slides, "Join The Labs" is words over a red rule, because nobody can press a projected slide.
+- **One path, one button.** Every step is one page with one primary action (Done). Anything that adds a second path, a second menu, or a choice the ambassador has to make before they can start should earn its place with evidence.
 - Clickable rows are white cards with a trailing chevron (`Row.astro`). Information panels are tinted (`.panel`) or plain text, never white boxes, so anything that looks like a card can be pressed.
-- Cover art (`Cover.astro`: brand gradient, grain, and the SVG orb from OLOS) stands in for photos. Each section keeps one cover everywhere (`COVERS` in `src/lib/content.ts`), and a cover's `name` morphs it into the page hero through cross-document View Transitions, with no JavaScript. Reduced motion turns this off.
-- Every gesture has a button and a key. The practice deck supports swipe, button, and keyboard input (→ Had it, ← Not yet, ↑ Close, Space reveals, Z undoes).
+- Every gesture has a button and a key. The practice deck supports swipe, buttons, and keys (Space flips, → Had it, ← Not yet).
 - Keep copy as short as it can be. One idea per line, no helper text where a title is enough.
 - One 14px radius, no pills. Circles are only for controls that really are round (the deck's action buttons). Red is only for "Join The Labs". Teal is for focus rings and accents; use teal-deep for text on light backgrounds.
-- The white logo lockup goes only on dark surfaces. Never put two dark sections in a row.
+- The white logo lockup goes only on dark surfaces.
 
 ## Deliberate deviations from the v1 spec
 
-Evidence-based cuts, so the owner can review them (details in the "Ambassador guide ruthless cuts" research report):
+The spec's seven sections became one five-step path so an ambassador never has to choose where to go. Evidence for the cuts is in the "Ambassador guide ruthless cuts" research report.
 
-- **Page counts:**
-  - Start Here is 1 page, down from 3.
-  - Know the Labs is 2: What we are, and Questions and words.
-  - The Conversation is 5: Ask, Share, Invite, Adapting, Practice.
-  - The Room is 4: The talk, Sample talk (which now includes the 60-second version), Q&A, Practice.
-  - Audience profiles moved into Adapting.
-  - The slides guidance moved to Deck → Customize.
-- **FAQ and glossary:** FAQ cut to 5 questions, glossary to 5 terms.
-- **Playbook template:** "Why it works" is one line inside "In 30 seconds". The collapsed "More detail" section is gone. Practice pages open straight into the card deck.
-- **Onboarding:** optional, never forced. It asks 3 questions: outreach mode, next event, and an if-then plan for the first conversation.
-- **Removed:** the ambassador card, the what's-new dot, the practice filters, and the Your Story print button (the story prints on the refresher).
-- **Added:**
-  - **Who will you ask?** Three names, each sent a dated invite from the ambassador's own phone that ends "say [name] sent you".
-  - **The if-then plan.**
-  - **Text my coordinator.**
-  - **The pin.** Home shows the ambassador pin as the goal. Once all five parts of the path are done, "Stuck? Text your coordinator" becomes "Text your coordinator for your pin". The coordinator confirms completion, because the site can't see anyone's progress.
-
-  Nothing is sent by the site.
+- **Structure:** Start Here and Know the Labs merged into **The Labs**. Each playbook is one page: The Conversation (Ask, Share, Invite) and The Room (the talk, the 60-second version, Q&A). Practice is its own step. There are no per-page templates, section landings, or progress meters; Home is the only progress view.
+- **Removed:**
+  - the tab bar and desktop nav (the app bar has the logo and **Present**);
+  - the onboarding flow, the event countdown, and the if-then plan;
+  - Refreshers (each step's opening line is the refresher);
+  - the Deck page and the Canva customization guide (present the boilerplate deck as is);
+  - Help & Updates (the coordinator link is on Home; **Start over** is in the footer);
+  - audience profiles (one line each in Invite), the glossary, story examples, and the story rehearsal timer;
+  - practice filters, the Close rating, and Undo.
+- **Kept, because the evidence is strongest:** the dated personal ask (**Who will you ask?**), your own 30-second story, and retrieval practice with a think-first pause.
+- **Added:** the pin as the finish line. When all five steps are done, Home's button becomes "Text your coordinator for your pin". The coordinator confirms, because the site can't see anyone's progress. Nothing is sent by the site.
 
 ## Privacy
 
-The site never collects personal information. Read progress (`ag.progress.v1`), the story draft (`ag.story.v1`), and the last-seen update (`ag.updatesSeen.v1`), practice self-checks (`ag.practice.v1`), plan answers (`ag.profile.v1`), and the ask list (`ag.asks.v1`) live only in the browser's `localStorage`. There are no cookies, and analytics aren't enabled.
+The site never collects personal information. Steps done (`ag.progress.v1`), the story (`ag.story.v1`), practice self-checks (`ag.practice.v1`), your first name (`ag.profile.v1`), and the ask list (`ag.asks.v1`) live only in the browser's `localStorage`. **Start over** in the footer clears them. There are no cookies, and analytics aren't enabled.
 
 ## Assets
 
-`npm run assets` regenerates web-sized brand assets from a sibling OLOS checkout (`../OLOS`): the white logo lockup, partner marks, the grayscale community photo, and the app icons. The white lockup only appears on dark surfaces: the nav, the footer, and the dark slides.
+`npm run assets` regenerates web-sized brand assets from a sibling OLOS checkout (`../OLOS`): the white logo lockup, partner marks, the grayscale community photo, and the app icons. The white lockup only appears on dark surfaces: the app bar and the dark slides.
 
 ## Licenses
 

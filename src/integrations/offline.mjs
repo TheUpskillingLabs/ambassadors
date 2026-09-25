@@ -1,5 +1,5 @@
 // Writes dist/sw.js after the build with a precache list of every emitted
-// page and asset, so the guide, refreshers and the deck work offline after
+// page and asset, so the guide and the deck work offline after
 // the first visit. The cache name carries a hash of the file list + build
 // time, so each deploy replaces the previous cache cleanly.
 import { readdir, readFile, writeFile, stat } from "node:fs/promises";

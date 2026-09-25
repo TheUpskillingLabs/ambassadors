@@ -1,6 +1,5 @@
 ---
 import ladder from "../../content/site/ladder.json";
-import Placeholder from "./Placeholder.astro";
 ---
 <ol class="ladder">
   {ladder.rungs.map((r, i) => (
@@ -11,4 +10,3 @@ import Placeholder from "./Placeholder.astro";
     </li>
   ))}
 </ol>
-<Placeholder show={ladder.placeholder} />

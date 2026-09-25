@@ -1,8 +1,0 @@
-{
-  "term": "Demo Day",
-  "kind": "brand",
-  "definition": "The public event at the end of a Build Cycle where Project Teams show what they built.",
-  "do": "\"At the end, you show your work at Demo Day.\"",
-  "dont": "Don't call it a graduation or a final exam.",
-  "placeholder": true
-}

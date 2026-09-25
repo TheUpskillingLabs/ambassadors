@@ -55,29 +55,20 @@
   :root { --pad: 40px; }
 }
 
-/* ── type scale ── */
-.t-display { font-weight: 700; font-size: 44px; line-height: 48px; letter-spacing: -0.03em; }
 .t-h1 { font-weight: 700; font-size: 32px; line-height: 36px; letter-spacing: -0.026em; }
 .t-h2 { font-weight: 700; font-size: 26px; line-height: 32px; letter-spacing: -0.02em; }
 .t-h3 { font-weight: 600; font-size: 20px; line-height: 28px; letter-spacing: -0.016em; }
-.t-h4 { font-weight: 600; font-size: 17px; line-height: 24px; letter-spacing: -0.01em; }
 .t-lede { font-weight: 400; font-size: 18px; line-height: 28px; letter-spacing: -0.01em; color: var(--slate); }
 .t-body { font-weight: 400; font-size: 16px; line-height: 24px; color: var(--charcoal); }
 .t-small { font-weight: 400; font-size: 13px; line-height: 20px; color: var(--meta); }
 .lbl { font-weight: 500; font-size: 12px; line-height: 16px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--meta); }
-.lbl-teal { color: var(--teal-deep); }
-.idx { font-weight: 700; font-size: 18px; line-height: 24px; letter-spacing: -0.01em; color: var(--teal-deep); }
-.t-stat { font-weight: 700; font-size: 64px; line-height: 64px; letter-spacing: -0.04em; color: var(--teal-deep); }
-.on-dark, .on-dark .t-display, .on-dark .t-h1, .on-dark .t-h2, .on-dark .t-h3 { color: var(--od1); }
+.on-dark, .on-dark .t-h1, .on-dark .t-h2, .on-dark .t-h3 { color: var(--od1); }
 .on-dark .t-lede, .on-dark .t-body { color: var(--od2); }
 .on-dark .t-small, .on-dark .lbl { color: var(--od2); }
-.on-dark .lbl-teal, .on-dark .idx, .on-dark .t-stat { color: var(--teal); }
 
 @media (min-width: 1024px) {
-  .t-display { font-size: 76px; line-height: 80px; letter-spacing: -0.04em; }
   .t-h1 { font-size: 48px; line-height: 52px; letter-spacing: -0.034em; }
   .t-h2 { font-size: 34px; line-height: 40px; }
   .t-h3 { font-size: 24px; line-height: 32px; }
   .t-lede { font-size: 20px; line-height: 32px; }
-  .t-stat { font-size: 88px; line-height: 88px; }
 }

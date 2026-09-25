@@ -2,9 +2,5 @@
   "order": 3,
   "question": "Do I need to be technical?",
   "answer": "No. Most people aren't when they start. You learn what you need by building with a team.",
-  "audiences": [
-    "participant",
-    "workshop"
-  ],
   "placeholder": true
 }

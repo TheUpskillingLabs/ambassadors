@@ -1,0 +1,7 @@
+---
+import { getCollection } from "astro:content";
+const faq = (await getCollection("faq")).sort((a, b) => a.data.order - b.data.order);
+---
+<dl class="faq">
+  {faq.map((f) => <div class="faq-item"><dt>{f.data.question}</dt><dd>{f.data.answer}</dd></div>)}
+</dl>

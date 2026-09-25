@@ -47,9 +47,6 @@ img { max-width: 100%; height: auto; }
 .grain > * { position: relative; }
 
 /* ── surfaces ── */
-.s-cover { color: var(--od1); background: var(--cover); }
-.s-ink { color: var(--od1); background: var(--ink); }
-.s-navy { color: var(--od1); background: var(--navy); }
 
 /* ── buttons ──
    Rule: only things you can press may look like this (filled or outlined
@@ -63,18 +60,16 @@ img { max-width: 100%; height: auto; }
 }
 .btn:active { transform: scale(0.98); }
 .btn-block { width: 100%; }
-.btn-red { background: var(--red); color: #fff; }
 .btn-teal { background: var(--teal-deep); color: #fff; }
 .btn-ink { background: var(--ink); color: #fff; }
 .btn-white { background: #fff; color: var(--ink); }
 .btn-ghost { background: transparent; color: var(--ink); border: 1px solid var(--rule-ink); }
-.btn-ghost-teal { background: transparent; color: var(--teal-deep); border: 1px solid rgba(0, 148, 160, 0.45); }
 .btn-sm { font-size: 13px; padding: 10px 16px; min-height: 44px; }
 .btn:disabled { opacity: 0.34; cursor: not-allowed; }
 .on-dark .btn-ghost { color: var(--od1); border-color: rgba(255, 255, 255, 0.42); }
 @media (hover: hover) {
   .btn:hover { opacity: 0.9; }
-  .btn-red:hover, .btn-teal:hover, .btn-ink:hover { box-shadow: var(--shadow); opacity: 1; }
+   .btn-teal:hover, .btn-ink:hover { box-shadow: var(--shadow); opacity: 1; }
 }
 .see { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 14px; font-weight: 600; color: var(--teal-deep); }
 .on-dark .see { color: var(--od1); }

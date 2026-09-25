@@ -1,11 +1,10 @@
-/* All personal state stays on this device (spec: nothing personal is sent
-   to a server in v1). Every access is wrapped: storage can be unavailable
-   (private mode, blocked site data) and the site must still work. */
+/* All personal state stays on this device (nothing personal is sent to a
+   server). Every access is wrapped: storage can be unavailable (private
+   mode, blocked site data) and the site must still work. */
 
 const KEYS = {
   progress: "ag.progress.v1",
   story: "ag.story.v1",
-  updatesSeen: "ag.updatesSeen.v1",
   practice: "ag.practice.v1",
   profile: "ag.profile.v1",
   asks: "ag.asks.v1",
@@ -28,38 +27,14 @@ function write(key: string, value: unknown): void {
   }
 }
 
-function remove(key: string): void {
-  try {
-    localStorage.removeItem(key);
-  } catch {
-    /* ignore */
-  }
-}
-
-export type Progress = Record<string, number>; // pageId -> read timestamp
-
+/** Which steps are done: step id -> timestamp. */
 export const progress = {
-  all(): Progress {
-    return read<Progress>(KEYS.progress, {});
+  all(): Record<string, number> {
+    return read<Record<string, number>>(KEYS.progress, {});
   },
-  isRead(id: string): boolean {
-    return Boolean(this.all()[id]);
-  },
-  markRead(id: string): boolean {
+  markRead(id: string): void {
     const p = this.all();
-    if (p[id]) return false;
-    p[id] = Date.now();
-    write(KEYS.progress, p);
-    document.dispatchEvent(new CustomEvent("ag:progress", { detail: { id } }));
-    return true;
-  },
-  count(ids: string[]): number {
-    const p = this.all();
-    return ids.filter((id) => p[id]).length;
-  },
-  reset(): void {
-    remove(KEYS.progress);
-    document.dispatchEvent(new CustomEvent("ag:progress", { detail: { id: null } }));
+    if (!p[id]) write(KEYS.progress, { ...p, [id]: Date.now() });
   },
 };
 
@@ -72,67 +47,34 @@ export const story = {
   save(s: Story): void {
     write(KEYS.story, { ...s, savedAt: Date.now() });
   },
-  clear(): void {
-    remove(KEYS.story);
-  },
 };
 
-export const updatesSeen = {
-  /** ISO date of the newest update the reader has seen, or "" if never. */
-  get(): string {
-    return read<string>(KEYS.updatesSeen, "");
-  },
-  set(isoDate: string): void {
-    write(KEYS.updatesSeen, isoDate);
-  },
-};
-
-export type SelfCheck = "had" | "close" | "not";
-
-/** Private self-checks on practice cards. Never shown as a score; only used
- *  to bring "Not yet" and "Close" cards back first. */
+/** Private self-checks on practice cards. Never shown as a score; "not"
+ *  cards come back first next time. */
+export type SelfCheck = "had" | "not";
 export const practice = {
   all(): Record<string, SelfCheck> {
     return read<Record<string, SelfCheck>>(KEYS.practice, {});
   },
   set(id: string, v: SelfCheck): void {
-    const all = this.all();
-    all[id] = v;
-    write(KEYS.practice, all);
+    write(KEYS.practice, { ...this.all(), [id]: v });
   },
 };
 
-export type Profile = {
-  name?: string;
-  type?: "participant" | "mentor" | "partner" | "volunteer";
-  mode?: "conversation" | "room" | "both";
-  eventDate?: string; // YYYY-MM-DD, local
-  onboarded?: number; // timestamp; set on finish or skip
-  readySince?: number; // first time the whole path was complete
-  me?: string; // own first name, for "say {me} sent you"
-  planWhere?: string; // if-then plan: "When I'm at {planWhere}…"
-  planWho?: string; // "…I'll ask {planWho}."
-};
-
-/** The ambassador's own answers from onboarding. Device-only. */
+/** The ambassador's own first name, for "say {me} sent you". */
 export const profile = {
-  get(): Profile {
-    return read<Profile>(KEYS.profile, {});
+  get(): { me?: string } {
+    return read<{ me?: string }>(KEYS.profile, {});
   },
-  set(p: Partial<Profile>): Profile {
-    const next = { ...this.get(), ...p };
-    write(KEYS.profile, next);
-    return next;
-  },
-  clear(): void {
-    remove(KEYS.profile);
+  set(p: { me?: string }): void {
+    write(KEYS.profile, { ...this.get(), ...p });
   },
 };
 
 export type Ask = { name: string; sent?: number };
 
-/** The ambassador's own "who will you ask" list. Device-only; invites are
- *  sent from the ambassador's own phone, never by this site. */
+/** "Who will you ask?" Invites go from the ambassador's own phone, never
+ *  from this site. */
 export const asks = {
   get(): Ask[] {
     return read<Ask[]>(KEYS.asks, []);
@@ -142,13 +84,14 @@ export const asks = {
   },
 };
 
-/** Whole days from today to a local YYYY-MM-DD date (0 = today). */
-export function daysUntil(date: string): number {
-  const [y, m, d] = date.split("-").map(Number);
-  const target = new Date(y, m - 1, d).getTime();
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  return Math.round((target - today) / 86400000);
+/** "Start over": forget everything this site saved on this device. */
+export function resetAll(): void {
+  try {
+    Object.values(KEYS).forEach((k) => localStorage.removeItem(k));
+    ["ag.updatesSeen.v1"].forEach((k) => localStorage.removeItem(k)); // retired key
+  } catch {
+    /* ignore */
+  }
 }
 
 /** Spoken-length estimate: ~150 words per minute (65–85 words ≈ 30 s). */
