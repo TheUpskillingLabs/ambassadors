@@ -16,8 +16,6 @@ import ob from "../../content/site/onboarding.json";
 import Orb from "../components/Orb.astro";
 const path = await readinessPath();
 const refreshers = (await getCollection("refreshers")).sort((a) => (a.data.playbook === "conversation" ? -1 : 1));
-const updates = (await getCollection("updates")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-const latest = updates[0];
 const scenarioCount = (await getCollection("scenarios")).length;
 const pathData = path.map((g, i) => ({ id: g.id, num: String(i + 1).padStart(2, "0"), cover: g.cover, title: g.title, href: g.href, kind: g.kind, steps: g.steps.map((s) => ({ id: s.id, title: s.title, href: s.href, readTime: s.readTime })) }));
 const first = path[0];
@@ -203,7 +201,7 @@ const first = path[0];
         title.textContent = g.kind === "story" || next.r === 0 ? g.title : next.step.title;
         sub.textContent = g.kind === "story"
           ? d.storyNot!
-          : `${g.kind === "story" || next.r === 0 ? "" : g.title + " · "}${d.ofRead!.replace("{n}", String(next.r)).replace("{total}", String(total))} · ${next.step.readTime} min`;
+          : `${next.r === 0 ? "" : g.title + " · "}${d.ofRead!.replace("{n}", String(next.r)).replace("{total}", String(total))} · ${next.step.readTime} min`;
         bar.style.width = `${(next.r / total) * 100}%`;
       } else {
         up.href = up.dataset.present!;
