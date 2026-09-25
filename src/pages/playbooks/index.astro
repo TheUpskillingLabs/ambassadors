@@ -1,4 +1,5 @@
 ---
+import { u } from "../../lib/url";
 import Base from "../../layouts/Base.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import ProgressMeter from "../../components/ProgressMeter.astro";
@@ -11,7 +12,7 @@ const books = await Promise.all((["conversation", "room"] as const).map(async (i
 }));
 ---
 <Base title={sections.playbooks.title} description={sections.playbooks.lede} nav="playbooks">
-  <PageHeader back={{ href: "/", label: t("nav.home") }} title={sections.playbooks.title} lede={sections.playbooks.lede} />
+  <PageHeader back={{ href: u("/"), label: t("nav.home") }} title={sections.playbooks.title} lede={sections.playbooks.lede} />
   <div class="wrap page-body">
     <div class="book-grid">
       {books.map((b) => (
@@ -28,6 +29,6 @@ const books = await Promise.all((["conversation", "room"] as const).map(async (i
         </a>
       ))}
     </div>
-    <a class="see" href="/practice/">{t("practice.allLink")} →</a>
+    <a class="see" href={u("/practice/")}>{t("practice.allLink")} →</a>
   </div>
 </Base>

@@ -1,4 +1,5 @@
 ---
+import { u } from "../lib/url";
 import { t } from "../lib/i18n";
 import Placeholder from "./Placeholder.astro";
 interface Props {
@@ -14,7 +15,7 @@ const { back, eyebrow, title, readTime, lede, placeholder = false } = Astro.prop
 <header class="page-head">
   <div class="wrap">
     {back && (
-      <a class="back" href={back.href}><span aria-hidden="true">←</span> {back.label}</a>
+      <a class="back" href={u(back.href)}><span aria-hidden="true">←</span> {back.label}</a>
     )}
     {(eyebrow || readTime || placeholder) && (
       <div class="head-meta">

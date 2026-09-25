@@ -1,4 +1,5 @@
 ---
+import { u } from "../lib/url";
 import Icon from "./Icon.astro";
 import { t } from "../lib/i18n";
 type Link = { href: string; title: string } | null;
@@ -8,17 +9,17 @@ const { prev, next, overview } = Astro.props;
 <nav class="pager" aria-label="Pages">
   <div class="pager-row">
     {prev ? (
-      <a class="pager-link" href={prev.href} rel="prev">
+      <a class="pager-link" href={u(prev.href)} rel="prev">
         <span class="lbl"><Icon name="arrow-left" size={16} /> {t("page.previous")}</span>
         <span class="pager-title">{prev.title}</span>
       </a>
     ) : <span></span>}
     {next ? (
-      <a class="pager-link pager-next" href={next.href} rel="next">
+      <a class="pager-link pager-next" href={u(next.href)} rel="next">
         <span class="lbl">{t("page.next")} <Icon name="arrow-right" size={16} /></span>
         <span class="pager-title">{next.title}</span>
       </a>
     ) : <span></span>}
   </div>
-  {overview && <a class="see" href={overview.href}>{overview.label}</a>}
+  {overview && <a class="see" href={u(overview.href)}>{overview.label}</a>}
 </nav>
