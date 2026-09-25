@@ -2,9 +2,5 @@
   "order": 2,
   "question": "How much time does a Build Cycle take?",
   "answer": "About three months: six in-person events, a five-minute check-in each week, and the rest on your own time with your team.",
-  "audiences": [
-    "participant",
-    "workshop"
-  ],
   "placeholder": true
 }

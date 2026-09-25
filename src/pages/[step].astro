@@ -1,0 +1,29 @@
+---
+/* A Markdown step (The Labs, The Conversation, The Room). The body is
+   rendered as written; <!-- name --> comments on their own line drop in a
+   built-in block. An unknown name fails the build. */
+import StepPage from "../components/StepPage.astro";
+import Ladder from "../components/Ladder.astro";
+import Faq from "../components/Faq.astro";
+import StoryCard from "../components/StoryCard.astro";
+import AskList from "../components/AskList.astro";
+import PresentLinks from "../components/PresentLinks.astro";
+import { steps } from "../lib/content";
+
+export async function getStaticPaths() {
+  return (await steps()).filter((s) => s.data.kind === "page").map((entry) => ({ params: { step: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const BLOCKS = { ladder: Ladder, faq: Faq, story: StoryCard, asks: AskList, present: PresentLinks } as const;
+const parts = (entry.rendered?.html ?? "").split(/<!--\s*([a-z]+)\s*-->/);
+for (let k = 1; k < parts.length; k += 2) {
+  if (!(parts[k] in BLOCKS)) throw new Error(`content/steps/${entry.id}.md: unknown block <!-- ${parts[k]} -->. Use one of: ${Object.keys(BLOCKS).join(", ")}.`);
+}
+---
+<StepPage entry={entry}>
+  {parts.map((p, k) => {
+    if (k % 2 === 0) return p.trim() && <div class="prose" set:html={p} />;
+    const Block = BLOCKS[p as keyof typeof BLOCKS];
+    return <Block />;
+  })}
+</StepPage>

@@ -1,43 +1,29 @@
 ---
-/* Practice — a swipeable card deck (read, think, flip, rate). No scoring.
-   Front: the situation. Reveal unlocks after a short think-first pause
-   (thinking of an answer before seeing one is what makes practice stick).
-   Back: an example reply and why it works. Then rate it privately:
-   swipe right / → "Had it", left / ← "Not yet", up / ↑ "Close".
-   Ratings stay in localStorage and only bring hard cards back first.
+/* Practice — a card deck: read the situation, think, flip, rate.
+   The first round is the core situations; "More situations" deals the rest.
+   Reveal unlocks after a short think-first pause (thinking of an answer
+   before seeing one is what makes practice stick). Rate privately: swipe
+   right / → "Had it", left / ← "Not yet". "Not yet" cards come back first.
    Every gesture has a button and a key. Reads content/scenarios — the same
    files the prospect game will read. */
 import { getCollection } from "astro:content";
 import { t } from "../lib/i18n";
-import { COVERS } from "../lib/content";
 import Icon from "./Icon.astro";
-import Cover from "./Cover.astro";
 import Placeholder from "./Placeholder.astro";
-interface Props { mode?: "conversation" | "room" | "all"; audience?: string }
-const { mode = "all", audience = "all" } = Astro.props;
-const scenarios = (await getCollection("scenarios")).map((s) => s.data);
-const firstId = scenarios.find((s) => (mode === "all" || s.mode === mode) && (audience === "all" || s.audience === audience))?.id;
-const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice.notYet") };
+const scenarios = (await getCollection("scenarios")).map((s) => s.data).sort((a, b) => Number(b.core) - Number(a.core));
 ---
-<section class="sd" data-sd data-mode={mode} data-audience={audience} data-labels={JSON.stringify(L)}
-  data-count-tpl={t("practice.position")} data-reveal={t("practice.reveal")} data-flip-back={t("practice.flipBack")}>
-  <div class="sd-top">
-    <div class="sd-progress" data-dots aria-hidden="true"></div>
-    <span class="sd-count" data-count></span>
-  </div>
+<section class="sd" data-sd data-count-tpl={t("practice.position")} data-reveal={t("practice.reveal")} data-flip-back={t("practice.flipBack")}>
+  <p class="sd-count" data-count></p>
 
   <div class="sd-stage" data-stage>
-    {scenarios.map((s) => (
-      <article class="sd-card" data-id={s.id} data-core={String(s.core)} data-mode={s.mode} data-audience={s.audience} hidden={s.id !== firstId} aria-roledescription={t("practice.card")}>
-        <span class="sd-stamp had" aria-hidden="true">{L.had}</span>
-        <span class="sd-stamp not" aria-hidden="true">{L.not}</span>
-        <span class="sd-stamp close" aria-hidden="true">{L.close}</span>
+    {scenarios.map((s, i) => (
+      <article class="sd-card" data-id={s.id} data-core={String(s.core)} hidden={i !== 0} aria-roledescription={t("practice.card")}>
+        <span class="sd-stamp had" aria-hidden="true">{t("practice.had")}</span>
+        <span class="sd-stamp not" aria-hidden="true">{t("practice.notYet")}</span>
         <div class="sd-flip">
           <div class="sd-face sd-front">
-            <Cover variant={COVERS[s.mode]}>
-              <span class="cv-over"><span class="kicker on-dark">{t(`practice.modes.${s.mode}`)} · {t(`practice.audiences.${s.audience}`)}</span></span>
-            </Cover>
             <div class="sd-body">
+              <p class="kicker">{t(`practice.modes.${s.mode}`)} · {t(`practice.audiences.${s.audience}`)}</p>
               <p class="sd-setup">{s.setup}</p>
               <p class="sd-hint"><span>{t("practice.prompt")}</span><span class="bar" aria-hidden="true"><i></i></span></p>
             </div>
@@ -49,7 +35,6 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
               <p class="lbl">{t("practice.why")}</p>
               <p class="t-body sd-why">{s.why}</p>
               <Placeholder show={s.placeholder} />
-              <p class="t-small sd-rate-hint">{t("practice.selfCheck")}</p>
             </div>
           </div>
         </div>
@@ -57,69 +42,40 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
     ))}
 
     <div class="sd-done" data-done-panel hidden>
-      <p class="kicker">{t("practice.roundDone")}</p>
       <h2 class="t-h2">{t("practice.roundTitle")}</h2>
-      <div class="sd-tally">
-        <div><b data-tally="had">0</b><span>{L.had}</span></div>
-        <div><b data-tally="close">0</b><span>{L.close}</span></div>
-        <div><b data-tally="not">0</b><span>{L.not}</span></div>
-      </div>
-      <button class="btn btn-teal btn-block" type="button" data-review data-tpl={t("practice.reviewHard")}></button>
-      <button class="btn btn-ghost btn-block" type="button" data-restart>{t("practice.startOver")}</button>
+      <p class="t-body">{t("practice.roundBody")}</p>
+      <button class="btn btn-ghost btn-block" type="button" data-more>{t("practice.more")}</button>
     </div>
   </div>
 
   <div class="sd-actions" data-actions>
-    <span class="sd-btn-label"><button class="sd-btn" type="button" data-rate="not" aria-label={L.not} disabled><Icon name="close" size={26} /></button>{L.not}</span>
+    <span class="sd-btn-label"><button class="sd-btn" type="button" data-rate="not" aria-label={t("practice.notYet")} disabled><Icon name="close" size={26} /></button>{t("practice.notYet")}</span>
     <span class="sd-btn-label"><button class="sd-btn big" type="button" data-flip aria-label={t("practice.reveal")}><Icon name="eye" size={30} /></button><span data-flip-label>{t("practice.reveal")}</span></span>
-    <span class="sd-btn-label"><button class="sd-btn had" type="button" data-rate="had" aria-label={L.had} disabled><Icon name="check" size={28} /></button>{L.had}</span>
-  </div>
-  <div class="btn-row sd-secondary">
-    <button class="btn btn-ghost btn-sm" type="button" data-rate="close" disabled>{L.close} ↑</button>
-    <button class="btn btn-ghost btn-sm" type="button" data-undo disabled><Icon name="rotate" size={16} /> {t("practice.undo")}</button>
+    <span class="sd-btn-label"><button class="sd-btn had" type="button" data-rate="had" aria-label={t("practice.had")} disabled><Icon name="check" size={28} /></button>{t("practice.had")}</span>
   </div>
   <p class="sd-keys">{t("practice.keys")}</p>
   <p class="visually-hidden" aria-live="polite" data-live></p>
-
 </section>
 
 <script>
   import { practice, type SelfCheck } from "../lib/store";
-  const ORDER: Record<string, number> = { not: 0, close: 1, "": 2, had: 3 };
   const THINK_MS = 2500;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   document.querySelectorAll<HTMLElement>("[data-sd]").forEach((root) => {
     const $ = <T extends HTMLElement>(s: string) => root.querySelector<T>(s)!;
     const all = Array.from(root.querySelectorAll<HTMLElement>(".sd-card"));
-    const labels = JSON.parse(root.dataset.labels!);
-    const state = { mode: root.dataset.mode!, audience: root.dataset.audience!, only: null as string[] | null };
-    const q = new URLSearchParams(location.search);
-    if (q.get("mode")) state.mode = q.get("mode")!;
-    if (q.get("audience")) state.audience = q.get("audience")!;
-
     let deck: HTMLElement[] = [];
-    let at = 0;
-    let round: Record<string, SelfCheck> = {};
-    let history: number[] = [];
-    let flipped = false, canFlip = false, thinkTimer: number | undefined;
-
+    let at = 0, flipped = false, canFlip = false, thinkTimer: number | undefined;
     const top = () => deck[at];
     const live = (msg: string) => ($("[data-live]").textContent = msg);
 
-    function build(shuffle = false) {
+    function deal(core: boolean) {
       const c = practice.all();
-      deck = all.filter((el) =>
-        (state.mode === "all" || el.dataset.mode === state.mode) &&
-        (state.audience === "all" || el.dataset.audience === state.audience) &&
-        (!state.only || state.only.includes(el.dataset.id!)));
-      if (shuffle) for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
-      // Hard cards first; among the rest, the core situations lead.
-      const core = (el: HTMLElement) => (el.dataset.core === "true" ? 0 : 1);
-      deck.sort((a, b) => ORDER[c[a.dataset.id!] ?? ""] - ORDER[c[b.dataset.id!] ?? ""] || core(a) - core(b));
-      at = 0; round = {}; history = [];
-      const dots = $("[data-dots]");
-      dots.replaceChildren(...deck.map(() => document.createElement("i")));
+      deck = all.filter((el) => (el.dataset.core === "true") === core)
+        .sort((a, b) => Number(c[b.dataset.id!] === "not") - Number(c[a.dataset.id!] === "not"));
+      at = 0;
+      $("[data-more]").hidden = !core;
       render();
     }
 
@@ -128,35 +84,24 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
       flipped = false; canFlip = false;
       all.forEach((el) => { el.hidden = true; el.className = "sd-card"; el.style.transform = ""; el.style.opacity = ""; });
       const done = at >= deck.length;
-      $("[data-done-panel]").hidden = !done || deck.length === 0;
+      $("[data-done-panel]").hidden = !done;
       $("[data-actions]").hidden = done;
-      root.querySelector<HTMLElement>(".sd-secondary")!.hidden = done;
+      $("[data-count]").textContent = done ? "" : root.dataset.countTpl!.replace("{n}", String(at + 1)).replace("{total}", String(deck.length));
+      root.querySelectorAll<HTMLButtonElement>("[data-rate]").forEach((b) => (b.disabled = true));
+      $("[data-flip-label]").textContent = root.dataset.reveal!;
+      if (done) return;
       deck.slice(at, at + 3).forEach((el, k) => {
         el.hidden = false;
-        if (k === 1) el.classList.add("back1");
-        if (k === 2) el.classList.add("back2");
+        if (k) el.classList.add(`back${k}`);
         el.style.zIndex = String(10 - k);
         el.querySelector(".sd-back")!.setAttribute("aria-hidden", "true");
       });
-      Array.from($("[data-dots]").children).forEach((dot, i) => {
-        const id = deck[i]?.dataset.id!;
-        dot.className = [round[id] ?? "", i === at ? "now" : ""].join(" ").trim();
-      });
-      $("[data-count]").textContent = deck.length ? root.dataset.countTpl!.replace("{n}", String(Math.min(at + 1, deck.length))).replace("{total}", String(deck.length)) : "";
-      (root.querySelector("[data-undo]") as HTMLButtonElement).disabled = history.length === 0;
-      setRateEnabled(false);
-      $("[data-flip-label]").textContent = root.dataset.reveal!;
-      if (done) { summary(); return; }
       const card = top();
       card.classList.add("thinking");
-      const flipBtn = root.querySelector<HTMLButtonElement>("[data-flip]")!;
+      const flipBtn = $<HTMLButtonElement>("[data-flip]");
       flipBtn.disabled = true;
       thinkTimer = window.setTimeout(() => { canFlip = true; flipBtn.disabled = false; card.classList.remove("thinking"); }, reduce ? 0 : THINK_MS);
       live(card.querySelector(".sd-setup")!.textContent!);
-    }
-
-    function setRateEnabled(on: boolean) {
-      root.querySelectorAll<HTMLButtonElement>("[data-rate]").forEach((b) => (b.disabled = !on));
     }
 
     function flip() {
@@ -167,7 +112,7 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
       card.querySelector(".sd-back")!.setAttribute("aria-hidden", String(!flipped));
       card.querySelector(".sd-front")!.setAttribute("aria-hidden", String(flipped));
       $("[data-flip-label]").textContent = flipped ? root.dataset.flipBack! : root.dataset.reveal!;
-      setRateEnabled(flipped);
+      root.querySelectorAll<HTMLButtonElement>("[data-rate]").forEach((b) => (b.disabled = !flipped));
       if (flipped) live(card.querySelector(".sd-answer")!.textContent!);
     }
 
@@ -175,54 +120,34 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
       const card = top();
       if (!card || !flipped) return;
       practice.set(card.dataset.id!, v);
-      round[card.dataset.id!] = v;
-      history.push(at);
       navigator.vibrate?.(8);
-      const dx = v === "had" ? 1 : v === "not" ? -1 : 0;
+      const dx = v === "had" ? 1 : -1;
       card.classList.add("gone");
-      if (!fromDrag) card.style.transform = `translate(${dx * 140}%, ${v === "close" ? "-120%" : "0"}) rotate(${dx * 18}deg)`;
+      if (!fromDrag) card.style.transform = `translateX(${dx * 140}%) rotate(${dx * 18}deg)`;
       card.style.opacity = "0";
-      live(labels[v]);
       window.setTimeout(() => { at++; render(); }, reduce ? 0 : 280);
     }
 
-    function undo() {
-      const prev = history.pop();
-      if (prev === undefined) return;
-      delete round[deck[prev].dataset.id!];
-      at = prev; render();
-    }
-
-    function summary() {
-      const counts = { had: 0, close: 0, not: 0 };
-      Object.values(round).forEach((v) => counts[v]++);
-      root.querySelectorAll<HTMLElement>("[data-tally]").forEach((el) => (el.textContent = String(counts[el.dataset.tally as SelfCheck])));
-      const hard = deck.filter((el) => round[el.dataset.id!] && round[el.dataset.id!] !== "had").map((el) => el.dataset.id!);
-      const review = root.querySelector<HTMLButtonElement>("[data-review]")!;
-      review.hidden = hard.length === 0;
-      review.textContent = review.dataset.tpl!.replace("{n}", String(hard.length));
-      review.onclick = () => { state.only = hard; build(); };
-    }
-
-    // ── drag / swipe on the top card ──
-    let sx = 0, sy = 0, dx = 0, dy = 0, dragging = false, moved = false;
+    // ── swipe on the top card ──
+    let sx = 0, dx = 0, dragging = false, moved = false;
     const stage = $("[data-stage]");
     stage.addEventListener("pointerdown", (e) => {
       const card = top();
-      if (!card || !(e.target as HTMLElement).closest(".sd-card") || (e.target as HTMLElement).closest(".sd-card") !== card) return;
-      sx = e.clientX; sy = e.clientY; dx = dy = 0; dragging = true; moved = false;
+      if (!card || (e.target as HTMLElement).closest(".sd-card") !== card) return;
+      sx = e.clientX; dx = 0; dragging = true; moved = false;
       card.classList.add("dragging");
       card.setPointerCapture(e.pointerId);
     });
     stage.addEventListener("pointermove", (e) => {
       if (!dragging) return;
       const card = top();
-      dx = e.clientX - sx; dy = e.clientY - sy;
-      if (Math.abs(dx) + Math.abs(dy) > 6) moved = true;
-      if (!flipped) { card.style.transform = `translateX(${dx * 0.15}px)`; return; } // not yet rateable: a little give
-      card.style.transform = `translate(${dx}px, ${Math.min(dy, 40)}px) rotate(${dx / 18}deg)`;
-      const h = (el: string, v: number) => ((card.querySelector<HTMLElement>(`.sd-stamp.${el}`)!).style.opacity = String(Math.max(0, Math.min(1, v))));
-      h("had", dx / 110); h("not", -dx / 110); h("close", Math.abs(dx) < 60 ? -dy / 110 : 0);
+      dx = e.clientX - sx;
+      if (Math.abs(dx) > 6) moved = true;
+      card.style.transform = flipped ? `translateX(${dx}px) rotate(${dx / 18}deg)` : `translateX(${dx * 0.15}px)`;
+      if (flipped) {
+        card.querySelector<HTMLElement>(".sd-stamp.had")!.style.opacity = String(Math.max(0, Math.min(1, dx / 110)));
+        card.querySelector<HTMLElement>(".sd-stamp.not")!.style.opacity = String(Math.max(0, Math.min(1, -dx / 110)));
+      }
     });
     const end = () => {
       if (!dragging) return;
@@ -230,10 +155,8 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
       const card = top();
       card.classList.remove("dragging");
       card.querySelectorAll<HTMLElement>(".sd-stamp").forEach((s) => (s.style.opacity = "0"));
-      if (!moved) { flip(); card.style.transform = ""; return; }
-      if (flipped && dx > 110) { card.style.transform = `translate(${dx * 4}px, ${dy}px) rotate(${dx / 8}deg)`; rate("had", true); }
-      else if (flipped && dx < -110) { card.style.transform = `translate(${dx * 4}px, ${dy}px) rotate(${dx / 8}deg)`; rate("not", true); }
-      else if (flipped && dy < -110 && Math.abs(dx) < 80) { card.style.transform = `translate(${dx}px, -150%)`; rate("close", true); }
+      if (!moved) { card.style.transform = ""; flip(); return; }
+      if (flipped && Math.abs(dx) > 110) { card.style.transform = `translateX(${dx * 4}px) rotate(${dx / 8}deg)`; rate(dx > 0 ? "had" : "not", true); }
       else card.style.transform = "";
     };
     stage.addEventListener("pointerup", end);
@@ -242,19 +165,15 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
     // ── buttons + keys ──
     $("[data-flip]").addEventListener("click", flip);
     root.querySelectorAll<HTMLButtonElement>("[data-rate]").forEach((b) => b.addEventListener("click", () => rate(b.dataset.rate as SelfCheck)));
-    $("[data-undo]").addEventListener("click", undo);
-    $("[data-restart]").addEventListener("click", () => { state.only = null; build(true); });
+    $("[data-more]").addEventListener("click", () => deal(false));
     document.addEventListener("keydown", (e) => {
-      if ((e.target as HTMLElement).closest("input, textarea, dialog, select") || e.metaKey || e.ctrlKey || e.altKey) return;
-      if (!root.isConnected || root.getBoundingClientRect().bottom < 0) return;
-      const k = e.key;
-      if (k === " " || (k === "Enter" && !(e.target as HTMLElement).closest("button, a"))) { e.preventDefault(); flip(); }
-      else if (k === "ArrowRight") { e.preventDefault(); rate("had"); }
-      else if (k === "ArrowLeft") { e.preventDefault(); rate("not"); }
-      else if (k === "ArrowUp") { e.preventDefault(); rate("close"); }
-      else if (k === "z" || k === "Backspace") { e.preventDefault(); undo(); }
+      const el = e.target as HTMLElement;
+      if (el.closest("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.key === " " || e.key === "Enter") { if (!el.closest("button, a")) { e.preventDefault(); flip(); } }
+      else if (e.key === "ArrowRight") { e.preventDefault(); rate("had"); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); rate("not"); }
     });
 
-    build();
+    deal(true);
   });
 </script>

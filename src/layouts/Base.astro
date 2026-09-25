@@ -6,41 +6,17 @@ import "../styles/system.css";
 import "../styles/guide.css";
 import "../styles/app.css";
 import Icon from "../components/Icon.astro";
-import OrbDefs from "../components/OrbDefs.astro";
 import { t } from "../lib/i18n";
-import { startHereIds } from "../lib/content";
 
 interface Props {
   title?: string;
   description?: string;
-  /** Which tab / nav item is active. */
-  nav?: "home" | "start-here" | "know-the-labs" | "playbooks" | "your-story" | "refreshers" | "deck" | "help";
-  /** Page-level class on <body> (e.g. "page-home"). */
-  bodyClass?: string;
-  /** false = no app bar, footer or tab bar (full-screen onboarding). */
-  chrome?: boolean;
 }
-const { title, description = t("siteTagline"), nav, bodyClass = "", chrome = true } = Astro.props;
+const { title, description = t("siteTagline") } = Astro.props;
 const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · The Upskilling Labs`;
-const shIds = await startHereIds();
-
-const primary = [
-  { key: "home", href: u("/"), label: t("nav.home"), icon: "home" },
-  { key: "playbooks", href: u("/playbooks/"), label: t("nav.playbooks"), icon: "playbooks" },
-  { key: "refreshers", href: u("/refreshers/"), label: t("nav.refreshers"), icon: "refreshers" },
-  { key: "deck", href: u("/deck/"), label: t("nav.deck"), icon: "deck" },
-] as const;
-const desktop = [
-  { key: "home", href: u("/"), label: t("nav.home") },
-  { key: "playbooks", href: u("/playbooks/"), label: t("nav.playbooks") },
-  { key: "your-story", href: u("/your-story/"), label: t("nav.yourStory") },
-  { key: "refreshers", href: u("/refreshers/"), label: t("nav.refreshers") },
-  { key: "deck", href: u("/deck/"), label: t("nav.deck") },
-  { key: "help", href: u("/help/"), label: t("nav.help") },
-];
 ---
 <!doctype html>
-<html lang="en" data-visit="first">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -53,67 +29,42 @@ const desktop = [
     <link rel="apple-touch-icon" href={u("/icons/apple-touch-icon.png")} />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <!-- Home switches layout once Start Here is complete. Set before paint so
-         the page never flashes the wrong layout. -->
-    <script is:inline define:vars={{ shIds }}>
-      try {
-        var p = JSON.parse(localStorage.getItem("ag.progress.v1") || "{}");
-        var done = shIds.length > 0 && shIds.every(function (id) { return p[id]; });
-        document.documentElement.dataset.visit = done ? "returning" : "first";
-      } catch (e) {}
-    </script>
   </head>
-  <body class:list={[bodyClass, { "no-chrome": !chrome }]}>
-    <OrbDefs />
+  <body>
     <a class="skip" href="#main">{t("skipToContent")}</a>
-    {chrome && (
     <header class="appbar">
       <div class="appbar-inner">
         <a class="brand" href={u("/")}>
           <img src={u("/assets/logo-lockup-white.png")} alt={t("brandAlt")} width="384" height="144" />
           <span class="brand-name">{t("siteName")}</span>
         </a>
-        <nav class="appbar-links" aria-label={t("nav.sections")}>
-          {desktop.map((d) => (
-            <a class="nav-link" href={d.href} aria-current={nav === d.key ? "page" : undefined}>
-              {d.label}
-            </a>
-          ))}
-        </nav>
+        <a class="appbar-present" href={u("/present/")}><Icon name="deck" size={18} /> {t("nav.present")}</a>
       </div>
     </header>
-    )}
 
     <main id="main" tabindex="-1">
       <slot />
     </main>
 
-    {chrome && (
     <footer class="sitefoot">
       <div class="sitefoot-inner">
-        <img src={u("/assets/logo-lockup-white.png")} alt={t("brandAlt")} width="384" height="144" loading="lazy" class="foot-logo" />
         <p>{t("footer.legal")}</p>
         <p class="foot-row">
           <a href="https://theupskillinglabs.org">{t("footer.site")}</a>
-          <span>{t("footer.license")}</span>
+          <button class="foot-reset" type="button" data-reset data-confirm={t("footer.resetConfirm")}>{t("footer.reset")}</button>
         </p>
+        <p>{t("footer.license")}</p>
       </div>
     </footer>
-    )}
-
-    {chrome && (
-    <nav class="tabbar" aria-label={t("nav.primary")}>
-      {primary.map((p) => (
-        <a class="tab" href={p.href} aria-current={nav === p.key ? "page" : undefined}>
-          <Icon name={p.icon} />
-          <span>{p.label}</span>
-        </a>
-      ))}
-    </nav>
-    )}
 
     <script>
-      import "../scripts/progress";
+      import { resetAll } from "../lib/store";
+      const reset = document.querySelector<HTMLButtonElement>("[data-reset]")!;
+      reset.addEventListener("click", () => {
+        if (!confirm(reset.dataset.confirm)) return;
+        resetAll();
+        location.href = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+      });
       if ("serviceWorker" in navigator && import.meta.env.PROD) {
         window.addEventListener("load", () => {
           navigator.serviceWorker.register(`${import.meta.env.BASE_URL.replace(/\/+$/, "")}/sw.js`).catch(() => {});

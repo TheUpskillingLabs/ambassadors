@@ -1,0 +1,9 @@
+---
+import { u } from "../lib/url";
+import { t } from "../lib/i18n";
+import Icon from "./Icon.astro";
+---
+<div class="btn-row">
+  <a class="btn btn-teal" href={u("/present/")}><Icon name="deck" size={18} /> {t("step.present")}</a>
+  <a class="btn btn-ghost" href={u("/present/?short")}>{t("step.short")}</a>
+</div>

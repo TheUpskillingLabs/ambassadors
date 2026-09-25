@@ -1,5 +1,5 @@
 /* Service worker — generated at build time by src/integrations/offline.mjs.
-   Precaches every page, the refreshers and the boilerplate deck so they load
+   Precaches every page and the boilerplate deck so they load
    in airplane mode after one visit. Navigation: network first (fresh copy
    when online), cache fallback. Assets: cache first. */
 const CACHE = "__CACHE_NAME__";
