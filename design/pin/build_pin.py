@@ -1,6 +1,7 @@
 """Builds the ambassador pin's production art from the OLOS orb.
 
-Output: pin-front.svg at 1:1 scale in millimetres. Every enamel colour is a
+Output: pin-front.svg at 1:1 scale in millimetres, and the same cells for
+the 3D model (the ART block in blender/ambassador_pin.py). Every enamel colour is a
 filled closed shape (no strokes, no gradients), separated from its neighbours
 by 0.4 mm of raised metal, so the file works for the factory and imports into
 Blender as clean curves. Re-run after changing any constant:
@@ -8,7 +9,9 @@ Blender as clean curves. Re-run after changing any constant:
     pip install shapely && python3 design/pin/build_pin.py
 """
 from pathlib import Path
+import re
 from shapely.geometry import Point, Polygon
+from shapely.geometry.polygon import orient
 from shapely.ops import unary_union
 from shapely import affinity
 
@@ -40,8 +43,8 @@ arrow = affinity.translate(affinity.scale(Polygon(pts), 0.142, 0.142, origin=(0,
 
 face = Point(120, 120).buffer(116, 256)
 # The red rim of the orb's glow, cut at the gradient's midpoint.
-red = face.difference(Point(147.8, 185).buffer(128, 256))
 arrow = arrow.intersection(face)
+red = face.difference(Point(147.8, 185).buffer(128, 256)).difference(arrow)  # the swoosh tip crosses the red: each cell needs its own metal line
 ink = face.difference(unary_union([red, arrow]))
 
 # 240-unit box -> millimetres, orb face = inner edge of the rim.
@@ -76,6 +79,28 @@ out = Path(__file__).with_name("pin-front.svg")
 out.write_text("\n".join(svg) + "\n")
 # The site shows the same art on Home, so the goal looks like the real thing.
 Path(__file__).parents[2].joinpath("public", "pin.svg").write_text("\n".join(svg) + "\n")
+
+# The 3D model: the same cells in mm, centred, y up, counter-clockwise.
+art = []
+for name, _, g in cells:
+    rings = []
+    g = g.simplify(0.005)
+    for p in getattr(g, "geoms", [g]):
+        assert not p.interiors, f"{name}: a cell with a hole needs a curve, not a prism"
+        p = orient(Polygon([(x - C, C - y) for x, y in p.exterior.coords]), 1.0)
+        ring = []
+        for x, y in p.exterior.coords[:-1]:
+            pt = (round(x, 3), round(y, 3))
+            if not ring or pt != ring[-1]:
+                ring.append(pt)
+        rings.append("        [" + ", ".join(f"({x}, {y})" for x, y in ring) + "],")
+    art.append(f'    "{name.removeprefix("enamel-")}": [\n' + "\n".join(rings) + "\n    ],")
+blend = Path(__file__).with_name("blender") / "ambassador_pin.py"
+src = blend.read_text()
+block = "ART = {\n" + "\n".join(art) + "\n}\n"
+src, n = re.subn(r"^ART = \{.*?^\}?\n?(?=# ── END ART)", lambda m: block, src, count=1, flags=re.S | re.M)
+assert n == 1, "ART block not found in blender/ambassador_pin.py"
+blend.write_text(src)
 
 for name, (_, pms), g in cells:
     print(f"{name:12} PMS {pms:10} area {g.area:6.1f} mm2  parts {len(getattr(g, 'geoms', [g]))}")

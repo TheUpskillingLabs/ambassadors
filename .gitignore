@@ -4,3 +4,6 @@ dist/
 .vercel/
 .DS_Store
 *.log
+
+# Blender backups
+*.blend1
