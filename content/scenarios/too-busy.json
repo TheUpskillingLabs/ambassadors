@@ -9,5 +9,6 @@
     "objections",
     "time"
   ],
-  "placeholder": true
+  "placeholder": true,
+  "core": true
 }

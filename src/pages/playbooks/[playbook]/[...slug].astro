@@ -8,10 +8,10 @@ import Base from "../../../layouts/Base.astro";
 import PageHeader from "../../../components/PageHeader.astro";
 import ProgressMeter from "../../../components/ProgressMeter.astro";
 import StoryCard from "../../../components/StoryCard.astro";
-import DatedInvite from "../../../components/DatedInvite.astro";
+import AskList from "../../../components/AskList.astro";
+import Includes from "../../../components/Includes.astro";
 import PracticeDeck from "../../../components/PracticeDeck.astro";
 import NextBar from "../../../components/NextBar.astro";
-import Icon from "../../../components/Icon.astro";
 import { t } from "../../../lib/i18n";
 import { playbookPages, playbookHref, playbookProgressId, pageSlug, COVERS } from "../../../lib/content";
 import sections from "../../../../content/site/sections.json";
@@ -22,7 +22,7 @@ export async function getStaticPaths() {
     const pages = await playbookPages(pb);
     for (const entry of pages) {
       const slug = pageSlug(entry.id);
-      out.push({ params: { playbook: pb, slug: slug === "overview" ? undefined : slug }, props: { entry, pages } });
+      out.push({ params: { playbook: pb, slug: entry.data.order === 1 ? undefined : slug }, props: { entry, pages } });
     }
   }
   return out;
@@ -54,44 +54,37 @@ const hasBody = Boolean(entry.body?.trim());
     <section class="panel lead">
       <h2 class="block-h">{t("page.inThirtySeconds")}</h2>
       <p class="t-lede">{d.summary}</p>
+      <p class="lead-why"><b>{t("page.why")}:</b> {d.why}</p>
     </section>
 
-    <section class="block">
-      <h2 class="block-h">{t("page.why")}</h2>
-      <p class="t-body">{d.why}</p>
-    </section>
+    {d.practice ? <PracticeDeck mode={d.playbook} /> : (
+      <>
+        <section class="block">
+          <h2 class="block-h">{t("page.shape")}</h2>
+          <ol class="stepper">{d.shape.map((s) => <li>{s}</li>)}</ol>
+        </section>
 
-    <section class="block">
-      <h2 class="block-h">{t("page.shape")}</h2>
-      <ol class="stepper">{d.shape.map((s) => <li>{s}</li>)}</ol>
-    </section>
+        <section class="block">
+          <h2 class="block-h">{t("page.examples")}</h2>
+          <ul class="quotes">{d.examples.map((e) => <li>{e}</li>)}</ul>
+        </section>
 
-    <section class="block">
-      <h2 class="block-h">{t("page.examples")}</h2>
-      <ul class="quotes">{d.examples.map((e) => <li>{e}</li>)}</ul>
-    </section>
+        {d.showInvite && <AskList />}
+        {d.showStory && <StoryCard />}
+        {hasBody && <div class="prose"><Content /></div>}
+        <Includes include={d.include} />
 
-    {d.showStory && <StoryCard />}
-    {d.showInvite && <DatedInvite />}
+        <section class="block">
+          <h2 class="block-h">{t("page.watchOutFor")}</h2>
+          <ul class="bullets">{d.watchOutFor.map((w) => <li>{w}</li>)}</ul>
+        </section>
 
-    <section class="block">
-      <h2 class="block-h">{t("page.watchOutFor")}</h2>
-      <ul class="bullets">{d.watchOutFor.map((w) => <li>{w}</li>)}</ul>
-    </section>
-
-    <section class="tryit">
-      <h2 class="block-h">{t("page.tryIt")}</h2>
-      <p class="t-h4">{d.tryIt}</p>
-    </section>
-
-    {hasBody && (
-      <details class="more">
-        <summary>{t("page.moreDetail")} <Icon name="chevron" size={18} /></summary>
-        <div class="prose"><Content /></div>
-      </details>
+        <section class="tryit">
+          <h2 class="block-h">{t("page.tryIt")}</h2>
+          <p class="t-h4">{d.tryIt}</p>
+        </section>
+      </>
     )}
-
-    {d.practice && <PracticeDeck mode={d.playbook} />}
 
     <NextBar id={pid} next={link(pages[i + 1])} prev={link(pages[i - 1])} up={{ href: playbookHref(pages[0]), title: book.title }} />
   </article>

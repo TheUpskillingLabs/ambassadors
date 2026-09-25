@@ -16,8 +16,10 @@ interface Props {
   sectionTitle: string;
   sectionHref: string;
   nav: "start-here" | "know-the-labs" | "your-story" | "deck";
+  /** Where the last page in the section leads (the next section). */
+  after?: { href: string; title: string };
 }
-const { entry, siblings, sectionTitle, sectionHref: sHref, nav } = Astro.props;
+const { entry, siblings, sectionTitle, sectionHref: sHref, nav, after } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
 const tracked = siblings.filter((s) => s.data.tracked);
@@ -28,8 +30,8 @@ const ti = tracked.findIndex((s) => s.id === entry.id);
 ---
 <Base title={d.title} description={d.summary} nav={nav}>
   <PageHeader
-    back={{ href: sHref, label: sectionTitle }}
-    eyebrow={d.tracked && tracked.length > 1 ? t("page.stepOf", { section: sectionTitle, n: ti + 1, total: tracked.length }) : sectionTitle}
+    back={{ href: sHref, label: nav === "start-here" ? t("nav.home") : sectionTitle }}
+    eyebrow={d.tracked && tracked.length > 1 ? t("page.stepOf", { section: sectionTitle, n: ti + 1, total: tracked.length }) : undefined}
     title={d.title}
     readTime={d.readTime}
     placeholder={d.placeholder}
@@ -44,6 +46,6 @@ const ti = tracked.findIndex((s) => s.id === entry.id);
     </section>
     <div class="prose"><Content /></div>
     <Includes include={d.include} />
-    <NextBar id={d.tracked ? pid : undefined} next={link(siblings[i + 1])} prev={link(siblings[i - 1])} up={{ href: sHref, title: sectionTitle }} />
+    <NextBar id={d.tracked ? pid : undefined} next={link(siblings[i + 1]) ?? after ?? null} prev={link(siblings[i - 1])} up={{ href: sHref, title: sectionTitle }} />
   </article>
 </Base>

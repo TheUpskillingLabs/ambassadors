@@ -53,7 +53,8 @@
     "doneShort": "Done",
     "nextShort": "Next",
     "finish": "Finish",
-    "backShort": "Back"
+    "backShort": "Back",
+    "close": "Close"
   },
   "home": {
     "eyebrow": "Ambassador Guide",
@@ -105,7 +106,14 @@
     "readySince": "Ready since {date}",
     "ambKicker": "The Upskilling Labs",
     "ambDefaultName": "Ambassador",
-    "ambRole": "Ambassador"
+    "ambRole": "Ambassador",
+    "upPlan": "Make your 1-minute plan",
+    "upPlanSub": "Three questions. Stays on this device.",
+    "upInvite": "Send your invites",
+    "upInviteSub": "{n} to go · from your own phone",
+    "upPresent": "You're ready",
+    "upPresentSub": "Present now",
+    "ifThen": "Your plan: when I'm at {where}, I'll ask {who}."
   },
   "practice": {
     "title": "Practice",
@@ -189,7 +197,9 @@
     "print": "Print this page",
     "fullPlaybook": "Full playbook",
     "practiceRow": "Practice a few situations",
-    "practiceSub": "Cards you marked Not yet come back first"
+    "practiceSub": "Cards you marked Not yet come back first",
+    "recall": "Say each step out loud, then check",
+    "sayIt": "Check"
   },
   "deck": {
     "title": "Deck",
@@ -296,10 +306,11 @@
     "theAsk": "The ask",
     "whereToFind": "Where to find them",
     "commonQuestions": "Common questions",
-    "brandTerms": "Labs terms",
+    "brandTerms": "Terms",
     "methodTerms": "Method terms",
     "do": "Do",
-    "dont": "Don't"
+    "dont": "Don't",
+    "questions": "Questions people ask"
   },
   "invite": {
     "title": "Invite with a date",
@@ -319,5 +330,21 @@
     "step3": "Run the deck",
     "step3Sub": "",
     "change": "Change date"
+  },
+  "ask": {
+    "title": "Who will you ask?",
+    "lede": "Three people you know. Your phone sends it. Names stay on this device.",
+    "me": "Your first name",
+    "person": "Person",
+    "send": "Send",
+    "sent": "Sent",
+    "preview": "Preview",
+    "message": "Hi {them}, it's {me}. I'm going to The Labs {what} on {day} at {time}, {place}. It's free and hands-on. Want to come with me? Join at theupskillinglabs.org and say {me} sent you.",
+    "messageNoDate": "Hi {them}, it's {me}. I've been going to The Labs, a free community where people learn by building real projects together. Want to come to the next one with me? Join at theupskillinglabs.org and say {me} sent you."
+  },
+  "coord": {
+    "text": "Text my coordinator",
+    "stuck": "Stuck? Text your coordinator.",
+    "body": "Hi, it's {me}. My plan: {plan} Next event: {event}."
   }
 }

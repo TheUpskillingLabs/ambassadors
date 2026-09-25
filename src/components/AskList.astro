@@ -1,0 +1,69 @@
+---
+/* Who will you ask? Three people you know, each with a dated invite that
+   opens in your own messaging app ("say {me} sent you"). The strongest
+   lever in the research: a personal, dated ask from someone they know.
+   Names stay on this device; the site never sends anything. */
+import { t } from "../lib/i18n";
+---
+<section class="ask panel" data-ask
+  data-msg={t("ask.message")} data-msg-open={t("ask.messageNoDate")} data-sent-label={t("ask.sent")} data-send-label={t("ask.send")}>
+  <h2 class="block-h">{t("ask.title")}</h2>
+  <p class="t-small">{t("ask.lede")}</p>
+  <div class="field"><label for="ask-me">{t("ask.me")}</label><input id="ask-me" autocomplete="given-name" maxlength="40" data-me /></div>
+  <ol class="ask-list">
+    {[0, 1, 2].map((i) => (
+      <li>
+        <input aria-label={`${t("ask.person")} ${i + 1}`} placeholder={`${t("ask.person")} ${i + 1}`} maxlength="40" data-person={i} />
+        <button class="btn btn-teal btn-sm" type="button" data-send={i} disabled>{t("ask.send")}</button>
+      </li>
+    ))}
+  </ol>
+  <details class="ask-preview"><summary>{t("ask.preview")}</summary><p class="t-body" data-preview></p></details>
+</section>
+<script>
+  import { asks, profile } from "../lib/store";
+  import { nextSession, formatSession } from "../lib/schedule";
+  document.querySelectorAll<HTMLElement>("[data-ask]").forEach((root) => {
+    const me = root.querySelector<HTMLInputElement>("[data-me]")!;
+    const people = Array.from(root.querySelectorAll<HTMLInputElement>("[data-person]"));
+    const sends = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-send]"));
+    const s = nextSession();
+    const f = s && formatSession(s);
+
+    const message = (them: string) => {
+      const name = me.value.trim() || "…";
+      const tpl = s ? root.dataset.msg! : root.dataset.msgOpen!;
+      return tpl.replaceAll("{them}", them || "…").replaceAll("{me}", name)
+        .replace("{what}", s?.type ?? "").replace("{day}", f?.day ?? "").replace("{time}", f?.time ?? "")
+        .replace("{place}", s ? s.location.split(",")[0] : "");
+    };
+    const save = () => {
+      asks.set(people.map((p, i) => ({ name: p.value.trim(), sent: asks.get()[i]?.sent })));
+      profile.set({ me: me.value.trim() || undefined });
+    };
+    const paint = () => {
+      const list = asks.get();
+      people.forEach((p, i) => {
+        const sent = Boolean(list[i]?.sent && list[i]?.name === p.value.trim());
+        sends[i].disabled = !p.value.trim() || !me.value.trim();
+        sends[i].textContent = sent ? root.dataset.sentLabel! : root.dataset.sendLabel!;
+        sends[i].classList.toggle("is-sent", sent);
+      });
+      root.querySelector("[data-preview]")!.textContent = message(people.find((p) => p.value.trim())?.value.trim() ?? "");
+    };
+
+    me.value = profile.get().me ?? "";
+    asks.get().forEach((a, i) => people[i] && (people[i].value = a.name ?? ""));
+    root.addEventListener("input", () => { save(); paint(); });
+    sends.forEach((b, i) => b.addEventListener("click", async () => {
+      const text = message(people[i].value.trim());
+      try {
+        if (navigator.share) await navigator.share({ text });
+        else location.href = `sms:?&body=${encodeURIComponent(text)}`;
+        const list = asks.get(); list[i] = { name: people[i].value.trim(), sent: Date.now() }; asks.set(list);
+      } catch { /* share cancelled */ }
+      paint();
+    }));
+    paint();
+  });
+</script>

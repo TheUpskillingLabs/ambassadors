@@ -1,8 +1,0 @@
-{
-  "term": "Frame",
-  "kind": "method",
-  "definition": "A way of seeing a problem situation that opens up new approaches to it. Pods test and refine frames before deciding what to build.",
-  "do": "\"The Pod tried a few frames before choosing one.\"",
-  "dont": "Don't use it to mean the project's scope or plan.",
-  "placeholder": true
-}

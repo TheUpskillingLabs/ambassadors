@@ -9,6 +9,12 @@ tracked: false
 placeholder: true
 ---
 
+## Slides or no slides
+
+- Screen available: open Present now before you're introduced.
+- No screen: give the talk, then hold up the QR on your phone.
+- Presenting from a phone: tap Cues to see talk cues.
+
 ## What you can change
 
 - **Slide 1:** add the host's logo to the bottom rail.

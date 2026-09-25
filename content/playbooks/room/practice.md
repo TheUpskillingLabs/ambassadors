@@ -1,10 +1,10 @@
 ---
 playbook: room
-order: 7
+order: 4
 title: Practice
 readTime: 5
 summary: "Room scenarios: moments before, during, and after a talk. Decide what you'd say, then reveal an example reply and why it works. No scoring."
-why: "Rooms go sideways in predictable ways. Having thought about them once makes them easy to handle."
+why: "Rooms go sideways in predictable ways."
 shape:
   - "Read the setup."
   - "Decide what you'd say or do."

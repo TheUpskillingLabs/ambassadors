@@ -9,5 +9,6 @@
     "legal-status",
     "q-and-a"
   ],
-  "placeholder": true
+  "placeholder": true,
+  "core": true
 }

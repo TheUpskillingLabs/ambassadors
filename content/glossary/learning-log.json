@@ -1,8 +1,0 @@
-{
-  "term": "Learning Log",
-  "kind": "brand",
-  "definition": "The five-minute weekly check-in each Upskiller completes during a Build Cycle: how it's going, what they learned, and an optional public share.",
-  "do": "\"There's a five-minute Learning Log each week.\"",
-  "dont": "Don't call it homework or a pulse check.",
-  "placeholder": true
-}

@@ -69,7 +69,7 @@ These also need real values:
 
 | Route | What |
 | --- | --- |
-| `/welcome/` | First-run onboarding: name, ambassador type, outreach mode, next event, then a personal plan. Home sends brand-new visitors here, and it can be skipped. `?edit` changes the answers. |
+| `/welcome/` | The 1-minute plan: outreach mode, next event, and an if-then plan for your first conversation. Optional. |
 | `/` | Home. First visit leads with Start Here; once Start Here is complete it leads with Refreshers, Present now, and what's new. |
 | `/start-here/`, `/know-the-labs/` | Section overview with "n of N read", plus one page per topic |
 | `/playbooks/conversation/…`, `/playbooks/room/…` | Playbook pages (Overview, then each step, then Practice) |
@@ -95,9 +95,31 @@ The site follows The Labs Brand Style Guide via the OLOS design system. Some rul
 - One 14px radius, no pills. Circles are only for controls that really are round (the deck's action buttons). Red is only for "Join The Labs". Teal is for focus rings and accents; use teal-deep for text on light backgrounds.
 - The white logo lockup goes only on dark surfaces. Never put two dark sections in a row.
 
+## Deliberate deviations from the v1 spec
+
+Evidence-based cuts, so the owner can review them (details in the "Ambassador guide ruthless cuts" research report):
+
+- **Page counts:**
+  - Start Here is 1 page, down from 3.
+  - Know the Labs is 2: What we are, and Questions and words.
+  - The Conversation is 5: Ask, Share, Invite, Adapting, Practice.
+  - The Room is 4: The talk, Sample talk (which now includes the 60-second version), Q&A, Practice.
+  - Audience profiles moved into Adapting.
+  - The slides guidance moved to Deck → Customize.
+- **FAQ and glossary:** FAQ cut to 5 questions, glossary to 5 terms.
+- **Playbook template:** "Why it works" is one line inside "In 30 seconds". The collapsed "More detail" section is gone. Practice pages open straight into the card deck.
+- **Onboarding:** optional, never forced. It asks 3 questions: outreach mode, next event, and an if-then plan for the first conversation.
+- **Removed:** the ambassador card, the what's-new dot, the practice filters, and the Your Story print button (the story prints on the refresher).
+- **Added:**
+  - **Who will you ask?** Three names, each sent a dated invite from the ambassador's own phone that ends "say [name] sent you".
+  - **The if-then plan.**
+  - **Text my coordinator.**
+
+  Nothing is sent by the site.
+
 ## Privacy
 
-The site never collects personal information. Read progress (`ag.progress.v1`), the story draft (`ag.story.v1`), and the last-seen update (`ag.updatesSeen.v1`), practice self-checks (`ag.practice.v1`), and onboarding answers (`ag.profile.v1`) live only in the browser's `localStorage`. There are no cookies, and analytics aren't enabled.
+The site never collects personal information. Read progress (`ag.progress.v1`), the story draft (`ag.story.v1`), and the last-seen update (`ag.updatesSeen.v1`), practice self-checks (`ag.practice.v1`), plan answers (`ag.profile.v1`), and the ask list (`ag.asks.v1`) live only in the browser's `localStorage`. There are no cookies, and analytics aren't enabled.
 
 ## Assets
 

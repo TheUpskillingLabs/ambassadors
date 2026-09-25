@@ -11,6 +11,7 @@ import { z } from "astro/zod";
  *  [PLACEHOLDER] marker until real Labs copy is dropped in. */
 const placeholder = z.boolean().default(false);
 
+const INCLUDE = z.enum(["audiences", "glossary", "faq", "ladder", "story-examples"]);
 const AUDIENCES = ["participant", "mentor", "problem-owner", "workshop"] as const;
 const MODES = ["conversation", "room"] as const;
 
@@ -33,6 +34,8 @@ const playbooks = defineCollection({
     practice: z.boolean().default(false),
     /** Shows the reader's saved 30-second why (Your Story). */
     showStory: z.boolean().default(false),
+    /** Structured content shown on the page (e.g. audience profiles). */
+    include: z.enum(["audiences"]).optional(),
     /** Shows a dated invite filled from the next session in schedule.json. */
     showInvite: z.boolean().default(false),
     placeholder,
@@ -50,7 +53,7 @@ const pages = defineCollection({
     navLabel: z.string().optional(),
     readTime: z.number().int().min(1).max(10),
     summary: z.string(),
-    include: z.enum(["audiences", "glossary", "faq", "ladder", "story-examples"]).optional(),
+    include: z.union([INCLUDE, z.array(INCLUDE)]).optional(),
     /** Counts toward progress ("3 of 5 read"). Utility pages opt out. */
     tracked: z.boolean().default(true),
     placeholder,
@@ -68,6 +71,8 @@ const scenarios = defineCollection({
     goodResponse: z.string(),
     why: z.string(),
     tags: z.array(z.string()).default([]),
+    /** Pinned to the front of a first round. Optional; additive. */
+    core: z.boolean().default(false),
     placeholder,
   }),
 });

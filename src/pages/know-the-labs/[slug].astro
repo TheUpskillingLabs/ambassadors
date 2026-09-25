@@ -9,4 +9,4 @@ export async function getStaticPaths() {
 }
 const { entry, siblings } = Astro.props;
 ---
-<GuidePage entry={entry} siblings={siblings} sectionTitle={sections.knowTheLabs.title} sectionHref={u("/know-the-labs/")} nav="know-the-labs" />
+<GuidePage entry={entry} siblings={siblings} sectionTitle={sections.knowTheLabs.title} sectionHref={u("/know-the-labs/")} nav="know-the-labs" after={{ href: u("/playbooks/conversation/"), title: sections.playbooks.items.conversation.title }} />

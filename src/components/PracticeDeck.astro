@@ -16,8 +16,6 @@ import Placeholder from "./Placeholder.astro";
 interface Props { mode?: "conversation" | "room" | "all"; audience?: string }
 const { mode = "all", audience = "all" } = Astro.props;
 const scenarios = (await getCollection("scenarios")).map((s) => s.data);
-const modes = ["conversation", "room"] as const;
-const auds = ["participant", "workshop", "mentor", "problem-owner"] as const;
 const firstId = scenarios.find((s) => (mode === "all" || s.mode === mode) && (audience === "all" || s.audience === audience))?.id;
 const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice.notYet") };
 ---
@@ -26,12 +24,11 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
   <div class="sd-top">
     <div class="sd-progress" data-dots aria-hidden="true"></div>
     <span class="sd-count" data-count></span>
-    <button class="btn btn-ghost btn-sm sd-filter" type="button" data-open-filters>{t("practice.filters")}</button>
   </div>
 
   <div class="sd-stage" data-stage>
     {scenarios.map((s) => (
-      <article class="sd-card" data-id={s.id} data-mode={s.mode} data-audience={s.audience} hidden={s.id !== firstId} aria-roledescription={t("practice.card")}>
+      <article class="sd-card" data-id={s.id} data-core={String(s.core)} data-mode={s.mode} data-audience={s.audience} hidden={s.id !== firstId} aria-roledescription={t("practice.card")}>
         <span class="sd-stamp had" aria-hidden="true">{L.had}</span>
         <span class="sd-stamp not" aria-hidden="true">{L.not}</span>
         <span class="sd-stamp close" aria-hidden="true">{L.close}</span>
@@ -84,27 +81,6 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
   <p class="sd-keys">{t("practice.keys")}</p>
   <p class="visually-hidden" aria-live="polite" data-live></p>
 
-  <dialog class="sheet2" data-filters aria-labelledby="flt-h">
-    <div class="sheet2-inner">
-      <span class="sheet2-grip" aria-hidden="true"></span>
-      <h2 class="t-h3" id="flt-h">{t("practice.filters")}</h2>
-      <div role="group" aria-label={t("practice.mode")}>
-        <p class="lbl">{t("practice.mode")}</p>
-        <div class="chips">
-          <button class="chip" type="button" data-filter="mode" data-value="all">{t("practice.all")}</button>
-          {modes.map((m) => <button class="chip" type="button" data-filter="mode" data-value={m}>{t(`practice.modes.${m}`)}</button>)}
-        </div>
-      </div>
-      <div role="group" aria-label={t("practice.audience")}>
-        <p class="lbl">{t("practice.audience")}</p>
-        <div class="chips">
-          <button class="chip" type="button" data-filter="audience" data-value="all">{t("practice.all")}</button>
-          {auds.map((a) => <button class="chip" type="button" data-filter="audience" data-value={a}>{t(`practice.audiences.${a}`)}</button>)}
-        </div>
-      </div>
-      <form method="dialog"><button class="btn btn-ink btn-block" data-apply>{t("practice.showCards")}</button></form>
-    </div>
-  </dialog>
 </section>
 
 <script>
@@ -138,10 +114,10 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
         (state.audience === "all" || el.dataset.audience === state.audience) &&
         (!state.only || state.only.includes(el.dataset.id!)));
       if (shuffle) for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
-      deck.sort((a, b) => ORDER[c[a.dataset.id!] ?? ""] - ORDER[c[b.dataset.id!] ?? ""]);
+      // Hard cards first; among the rest, the core situations lead.
+      const core = (el: HTMLElement) => (el.dataset.core === "true" ? 0 : 1);
+      deck.sort((a, b) => ORDER[c[a.dataset.id!] ?? ""] - ORDER[c[b.dataset.id!] ?? ""] || core(a) - core(b));
       at = 0; round = {}; history = [];
-      root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) =>
-        b.setAttribute("aria-pressed", String(state[b.dataset.filter as "mode" | "audience"] === b.dataset.value)));
       const dots = $("[data-dots]");
       dots.replaceChildren(...deck.map(() => document.createElement("i")));
       render();
@@ -278,16 +254,6 @@ const L = { had: t("practice.had"), close: t("practice.close"), not: t("practice
       else if (k === "ArrowUp") { e.preventDefault(); rate("close"); }
       else if (k === "z" || k === "Backspace") { e.preventDefault(); undo(); }
     });
-
-    // ── filters (bottom sheet) ──
-    const sheet = root.querySelector<HTMLDialogElement>("[data-filters]")!;
-    $("[data-open-filters]").addEventListener("click", () => sheet.showModal());
-    root.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((b) => b.addEventListener("click", () => {
-      state[b.dataset.filter as "mode" | "audience"] = b.dataset.value!;
-      root.querySelectorAll<HTMLButtonElement>(`[data-filter="${b.dataset.filter}"]`).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-    }));
-    sheet.addEventListener("close", () => { state.only = null; build(); });
-    sheet.addEventListener("click", (e) => { if (e.target === sheet) sheet.close(); });
 
     build();
   });
