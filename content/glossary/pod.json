@@ -1,0 +1,8 @@
+{
+  "term": "Pod",
+  "kind": "brand",
+  "definition": "A small group of Upskillers who dig into one real problem together during a Build Cycle.",
+  "do": "\"You'd join a Pod of people interested in the same problem.\"",
+  "dont": "Don't use it with newcomers before you've said \"small team.\"",
+  "placeholder": true
+}

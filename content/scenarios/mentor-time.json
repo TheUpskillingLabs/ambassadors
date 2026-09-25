@@ -1,0 +1,13 @@
+{
+  "id": "mentor-time",
+  "audience": "mentor",
+  "mode": "conversation",
+  "setup": "A senior engineer at a meetup says: \"I'd help, but I can't commit to teaching.\"",
+  "goodResponse": "\"You wouldn't be teaching. Mentors are around when a Pod gets stuck, for a single workshop or a whole cycle. You choose.\"",
+  "why": "It removes the thing they're worried about and makes the ask bounded and specific.",
+  "tags": [
+    "mentors",
+    "time"
+  ],
+  "placeholder": true
+}

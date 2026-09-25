@@ -1,0 +1,50 @@
+---
+/* One cheat sheet per playbook. Prints on a single page. */
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import StoryCard from "../../components/StoryCard.astro";
+import NextSession from "../../components/NextSession.astro";
+import Placeholder from "../../components/Placeholder.astro";
+import Icon from "../../components/Icon.astro";
+import { t } from "../../lib/i18n";
+export async function getStaticPaths() {
+  return (await getCollection("refreshers")).map((r) => ({ params: { playbook: r.data.playbook }, props: { r: r.data } }));
+}
+const { r } = Astro.props;
+---
+<Base title={`${r.title} · ${t("refresher.title")}`} nav="refreshers" bodyClass="page-refresher">
+  <div class="wrap refresher">
+    <a class="back no-print" href="/refreshers/"><span aria-hidden="true">←</span> {t("refresher.title")}</a>
+    <div class="head-meta">
+      <span class="lbl lbl-teal">{t("refresher.title")}</span>
+      <span class="lbl">{r.readTime} {t("page.minRead")}</span>
+      <Placeholder show={r.placeholder} />
+    </div>
+    <h1 class="t-h1">{r.title}</h1>
+
+    <section class="tpl">
+      <h2 class="tpl-h">{t("refresher.shape")}</h2>
+      <ol class="rf-shape">
+        {r.shape.map((s, i) => (
+          <li>
+            <span class="rf-n">{String(i + 1).padStart(2, "0")}</span>
+            <span><b class="t-h4">{s.step}</b><span class="t-body">{s.cue}</span></span>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="tpl">
+      <h2 class="tpl-h">{t("refresher.reminders")}</h2>
+      <ul class="watch">{r.reminders.map((m) => <li>{m}</li>)}</ul>
+    </section>
+
+    {r.showStory && <StoryCard />}
+    <div class="card rf-next"><div class="card-body"><NextSession compact /></div></div>
+
+    <div class="no-print story-actions">
+      <button class="btn btn-ghost btn-sm" type="button" onclick="window.print()"><Icon name="print" size={18} /> {t("refresher.print")}</button>
+      <a class="see" href={`/playbooks/${r.playbook}/`}>{t("refresher.fullPlaybook")} →</a>
+    </div>
+  </div>
+</Base>

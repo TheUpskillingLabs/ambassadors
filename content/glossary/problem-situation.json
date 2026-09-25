@@ -1,0 +1,8 @@
+{
+  "term": "Problem situation",
+  "kind": "method",
+  "definition": "A description of a real problem as the people living it experience it, before anyone proposes a solution.",
+  "do": "\"Pods start by writing up a problem situation.\"",
+  "dont": "Don't use it for a solution idea or a feature request.",
+  "placeholder": true
+}

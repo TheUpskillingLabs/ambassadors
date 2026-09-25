@@ -1,0 +1,13 @@
+{
+  "id": "no-screen",
+  "audience": "participant",
+  "mode": "room",
+  "setup": "You arrive and there's no screen or projector.",
+  "goodResponse": "Give the talk without slides. At the ask, hold up your phone with Present now open on the QR slide: \"Scan this, or go to theupskillinglabs.org.\"",
+  "why": "The talk works without slides. The only thing you need to show is how to find the next step.",
+  "tags": [
+    "slides",
+    "setup"
+  ],
+  "placeholder": true
+}

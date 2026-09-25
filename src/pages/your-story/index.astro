@@ -1,0 +1,103 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Icon from "../../components/Icon.astro";
+import { t } from "../../lib/i18n";
+import story from "../../../content/site/story.json";
+---
+<Base title={t("story.title")} description={t("story.lede")} nav="your-story" bodyClass="page-story">
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={t("story.title")} lede={t("story.lede")} readTime={10} placeholder={story.placeholder} />
+  <div class="wrap page-body">
+    <form class="worksheet" data-worksheet onsubmit="return false">
+      {story.prompts.map((p, i) => (
+        <div class="field prompt no-print">
+          <label for={`q-${p.id}`}><span class="idx">{String(i + 1).padStart(2, "0")}</span> {p.label}</label>
+          <p class="t-small" id={`h-${p.id}`}>{p.help}</p>
+          <textarea id={`q-${p.id}`} name={p.id} rows="3" aria-describedby={`h-${p.id}`} placeholder={`${t("story.examplePrefix")} ${p.example}`} data-answer={p.id} data-lead={p.leadIn}></textarea>
+        </div>
+      ))}
+      <div class="no-print assemble-row">
+        <button class="btn btn-teal" type="button" data-assemble>{t("story.assemble")}</button>
+        <p class="t-small">{t("story.reassembleNote")}</p>
+      </div>
+
+      <div class="field draft">
+        <label for="draft">{t("story.draftLabel")}</label>
+        <textarea id="draft" rows="7" data-draft aria-describedby="draft-stats" class="no-print"></textarea>
+        <p class="print-only story-text" data-draft-print></p>
+        <p class="draft-stats" id="draft-stats" aria-live="polite">
+          <span><b data-words>0</b> {t("story.words")}</span>
+          <span>≈ <b data-seconds>0</b> {t("story.seconds")}</span>
+          <span class="t-small">{t("story.target")}</span>
+        </p>
+        <p class="t-small saved-note" data-saved hidden><Icon name="check" size={16} /> {t("story.saved")}</p>
+      </div>
+
+      <div class="no-print story-actions">
+        <button class="btn btn-ghost btn-sm" type="button" onclick="window.print()"><Icon name="print" size={18} /> {t("story.print")}</button>
+        <a class="see" href="/your-story/examples/">{t("story.examples")} →</a>
+        <button class="btn btn-ghost btn-sm" type="button" data-clear data-confirm={t("story.clearConfirm")}>{t("story.clear")}</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    import { story, wordStats } from "../../lib/store";
+    const form = document.querySelector<HTMLFormElement>("[data-worksheet]")!;
+    const answers = Array.from(form.querySelectorAll<HTMLTextAreaElement>("[data-answer]"));
+    const draft = form.querySelector<HTMLTextAreaElement>("[data-draft]")!;
+    const saved = form.querySelector<HTMLElement>("[data-saved]")!;
+
+    const printCopy = form.querySelector<HTMLElement>("[data-draft-print]")!;
+    function stats() {
+      printCopy.textContent = draft.value;
+      const s = wordStats(draft.value);
+      form.querySelector("[data-words]")!.textContent = String(s.words);
+      form.querySelector("[data-seconds]")!.textContent = String(s.seconds);
+      form.querySelector(".draft-stats")!.classList.toggle("over", s.words > 85);
+    }
+    function save() {
+      const a: Record<string, string> = {};
+      answers.forEach((el) => (a[el.dataset.answer!] = el.value));
+      story.save({ answers: a, draft: draft.value });
+      saved.hidden = false;
+    }
+
+    const s = story.get();
+    answers.forEach((el) => (el.value = s.answers[el.dataset.answer!] ?? ""));
+    draft.value = s.draft;
+    if (s.savedAt) saved.hidden = false;
+    stats();
+
+    let timer: number | undefined;
+    form.addEventListener("input", () => {
+      stats();
+      clearTimeout(timer);
+      timer = window.setTimeout(save, 400);
+    });
+
+    form.querySelector("[data-assemble]")!.addEventListener("click", () => {
+      draft.value = answers
+        .map((el) => ({ v: el.value.trim(), lead: el.dataset.lead ?? "" }))
+        .filter((a) => a.v)
+        .map(({ v, lead }) => {
+          const sentence = /[.?!]$/.test(v) ? v : v + ".";
+          return lead ? `${lead} ${sentence}` : sentence;
+        })
+        .join(" ");
+      stats();
+      save();
+      draft.focus();
+    });
+
+    const clear = form.querySelector<HTMLButtonElement>("[data-clear]")!;
+    clear.addEventListener("click", () => {
+      if (!confirm(clear.dataset.confirm)) return;
+      story.clear();
+      answers.forEach((el) => (el.value = ""));
+      draft.value = "";
+      saved.hidden = true;
+      stats();
+    });
+  </script>
+</Base>

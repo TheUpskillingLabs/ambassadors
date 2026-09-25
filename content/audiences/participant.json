@@ -1,0 +1,20 @@
+{
+  "order": 3,
+  "name": "Build Cycle participant",
+  "priority": false,
+  "scenarioAudience": "participant",
+  "whoTheyAre": "An Upskiller in a current or past Build Cycle, who knows their own Pod well and the rest of The Labs less so.",
+  "whatTheyGet": "The chance to bring people they know into something that worked for them, and to grow into mentoring or becoming a Poderator.",
+  "theAsk": "Bring one person to the next workshop.",
+  "whereToFind": [
+    "Showcase and Kickoff events",
+    "Pod meetups",
+    "Learning Log shares",
+    "Alumni channels"
+  ],
+  "commonQuestions": [
+    "how-join",
+    "where"
+  ],
+  "placeholder": true
+}

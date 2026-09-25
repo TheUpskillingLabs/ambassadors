@@ -1,0 +1,32 @@
+{
+  "$comment": "The only moving data in v1. The deck (slides 5 and 6), Home and the refreshers read the next upcoming session from here. Times are local to the location; tz is an IANA zone. Past sessions are ignored automatically. [PLACEHOLDER] dates and places.",
+  "sessions": [
+    {
+      "date": "2026-09-10",
+      "time": "18:00",
+      "tz": "America/New_York",
+      "type": "workshop",
+      "title": "Hands-on AI tools workshop",
+      "location": "Martin Luther King Jr. Memorial Library, Washington, DC",
+      "expect": "Two hours, hands-on, no experience needed. Bring a laptop if you have one."
+    },
+    {
+      "date": "2026-10-15",
+      "time": "18:00",
+      "tz": "America/New_York",
+      "type": "workshop",
+      "title": "Hands-on AI tools workshop",
+      "location": "Martin Luther King Jr. Memorial Library, Washington, DC",
+      "expect": "Two hours, hands-on, no experience needed. Bring a laptop if you have one."
+    },
+    {
+      "date": "2026-11-05",
+      "time": "18:30",
+      "tz": "America/New_York",
+      "type": "kickoff",
+      "title": "Build Cycle Kickoff",
+      "location": "Martin Luther King Jr. Memorial Library, Washington, DC",
+      "expect": "Meet the people and problems for the next Build Cycle. Come curious; no commitment."
+    }
+  ]
+}

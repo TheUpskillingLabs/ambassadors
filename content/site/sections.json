@@ -1,0 +1,20 @@
+{
+  "$comment": "The seven sections, in Home order. Descriptions show on Home tiles.",
+  "sections": [
+    { "id": "start-here", "title": "Start Here", "href": "/start-here/", "blurb": "The role, the minimum ask, and a suggested path. About 10 minutes." },
+    { "id": "know-the-labs", "title": "Know the Labs", "href": "/know-the-labs/", "blurb": "What we are, the ladder, who we recruit, the words we use, and common questions." },
+    { "id": "playbooks", "title": "Playbooks", "href": "/playbooks/", "blurb": "The Conversation (1:1) and The Room (a short talk), with practice." },
+    { "id": "your-story", "title": "Your Story", "href": "/your-story/", "blurb": "Write a 30-second why you can say naturally. Saved on this device." },
+    { "id": "refreshers", "title": "Refreshers", "href": "/refreshers/", "blurb": "The 2-minute version of each playbook, for the night before. Printable." },
+    { "id": "deck", "title": "Deck", "href": "/deck/", "blurb": "Present the boilerplate deck, or tailor your own copy." },
+    { "id": "help", "title": "Help & Updates", "href": "/help/", "blurb": "Who to ask, and what's changed in this guide." }
+  ],
+  "startHere": { "title": "Start Here", "lede": "A 10-minute orientation: what the role is, what we're asking of you, and where to go next." },
+  "knowTheLabs": { "title": "Know the Labs", "lede": "Enough to explain The Labs accurately, in your own words." },
+  "playbooks": { "title": "Playbooks", "lede": "Two modes of outreach. Same idea in both: start with them, share your why, and offer one next step.",
+    "items": {
+      "conversation": { "title": "The Conversation", "mode": "1:1", "blurb": "Ask, Share, Invite. Two to five minutes, anywhere two people can talk." },
+      "room": { "title": "The Room", "mode": "Group", "blurb": "A 60-second or 5-minute talk, with or without slides." }
+    }
+  }
+}

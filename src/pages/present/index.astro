@@ -1,0 +1,88 @@
+---
+/* /present — the boilerplate deck. No login, no download.
+     /present            full-screen presentation
+     /present?short      60-second version (slides 1, 5, 6)
+     /present?notes      laptop notes view (current, next, cues, timer);
+                         stays in sync with a presentation window
+     /present?practice   cues visible beneath each slide
+   Flags combine (e.g. ?short&practice). */
+import "@fontsource-variable/geologica/wght.css";
+import "../../styles/colors_and_type.css";
+import "../../styles/system.css";
+import "../../styles/deck.css";
+import Slides from "../../components/Slides.astro";
+import Icon from "../../components/Icon.astro";
+import { t } from "../../lib/i18n";
+import deck from "../../../content/site/deck.json";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{t("deck.presentNow")} · {t("siteName")}</title>
+    <meta name="theme-color" content="#00141B" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  </head>
+  <body class="deck" data-short-slides={JSON.stringify(deck.shortSlides)}>
+    <div class="deck-shell">
+      <div class="viewport" data-viewport="main" aria-live="polite">
+        <div class="scaler"><Slides /></div>
+      </div>
+
+      <!-- practice mode: cue under the slide -->
+      <section class="practice-cue" data-practice-cue hidden>
+        <div class="lbl">{t("present.talkCue")}</div>
+        <p class="pc-cue" data-cue-text></p>
+        <p class="pc-notes" data-notes-text></p>
+      </section>
+
+      <!-- notes view: next slide + cues + timer -->
+      <aside class="notes-pane on-dark" data-notes-pane hidden>
+        <div class="np-top">
+          <span class="np-count" data-counter></span>
+          <button class="np-timer" type="button" data-timer title={t("present.resetTimer")}>00:00</button>
+        </div>
+        <div class="lbl">{t("present.talkCue")}</div>
+        <p class="np-cue" data-cue-text></p>
+        <p class="np-notes" data-notes-text></p>
+        <div class="lbl">{t("present.next")}</div>
+        <div class="viewport np-next" data-viewport="next"><div class="scaler"></div></div>
+        <p class="np-end" data-next-empty hidden>{t("present.noNext")}</p>
+        <div class="np-btns">
+          <button class="btn btn-ghost" type="button" data-prev><Icon name="arrow-left" size={18} /> {t("page.previous")}</button>
+          <button class="btn btn-white" type="button" data-next>{t("present.next")} <Icon name="arrow-right" size={18} /></button>
+        </div>
+        <a class="see" href="#" data-open-audience>{t("present.openAudience")} →</a>
+      </aside>
+
+      <!-- phone speaker cues -->
+      <section class="cue-sheet" data-cue-sheet hidden>
+        <div class="lbl"><span data-counter></span> · {t("present.talkCue")}</div>
+        <p class="pc-cue" data-cue-text></p>
+      </section>
+
+      <div class="controls" data-controls>
+        <a class="ctl" href="/deck/" data-ctl>{t("present.exit")}</a>
+        <span class="ctl-count" data-counter></span>
+        <button class="ctl" type="button" data-ctl data-toggle-cues aria-pressed="false">{t("present.cues")}</button>
+        <button class="ctl" type="button" data-ctl data-fullscreen>{t("present.fullscreen")}</button>
+      </div>
+      <p class="deck-hint" data-hint>{t("present.hint")}</p>
+    </div>
+
+    <script>
+      import { initDeck } from "../../scripts/deck";
+      initDeck();
+    </script>
+    <script>
+      if ("serviceWorker" in navigator && import.meta.env.PROD) {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      }
+    </script>
+  </body>
+</html>

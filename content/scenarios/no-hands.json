@@ -1,0 +1,12 @@
+{
+  "id": "no-hands",
+  "audience": "workshop",
+  "mode": "room",
+  "setup": "You ask your opening question and nobody raises a hand.",
+  "goodResponse": "Raise your own hand and answer it: \"Fair enough. I'll go first. A year ago that was me.\" Then go straight into your story.",
+  "why": "It takes the pressure off the room and turns the silence into your opening line.",
+  "tags": [
+    "opening-question"
+  ],
+  "placeholder": true
+}

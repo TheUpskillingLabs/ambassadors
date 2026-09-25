@@ -1,0 +1,13 @@
+{
+  "id": "just-laid-off",
+  "audience": "participant",
+  "mode": "conversation",
+  "setup": "At a job-search meetup, someone tells you they were laid off two months ago and are \"just trying to stay busy.\"",
+  "goodResponse": "\"That's a lot. A few people in my Build Cycle were in the same spot. What would make the next few months feel useful to you?\"",
+  "why": "It acknowledges what they said before offering anything, and the question finds out what 'useful' means to them.",
+  "tags": [
+    "career-change",
+    "empathy"
+  ],
+  "placeholder": true
+}

@@ -1,0 +1,94 @@
+---
+/* Structured content pulled into a guide page by its `include` field. */
+import { getCollection, getEntries } from "astro:content";
+import { t } from "../lib/i18n";
+import Ladder from "./Ladder.astro";
+import Placeholder from "./Placeholder.astro";
+import story from "../../content/site/story.json";
+interface Props { include?: "audiences" | "glossary" | "faq" | "ladder" | "story-examples" }
+const { include } = Astro.props;
+
+const audiences = include === "audiences"
+  ? await Promise.all((await getCollection("audiences")).sort((a, b) => a.data.order - b.data.order).map(async (a) => ({
+      ...a.data, id: a.id, questions: await getEntries(a.data.commonQuestions),
+    })))
+  : [];
+const glossary = include === "glossary" ? (await getCollection("glossary")).map((g) => ({ id: g.id, ...g.data })) : [];
+const faq = include === "faq" ? (await getCollection("faq")).sort((a, b) => a.data.order - b.data.order) : [];
+const kinds = [["brand", t("include.brandTerms")], ["method", t("include.methodTerms")]] as const;
+---
+{include === "ladder" && <Ladder />}
+
+{include === "audiences" && (
+  <div class="profiles">
+    {audiences.map((a) => (
+      <article class="profile card" id={a.id}>
+        <div class="card-body">
+          <div class="head-meta">
+            {a.priority && <span class="status active">{t("include.priority")}</span>}
+            <Placeholder show={a.placeholder} />
+          </div>
+          <h2 class="t-h3">{a.name}</h2>
+          <dl class="kv-list">
+            <div><dt class="lbl">{t("include.whoTheyAre")}</dt><dd>{a.whoTheyAre}</dd></div>
+            <div><dt class="lbl">{t("include.whatTheyGet")}</dt><dd>{a.whatTheyGet}</dd></div>
+            <div><dt class="lbl lbl-teal">{t("include.theAsk")}</dt><dd class="ask">{a.theAsk}</dd></div>
+            <div><dt class="lbl">{t("include.whereToFind")}</dt><dd><ul class="bullets">{a.whereToFind.map((w) => <li>{w}</li>)}</ul></dd></div>
+            {a.questions.length > 0 && (
+              <div><dt class="lbl">{t("include.commonQuestions")}</dt><dd><ul class="bullets">{a.questions.map((q) => <li><a class="inline-link" href={`/know-the-labs/common-questions/#${q.id}`}>{q.data.question}</a></li>)}</ul></dd></div>
+            )}
+          </dl>
+          <a class="see" href={`/practice/?audience=${a.scenarioAudience}`}>{t("practice.withAudience")} →</a>
+        </div>
+      </article>
+    ))}
+  </div>
+)}
+
+{include === "glossary" && kinds.map(([k, label]) => (
+  <section class="gloss-group">
+    <h2 class="t-h3">{label}</h2>
+    <dl class="gloss">
+      {glossary.filter((g) => g.kind === k).map((g) => (
+        <div class="gloss-item card" id={g.id}>
+          <div class="card-body">
+            <dt class="t-h4">{g.term} <Placeholder show={g.placeholder} /></dt>
+            <dd>
+              <p class="t-body">{g.definition}</p>
+              <p class="t-small do"><span class="lbl lbl-teal">{t("include.do")}</span> {g.do}</p>
+              <p class="t-small dont"><span class="lbl">{t("include.dont")}</span> {g.dont}</p>
+            </dd>
+          </div>
+        </div>
+      ))}
+    </dl>
+  </section>
+))}
+
+{include === "faq" && (
+  <div class="faq">
+    {faq.map((f) => (
+      <details class="faq-item card" id={f.id}>
+        <summary class="t-h4">{f.data.question}</summary>
+        <div class="faq-a">
+          <p class="t-body">{f.data.answer}</p>
+          <Placeholder show={f.data.placeholder} />
+        </div>
+      </details>
+    ))}
+  </div>
+)}
+
+{include === "story-examples" && (
+  <div class="story-examples">
+    <p class="lbl">{t("page.examples")}</p>
+    {story.examples.map((e) => (
+      <figure class="card">
+        <div class="card-body">
+          <blockquote class="t-body">{e.text}</blockquote>
+          <figcaption class="t-small">{e.name}</figcaption>
+        </div>
+      </figure>
+    ))}
+  </div>
+)}

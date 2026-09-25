@@ -1,0 +1,8 @@
+{
+  "term": "Probe",
+  "kind": "method",
+  "definition": "A small, quick experiment or conversation that tests a frame against the real world before the team commits to building.",
+  "do": "\"They ran a probe with library staff first.\"",
+  "dont": "Don't use it for the finished prototype.",
+  "placeholder": true
+}

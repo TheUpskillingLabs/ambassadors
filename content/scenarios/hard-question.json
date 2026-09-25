@@ -1,0 +1,13 @@
+{
+  "id": "hard-question",
+  "audience": "mentor",
+  "mode": "room",
+  "setup": "During Q&A, someone asks how The Labs is funded and whether it's a registered nonprofit.",
+  "goodResponse": "\"Good question. The Labs is a fiscally sponsored project of Superbloom Design, which is a registered 501(c)(3). Our own status is pending. For details on funding, the coordinator is the best person to ask.\"",
+  "why": "It's accurate about legal status and doesn't guess at what you don't know.",
+  "tags": [
+    "legal-status",
+    "q-and-a"
+  ],
+  "placeholder": true
+}

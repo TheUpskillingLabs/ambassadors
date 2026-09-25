@@ -1,0 +1,12 @@
+{
+  "id": "problem-owner-intro",
+  "audience": "problem-owner",
+  "mode": "conversation",
+  "setup": "A library branch manager mentions their patrons can never find out about free services.",
+  "goodResponse": "\"That's the kind of real problem a Build Cycle team could dig into. Would you be open to talking with a team about it?\"",
+  "why": "It connects their problem to what The Labs does and asks for a small, concrete yes.",
+  "tags": [
+    "problem-owners"
+  ],
+  "placeholder": true
+}

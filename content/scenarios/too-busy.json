@@ -1,0 +1,13 @@
+{
+  "id": "too-busy",
+  "audience": "participant",
+  "mode": "conversation",
+  "setup": "Someone interested says: \"I'd love to, but I don't have time right now.\"",
+  "goodResponse": "\"Totally fair. The workshops are a couple of hours, one evening. If that's still too much right now, it's all on the site for later.\"",
+  "why": "It offers the smallest possible step and leaves the door open without pushing.",
+  "tags": [
+    "objections",
+    "time"
+  ],
+  "placeholder": true
+}

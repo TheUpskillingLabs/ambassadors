@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import ProgressMeter from "../../components/ProgressMeter.astro";
+import { t } from "../../lib/i18n";
+import { playbookPages, playbookHref, playbookProgressId } from "../../lib/content";
+import sections from "../../../content/site/sections.json";
+const books = await Promise.all((["conversation", "room"] as const).map(async (id) => {
+  const pages = await playbookPages(id);
+  return { id, ...sections.playbooks.items[id], pages, href: playbookHref(pages[0]), minutes: pages.reduce((n, p) => n + p.data.readTime, 0) };
+}));
+---
+<Base title={sections.playbooks.title} description={sections.playbooks.lede} nav="playbooks">
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={sections.playbooks.title} lede={sections.playbooks.lede} />
+  <div class="wrap page-body">
+    <div class="book-grid">
+      {books.map((b) => (
+        <a class="book card tappable" href={b.href}>
+          <div class="card-body">
+            <div class="head-meta"><span class="lbl lbl-teal">{b.mode}</span><span class="lbl">{b.minutes} {t("page.minRead")}</span></div>
+            <h2 class="t-h2">{b.title}</h2>
+            <p class="t-body">{b.blurb}</p>
+            <ProgressMeter ids={b.pages.map(playbookProgressId)} />
+            <ol class="book-pages">
+              {b.pages.map((p) => <li data-read-id={playbookProgressId(p)}>{p.data.navLabel ?? p.data.title}</li>)}
+            </ol>
+          </div>
+        </a>
+      ))}
+    </div>
+    <a class="see" href="/practice/">{t("practice.allLink")} →</a>
+  </div>
+</Base>

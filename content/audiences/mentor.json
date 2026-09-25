@@ -1,0 +1,20 @@
+{
+  "order": 4,
+  "name": "Mentor or regional expert",
+  "priority": false,
+  "scenarioAudience": "mentor",
+  "whoTheyAre": "An experienced practitioner or someone with deep regional or subject knowledge, often busy and careful with their time.",
+  "whatTheyGet": "A bounded way to help: unblock a Pod, share what they know, and meet people doing real work.",
+  "theAsk": "Mentor for one workshop, or guide a Pod through a Build Cycle.",
+  "whereToFind": [
+    "Professional meetups and conferences",
+    "Local tech and design communities",
+    "University and research networks",
+    "Partner organizations"
+  ],
+  "commonQuestions": [
+    "mentor-time",
+    "legal-status"
+  ],
+  "placeholder": true
+}

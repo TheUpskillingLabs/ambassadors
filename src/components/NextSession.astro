@@ -1,0 +1,28 @@
+---
+/* The next upcoming session from data/schedule.json, resolved in the
+   browser so it's never stale. Server render shows the fallback line. */
+import { t } from "../lib/i18n";
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<div class:list={["next-session", { compact }]} data-next-session>
+  <div class="lbl lbl-teal">{t("home.nextSession")}</div>
+  <p class="ns-title t-h4" data-ns-title>{t("home.noSession")}</p>
+  <p class="t-small" data-ns-when hidden></p>
+  {!compact && <p class="t-small" data-ns-expect hidden></p>}
+</div>
+<script>
+  import { nextSession, formatSession } from "../lib/schedule";
+  const s = nextSession();
+  if (s) {
+    const f = formatSession(s);
+    document.querySelectorAll<HTMLElement>("[data-next-session]").forEach((el) => {
+      el.querySelector<HTMLElement>("[data-ns-title]")!.textContent = `${f.day}, ${f.time}`;
+      const when = el.querySelector<HTMLElement>("[data-ns-when]")!;
+      when.textContent = `${s.title} · ${s.location}`;
+      when.hidden = false;
+      const exp = el.querySelector<HTMLElement>("[data-ns-expect]");
+      if (exp) { exp.textContent = s.expect; exp.hidden = false; }
+    });
+  }
+</script>
