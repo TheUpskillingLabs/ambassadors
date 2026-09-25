@@ -1,31 +1,32 @@
 ---
 import { u } from "../lib/url";
 import { t } from "../lib/i18n";
-import Placeholder from "./Placeholder.astro";
+import Icon from "./Icon.astro";
 interface Props {
   back?: { href: string; label: string };
+  /** Small line above the title, e.g. "The Conversation · 3 of 6". */
   eyebrow?: string;
   title: string;
   readTime?: number;
   lede?: string;
   placeholder?: boolean;
+  /** Use the display size (section landings). */
+  large?: boolean;
 }
-const { back, eyebrow, title, readTime, lede, placeholder = false } = Astro.props;
+const { back, eyebrow, title, readTime, lede, placeholder = false, large = false } = Astro.props;
 ---
-<header class="page-head">
+<header class="head">
   <div class="wrap">
-    {back && (
-      <a class="back" href={u(back.href)}><span aria-hidden="true">←</span> {back.label}</a>
-    )}
-    {(eyebrow || readTime || placeholder) && (
-      <div class="head-meta">
-        {eyebrow && <span class="lbl lbl-teal">{eyebrow}</span>}
-        {readTime && <span class="lbl">{readTime} {t("page.minRead")}</span>}
-        <Placeholder show={placeholder} />
-      </div>
-    )}
-    <h1 class="t-h1">{title}</h1>
+    {back && <a class="crumb" href={u(back.href)}><Icon name="chevron" size={16} /> {back.label}</a>}
+    {eyebrow && <p class="kicker">{eyebrow}</p>}
+    <h1 class={large ? "t-h1" : "t-h1"}>{title}</h1>
     {lede && <p class="t-lede head-lede">{lede}</p>}
+    {(readTime || placeholder) && (
+      <p class="meta">
+        {readTime && <span>{readTime} {t("page.minRead")}</span>}
+        {placeholder && <span class="ph-chip">{t("page.placeholder")}</span>}
+      </p>
+    )}
     <slot />
   </div>
 </header>

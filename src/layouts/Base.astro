@@ -29,10 +29,8 @@ const primary = [
 ] as const;
 const desktop = [
   { key: "home", href: u("/"), label: t("nav.home") },
-  { key: "start-here", href: u("/start-here/"), label: t("nav.startHere"), extra: true },
-  { key: "know-the-labs", href: u("/know-the-labs/"), label: t("nav.knowTheLabs"), extra: true },
   { key: "playbooks", href: u("/playbooks/"), label: t("nav.playbooks") },
-  { key: "your-story", href: u("/your-story/"), label: t("nav.yourStory"), extra: true },
+  { key: "your-story", href: u("/your-story/"), label: t("nav.yourStory") },
   { key: "refreshers", href: u("/refreshers/"), label: t("nav.refreshers") },
   { key: "deck", href: u("/deck/"), label: t("nav.deck") },
   { key: "help", href: u("/help/"), label: t("nav.help") },
@@ -74,7 +72,7 @@ const desktop = [
         </a>
         <nav class="appbar-links" aria-label={t("nav.sections")}>
           {desktop.map((d) => (
-            <a class:list={["nav-link", { "nl-extra": d.extra }]} href={d.href} aria-current={nav === d.key ? "page" : undefined}>
+            <a class="nav-link" href={d.href} aria-current={nav === d.key ? "page" : undefined}>
               {d.label}
               {d.key === "help" && <span class="news-dot" aria-hidden="true"></span>}
             </a>

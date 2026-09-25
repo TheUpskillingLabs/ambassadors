@@ -1,0 +1,27 @@
+---
+/* End of a page: one primary action that marks the page read and moves on
+   ("Done · Next: Invite"), plus quiet links back. Its top edge is the
+   read sentinel — reaching it also marks the page read. */
+import { u } from "../lib/url";
+import { t } from "../lib/i18n";
+import Icon from "./Icon.astro";
+type L = { href: string; title: string } | null;
+interface Props { id?: string; next: L; prev?: L; up: { href: string; title: string } }
+const { id, next, prev, up } = Astro.props;
+const target = next ?? up;
+const doneText = next ? t("page.doneNext", { title: next.title }) : t("page.doneBack", { title: up.title });
+const readText = next ? t("page.nextTo", { title: next.title }) : t("page.backToTitle", { title: up.title });
+---
+<nav class="nextbar" aria-label={t("page.pageNav")} data-read-sentinel>
+  {id ? (
+    <button class="btn btn-teal btn-block" type="button" data-done={id} data-next-href={u(target.href)} data-done-text={doneText} data-read-text={readText}>
+      <span data-done-label>{doneText}</span><Icon name="arrow-right" size={20} />
+    </button>
+  ) : (
+    <a class="btn btn-teal btn-block" href={u(target.href)}><span>{readText}</span><Icon name="arrow-right" size={20} /></a>
+  )}
+  <div class="nb-links">
+    {prev ? <a class="see" href={u(prev.href)} rel="prev">← {t("page.prevTo", { title: prev.title })}</a> : <span></span>}
+    {next && <a class="see" href={u(up.href)}>{t("page.backToTitle", { title: up.title })}</a>}
+  </div>
+</nav>

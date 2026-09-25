@@ -6,6 +6,7 @@ const KEYS = {
   progress: "ag.progress.v1",
   story: "ag.story.v1",
   updatesSeen: "ag.updatesSeen.v1",
+  practice: "ag.practice.v1",
 } as const;
 
 function read<T>(key: string, fallback: T): T {
@@ -84,8 +85,23 @@ export const updatesSeen = {
   },
 };
 
-/** Spoken-length estimate: ~155 words per minute (75–80 words ≈ 30 s). */
+export type SelfCheck = "had" | "close" | "not";
+
+/** Private self-checks on practice cards. Never shown as a score; only used
+ *  to bring "Not yet" and "Close" cards back first. */
+export const practice = {
+  all(): Record<string, SelfCheck> {
+    return read<Record<string, SelfCheck>>(KEYS.practice, {});
+  },
+  set(id: string, v: SelfCheck): void {
+    const all = this.all();
+    all[id] = v;
+    write(KEYS.practice, all);
+  },
+};
+
+/** Spoken-length estimate: ~150 words per minute (65–85 words ≈ 30 s). */
 export function wordStats(text: string): { words: number; seconds: number } {
   const words = text.trim() ? text.trim().split(/\s+/).length : 0;
-  return { words, seconds: Math.round((words / 155) * 60) };
+  return { words, seconds: Math.round((words / 150) * 60) };
 }

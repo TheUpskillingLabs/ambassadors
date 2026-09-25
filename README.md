@@ -87,6 +87,7 @@ These also need real values:
 The site follows The Labs Brand Style Guide via the OLOS design system. Some rules are easy to break by accident:
 
 - **Never let anything look like a button unless it is one.** Filled or outlined rounded boxes (`.btn`, `.chip`, `.ctl`) are only for things you can press. Labels, statuses, counters, page lists, and example quotes are plain text or text with a rule, never boxed. On slides, "Join The Labs" is words over a red rule, because nobody can press a projected slide.
+- Clickable rows are white cards with a trailing chevron (`Row.astro`). Information panels are tinted (`.panel`) or plain text, never white boxes, so anything that looks like a card can be pressed.
 - One 14px radius, no pills. Red is only for "Join The Labs". Teal is for focus rings and accents; use teal-deep for text on light backgrounds.
 - The white logo lockup goes only on dark surfaces. Never put two dark sections in a row.
 

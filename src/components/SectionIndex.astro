@@ -1,34 +1,31 @@
 ---
-import { u } from "../lib/url";
-/* The landing page of a multi-page section: lede, progress, page list. */
+/* A multi-page section landing: lede, progress, one "Continue" action,
+   then the page list. */
 import type { CollectionEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHeader from "./PageHeader.astro";
 import ProgressMeter from "./ProgressMeter.astro";
-import Icon from "./Icon.astro";
+import Row from "./Row.astro";
+import { u } from "../lib/url";
 import { t } from "../lib/i18n";
 import { sectionHref, sectionProgressId } from "../lib/content";
 interface Props { title: string; lede: string; pages: CollectionEntry<"pages">[]; nav: "start-here" | "know-the-labs" }
 const { title, lede, pages, nav } = Astro.props;
 const total = pages.reduce((n, p) => n + p.data.readTime, 0);
+const tracked = pages.filter((p) => p.data.tracked);
+const steps = tracked.map((p) => ({ id: sectionProgressId(p), href: sectionHref(p), title: p.data.navLabel ?? p.data.title }));
 ---
 <Base title={title} description={lede} nav={nav}>
-  <PageHeader back={{ href: u("/"), label: t("nav.home") }} title={title} lede={lede} readTime={total}>
-    <ProgressMeter ids={pages.filter((p) => p.data.tracked).map(sectionProgressId)} />
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={title} lede={lede} readTime={total}>
+    <ProgressMeter ids={steps.map((s) => s.id)} />
   </PageHeader>
   <div class="wrap page-body">
-    <ol class="toc">
+    <a class="btn btn-teal btn-block" href={u(steps[0].href)} data-continue={JSON.stringify(steps)} data-start={t("page.startWith", { title: steps[0].title })} data-cont={t("page.continueWith", { title: "{title}" })} data-review={t("page.reviewFrom", { title: steps[0].title })}>
+      <span data-continue-label>{t("page.startWith", { title: steps[0].title })}</span>
+    </a>
+    <ol class="rows">
       {pages.map((p, i) => (
-        <li>
-          <a class="toc-item card tappable" href={sectionHref(p)} data-read-id={sectionProgressId(p)}>
-            <span class="toc-n">{String(i + 1).padStart(2, "0")}</span>
-            <span class="toc-main">
-              <span class="t-h4">{p.data.title}</span>
-              <span class="t-small">{p.data.readTime} {t("page.minRead")}</span>
-            </span>
-            <span class="toc-check" aria-hidden="true"><Icon name="check" size={18} /></span>
-          </a>
-        </li>
+        <li><Row href={sectionHref(p)} title={p.data.title} sub={`${p.data.readTime} ${t("page.minRead")}`} lead={String(i + 1)} readId={p.data.tracked ? sectionProgressId(p) : undefined} /></li>
       ))}
     </ol>
     <slot />

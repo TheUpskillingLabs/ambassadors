@@ -36,12 +36,22 @@
     "yourWhy": "Your 30-second why",
     "noStoryYet": "You haven't saved a 30-second why yet.",
     "writeYourStory": "Write your story",
-    "editYourStory": "Edit"
+    "editYourStory": "Edit",
+    "doneNext": "Done · Next: {title}",
+    "doneBack": "Done · Back to {title}",
+    "nextTo": "Next: {title}",
+    "backToTitle": "Back to {title}",
+    "prevTo": "{title}",
+    "pageNav": "Page navigation",
+    "stepOf": "{section} · {n} of {total}",
+    "startWith": "Start with {title}",
+    "continueWith": "Continue: {title}",
+    "reviewFrom": "All read. Review from the start"
   },
   "home": {
     "eyebrow": "Ambassador Guide",
     "firstTitle": "Get ready to represent The Labs.",
-    "firstLede": "Everything you need to explain The Labs, run a good conversation, and give a short talk. Start with a 10-minute orientation.",
+    "firstLede": "Learn to explain The Labs, run a good conversation, and give a short talk. No account needed. Your progress stays on this device.",
     "firstCta": "Start Here",
     "returningTitle": "Welcome back.",
     "returningLede": "Refresh a playbook, or open the deck and present.",
@@ -54,11 +64,30 @@
     "whatsNew": "What's new",
     "newDot": "New updates",
     "allSections": "Everything in the guide",
-    "resume": "Pick up where you left off"
+    "resume": "Pick up where you left off",
+    "firstCardKicker": "{n} short pages · {min} min",
+    "firstCardTitle": "Start here",
+    "firstCardBody": "What the role is, the minimum we ask, and where to go next.",
+    "pathTitle": "Your path to ready",
+    "pathNote": "About 45 minutes in total, in as many sittings as you like.",
+    "toolsTitle": "Tools",
+    "toolPractice": "Practice",
+    "toolPracticeSub": "Situations to think through, one at a time",
+    "toolRefreshSub": "The 2-minute version of each playbook",
+    "toolDeckSub": "Present the deck from any browser",
+    "toolHelp": "Help & Updates",
+    "toolHelpSub": "Who to ask, and what's changed",
+    "latestUpdate": "Latest: {change}",
+    "groupOfRead": "{n} of {total} read",
+    "groupDone": "Done",
+    "storySaved": "Saved on this device",
+    "storyNotYet": "Not written yet",
+    "readiness": "{n} of {total} ready",
+    "minLeft": "{min} min left"
   },
   "practice": {
     "title": "Practice",
-    "prompt": "What would you say?",
+    "prompt": "What would you say? Say it in your head first.",
     "reveal": "Reveal",
     "hide": "Hide",
     "example": "Example reply",
@@ -81,7 +110,13 @@
     },
     "lede": "Read each situation, decide what you'd say, then reveal an example reply. No scoring, no typing.",
     "allLink": "All practice scenarios",
-    "withAudience": "Practice with this audience"
+    "withAudience": "Practice with this audience",
+    "position": "{n} of {total}",
+    "lastTime": "Last time: {v}",
+    "had": "Had it",
+    "close": "Close",
+    "notYet": "Not yet",
+    "selfCheck": "How close was yours? Only you see this."
   },
   "story": {
     "title": "Your Story",
@@ -91,13 +126,28 @@
     "reassembleNote": "Building a new draft replaces what's in the box below.",
     "words": "words",
     "seconds": "sec spoken",
-    "target": "Aim for 75 to 80 words, about 30 seconds.",
+    "target": "Aim for about 65 to 85 words, about 30 seconds.",
     "saved": "Saved on this device",
     "clear": "Clear my story",
     "clearConfirm": "Clear your saved answers and draft from this device?",
     "print": "Print",
     "examples": "See examples",
-    "examplePrefix": "For example:"
+    "examplePrefix": "For example:",
+    "stepOf": "Question {n} of {total}",
+    "draftStep": "Your draft",
+    "continue": "Continue",
+    "draftHelp": "Edit it until it sounds like you. Read it out loud with the timer below.",
+    "bandShort": "A little short. Add a detail.",
+    "bandOk": "About 30 seconds.",
+    "bandLong": "Over 30 seconds. Cut the setup, not the change.",
+    "rehearse": "Rehearse out loud",
+    "rhReady": "Ready when you are",
+    "rhStart": "Start 30 seconds",
+    "rhStop": "Stop",
+    "rhGo": "On time",
+    "rhWrap": "Wrap up",
+    "rhOver": "Over time",
+    "redo": "Redo questions"
   },
   "refresher": {
     "title": "Refreshers",
@@ -105,13 +155,15 @@
     "shape": "The shape",
     "reminders": "Three reminders",
     "print": "Print this page",
-    "fullPlaybook": "Full playbook"
+    "fullPlaybook": "Full playbook",
+    "practiceRow": "Practice a few situations",
+    "practiceSub": "Cards you marked Not yet come back first"
   },
   "deck": {
     "title": "Deck",
     "lede": "Present the boilerplate deck from any browser. No login, no download. It works offline after you've opened it once.",
     "presentNow": "Present now",
-    "presentLede": "Full screen. Arrow keys, click, or swipe to move. Press F for full screen.",
+    "presentLede": "Arrows, click, or swipe to move. F for full screen. ? for all keys.",
     "short": "60-second version",
     "notes": "Notes view (laptop)",
     "practice": "Practice mode",
@@ -121,7 +173,10 @@
     "assets": "Approved photos, proof points, and logos",
     "lastUpdated": "Template last updated",
     "copyFresh": "Make a fresh copy for every event.",
-    "proofPoints": "Approved proof points"
+    "proofPoints": "Approved proof points",
+    "moreWays": "Other ways to use it",
+    "notesSub": "Current and next slide, cues, and a pacing timer. Controls a second window.",
+    "practiceSub": "Talk cues under each slide, for rehearsing"
   },
   "present": {
     "exit": "Exit",
@@ -133,12 +188,51 @@
     "now": "Now",
     "talkCue": "Talk cue",
     "noNext": "End of deck",
-    "hint": "Arrows, click, or swipe. F for full screen.",
+    "hint": "Arrows, click, or swipe. F full screen. ? for all keys.",
     "comingSoon": "Next dates coming soon",
     "joinCta": "Join The Labs",
     "placeholder": "[PLACEHOLDER]",
     "openAudience": "Open presentation window",
-    "resetTimer": "Reset timer"
+    "resetTimer": "Reset timer",
+    "keys": "Keyboard shortcuts",
+    "close": "Close",
+    "paceOn": "On pace · {total} planned",
+    "paceBehind": "Behind by {t} · speed up",
+    "paceAhead": "Ahead by {t} · slow down",
+    "keyListItems": [
+      [
+        "→  Space  N",
+        "Next slide"
+      ],
+      [
+        "←  P",
+        "Previous slide"
+      ],
+      [
+        "2  Enter",
+        "Go to slide 2"
+      ],
+      [
+        "Home  End",
+        "First or last slide"
+      ],
+      [
+        "B  or  .",
+        "Black screen"
+      ],
+      [
+        "W  or  ,",
+        "White screen"
+      ],
+      [
+        "F",
+        "Full screen"
+      ],
+      [
+        "?",
+        "This list"
+      ]
+    ]
   },
   "help": {
     "title": "Help & Updates",
@@ -171,5 +265,11 @@
     "methodTerms": "Method terms",
     "do": "Do",
     "dont": "Don't"
+  },
+  "invite": {
+    "title": "Invite with a date",
+    "template": "\"The next {what} is {day} at {time}, at {place}. Want the link?\"",
+    "fallback": "\"The next dates are on theupskillinglabs.org. Want the link?\"",
+    "note": "An example, not a line. A date and a place make it easy to say yes."
   }
 }

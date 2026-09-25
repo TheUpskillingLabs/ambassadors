@@ -1,13 +1,12 @@
 ---
-/* A plain guide page (Start Here, Know the Labs, and utility pages):
-   header, "In 30 seconds", Markdown body, included content, Done, pager. */
+/* A guide page (Start Here, Know the Labs, utility pages): header,
+   "In 30 seconds", Markdown body, included content, then Done · Next. */
 import { render, type CollectionEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHeader from "./PageHeader.astro";
 import ProgressMeter from "./ProgressMeter.astro";
 import Includes from "./Includes.astro";
-import DoneBar from "./DoneBar.astro";
-import Pager from "./Pager.astro";
+import NextBar from "./NextBar.astro";
 import { t } from "../lib/i18n";
 import { sectionHref, sectionProgressId } from "../lib/content";
 
@@ -23,23 +22,27 @@ const { Content } = await render(entry);
 const d = entry.data;
 const tracked = siblings.filter((s) => s.data.tracked);
 const i = siblings.findIndex((s) => s.id === entry.id);
-const prev = siblings[i - 1] ?? null;
-const next = siblings[i + 1] ?? null;
-const link = (e: CollectionEntry<"pages"> | null) => e && { href: sectionHref(e), title: e.data.navLabel ?? e.data.title };
+const link = (e?: CollectionEntry<"pages">) => (e ? { href: sectionHref(e), title: e.data.navLabel ?? e.data.title } : null);
 const pid = sectionProgressId(entry);
+const ti = tracked.findIndex((s) => s.id === entry.id);
 ---
 <Base title={d.title} description={d.summary} nav={nav}>
-  <PageHeader back={{ href: sHref, label: sectionTitle }} eyebrow={sectionTitle} title={d.title} readTime={d.readTime} placeholder={d.placeholder}>
-    {d.tracked && tracked.length > 1 && <ProgressMeter ids={tracked.map(sectionProgressId)} />}
+  <PageHeader
+    back={{ href: sHref, label: sectionTitle }}
+    eyebrow={d.tracked && tracked.length > 1 ? t("page.stepOf", { section: sectionTitle, n: ti + 1, total: tracked.length }) : sectionTitle}
+    title={d.title}
+    readTime={d.readTime}
+    placeholder={d.placeholder}
+  >
+    {d.tracked && tracked.length > 1 && <ProgressMeter ids={tracked.map(sectionProgressId)} current={ti} />}
   </PageHeader>
   <article class="wrap page-body" data-page-id={d.tracked ? pid : undefined}>
-    <section class="summary-box">
-      <h2 class="lbl lbl-teal">{t("page.inThirtySeconds")}</h2>
+    <section class="panel lead">
+      <h2 class="block-h">{t("page.inThirtySeconds")}</h2>
       <p class="t-lede">{d.summary}</p>
     </section>
     <div class="prose"><Content /></div>
     <Includes include={d.include} />
-    {d.tracked && <DoneBar id={pid} nextHref={next ? sectionHref(next) : undefined} />}
-    <Pager prev={link(prev)} next={link(next)} overview={{ href: sHref, label: `${t("page.backTo")} ${sectionTitle}` }} />
+    <NextBar id={d.tracked ? pid : undefined} next={link(siblings[i + 1])} prev={link(siblings[i - 1])} up={{ href: sHref, title: sectionTitle }} />
   </article>
 </Base>

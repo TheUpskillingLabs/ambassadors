@@ -58,7 +58,8 @@
       "bg": "cover",
       "eyebrow": "A quick question",
       "cue": "Ask the question. Raise your own hand. Pause and let hands go up.",
-      "notes": "15 seconds. If nobody raises a hand, answer it yourself: 'I'll go first.'"
+      "notes": "15 seconds. If nobody raises a hand, answer it yourself: 'I'll go first.'",
+      "seconds": 15
     },
     {
       "n": 2,
@@ -66,7 +67,8 @@
       "bg": "navy",
       "eyebrow": "",
       "cue": "Your 30-second why: where you were, what happened, what changed.",
-      "notes": "30 seconds. The photo is a backdrop. Look at the room, not the screen."
+      "notes": "30 seconds. The photo is a backdrop. Look at the room, not the screen.",
+      "seconds": 30
     },
     {
       "n": 3,
@@ -74,7 +76,8 @@
       "bg": "paper",
       "eyebrow": "What The Labs is",
       "cue": "Read the sentence as written, then walk the ladder in one breath.",
-      "notes": "30 seconds. Say 'small team' before 'Pod' if the room is new to The Labs."
+      "notes": "30 seconds. Say 'small team' before 'Pod' if the room is new to The Labs.",
+      "seconds": 30
     },
     {
       "n": 4,
@@ -82,7 +85,8 @@
       "bg": "paper",
       "eyebrow": "Proof",
       "cue": "One stat. Say it, then stop.",
-      "notes": "15 seconds. Don't add a second number."
+      "notes": "15 seconds. Don't add a second number.",
+      "seconds": 15
     },
     {
       "n": 5,
@@ -90,7 +94,8 @@
       "bg": "ink",
       "eyebrow": "Next session",
       "cue": "Say the date, the place, and what to expect. Then: 'Join The Labs.'",
-      "notes": "30 seconds. The date comes from the schedule, so it's always current."
+      "notes": "30 seconds. The date comes from the schedule, so it's always current.",
+      "seconds": 30
     },
     {
       "n": 6,
@@ -98,7 +103,8 @@
       "bg": "paper",
       "eyebrow": "Join The Labs",
       "cue": "Leave this up. 'The code goes to theupskillinglabs.org. Happy to take questions.'",
-      "notes": "Stay on this slide for all of Q&A."
+      "notes": "Stay on this slide for all of Q&A.",
+      "seconds": 15
     }
   ],
   "shortSlides": [

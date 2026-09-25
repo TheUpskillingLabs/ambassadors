@@ -1,0 +1,22 @@
+---
+/* A clickable row: white card with a trailing chevron. The only card-like
+   element in the guide, so anything that looks like this can be pressed.
+   With readId, it shows a check instead of the chevron once read. */
+import { u } from "../lib/url";
+import Icon from "./Icon.astro";
+import { t } from "../lib/i18n";
+interface Props { href: string; title: string; sub?: string; lead?: string; readId?: string; external?: boolean; attrs?: Record<string, string> }
+const { href, title, sub, lead, readId, external = false, attrs = {} } = Astro.props;
+---
+<a class="row" href={external ? href : u(href)} data-read-id={readId} {...(external ? { rel: "noopener", target: "_blank" } : {})} {...attrs}>
+  {(lead || Astro.slots.has("lead")) && <span class="row-lead">{lead}<slot name="lead" /></span>}
+  <span class="row-main">
+    <span class="row-title">{title}<slot name="title-end" /></span>
+    {sub && <span class="row-sub">{sub}</span>}
+    <slot name="sub" />
+  </span>
+  <span class="row-end">
+    <span class="go-mark"><Icon name="chevron" size={20} /></span>
+    {readId && <span class="done-mark" aria-label={t("page.markedRead")}><Icon name="check" size={16} /></span>}
+  </span>
+</a>

@@ -14,18 +14,16 @@ const c = help.coordinator;
 <Base title={t("help.title")} nav="help">
   <PageHeader back={{ href: u("/"), label: t("nav.home") }} title={t("help.title")} />
   <div class="wrap page-body">
-    <section class="card">
-      <div class="card-body">
-        <div class="head-meta"><h2 class="lbl lbl-teal">{t("help.contact")}</h2><Placeholder show={help.placeholder} /></div>
-        <p class="t-h3">{c.name}</p>
-        <p class="t-small">{c.role}</p>
-        <p class="t-body">{c.note}</p>
-        <a class="see" href={`mailto:${c.email}`}>{c.email}</a>
-      </div>
+    <section class="panel">
+      <h2 class="block-h">{t("help.contact")}</h2>
+      <p class="t-h3">{c.name}</p>
+      <p class="meta"><span>{c.role}</span><Placeholder show={help.placeholder} /></p>
+      <p class="t-body">{c.note}</p>
+      <a class="see" href={`mailto:${c.email}`}>{c.email}</a>
     </section>
 
-    <section class="tpl" id="whats-new" data-newest={newest}>
-      <h2 class="tpl-h">{t("help.whatsNew")}</h2>
+    <section class="block" id="whats-new" data-newest={newest}>
+      <h2 class="block-h">{t("help.whatsNew")}</h2>
       <ol class="updates">
         {updates.map((up) => (
           <li class="update" data-date={up.data.date.toISOString().slice(0, 10)}>
@@ -37,8 +35,8 @@ const c = help.coordinator;
       </ol>
     </section>
 
-    <section class="tpl">
-      <h2 class="tpl-h">{t("help.progress")}</h2>
+    <section class="block">
+      <h2 class="block-h">{t("help.progress")}</h2>
       <p class="t-body">{t("help.progressLede")}</p>
       <button class="btn btn-ghost btn-sm" type="button" data-reset data-confirm={t("help.resetConfirm")} data-done={t("help.resetDone")}>{t("help.reset")}</button>
       <p class="t-small" data-reset-msg role="status"></p>

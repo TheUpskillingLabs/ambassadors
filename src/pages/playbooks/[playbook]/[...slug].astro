@@ -1,16 +1,17 @@
 ---
-import { u } from "../../../lib/url";
 /* The playbook page template — every page in both playbooks:
    title · read time · In 30 seconds · why · shape · examples (not lines) ·
-   more detail · watch out for · try it · Done · Previous/Next. */
+   watch out for · try it · more detail (collapsed) · Done · Next.
+   The summary comes first so a returning reader can stop there. */
 import { render } from "astro:content";
 import Base from "../../../layouts/Base.astro";
 import PageHeader from "../../../components/PageHeader.astro";
 import ProgressMeter from "../../../components/ProgressMeter.astro";
 import StoryCard from "../../../components/StoryCard.astro";
+import DatedInvite from "../../../components/DatedInvite.astro";
 import PracticeDeck from "../../../components/PracticeDeck.astro";
-import DoneBar from "../../../components/DoneBar.astro";
-import Pager from "../../../components/Pager.astro";
+import NextBar from "../../../components/NextBar.astro";
+import Icon from "../../../components/Icon.astro";
 import { t } from "../../../lib/i18n";
 import { playbookPages, playbookHref, playbookProgressId, pageSlug } from "../../../lib/content";
 import sections from "../../../../content/site/sections.json";
@@ -33,65 +34,64 @@ const { Content } = await render(entry);
 const book = sections.playbooks.items[d.playbook];
 const i = pages.findIndex((p) => p.id === entry.id);
 const link = (p?: typeof entry) => (p ? { href: playbookHref(p), title: p.data.navLabel ?? p.data.title } : null);
-const overviewHref = playbookHref(pages[0]);
-const pid = playbookProgressId(entry);
 const isOverview = i === 0;
+const pid = playbookProgressId(entry);
 const hasBody = Boolean(entry.body?.trim());
 ---
 <Base title={isOverview ? d.title : `${d.title} · ${book.title}`} description={d.summary} nav="playbooks">
   <PageHeader
-    back={isOverview ? { href: u("/playbooks/"), label: t("nav.playbooks") } : { href: overviewHref, label: book.title }}
-    eyebrow={`${book.title} · ${i + 1}/${pages.length}`}
+    back={isOverview ? { href: "/playbooks/", label: t("nav.playbooks") } : { href: playbookHref(pages[0]), label: book.title }}
+    eyebrow={t("page.stepOf", { section: book.title, n: i + 1, total: pages.length })}
     title={d.title}
     readTime={d.readTime}
     placeholder={d.placeholder}
   >
-    <ProgressMeter ids={pages.map(playbookProgressId)} />
+    <ProgressMeter ids={pages.map(playbookProgressId)} current={i} />
   </PageHeader>
 
   <article class="wrap page-body" data-page-id={pid}>
-    <section class="summary-box">
-      <h2 class="lbl lbl-teal">{t("page.inThirtySeconds")}</h2>
+    <section class="panel lead">
+      <h2 class="block-h">{t("page.inThirtySeconds")}</h2>
       <p class="t-lede">{d.summary}</p>
     </section>
 
-    <section class="tpl">
-      <h2 class="tpl-h">{t("page.why")}</h2>
+    <section class="block">
+      <h2 class="block-h">{t("page.why")}</h2>
       <p class="t-body">{d.why}</p>
     </section>
 
-    <section class="tpl">
-      <h2 class="tpl-h">{t("page.shape")}</h2>
-      <ol class="shape">{d.shape.map((s) => <li>{s}</li>)}</ol>
+    <section class="block">
+      <h2 class="block-h">{t("page.shape")}</h2>
+      <ol class="stepper">{d.shape.map((s) => <li>{s}</li>)}</ol>
     </section>
 
-    <section class="tpl examples">
-      <h2 class="tpl-h">{t("page.examples")}</h2>
-      <ul>{d.examples.map((e) => <li>{e}</li>)}</ul>
+    <section class="block">
+      <h2 class="block-h">{t("page.examples")}</h2>
+      <ul class="quotes">{d.examples.map((e) => <li>{e}</li>)}</ul>
     </section>
 
     {d.showStory && <StoryCard />}
+    {d.showInvite && <DatedInvite />}
 
-    {hasBody && (
-      <section class="tpl">
-        <h2 class="tpl-h">{t("page.moreDetail")}</h2>
-        <div class="prose"><Content /></div>
-      </section>
-    )}
-
-    <section class="tpl">
-      <h2 class="tpl-h">{t("page.watchOutFor")}</h2>
-      <ul class="watch">{d.watchOutFor.map((w) => <li>{w}</li>)}</ul>
+    <section class="block">
+      <h2 class="block-h">{t("page.watchOutFor")}</h2>
+      <ul class="bullets">{d.watchOutFor.map((w) => <li>{w}</li>)}</ul>
     </section>
 
-    <section class="tpl tryit">
-      <h2 class="lbl lbl-teal">{t("page.tryIt")}</h2>
+    <section class="tryit">
+      <h2 class="block-h">{t("page.tryIt")}</h2>
       <p class="t-h4">{d.tryIt}</p>
     </section>
 
+    {hasBody && (
+      <details class="more">
+        <summary>{t("page.moreDetail")} <Icon name="chevron" size={18} /></summary>
+        <div class="prose"><Content /></div>
+      </details>
+    )}
+
     {d.practice && <PracticeDeck mode={d.playbook} />}
 
-    <DoneBar id={pid} nextHref={link(pages[i + 1])?.href} />
-    <Pager prev={link(pages[i - 1])} next={link(pages[i + 1])} overview={isOverview ? undefined : { href: overviewHref, label: t("page.backToOverview") }} />
+    <NextBar id={pid} next={link(pages[i + 1])} prev={link(pages[i - 1])} up={{ href: playbookHref(pages[0]), title: book.title }} />
   </article>
 </Base>
