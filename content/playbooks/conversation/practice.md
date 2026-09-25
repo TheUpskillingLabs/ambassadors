@@ -1,6 +1,6 @@
 ---
 playbook: conversation
-order: 6
+order: 5
 title: Practice
 readTime: 5
 summary: "Read each situation, decide what you'd say, then reveal an example reply and why it works. There's no score. The goal is to have said something out loud before you're in the room."

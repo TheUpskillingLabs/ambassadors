@@ -82,11 +82,6 @@ img { max-width: 100%; height: auto; }
 /* ── cards ── */
 .card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--r); }
 :where(a.card) { display: block; color: inherit; }
-.card-body { padding: 20px; }
-.card.tappable { transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.1, 1), box-shadow 0.2s, border-color 0.2s; }
-@media (hover: hover) {
-  .card.tappable:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: transparent; }
-}
 
 /* ── chips (filters) ── */
 .chip {
@@ -105,7 +100,7 @@ img { max-width: 100%; height: auto; }
 
 /* ── forms ── */
 .field { display: flex; flex-direction: column; gap: 8px; }
-.field label, .field .field-label { font-size: 12px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--meta); line-height: 16px; }
+.field label { font-size: 12px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase; color: var(--meta); line-height: 16px; }
 .field input, .field textarea {
   background: var(--white); border: 1px solid var(--rule); border-radius: var(--r); color: var(--ink);
   font-size: 16px; line-height: 24px; padding: 14px 16px; outline: none; width: 100%;
@@ -116,7 +111,6 @@ img { max-width: 100%; height: auto; }
 .field textarea { resize: vertical; min-height: 104px; }
 
 /* ── rules ── */
-.ed-rule { border: 0; border-top: 2px solid var(--ink); margin: 0; }
 .rule { border: none; border-top: 1px solid var(--rule); width: 100%; margin: 0; }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,7 +1,9 @@
 ---
-import SectionIndex from "../../components/SectionIndex.astro";
+/* Start Here is one page: the job, the minimum, then on to Know the Labs. */
+import GuidePage from "../../components/GuidePage.astro";
 import { sectionPages } from "../../lib/content";
+import { u } from "../../lib/url";
 import sections from "../../../content/site/sections.json";
 const pages = await sectionPages("start-here");
 ---
-<SectionIndex title={sections.startHere.title} lede={sections.startHere.lede} pages={pages} nav="start-here" />
+<GuidePage entry={pages[0]} siblings={pages} sectionTitle={sections.startHere.title} sectionHref={u("/")} nav="start-here" after={{ href: u("/know-the-labs/what-we-are/"), title: sections.knowTheLabs.title }} />

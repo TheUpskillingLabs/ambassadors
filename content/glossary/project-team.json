@@ -1,8 +1,0 @@
-{
-  "term": "Project Team",
-  "kind": "brand",
-  "definition": "A smaller team of three to five people, formed within a Build Cycle, that builds one solution.",
-  "do": "\"Your Project Team builds and tests it in month three.\"",
-  "dont": "Don't use it interchangeably with Pod.",
-  "placeholder": true
-}

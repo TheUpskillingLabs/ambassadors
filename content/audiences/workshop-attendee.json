@@ -14,8 +14,7 @@
   ],
   "commonQuestions": [
     "time",
-    "what-you-get",
-    "projects"
+    "what-you-get"
   ],
   "placeholder": true
 }

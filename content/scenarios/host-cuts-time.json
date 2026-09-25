@@ -9,5 +9,6 @@
     "time",
     "short-version"
   ],
-  "placeholder": true
+  "placeholder": true,
+  "core": true
 }

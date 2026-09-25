@@ -1,9 +1,0 @@
-{
-  "order": 7,
-  "question": "Can my organization bring a problem?",
-  "answer": "Yes. Teams work on real problems and talk to the people living them. You'd need to be willing to talk with a team; you don't need to be a client.",
-  "audiences": [
-    "problem-owner"
-  ],
-  "placeholder": true
-}

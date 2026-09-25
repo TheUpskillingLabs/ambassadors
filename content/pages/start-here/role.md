@@ -1,27 +1,23 @@
 ---
 section: start-here
 order: 1
-title: The role
-readTime: 3
-summary: "An ambassador helps the right people find The Labs. You do that in two ways: 1:1 conversations and short talks to a room. You don't need to know everything. You need to explain The Labs accurately, tell your own story, and point people to one next step."
+title: Start here
+readTime: 2
+summary: "You help the right people find The Labs: in 1:1 conversations and short talks. The minimum: one real conversation or one short talk before your next event."
 placeholder: true
 ---
 
-## What an ambassador does
+## The job
 
-You represent The Upskilling Labs in your own community: at libraries, meetups, workforce programs, and anywhere people are figuring out what's next. Most of the work is noticing when someone might be a fit and making it easy for them to take a first step.
+- **Ask** someone about what they're working toward.
+- **Share** 30 seconds of your own story.
+- **Invite** them to one dated next step, usually the next workshop.
 
-You'll do this in two modes:
+## The minimum
 
-- **The Conversation.** A 1:1, usually two to five minutes. Ask, Share, Invite.
-- **The Room.** A 60-second or 5-minute talk to a group, with or without slides.
+1. Make your 1-minute plan.
+2. Read the Conversation playbook (about 12 minutes).
+3. Write your 30-second why.
+4. Have one conversation, or give one short talk.
 
-## What an ambassador doesn't do
-
-- You don't sell. Nobody pays to join, and nobody should feel pushed.
-- You don't collect contact details. People Join The Labs themselves at theupskillinglabs.org.
-- You don't speak for The Labs on things you're unsure about. "I don't know, but here's who does" is always a good answer.
-
-## Why it matters
-
-Most people who join The Labs come because someone they met made it feel possible. That's you.
+You don't sell and you don't collect contact details. People Join The Labs themselves at theupskillinglabs.org.

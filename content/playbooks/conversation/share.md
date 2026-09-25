@@ -1,10 +1,10 @@
 ---
 playbook: conversation
-order: 3
+order: 2
 title: Share
-readTime: 3
+readTime: 2
 summary: "Connect what they told you to 30 seconds of your own story. Your why is more convincing than any description of the program, as long as it's short and true."
-why: "A real person's experience makes The Labs concrete. It also gives them permission to see themselves in it."
+why: "A real person's experience makes The Labs concrete."
 shape:
   - "Bridge from what they said: 'That's close to why I got involved.'"
   - "Tell your 30-second why: where you were, what happened, what changed."
@@ -22,9 +22,3 @@ tryIt: "Say your 30-second why out loud with a timer. If it runs past 40 seconds
 showStory: true
 placeholder: true
 ---
-
-Your story does more work than a program description. It doesn't need to be dramatic. "I wanted to learn AI tools with other people instead of alone, and it worked" is a complete story.
-
-If you haven't written your 30-second why yet, go to Your Story. It takes about ten minutes and saves on this device. Once it's saved, it shows up on this page and on the Conversation refresher.
-
-**One sentence on The Labs.** Keep it plain: "The Labs is a free community where people learn by building real projects together, in small teams, over a few months." Say more only if they ask.

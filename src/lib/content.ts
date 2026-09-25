@@ -16,7 +16,7 @@ export async function playbookPages(pb: PlaybookId) {
 
 export function playbookHref(e: CollectionEntry<"playbooks">): string {
   const slug = pageSlug(e.id);
-  return u(slug === "overview" ? `/playbooks/${e.data.playbook}/` : `/playbooks/${e.data.playbook}/${slug}/`);
+  return u(e.data.order === 1 ? `/playbooks/${e.data.playbook}/` : `/playbooks/${e.data.playbook}/${slug}/`);
 }
 
 /** Progress id for a page — stable, used as the localStorage key. */
@@ -30,7 +30,7 @@ export async function sectionPages(section: CollectionEntry<"pages">["data"]["se
 }
 
 export function sectionHref(e: CollectionEntry<"pages">): string {
-  return u(`/${e.data.section}/${pageSlug(e.id)}/`);
+  return u(e.data.section === "start-here" ? "/start-here/" : `/${e.data.section}/${pageSlug(e.id)}/`);
 }
 
 export function sectionProgressId(e: CollectionEntry<"pages">): string {

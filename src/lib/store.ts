@@ -8,6 +8,7 @@ const KEYS = {
   updatesSeen: "ag.updatesSeen.v1",
   practice: "ag.practice.v1",
   profile: "ag.profile.v1",
+  asks: "ag.asks.v1",
 } as const;
 
 function read<T>(key: string, fallback: T): T {
@@ -108,6 +109,9 @@ export type Profile = {
   eventDate?: string; // YYYY-MM-DD, local
   onboarded?: number; // timestamp; set on finish or skip
   readySince?: number; // first time the whole path was complete
+  me?: string; // own first name, for "say {me} sent you"
+  planWhere?: string; // if-then plan: "When I'm at {planWhere}…"
+  planWho?: string; // "…I'll ask {planWho}."
 };
 
 /** The ambassador's own answers from onboarding. Device-only. */
@@ -122,6 +126,19 @@ export const profile = {
   },
   clear(): void {
     remove(KEYS.profile);
+  },
+};
+
+export type Ask = { name: string; sent?: number };
+
+/** The ambassador's own "who will you ask" list. Device-only; invites are
+ *  sent from the ambassador's own phone, never by this site. */
+export const asks = {
+  get(): Ask[] {
+    return read<Ask[]>(KEYS.asks, []);
+  },
+  set(list: Ask[]): void {
+    write(KEYS.asks, list);
   },
 };
 

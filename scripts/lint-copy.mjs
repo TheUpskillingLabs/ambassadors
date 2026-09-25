@@ -13,7 +13,7 @@ const RULES = [
   [/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u, "no emoji"],
 ];
 // Files (or JSON keys) that quote banned words in order to forbid them.
-const ALLOW_FILES = new Set(["content/pages/know-the-labs/language.md", "content/site/ui.en.json"]);
+const ALLOW_FILES = new Set(["content/pages/know-the-labs/common-questions.md", "content/site/ui.en.json"]);
 const ALLOW_KEYS = new Set(["dont", "$comment"]);
 
 async function walk(dir) {

@@ -1,38 +1,40 @@
 ---
-/* Home — browse like a travel app, act like a checklist.
-   First visit: "Up next" is Start Here, then the path rail and tools.
-   Returning (Start Here done): "Before your next event" comes first
-   (Present now, both refreshers, practice), then "Up next", then the path.
-   Ready (whole path done): the hero says so and points at the deck.
-   Visit state is set before paint (Base.astro); the rest from localStorage. */
-import { getCollection } from "astro:content";
+/* Home — one next step, not a menu.
+   1. Event countdown (only when an event is within 14 days).
+   2. Up next: make your plan → next unread page → send your 3 invites →
+      present. One card that changes state.
+   3. Your path as a plain list, plus "Stuck? Text your coordinator".
+      Finishing the path earns the ambassador pin (design/pin/), so the
+      pin sits under the title and the coordinator line turns into the claim.
+   Refreshers, Deck and Help live in the tab bar. */
 import Base from "../layouts/Base.astro";
-import Cover from "../components/Cover.astro";
 import Icon from "../components/Icon.astro";
+import Orb from "../components/Orb.astro";
+import Row from "../components/Row.astro";
+import CoordinatorLink from "../components/CoordinatorLink.astro";
 import { u } from "../lib/url";
 import { t } from "../lib/i18n";
-import { readinessPath, COVERS } from "../lib/content";
-import ob from "../../content/site/onboarding.json";
-import Orb from "../components/Orb.astro";
+import { readinessPath } from "../lib/content";
 const path = await readinessPath();
-const refreshers = (await getCollection("refreshers")).sort((a) => (a.data.playbook === "conversation" ? -1 : 1));
-const scenarioCount = (await getCollection("scenarios")).length;
-const pathData = path.map((g, i) => ({ id: g.id, num: String(i + 1).padStart(2, "0"), cover: g.cover, title: g.title, href: g.href, kind: g.kind, steps: g.steps.map((s) => ({ id: s.id, title: s.title, href: s.href, readTime: s.readTime })) }));
-const first = path[0];
+const pathData = path.map((g) => ({ id: g.id, cover: g.cover, title: g.title, href: g.href, kind: g.kind, steps: g.steps.map((s) => ({ id: s.id, title: s.title, href: s.href, readTime: s.readTime })) }));
+const states = {
+  plan: { title: t("home.upPlan"), sub: t("home.upPlanSub"), href: u("/welcome/"), cover: "cover" },
+  invite: { title: t("home.upInvite"), sub: t("home.upInviteSub"), href: u("/playbooks/conversation/invite/"), cover: "teal" },
+  present: { title: t("home.upPresent"), sub: t("home.upPresentSub"), href: u("/present/"), cover: "cover" },
+};
 ---
-<Base nav="home" gate>
+<Base nav="home">
   <div class="wrap">
     <section class="hello">
-      <h1 class="only-first" data-hello-first data-named={t("home.firstTitleNamed")}>{t("home.firstTitle")}</h1>
-      <h1 class="only-returning" data-hello-returning data-named={t("home.returningTitleNamed")} data-ready={t("home.readyTitle")}>{t("home.returningTitle")}</h1>
-      <p class="session-line" data-session-wrap><span class="dot" aria-hidden="true"></span><span data-session-line data-before={t("home.sessionBefore")}>{t("home.noSession")}</span></p>
+      <h1 class="only-first">{t("home.firstTitle")}</h1>
+      <h1 class="only-returning">{t("home.returningTitle")}</h1>
+      <p class="pin-goal"><img src={u("/pin.svg")} width="40" height="40" alt="" />{t("home.pin")}</p>
     </section>
 
-    <div class="home2" data-home={JSON.stringify(pathData)} data-focus-map={JSON.stringify(Object.fromEntries(ob.type.options.map((o) => [o.id, { title: o.focus.title, href: u(o.focus.href), label: o.label }])))}
+    <div class="home2" data-home={JSON.stringify(pathData)} data-states={JSON.stringify(states)}
       data-of-read={t("home.groupOfRead")} data-done={t("home.groupDone")} data-story-saved={t("home.storySaved")}
-      data-story-not={t("home.storyNotYet")} data-ready={t("home.readiness")} data-min-left={t("home.minLeft")}>
+      data-story-not={t("home.storyNotYet")} data-ready={t("home.readiness")} data-if-then={t("home.ifThen")}>
 
-      <!-- Event mode: countdown + a 2-minute plan -->
       <section class="event-card s-cover grain" data-event-card hidden
         data-today={t("event.today")} data-tomorrow={t("event.tomorrow")} data-days={t("event.days")}
         data-refresh-conv={u("/refreshers/conversation/")} data-refresh-room={u("/refreshers/room/")} data-practice={u("/practice/")}>
@@ -45,215 +47,92 @@ const first = path[0];
             <li><a class="ev-step" href="#" data-ev-practice><span class="ev-n">2</span><span><b>{t("event.step2")}</b></span><Icon name="chevron" size={18} /></a></li>
             <li><a class="ev-step" href={u("/present/?practice")}><span class="ev-n">3</span><span><b>{t("event.step3")}</b></span><Icon name="chevron" size={18} /></a></li>
           </ol>
-          <a class="see" href={u("/welcome/?edit")}>{t("event.change")} →</a>
         </div>
       </section>
 
-      <!-- Returning: before your next event -->
-      <section class="only-returning">
-        <div class="rail-head"><h2 class="rail-title">{t("home.refreshersTitle")}</h2></div>
-        <ul class="rail">
-          <li>
-            <a class="lc" href={u("/present/")}>
-              <Cover variant={COVERS.deck}><span class="cv-label">{t("deck.title")}</span></Cover>
-              <span class="lc-text"><span class="lc-title">{t("home.presentCta")}<Icon name="play" size={18} /></span><span class="lc-sub">{t("home.presentSub")}</span></span>
-            </a>
-          </li>
-          {refreshers.map((r) => (
-            <li>
-              <a class="lc" href={u(`/refreshers/${r.data.playbook}/`)}>
-                <Cover variant={COVERS[r.data.playbook]}><span class="cv-label">{t("refresher.title")}</span></Cover>
-                <span class="lc-text"><span class="lc-title">{r.data.title}</span><span class="lc-sub">{r.data.readTime} min</span></span>
-              </a>
-            </li>
-          ))}
-          <li>
-            <a class="lc" href={u("/practice/")}>
-              <Cover variant={COVERS.practice}><span class="cv-label">{t("home.toolPractice")}</span></Cover>
-              <span class="lc-text"><span class="lc-title">{t("home.practiceTitle")}</span><span class="lc-sub">{t("home.practiceSub", { n: scenarioCount })}</span></span>
-            </a>
-          </li>
-        </ul>
-      </section>
-
-      <!-- Up next (or You're ready) -->
       <section>
-        <div class="rail-head" data-up-head><h2 class="rail-title">{t("home.upNext")}</h2></div>
-        <a class="lc hero-card" href={first.steps[0].href} data-upnext data-present={u("/present/")} data-ready-title={t("home.readyHeading")}>
-          <Cover variant={first.cover} tall><span class="cv-over" data-up-over hidden><span class="t-h2">{t("home.readyTitle")}</span><span class="t-body">{t("home.readyBody")}</span></span></Cover>
-          <span class="lc-text">
-            <span class="lc-title"><span data-up-title>{first.title}</span><Icon name="arrow-right" size={20} /></span>
-            <span class="lc-sub" data-up-sub>{t("home.firstCardKicker", { n: first.steps.length, min: first.steps.reduce((n, s) => n + s.readTime, 0) })}</span>
-            <span class="lc-bar" aria-hidden="true"><i data-up-bar></i></span>
+        <div class="rail-head"><h2 class="rail-title">{t("home.upNext")}</h2></div>
+        <a class="row up-row" href={states.plan.href} data-upnext>
+          <span class="row-main">
+            <span class="row-title" data-up-title>{states.plan.title}</span>
+            <span class="row-sub" data-up-sub>{states.plan.sub}</span>
           </span>
+          <span class="up-go" aria-hidden="true"><Icon name="arrow-right" size={20} /></span>
         </a>
-        <div class="amb-card s-cover grain" data-amb hidden data-types={JSON.stringify(Object.fromEntries(ob.type.options.map((o) => [o.id, o.label])))} data-since={t("home.readySince")}>
-          <Orb class="amb-orb" />
-          <div class="amb-inner on-dark">
-            <p class="kicker">{t("home.ambKicker")}</p>
-            <p class="amb-name" data-amb-name>{t("home.ambDefaultName")}</p>
-            <p class="amb-role" data-amb-role>{t("home.ambRole")}</p>
-            <p class="t-small" data-amb-since></p>
-            <img class="amb-logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="384" height="144" />
-          </div>
-        </div>
-        <a class="row focus-row" href="#" data-focus hidden data-tpl={t("home.focusFor")}>
-          <span class="row-main"><span class="row-sub" data-focus-kicker></span><span class="row-title" data-focus-title></span></span>
-          <span class="row-end"><Icon name="chevron" size={20} /></span>
-        </a>
+        <p class="if-then" data-if-then-line hidden></p>
       </section>
 
-      <!-- The path -->
       <section>
         <div class="rail-head"><h2 class="rail-title">{t("home.pathTitle")}</h2><span class="rail-meta" data-readiness></span></div>
-        <ol class="rail">
-          {pathData.map((g) => (
-            <li>
-              <a class="lc" href={g.href} data-group={g.id}>
-                <Cover variant={g.cover} num={g.num} name={g.id} />
-                <span class="lc-text">
-                  <span class="lc-title">{g.title}<span class="lc-check" aria-hidden="true"><Icon name="check" size={14} /></span></span>
-                  <span class="lc-sub" data-group-sub>{g.kind === "story" ? t("home.storyNotYet") : t("home.groupOfRead").replace("{n}", "0").replace("{total}", String(g.steps.length))}</span>
-                  <span class="lc-bar" aria-hidden="true"><i data-group-bar></i></span>
-                </span>
-              </a>
-            </li>
+        <ol class="rows">
+          {pathData.map((g, i) => (
+            <li><Row href={g.href} title={g.title} lead={String(i + 1)} check attrs={{ "data-group": g.id }}><span slot="sub" class="row-sub" data-group-sub></span></Row></li>
           ))}
         </ol>
       </section>
 
-      <!-- Tools -->
-      <section>
-        <div class="rail-head"><h2 class="rail-title">{t("home.toolsTitle")}</h2></div>
-        <ul class="rail small">
-          <li class="only-first"><a class="lc" href={u("/practice/")}><Cover variant={COVERS.practice} /><span class="lc-text"><span class="lc-title">{t("home.toolPractice")}</span></span></a></li>
-          <li class="only-first"><a class="lc" href={u("/refreshers/")}><Cover variant={COVERS.refreshers} /><span class="lc-text"><span class="lc-title">{t("nav.refreshers")}</span></span></a></li>
-          <li><a class="lc" href={u("/deck/")}><Cover variant={COVERS.deck} /><span class="lc-text"><span class="lc-title">{t("nav.deck")}</span></span></a></li>
-          <li><a class="lc" href={u("/help/")}><Cover variant={COVERS.help} /><span class="lc-text"><span class="lc-title">{t("home.toolHelp")}<span class="news-dot" role="img" aria-label={t("home.newDot")}></span></span></span></a></li>
-        </ul>
-      </section>
+      <p class="stuck" data-stuck><CoordinatorLink label={t("coord.stuck")} /></p>
+      <p class="stuck" data-claim hidden><CoordinatorLink label={t("coord.pin")} /></p>
     </div>
   </div>
 
   <script>
-    import { progress, story, profile, daysUntil } from "../lib/store";
-    import { nextSession, formatSession } from "../lib/schedule";
+    import { progress, story, profile, asks, daysUntil } from "../lib/store";
     type Step = { id: string; title: string; href: string; readTime: number };
-    type Group = { id: string; num: string; cover: string; title: string; href: string; kind: "pages" | "story"; steps: Step[] };
+    type Group = { id: string; cover: string; title: string; href: string; kind: "pages" | "story"; steps: Step[] };
+    type State = { title: string; sub: string; href: string; cover: string };
     const root = document.querySelector<HTMLElement>("[data-home]")!;
     const groups: Group[] = JSON.parse(root.dataset.home!);
+    const states: Record<string, State> = JSON.parse(root.dataset.states!);
     const d = root.dataset;
-    const COVER_RE = /\bcv-(cover|teal|forest|navy|ink)\b/;
-
-    // "Next session · Thursday, October 15, 6:00 PM · Martin Luther King Jr. Memorial Library"
-    const s = nextSession();
-    if (s) {
-      const f = formatSession(s);
-      const el = document.querySelector<HTMLElement>("[data-session-line]")!;
-      const b = document.createElement("b");
-      b.textContent = `${f.day}, ${f.time}`;
-      el.replaceChildren(`${el.dataset.before} `, b, ` · ${s.location.split(",")[0]}`);
-    }
 
     function paint() {
       const read = progress.all();
+      const p = profile.get();
       const hasStory = Boolean(story.get().draft.trim());
       let done = 0;
       let next: { step: Step; group: Group; r: number } | null = null;
       for (const g of groups) {
         const a = root.querySelector<HTMLAnchorElement>(`[data-group="${g.id}"]`)!;
         const sub = a.querySelector<HTMLElement>("[data-group-sub]")!;
-        const bar = a.querySelector<HTMLElement>("[data-group-bar]")!;
-        let pct = 0, complete = false;
+        let complete: boolean;
         if (g.kind === "story") {
-          complete = hasStory; pct = hasStory ? 100 : 0;
+          complete = hasStory;
           sub.textContent = hasStory ? d.storySaved! : d.storyNot!;
           if (!hasStory && !next) next = { step: { id: "story", title: g.title, href: g.href, readTime: 10 }, group: g, r: 0 };
         } else {
           const r = g.steps.filter((x) => read[x.id]).length;
-          complete = r === g.steps.length; pct = (r / g.steps.length) * 100;
-          const left = g.steps.filter((x) => !read[x.id]).reduce((m, x) => m + x.readTime, 0);
-          sub.textContent = complete ? d.done! : `${d.ofRead!.replace("{n}", String(r)).replace("{total}", String(g.steps.length))}${r ? " · " + d.minLeft!.replace("{min}", String(left)) : ""}`;
+          complete = r === g.steps.length;
+          sub.textContent = complete ? d.done! : d.ofRead!.replace("{n}", String(r)).replace("{total}", String(g.steps.length));
           const firstUnread = g.steps.find((x) => !read[x.id]);
           if (firstUnread && !next) next = { step: firstUnread, group: g, r };
           if (firstUnread && r > 0) a.href = firstUnread.href;
         }
-        bar.style.width = `${pct}%`;
-        a.classList.toggle("done", complete);
+        a.classList.toggle("is-read", complete);
         if (complete) done++;
       }
+      const all = done === groups.length;
+      root.querySelector<HTMLElement>("[data-stuck]")!.hidden = all;
+      root.querySelector<HTMLElement>("[data-claim]")!.hidden = !all;
+      document.querySelector<HTMLElement>(".pin-goal")!.hidden = all;
       root.querySelector("[data-readiness]")!.textContent = d.ready!.replace("{n}", String(done)).replace("{total}", String(groups.length));
 
-      // Up next hero — or "You're ready" once the whole path is done.
+      // One next step: plan → next page → send invites → present.
       const up = root.querySelector<HTMLAnchorElement>("[data-upnext]")!;
-      const cover = up.querySelector<HTMLElement>(".cv")!;
-      const over = up.querySelector<HTMLElement>("[data-up-over]")!;
-      const num = cover.querySelector<HTMLElement>(".cv-num");
-      const title = up.querySelector<HTMLElement>("[data-up-title]")!;
-      const sub = up.querySelector<HTMLElement>("[data-up-sub]")!;
-      const bar = up.querySelector<HTMLElement>("[data-up-bar]")!;
-      if (next) {
-        const g = next.group;
-        const total = g.kind === "story" ? 1 : g.steps.length;
-        up.href = next.step.href;
-        cover.className = cover.className.replace(COVER_RE, `cv-${g.cover}`);
-        over.hidden = true;
-        title.textContent = g.kind === "story" || next.r === 0 ? g.title : next.step.title;
-        sub.textContent = g.kind === "story"
-          ? d.storyNot!
-          : `${next.r === 0 ? "" : g.title + " · "}${d.ofRead!.replace("{n}", String(next.r)).replace("{total}", String(total))} · ${next.step.readTime} min`;
-        bar.style.width = `${(next.r / total) * 100}%`;
-      } else {
-        up.href = up.dataset.present!;
-        cover.className = cover.className.replace(COVER_RE, "cv-cover");
-        if (num) num.hidden = true;
-        over.hidden = false;
-        title.textContent = up.dataset.readyTitle!;
-        sub.textContent = "";
-        bar.style.width = "100%";
-        const h = document.querySelector<HTMLElement>("[data-hello-returning]")!;
-        h.textContent = h.dataset.ready!;
-        // The ambassador card: a moment for finishing the whole path.
-        const prof = profile.get().readySince ? profile.get() : profile.set({ readySince: Date.now() });
-        const amb = root.querySelector<HTMLElement>("[data-amb]")!;
-        up.hidden = true;
-        amb.hidden = false;
-        root.querySelector<HTMLElement>("[data-up-head]")!.hidden = true;
-        if (prof.name) amb.querySelector("[data-amb-name]")!.textContent = prof.name;
-        const types = JSON.parse(amb.dataset.types!);
-        amb.querySelector("[data-amb-since]")!.textContent = amb.dataset.since!
-          .replace("{date}", new Date(prof.readySince!).toLocaleDateString(undefined, { month: "short", year: "numeric" }));
-        if (prof.type) amb.querySelector("[data-amb-role]")!.textContent += ` · ${types[prof.type]}`;
-      }
-    }
-    paint();
-    document.addEventListener("ag:progress", paint);
-    personalize();
+      const set = (title: string, sub: string, href: string, _variant?: string) => {
+        up.href = href;
+        up.querySelector("[data-up-title]")!.textContent = title;
+        up.querySelector("[data-up-sub]")!.textContent = sub;
+      };
+      const sent = asks.get().filter((x) => x.sent).length;
+      if (!p.onboarded) set(states.plan.title, states.plan.sub, states.plan.href, states.plan.cover);
+      else if (next) set(next.r === 0 ? next.group.title : next.step.title, next.r === 0 ? `${next.step.readTime} min` : `${next.group.title} · ${next.step.readTime} min`, next.step.href, next.group.cover);
+      else if (sent < 3) set(states.invite.title, states.invite.sub.replace("{n}", String(3 - sent)), states.invite.href, states.invite.cover);
+      else set(states.present.title, states.present.sub, states.present.href, states.present.cover);
 
-    function personalize() {
-      const p = profile.get();
-      // Greeting by name.
-      if (p.name) {
-        const f = document.querySelector<HTMLElement>("[data-hello-first]")!;
-        f.textContent = f.dataset.named!.replace("{name}", p.name);
-        const r = document.querySelector<HTMLElement>("[data-hello-returning]")!;
-        if (r.textContent !== r.dataset.ready) r.textContent = r.dataset.named!.replace("{name}", p.name);
-      }
-      // Picked for you.
-      const map = JSON.parse(root.dataset.focusMap!);
-      const focus = root.querySelector<HTMLAnchorElement>("[data-focus]")!;
-      if (p.type && map[p.type]) {
-        focus.href = map[p.type].href;
-        focus.querySelector("[data-focus-kicker]")!.textContent = focus.dataset.tpl!;
-        focus.querySelector("[data-focus-title]")!.textContent = map[p.type].title;
-        focus.hidden = false;
-      }
-      // Room-first ambassadors see The Room refresher first.
-      if (p.mode === "room") {
-        const rail = root.querySelector<HTMLElement>(".only-returning .rail");
-        const room = rail?.querySelector<HTMLElement>('a[href$="/refreshers/room/"]')?.parentElement;
-        if (rail && room) rail.insertBefore(room, rail.children[1]);
-      }
+      const line = root.querySelector<HTMLElement>("[data-if-then-line]")!;
+      if (p.planWhere && p.planWho) { line.textContent = d.ifThen!.replace("{where}", p.planWhere).replace("{who}", p.planWho); line.hidden = false; }
+
       // Event mode: countdown and a 2-minute plan for the next 14 days.
       const card = root.querySelector<HTMLElement>("[data-event-card]")!;
       if (p.eventDate) {
@@ -266,9 +145,10 @@ const first = path[0];
           card.querySelector<HTMLAnchorElement>("[data-ev-refresh]")!.href = mode === "room" ? card.dataset.refreshRoom! : card.dataset.refreshConv!;
           card.querySelector<HTMLAnchorElement>("[data-ev-practice]")!.href = `${card.dataset.practice}?mode=${mode}`;
           card.hidden = false;
-          document.querySelector<HTMLElement>("[data-session-wrap]")!.hidden = true;
         }
       }
     }
+    paint();
+    document.addEventListener("ag:progress", paint);
   </script>
 </Base>

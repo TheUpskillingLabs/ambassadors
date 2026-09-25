@@ -3,7 +3,8 @@
 import { getCollection } from "astro:content";
 import Base from "../../layouts/Base.astro";
 import StoryCard from "../../components/StoryCard.astro";
-import DatedInvite from "../../components/DatedInvite.astro";
+import AskList from "../../components/AskList.astro";
+import CoordinatorLink from "../../components/CoordinatorLink.astro";
 import NextSession from "../../components/NextSession.astro";
 import Icon from "../../components/Icon.astro";
 import { u } from "../../lib/url";
@@ -22,10 +23,18 @@ const { r } = Astro.props;
       <p class="meta"><span>{r.readTime} {t("page.minRead")}</span>{r.placeholder && <span class="ph-chip">{t("page.placeholder")}</span>}</p>
     </div>
 
+    <p class="if-then" data-rf-plan data-tpl={t("home.ifThen")} hidden></p>
+
     <section class="block">
-      <h2 class="block-h">{t("refresher.shape")}</h2>
-      <ol class="rf-shape">{r.shape.map((s) => <li><b>{s.step}</b><span>{s.cue}</span></li>)}</ol>
+      <h2 class="block-h">{t("refresher.recall")}</h2>
+      <ol class="rf-shape">
+        {r.shape.map((s) => (
+          <li><details class="rf-recall"><summary><b>{s.step}</b><span class="rf-say no-print">{t("refresher.sayIt")}</span></summary><span>{s.cue}</span></details><span class="print-only">{s.cue}</span></li>
+        ))}
+      </ol>
     </section>
+
+    {r.playbook === "conversation" && <AskList />}
 
     <section class="block">
       <h2 class="block-h">{t("refresher.reminders")}</h2>
@@ -33,7 +42,8 @@ const { r } = Astro.props;
     </section>
 
     {r.showStory && <StoryCard />}
-    {r.playbook === "conversation" ? <DatedInvite /> : <section class="panel"><NextSession compact /></section>}
+    {r.playbook === "room" && <section class="panel"><NextSession compact /></section>}
+    <p class="no-print"><CoordinatorLink label={t("coord.stuck")} /></p>
 
     <div class="no-print btn-row">
       <button class="btn btn-ghost btn-sm" type="button" onclick="window.print()"><Icon name="print" size={18} /> {t("refresher.print")}</button>
@@ -41,4 +51,10 @@ const { r } = Astro.props;
       {r.playbook === "room" && <a class="see" href={u("/present/?practice")}>{t("deck.practice")} →</a>}
     </div>
   </div>
+  <script>
+    import { profile } from "../../lib/store";
+    const el = document.querySelector<HTMLElement>("[data-rf-plan]")!;
+    const p = profile.get();
+    if (p.planWhere && p.planWho) { el.textContent = el.dataset.tpl!.replace("{where}", p.planWhere).replace("{who}", p.planWho); el.hidden = false; }
+  </script>
 </Base>

@@ -9,5 +9,6 @@
     "objections",
     "experience"
   ],
-  "placeholder": true
+  "placeholder": true,
+  "core": true
 }

@@ -1,0 +1,26 @@
+---
+/* "Text my coordinator": opens the ambassador's own messaging app with
+   their plan pre-filled. Support predicts follow-through; nothing is sent
+   by the site. Falls back to email until a coordinator phone is set. */
+import { t } from "../lib/i18n";
+import help from "../../content/site/help.json";
+interface Props { label?: string }
+const { label = t("coord.text") } = Astro.props;
+const c = help.coordinator;
+---
+<a class="see" href={c.phone ? `sms:${c.phone}` : `mailto:${c.email}`} data-coord data-phone={c.phone} data-email={c.email} data-body={t("coord.body")}>{label} →</a>
+<script>
+  import { profile } from "../lib/store";
+  // Built at tap time so a plan made on this same page is included.
+  const build = (a: HTMLAnchorElement) => {
+    const p = profile.get();
+    const plan = p.planWhere && p.planWho ? `When I'm at ${p.planWhere}, I'll ask ${p.planWho}.` : "—";
+    const body = a.dataset.body!.replace("{me}", p.me ?? "").replace("{plan}", plan).replace("{event}", p.eventDate ?? "—");
+    a.href = a.dataset.phone ? `sms:${a.dataset.phone}?&body=${encodeURIComponent(body)}` : `mailto:${a.dataset.email}?body=${encodeURIComponent(body)}`;
+  };
+  document.querySelectorAll<HTMLAnchorElement>("[data-coord]").forEach((a) => {
+    build(a);
+    ["pointerdown", "focus", "click"].forEach((ev) => a.addEventListener(ev, () => build(a)));
+  });
+  document.addEventListener("ag:plan", () => document.querySelectorAll<HTMLAnchorElement>("[data-coord]").forEach(build));
+</script>

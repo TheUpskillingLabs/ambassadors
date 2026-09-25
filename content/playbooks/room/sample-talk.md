@@ -1,9 +1,9 @@
 ---
 playbook: room
-order: 3
+order: 2
 title: Sample talk
 readTime: 4
-summary: "Here's a full five-minute talk, beat by beat, as one ambassador might give it. Read it to hear the rhythm, then write your own. Don't memorize this one."
+summary: "A full five-minute talk, beat by beat, then the 60-second version. Hear the rhythm, then use your own words."
 why: "Hearing a complete example makes the shape easier to fill with your own words."
 shape:
   - "Question, then pause for hands."
@@ -36,3 +36,6 @@ placeholder: true
 **Ask.** "The next workshop is Thursday the 14th, 6 pm, right here at the library. It's hands-on, about two hours, and you don't need any experience. Bring a laptop if you have one."
 
 **Join.** "The QR code goes to theupskillinglabs.org, where you can Join The Labs. I'll leave it up. Happy to take questions."
+
+
+**The 60-second version.** Keep three beats: the question, the ask, the QR. "Show of hands: who's tried an AI tool this year? We run free, hands-on workshops. The next one is Thursday. The link's on the screen." Open it with *Present now → 60-second*.

@@ -1,104 +1,66 @@
 ---
-/* First-run onboarding — full screen, one question at a time, then a plan.
-   Cover → name → ambassador type → outreach mode → next event → your plan.
-   Every step is skippable; answers live in localStorage (ag.profile.v1) and
-   personalize Home, the practice deck and the event countdown. Opening
-   /welcome/ again (from Help) edits the answers. */
+/* The 1-minute plan. Three questions — how you'll reach people, your next
+   event, and an if-then plan for your first conversation (implementation
+   intentions: "When I'm at X, I'll ask Y") — then your plan. Optional:
+   Home offers it; nothing forces it. Answers stay in localStorage. */
 import Base from "../../layouts/Base.astro";
-import Cover from "../../components/Cover.astro";
-import Orb from "../../components/Orb.astro";
 import Icon from "../../components/Icon.astro";
+import CoordinatorLink from "../../components/CoordinatorLink.astro";
 import { u } from "../../lib/url";
 import { t } from "../../lib/i18n";
 import { readinessPath } from "../../lib/content";
 import ob from "../../../content/site/onboarding.json";
 const path = await readinessPath();
-const planData = path.map((g) => ({ id: g.id, title: g.title, cover: g.cover, min: g.kind === "story" ? 10 : g.steps.reduce((n, s) => n + s.readTime, 0), first: g.kind === "story" ? g.href : g.steps[0].href, firstTitle: g.kind === "story" ? g.title : g.steps[0].title }));
-const types = ob.type.options.map((o) => ({ ...o, focus: { ...o.focus, href: u(o.focus.href) } }));
-const Q = 4; // question screens
+const planData = path.map((g) => ({ id: g.id, title: g.title, min: g.kind === "story" ? 10 : g.steps.reduce((n, s) => n + s.readTime, 0) }));
+const Q = 3;
 ---
 <Base title={ob.plan.kicker} chrome={false} bodyClass="page-welcome">
-  <div class="ob" data-ob data-plan={JSON.stringify(planData)} data-types={JSON.stringify(types)} data-home={u("/")}
-    data-title-named={ob.plan.titleNamed} data-title={ob.plan.title} data-event-line={ob.plan.eventLine} data-event-soon={ob.plan.eventSoon} data-cta={ob.plan.cta}>
-
-    <!-- 0 · Cover -->
-    <section class="ob-screen ob-cover s-cover grain" data-screen="0">
-      <Orb class="ob-orb" />
-      <div class="ob-cover-inner on-dark">
-        <p class="kicker">{ob.cover.kicker}</p>
-        <h1 class="ob-title">{ob.cover.title}</h1>
-        <p class="t-lede">{ob.cover.body}</p>
-        <div class="ob-cover-actions">
-          <button class="btn btn-white btn-block" type="button" data-next>{ob.cover.cta} <Icon name="arrow-right" size={18} /></button>
-          <button class="btn-text" type="button" data-skip-all>{ob.cover.skip}</button>
-        </div>
-        <p class="t-small">{ob.cover.privacy}</p>
-      </div>
-    </section>
-
-    <!-- 1–4 · Questions -->
-    <form class="ob-flow" data-flow hidden onsubmit="return false">
+  <div class="ob" data-ob data-plan={JSON.stringify(planData)} data-home={u("/")}
+    data-if-then={ob.plan.ifThen} data-event-line={ob.plan.eventLine} data-event-soon={ob.plan.eventSoon}>
+    <form class="ob-flow" data-flow onsubmit="return false">
       <div class="ob-top">
         <button class="icon-btn2" type="button" data-back aria-label={t("page.previous")}><Icon name="arrow-left" size={22} /></button>
         <div class="ob-seg" aria-hidden="true">{Array.from({ length: Q }, () => <i><b></b></i>)}</div>
-        <button class="btn-text" type="button" data-skip>{ob.name.skip}</button>
+        <a class="btn-text" href={u("/")}>{t("page.close")}</a>
       </div>
 
-      <section class="ob-screen ob-q" data-screen="1" hidden>
-        <label class="ob-h" for="ob-name">{ob.name.q}</label>
-        <p class="ob-help">{ob.name.help}</p>
-        <div class="field"><input id="ob-name" name="name" autocomplete="given-name" maxlength="40" placeholder={ob.name.placeholder} data-name /></div>
-      </section>
-
-      <fieldset class="ob-screen ob-q" data-screen="2" hidden>
-        <legend class="ob-h">{ob.type.q}</legend>
-        {ob.type.help && <p class="ob-help">{ob.type.help}</p>}
-        <div class="opts">
-          {ob.type.options.map((o) => (
-            <label class="opt"><input type="radio" name="type" value={o.id} /><span class="opt-main"><span class="opt-label">{o.label}</span>{o.sub && <span class="opt-sub">{o.sub}</span>}</span><span class="opt-dot" aria-hidden="true"><Icon name="check" size={14} /></span></label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset class="ob-screen ob-q" data-screen="3" hidden>
+      <fieldset class="ob-screen ob-q" data-screen="1">
         <legend class="ob-h">{ob.mode.q}</legend>
-        {ob.mode.help && <p class="ob-help">{ob.mode.help}</p>}
         <div class="opts">
           {ob.mode.options.map((o) => (
-            <label class="opt"><input type="radio" name="mode" value={o.id} /><span class="opt-main"><span class="opt-label">{o.label}</span>{o.sub && <span class="opt-sub">{o.sub}</span>}</span><span class="opt-dot" aria-hidden="true"><Icon name="check" size={14} /></span></label>
+            <label class="opt"><input type="radio" name="mode" value={o.id} /><span class="opt-main"><span class="opt-label">{o.label}</span></span><span class="opt-dot" aria-hidden="true"><Icon name="check" size={14} /></span></label>
           ))}
         </div>
       </fieldset>
 
-      <section class="ob-screen ob-q" data-screen="4" hidden>
+      <section class="ob-screen ob-q" data-screen="2" hidden>
         <label class="ob-h" for="ob-date">{ob.event.q}</label>
         <p class="ob-help">{ob.event.help}</p>
         <div class="field"><input id="ob-date" type="date" name="eventDate" data-date aria-label={ob.event.label} /></div>
         <button class="btn-text ob-none" type="button" data-no-event>{ob.event.none}</button>
       </section>
 
+      <section class="ob-screen ob-q" data-screen="3" hidden>
+        <h1 class="ob-h">{ob.first.q}</h1>
+        <p class="ob-help">{ob.first.help}</p>
+        <div class="field"><label for="ob-where">{ob.first.where}</label><input id="ob-where" maxlength="60" placeholder={ob.first.wherePh} data-where /></div>
+        <div class="field"><label for="ob-who">{ob.first.who}</label><input id="ob-who" maxlength="40" placeholder={ob.first.whoPh} data-who /></div>
+      </section>
+
       <div class="ob-bar">
-        <button class="btn btn-teal btn-block" type="button" data-next>{ob.name.cta} <Icon name="arrow-right" size={18} /></button>
+        <button class="btn btn-teal btn-block" type="button" data-next><span data-next-label data-cta={ob.event.cta} data-last={ob.first.cta}>{ob.event.cta}</span> <Icon name="arrow-right" size={18} /></button>
       </div>
     </form>
 
-    <!-- 5 · Plan -->
-    <section class="ob-screen ob-plan" data-screen="5" hidden>
-      <Cover variant="cover" class="ob-plan-cover"><span class="cv-over"><span class="kicker">{ob.plan.kicker}</span></span></Cover>
+    <section class="ob-screen ob-plan" data-screen="4" hidden>
       <div class="ob-plan-body">
-        <h1 class="ob-title" data-plan-title>{ob.plan.title}</h1>
-        <section class="panel ob-focus" data-focus hidden>
-          <p class="block-h">{ob.plan.focusLabel}</p>
-          <p class="t-body" data-focus-sub></p>
-          <a class="see" data-focus-link href="#"></a>
-        </section>
-        <section class="panel ob-event" data-event hidden>
-          <p class="block-h">{ob.plan.eventLabel}</p>
-          <p class="t-body" data-event-line></p>
-        </section>
+        <p class="kicker">{ob.plan.kicker}</p>
+        <h1 class="ob-title" data-if-then-line>{ob.plan.title}</h1>
+        <p class="t-body" data-event-line hidden></p>
         <ol class="ob-steps" data-steps></ol>
         <div class="ob-plan-actions">
-          <a class="btn btn-teal btn-block" href="#" data-start></a>
+          <a class="btn btn-teal btn-block" href={u("/start-here/")}>{ob.plan.cta} <Icon name="arrow-right" size={18} /></a>
+          <CoordinatorLink />
           <button class="btn-text" type="button" data-edit>{ob.plan.edit}</button>
         </div>
       </div>
@@ -110,101 +72,62 @@ const Q = 4; // question screens
     const root = document.querySelector<HTMLElement>("[data-ob]")!;
     const flow = root.querySelector<HTMLFormElement>("[data-flow]")!;
     const screens = Array.from(root.querySelectorAll<HTMLElement>("[data-screen]"));
-    const plan = JSON.parse(root.dataset.plan!) as { id: string; title: string; cover: string; min: number; first: string; firstTitle: string }[];
-    const types = JSON.parse(root.dataset.types!) as { id: string; label: string; sub: string; focus: { title: string; href: string } }[];
-    const Q = 4;
-    let at = 0;
+    const plan = JSON.parse(root.dataset.plan!) as { id: string; title: string; min: number }[];
+    const Q = 3;
+    const $ = <T extends HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const date = $<HTMLInputElement>("[data-date]"), where = $<HTMLInputElement>("[data-where]"), who = $<HTMLInputElement>("[data-who]");
+    let at = 1;
 
-    // Returning to edit: prefill and start at the first question.
     const p0 = profile.get();
-    const nameInput = flow.querySelector<HTMLInputElement>("[data-name]")!;
-    const dateInput = flow.querySelector<HTMLInputElement>("[data-date]")!;
-    nameInput.value = p0.name ?? "";
-    dateInput.value = p0.eventDate ?? "";
-    dateInput.min = new Date().toISOString().slice(0, 10);
-    if (p0.type) flow.querySelector<HTMLInputElement>(`input[name=type][value=${p0.type}]`)!.checked = true;
+    date.value = p0.eventDate ?? ""; where.value = p0.planWhere ?? ""; who.value = p0.planWho ?? "";
+    date.min = new Date().toISOString().slice(0, 10);
     if (p0.mode) flow.querySelector<HTMLInputElement>(`input[name=mode][value=${p0.mode}]`)!.checked = true;
-
-    function collect(): Partial<Profile> {
-      const fd = new FormData(flow);
-      return {
-        name: nameInput.value.trim() || undefined,
-        type: (fd.get("type") as Profile["type"]) || undefined,
-        mode: (fd.get("mode") as Profile["mode"]) || undefined,
-        eventDate: dateInput.value || undefined,
-      };
-    }
 
     function show(i: number) {
       at = i;
-      const q = i >= 1 && i <= Q;
-      flow.hidden = !q;
+      flow.hidden = i > Q;
       screens.forEach((s) => (s.hidden = Number(s.dataset.screen) !== i));
-      root.querySelectorAll<HTMLElement>(".ob-seg i").forEach((seg, k) => seg.classList.toggle("on", k < i));
-      root.dataset.at = String(i);
-      if (q) screens[i].querySelector<HTMLElement>("input")?.focus({ preventScroll: true });
-      if (i === Q + 1) renderPlan();
+      root.querySelectorAll(".ob-seg i").forEach((seg, k) => seg.classList.toggle("on", k < i));
+      const label = $("[data-next-label]");
+      label.textContent = i === Q ? label.dataset.last! : label.dataset.cta!;
+      if (i > Q) renderPlan();
+      screens[i - 1]?.querySelector<HTMLElement>("input:not([type=radio])")?.focus({ preventScroll: true });
       window.scrollTo({ top: 0 });
     }
-
     function finish() {
-      profile.set({ ...collect(), onboarded: Date.now() });
+      const mode = (new FormData(flow).get("mode") as Profile["mode"]) || undefined;
+      profile.set({ mode, eventDate: date.value || undefined, planWhere: where.value.trim() || undefined, planWho: who.value.trim() || undefined, onboarded: Date.now() });
+      document.dispatchEvent(new Event("ag:plan"));
       show(Q + 1);
     }
-
     function renderPlan() {
       const p = profile.get();
-      const title = root.querySelector<HTMLElement>("[data-plan-title]")!;
-      title.textContent = p.name ? root.dataset.titleNamed!.replace("{name}", p.name) : root.dataset.title!;
-      const type = types.find((x) => x.id === p.type);
-      const focus = root.querySelector<HTMLElement>("[data-focus]")!;
-      focus.hidden = !type;
-      if (type) {
-        root.querySelector("[data-focus-sub]")!.textContent = type.sub;
-        const a = root.querySelector<HTMLAnchorElement>("[data-focus-link]")!;
-        a.href = type.focus.href; a.textContent = `${type.focus.title} →`;
-      }
-      // Room-first ambassadors see The Room before Your Story.
+      if (p.planWhere && p.planWho) $("[data-if-then-line]").textContent = root.dataset.ifThen!.replace("{where}", p.planWhere).replace("{who}", p.planWho);
       const order = p.mode === "room" ? ["start-here", "know-the-labs", "room", "conversation", "your-story"] : plan.map((g) => g.id);
       const steps = order.map((id) => plan.find((g) => g.id === id)!);
-      const list = root.querySelector<HTMLElement>("[data-steps]")!;
-      list.replaceChildren(...steps.map((g, i) => {
+      $("[data-steps]").replaceChildren(...steps.map((g, i) => {
         const li = document.createElement("li");
-        li.innerHTML = `<span class="ob-step-n cv-${g.cover}">${String(i + 1).padStart(2, "0")}</span><span class="ob-step-main"><span class="ob-step-title"></span><span class="ob-step-min">${g.min} min</span></span>`;
+        li.innerHTML = `<span class="ob-step-n">${i + 1}</span><span class="ob-step-main"><span class="ob-step-title"></span><span class="ob-step-min">${g.min} min</span></span>`;
         li.querySelector(".ob-step-title")!.textContent = g.title;
         return li;
       }));
-      const ev = root.querySelector<HTMLElement>("[data-event]")!;
+      const ev = $("[data-event-line]");
       ev.hidden = !p.eventDate;
       if (p.eventDate) {
         const [y, m, d] = p.eventDate.split("-").map(Number);
         const when = new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
-        const min = steps.reduce((n, g) => n + g.min, 0);
         const days = daysUntil(p.eventDate);
-        root.querySelector("[data-event-line]")!.textContent = days <= 1
-          ? root.dataset.eventSoon!.replace("{when}", when)
-          : root.dataset.eventLine!.replace("{when}", when).replace("{perDay}", String(Math.ceil(min / days / 5) * 5));
+        const min = steps.reduce((n, g) => n + g.min, 0);
+        ev.textContent = days <= 1 ? root.dataset.eventSoon!.replace("{when}", when) : root.dataset.eventLine!.replace("{when}", when).replace("{perDay}", String(Math.ceil(min / days / 5) * 5));
       }
-      const start = root.querySelector<HTMLAnchorElement>("[data-start]")!;
-      start.href = steps[0].first;
-      start.textContent = root.dataset.cta!.replace("{title}", steps[0].firstTitle);
     }
 
-    root.querySelectorAll("[data-next]").forEach((b) => b.addEventListener("click", () => (at >= Q ? finish() : show(at + 1))));
-    root.querySelector("[data-back]")!.addEventListener("click", () => show(Math.max(0, at - 1)));
-    root.querySelector("[data-skip]")!.addEventListener("click", () => (at >= Q ? finish() : show(at + 1)));
-    root.querySelector("[data-no-event]")!.addEventListener("click", () => { dateInput.value = ""; finish(); });
-    root.querySelector("[data-skip-all]")!.addEventListener("click", () => {
-      profile.set({ onboarded: Date.now() });
-      location.href = root.dataset.home!;
-    });
+    root.querySelector("[data-next]")!.addEventListener("click", () => (at >= Q ? finish() : show(at + 1)));
+    root.querySelector("[data-back]")!.addEventListener("click", () => (at <= 1 ? (location.href = root.dataset.home!) : show(at - 1)));
+    root.querySelector("[data-no-event]")!.addEventListener("click", () => { date.value = ""; show(3); });
     root.querySelector("[data-edit]")!.addEventListener("click", () => show(1));
-    // Picking an option moves on, like a native app.
-    flow.querySelectorAll<HTMLInputElement>("input[type=radio]").forEach((r) => r.addEventListener("change", () => setTimeout(() => show(at + 1), 220)));
+    flow.querySelectorAll<HTMLInputElement>("input[type=radio]").forEach((r) => r.addEventListener("change", () => setTimeout(() => show(2), 200)));
     flow.addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.target as HTMLElement).tagName === "INPUT") { e.preventDefault(); at >= Q ? finish() : show(at + 1); } });
-
-    // ?edit (from Help) opens on the questions; a finished profile opens on the plan.
-    const q = new URLSearchParams(location.search);
-    show(q.has("edit") ? 1 : p0.onboarded && p0.type ? Q + 1 : 0);
+    show(new URLSearchParams(location.search).has("edit") || !p0.onboarded ? 1 : Q + 1);
   </script>
 </Base>
