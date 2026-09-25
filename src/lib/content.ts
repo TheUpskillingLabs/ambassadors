@@ -47,7 +47,14 @@ export async function latestUpdate(): Promise<string> {
 }
 
 export type PathStep = { id: string; title: string; href: string; readTime: number; section: string };
-export type PathGroup = { id: string; title: string; blurb: string; href: string; steps: PathStep[]; kind: "pages" | "story" };
+export type CoverVariant = "cover" | "teal" | "forest" | "navy" | "ink";
+export type PathGroup = { id: string; title: string; blurb: string; href: string; steps: PathStep[]; kind: "pages" | "story"; cover: CoverVariant };
+
+/** Cover art per section, so a section looks the same on every surface. */
+export const COVERS: Record<string, CoverVariant> = {
+  "start-here": "cover", "know-the-labs": "navy", conversation: "teal", "your-story": "forest", room: "ink",
+  refreshers: "forest", practice: "teal", deck: "cover", help: "navy",
+};
 
 /** The readiness path, in the order a new ambassador should take it. Home
  *  uses it for "Continue where you left off" and the readiness checklist. */
@@ -62,10 +69,10 @@ export async function readinessPath(): Promise<PathGroup[]> {
   const byId = Object.fromEntries(sections.sections.map((s) => [s.id, s]));
   const items = sections.playbooks.items;
   return [
-    { id: "start-here", title: byId["start-here"].title, blurb: byId["start-here"].blurb, href: u(byId["start-here"].href), steps: await page("start-here"), kind: "pages" },
-    { id: "know-the-labs", title: byId["know-the-labs"].title, blurb: byId["know-the-labs"].blurb, href: u(byId["know-the-labs"].href), steps: await page("know-the-labs"), kind: "pages" },
-    { id: "conversation", title: items.conversation.title, blurb: items.conversation.blurb, href: u("/playbooks/conversation/"), steps: await book("conversation"), kind: "pages" },
-    { id: "your-story", title: byId["your-story"].title, blurb: byId["your-story"].blurb, href: u(byId["your-story"].href), steps: [], kind: "story" },
-    { id: "room", title: items.room.title, blurb: items.room.blurb, href: u("/playbooks/room/"), steps: await book("room"), kind: "pages" },
+    { id: "start-here", cover: COVERS["start-here"], title: byId["start-here"].title, blurb: byId["start-here"].blurb, href: u(byId["start-here"].href), steps: await page("start-here"), kind: "pages" },
+    { id: "know-the-labs", cover: COVERS["know-the-labs"], title: byId["know-the-labs"].title, blurb: byId["know-the-labs"].blurb, href: u(byId["know-the-labs"].href), steps: await page("know-the-labs"), kind: "pages" },
+    { id: "conversation", cover: COVERS["conversation"], title: items.conversation.title, blurb: items.conversation.blurb, href: u("/playbooks/conversation/"), steps: await book("conversation"), kind: "pages" },
+    { id: "your-story", cover: COVERS["your-story"], title: byId["your-story"].title, blurb: byId["your-story"].blurb, href: u(byId["your-story"].href), steps: [], kind: "story" },
+    { id: "room", cover: COVERS["room"], title: items.room.title, blurb: items.room.blurb, href: u("/playbooks/room/"), steps: await book("room"), kind: "pages" },
   ];
 }

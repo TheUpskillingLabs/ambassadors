@@ -36,6 +36,12 @@ const c = help.coordinator;
     </section>
 
     <section class="block">
+      <h2 class="block-h">{t("help.plan")}</h2>
+      <p class="t-body">{t("help.planLede")}</p>
+      <a class="see" href={u("/welcome/?edit")}>{t("help.planEdit")} →</a>
+    </section>
+
+    <section class="block">
       <h2 class="block-h">{t("help.progress")}</h2>
       <p class="t-body">{t("help.progressLede")}</p>
       <button class="btn btn-ghost btn-sm" type="button" data-reset data-confirm={t("help.resetConfirm")} data-done={t("help.resetDone")}>{t("help.reset")}</button>

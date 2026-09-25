@@ -1,0 +1,13 @@
+---
+/* The brand orb — the photography stand-in on covers. Decorative; always
+   paired with a scrim so it never sits raw under text. Ported from OLOS. */
+interface Props { class?: string }
+const { class: cls = "cv-orb" } = Astro.props;
+---
+<span class={cls} aria-hidden="true">
+  <svg viewBox="0 0 240 240" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="120" cy="120" r="116" fill="url(#oc)" />
+    <circle cx="120" cy="120" r="116" fill="url(#or)" />
+    <g transform="translate(20,40) scale(0.142)"><path d="M 0 900.84 C 532.341 651.368 841.069 454.81 1407.215 0 C 1190.699 365.98 1060.371 566.788 776.503 900.84 L 950.588 496.405 C 539.219 733.009 347.248 789.767 0 900.84 Z" fill="url(#og)" /></g>
+  </svg>
+</span>

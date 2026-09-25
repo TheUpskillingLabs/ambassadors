@@ -1,0 +1,15 @@
+---
+/* Cover art: brand gradient + grain + orb, the guide's stand-in for
+   listing photos. Decorative (text lives outside it or on the scrim).
+   `name` becomes a view-transition-name so a card's cover morphs into the
+   page's hero when you open it. */
+import Orb from "./Orb.astro";
+interface Props { variant?: "cover" | "teal" | "forest" | "navy" | "ink"; name?: string; num?: string; tall?: boolean; class?: string }
+const { variant = "teal", name, num, tall = false, class: cls = "" } = Astro.props;
+---
+<div class:list={["cv", `cv-${variant}`, { "cv-tall": tall }, cls]} style={name ? `view-transition-name: cv-${name}` : undefined} aria-hidden="true">
+  <Orb />
+  {num && <span class="cv-num">{num}</span>}
+  <span class="cv-grain"></span>
+  <slot />
+</div>

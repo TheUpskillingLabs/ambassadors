@@ -8,11 +8,12 @@ import PageHeader from "../../components/PageHeader.astro";
 import Icon from "../../components/Icon.astro";
 import { u } from "../../lib/url";
 import { t } from "../../lib/i18n";
+import { COVERS } from "../../lib/content";
 import story from "../../../content/site/story.json";
 const n = story.prompts.length;
 ---
 <Base title={t("story.title")} description={t("story.lede")} nav="your-story" bodyClass="page-story">
-  <PageHeader back={{ href: "/", label: t("nav.home") }} title={t("story.title")} lede={t("story.lede")} readTime={10} placeholder={story.placeholder}>
+  <PageHeader back={{ href: "/", label: t("nav.home") }} title={t("story.title")} lede={t("story.lede")} readTime={10} placeholder={story.placeholder} cover={{ variant: COVERS["your-story"], name: "your-story" }}>
     <div class="meter no-print" aria-hidden="true" data-flow-meter>
       <span class="pips">{Array.from({ length: n + 1 }, () => <i class="pip"></i>)}</span>
       <span class="meter-label" data-flow-label></span>

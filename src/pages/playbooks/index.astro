@@ -4,7 +4,8 @@ import PageHeader from "../../components/PageHeader.astro";
 import ProgressMeter from "../../components/ProgressMeter.astro";
 import Row from "../../components/Row.astro";
 import { t } from "../../lib/i18n";
-import { playbookPages, playbookHref, playbookProgressId } from "../../lib/content";
+import { playbookPages, playbookHref, playbookProgressId, COVERS } from "../../lib/content";
+import Cover from "../../components/Cover.astro";
 import sections from "../../../content/site/sections.json";
 const books = await Promise.all((["conversation", "room"] as const).map(async (id) => {
   const pages = await playbookPages(id);
@@ -16,6 +17,7 @@ const books = await Promise.all((["conversation", "room"] as const).map(async (i
   <div class="wrap page-body">
     {books.map((b) => (
       <section class="block">
+        <a href={playbookHref(b.pages[0])} class="lc" tabindex="-1" aria-hidden="true"><Cover variant={COVERS[b.id]} name={b.id} /></a>
         <p class="kicker">{b.mode} · {b.minutes} {t("page.minRead")}</p>
         <h2 class="t-h2">{b.title}</h2>
         <p class="t-body">{b.blurb}</p>

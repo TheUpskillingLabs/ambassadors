@@ -4,7 +4,9 @@ import "@fontsource-variable/geologica/wght.css";
 import "../styles/colors_and_type.css";
 import "../styles/system.css";
 import "../styles/guide.css";
+import "../styles/app.css";
 import Icon from "../components/Icon.astro";
+import OrbDefs from "../components/OrbDefs.astro";
 import { t } from "../lib/i18n";
 import { startHereIds, latestUpdate } from "../lib/content";
 
@@ -15,8 +17,13 @@ interface Props {
   nav?: "home" | "start-here" | "know-the-labs" | "playbooks" | "your-story" | "refreshers" | "deck" | "help";
   /** Page-level class on <body> (e.g. "page-home"). */
   bodyClass?: string;
+  /** false = no app bar, footer or tab bar (full-screen onboarding). */
+  chrome?: boolean;
+  /** Home only: send a brand-new visitor to the onboarding flow. */
+  gate?: boolean;
 }
-const { title, description = t("siteTagline"), nav, bodyClass = "" } = Astro.props;
+const { title, description = t("siteTagline"), nav, bodyClass = "", chrome = true, gate = false } = Astro.props;
+const welcome = u("/welcome/");
 const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · The Upskilling Labs`;
 const shIds = await startHereIds();
 const newest = await latestUpdate();
@@ -52,18 +59,23 @@ const desktop = [
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <!-- Home switches layout once Start Here is complete. Set before paint so
          the page never flashes the wrong layout. -->
-    <script is:inline define:vars={{ shIds, newest }}>
+    <script is:inline define:vars={{ shIds, newest, gate, welcome }}>
       try {
         var p = JSON.parse(localStorage.getItem("ag.progress.v1") || "{}");
         var done = shIds.length > 0 && shIds.every(function (id) { return p[id]; });
         document.documentElement.dataset.visit = done ? "returning" : "first";
         var seen = JSON.parse(localStorage.getItem("ag.updatesSeen.v1") || '""');
         if (newest && newest > seen) document.documentElement.dataset.news = "1";
+        var prof = JSON.parse(localStorage.getItem("ag.profile.v1") || "{}");
+        // First ever visit to Home: start with onboarding (skippable).
+        if (gate && !prof.onboarded && Object.keys(p).length === 0) location.replace(welcome);
       } catch (e) {}
     </script>
   </head>
-  <body class={bodyClass}>
+  <body class:list={[bodyClass, { "no-chrome": !chrome }]}>
+    <OrbDefs />
     <a class="skip" href="#main">{t("skipToContent")}</a>
+    {chrome && (
     <header class="appbar">
       <div class="appbar-inner">
         <a class="brand" href={u("/")}>
@@ -80,11 +92,13 @@ const desktop = [
         </nav>
       </div>
     </header>
+    )}
 
     <main id="main" tabindex="-1">
       <slot />
     </main>
 
+    {chrome && (
     <footer class="sitefoot">
       <div class="sitefoot-inner">
         <img src={u("/assets/logo-lockup-white.png")} alt={t("brandAlt")} width="384" height="144" loading="lazy" class="foot-logo" />
@@ -95,7 +109,9 @@ const desktop = [
         </p>
       </div>
     </footer>
+    )}
 
+    {chrome && (
     <nav class="tabbar" aria-label={t("nav.primary")}>
       {primary.map((p) => (
         <a class="tab" href={p.href} aria-current={nav === p.key ? "page" : undefined}>
@@ -104,6 +120,7 @@ const desktop = [
         </a>
       ))}
     </nav>
+    )}
 
     <script>
       import "../scripts/progress";

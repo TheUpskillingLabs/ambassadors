@@ -2,6 +2,8 @@
 import { u } from "../lib/url";
 import { t } from "../lib/i18n";
 import Icon from "./Icon.astro";
+import Cover from "./Cover.astro";
+import type { CoverVariant } from "../lib/content";
 interface Props {
   back?: { href: string; label: string };
   /** Small line above the title, e.g. "The Conversation · 3 of 6". */
@@ -12,12 +14,15 @@ interface Props {
   placeholder?: boolean;
   /** Use the display size (section landings). */
   large?: boolean;
+  /** Hero cover art; `name` morphs it from the matching Home card. */
+  cover?: { variant: CoverVariant; name?: string; num?: string };
 }
-const { back, eyebrow, title, readTime, lede, placeholder = false, large = false } = Astro.props;
+const { back, eyebrow, title, readTime, lede, placeholder = false, large = false, cover } = Astro.props;
 ---
 <header class="head">
   <div class="wrap">
     {back && <a class="crumb" href={u(back.href)}><Icon name="chevron" size={16} /> {back.label}</a>}
+    {cover && <div class="phero"><Cover variant={cover.variant} name={cover.name} num={cover.num} /></div>}
     {eyebrow && <p class="kicker">{eyebrow}</p>}
     <h1 class={large ? "t-h1" : "t-h1"}>{title}</h1>
     {lede && <p class="t-lede head-lede">{lede}</p>}
