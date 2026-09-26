@@ -11,7 +11,7 @@ Earned by ambassadors who apply, are accepted, and finish onboarding.
 | | Choice | Why |
 | --- | --- | --- |
 | Type | **Hard enamel** | Flat, polished, and scratch-resistant, so it reads as earned. Soft enamel is cheaper but looks like merch. |
-| Size | **1.25 in (31.75 mm)** wide, die-cut to the mark (31.75 × 30.5 mm) | The swoosh breaks out of the orb at both ends, like the NASA meatball it pays homage to, so the outline follows it. At 1 in, the swoosh tail gets too thin. |
+| Size | **About 1.25 in**, die-cut to the mark (32.4 × 30.5 mm; the orb is 29.3 mm) | The swoosh breaks out of the orb at both ends, like the NASA meatball it pays homage to, so the outline follows it. At 1 in, the swoosh tail gets too thin. |
 | Metal | **Polished nickel** (silver) | Bright lines outline the orb against ink. Polished gold works the same way. Black nickel is quieter and closest to the mark on ink. Dyed black and antique finishes are soft enamel only. |
 | Colours | **4**: ink, teal, bright teal (swoosh), red | Recommended range is 8 or fewer, and fewer holds up better. The orb's gradients become flat fields, because enamel can't do gradients. |
 | Lines | 0.4 mm metal between colours, 0.6 mm rim | Factory minimum is 0.2 to 0.3 mm. 0.4 mm survives polishing. |
@@ -25,7 +25,7 @@ Pantone codes in the SVG (`data-pantone`) are nearest matches from the brand kit
 ## Moving the orb onto the pin
 
 - **Gradients become flat fields.** The mark is teal above, fading to ink through the middle, and red below. Each field is cut where its colour falls to 30% of full, which leaves a teal cap, an ink band carrying the swoosh, and a red lobe. The swoosh uses the bright end of its own gradient, so it stays brighter than the teal cap as it does in the mark.
-- **Sharp tips become metal.** Enamel can't fill a point, so the swoosh's tips end in raised metal.
+- **The swoosh keeps its full size.** The enamel swoosh is the logo's swoosh plus 0.1 mm each side, and its metal line sits outside it (trimming the orb, not the swoosh), so the filled shape matches the logo. The tail and tips stay filled until they are thinner than 0.1 mm in the logo; past that they end in raised metal.
 - **The swoosh breaks out of the orb.** The tip clears the orb at the upper right and the tail at the left, so the metal outline follows the mark's silhouette.
 - If you want the gradient back, print it: a UV- or offset-printed metal pin reproduces the mark as is, with the plating showing as a rim. A translucent enamel over textured metal gives a glow but not a teal-to-red blend.
 
@@ -34,7 +34,7 @@ Pantone codes in the SVG (`data-pantone`) are nearest matches from the brand kit
 The factory redraws from vector art, never from a render. Your render is for approval, the site, and the backing card.
 
 1. **Scene:** Properties → Scene → Units: Metric, Unit Scale 0.001, Length Millimeters.
-2. **Import:** File → Import → SVG, then load `pin-front.svg`. Blender imports paths as curves and ignores fills, strokes, and gradients. That's why every colour here is a closed filled path: nothing has to be outlined first. Check the scale against the 31.75 mm width, then apply scale (Ctrl A).
+2. **Import:** File → Import → SVG, then load `pin-front.svg`. Blender imports paths as curves and ignores fills, strokes, and gradients. That's why every colour here is a closed filled path: nothing has to be outlined first. Check the scale against the 32.4 mm width, then apply scale (Ctrl A).
 3. **Metal body:** extrude the `metal` outline 0.6 mm (Curve → Geometry → Extrude). Pins are about 1.2 to 1.5 mm thick overall. Add bevel depth 0.05 mm with resolution 4 so polished edges catch the light.
 4. **Enamel:** extrude each `enamel-*` curve to sit **flush** with the metal top, which is what makes it hard enamel. For a soft-enamel comparison, set them 0.2 mm lower.
 5. **Materials (Principled BSDF):**

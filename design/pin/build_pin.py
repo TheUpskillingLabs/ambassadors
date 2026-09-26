@@ -33,6 +33,9 @@ RIM = 0.6         # metal border around the mark's silhouette
 LINE = 0.4        # raised metal between colours (factory minimum 0.2-0.3)
 MIN_CELL = 0.3    # thinnest enamel a cell may have
 FILLET = 0.3      # rounds the inside corners where the swoosh leaves the orb
+GROW = 0.1        # the enamel swoosh is the logo's full swoosh plus this much each side; its
+                  # metal line sits outside it, so the filled swoosh keeps the logo's proportions
+                  # and the tail and tip stay filled until they are thinner than 0.1 mm in the logo
 
 # Colours: screen value, then the Pantone to confirm against a physical guide.
 INK = ("#00141B", "Black 6 C")      # brand ink: the dark band through the middle
@@ -81,17 +84,24 @@ def regions(ref=REF):
 def build(ref=REF, width=WIDTH):
     face, swoosh, reg = regions(ref)
     minx, _, maxx, _ = swoosh.union(face).bounds
-    s = (width - 2 * RIM) / (maxx - minx)                     # px -> mm
+    s = (width - 2 * RIM) / (maxx - minx)                     # px -> mm (sets the orb's size)
     ox, oy, _ = ref["orb"]
     to_mm = lambda g: affinity.scale(affinity.translate(g, -ox, -oy), s, -s, origin=(0, 0))  # centred on the orb, y up
+    fill = lambda g: g.buffer(-MIN_CELL / 2).buffer(MIN_CELL / 2)  # drop slivers too thin to fill
 
-    outline = to_mm(face.union(swoosh)).buffer(RIM, 32).buffer(FILLET, 32).buffer(-FILLET, 32)
+    sw = to_mm(swoosh)
+    keep_out = sw.buffer(GROW + LINE, 32)                      # the swoosh's metal line, outside the logo's swoosh
+    outline = unary_union([to_mm(face).buffer(RIM, 64), sw.buffer(GROW + LINE / 2 + RIM, 32)])
+    outline = outline.buffer(FILLET, 32).buffer(-FILLET, 32)
 
     def cell(g):
-        g = to_mm(g).buffer(-LINE / 2, join_style=2)          # leave half a line of metal each side
-        return g.buffer(-MIN_CELL / 2).buffer(MIN_CELL / 2)   # drop slivers too thin to fill
+        g = to_mm(g).buffer(-LINE / 2, join_style=2)          # half a line of metal between neighbours
+        return fill(g.difference(keep_out))
 
-    cells = {k: cell(g) for k, g in reg.items()}
+    cells = {k: cell(g) for k, g in reg.items() if k != "swoosh"}
+    cells["swoosh"] = fill(sw.buffer(GROW, 32))
+    # One field for the whole orb (ink with teal and red glows fading into it): the glow finish.
+    cells["orb"] = fill(to_mm(face).buffer(-LINE / 2, 64).difference(keep_out))
     return outline, cells, s
 
 
@@ -148,9 +158,13 @@ def main():
             rings.append("        " + ring_src(p, 0.005) + ",")
         art.append(f'    "{name}": [\n' + "\n".join(rings) + "\n    ],")
     (body,) = polys(outline)
+    orb = ",\n".join("    " + ring_src(p, 0.002) for p in polys(cells["orb"]))
     block = ("ART = {\n" + "\n".join(art) + "\n}\n"
              "# The die-cut silhouette: the body's outline, same frame.\n"
-             "OUTLINE = " + ring_src(body, 0.001) + "\n")
+             "OUTLINE = " + ring_src(body, 0.001) + "\n"
+             "# The glow finish: the whole orb as one field (ink, with teal and red glowing into it),\n"
+             "# split only by the swoosh's metal line.\n"
+             "ORB = [\n" + orb + ",\n]\n")
     blend = here.with_name("blender") / "ambassador_pin.py"
     src = blend.read_text()
     src, n = re.subn(r"^ART = \{.*?(?=# ── END ART)", lambda m: block, src, count=1, flags=re.S | re.M)
