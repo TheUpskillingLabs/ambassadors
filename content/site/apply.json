@@ -10,7 +10,7 @@
   "you": {
     "nav": "About you",
     "title": "About you.",
-    "lede": "The basics, so your coordinator knows who you are.",
+    "lede": "Just the basics, so your coordinator knows who you are.",
     "first": "First name",
     "last": "Last name",
     "email": "Email",
@@ -28,7 +28,7 @@
   "agreement": {
     "nav": "Agreement",
     "title": "The ambassador agreement.",
-    "lede": "Plain language, one read. [PLACEHOLDER: draft, needs review before launch.]",
+    "lede": "Plain language. One read. [PLACEHOLDER: draft, needs review before launch.]",
     "version": "ambassador-2026-09-v1",
     "sections": [
       {
@@ -67,19 +67,19 @@
   },
   "video": {
     "nav": "Video",
-    "title": "Watch this first.",
-    "lede": "A few minutes on what The Labs is and why ambassadors matter. The quiz is about what's in it.",
+    "title": "Start here.",
+    "lede": "A few minutes on what The Labs is and why ambassadors matter. The quiz comes from it.",
     "src": "",
     "poster": "",
     "captions": "",
-    "placeholder": "[PLACEHOLDER] The initiation video goes here.",
+    "placeholder": "[PLACEHOLDER] The orientation video goes here.",
     "watched": "I've watched it",
     "watchedHint": "The quiz opens when the video ends."
   },
   "quiz": {
     "nav": "Quiz",
     "title": "A quick quiz.",
-    "lede": "Five questions about The Labs. Get four right and you're in. You can try again as many times as you like.",
+    "lede": "Five questions about The Labs. Four right to pass. Retry as often as you like.",
     "check": "Check my answers",
     "retry": "Try again",
     "pass": 4,
@@ -152,7 +152,7 @@
     "lede": "Your button is on its way. One last thing: text your coordinator so they have your details.",
     "buttonAlt": "The ambassador button",
     "text": "Text your coordinator",
-    "message": "Hi, I'm {first} {last}. I just passed ambassador initiation. Email: {email}. ZIP: {zip}. Brought in by: {referredBy}. Agreement: {version}. Quiz: {score} of {total}. Invited by: {invitedBy}.",
+    "message": "Hi, I'm {first} {last}. I just finished ambassador orientation. Email: {email}. ZIP: {zip}. Brought in by: {referredBy}. Agreement: {version}. Quiz: {score} of {total}. Invited by: {invitedBy}.",
     "nobody": "nobody",
     "guide": "Open your guide",
     "guideNote": "The guide is yours from here: five short steps to get ready, and a reference for later."
@@ -163,7 +163,7 @@
   },
   "pending": {
     "title": "Almost there.",
-    "lede": "You passed. Your coordinator will confirm you, usually within two working days. [PLACEHOLDER: confirm the timing.] Text them your details now so they can.",
+    "lede": "You passed. Your coordinator will confirm you, usually within two working days. [PLACEHOLDER: confirm the timing.] Send them your details now.",
     "guide": "Open the guide meanwhile",
     "guideNote": "The guide is open to you while you wait."
   }
