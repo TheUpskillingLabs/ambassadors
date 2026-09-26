@@ -1,12 +1,16 @@
 ---
 /* One step of the path. Every step has the same shape:
    ← Home · Step n of 5 · title · the one-line summary · the step · Done.
-   Done marks the step and moves to the next one (the last goes Home). */
+   Wide screens add the five steps as a sticky rail on the left.
+   Done marks the step and opens a short "done" dialog: what you finished,
+   the five dots, and one button onward (the next unfinished step, or Home
+   and the pin once all five are done). Esc stays on the page. */
 import type { CollectionEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHeader from "./PageHeader.astro";
 import Icon from "./Icon.astro";
-import { t } from "../lib/i18n";
+import StepList from "./StepList.astro";
+import { t, ui } from "../lib/i18n";
 import { u } from "../lib/url";
 import { path } from "../lib/content";
 interface Props { entry: CollectionEntry<"steps">; /** false: the bar sits after the content (Practice: never over the deck's buttons). */ sticky?: boolean }
@@ -15,7 +19,10 @@ const all = await path();
 const i = all.findIndex((s) => s.id === entry.id);
 const next = all[i + 1];
 ---
-<Base title={entry.data.title} description={entry.data.summary}>
+<Base title={entry.data.title} description={entry.data.summary} step={entry.id}>
+  <div class="step-layout">
+  <aside class="rail" aria-label={t("nav.steps")}><StepList current={entry.id} /></aside>
+  <div class="step-main">
   <PageHeader
     back={{ href: "/", label: t("nav.home") }}
     eyebrow={t("step.of", { n: i + 1, total: all.length, min: entry.data.readTime })}
@@ -23,7 +30,7 @@ const next = all[i + 1];
     lede={entry.data.summary}
     placeholder={entry.data.placeholder}
   />
-  <article class="wrap page-body">
+  <article class="page-body">
     <slot />
     <div class:list={["actionbar2", { static: !sticky }]}>
       <span class="ab-info"><span class="ab-kicker">{next ? t("step.next") : t("step.last")}</span><span class="ab-title">{next ? next.title : t("step.pin")}</span></span>
@@ -32,11 +39,80 @@ const next = all[i + 1];
       </button>
     </div>
   </article>
+  </div>
+  </div>
+  <dialog class="donedlg" data-donedlg aria-labelledby="done-title"
+    data-steps={JSON.stringify(all)} data-current={entry.id} data-home={u("/")} data-strings={JSON.stringify(ui.done)}>
+    <svg class="done-check" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true"><circle cx="24" cy="24" r="22" /><path d="M14 24.5l7 7 13-14" /></svg>
+    <p class="done-kicker" data-done-kicker>{t("done.kicker", { n: i + 1, total: all.length })}</p>
+    <h2 id="done-title" class="done-title" data-done-title>{t("done.title", { title: entry.data.title })}</h2>
+    <ol class="done-dots" role="img" data-done-dots aria-label="">
+      {all.map((s) => <li data-dot={s.id}></li>)}
+    </ol>
+    <div class="panel done-next" data-done-next>
+      <span class="done-next-k">{t("done.upNext")}</span>
+      <span class="done-next-t" data-done-next-title></span>
+      <span class="done-next-m" data-done-next-meta></span>
+    </div>
+    <div class="panel done-pin" data-done-pin hidden>
+      <img src={u("/pin.svg")} alt={t("done.pinAlt")} width="72" height="72" />
+      <span><strong>{t("done.pinKicker")}</strong><br />{t("done.pinBody")}</span>
+    </div>
+    <a class="btn btn-teal done-go" data-done-go href={next ? next.href : u("/")}><span data-done-go-label>{next ? t("done.next", { title: next.title }) : t("done.toHome")}</span><Icon name="arrow-right" size={18} /></a>
+    <p class="done-links">
+      <a href={u("/")} data-done-home>{t("done.home")}</a>
+      <button type="button" class="linkbtn" data-done-stay>{t("done.stay")}</button>
+    </p>
+  </dialog>
   <script>
     import { progress } from "../lib/store";
+    type S = { id: string; title: string; href: string; readTime: number };
+    const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? `{${k}}`));
+    const dlg = document.querySelector<HTMLDialogElement>("[data-donedlg]")!;
+    const steps: S[] = JSON.parse(dlg.dataset.steps!);
+    const str: Record<string, string> = JSON.parse(dlg.dataset.strings!);
+    const cur = dlg.dataset.current!;
+    const q = <T extends HTMLElement>(sel: string) => dlg.querySelector<T>(sel)!;
+
+    function paint() {
+      const done = progress.all();
+      const n = steps.filter((s) => done[s.id]).length;
+      const i = steps.findIndex((s) => s.id === cur);
+      // Onward: the next unfinished step after this one, else any unfinished one, else Home.
+      const after = [...steps.slice(i + 1), ...steps.slice(0, i)];
+      const next = after.find((s) => !done[s.id]);
+      dlg.querySelectorAll<HTMLElement>("[data-dot]").forEach((d) => d.classList.toggle("on", Boolean(done[d.dataset.dot!])));
+      q("[data-done-dots]").setAttribute("aria-label", fill(str.progress, { n, total: steps.length }));
+      if (!next) q("[data-done-title]").textContent = str.lastTitle;
+      q("[data-done-next]").hidden = !next;
+      q("[data-done-pin]").hidden = Boolean(next);
+      q("[data-done-home]").hidden = !next;
+      const go = q<HTMLAnchorElement>("[data-done-go]");
+      go.href = next ? next.href : dlg.dataset.home!;
+      q("[data-done-go-label]").textContent = next ? fill(str.next, { title: next.title }) : str.toHome;
+      if (next) {
+        q("[data-done-next-title]").textContent = next.title;
+        q("[data-done-next-meta]").textContent = fill(str.nextMeta, { min: next.readTime });
+      }
+      // Keep the header's progress line and the steps list in step with the dialog.
+      document.querySelectorAll<HTMLElement>("[data-step-link]").forEach((a) => a.classList.toggle("is-done", Boolean(done[a.dataset.stepLink!])));
+      const bar = document.querySelector<HTMLElement>(".appbar-progress");
+      if (bar) {
+        bar.setAttribute("aria-valuenow", String(n));
+        bar.setAttribute("aria-label", fill(bar.dataset.label!, { n, total: steps.length }));
+        bar.querySelector<HTMLElement>("[data-progress-fill]")!.style.width = `${(n / steps.length) * 100}%`;
+      }
+    }
+
     document.querySelectorAll<HTMLButtonElement>("[data-done]").forEach((b) => b.addEventListener("click", () => {
       progress.markRead(b.dataset.done!);
-      location.href = b.dataset.nextHref!;
+      paint();
+      if (typeof dlg.showModal !== "function") { location.href = q<HTMLAnchorElement>("[data-done-go]").href; return; }
+      dlg.showModal();
+      q<HTMLAnchorElement>("[data-done-go]").focus();
     }));
+    q("[data-done-stay]").addEventListener("click", () => dlg.close());
+    // A click on the backdrop (outside the box) closes it too.
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
   </script>
 </Base>

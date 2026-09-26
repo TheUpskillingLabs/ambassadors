@@ -2,9 +2,13 @@
 
 Earned by ambassadors who apply, are accepted, and finish onboarding.
 
-`pin-front.svg` is starter production art built from the OLOS orb by `build_pin.py`. It is 1:1 in millimetres, and every colour is a filled shape with raised metal between the colours. Send the factory this file (or a refined version of it). Use Blender for mockups only.
+`pin-front.svg` is starter production art built from the OLOS orb by `build_pin.py`. It is 1:1 in millimetres, and every colour is a filled shape with raised metal between the colours. Send the factory this file (or a refined version of it). The 3D model in `blender/` is for mock-ups and approval only.
 
-![Front](pin-front.svg)
+![The pin, rendered from the 3D model](renders/pin-hero.jpg)
+
+| Front (true colour) | Back |
+| --- | --- |
+| ![Front](renders/pin-front.png) | ![Back](renders/pin-back.png) |
 
 ## The spec
 
@@ -14,10 +18,10 @@ Earned by ambassadors who apply, are accepted, and finish onboarding.
 | Size | **1.25 in (31.75 mm)** round | 1.25 to 1.5 in covers most orders. At 1 in, the swoosh tail gets too thin. |
 | Metal | **Polished nickel** (silver) | Bright lines outline the orb against ink. Black nickel works with hard enamel if you want it quieter. Dyed black and antique finishes are soft enamel only. |
 | Colours | **3**: ink, red, and bright teal | Recommended range is 8 or fewer, and fewer holds up better. The orb's gradients become flat fields, because enamel can't do gradients. |
-| Lines | 0.4 mm metal between colours, 0.6 mm rim | Factory minimum is 0.2 to 0.3 mm. 0.4 mm survives polishing. |
+| Lines | 0.4 mm metal between colours, 0.8 mm rim (about 0.65 mm flat after the rounded edge) | Factory minimum is 0.2 to 0.3 mm. 0.4 mm survives polishing. `build_pin.py` fails if any metal comes out under 0.3 mm. |
 | Smallest enamel cell | 0.3 mm | Smaller cells can't be filled, so the build script drops them. |
-| Back | **2 posts** + locking clutches | A round pin with an arrow has an orientation. Single posts spin, and rubber clutches loosen. |
-| Backstamp | THE UPSKILLING LABS · AMBASSADOR · year | Keeps text off the front, where 5 pt is the floor. The year makes each cohort's pin distinct. Costs about $50 once. |
+| Back | **2 posts**, 9 mm either side of centre, + locking clutches | A round pin with an arrow has an orientation. Single posts spin, and rubber clutches loosen. |
+| Backstamp | THE UPSKILLING LABS · AMBASSADOR · year, raised polished text on a satin back | Keeps text off the front. Ask for sans serif at 6 pt or more (1.5 mm caps), with strokes and the gaps between letters at least 0.25 mm; thinner raised text fills in. The year makes each cohort's pin distinct. Costs about $50 once. |
 | Card | Backing card: "Earned, not given." [PLACEHOLDER] | The card makes it a moment and not a freebie. |
 
 Pantone codes in the SVG (`data-pantone`) are nearest matches: Black 6 C, 185 C, and 3125 C. Confirm them against a physical **Solid Coated** guide, not a screen. Enamel reds usually come out darker than the chip.
@@ -28,19 +32,37 @@ Pantone codes in the SVG (`data-pantone`) are nearest matches: Black 6 C, 185 C,
 - **Sharp tips become metal.** Enamel can't fill a point, so the swoosh's tips end in raised metal.
 - If you want the glow back, the options in order of cost are translucent teal enamel over a textured metal field, then a UV-printed insert. Both add cost and risk; flat looks cleaner at this size.
 
-## Blender (mockups only)
+## The 3D model (Blender)
 
-The factory redraws from vector art, never from a render. Your render is for approval, the site, and the backing card.
+`blender/ambassador_pin.py` builds the pin at real size in the open Blender file. It is tested on 4.5 LTS, 5.0 and 5.1.
 
-1. **Scene:** Properties → Scene → Units: Metric, Unit Scale 0.001, Length Millimeters.
-2. **Import:** File → Import → SVG, then load `pin-front.svg`. Blender imports paths as curves and ignores fills, strokes, and gradients. That's why every colour here is a closed filled path: nothing has to be outlined first. Check the scale against the 31.75 mm diameter, then apply scale (Ctrl A).
-3. **Metal body:** extrude the `metal` circle 0.6 mm (Curve → Geometry → Extrude). Pins are about 1.2 to 1.5 mm thick overall. Add bevel depth 0.05 mm with resolution 4 so polished edges catch the light.
-4. **Enamel:** extrude each `enamel-*` curve to sit **flush** with the metal top, which is what makes it hard enamel. For a soft-enamel comparison, set them 0.2 mm lower.
-5. **Materials (Principled BSDF):**
-   - **Metal:** Metallic 1, Roughness 0.12, base #C9CED2.
-   - **Enamel:** Metallic 0, Roughness 0.05, Coat 1. Use the hex values from the SVG.
-6. **Lighting:** an HDRI studio environment plus one large soft area light. Use a Filmic or AgX view transform, so the red doesn't clip.
-7. **Posts:** two 1 mm cylinders about 8 mm long, 8 to 10 mm from centre on the horizontal axis. The backstamp is text converted to a curve (Alt C), extruded 0.1 mm into the back.
+1. In Blender, open the **Scripting** tab, then **Text → Open** and pick `blender/ambassador_pin.py`.
+2. Click **Run Script**, or press Alt P with the mouse over the text.
+3. The pin appears in the Scripting and Layout viewports. The **Pin** empty is selected, so press R to rotate it or G to move it. Numpad 0 looks through the hero camera, and F12 renders.
+
+Or open `blender/ambassador-pin.blend`, which the script made.
+
+**What it builds:**
+- A 1.5 mm nickel body with a rounded rim.
+- Enamel set 0.3 mm into the metal and flush with it, the same art as `pin-front.svg`.
+- Two posts with locking clutches, and the raised backstamp.
+- A small studio: the pin on its backing card, soft lights, a hero camera, and front and back cameras that follow the pin. The lights are calibrated so the enamel renders as its brand hex values (Khronos PBR Neutral view).
+
+**If your file already has work in it:**
+- Running the script again rebuilds only its own **Ambassador Pin** collection. It keeps anything of yours inside that collection, or parented to the pin.
+- It sets this scene's camera, World, units, Cycles and colour settings. Your previous World is kept with a fake user.
+- Set `STUDIO = False` at the top of the script to build the pin alone.
+
+**Renders and files for this folder:**
+
+```sh
+blender -b -P design/pin/blender/ambassador_pin.py -- --render design/pin/renders --samples 64 --size 1400
+blender -b -P design/pin/blender/ambassador_pin.py -- --save design/pin/blender/ambassador-pin.blend --glb design/pin/blender/ambassador-pin.glb
+```
+
+`ambassador-pin.glb` is the pin alone, upright and facing the viewer, for web and AR viewers.
+
+The factory still redraws from `pin-front.svg`, never from a render.
 
 ## Ordering
 
@@ -56,4 +78,6 @@ Edit the constants at the top of `build_pin.py` (size, line width, colours) and 
 pip install shapely && python3 design/pin/build_pin.py
 ```
 
-Sources: [Wizard Pins guide](https://wizardpins.com/pages/enamel-pin-guide) · [CreatePins: why a pin can't be made](https://createpins.com/blog/why-cant-my-enamel-pin-be-made/) · [CreatePins size guide](https://createpins.com/blog/enamel-pin-design-size-guide/) · [Vograce size chart](https://vograce.com/blogs/news/pin-size-chart-guide) · [Hard vs soft (Stadri)](https://www.stadriemblems.com/blog/soft-enamel-pins-vs-hard-enamel-pins/) · [Gradients (EnamelPinCustom)](https://www.enamelpincustom.com/can-enamel-pins-have-gradient-colors/) · [Pin backs (PinPros)](https://www.pinprosplus.com/post/enamel-pins-5-tips-to-keep-them-from-falling-off) · [Blender SVG import](https://docs.blender.org/manual/en/latest/files/import_export/svg_curve.html) · [Pantone and proofs (CreatePins)](https://createpins.com/blog/enamel-pin-colors-guide/)
+That rewrites `pin-front.svg`, the site's `public/pin.svg`, and the art inside `blender/ambassador_pin.py`. Then run the Blender script again.
+
+Sources: [Wizard Pins guide](https://wizardpins.com/pages/enamel-pin-guide) · [CreatePins: why a pin can't be made](https://createpins.com/blog/why-cant-my-enamel-pin-be-made/) · [CreatePins size guide](https://createpins.com/blog/enamel-pin-design-size-guide/) · [Vograce size chart](https://vograce.com/blogs/news/pin-size-chart-guide) · [Hard vs soft (Stadri)](https://www.stadriemblems.com/blog/soft-enamel-pins-vs-hard-enamel-pins/) · [Gradients (EnamelPinCustom)](https://www.enamelpincustom.com/can-enamel-pins-have-gradient-colors/) · [Pin backs (PinPros)](https://www.pinprosplus.com/post/enamel-pins-5-tips-to-keep-them-from-falling-off) · [Pantone and proofs (CreatePins)](https://createpins.com/blog/enamel-pin-colors-guide/)

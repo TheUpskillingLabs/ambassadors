@@ -16,7 +16,7 @@
 }
 
 /* ── sticky Done bar at the end of every step ── */
-.actionbar2 { position: sticky; bottom: 0; z-index: 40; margin: 0 calc(-1 * var(--pad)); padding: 10px var(--pad) max(10px, env(safe-area-inset-bottom));
+.actionbar2 { position: sticky; bottom: 0; z-index: 40; margin: 0 calc(-1 * var(--gutter)); padding: 10px var(--gutter) max(10px, env(safe-area-inset-bottom));
   background: rgba(246, 244, 239, 0.94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--rule);
   display: flex; align-items: center; gap: 12px; }
 .actionbar2.static { position: static; }
@@ -98,7 +98,7 @@
 .pin-goal img { flex-shrink: 0; filter: drop-shadow(0 2px 4px rgba(0, 20, 27, 0.18)); }
 
 /* ── chrome: one link in the app bar, Start over in the footer ── */
-.appbar-present { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; font-size: 14px; font-weight: 600; color: var(--od1); }
+.appbar-present { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; font-size: 14px; font-weight: 600; color: var(--od1); }
 .foot-reset { background: none; border: 0; padding: 0; min-height: 44px; font: inherit; font-weight: 600; color: var(--od1); cursor: pointer; }
 
 /* ── step content ── */
@@ -109,3 +109,101 @@
 .story { display: flex; flex-direction: column; gap: 18px; }
 .story .field label { text-transform: none; letter-spacing: 0; font-size: 15px; font-weight: 600; color: var(--ink); }
 .story textarea { font-size: 16px; line-height: 24px; }
+
+/* ── app bar: full width, steps menu, progress line ── */
+.appbar { backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); }
+@supports (backdrop-filter: blur(1px)) { .appbar { background: rgba(0, 20, 27, 0.9); } }
+.appbar-end { margin-left: auto; display: flex; align-items: center; gap: clamp(8px, 2vw, 24px); }
+.stepsmenu { position: relative; }
+.stepsmenu summary { list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px;
+  font-size: 14px; font-weight: 600; color: var(--od1); border-bottom: 2px solid transparent; }
+.stepsmenu summary::-webkit-details-marker { display: none; }
+.stepsmenu summary svg { transform: rotate(90deg); transition: transform 0.2s; }
+.stepsmenu[open] summary svg { transform: rotate(-90deg); }
+.stepsmenu summary:hover span { text-decoration: underline; text-underline-offset: 4px; }
+.stepsmenu-panel { position: absolute; right: 0; top: calc(100% + 10px); z-index: 60; width: min(320px, calc(100vw - 2 * var(--gutter)));
+  background: var(--ink); border: 1px solid var(--rule-d); border-radius: var(--r); padding: 10px; box-shadow: var(--shadow-lg); }
+.appbar-progress { height: 3px; background: rgba(255, 255, 255, 0.08); }
+.appbar-progress i { display: block; height: 100%; width: 0; background: var(--teal); transition: width 0.6s var(--ease-spring); }
+@media (min-width: 1100px) { body:has(.step-layout) .stepsmenu { display: none; } }
+
+/* ── the step list (menu and rail) ── */
+.steplist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.step-link { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 6px 10px; border-radius: var(--r); color: var(--ink); font-size: 15px; font-weight: 500; }
+.step-link:hover { background: rgba(0, 20, 27, 0.05); }
+.step-n { position: relative; width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
+  border: 1.5px solid var(--rule-ink); font-size: 12px; font-weight: 700; }
+.step-n svg { display: none; }
+.step-link.is-done .step-n { background: var(--teal-deep); border-color: var(--teal-deep); color: #fff; }
+.step-link.is-done .step-n .n { display: none; }
+.step-link.is-done .step-n svg { display: block; }
+.step-link[aria-current="step"] { font-weight: 700; }
+.step-link[aria-current="step"] .step-t { text-decoration: underline; text-decoration-color: var(--teal); text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.step-finish { display: flex; align-items: center; gap: 12px; padding: 10px 13px 4px; font-size: 13px; font-weight: 600; color: var(--meta); }
+.steplist.dark .step-link { color: var(--od1); }
+.steplist.dark .step-link:hover { background: rgba(255, 255, 255, 0.06); }
+.steplist.dark .step-n { border-color: var(--od2); }
+.steplist.dark .step-link.is-done .step-n { background: var(--teal); border-color: var(--teal); }
+.steplist.dark .step-finish { color: var(--od2); }
+
+/* ── step pages: full width; a sticky rail on wide screens; text keeps its measure ── */
+.step-layout { padding-inline: var(--gutter); }
+.step-main .wrap { padding-inline: 0; }
+.rail { display: none; }
+.step-main .head-lede, .step-main .prose, .step-main .panel, .step-main .faq, .step-main .ladder { max-width: var(--measure); }
+.step-main .page-body { max-width: calc(var(--measure) + 160px); }
+@media (min-width: 1100px) {
+  .step-layout { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); column-gap: clamp(40px, 5vw, 96px); }
+  .rail { display: block; position: sticky; top: 96px; align-self: start; padding-top: 32px; }
+}
+
+/* ── Home: two columns on wide screens ── */
+@media (min-width: 1100px) {
+  .home { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(48px, 7vw, 140px); align-items: start; padding-top: 72px; }
+  .home > * { grid-column: 1; }
+  .home > .rows { grid-column: 2; grid-row: 1 / span 6; margin-top: 0; }
+  .home-title { font-size: clamp(48px, 5vw, 80px); line-height: 1; }
+}
+
+/* ── fixes for full width ── */
+body { min-height: 100dvh; display: flex; flex-direction: column; }
+body > main { flex: 1; }
+@media (max-width: 700px) {
+  .stepsmenu { position: static; }
+  .stepsmenu-panel { position: fixed; left: var(--gutter); right: var(--gutter); top: calc(64px + env(safe-area-inset-top)); width: auto; }
+}
+@media (min-width: 1100px) {
+  .home > :not(.rows) { max-width: 560px; }
+  .step-main .actionbar2 { margin-inline: 0; padding-inline: 0; border-radius: 0; }
+}
+
+/* "Done" dialog: a check that draws in, the five dots, one way onward. */
+.donedlg { width: min(440px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); border: 0; border-radius: var(--r); padding: 28px 24px 20px; background: var(--paper); color: var(--ink); box-shadow: 0 24px 60px rgba(0, 20, 27, .28); }
+.donedlg[open] { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.donedlg::backdrop { background: rgba(0, 20, 27, .55); }
+.done-check { flex-shrink: 0; }
+.done-check circle { fill: none; stroke: var(--teal-deep); stroke-width: 2.5; stroke-dasharray: 139; stroke-dashoffset: 0; }
+.done-check path { fill: none; stroke: var(--teal-deep); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 32; stroke-dashoffset: 0; }
+.done-kicker { margin: 0; font-size: 13px; font-weight: 600; color: var(--teal-deep); }
+.done-title { margin: -8px 0 0; font-size: 26px; line-height: 1.15; letter-spacing: -.01em; }
+.done-dots { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; }
+.done-dots li { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--teal-deep); }
+.done-dots li.on { background: var(--teal-deep); }
+.done-next, .done-pin { align-self: stretch; }
+.done-next { gap: 2px; }
+.done-next-k { font-size: 12px; font-weight: 600; color: var(--meta); }
+.done-next-t { font-size: 17px; font-weight: 700; }
+.done-next-m { font-size: 13px; color: var(--meta); }
+.done-pin { flex-direction: row; align-items: center; gap: 14px; font-size: 15px; line-height: 1.4; }
+.done-pin img { flex-shrink: 0; }
+.done-go { align-self: stretch; justify-content: center; min-height: 48px; }
+.done-links { margin: 0; align-self: stretch; display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.done-links a, .linkbtn { color: var(--teal-deep); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.linkbtn { margin-left: auto; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+@media (prefers-reduced-motion: no-preference) {
+  .donedlg[open] { animation: done-in .22s ease-out; }
+  .donedlg[open] .done-check circle { animation: done-draw .5s ease-out both; stroke-dashoffset: 139; }
+  .donedlg[open] .done-check path { animation: done-draw .35s .35s ease-out both; stroke-dashoffset: 32; }
+  @keyframes done-in { from { opacity: 0; transform: translateY(8px) scale(.98); } }
+  @keyframes done-draw { to { stroke-dashoffset: 0; } }
+}

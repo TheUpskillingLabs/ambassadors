@@ -32,6 +32,7 @@ npm run check      # type-check
 | Practice situations (the prospect game will read these too) | `content/scenarios/*.json` |
 | Questions you'll get (shown on The Labs) | `content/faq/*.json` |
 | Deck copy, ladder, Your Story questions, coordinator contact | `content/site/*.json` |
+| The public program page's copy (and where "Become an ambassador" goes: `applyUrl`) | `content/site/join.json` |
 | Every UI string a component renders | `content/site/ui.en.json` |
 | **Upcoming sessions (the only moving data)** | `data/schedule.json` |
 | The ambassador pin: production art, spec, and Blender notes | `design/pin/` |
@@ -66,8 +67,9 @@ These also need real values:
 
 | Route | What |
 | --- | --- |
+| `/join/` | The public Ambassador Program page: why join, how it works (a sticky picture that turns from the button into the pin on wide screens), the launch goal with an ambassador's quote, questions, and what it takes. Built from the design mockup; copy in `content/site/join.json`, media in `public/join/`. |
 | `/` | Home: one button (Start, Continue, or, once all five are done, "Text your coordinator for your pin") and the five steps. |
-| `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/` | The five steps. Each ends with **Done**, which checks it off and opens the next. |
+| `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/` | The five steps. Each ends with **Done**, which checks it off and opens a short "done" dialog: the five dots and one button to the next unfinished step (or Home and the pin once all five are done). Esc stays on the page. |
 | `/present/` | Full-screen deck. Arrows, click, and swipe move between slides; F toggles full screen. |
 | `/present/?short` | 60-second version (slides 1, 5, 6) |
 | `/present/?notes` | Laptop notes view: current slide, next slide, cues, and a timer. It drives any presentation window open on the same device. |
@@ -78,6 +80,7 @@ These also need real values:
 The site follows The Labs Brand Style Guide via the OLOS design system. Some rules are easy to break by accident:
 
 - **Never let anything look like a button unless it is one.** Filled or outlined rounded boxes (`.btn`, `.chip`, `.ctl`) are only for things you can press. Labels, statuses, counters, page lists, and example quotes are plain text or text with a rule, never boxed. On slides, "Join The Labs" is words over a red rule, because nobody can press a projected slide.
+- **Full width.** Pages run edge to edge with one fluid gutter (`--gutter: clamp(16px, 4vw, 64px)`); text keeps a readable measure (`--measure: 68ch`) and sits left-aligned. On wide screens the steps become a sticky rail and Home splits into two columns. See `design/research/award-benchmarks.md` for the references behind this.
 - **One path, one button.** Every step is one page with one primary action (Done). Anything that adds a second path, a second menu, or a choice the ambassador has to make before they can start should earn its place with evidence.
 - Clickable rows are white cards with a trailing chevron (`Row.astro`). Information panels are tinted (`.panel`) or plain text, never white boxes, so anything that looks like a card can be pressed.
 - Every gesture has a button and a key. The practice deck supports swipe, buttons, and keys (Space flips, → Had it, ← Not yet).

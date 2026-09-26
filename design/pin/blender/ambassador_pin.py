@@ -1,21 +1,32 @@
-"""Ambassador pin: a real-scale 3D model for Blender 4.2 or newer.
+"""Ambassador pin: a real-scale 3D model for Blender 4.2 or newer
+(tested on 4.5 LTS, 5.0 and 5.1).
 
 In Blender: Scripting workspace > Text > Open > this file > Run Script.
-It builds everything in a collection called "Ambassador Pin" in the current
-scene, and running it again rebuilds that collection. On a fresh file it
-also clears the startup cube, light and camera.
+It builds the pin in a collection called "Ambassador Pin" in the current
+scene; running it again rebuilds that collection. On a factory-fresh file it
+also clears the startup cube, light and camera. Anything of yours that you
+put in its collections, or parented to its objects, is kept on a re-run.
 
 The pin is a 1.25 in (31.75 mm) hard-enamel pin, per design/pin/README.md:
   - polished nickel body, 1.5 mm thick, with a rounded rim;
   - enamel set 0.3 mm into the metal and flush with it, as hard enamel is
     polished flat; 0.4 mm metal lines between colours;
-  - two posts with locking clutches, and a raised backstamp on the back.
+  - two posts with locking clutches, and a raised polished backstamp on a
+    satin back.
 The art is the same geometry as pin-front.svg: build_pin.py writes it into
-the ART block below, so re-run that script after changing the art.
+the ART block below, so re-run that script after changing the art, then
+re-run this one. The recesses are cut once at build time (a live Boolean
+would re-run on every step while you pose the pin).
 
 Everything is at real size in metres, and the scene displays millimetres.
-The body keeps its Bevel and Boolean modifiers, so it stays editable; the
-cutters live in the hidden "Pin Cutters" collection.
+Rotate or move the "Pin" empty (selected after a run) to pose the pin.
+
+With STUDIO = True (the default) it also sets this scene's camera, world,
+render engine (Cycles), colour management (Khronos PBR Neutral), units and
+resolution, and points the 3D views of this workspace and Layout at the pin
+(Material Preview with the scene's lights; light and camera outlines are
+hidden, Overlays > Extras brings them back). Your previous World is kept
+with a fake user. Set STUDIO = False to build only the pin.
 
 Headless (renders and files for the repo):
   blender -b -P ambassador_pin.py -- --render OUT_DIR [--samples 256] [--size 1600]
@@ -36,7 +47,7 @@ DIAMETER = 31.75     # mm (1.25 in)
 THICKNESS = 1.5      # mm, front face to back face
 RECESS = 0.3         # mm, how deep the enamel sits
 RIM_BEVEL = 0.15     # mm, rounded polished rim
-POST_X = 7.0         # mm, two posts at (±POST_X, 0) on the back
+POST_X = 9.0          # mm, two posts at (±POST_X, 0) on the back
 BACKSTAMP = ("THE UPSKILLING LABS", "AMBASSADOR · 2026")
 
 # Screen colours (sRGB hex) and the Pantone to confirm on a physical guide.
@@ -51,26 +62,29 @@ COLOURS = {
 # outlines (counter-clockwise, no holes).
 ART = {
     "ink": [
-        [(-12.969, -7.635), (-12.955, -7.707), (-12.882, -7.83), (-12.636, -8.221), (-12.378, -8.605), (-11.941, -9.202), (-11.475, -9.777), (-10.982, -10.327), (-10.528, -10.79), (-10.055, -11.232), (-9.492, -11.711), (-8.98, -12.109), (-8.376, -12.534), (-7.829, -12.883), (-7.269, -13.207), (-6.695, -13.507), (-6.025, -13.819), (-5.425, -14.065), (-4.729, -14.314), (-4.109, -14.504), (-3.483, -14.667), (-2.76, -14.82), (-2.121, -14.925), (-1.477, -15.002), (-0.74, -15.057), (-0.093, -15.075), (0.555, -15.065), (1.202, -15.027), (1.937, -14.95), (2.578, -14.853), (3.303, -14.709), (3.931, -14.553), (4.553, -14.371), (5.252, -14.131), (5.855, -13.892), (6.528, -13.588), (7.107, -13.295), (7.671, -12.977), (8.298, -12.586), (8.831, -12.218), (9.348, -11.827), (9.847, -11.415), (10.394, -10.918), (10.854, -10.461), (11.354, -9.917), (11.77, -9.419), (12.163, -8.905), (12.585, -8.299), (12.93, -7.75), (13.251, -7.187), (13.588, -6.529), (13.855, -5.94), (14.098, -5.339), (14.343, -4.641), (14.529, -4.02), (14.709, -3.303), (14.837, -2.668), (14.95, -1.938), (15.019, -1.294), (15.061, -0.647), (15.075, 0.092), (15.057, 0.739), (15.011, 1.386), (14.925, 2.12), (14.82, 2.759), (14.688, 3.394), (14.522, 4.044), (14.49, 4.093), (14.306, 4.25), (13.988, 4.507), (13.664, 4.757), (13.167, 5.117), (12.571, 5.512), (12.223, 5.727), (11.781, 5.982), (11.421, 6.177), (11.057, 6.363), (11.006, 6.385), (10.962, 6.39), (10.919, 6.382), (10.868, 6.353), (10.84, 6.319), (10.291, 5.437), (9.636, 4.406), (8.548, 2.748), (7.885, 1.775), (7.436, 1.131), (6.745, 0.165), (6.271, -0.482), (5.534, -1.463), (5.022, -2.128), (3.943, -3.494), (3.371, -4.2), (2.468, -5.295), (0.87, -7.188), (0.781, -7.129), (4.01, 0.372), (4.022, 0.43), (4.011, 0.488), (3.978, 0.538), (3.928, 0.57), (3.87, 0.581), (3.798, 0.562), (2.862, 0.039), (1.576, -0.659), (0.361, -1.292), (-0.791, -1.869), (-1.531, -2.224), (-2.25, -2.559), (-2.953, -2.875), (-3.981, -3.317), (-4.655, -3.594), (-5.655, -3.987), (-6.65, -4.359), (-7.652, -4.716), (-8.669, -5.064), (-9.713, -5.41), (-12.791, -6.402), (-12.844, -6.45), (-12.869, -6.515), (-12.924, -7.029)],
+        [(-12.969, -7.635), (-12.955, -7.707), (-12.882, -7.83), (-12.636, -8.221), (-12.378, -8.605), (-11.941, -9.202), (-11.475, -9.777), (-10.982, -10.327), (-10.528, -10.79), (-10.055, -11.232), (-9.492, -11.711), (-8.98, -12.109), (-8.376, -12.534), (-7.829, -12.883), (-7.269, -13.207), (-6.695, -13.507), (-6.025, -13.819), (-5.425, -14.065), (-4.729, -14.314), (-4.109, -14.504), (-3.483, -14.667), (-2.76, -14.82), (-2.121, -14.925), (-1.477, -15.002), (-0.74, -15.057), (-0.093, -15.075), (0.555, -15.065), (1.202, -15.027), (1.937, -14.95), (2.578, -14.853), (3.303, -14.709), (3.931, -14.553), (4.553, -14.371), (5.252, -14.131), (5.855, -13.892), (6.528, -13.588), (7.107, -13.295), (7.671, -12.977), (8.298, -12.586), (8.831, -12.218), (9.348, -11.827), (9.847, -11.415), (10.394, -10.918), (10.854, -10.461), (11.354, -9.917), (11.77, -9.419), (12.163, -8.905), (12.585, -8.299), (12.93, -7.75), (13.251, -7.187), (13.588, -6.529), (13.855, -5.94), (14.098, -5.339), (14.343, -4.641), (14.529, -4.02), (14.709, -3.303), (14.837, -2.668), (14.95, -1.938), (15.019, -1.294), (15.061, -0.647), (15.075, 0.092), (15.057, 0.739), (15.011, 1.386), (14.925, 2.12), (14.82, 2.759), (14.688, 3.394), (14.522, 4.044), (14.49, 4.093), (14.306, 4.25), (13.988, 4.507), (13.664, 4.757), (13.167, 5.117), (12.571, 5.512), (12.223, 5.727), (11.781, 5.982), (11.421, 6.177), (11.057, 6.363), (11.006, 6.385), (10.962, 6.39), (10.919, 6.382), (10.868, 6.353), (10.84, 6.319), (10.291, 5.437), (9.636, 4.406), (8.548, 2.748), (7.886, 1.775), (7.436, 1.131), (6.51, -0.157), (5.784, -1.134), (5.28, -1.794), (4.493, -2.803), (3.943, -3.493), (3.077, -4.559), (2.154, -5.67), (1.505, -6.438), (1.473, -6.469), (1.429, -6.494), (1.384, -6.507), (1.325, -6.508), (1.269, -6.492), (1.22, -6.46), (1.182, -6.416), (1.158, -6.362), (1.152, -6.304), (1.162, -6.246), (4.01, 0.372), (4.022, 0.43), (4.011, 0.488), (3.978, 0.538), (3.928, 0.57), (3.87, 0.581), (3.798, 0.562), (2.862, 0.039), (1.576, -0.658), (0.361, -1.293), (-0.791, -1.869), (-1.531, -2.225), (-2.251, -2.559), (-2.953, -2.875), (-3.982, -3.318), (-4.656, -3.595), (-5.655, -3.988), (-6.65, -4.359), (-7.651, -4.715), (-8.669, -5.064), (-9.713, -5.41), (-12.791, -6.402), (-12.844, -6.45), (-12.869, -6.515), (-12.924, -7.029)],
         [(-12.733, -5.623), (-12.728, -5.696), (-12.708, -5.736), (-12.677, -5.768), (-12.609, -5.797), (-12.564, -5.797), (-12.521, -5.784), (-10.272, -4.699), (-8.589, -3.855), (-7.502, -3.293), (-6.441, -2.73), (-4.885, -1.875), (-3.36, -1.0), (-1.856, -0.098), (-0.356, 0.841), (1.15, 1.824), (2.678, 2.862), (4.239, 3.961), (5.306, 4.733), (6.397, 5.539), (7.518, 6.381), (8.498, 7.13), (8.537, 7.175), (8.556, 7.231), (8.554, 7.276), (8.532, 7.331), (8.502, 7.364), (8.464, 7.387), (8.103, 7.492), (7.608, 7.621), (7.011, 7.756), (6.608, 7.833), (6.105, 7.916), (5.699, 7.971), (5.192, 8.025), (4.784, 8.058), (4.274, 8.085), (3.865, 8.095), (3.456, 8.095), (2.946, 8.081), (2.538, 8.058), (2.13, 8.025), (1.622, 7.971), (1.216, 7.916), (0.713, 7.833), (0.312, 7.756), (-0.089, 7.668), (-0.584, 7.546), (-0.978, 7.437), (-1.37, 7.318), (-1.758, 7.19), (-2.237, 7.017), (-2.619, 6.867), (-3.088, 6.667), (-3.46, 6.497), (-3.828, 6.317), (-4.28, 6.081), (-4.638, 5.881), (-4.99, 5.673), (-5.421, 5.402), (-5.761, 5.175), (-6.096, 4.939), (-6.505, 4.634), (-6.826, 4.38), (-7.141, 4.118), (-7.449, 3.849), (-7.823, 3.504), (-8.117, 3.217), (-8.472, 2.851), (-8.748, 2.55), (-9.018, 2.242), (-9.279, 1.927), (-9.594, 1.526), (-9.838, 1.197), (-10.073, 0.863), (-10.355, 0.438), (-10.572, 0.09), (-10.78, -0.262), (-11.028, -0.708), (-11.216, -1.071), (-11.396, -1.439), (-11.607, -1.903), (-11.765, -2.28), (-11.915, -2.661), (-12.088, -3.141), (-12.217, -3.53), (-12.336, -3.921), (-12.445, -4.315), (-12.567, -4.81), (-12.654, -5.21)],
     ],
     "red": [
-        [(11.208, 6.917), (11.188, 6.863), (11.19, 6.805), (11.214, 6.752), (11.256, 6.712), (11.976, 6.332), (12.607, 5.961), (13.223, 5.563), (13.912, 5.072), (13.968, 5.052), (14.027, 5.055), (14.08, 5.081), (14.119, 5.125), (14.138, 5.18), (14.135, 5.239), (14.031, 5.512), (13.744, 6.193), (13.466, 6.777), (13.207, 7.269), (12.93, 7.75), (12.585, 8.299), (12.431, 8.528), (12.388, 8.569), (12.347, 8.588), (12.288, 8.592), (12.231, 8.573), (12.187, 8.533)],
-        [(-13.745, -6.191), (-13.721, -6.229), (-13.674, -6.265), (-13.631, -6.278), (-13.572, -6.276), (-13.278, -6.14), (-13.244, -6.112), (-13.219, -6.076), (-13.206, -6.033), (-13.106, -5.438), (-13.025, -5.027), (-12.933, -4.619), (-12.804, -4.112), (-12.66, -3.609), (-12.501, -3.111), (-12.362, -2.716), (-12.175, -2.227), (-11.974, -1.744), (-11.802, -1.362), (-11.574, -0.891), (-11.381, -0.52), (-11.127, -0.062), (-10.86, 0.387), (-10.636, 0.741), (-10.344, 1.175), (-10.1, 1.516), (-9.849, 1.851), (-9.59, 2.179), (-9.322, 2.501), (-9.047, 2.816), (-8.764, 3.125), (-8.399, 3.5), (-8.1, 3.793), (-7.793, 4.077), (-7.48, 4.355), (-7.078, 4.69), (-6.75, 4.95), (-6.415, 5.201), (-6.074, 5.445), (-5.728, 5.679), (-5.376, 5.905), (-4.928, 6.176), (-4.563, 6.382), (-4.101, 6.627), (-3.726, 6.813), (-3.347, 6.99), (-2.866, 7.197), (-2.38, 7.39), (-1.987, 7.534), (-1.59, 7.667), (-1.09, 7.821), (-0.686, 7.933), (-0.179, 8.058), (0.23, 8.147), (0.744, 8.245), (1.158, 8.311), (1.676, 8.38), (2.197, 8.433), (2.614, 8.464), (3.033, 8.484), (3.556, 8.496), (3.974, 8.493), (4.393, 8.48), (4.915, 8.45), (5.332, 8.414), (5.748, 8.368), (6.163, 8.311), (6.576, 8.245), (7.09, 8.148), (7.499, 8.058), (7.906, 7.959), (8.511, 7.792), (9.048, 7.623), (9.121, 7.625), (9.173, 7.651), (9.86, 8.185), (11.515, 9.489), (11.554, 9.535), (11.571, 9.591), (11.566, 9.651), (11.546, 9.691), (11.108, 10.192), (10.659, 10.66), (10.124, 11.17), (9.635, 11.594), (9.128, 11.997), (8.604, 12.378), (7.987, 12.785), (7.431, 13.116), (6.86, 13.424), (6.194, 13.744), (5.597, 13.997), (4.991, 14.225), (4.376, 14.426), (3.663, 14.623), (3.032, 14.767), (2.394, 14.884), (1.662, 14.983), (1.017, 15.041), (0.369, 15.07), (-0.369, 15.07), (-1.016, 15.041), (-1.662, 14.983), (-2.394, 14.884), (-3.031, 14.767), (-3.663, 14.623), (-4.288, 14.452), (-4.991, 14.225), (-5.597, 13.997), (-6.193, 13.744), (-6.778, 13.465), (-7.43, 13.117), (-7.987, 12.785), (-8.529, 12.43), (-9.128, 11.998), (-9.635, 11.594), (-10.124, 11.17), (-10.594, 10.725), (-11.107, 10.192), (-11.535, 9.705), (-11.941, 9.201), (-12.325, 8.68), (-12.736, 8.065), (-13.071, 7.51), (-13.381, 6.942), (-13.706, 6.278), (-13.963, 5.683), (-14.194, 5.078), (-14.426, 4.376), (-14.601, 3.752), (-14.748, 3.122), (-14.883, 2.395), (-14.973, 1.754), (-15.034, 1.109), (-15.07, 0.37), (-15.072, -0.278), (-15.047, -0.925), (-14.983, -1.661), (-14.898, -2.303), (-14.785, -2.941), (-14.645, -3.574), (-14.478, -4.199), (-14.255, -4.904), (-14.031, -5.512)],
+        [(11.208, 6.917), (11.188, 6.863), (11.19, 6.805), (11.214, 6.752), (11.256, 6.712), (11.975, 6.332), (12.608, 5.961), (13.223, 5.563), (13.912, 5.072), (13.968, 5.052), (14.027, 5.055), (14.08, 5.081), (14.119, 5.125), (14.138, 5.18), (14.135, 5.239), (14.031, 5.512), (13.744, 6.193), (13.466, 6.777), (13.207, 7.269), (12.93, 7.75), (12.585, 8.299), (12.431, 8.528), (12.388, 8.569), (12.333, 8.591), (12.288, 8.592), (12.231, 8.573), (12.187, 8.533)],
+        [(-13.653, -6.391), (-13.619, -6.438), (-13.555, -6.472), (-13.482, -6.473), (-13.429, -6.448), (-13.398, -6.418), (-13.377, -6.379), (-13.362, -6.263), (-13.341, -6.209), (-13.304, -6.164), (-13.241, -6.112), (-13.214, -6.064), (-13.106, -5.438), (-13.003, -4.925), (-12.883, -4.415), (-12.748, -3.909), (-12.598, -3.408), (-12.398, -2.814), (-12.214, -2.323), (-12.015, -1.839), (-11.845, -1.457), (-11.667, -1.079), (-11.331, -0.427), (-10.968, 0.209), (-10.748, 0.566), (-10.521, 0.915), (-10.283, 1.262), (-10.038, 1.601), (-9.784, 1.934), (-9.523, 2.261), (-9.253, 2.581), (-8.906, 2.971), (-8.619, 3.277), (-8.325, 3.575), (-8.023, 3.865), (-7.637, 4.217), (-7.32, 4.491), (-6.996, 4.757), (-6.666, 5.014), (-6.246, 5.324), (-5.901, 5.563), (-5.552, 5.794), (-5.108, 6.069), (-4.745, 6.28), (-4.287, 6.531), (-3.913, 6.722), (-3.442, 6.946), (-3.058, 7.117), (-2.576, 7.315), (-2.183, 7.464), (-1.69, 7.635), (-1.29, 7.762), (-0.788, 7.905), (-0.381, 8.01), (0.128, 8.126), (0.539, 8.208), (1.055, 8.296), (1.572, 8.368), (1.989, 8.414), (2.511, 8.457), (3.032, 8.484), (3.452, 8.495), (3.974, 8.493), (4.393, 8.48), (4.915, 8.45), (5.333, 8.414), (5.749, 8.368), (6.266, 8.296), (6.68, 8.227), (7.091, 8.147), (7.5, 8.058), (7.907, 7.959), (8.511, 7.792), (9.048, 7.623), (9.12, 7.625), (9.161, 7.642), (9.261, 7.719), (11.515, 9.489), (11.554, 9.535), (11.571, 9.591), (11.566, 9.651), (11.546, 9.691), (11.108, 10.192), (10.659, 10.66), (10.124, 11.17), (9.635, 11.594), (9.128, 11.997), (8.604, 12.378), (7.987, 12.785), (7.43, 13.117), (6.778, 13.465), (6.193, 13.744), (5.512, 14.031), (4.904, 14.255), (4.288, 14.452), (3.662, 14.623), (2.941, 14.785), (2.303, 14.898), (1.57, 14.993), (0.924, 15.047), (0.185, 15.074), (-0.462, 15.068), (-1.109, 15.034), (-1.754, 14.973), (-2.395, 14.883), (-3.122, 14.748), (-3.753, 14.6), (-4.464, 14.399), (-5.078, 14.194), (-5.684, 13.962), (-6.361, 13.667), (-6.943, 13.381), (-7.59, 13.025), (-8.143, 12.687), (-8.681, 12.325), (-9.202, 11.941), (-9.776, 11.475), (-10.26, 11.045), (-10.725, 10.594), (-11.231, 10.055), (-11.653, 9.564), (-12.053, 9.054), (-12.431, 8.528), (-12.834, 7.909), (-13.162, 7.349), (-13.506, 6.696), (-13.782, 6.109), (-14.031, 5.511), (-14.285, 4.817), (-14.479, 4.198), (-14.667, 3.484), (-14.803, 2.851), (-14.912, 2.212), (-15.002, 1.478), (-15.052, 0.832), (-15.074, 0.185), (-15.068, -0.463), (-15.027, -1.201), (-14.962, -1.846), (-14.853, -2.577), (-14.729, -3.212), (-14.577, -3.843), (-14.371, -4.552), (-14.163, -5.165), (-13.927, -5.769)],
     ],
     "teal": [
-        [(-8.564, -4.291), (-8.609, -4.326), (-8.638, -4.376), (-8.646, -4.434), (-8.631, -4.49), (-8.607, -4.526), (-8.56, -4.56), (-8.505, -4.574), (-8.447, -4.567), (-7.118, -4.103), (-5.798, -3.614), (-4.471, -3.088), (-3.114, -2.509), (-2.062, -2.032), (-1.337, -1.689), (-0.21, -1.134), (0.575, -0.733), (1.806, -0.082), (2.668, 0.389), (3.568, 0.891), (5.027, 1.723), (2.482, -4.19), (2.47, -4.247), (2.476, -4.291), (2.494, -4.331), (2.523, -4.364), (2.575, -4.392), (2.619, -4.399), (2.662, -4.393), (2.702, -4.374), (2.735, -4.345), (3.349, -3.593), (4.179, -2.556), (4.706, -1.882), (5.464, -0.894), (5.949, -0.244), (6.653, 0.72), (7.109, 1.361), (7.777, 2.323), (8.433, 3.296), (9.083, 4.286), (9.733, 5.303), (10.392, 6.355), (11.064, 7.449), (11.989, 8.983), (12.006, 9.024), (12.01, 9.068), (11.988, 9.139), (11.947, 9.183), (11.893, 9.207), (11.82, 9.205), (11.767, 9.178), (10.107, 7.87), (8.915, 6.946), (7.194, 5.636), (6.086, 4.81), (4.473, 3.636), (3.424, 2.894), (1.881, 1.833), (0.867, 1.157), (-0.14, 0.504), (-1.144, -0.129), (-2.149, -0.744), (-3.665, -1.64), (-4.688, -2.223), (-6.251, -3.082), (-7.317, -3.648)],
+        [(-8.564, -4.291), (-8.609, -4.326), (-8.638, -4.376), (-8.646, -4.434), (-8.631, -4.49), (-8.597, -4.536), (-8.547, -4.566), (-8.49, -4.575), (-8.447, -4.567), (-7.118, -4.103), (-5.798, -3.614), (-4.472, -3.088), (-3.459, -2.66), (-2.417, -2.196), (-1.703, -1.863), (-0.967, -1.509), (-0.209, -1.133), (0.977, -0.523), (2.232, 0.15), (3.567, 0.891), (4.509, 1.427), (4.586, 1.451), (4.665, 1.443), (4.713, 1.422), (4.744, 1.397), (4.79, 1.332), (4.806, 1.255), (4.791, 1.175), (2.477, -4.204), (2.47, -4.247), (2.476, -4.291), (2.494, -4.331), (2.523, -4.364), (2.575, -4.392), (2.619, -4.399), (2.662, -4.393), (2.702, -4.374), (2.735, -4.345), (3.349, -3.593), (4.179, -2.556), (4.706, -1.882), (5.464, -0.894), (5.949, -0.244), (6.653, 0.72), (7.109, 1.361), (7.777, 2.323), (8.433, 3.296), (9.083, 4.286), (9.733, 5.303), (10.392, 6.355), (11.064, 7.449), (11.989, 8.983), (12.006, 9.024), (12.01, 9.068), (11.988, 9.139), (11.947, 9.183), (11.893, 9.207), (11.82, 9.205), (11.767, 9.178), (10.107, 7.87), (8.915, 6.946), (7.195, 5.636), (6.087, 4.81), (4.473, 3.637), (3.423, 2.893), (1.881, 1.833), (0.866, 1.157), (-0.141, 0.504), (-1.145, -0.129), (-2.15, -0.745), (-3.666, -1.641), (-4.689, -2.224), (-6.251, -3.082), (-7.316, -3.648)],
     ],
 }
 # ── END ART ────────────────────────────────────────────────────────────────
 
 # Studio light power (watts; the pin is small, so these are small). Calibrated
 # so a white card in the pin's place reads about 1.0: colours render true.
-KEY, FILL, RIM, SOFTBOX, BACK, WORLD = 0.42, 0.12, 0.165, 0.05, 0.2, 0.145
-REFLECTOR = 0.09
+# The softbox only makes the highlight streak (it adds no diffuse light).
+KEY, FILL, RIM, SOFTBOX, WORLD = 0.42, 0.12, 0.165, 0.05, 0.145
+REFLECTOR = 0.09                   # light-linked to the metal, front
+BACK, BACK_REFLECTOR = 0.8, 0.045  # back view only
 
 ROOT = "Ambassador Pin"
 PREFIX = "Pin "
+TAG = "ambassador_pin"   # custom property on every object this script makes
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────
@@ -92,7 +106,6 @@ def set_input(node, names, value):
     return False
 
 
-
 def use_nodes(idblock):
     """Blender 5 always uses nodes and deprecates the switch."""
     if bpy.app.version < (5, 0, 0):
@@ -101,6 +114,7 @@ def use_nodes(idblock):
 
 def link(obj, coll, parent=None):
     coll.objects.link(obj)
+    obj[TAG] = True
     if parent is not None:
         obj.parent = parent
     return obj
@@ -145,7 +159,8 @@ def prism_mesh(name, rings, z0, z1):
 
 
 def lathe_mesh(name, profile, segments=48):
-    """A solid of revolution around Z from an (r, z) profile in mm, top to bottom."""
+    """A solid of revolution around Z from an (r, z) profile in mm, top to
+    bottom. Smooth around, with a crease wherever the profile turns > 30°."""
     me = bpy.data.meshes.new(name)
     bm = bmesh.new()
     rings = []
@@ -170,14 +185,17 @@ def lathe_mesh(name, profile, segments=48):
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     for f in bm.faces:
         f.smooth = True
+    for e in bm.edges:
+        if e.is_manifold and e.calc_face_angle(0) > math.radians(30):
+            e.smooth = False
     bm.to_mesh(me)
     bm.free()
     return me
 
 
-# ── Materials ──────────────────────────────────────────────────────────────
+# ── Materials (always new: never repaints a material of yours) ─────────────
 def principled(name):
-    mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)
+    mat = bpy.data.materials.new(name)
     use_nodes(mat)
     nt = mat.node_tree
     nt.nodes.clear()
@@ -190,7 +208,7 @@ def principled(name):
 
 def metal_material(name, roughness, grain=0.0):
     mat, bsdf = principled(name)
-    set_input(bsdf, "Base Color", (0.74, 0.75, 0.76, 1.0))  # polished nickel plating
+    set_input(bsdf, "Base Color", (0.74, 0.75, 0.76, 1.0))  # nickel plating
     set_input(bsdf, "Metallic", 1.0)
     set_input(bsdf, "Roughness", roughness)
     mat.diffuse_color = (0.74, 0.75, 0.76, 1.0)
@@ -218,7 +236,7 @@ def enamel_material(name, hex_colour, pantone):
     set_input(bsdf, "Metallic", 0.0)
     # Hard enamel is fired glass polished flat: one glossy surface, no coat.
     set_input(bsdf, "Roughness", 0.04)
-    set_input(bsdf, ["IOR"], 1.52)
+    set_input(bsdf, "IOR", 1.52)
     mat.diffuse_color = rgba
     mat.roughness = 0.04
     mat["pantone"] = pantone
@@ -226,38 +244,49 @@ def enamel_material(name, hex_colour, pantone):
     return mat
 
 
-def emission_material(name, rgba, strength):
-    mat = bpy.data.materials.get(name) or bpy.data.materials.new(name)
-    use_nodes(mat)
-    nt = mat.node_tree
-    nt.nodes.clear()
-    out = nt.nodes.new("ShaderNodeOutputMaterial")
-    em = nt.nodes.new("ShaderNodeEmission")
-    set_input(em, "Color", rgba)
-    set_input(em, "Strength", strength)
-    nt.links.new(em.outputs["Emission"], out.inputs["Surface"])
-    return mat
-
-
 # ── Clean-up (so the script can run again) ─────────────────────────────────
-def remove_previous():
+def remove_previous(scene):
+    """Delete what the last run made. Objects of yours found in its
+    collections move to the scene collection; objects of yours parented to
+    its objects are unparented in place. Returns their names."""
+    kept = []
     root = bpy.data.collections.get(ROOT)
-    if root:
+    if root is not None:
         colls = [root] + list(root.children_recursive)
-        objs = {o for c in colls for o in c.objects}
-        bpy.data.batch_remove(list(objs))
+        in_colls = {o for c in colls for o in c.objects}
+        recorded = set(root.get("pin_objects", []))
+        if recorded:
+            ours = {o for o in bpy.data.objects if o.get(TAG) and o.name in recorded}
+        else:  # made by an earlier version of this script, before tagging
+            ours = {o for o in in_colls if o.name.startswith("Pin")}
+        for o in in_colls - ours:
+            for c in list(o.users_collection):
+                if c in colls:
+                    c.objects.unlink(o)
+            if not o.users_collection:
+                scene.collection.objects.link(o)
+            kept.append(o.name)
+        for o in bpy.data.objects:
+            if o not in ours and o.parent in ours:
+                world = o.matrix_world.copy()
+                o.parent = None
+                o.matrix_world = world
+                kept.append(o.name)
+        bpy.data.batch_remove(list(ours))
         for c in reversed(colls):
+            bpy.data.collections.remove(c)
+    for name in ("Pin Metal", "Pin Cutters"):  # light-link set; cutters from an interrupted run
+        c = bpy.data.collections.get(name)
+        if c is not None and c.users == 0:
             bpy.data.collections.remove(c)
     for block in (bpy.data.meshes, bpy.data.curves, bpy.data.lights, bpy.data.cameras, bpy.data.materials):
         for d in list(block):
             if d.name.startswith(PREFIX) and d.users == 0:
                 block.remove(d)
-    metal = bpy.data.collections.get("Pin Metal")  # light-linking set, not in the scene tree
-    if metal:
-        bpy.data.collections.remove(metal)
-    w = bpy.data.worlds.get("Pin Studio World")
-    if w and w.users == 0:
-        bpy.data.worlds.remove(w)
+    for w in list(bpy.data.worlds):
+        if w.name.startswith("Pin Studio World") and w.users == 0:
+            bpy.data.worlds.remove(w)
+    return sorted(set(kept))
 
 
 def remove_startup_objects(scene):
@@ -273,10 +302,36 @@ def remove_startup_objects(scene):
 
 
 # ── The pin ────────────────────────────────────────────────────────────────
+def body_mesh(T, R, polished, satin):
+    """A disc with a rounded, polished rim: flat front and back, smooth rim."""
+    me = bpy.data.meshes.new("Pin Body")
+    bm = bmesh.new()
+    bmesh.ops.create_cone(bm, cap_ends=True, cap_tris=False, segments=256, radius1=R, radius2=R, depth=T)
+    bmesh.ops.translate(bm, vec=(0, 0, T / 2), verts=bm.verts)
+    bm.normal_update()
+    rim = [e for e in bm.edges if len(e.link_faces) == 2
+           and abs(e.link_faces[0].normal.z - e.link_faces[1].normal.z) > 0.5]
+    rounded = bmesh.ops.bevel(bm, geom=rim, offset=RIM_BEVEL * MM, offset_type="OFFSET", segments=4,
+                              profile=0.5, affect="EDGES")["faces"]
+    bm.normal_update()
+    rounded = set(rounded)
+    for f in bm.faces:
+        cap = abs(f.normal.z) > 0.999 and f not in rounded
+        f.smooth = not cap
+        f.material_index = 1 if (cap and f.normal.z < 0) else 0  # satin back; polished front and rim
+    for e in bm.edges:  # a clean break where the flat faces meet the rounded rim
+        if len(e.link_faces) == 2 and e.link_faces[0].smooth != e.link_faces[1].smooth:
+            e.smooth = False
+    bm.to_mesh(me)
+    bm.free()
+    me.materials.append(polished)
+    me.materials.append(satin)
+    return me
+
+
 def build_pin(scene, root):
     pin_coll = new_collection("Pin", root)
     clutch_coll = new_collection("Pin Clutches", root)
-    cutter_coll = new_collection("Pin Cutters", root)
 
     polished = metal_material("Pin Nickel Polished", 0.08)
     satin = metal_material("Pin Nickel Satin", 0.38, grain=0.15)
@@ -291,94 +346,85 @@ def build_pin(scene, root):
     pin.rotation_euler = (math.radians(90), 0, 0)  # face -Y (Front view); the studio re-poses it
     link(pin, pin_coll)
 
-    # Body: a disc with a rounded rim, enamel recesses cut by the cutters.
-    me = bpy.data.meshes.new("Pin Body")
-    bm = bmesh.new()
-    bmesh.ops.create_cone(bm, cap_ends=True, cap_tris=False, segments=256, radius1=R, radius2=R, depth=T)
-    bmesh.ops.translate(bm, vec=(0, 0, T / 2), verts=bm.verts)
-    bm.normal_update()
-    for f in bm.faces:
-        if f.normal.z < -0.5:
-            f.material_index = 1  # back: satin
-        elif abs(f.normal.z) < 0.5:
-            f.smooth = True       # side
-    bm.to_mesh(me)
-    bm.free()
-    me.materials.append(polished)
-    me.materials.append(satin)
-    body = link(bpy.data.objects.new("Pin Body", me), pin_coll, pin)
+    body = link(bpy.data.objects.new("Pin Body", body_mesh(T, R, polished, satin)), pin_coll, pin)
 
-    bevel = body.modifiers.new("Rim", "BEVEL")
-    bevel.limit_method = "ANGLE"
-    bevel.angle_limit = math.radians(30)
-    bevel.width = RIM_BEVEL * MM
-    bevel.segments = 4
-    boolean = body.modifiers.new("Enamel recesses", "BOOLEAN")
-    boolean.operation = "DIFFERENCE"
-    boolean.operand_type = "COLLECTION"
-    boolean.collection = cutter_coll
-    boolean.solver = "EXACT"
-
-    # Enamel cells, flush with the metal, and one cutter per colour.
+    # Enamel cells, flush with the metal.
+    cutters = []
     for key, rings in ART.items():
         if not rings:
             continue
         cell = bpy.data.objects.new(f"Pin Enamel {key.title()}", prism_mesh(f"Pin Enamel {key.title()}", rings, T - RECESS * MM, T))
         cell.data.materials.append(enamels[key])
         link(cell, pin_coll, pin)
-        cutter = bpy.data.objects.new(f"Pin Cutter {key.title()}", prism_mesh(f"Pin Cutter {key.title()}", rings, T - RECESS * MM, T + 0.5 * MM))
-        cutter.display_type = "WIRE"
-        cutter.hide_render = True
-        link(cutter, cutter_coll, pin)
+        cutters.append(prism_mesh(f"Pin Cutter {key.title()}", rings, T - RECESS * MM, T + 0.5 * MM))
+
+    # Cut the recesses once, then keep the result as plain mesh: posing stays instant.
+    cutter_coll = new_collection("Pin Cutters", root)
+    for me in cutters:
+        ob = bpy.data.objects.new(me.name, me)
+        cutter_coll.objects.link(ob)
+        ob.parent = pin  # the Boolean works in world space: cutters must share the body's transform
+    boolean = body.modifiers.new("Enamel recesses", "BOOLEAN")
+    boolean.operation = "DIFFERENCE"
+    boolean.operand_type = "COLLECTION"
+    boolean.collection = cutter_coll
+    boolean.solver = "EXACT"
+    dg = bpy.context.evaluated_depsgraph_get()
+    dg.update()
+    cut = bpy.data.meshes.new_from_object(body.evaluated_get(dg))
+    old = body.data
+    body.modifiers.clear()
+    body.data = cut
+    bpy.data.meshes.remove(old)
+    cut.name = "Pin Body"
+    bpy.data.batch_remove(list(cutter_coll.objects))
+    for me in cutters:
+        bpy.data.meshes.remove(me)
+    bpy.data.collections.remove(cutter_coll)
 
     # Posts: solder pad, shaft, a groove the clutch locks into, a point.
     post_profile = [(0, 0.05), (1.3, 0.05), (1.3, -0.12), (1.1, -0.22), (0.55, -0.3), (0.55, -6.0), (0.42, -6.15),
                     (0.42, -6.55), (0.55, -6.7), (0.55, -7.4), (0.12, -8.0), (0, -8.02)]
     post_me = lathe_mesh("Pin Post", post_profile, 32)
     post_me.materials.append(polished)
+    posts = []
     for side, x in (("L", -POST_X), ("R", POST_X)):
         post = link(bpy.data.objects.new(f"Pin Post {side}", post_me), pin_coll, pin)
         post.location = (x * MM, 0, 0)
+        posts.append(post)
 
     # Locking clutches, as if worn through 1.8 mm of fabric.
     clutch_profile = [(0, -1.8), (3.9, -1.8), (4.1, -2.0), (4.1, -3.3), (3.8, -4.1), (3.0, -4.7), (1.6, -5.0),
                       (1.6, -7.7), (1.4, -8.2), (0, -8.2)]
     clutch_me = lathe_mesh("Pin Clutch", clutch_profile, 64)
     clutch_me.materials.append(polished)
+    clutches = []
     for side, x in (("L", -POST_X), ("R", POST_X)):
         c = link(bpy.data.objects.new(f"Pin Clutch {side}", clutch_me), clutch_coll, pin)
         c.location = (x * MM, 0, 0)
+        clutches.append(c)
 
-    # Backstamp: raised 0.06 mm, reads correctly from behind.
-    for i, (line, y) in enumerate(zip(BACKSTAMP, (4.6, -5.8))):
+    # Backstamp: polished text raised 0.06 mm on the satin back, reading
+    # correctly from behind. About 6 pt (1.5 mm caps); the offset thickens
+    # strokes to about 0.3 mm and the spacing keeps the gaps open.
+    stamps = []
+    for i, (line, y) in enumerate(zip(BACKSTAMP, (4.6, -6.2))):
         cu = bpy.data.curves.new(f"Pin Backstamp {i + 1}", "FONT")
         cu.body = line
         cu.align_x = "CENTER"
-        cu.size = 1.8 * MM
+        cu.size = 2.2 * MM
+        cu.offset = 0.05 * MM
+        cu.space_character = 1.2
         cu.extrude = 0.03 * MM
-        cu.materials.append(satin)
+        cu.materials.append(polished)
         t = link(bpy.data.objects.new(f"Pin Backstamp {i + 1}", cu), pin_coll, pin)
         t.location = (0, y * MM, -0.03 * MM)
         t.rotation_euler = (0, math.pi, 0)
-
-    # Cutters: kept for the Boolean, hidden everywhere else.
-    vl_cutters = find_layer_collection(bpy.context.view_layer.layer_collection, cutter_coll.name)
-    if vl_cutters:
-        vl_cutters.hide_viewport = True
-    return pin
+        stamps.append(t)
+    return {"pin": pin, "body": body, "posts": posts, "clutches": clutches, "stamps": stamps}
 
 
-def find_layer_collection(lc, name):
-    if lc.collection.name == name:
-        return lc
-    for child in lc.children:
-        found = find_layer_collection(child, name)
-        if found:
-            return found
-    return None
-
-
-# ── Studio: backdrop, light, cameras, world, render settings ──────────────
+# ── Studio: backing card, lights, cameras, world, render settings ──────────
 def look_at(obj, target):
     direction = Vector(target) - obj.location
     obj.rotation_euler = direction.to_track_quat("-Z", "Y").to_euler()
@@ -397,35 +443,32 @@ def area_light(name, coll, loc, target, energy, size, size_y=None, parent=None):
     return ob
 
 
-def build_studio(scene, root, pin):
+def build_studio(scene, root, h, fresh=False):
+    pin = h["pin"]
     coll = new_collection("Pin Studio", root)
-    lights = new_collection("Pin Lights", coll)  # eye closed in the viewport (their guide lines swamp a 32 mm pin); they still render
+    lights = new_collection("Pin Lights", coll)
+    notes = []
 
     # Pose: standing, turned a little, leaning back.
     pin.rotation_euler = (math.radians(90 - 14), 0, math.radians(-20))
 
-    # A seamless warm-paper wall behind the pin.
-    wall_me = bpy.data.meshes.new("Pin Backdrop")
+    # The pin sits on its warm-paper backing card, posts through the card.
+    card_me = bpy.data.meshes.new("Pin Card")
     bm = bmesh.new()
     bmesh.ops.create_grid(bm, x_segments=1, y_segments=1, size=0.2)
-    bm.to_mesh(wall_me)
+    bm.to_mesh(card_me)
     bm.free()
-    paper, b = principled("Pin Backdrop")
+    paper, b = principled("Pin Card")
     set_input(b, "Base Color", srgb_to_linear("#E9E6DF"))
     set_input(b, "Roughness", 0.9)
-    wall_me.materials.append(paper)
-    wall = link(bpy.data.objects.new("Pin Backdrop", wall_me), coll)
-    wall.location = (0, 0.06, 0)
-    wall.rotation_euler = (math.radians(90), 0, 0)
+    card_me.materials.append(paper)
+    card = link(bpy.data.objects.new("Pin Card", card_me), coll, pin)
+    card.location = (0, 0, -0.05 * MM)
 
     # Lights: a large soft key from the upper left, a fill, and a rim.
     area_light("Pin Key", lights, (-0.10, -0.12, 0.13), (0, 0, 0), KEY, 0.10)
     area_light("Pin Fill", lights, (0.14, -0.10, -0.02), (0, 0, 0), FILL, 0.14)
-    area_light("Pin Rim", lights, (0.06, 0.03, 0.09), (0, 0, 0), RIM, 0.05)
-    # Grazing light for the back view only, so the backstamp reads (--render turns it on).
-    back = area_light("Pin Back Light", lights, (0.10, 0.03, -0.035), (0, 0, 0), BACK, 0.04, parent=pin)
-    back.hide_render = True
-    back.hide_viewport = True
+    rim = area_light("Pin Rim", lights, (0.09, -0.04, 0.10), (0, 0, 0), RIM, 0.05)
 
     # Cameras: a 100 mm hero, and front/back views that follow the pin.
     def camera(name, loc, parent=None, ortho=None, lens=100):
@@ -433,7 +476,7 @@ def build_studio(scene, root, pin):
         cam.lens = lens
         cam.clip_start = 0.001
         cam.clip_end = 10
-        cam.display_size = 0.02  # the default 1 m frustum would swamp a 32 mm pin in the viewport
+        cam.display_size = 0.02  # the default 1 m frustum would swamp a 32 mm pin
         if ortho:
             cam.type = "ORTHO"
             cam.ortho_scale = ortho
@@ -443,40 +486,44 @@ def build_studio(scene, root, pin):
 
     hero = camera("Pin Camera", (0.0, -0.165, 0.035))
     look_at(hero, (0.0, 0.0, 0.0))
+    front = camera("Pin Camera Front", (0, 0, 0.12), parent=pin, ortho=0.036)
+    back = camera("Pin Camera Back", (0, 0, -0.12), parent=pin, ortho=0.036)
+    back.rotation_euler = (0, math.pi, 0)
+    scene.camera = hero
 
-    # A thin strip softbox, placed where the hero camera sees it mirrored in
-    # the upper third of the face: one crisp highlight streak on the enamel.
+    # A thin strip softbox, placed where the hero camera sees it mirrored on
+    # the red crescent (off the arrowhead): one crisp highlight streak. It
+    # adds no diffuse light, so the calibration above still holds.
     bpy.context.view_layer.update()
     mw = pin.matrix_world
-    face_pt = mw @ Vector((0, 7 * MM, THICKNESS * MM))
+    face_pt = mw @ Vector((-3 * MM, 11.5 * MM, THICKNESS * MM))
     normal = (mw.to_3x3() @ Vector((0, 0, 1))).normalized()
     ray = (face_pt - hero.location).normalized()
     mirrored = ray - 2 * ray.dot(normal) * normal
-    area_light("Pin Softbox", lights, face_pt + mirrored * 0.12, face_pt, SOFTBOX, 0.14, 0.003)
+    softbox = area_light("Pin Softbox", lights, face_pt + mirrored * 0.12, face_pt, SOFTBOX, 0.14, 0.003)
+    softbox.visible_diffuse = False
 
-    # A white card in front of the pin that only the metal sees (light
-    # linking, Blender 4.0+): polished nickel reads silver without a veil
-    # over the enamel.
-    card = area_light("Pin Metal Reflector", lights, (0, 0, 0.2), (0, 0, 0), REFLECTOR, 0.2, parent=pin)
-    if hasattr(card, "light_linking"):
-        metal = bpy.data.collections.new("Pin Metal")
-        for o in pin.children:
-            if o.name.startswith(("Pin Body", "Pin Post", "Pin Clutch")):
-                metal.objects.link(o)
-        card.light_linking.receiver_collection = metal
+    # White cards only the metal sees (light linking, Blender 4.0+): polished
+    # nickel reads silver without a veil over the enamel. The back one is for
+    # the back view, with a grazing light so the backstamp reads.
+    reflector = area_light("Pin Metal Reflector", lights, (0, 0, 0.2), (0, 0, 0), REFLECTOR, 0.2, parent=pin)
+    # Centred and wide enough that every polished letter of the backstamp mirrors it.
+    back_reflector = area_light("Pin Back Reflector", lights, (0.015, 0.015, -0.2), (0, 0, 0), BACK_REFLECTOR, 0.3, parent=pin)
+    back_light = area_light("Pin Back Light", lights, (0.10, 0.03, -0.047), (0, 0, 0), BACK, 0.06, parent=pin)
+    for ob in (back_reflector, back_light):
+        ob.hide_render = ob.hide_viewport = True
+    if hasattr(reflector, "light_linking"):
+        metal = bpy.data.collections.new("Pin Metal")  # not in the scene tree: only the light links use it
+        for o in [h["body"], *h["posts"], *h["clutches"], *h["stamps"]]:
+            metal.objects.link(o)
+        reflector.light_linking.receiver_collection = metal
+        back_reflector.light_linking.receiver_collection = metal
     else:
-        card.hide_render = card.hide_viewport = True
-
-    front = camera("Pin Camera Front", (0, 0, 0.12), parent=pin, ortho=0.036)
-    back_cam = camera("Pin Camera Back", (0, 0, -0.12), parent=pin, ortho=0.036)
-    back_cam.rotation_euler = (0, math.pi, 0)
-    scene.camera = hero
-    lc = find_layer_collection(bpy.context.view_layer.layer_collection, lights.name)
-    if lc:
-        lc.hide_viewport = True
+        reflector.hide_render = reflector.hide_viewport = True
 
     # World: a soft studio gradient, bright above, for the metal to reflect.
-    world = bpy.data.worlds.get("Pin Studio World") or bpy.data.worlds.new("Pin Studio World")
+    ours = scene.world is not None and scene.world.name.startswith("Pin Studio World")
+    world = scene.world if ours else bpy.data.worlds.new("Pin Studio World")
     use_nodes(world)
     nt = world.node_tree
     nt.nodes.clear()
@@ -498,6 +545,10 @@ def build_studio(scene, root, pin):
     nt.links.new(ramp.outputs["Color"], bg.inputs["Color"])
     set_input(bg, "Strength", WORLD)
     nt.links.new(bg.outputs["Background"], out.inputs["Surface"])
+    previous = scene.world
+    if previous is not None and not ours and not previous.use_fake_user and not fresh:
+        previous.use_fake_user = True  # otherwise it would be lost on save
+        notes.append(f"Your world '{previous.name}' is kept (fake user); pick it in World Properties to switch back.")
     scene.world = world
 
     # Units, render and colour settings.
@@ -506,10 +557,14 @@ def build_studio(scene, root, pin):
     us.scale_length = 1.0
     us.length_unit = "MILLIMETERS"
     r = scene.render
-    r.engine = "CYCLES"
+    try:
+        r.engine = "CYCLES"
+    except TypeError:
+        notes.append(f"Cycles is turned off (Preferences > Add-ons); rendering with {r.engine}.")
+    if hasattr(scene, "cycles"):
+        scene.cycles.samples = 256
+        scene.cycles.use_denoising = True
     r.resolution_x, r.resolution_y, r.resolution_percentage = 1600, 1200, 100
-    scene.cycles.samples = 256
-    scene.cycles.use_denoising = True
     # Khronos PBR Neutral (4.2+) shows base colours as themselves, which is
     # the point of a brand-colour mock-up. The list is built at runtime from
     # the colour config, so try each rather than read the enum.
@@ -524,37 +579,45 @@ def build_studio(scene, root, pin):
         vs.look = "None"
     except TypeError:
         pass
-    return hero
+    h.update(hero=hero, front=front, back=back, card=card, rim=rim, softbox=softbox,
+             reflector=reflector, back_reflector=back_reflector, back_light=back_light)
+    return notes
 
 
 def frame_viewports(pin, hero=None):
-    """In the open Blender: the pin is only 32 mm across, so point every 3D
-    view in every workspace at it (Layout included, not just the one the
-    script ran from), let them see millimetres, and select the Pin empty."""
+    """In the open Blender: the pin is only 32 mm across. Point the 3D views
+    of this workspace and of Layout at it, in Material Preview with the
+    scene's world and lights; elsewhere only let views see millimetres."""
     if bpy.app.background:
         return
     bpy.context.view_layer.update()
     centre = pin.matrix_world.translation.copy()
-    if hero is not None:
-        rotation = hero.matrix_world.to_quaternion()
-    else:
-        rotation = pin.matrix_world.to_quaternion()
+    rotation = (hero or pin).matrix_world.to_quaternion()
+    framed = {getattr(bpy.context, "screen", None)}
+    layout = bpy.data.workspaces.get("Layout")
+    if layout is not None:
+        framed.update(layout.screens)
     for screen in bpy.data.screens:
         for area in screen.areas:
             for space in area.spaces:
                 if space.type != "VIEW_3D":
                     continue
-                space.clip_start = 0.0001
-                space.clip_end = 10
-                space.shading.type = "MATERIAL"
-                r3d = space.region_3d
-                if r3d is None:
+                if screen not in framed:
+                    space.clip_start = min(space.clip_start, 0.001)
                     continue
-                r3d.view_perspective = "PERSP"
-                r3d.view_location = centre
-                r3d.view_rotation = rotation
-                r3d.view_distance = 0.11
-        for area in screen.areas:
+                space.clip_start = 0.0001
+                sh = space.shading
+                sh.type = "MATERIAL"
+                sh.use_scene_world = True
+                sh.use_scene_lights = True
+                space.overlay.show_extras = False  # light and camera outlines swamp a 32 mm pin
+                space.overlay.show_relationship_lines = False
+                r3d = space.region_3d
+                if r3d is not None:
+                    r3d.view_perspective = "PERSP"
+                    r3d.view_location = centre
+                    r3d.view_rotation = rotation
+                    r3d.view_distance = 0.11
             area.tag_redraw()
     for o in bpy.context.view_layer.objects:
         o.select_set(False)
@@ -562,68 +625,98 @@ def frame_viewports(pin, hero=None):
     bpy.context.view_layer.objects.active = pin
 
 
+def notify(lines):
+    """Print, and in the open Blender show a small popup."""
+    for line in lines:
+        print("Ambassador pin:", line)
+    if bpy.app.background or not lines or getattr(bpy.context, "window", None) is None:
+        return
+
+    def draw(menu, _context):
+        for line in lines:
+            menu.layout.label(text=line)
+    try:
+        bpy.context.window_manager.popup_menu(draw, title="Ambassador Pin", icon="INFO")
+    except Exception:
+        pass
+
+
 # ── Main ───────────────────────────────────────────────────────────────────
 def build(studio=STUDIO):
+    """Build (or rebuild) the pin. Returns handles to what it made."""
     if not ART:
         raise RuntimeError("The ART block is empty: run design/pin/build_pin.py first.")
+    if bpy.context.mode != "OBJECT" and bpy.ops.object.mode_set.poll():
+        bpy.ops.object.mode_set(mode="OBJECT")
     scene = bpy.context.scene
-    remove_previous()
+    kept = remove_previous(scene)
     cleared = remove_startup_objects(scene)
     root = bpy.data.collections.new(ROOT)
     scene.collection.children.link(root)
-    pin = build_pin(scene, root)
-    hero = build_studio(scene, root, pin) if studio else None
-    frame_viewports(pin, hero)
-    return {"cleared_startup": cleared, "objects": len(root.all_objects)}
+    h = build_pin(scene, root)
+    notes = build_studio(scene, root, h, fresh=cleared) if studio else []
+    root["pin_objects"] = [o.name for o in root.all_objects]
+    frame_viewports(h["pin"], h.get("hero"))
+    lines = [f"Built {len(root.all_objects)} objects. Rotate the selected 'Pin' empty to pose it; F12 renders."]
+    if kept:
+        lines.append("Kept yours: " + ", ".join(kept))
+    notify(lines + notes)
+    h.update(root=root, cleared_startup=cleared, kept=kept, objects=len(root.all_objects))
+    return h
 
 
-def render_views(out_dir, samples, size, only=None):
-    """Headless: render hero, front and back PNGs into out_dir."""
+def render_views(h, out_dir, samples, size, only=None):
+    """Headless: render the hero (JPEG) and the front and back cut-outs (PNG) into out_dir."""
     import os
     os.makedirs(out_dir, exist_ok=True)
     scene = bpy.context.scene
     r = scene.render
-    scene.cycles.samples = samples
-    scene.cycles.device = "CPU"
-    r.image_settings.file_format = "PNG"
-    back_light = bpy.data.objects["Pin Back Light"]
-    backdrop = bpy.data.objects["Pin Backdrop"]
-    softbox = bpy.data.objects["Pin Softbox"]
-    clutches = [o for o in bpy.data.collections["Pin Clutches"].objects]
-    views = [("pin-hero", "Pin Camera", (size, size * 3 // 4), False),
-             ("pin-front", "Pin Camera Front", (size, size), True),
-             ("pin-back", "Pin Camera Back", (size, size), True)]
-    for name, cam, (w, h), cutout in views:
+    if hasattr(scene, "cycles"):
+        scene.cycles.samples = samples
+        scene.cycles.device = "CPU"
+    fmt = r.image_settings
+    if hasattr(fmt, "media_type"):  # Blender 5.x: still image, not video
+        fmt.media_type = "IMAGE"
+    toggled = [h["card"], h["softbox"], h["rim"], h["back_light"], h["back_reflector"], *h["clutches"]]
+    saved = [o.hide_render for o in toggled]
+    camera, film = scene.camera, r.film_transparent
+    views = [("pin-hero", h["hero"], (size, size * 3 // 4), False),
+             ("pin-front", h["front"], (size, size), True),
+             ("pin-back", h["back"], (size, size), True)]
+    for name, cam, (w, ht), cutout in views:
         if only and name.removeprefix("pin-") not in only:
             continue
-        scene.camera = bpy.data.objects[cam]
-        r.resolution_x, r.resolution_y = w, h
+        back = name == "pin-back"
+        scene.camera = cam
+        r.resolution_x, r.resolution_y = w, ht
         r.film_transparent = cutout
-        backdrop.hide_render = cutout
-        back_light.hide_render = name != "pin-back"
-        softbox.hide_render = name != "pin-hero"   # front and back: true colour, no streak
-        for c in clutches:                          # back: show the posts and the backstamp
-            c.hide_render = name == "pin-back"
-        r.filepath = os.path.join(out_dir, name + ".png")
+        h["card"].hide_render = cutout
+        h["softbox"].hide_render = name != "pin-hero"  # front and back: true colour, no streak
+        h["rim"].hide_render = back
+        h["back_light"].hide_render = not back
+        h["back_reflector"].hide_render = not back
+        for c in h["clutches"]:  # back: show the posts and the backstamp
+            c.hide_render = back
+        fmt.file_format = "PNG" if cutout else "JPEG"  # cut-outs keep their transparency
+        fmt.color_mode = "RGBA" if cutout else "RGB"
+        if not cutout:
+            fmt.quality = 90
+        r.filepath = os.path.join(out_dir, name + (".png" if cutout else ".jpg"))
         bpy.ops.render.render(write_still=True)
-    scene.camera = bpy.data.objects["Pin Camera"]
-    r.film_transparent = False
-    backdrop.hide_render = False
-    back_light.hide_render = True
-    softbox.hide_render = False
-    for c in clutches:
-        c.hide_render = False
+    for o, hidden in zip(toggled, saved):
+        o.hide_render = hidden
+    scene.camera, r.film_transparent = camera, film
     r.resolution_x, r.resolution_y = 1600, 1200
 
 
-def export_glb(path):
+def export_glb(h, path):
     """The pin alone, upright and facing the viewer (+Z in glTF), for web and AR viewers."""
-    pin = bpy.data.objects["Pin"]
+    pin = h["pin"]
     pose = pin.rotation_euler.copy()
     pin.rotation_euler = (math.radians(90), 0, 0)
     bpy.context.view_layer.update()
     for o in bpy.context.view_layer.objects:
-        o.select_set(o.parent == pin and o.type in {"MESH", "FONT"} and not o.name.startswith("Pin Cutter"))
+        o.select_set(o.parent == pin and o.type in {"MESH", "FONT"} and o != h.get("card"))
     bpy.ops.export_scene.gltf(filepath=path, use_selection=True, export_apply=True, export_yup=True)
     pin.rotation_euler = pose
 
@@ -635,15 +728,14 @@ def main():
     for a in it:
         if a.startswith("--"):
             opts[a[2:]] = next(it, "")
-    result = build()
+    h = build()
     if "render" in opts:
         views = opts.get("views")
-        render_views(opts["render"], int(opts.get("samples", 256)), int(opts.get("size", 1600)), views.split(",") if views else None)
+        render_views(h, opts["render"], int(opts.get("samples", 256)), int(opts.get("size", 1600)), views.split(",") if views else None)
     if "glb" in opts:
-        export_glb(opts["glb"])
+        export_glb(h, opts["glb"])
     if "save" in opts:
         bpy.ops.wm.save_as_mainfile(filepath=opts["save"], compress=True)
-    print("Ambassador pin:", result)
 
 
 if __name__ == "__main__":

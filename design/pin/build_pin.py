@@ -53,7 +53,7 @@ to_mm = lambda g: affinity.translate(affinity.scale(g, s, s, origin=(120, 120)),
 
 
 def cell(g):
-    g = to_mm(g).buffer(-LINE / 2, join_style=2)          # leave half a line of metal each side
+    g = to_mm(g).buffer(-LINE / 2, join_style=1)          # half a line of metal each side; round, so no needle past a sharp tip
     g = g.buffer(-MIN_CELL / 2).buffer(MIN_CELL / 2)       # drop slivers too thin to fill
     return g
 
@@ -69,6 +69,11 @@ def d(g):
 
 
 cells = [("enamel-ink", INK, cell(ink)), ("enamel-red", RED, cell(red)), ("enamel-teal", TEAL, cell(arrow))]
+
+# Guard: no raised metal thinner than the factory minimum (0.3 mm; 0.28 allows for faceting).
+metal = Point(C, C).buffer(C, 512).difference(unary_union([g for *_, g in cells]))
+thin = metal.difference(metal.buffer(-0.14).buffer(0.14)).area
+assert thin < 0.005, f"{thin:.4f} mm2 of metal is thinner than 0.3 mm"
 svg = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{D}mm" height="{D}mm" viewBox="0 0 {D} {D}">',
        f'  <title>Ambassador pin, front, 1:1 mm. Hard enamel, {METAL[1]}, {D} mm. Metal lines {LINE} mm.</title>',
        f'  <circle id="metal" cx="{C}" cy="{C}" r="{C}" fill="{METAL[0]}"/>']
@@ -104,4 +109,5 @@ blend.write_text(src)
 
 for name, (_, pms), g in cells:
     print(f"{name:12} PMS {pms:10} area {g.area:6.1f} mm2  parts {len(getattr(g, 'geoms', [g]))}")
+print(f"metal thinner than 0.3 mm: {thin:.4f} mm2")
 print("wrote", out)
