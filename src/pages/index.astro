@@ -2,8 +2,10 @@
 /* / — the public Ambassador Program page (the site's front door; /join/ redirects here), built from the design mockup
    (Main.dc.html). A standalone page: its own header and footer, dark
    throughout. Copy lives in content/site/join.json; media in public/join/.
-   The hero pin is a 48-frame Blender loop: frame 0 renders immediately and
-   the loop starts once the rest have decoded (never with reduced motion). */
+   The hero pin is live 3D (public/join/pin3d.js: three.js and the pin mesh
+   from LabsPin.blend), loaded after the page on screens 480 px and wider.
+   It turns to face the pointer; a Cycles still shows while it loads, on
+   phones, with reduced motion, and without WebGL. */
 import "@fontsource-variable/geologica/wght.css";
 import "../styles/join.css";
 import { guideHome } from "../lib/content";
@@ -12,7 +14,8 @@ import j from "../../content/site/join.json";
 import JoinCover from "../components/JoinCover.astro";
 
 const media = (f: string) => u(`/join/${f}`);
-const frames = Array.from({ length: 48 }, (_, i) => media(`hero/${String(i).padStart(2, "0")}.webp`));
+const still = media("hero-still-760.webp");
+const stillSet = `${media("hero-still-760.webp")} 760w, ${media("hero-still-1200.webp")} 1200w`;
 const apply = u("/apply/");
 const icons: Record<string, string> = {
   talk: '<path d="M5 7h22v14H14l-6 5v-5H5z" stroke-linejoin="round"/><path d="M10 12h12M10 16h8" stroke-linecap="round"/>',
@@ -35,7 +38,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
     <meta property="og:description" content={j.description} />
     <meta property="og:image" content={new URL(media("pin.webp"), Astro.site)} />
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
-    <link rel="preload" as="image" href={frames[0]} fetchpriority="high" />
+    <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" />
   </head>
   <body class="jp">
     <a class="skip" href="#main">Skip to content</a>
@@ -64,8 +67,9 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         <div class="stage">
           <h1 class="wordin">{j.hero.title[0]}<br />{j.hero.title[1]}</h1>
           <div class="jp-pin pinin">
-            <div class="bob" role="img" aria-label={j.hero.pinAlt} data-frames={JSON.stringify(frames)}>
-              <img src={frames[0]} alt="" width="760" height="760" fetchpriority="high" data-still />
+            <div class="bob" role="img" aria-label={j.hero.pinAlt} data-pin3d={media("pin3d.js")}>
+              <img src={still} srcset={stillSet} sizes="min(760px, 94vw, 56vh)" alt="" width="760" height="760" fetchpriority="high" data-still />
+              <canvas aria-hidden="true" data-pin-canvas></canvas>
             </div>
           </div>
         </div>
@@ -305,7 +309,6 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
       }), { rootMargin: "-45% 0px -45% 0px" });
       howSteps.forEach((st) => howIo.observe(st));
 
-      // Hero: a 48-frame turn driven by time and scroll, only while the hero is on screen.
       // Videos: muted inline loops, started here too (some browsers ignore autoplay).
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const videos = document.querySelectorAll<HTMLVideoElement>("video[data-loop]");
@@ -316,34 +319,89 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         }));
         videos.forEach((v) => { v.muted = true; io.observe(v); });
 
-        const stage = document.querySelector<HTMLElement>("[data-frames]")!;
-        const still = stage.querySelector<HTMLImageElement>("[data-still]")!;
-        const srcs: string[] = JSON.parse(stage.dataset.frames!);
-        const start = () => {
-          const imgs = srcs.slice(1).map((src) => { const i = new Image(); i.src = src; i.alt = ""; i.dataset.frame = ""; return i; });
-          Promise.all(imgs.map((i) => i.decode().catch(() => {}))).then(() => {
-            stage.append(...imgs);
-            const all = [still, ...imgs];
-            all.forEach((i) => i.setAttribute("data-frame", ""));
-            let shown = 0, visible = true;
-            all[0].classList.add("on");
-            new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(document.getElementById("top")!);
-            const t0 = performance.now();
-            const hero = document.getElementById("top")!;
-            const tick = (now: number) => {
-              requestAnimationFrame(tick);
-              if (!visible) return;
-              // Turns slowly on its own (one turn in 9.6 s) and one more turn per hero height scrolled.
-              const turns = (now - t0) / 1000 / 9.6 + scrollY / hero.offsetHeight;
-              // rAF's timestamp can be a hair earlier than t0, so wrap negatives too.
-              const f = ((Math.floor(turns * all.length) % all.length) + all.length) % all.length;
-              if (f === shown) return;
-              all[shown].classList.remove("on"); all[f].classList.add("on"); shown = f;
-            };
-            requestAnimationFrame(tick);
-          });
+        // Hero pin: live 3D on screens 480 px and wider, after the page has loaded.
+        // It turns to face a mouse or pen through a soft spring, and drifts on its
+        // own on touch screens or after a few seconds without the pointer moving.
+        // Ported from the design canvas (poses are the Blender rig's, in degrees).
+        const stage = document.querySelector<HTMLElement>("[data-pin3d]")!;
+        const canvas = stage.querySelector<HTMLCanvasElement>("[data-pin-canvas]")!;
+        const hero = document.getElementById("top")!;
+        const SPIN_LEFT = 24, SPIN_RIGHT = -36, TILT_UP = 14, TILT_DOWN = -14;
+        const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+        const soft = (v: number) => Math.sign(v) * Math.pow(Math.abs(v), 0.8);
+        // WebGL on a real GPU only: software renderers (no GPU, and headless test
+        // browsers) draw the pin on the CPU, which stalls the page; they keep the still.
+        // "?pin3d=force" skips that check, for testing.
+        const force = new URLSearchParams(location.search).has("pin3d");
+        const webgl = () => {
+          try {
+            const gl = document.createElement("canvas").getContext("webgl2");
+            if (!gl) return false;
+            if (force) return true;
+            const info = gl.getExtension("WEBGL_debug_renderer_info");
+            const name = String(info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+            return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
+          } catch { return false; }
         };
-        if (document.readyState === "complete") start(); else addEventListener("load", start, { once: true });
+        type Pin = { setPose(s: number, t: number): void; resize(size: number, dpr: number): void; render(): void; dispose(): void };
+        const w = window as unknown as { LabsPin3D?: { mount(c: HTMLCanvasElement, o: { dpr: number }): Promise<Pin> } };
+        let px = 0, py = 0, pt = 0;
+        addEventListener("pointermove", (e) => { if (e.pointerType === "touch") return; px = e.clientX; py = e.clientY; pt = performance.now(); }, { passive: true });
+        addEventListener("pointerout", (e) => { if (!e.relatedTarget) pt = 0; });
+        const mount = () => {
+          w.LabsPin3D!.mount(canvas, { dpr: 2 }).then((pin) => {
+            let size = 0, dpr = 1, scale = 1, drawn = false, n = 0, sum = 0, raf = 0;
+            const c = { s: 0, t: 0, vs: 0, vt: 0 };
+            const t0 = performance.now(); let last = t0;
+            const tick = (now: number) => {
+              raf = requestAnimationFrame(tick);
+              const dt = Math.min(0.05, (now - last) / 1000); last = now;
+              const hr = hero.getBoundingClientRect();
+              if (hr.bottom < 0 || hr.top > innerHeight) return; // off screen: rest
+              // Up to 2x, capped near 1400 px across, stepped down if frames run slow.
+              const cs = Math.round(canvas.clientWidth);
+              let dirty = false;
+              if (cs && cs !== size) { size = cs; dpr = Math.min(devicePixelRatio || 1, 2, 1400 / size) * scale; pin.resize(size, dpr); dirty = true; }
+              let ts: number, tt: number;
+              if (pt && now - pt < 3500) {
+                const r = canvas.getBoundingClientRect();
+                const hw = Math.min(innerWidth, 1800) * 0.5, hh = Math.min(innerHeight, 1000) * 0.5;
+                const nx = soft(clamp((px - (r.left + r.width / 2)) / hw, -1, 1));
+                const ny = soft(clamp((py - (r.top + r.height / 2)) / hh, -1, 1));
+                ts = nx < 0 ? -nx * SPIN_LEFT : nx * SPIN_RIGHT;
+                tt = ny < 0 ? -ny * TILT_UP : ny * TILT_DOWN;
+              } else {
+                const s = (now - t0) / 1000;
+                ts = -6 + 15 * Math.sin((s * 2 * Math.PI) / 10);
+                tt = -3 + 6 * Math.sin((s * 2 * Math.PI) / 7 + 1);
+              }
+              // A soft spring: quick to answer, no jitter, a whisper of overshoot.
+              const k = 70, d = 2 * Math.sqrt(k) * 0.85;
+              c.vs += ((ts - c.s) * k - c.vs * d) * dt; c.s += c.vs * dt;
+              c.vt += ((tt - c.t) * k - c.vt * d) * dt; c.t += c.vt * dt;
+              const moving = Math.abs(ts - c.s) + Math.abs(tt - c.t) + Math.abs(c.vs) + Math.abs(c.vt) > 0.002;
+              if (!(moving || dirty || !drawn)) return;
+              pin.setPose(c.s, c.t);
+              pin.render();
+              if (!drawn) { drawn = true; stage.classList.add("live"); }
+              n++; sum += dt;
+              if (n >= 40) { if (sum / n > 0.024 && dpr > 1) { scale *= 0.8; size = 0; } n = 0; sum = 0; }
+            };
+            raf = requestAnimationFrame(tick);
+            addEventListener("pagehide", () => { cancelAnimationFrame(raf); pin.dispose(); }, { once: true });
+          }).catch(() => {}); // no WebGL after all: the still stays
+        };
+        const start = () => {
+          if (innerWidth < 480 || !webgl()) return; // phones and no WebGL keep the still
+          if (w.LabsPin3D) { mount(); return; }
+          addEventListener("labspin3d", mount, { once: true });
+          const sc = document.createElement("script");
+          sc.src = stage.dataset.pin3d!; sc.async = true;
+          document.head.append(sc);
+        };
+        // After the page has loaded and gone quiet, so it never competes with the intro.
+        const later = () => ("requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1200));
+        if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
       }
     </script>
   </body>

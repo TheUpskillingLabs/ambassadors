@@ -71,8 +71,9 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-pin { position: relative; width: min(760px, 94vw, 56vh); aspect-ratio: 1; margin-top: calc(-0.95 * clamp(44px, 13.5vw, 210px)); }
 .jp-pin .bob { position: absolute; inset: 0; }
 .jp-pin img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
-.jp-pin img[data-frame] { opacity: 0; }
-.jp-pin img.on { opacity: 1; }
+.jp-pin canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 0.7s ease; }
+.jp-pin .live canvas { opacity: 1; }
+.jp-pin .live img { opacity: 0; transition: opacity 0.7s ease; }
 .jp-hero .lede-hero { position: relative; margin: calc(-1 * min(72px, 7vw)) 0 0; width: 100%; max-width: 1200px; font-size: clamp(21px, 2.5vw, 30px); line-height: 1.3; font-weight: 500; letter-spacing: -0.01em; color: var(--t1); text-wrap: balance; }
 .jp-hero .ctas { position: relative; margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .jp-hero .status { position: relative; margin-top: 26px; }
@@ -224,8 +225,9 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   .jp-how .jp-steps li:last-child { min-height: 30vh; }
   .jp-how .jp-steps h3 { font-size: clamp(28px, 2.6vw, 40px); letter-spacing: -0.03em; transition: color 0.3s; }
   .jp-how .jp-steps p { font-size: 18px; max-width: 520px; transition: color 0.3s; }
-  .jp-how .jp-steps li:not(.active) h3, .jp-how .jp-steps li:not(.active) .n { color: rgba(255, 255, 255, 0.32); }
-  .jp-how .jp-steps li:not(.active) p { color: rgba(255, 255, 255, 0.28); }
+  /* Dimmed, but still readable: large headings need 3:1 on ink, small text 4.5:1. */
+  .jp-how .jp-steps li:not(.active) h3 { color: rgba(255, 255, 255, 0.4); }
+  .jp-how .jp-steps li:not(.active) .n, .jp-how .jp-steps li:not(.active) p { color: rgba(255, 255, 255, 0.5); }
 }
 
 /* ── repeated call to action ── */
