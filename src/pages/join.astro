@@ -160,11 +160,17 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
             <p class="kicker">{j.path.kicker}</p>
             <h2 class="h2">{j.path.title[0]}<br />{j.path.title[1]}</h2>
           </div>
-          <ol class="jp-steps reveal">
-            {j.path.steps.map((s, i) => (
-              <li class:list={{ milestone: s.milestone }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
-            ))}
-          </ol>
+          <div class="jp-how" data-how>
+            <div class="jp-how-visual" aria-hidden="true">
+              <img src={media("button-800.webp")} alt="" width="800" height="800" loading="lazy" data-how-visual="button" class="on" />
+              <img src={media("pin-800.webp")} alt="" width="800" height="800" loading="lazy" data-how-visual="pin" />
+            </div>
+            <ol class="jp-steps reveal">
+              {j.path.steps.map((s, i) => (
+                <li class:list={{ milestone: s.milestone }} data-how-step={i < 2 ? "button" : "pin"}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
+              ))}
+            </ol>
+          </div>
           <div class="jp-rewards reveal">
             {j.path.rewards.map((r) => (
               <div id={r.id} class="jp-reward">
@@ -173,6 +179,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
               </div>
             ))}
           </div>
+          <p class="jp-cta-row reveal"><a class="btn" href="#join">{j.path.cta}</a></p>
         </div>
       </section>
 
@@ -190,7 +197,42 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <div class="jp-meter reveal" role="img" aria-label={j.goal.meterLabel}>
             {Array.from({ length: 12 }, (_, i) => <span style={`animation-delay: ${(i * 0.16).toFixed(2)}s`}></span>)}
           </div>
-          <p class="lede reveal">{j.goal.note}</p>
+          <div class="jp-goal-foot">
+            <p class="lede reveal">{j.goal.note}</p>
+            <figure class="jp-quote reveal">
+              <blockquote>“{j.goal.quote.text}”</blockquote>
+              <figcaption><b>{j.goal.quote.name}</b><span>{j.goal.quote.role}</span></figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{j.faq.kicker}</p>
+            <h2 class="h2">{j.faq.title}</h2>
+          </div>
+          <div class="jp-faq reveal">
+            {j.faq.items.map((f) => (
+              <details><summary><span>{f.q}</span><i aria-hidden="true"></i></summary><p>{f.a}</p></details>
+            ))}
+          </div>
+          <p class="jp-cta-row reveal"><a class="btn" href="#join">{j.faq.cta}</a></p>
+        </div>
+      </section>
+
+      <section id="commit" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{j.commit.kicker}</p>
+            <h2 class="h2">{j.commit.title}</h2>
+          </div>
+          <div class="jp-cols three reveal">
+            {j.commit.items.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -238,7 +280,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["you", "labs", "ripple", "team", "path", "mentor", "goal", "join"].map((id) => document.getElementById(id)!);
+      const order = ["you", "labs", "ripple", "team", "path", "mentor", "goal", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
       let queued = false;
       const spy = () => {
         queued = false;
@@ -249,7 +291,21 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
       addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
       spy();
 
-      // Hero: a 48-frame loop over 4.8 s, only while the hero is on screen.
+      // How it works: the step crossing the middle of the screen is the active
+      // one, and the sticky picture shows its reward (button for 01-02, pin for 03-04).
+      const how = document.querySelector<HTMLElement>("[data-how]")!;
+      const howSteps = [...how.querySelectorAll<HTMLElement>("[data-how-step]")];
+      const howVisuals = [...how.querySelectorAll<HTMLElement>("[data-how-visual]")];
+      howSteps[0].classList.add("active");
+      const howIo = new IntersectionObserver((entries) => entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        const step = e.target as HTMLElement;
+        howSteps.forEach((st) => st.classList.toggle("active", st === step));
+        howVisuals.forEach((v) => v.classList.toggle("on", v.dataset.howVisual === step.dataset.howStep));
+      }), { rootMargin: "-45% 0px -45% 0px" });
+      howSteps.forEach((st) => howIo.observe(st));
+
+      // Hero: a 48-frame turn driven by time and scroll, only while the hero is on screen.
       // Videos: muted inline loops, started here too (some browsers ignore autoplay).
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const videos = document.querySelectorAll<HTMLVideoElement>("video[data-loop]");
@@ -273,10 +329,13 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
             all[0].classList.add("on");
             new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(document.getElementById("top")!);
             const t0 = performance.now();
+            const hero = document.getElementById("top")!;
             const tick = (now: number) => {
               requestAnimationFrame(tick);
               if (!visible) return;
-              const f = Math.floor(((now - t0) / 1000 / 4.8) * all.length) % all.length;
+              // Turns slowly on its own (one turn in 9.6 s) and one more turn per hero height scrolled.
+              const turns = (now - t0) / 1000 / 9.6 + scrollY / hero.offsetHeight;
+              const f = Math.floor(turns * all.length) % all.length;
               if (f === shown) return;
               all[shown].classList.remove("on"); all[f].classList.add("on"); shown = f;
             };

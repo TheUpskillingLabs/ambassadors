@@ -156,5 +156,20 @@
   "siteName": "Ambassador Guide",
   "siteTagline": "Get ready to represent The Labs.",
   "skipToContent": "Skip to content",
-  "brandAlt": "The Upskilling Labs"
+  "brandAlt": "The Upskilling Labs",
+  "done": {
+    "kicker": "Step {n} of {total} done",
+    "title": "{title} is done.",
+    "lastTitle": "All five steps are done.",
+    "upNext": "Up next",
+    "nextMeta": "{min} min",
+    "next": "Next: {title}",
+    "pinKicker": "Your pin is next",
+    "pinBody": "Text your coordinator from Home and your pin is on its way.",
+    "pinAlt": "The ambassador pin",
+    "toHome": "Go to Home",
+    "home": "Back to Home",
+    "stay": "Stay on this page",
+    "progress": "{n} of {total} steps done"
+  }
 }

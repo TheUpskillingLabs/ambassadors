@@ -176,3 +176,34 @@ body > main { flex: 1; }
   .home > :not(.rows) { max-width: 560px; }
   .step-main .actionbar2 { margin-inline: 0; padding-inline: 0; border-radius: 0; }
 }
+
+/* "Done" dialog: a check that draws in, the five dots, one way onward. */
+.donedlg { width: min(440px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); border: 0; border-radius: var(--r); padding: 28px 24px 20px; background: var(--paper); color: var(--ink); box-shadow: 0 24px 60px rgba(0, 20, 27, .28); }
+.donedlg[open] { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.donedlg::backdrop { background: rgba(0, 20, 27, .55); }
+.done-check { flex-shrink: 0; }
+.done-check circle { fill: none; stroke: var(--teal-deep); stroke-width: 2.5; stroke-dasharray: 139; stroke-dashoffset: 0; }
+.done-check path { fill: none; stroke: var(--teal-deep); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 32; stroke-dashoffset: 0; }
+.done-kicker { margin: 0; font-size: 13px; font-weight: 600; color: var(--teal-deep); }
+.done-title { margin: -8px 0 0; font-size: 26px; line-height: 1.15; letter-spacing: -.01em; }
+.done-dots { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px; }
+.done-dots li { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--teal-deep); }
+.done-dots li.on { background: var(--teal-deep); }
+.done-next, .done-pin { align-self: stretch; }
+.done-next { gap: 2px; }
+.done-next-k { font-size: 12px; font-weight: 600; color: var(--meta); }
+.done-next-t { font-size: 17px; font-weight: 700; }
+.done-next-m { font-size: 13px; color: var(--meta); }
+.done-pin { flex-direction: row; align-items: center; gap: 14px; font-size: 15px; line-height: 1.4; }
+.done-pin img { flex-shrink: 0; }
+.done-go { align-self: stretch; justify-content: center; min-height: 48px; }
+.done-links { margin: 0; align-self: stretch; display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.done-links a, .linkbtn { color: var(--teal-deep); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.linkbtn { margin-left: auto; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+@media (prefers-reduced-motion: no-preference) {
+  .donedlg[open] { animation: done-in .22s ease-out; }
+  .donedlg[open] .done-check circle { animation: done-draw .5s ease-out both; stroke-dashoffset: 139; }
+  .donedlg[open] .done-check path { animation: done-draw .35s .35s ease-out both; stroke-dashoffset: 32; }
+  @keyframes done-in { from { opacity: 0; transform: translateY(8px) scale(.98); } }
+  @keyframes done-draw { to { stroke-dashoffset: 0; } }
+}

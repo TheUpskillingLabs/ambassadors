@@ -182,7 +182,12 @@
         "image": "pin-card.webp",
         "alt": "The Mentor pin: the orb mark in polished nickel with teal and red cat-eye enamel"
       }
-    ]
+    ],
+    "visualAlt": {
+      "button": "The ambassador button",
+      "pin": "The Mentor pin"
+    },
+    "cta": "Become an ambassador"
   },
   "goal": {
     "kicker": "The launch goal",
@@ -205,7 +210,12 @@
       }
     ],
     "meterLabel": "New upskillers adding up toward the goal",
-    "note": "That's about two new upskillers a week for each ambassador, as long as the corps keeps growing. Which is exactly what Mentors are for. Nobody carries this alone."
+    "note": "That's about two new upskillers a week for each ambassador, as long as the corps keeps growing. Which is exactly what Mentors are for. Nobody carries this alone.",
+    "quote": {
+      "text": "I came to one workshop for myself. Now the best part is watching someone I brought in find their team.",
+      "name": "[PLACEHOLDER] Founding ambassador",
+      "role": "Ambassador since 2026"
+    }
   },
   "join": {
     "title": "Come be an ambassador.",
@@ -218,5 +228,57 @@
     "pinLink": "Meet the pin",
     "sponsors": "Started at, and sponsored by",
     "guide": "Already an ambassador? Open the guide"
+  },
+  "faq": {
+    "kicker": "Questions",
+    "title": "Before you ask.",
+    "items": [
+      {
+        "q": "Does it cost anything?",
+        "a": "No. Being an ambassador is free, and so is The Labs: workshops and Build Cycles cost nothing."
+      },
+      {
+        "q": "How much time does it take?",
+        "a": "Initiation takes a video or two and a short quiz. After that it's up to you: most of it is conversations you'd have anyway, plus one talk to a room. [PLACEHOLDER: add a typical hours-per-month figure.]"
+      },
+      {
+        "q": "Do I need to be technical?",
+        "a": "No. You need to be curious about people and willing to tell your own story. The guide walks you through the rest."
+      },
+      {
+        "q": "What's the difference between the button and the pin?",
+        "a": "The button is yours at initiation. It says you're in. The pin is for Mentors: [N] new upskillers through your link, one talk to a room, and one new ambassador brought through initiation. You can't buy one."
+      },
+      {
+        "q": "Can I stop?",
+        "a": "Yes, any time. Tell your coordinator, and you're always welcome back."
+      },
+      {
+        "q": "Who do I ask?",
+        "a": "Your ambassador coordinator. Their contact is in the guide, and they reply within two working days. [PLACEHOLDER: confirm the coordinator's details.]"
+      }
+    ],
+    "cta": "Become an ambassador"
+  },
+  "commit": {
+    "kicker": "Before you join",
+    "title": "What it takes.",
+    "items": [
+      {
+        "label": "What you commit to",
+        "title": "A few conversations and one talk.",
+        "body": "Tell your story, invite people you know, and give one short talk to a room. [PLACEHOLDER: add expected hours per month.]"
+      },
+      {
+        "label": "Who can join",
+        "title": "Anyone who wants others to find The Labs.",
+        "body": "You don't need to be technical or an expert. [PLACEHOLDER: confirm eligibility, e.g. you've been to a workshop or Build Cycle.]"
+      },
+      {
+        "label": "What happens next",
+        "title": "A video, a quiz, the button.",
+        "body": "Raise your hand, pass initiation, and your button is on its way. The guide takes it from there."
+      }
+    ]
   }
 }
