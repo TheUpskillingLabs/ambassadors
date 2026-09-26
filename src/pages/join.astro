@@ -1,0 +1,263 @@
+---
+/* /join/ — the public Ambassador Program page, built from the design mockup
+   (Main.dc.html). A standalone page: its own header and footer, dark
+   throughout. Copy lives in content/site/join.json; media in public/join/.
+   The hero pin is a 48-frame Blender loop: frame 0 renders immediately and
+   the loop starts once the rest have decoded (never with reduced motion). */
+import "@fontsource-variable/geologica/wght.css";
+import "../styles/join.css";
+import { u } from "../lib/url";
+import j from "../../content/site/join.json";
+
+const media = (f: string) => u(`/join/${f}`);
+const frames = Array.from({ length: 48 }, (_, i) => media(`hero/${String(i).padStart(2, "0")}.webp`));
+const apply = j.applyUrl;
+const icons: Record<string, string> = {
+  talk: '<path d="M5 7h22v14H14l-6 5v-5H5z" stroke-linejoin="round"/><path d="M10 12h12M10 16h8" stroke-linecap="round"/>',
+  mic: '<rect x="12" y="4" width="8" height="14" rx="4"/><path d="M8 15a8 8 0 0 0 16 0M16 23v5M11 28h10" stroke-linecap="round"/>',
+  link: '<path d="M13.5 18.5a5 5 0 0 0 7 0l5-5a5 5 0 0 0-7-7l-1.5 1.5M18.5 13.5a5 5 0 0 0-7 0l-5 5a5 5 0 0 0 7 7l1.5-1.5" stroke-linecap="round" stroke-linejoin="round"/>',
+  people: '<circle cx="12" cy="11" r="4"/><path d="M4 26c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round"/><circle cx="22.5" cy="12.5" r="3"/><path d="M21.5 18.1c.3 0 .7-.1 1-.1 3.6 0 6.5 2.9 6.5 6.5" stroke-linecap="round"/>',
+};
+const pageTitle = `${j.title} · The Upskilling Labs`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={j.description} />
+    <meta name="theme-color" content="#00141B" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={j.description} />
+    <meta property="og:image" content={new URL(media("pin.webp"), Astro.site)} />
+    <link rel="icon" href={u("/favicon.png")} type="image/png" />
+    <link rel="preload" as="image" href={frames[0]} fetchpriority="high" />
+  </head>
+  <body class="jp">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="jp-head">
+      <nav aria-label="Ambassador program">
+        <a class="jp-brand" href="#top">
+          <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
+          <span class="wide-only">{j.nav.brand}</span>
+        </a>
+        <div class="jp-links">
+          <a class="navlink wide-only" href="#you">{j.nav.why}</a>
+          <a class="navlink wide-only" href="#path">{j.nav.how}</a>
+          <a class="navlink wide-only" href="#mentor">{j.nav.pin}</a>
+          <a class="btn" href="#join"><span class="wide-only">{j.nav.cta}</span><span class="narrow-only">{j.nav.ctaShort}</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section id="top" class="jp-hero">
+        <p class="kicker rise">{j.hero.kicker}</p>
+        <div class="stage">
+          <h1 class="wordin">{j.hero.title[0]}<br />{j.hero.title[1]}</h1>
+          <div class="jp-pin pinin">
+            <div class="bob" role="img" aria-label={j.hero.pinAlt} data-frames={JSON.stringify(frames)}>
+              <img src={frames[0]} alt="" width="760" height="760" fetchpriority="high" data-still />
+            </div>
+          </div>
+        </div>
+        <p class="lede-hero rise d1">{j.hero.lede}</p>
+        <div class="ctas rise d2">
+          <a class="btn" href="#join">{j.hero.cta}</a>
+          <a class="ghost" href="#you">{j.hero.secondary}<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v11M2.5 8 7 12.5 11.5 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+        </div>
+        <p class="status rise d3"><i aria-hidden="true"></i>{j.hero.status}</p>
+      </section>
+
+      <section id="mission" aria-label="Our mission" class="jp-mission">
+        {j.mission.map((m) => (
+          <figure class="jp-panel">
+            <img class="drift" src={media(m.image)} alt={m.alt} width="1100" height="688" loading="lazy" style={`object-position: ${m.position}`} />
+            <figcaption><h2>{m.title}</h2></figcaption>
+          </figure>
+        ))}
+      </section>
+
+      <section id="you" class="jp-sec jp-you">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{j.you.kicker}</p>
+            <h2 class="h2" style="max-width: 900px">{j.you.title}</h2>
+            <p class="lede">{j.you.lede}</p>
+          </div>
+          <div class="jp-cols three reveal">
+            {j.you.items.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="labs" class="jp-labs">
+        <img src={media("labs.jpg")} alt="" aria-hidden="true" width="1600" height="1200" loading="lazy" />
+        <div class="jp-split">
+          <div class="reveal">
+            <p class="kicker">{j.labs.kicker}</p>
+            <h2 class="h2">{j.labs.title}</h2>
+            <p class="lede">{j.labs.lede}</p>
+          </div>
+          <dl class="jp-habits reveal">
+            {j.labs.habits.map((h) => <div><dt>{h.title}</dt><dd>{h.body}</dd></div>)}
+          </dl>
+        </div>
+      </section>
+
+      <section id="ripple" class="jp-sec jp-ripple">
+        <div class="jp-split">
+          <div class="reveal">
+            <p class="kicker">{j.ripple.kicker}</p>
+            <h2 class="h2">{j.ripple.title}</h2>
+            <ol class="jp-rings">
+              {j.ripple.rings.map((r) => (
+                <li><span class="ring" aria-hidden="true"></span><div><h3>{r.title}</h3><p>{r.body}</p></div></li>
+              ))}
+            </ol>
+            <p class="jp-note">{j.ripple.note}</p>
+          </div>
+          <div class="jp-orbits reveal">
+            <div class="bleed">
+              <video data-loop poster={media("orbits.jpg")} muted loop playsinline preload="metadata" aria-label={j.ripple.videoLabel}>
+                <source src={media("orbits.webm")} type="video/webm" />
+                <source src={media("orbits.mp4")} type="video/mp4" />
+              </video>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="team" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{j.team.kicker}</p>
+            <h2 class="h2" style="max-width: 900px">{j.team.title}</h2>
+            <p class="lede" style="max-width: 640px">{j.team.lede}</p>
+          </div>
+          <div class="jp-cols four reveal">
+            {j.team.roles.map((r) => (
+              <div class="jp-col">
+                <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#0094A0" stroke-width="1.8" set:html={icons[r.icon]} />
+                <h3>{r.title}</h3><p>{r.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="path" class="jp-sec jp-path">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{j.path.kicker}</p>
+            <h2 class="h2">{j.path.title[0]}<br />{j.path.title[1]}</h2>
+          </div>
+          <ol class="jp-steps reveal">
+            {j.path.steps.map((s, i) => (
+              <li class:list={{ milestone: s.milestone }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
+            ))}
+          </ol>
+          <div class="jp-rewards reveal">
+            {j.path.rewards.map((r) => (
+              <div id={r.id} class="jp-reward">
+                <img src={media(r.image)} alt={r.alt} loading="lazy" width="180" height="180" />
+                <div><p class="kicker">{r.kicker}</p><h3>{r.title}</h3><p>{r.body}</p></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="goal" class="jp-sec jp-goal">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{j.goal.kicker}</p>
+            <h2 class="h2" style="max-width: 900px">{j.goal.title}</h2>
+          </div>
+          <div class="jp-cols jp-stats reveal">
+            {j.goal.stats.map((s) => (
+              <div class:list={["jp-stat", { accent: s.accent }]}><p class="v">{s.value}</p><p class="l">{s.label}</p></div>
+            ))}
+          </div>
+          <div class="jp-meter reveal" role="img" aria-label={j.goal.meterLabel}>
+            {Array.from({ length: 12 }, (_, i) => <span style={`animation-delay: ${(i * 0.16).toFixed(2)}s`}></span>)}
+          </div>
+          <p class="lede reveal">{j.goal.note}</p>
+        </div>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{j.join.title}</h2>
+          <p class="lede">{j.join.lede}</p>
+          <div class="row">
+            <a class="btn" href={apply}>{j.join.cta}</a>
+            <p class="status"><i aria-hidden="true"></i>{j.hero.status}</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="jp-foot">
+      <div class="wrap">
+        <div class="col">
+          <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
+          <p>{j.footer.legal}</p>
+          <p><a class="textlink" href="#mentor">{j.footer.pinLink}</a> · {j.footer.renders}</p>
+          <p><a class="textlink" href={u("/")}>{j.footer.guide} →</a></p>
+          {j.placeholder && <p class="ph">[PLACEHOLDER] draft copy: [N] and the join link are still to be set.</p>}
+        </div>
+        <div class="col">
+          <p class="kicker">{j.footer.sponsors}</p>
+          <div class="sponsors">
+            <img src={u("/assets/dcpl-knockout-logo.png")} alt="DC Public Library" width="117" height="96" loading="lazy" />
+            <img src={u("/assets/superbloom-white.png")} alt="Superbloom Design" width="406" height="96" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Hero: a 48-frame loop over 4.8 s, only while the hero is on screen.
+      // Videos: muted inline loops, started here too (some browsers ignore autoplay).
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const videos = document.querySelectorAll<HTMLVideoElement>("video[data-loop]");
+      if (!reduce) {
+        const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+          const v = e.target as HTMLVideoElement;
+          if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
+        }));
+        videos.forEach((v) => { v.muted = true; io.observe(v); });
+
+        const stage = document.querySelector<HTMLElement>("[data-frames]")!;
+        const still = stage.querySelector<HTMLImageElement>("[data-still]")!;
+        const srcs: string[] = JSON.parse(stage.dataset.frames!);
+        const start = () => {
+          const imgs = srcs.slice(1).map((src) => { const i = new Image(); i.src = src; i.alt = ""; i.dataset.frame = ""; return i; });
+          Promise.all(imgs.map((i) => i.decode().catch(() => {}))).then(() => {
+            stage.append(...imgs);
+            const all = [still, ...imgs];
+            all.forEach((i) => i.setAttribute("data-frame", ""));
+            let shown = 0, visible = true;
+            all[0].classList.add("on");
+            new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(document.getElementById("top")!);
+            const t0 = performance.now();
+            const tick = (now: number) => {
+              requestAnimationFrame(tick);
+              if (!visible) return;
+              const f = Math.floor(((now - t0) / 1000 / 4.8) * all.length) % all.length;
+              if (f === shown) return;
+              all[shown].classList.remove("on"); all[f].classList.add("on"); shown = f;
+            };
+            requestAnimationFrame(tick);
+          });
+        };
+        if (document.readyState === "complete") start(); else addEventListener("load", start, { once: true });
+      }
+    </script>
+  </body>
+</html>

@@ -24,7 +24,8 @@
     "license": "Content CC BY 4.0. Code MIT.",
     "reset": "Start over",
     "resetConfirm": "Forget your progress, story, and names on this device?",
-    "site": "theupskillinglabs.org"
+    "site": "theupskillinglabs.org",
+    "program": "The ambassador program"
   },
   "home": {
     "claim": "Text your coordinator for your pin",

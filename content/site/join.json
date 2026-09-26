@@ -1,0 +1,102 @@
+{
+  "$comment": "The public Ambassador Program page (/join/), from the design mockup. [N] marks a number still to be set. applyUrl is where 'Become an ambassador' goes until initiation (video + quiz) exists; placeholder until then.",
+  "placeholder": true,
+  "title": "Ambassador Program",
+  "description": "Join the volunteer corps on a mission to spark curiosity, build community, and inspire confidence.",
+  "applyUrl": "mailto:coordinator@example.org?subject=I%27d%20like%20to%20be%20an%20ambassador",
+  "nav": { "brand": "Ambassadors", "why": "Why join", "how": "How it works", "pin": "The pin", "cta": "Become an ambassador", "ctaShort": "Join us" },
+  "hero": {
+    "kicker": "The Upskilling Labs",
+    "title": ["Ambassador", "Program"],
+    "pinAlt": "The ambassador pin, floating and catching the light",
+    "lede": "Join the volunteer corps on a mission to spark curiosity, build community, and inspire confidence.",
+    "cta": "Become an ambassador",
+    "secondary": "Why join",
+    "status": "Now recruiting our first ambassadors"
+  },
+  "mission": [
+    { "title": "Spark curiosity.", "image": "curiosity.webp", "alt": "Teal cat-eye enamel glowing into ink, with fine teal glitter", "position": "40% 50%" },
+    { "title": "Build community.", "image": "community.webp", "alt": "A raised nickel line tracing the swoosh over red enamel", "position": "58% 50%" },
+    { "title": "Inspire confidence.", "image": "confidence.webp", "alt": "Red cat-eye enamel with fine red glitter", "position": "46% 50%" }
+  ],
+  "you": {
+    "kicker": "Why be an ambassador",
+    "title": "It starts with you.",
+    "lede": "You'll give some of your time. It gives back in three ways at once.",
+    "items": [
+      { "label": "As a person", "title": "Confidence you earn by doing.", "body": "You'll tell your story, hold a room, and learn more by teaching than you ever did alone." },
+      { "label": "As a citizen", "title": "A real say in what your community builds.", "body": "You'll listen to your neighbors and bring their voices into the problems The Labs takes on." },
+      { "label": "As a professional", "title": "Skills that travel, and proof with your name on it.", "body": "Storytelling, facilitation, community building, and discovery, practiced for real." }
+    ]
+  },
+  "labs": {
+    "kicker": "About The Labs",
+    "title": "Three habits run everything we do.",
+    "lede": "The Upskilling Labs is free, runs on volunteers, and started at DC Public Library in fall 2025.",
+    "habits": [
+      { "title": "We decide together.", "body": "In every Build Cycle, participants choose the problems The Labs takes on. Everyone gets a vote." },
+      { "title": "We learn by building.", "body": "Small teams make something real and lasting in response to a real problem." },
+      { "title": "We pass it on.", "body": "Everyone shares what they learn as they go, because teaching is the best way to learn." }
+    ]
+  },
+  "ripple": {
+    "kicker": "Why it matters",
+    "title": "Then it spreads.",
+    "rings": [
+      { "title": "You", "body": "You learn to tell your story, hold a room, and bring someone new along." },
+      { "title": "Someone you know", "body": "One conversation, and their next chapter starts." },
+      { "title": "Your community", "body": "Their Pod picks a problem your neighbors actually have, and builds something that lasts." },
+      { "title": "Everyone", "body": "Picture that in every neighborhood. The future gets built either way. This is how everyone gets a hand in it." }
+    ],
+    "note": "America's first lending library started with a dozen neighbors who met to teach each other. The Labs started inside a library.",
+    "videoLabel": "A small planet with teal and red glows at the centre of nickel orbits. Swoosh-shaped craft circle it, one on the first orbit, more on each one after, and a pulse of light spreads out past them all."
+  },
+  "team": {
+    "kicker": "The ambassador team",
+    "title": "Every conversation is research.",
+    "lede": "You're not just spreading the word. You're part of the team figuring out how communities grow. What you hear helps shape the problems The Labs takes on. What you learn becomes the playbook every Labs project uses to grow its own community.",
+    "roles": [
+      { "icon": "talk", "title": "Talk to people.", "body": "One-on-one, no script. Ask what they're working toward, and really listen." },
+      { "icon": "mic", "title": "Take the mic.", "body": "Tell a room about The Labs at community events. You won't be winging it." },
+      { "icon": "link", "title": "Share your link.", "body": "You get a personal referral link. Everyone who joins The Labs through it counts." },
+      { "icon": "people", "title": "Bring someone along.", "body": "Mentor a new ambassador through initiation. It's how the corps grows." }
+    ]
+  },
+  "path": {
+    "kicker": "How it works",
+    "title": ["The button says you're in.", "The pin says you passed it on."],
+    "steps": [
+      { "title": "Raise your hand.", "body": "Honestly, that's the whole step.", "milestone": false },
+      { "title": "Get initiated.", "body": "Watch a video or two and pass a short quiz. The button is yours.", "milestone": true },
+      { "title": "Do the work.", "body": "[N] new upskillers join The Labs through your link, and you give one talk to a room.", "milestone": false },
+      { "title": "Mentor someone.", "body": "Bring one new ambassador through initiation. Now you're a Mentor, and the pin is yours.", "milestone": true }
+    ],
+    "rewards": [
+      { "id": "button", "kicker": "At initiation", "title": "The button", "body": "A video, a quiz, and you're in. It's how people spot an ambassador, and how you'll spot each other.", "image": "button-card.webp", "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white" },
+      { "id": "mentor", "kicker": "As a Mentor", "title": "The pin", "body": "[N] new upskillers, one talk to a room, one new ambassador. You can't buy one.", "image": "pin-card.webp", "alt": "The Mentor pin: the orb mark in polished nickel with teal and red cat-eye enamel" }
+    ]
+  },
+  "goal": {
+    "kicker": "The launch goal",
+    "title": "Here's what we're going for.",
+    "stats": [
+      { "value": "60", "label": "ambassadors, starting from 10", "accent": true },
+      { "value": "1,200", "label": "new upskillers in The Labs", "accent": false },
+      { "value": "6", "label": "months", "accent": false }
+    ],
+    "meterLabel": "New upskillers adding up toward the goal",
+    "note": "That's about two new upskillers a week for each ambassador, as long as the corps keeps growing. Which is exactly what Mentors are for. Nobody carries this alone."
+  },
+  "join": {
+    "title": "Come be an ambassador.",
+    "lede": "Initiation takes a video or two and a short quiz. The rest, we'll figure out together.",
+    "cta": "Become an ambassador"
+  },
+  "footer": {
+    "legal": "A fiscally sponsored project of Superbloom Design, a 501(c)(3). Our own status is pending.",
+    "renders": "Images of the button and pin are 3D renders, not photos.",
+    "pinLink": "Meet the pin",
+    "sponsors": "Started at, and sponsored by",
+    "guide": "Already an ambassador? Open the guide"
+  }
+}

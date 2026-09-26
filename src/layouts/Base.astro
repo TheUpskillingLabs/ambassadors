@@ -35,7 +35,7 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
     <header class="appbar">
       <div class="appbar-inner">
         <a class="brand" href={u("/")}>
-          <img src={u("/assets/logo-lockup-white.png")} alt={t("brandAlt")} width="384" height="144" />
+          <img src={u("/assets/logo-lockup-white.png")} alt={t("brandAlt")} width="392" height="144" />
           <span class="brand-name">{t("siteName")}</span>
         </a>
         <a class="appbar-present" href={u("/present/")}><Icon name="deck" size={18} /> {t("nav.present")}</a>
@@ -50,6 +50,7 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
       <div class="sitefoot-inner">
         <p>{t("footer.legal")}</p>
         <p class="foot-row">
+          <a href={u("/join/")}>{t("footer.program")}</a>
           <a href="https://theupskillinglabs.org">{t("footer.site")}</a>
           <button class="foot-reset" type="button" data-reset data-confirm={t("footer.resetConfirm")}>{t("footer.reset")}</button>
         </p>

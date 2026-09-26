@@ -32,6 +32,7 @@ npm run check      # type-check
 | Practice situations (the prospect game will read these too) | `content/scenarios/*.json` |
 | Questions you'll get (shown on The Labs) | `content/faq/*.json` |
 | Deck copy, ladder, Your Story questions, coordinator contact | `content/site/*.json` |
+| The public program page's copy (and where "Become an ambassador" goes: `applyUrl`) | `content/site/join.json` |
 | Every UI string a component renders | `content/site/ui.en.json` |
 | **Upcoming sessions (the only moving data)** | `data/schedule.json` |
 | The ambassador pin: production art, spec, and Blender notes | `design/pin/` |
@@ -66,6 +67,7 @@ These also need real values:
 
 | Route | What |
 | --- | --- |
+| `/join/` | The public Ambassador Program page: why join, how it works (the button at initiation, the pin for Mentors), the launch goal. Built from the design mockup; copy in `content/site/join.json`, media in `public/join/`. |
 | `/` | Home: one button (Start, Continue, or, once all five are done, "Text your coordinator for your pin") and the five steps. |
 | `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/` | The five steps. Each ends with **Done**, which checks it off and opens the next. |
 | `/present/` | Full-screen deck. Arrows, click, and swipe move between slides; F toggles full screen. |
