@@ -67,7 +67,7 @@ These also need real values:
 
 | Route | What |
 | --- | --- |
-| `/join/` | The public Ambassador Program page: why join, how it works (a sticky picture that turns from the button into the pin on wide screens), the launch goal with an ambassador's quote, questions, and what it takes. Built from the design mockup; copy in `content/site/join.json`, media in `public/join/`. |
+| `/join/` | The public Ambassador Program page in three chapters, each opened by a full-width cover (Spark curiosity, Build community, Inspire confidence) that says what it does for the people you reach and for you. Inside: why join, how it works (a sticky picture that turns from the button into the pin on wide screens), the launch goal with an ambassador's quote, questions, and what it takes. Built from the design mockup; copy in `content/site/join.json`, media in `public/join/`. |
 | `/` | Home: one button (Start, Continue, or, once all five are done, "Text your coordinator for your pin") and the five steps. |
 | `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/` | The five steps. Each ends with **Done**, which checks it off and opens a short "done" dialog: the five dots and one button to the next unfinished step (or Home and the pin once all five are done). Esc stays on the page. |
 | `/present/` | Full-screen deck. Arrows, click, and swipe move between slides; F toggles full screen. |

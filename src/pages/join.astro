@@ -8,6 +8,7 @@ import "@fontsource-variable/geologica/wght.css";
 import "../styles/join.css";
 import { u } from "../lib/url";
 import j from "../../content/site/join.json";
+import JoinCover from "../components/JoinCover.astro";
 
 const media = (f: string) => u(`/join/${f}`);
 const frames = Array.from({ length: 48 }, (_, i) => media(`hero/${String(i).padStart(2, "0")}.webp`));
@@ -44,7 +45,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <span class="wide-only">{j.nav.brand}</span>
         </a>
         <ul class="jp-links">
-          <li><a class="navlink" href="#you" data-spy="you labs ripple team">{j.nav.why}</a></li>
+          <li><a class="navlink" href="#you" data-spy="you labs team ripple goal">{j.nav.why}</a></li>
           <li><a class="navlink" href="#path" data-spy="path">{j.nav.how}</a></li>
           <li><a class="navlink" href="#mentor" data-spy="mentor">{j.nav.pin}</a></li>
         </ul>
@@ -75,15 +76,6 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         <p class="status rise d3"><i aria-hidden="true"></i>{j.hero.status}</p>
       </section>
 
-      <section id="mission" aria-label="Our mission" class="jp-mission">
-        {j.mission.map((m) => (
-          <figure class="jp-panel">
-            <img class="drift" src={media(m.image)} alt={m.alt} width="1100" height="688" loading="lazy" style={`object-position: ${m.position}`} />
-            <figcaption><h2>{m.title}</h2></figcaption>
-          </figure>
-        ))}
-      </section>
-
       <section id="you" class="jp-sec jp-you">
         <div class="wrap">
           <div class="reveal">
@@ -91,13 +83,10 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
             <h2 class="h2" style="max-width: 900px">{j.you.title}</h2>
             <p class="lede">{j.you.lede}</p>
           </div>
-          <div class="jp-cols three reveal">
-            {j.you.items.map((it) => (
-              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
-            ))}
-          </div>
         </div>
       </section>
+
+      <JoinCover n={0} />
 
       <section id="labs" class="jp-labs">
         <img src={media("labs.jpg")} alt="" aria-hidden="true" width="1600" height="1200" loading="lazy" />
@@ -112,6 +101,26 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           </dl>
         </div>
       </section>
+
+      <section id="team" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{j.team.kicker}</p>
+            <h2 class="h2" style="max-width: 900px">{j.team.title}</h2>
+            <p class="lede" style="max-width: 640px">{j.team.lede}</p>
+          </div>
+          <div class="jp-cols four reveal">
+            {j.team.roles.map((r) => (
+              <div class="jp-col">
+                <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#0094A0" stroke-width="1.8" set:html={icons[r.icon]} />
+                <h3>{r.title}</h3><p>{r.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <JoinCover n={1} />
 
       <section id="ripple" class="jp-sec jp-ripple">
         <div class="jp-split">
@@ -136,23 +145,31 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         </div>
       </section>
 
-      <section id="team" class="jp-sec">
+      <section id="goal" class="jp-sec jp-goal">
         <div class="wrap">
           <div class="reveal">
-            <p class="kicker">{j.team.kicker}</p>
-            <h2 class="h2" style="max-width: 900px">{j.team.title}</h2>
-            <p class="lede" style="max-width: 640px">{j.team.lede}</p>
+            <p class="kicker">{j.goal.kicker}</p>
+            <h2 class="h2" style="max-width: 900px">{j.goal.title}</h2>
           </div>
-          <div class="jp-cols four reveal">
-            {j.team.roles.map((r) => (
-              <div class="jp-col">
-                <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#0094A0" stroke-width="1.8" set:html={icons[r.icon]} />
-                <h3>{r.title}</h3><p>{r.body}</p>
-              </div>
+          <div class="jp-cols jp-stats reveal">
+            {j.goal.stats.map((s) => (
+              <div class:list={["jp-stat", { accent: s.accent }]}><p class="v">{s.value}</p><p class="l">{s.label}</p></div>
             ))}
+          </div>
+          <div class="jp-meter reveal" role="img" aria-label={j.goal.meterLabel}>
+            {Array.from({ length: 12 }, (_, i) => <span style={`animation-delay: ${(i * 0.16).toFixed(2)}s`}></span>)}
+          </div>
+          <div class="jp-goal-foot">
+            <p class="lede reveal">{j.goal.note}</p>
+            <figure class="jp-quote reveal">
+              <blockquote>“{j.goal.quote.text}”</blockquote>
+              <figcaption><b>{j.goal.quote.name}</b><span>{j.goal.quote.role}</span></figcaption>
+            </figure>
           </div>
         </div>
       </section>
+
+      <JoinCover n={2} />
 
       <section id="path" class="jp-sec jp-path">
         <div class="wrap">
@@ -180,30 +197,6 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
             ))}
           </div>
           <p class="jp-cta-row reveal"><a class="btn" href="#join">{j.path.cta}</a></p>
-        </div>
-      </section>
-
-      <section id="goal" class="jp-sec jp-goal">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{j.goal.kicker}</p>
-            <h2 class="h2" style="max-width: 900px">{j.goal.title}</h2>
-          </div>
-          <div class="jp-cols jp-stats reveal">
-            {j.goal.stats.map((s) => (
-              <div class:list={["jp-stat", { accent: s.accent }]}><p class="v">{s.value}</p><p class="l">{s.label}</p></div>
-            ))}
-          </div>
-          <div class="jp-meter reveal" role="img" aria-label={j.goal.meterLabel}>
-            {Array.from({ length: 12 }, (_, i) => <span style={`animation-delay: ${(i * 0.16).toFixed(2)}s`}></span>)}
-          </div>
-          <div class="jp-goal-foot">
-            <p class="lede reveal">{j.goal.note}</p>
-            <figure class="jp-quote reveal">
-              <blockquote>“{j.goal.quote.text}”</blockquote>
-              <figcaption><b>{j.goal.quote.name}</b><span>{j.goal.quote.role}</span></figcaption>
-            </figure>
-          </div>
         </div>
       </section>
 
@@ -280,7 +273,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["you", "labs", "ripple", "team", "path", "mentor", "goal", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
+      const order = ["you", "labs", "team", "ripple", "goal", "path", "mentor", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
       let queued = false;
       const spy = () => {
         queued = false;

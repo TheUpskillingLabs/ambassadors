@@ -1,5 +1,5 @@
 {
-  "$comment": "The public Ambassador Program page (/join/), from the design mockup. [N] marks a number still to be set. applyUrl is where 'Become an ambassador' goes until initiation (video + quiz) exists; placeholder until then.",
+  "$comment": "The public Ambassador Program page (/join/), from the design mockup. [N] marks a number still to be set. applyUrl is where 'Become an ambassador' goes until initiation (video + quiz) exists; placeholder until then. mission[] are the three chapter covers: each says what it does for the people you reach (them) and for the ambassador (you).",
   "placeholder": true,
   "title": "Ambassador Program",
   "description": "Join the volunteer corps on a mission to spark curiosity, build community, and inspire confidence.",
@@ -27,20 +27,35 @@
   },
   "mission": [
     {
+      "id": "curiosity",
       "title": "Spark curiosity.",
-      "image": "curiosity.webp",
+      "them": "One conversation, and someone new finds out there's a free place to learn by building.",
+      "you": {
+        "title": "Skills that travel, and proof with your name on it.",
+        "body": "Storytelling, facilitation, community building, and discovery, practiced for real."
+      },
       "alt": "Teal cat-eye enamel glowing into ink, with fine teal glitter",
       "position": "40% 50%"
     },
     {
+      "id": "community",
       "title": "Build community.",
-      "image": "community.webp",
+      "them": "Their Pod picks a problem their neighbors actually have, and builds something that lasts.",
+      "you": {
+        "title": "A real say in what your community builds.",
+        "body": "You'll listen to your neighbors and bring their voices into the problems The Labs takes on."
+      },
       "alt": "A raised nickel line tracing the swoosh over red enamel",
       "position": "58% 50%"
     },
     {
+      "id": "confidence",
       "title": "Inspire confidence.",
-      "image": "confidence.webp",
+      "them": "They see someone like them stand up and say it, and it's easier to walk in. [PLACEHOLDER: adjust this line.]",
+      "you": {
+        "title": "Confidence you earn by doing.",
+        "body": "You'll tell your story, hold a room, and learn more by teaching than you ever did alone."
+      },
       "alt": "Red cat-eye enamel with fine red glitter",
       "position": "46% 50%"
     }
@@ -48,24 +63,7 @@
   "you": {
     "kicker": "Why be an ambassador",
     "title": "It starts with you.",
-    "lede": "You'll give some of your time. It gives back in three ways at once.",
-    "items": [
-      {
-        "label": "As a person",
-        "title": "Confidence you earn by doing.",
-        "body": "You'll tell your story, hold a room, and learn more by teaching than you ever did alone."
-      },
-      {
-        "label": "As a citizen",
-        "title": "A real say in what your community builds.",
-        "body": "You'll listen to your neighbors and bring their voices into the problems The Labs takes on."
-      },
-      {
-        "label": "As a professional",
-        "title": "Skills that travel, and proof with your name on it.",
-        "body": "Storytelling, facilitation, community building, and discovery, practiced for real."
-      }
-    ]
+    "lede": "You'll give some of your time. It gives back three ways, to the people you reach and to you."
   },
   "labs": {
     "kicker": "About The Labs",
@@ -280,5 +278,10 @@
         "body": "Raise your hand, pass initiation, and your button is on its way. The guide takes it from there."
       }
     ]
+  },
+  "chapters": {
+    "them": "For the people you reach",
+    "you": "For you",
+    "of": "{n} / {total}"
   }
 }
