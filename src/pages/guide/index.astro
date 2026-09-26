@@ -25,7 +25,7 @@ const steps = await path();
     <p class="home-member" data-pending hidden>{t("home.pending")}</p>
     <script is:inline>
       /* Before first paint, so nothing jumps: the nudge for people who haven't
-         passed initiation, "almost there" while the coordinator confirms, or
+         finished orientation, "almost there" while the coordinator confirms, or
          the ambassador line for people who are in. */
       (function () {
         var a = {};
@@ -65,7 +65,7 @@ const steps = await path();
   <script>
     import { progress, application } from "../../lib/store";
     const root = document.querySelector<HTMLElement>("[data-home]")!;
-    // Open to everyone; people who haven't passed initiation get a nudge to apply,
+    // Open to everyone; people who haven't finished orientation get a nudge to apply,
     // ambassadors get a welcome by name.
     const app = application.get();
     const status = application.status();

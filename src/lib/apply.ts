@@ -6,7 +6,7 @@ import type { Application } from "./store";
 
 /** OLOS registration field names (POST /api/registrations/funnel), plus the
  *  ambassador-only parts OLOS doesn't have yet (agreement doc "ambassador",
- *  quiz). */
+ *  the orientation quiz). */
 export function toOlosPayload(a: Application) {
   return {
     first_name: a.first ?? "",
@@ -17,7 +17,7 @@ export function toOlosPayload(a: Application) {
     referred_by: a.referredBy || undefined,
     agreement: a.agreement ? { doc: "ambassador", version: a.agreement.version, accepted_at: new Date(a.agreement.acceptedAt).toISOString() } : undefined,
     invite: a.invite ? { invited_by: a.invite.by, pre_approved: true } : undefined,
-    initiation: a.quiz ? { quiz_score: a.quiz.score, quiz_total: a.quiz.total, passed_at: new Date(a.quiz.passedAt).toISOString() } : undefined,
+    orientation: a.quiz ? { quiz_score: a.quiz.score, quiz_total: a.quiz.total, passed_at: new Date(a.quiz.passedAt).toISOString() } : undefined,
   };
 }
 

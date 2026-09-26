@@ -50,9 +50,9 @@
     "lede": "You'll give some of your time. It gives back in three ways at once.",
     "items": [
       {
-        "label": "As a person",
-        "title": "Confidence you earn by doing.",
-        "body": "You'll tell your story, hold a room, and learn more by teaching than you ever did alone."
+        "label": "As a professional",
+        "title": "Skills that travel, and proof with your name on it.",
+        "body": "Storytelling, facilitation, community building, and discovery, practiced for real."
       },
       {
         "label": "As a citizen",
@@ -60,16 +60,16 @@
         "body": "You'll listen to your neighbors and bring their voices into the problems The Labs takes on."
       },
       {
-        "label": "As a professional",
-        "title": "Skills that travel, and proof with your name on it.",
-        "body": "Storytelling, facilitation, community building, and discovery, practiced for real."
+        "label": "As a person",
+        "title": "Confidence you earn by doing.",
+        "body": "You'll tell your story, hold a room, and learn more by teaching than you ever did alone."
       }
     ]
   },
   "labs": {
     "kicker": "About The Labs",
-    "title": "Three habits run everything we do.",
-    "lede": "The Upskilling Labs is free, runs on volunteers, and started at DC Public Library in fall 2025.",
+    "title": "Something worth being curious about.",
+    "lede": "The Upskilling Labs is free, runs on volunteers, and started at DC Public Library in fall 2025. Three habits run everything we do.",
     "habits": [
       {
         "title": "We decide together.",
@@ -86,8 +86,8 @@
     ]
   },
   "ripple": {
-    "kicker": "Why it matters",
-    "title": "Then it spreads.",
+    "kicker": "How a community grows",
+    "title": "One conversation, then it spreads.",
     "rings": [
       {
         "title": "You",
@@ -110,9 +110,9 @@
     "videoLabel": "A small planet with teal and red glows at the centre of nickel orbits. Swoosh-shaped craft circle it, one on the first orbit, more on each one after, and a pulse of light spreads out past them all."
   },
   "team": {
-    "kicker": "The ambassador team",
-    "title": "Every conversation is research.",
-    "lede": "You're not just spreading the word. You're part of the team figuring out how communities grow. What you hear helps shape the problems The Labs takes on. What you learn becomes the playbook every Labs project uses to grow its own community.",
+    "kicker": "What ambassadors do",
+    "title": "Curiosity goes both ways.",
+    "lede": "You'll spark it in other people, and follow your own. Every conversation is research: what you hear helps shape the problems The Labs takes on, and what you learn becomes the playbook every Labs project uses to grow.",
     "roles": [
       {
         "icon": "talk",
@@ -132,7 +132,7 @@
       {
         "icon": "people",
         "title": "Bring someone along.",
-        "body": "Mentor a new ambassador through initiation. It's how the corps grows."
+        "body": "Mentor a new ambassador through orientation. It's how the corps grows."
       }
     ]
   },
@@ -142,6 +142,7 @@
       "The button says you're in.",
       "The pin says you passed it on."
     ],
+    "lede": "Every step is small, and every one is marked. By the time you stand in front of a room, you'll have practiced it.",
     "steps": [
       {
         "title": "Raise your hand.",
@@ -149,8 +150,8 @@
         "milestone": false
       },
       {
-        "title": "Get initiated.",
-        "body": "Watch a video or two and pass a short quiz. The button is yours.",
+        "title": "Get oriented.",
+        "body": "A short video, the agreement, and a quick quiz. The button is yours.",
         "milestone": true
       },
       {
@@ -160,16 +161,16 @@
       },
       {
         "title": "Mentor someone.",
-        "body": "Bring one new ambassador through initiation. Now you're a Mentor, and the pin is yours.",
+        "body": "Bring one new ambassador through orientation. Now you're a Mentor, and the pin is yours.",
         "milestone": true
       }
     ],
     "rewards": [
       {
         "id": "button",
-        "kicker": "At initiation",
+        "kicker": "At orientation",
         "title": "The button",
-        "body": "A video, a quiz, and you're in. It's how people spot an ambassador, and how you'll spot each other.",
+        "body": "A short video, the agreement, a quick quiz, and you're in. It's how people spot an ambassador, and how you'll spot each other.",
         "image": "button-card.webp",
         "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
       },
@@ -190,7 +191,7 @@
   },
   "goal": {
     "kicker": "The launch goal",
-    "title": "Here's what we're going for.",
+    "title": "Here's what we're building, together.",
     "stats": [
       {
         "value": "60",
@@ -218,7 +219,7 @@
   },
   "join": {
     "title": "Come be an ambassador.",
-    "lede": "Initiation takes a video or two and a short quiz. The rest, we'll figure out together.",
+    "lede": "Orientation takes about ten minutes. The rest, we'll figure out together.",
     "cta": "Become an ambassador"
   },
   "footer": {
@@ -238,7 +239,7 @@
       },
       {
         "q": "How much time does it take?",
-        "a": "Initiation takes a video or two and a short quiz. After that it's up to you: most of it is conversations you'd have anyway, plus one talk to a room. [PLACEHOLDER: add a typical hours-per-month figure.]"
+        "a": "Orientation takes about ten minutes: a short video, the agreement, and a quick quiz. After that it's up to you: most of it is conversations you'd have anyway, plus one talk to a room. [PLACEHOLDER: add a typical hours-per-month figure.]"
       },
       {
         "q": "Do I need to be technical?",
@@ -246,7 +247,7 @@
       },
       {
         "q": "What's the difference between the button and the pin?",
-        "a": "The button is yours at initiation. It says you're in. The pin is for Mentors: [N] new upskillers through your link, one talk to a room, and one new ambassador brought through initiation. You can't buy one."
+        "a": "The button is yours at orientation. It says you're in. The pin is for Mentors: [N] new upskillers through your link, one talk to a room, and one new ambassador brought through orientation. You can't buy one."
       },
       {
         "q": "Can I stop?",
@@ -260,7 +261,7 @@
     "cta": "Become an ambassador"
   },
   "commit": {
-    "kicker": "Before you join",
+    "kicker": "The short version",
     "title": "What it takes.",
     "items": [
       {
@@ -275,8 +276,8 @@
       },
       {
         "label": "What happens next",
-        "title": "A video, a quiz, the button.",
-        "body": "Raise your hand, pass initiation, and your button is on its way. The guide takes it from there."
+        "title": "Ten minutes, then the button.",
+        "body": "Raise your hand, get oriented, and your button is on its way. The guide takes it from there."
       }
     ]
   }
