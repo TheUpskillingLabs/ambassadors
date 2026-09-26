@@ -8,6 +8,7 @@ const KEYS = {
   practice: "ag.practice.v1",
   profile: "ag.profile.v1",
   asks: "ag.asks.v1",
+  application: "ag.application.v1",
 } as const;
 
 function read<T>(key: string, fallback: T): T {
@@ -81,6 +82,37 @@ export const asks = {
   },
   set(list: Ask[]): void {
     write(KEYS.asks, list);
+  },
+};
+
+/** The ambassador application (/apply/). Until OLOS sign-in exists it lives
+ *  only here; src/lib/apply.ts maps it to OLOS's registration fields. */
+export type Application = {
+  first?: string;
+  last?: string;
+  email?: string;
+  zip?: string;
+  referredBy?: string;
+  agreement?: { version: string; acceptedAt: number };
+  videoAt?: number;
+  quiz?: { score: number; total: number; passedAt: number };
+};
+export const application = {
+  get(): Application {
+    return read<Application>(KEYS.application, {});
+  },
+  set(a: Partial<Application>): Application {
+    const next = { ...this.get(), ...a };
+    write(KEYS.application, next);
+    return next;
+  },
+  /** Passed the quiz: an ambassador. */
+  passed(): boolean {
+    return Boolean(this.get().quiz?.passedAt);
+  },
+  started(): boolean {
+    const a = this.get();
+    return Boolean(a.first || a.email || a.agreement);
   },
 };
 

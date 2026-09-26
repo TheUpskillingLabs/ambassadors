@@ -77,19 +77,12 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-hero .ctas { position: relative; margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .jp-hero .status { position: relative; margin-top: 26px; }
 
-/* chapter covers: full-bleed picture, "01 / 03", the title, and both sides of it */
+/* chapter covers: a full-bleed picture and the tagline */
 .jp-cover { position: relative; margin: clamp(112px, 16vh, 164px) 0 0; overflow: hidden; background: var(--ink); min-height: min(88vh, 900px); display: flex; align-items: flex-end; }
 .jp-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.jp-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0, 20, 27, 0.94) 0%, rgba(0, 20, 27, 0.7) 32%, rgba(0, 20, 27, 0) 70%); }
+.jp-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0, 20, 27, 0.85) 0%, rgba(0, 20, 27, 0.35) 30%, rgba(0, 20, 27, 0) 55%); }
 .jp-cover-cap { position: relative; z-index: 1; width: 100%; padding: clamp(96px, 20vh, 200px) var(--g) clamp(32px, 6vh, 72px); }
-.jp-cover-n { margin: 0 0 14px; font-size: 13px; font-weight: 600; letter-spacing: 0.16em; color: var(--t1); text-shadow: 0 1px 12px rgba(0, 20, 27, 0.8); font-variant-numeric: tabular-nums; }
-.jp-cover h2 { margin: 0; font-size: clamp(44px, 7vw, 120px); font-weight: 700; line-height: 0.95; letter-spacing: -0.045em; color: var(--t1); text-wrap: balance; }
-.jp-cover-sides { margin-top: clamp(28px, 4vw, 48px); display: grid; gap: 24px; max-width: 1100px; }
-.jp-cover-sides > div { border-top: 1px solid rgba(255, 255, 255, 0.22); padding-top: 16px; }
-.jp-cover-sides .label { margin: 0 0 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.02em; color: var(--t3); }
-.jp-cover-sides .line { margin: 0; font-size: clamp(18px, 1.6vw, 22px); font-weight: 600; line-height: 1.3; color: var(--t1); text-wrap: pretty; }
-.jp-cover-sides .sub { margin: 8px 0 0; font-size: 15px; line-height: 1.5; color: var(--t2); }
-@media (min-width: 760px) { .jp-cover-sides { grid-template-columns: 1fr 1fr; gap: clamp(32px, 4vw, 64px); } }
+.jp-cover h2 { margin: 0; font-size: clamp(56px, 10vw, 168px); font-weight: 700; line-height: 0.92; letter-spacing: -0.045em; color: var(--t1); text-wrap: balance; }
 @media (max-width: 759px) { .jp-cover { min-height: 80vh; min-height: 80svh; } }
 
 /* sections */

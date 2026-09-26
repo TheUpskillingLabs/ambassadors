@@ -1,0 +1,274 @@
+---
+/* /apply/ — becoming an ambassador: about you → the Ambassador Agreement →
+   a short video → a quiz about The Labs → "You're in." One page, one screen
+   at a time (#you, #agreement, #video, #quiz, #done), so Back works and a
+   reload resumes where you were. Copy: content/site/apply.json. Nothing is
+   sent by the site; see src/lib/apply.ts for where OLOS plugs in. */
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import { u } from "../../lib/url";
+import { guideHome } from "../../lib/content";
+import a from "../../../content/site/apply.json";
+import help from "../../../content/site/help.json";
+
+const screens = ["you", "agreement", "video", "quiz"] as const;
+const navs = [a.you.nav, a.agreement.nav, a.video.nav, a.quiz.nav];
+const c = help.coordinator;
+const field = (id: string, label: string, type: "text" | "email", auto: string, extra: Record<string, string | boolean> = {}, hint?: string) => ({ id, label, type, auto, extra, hint });
+const fields = [
+  field("first", a.you.first, "text", "given-name", { required: true }),
+  field("last", a.you.last, "text", "family-name", { required: true }),
+  field("email", a.you.email, "email", "email", { required: true }),
+  field("zip", a.you.zip, "text", "postal-code", { required: true, inputmode: "numeric", pattern: "[0-9]{5}", maxlength: "5" }, a.you.zipHint),
+  field("referredBy", a.you.referredBy, "text", "off", {}, a.you.referredByHint),
+];
+---
+<Base title={a.title} description={a.description} bare>
+  <div class="wrap apply" data-apply
+    data-strings={JSON.stringify({ stepOf: a.stepOf, errors: a.you.errors, agreeError: a.agreement.error, quiz: { result: a.quiz.result, passed: a.quiz.passed, failed: a.quiz.failed, right: a.quiz.right, wrong: a.quiz.wrong, unanswered: a.quiz.unanswered, pass: a.quiz.pass }, message: a.done.message, nobody: a.done.nobody })}
+    data-answers={JSON.stringify(a.quiz.questions.map((q) => q.answer))}
+    data-version={a.agreement.version} data-phone={c.phone} data-email={c.email}>
+
+    <div class="apply-head">
+      <p class="kicker" data-apply-step>{a.stepOf.replace("{n}", "1").replace("{total}", String(screens.length))}</p>
+      <ol class="apply-steps" aria-label={a.title}>
+        {navs.map((n, i) => <li data-apply-dot={screens[i]}><span>{n}</span></li>)}
+      </ol>
+    </div>
+
+    <!-- 1. About you -->
+    <section class="apply-screen" data-screen="you" aria-labelledby="ap-you">
+      <h1 id="ap-you" class="apply-title" tabindex="-1">{a.you.title}</h1>
+      <p class="lede">{a.you.lede}</p>
+      <form class="apply-form" data-form="you" novalidate>
+        <div class="apply-grid">
+          {fields.map((f) => (
+            <div class:list={["field", { wide: f.id === "email" || f.id === "referredBy" }]}>
+              <label for={`ap-${f.id}`}>{f.label}</label>
+              <input id={`ap-${f.id}`} name={f.id} type={f.type} autocomplete={f.auto} aria-describedby={`ap-${f.id}-msg`} {...f.extra} />
+              <p class="field-msg" id={`ap-${f.id}-msg`} data-msg={f.id}>{f.hint}</p>
+            </div>
+          ))}
+        </div>
+        <p class="apply-note">{a.privacy}</p>
+        <div class="apply-actions"><span></span><button class="btn btn-teal" type="submit">{a.next}<Icon name="arrow-right" size={18} /></button></div>
+      </form>
+    </section>
+
+    <!-- 2. The agreement -->
+    <section class="apply-screen" data-screen="agreement" aria-labelledby="ap-agreement" hidden>
+      <h1 id="ap-agreement" class="apply-title" tabindex="-1">{a.agreement.title}</h1>
+      <p class="lede">{a.agreement.lede}</p>
+      <form class="apply-form" data-form="agreement" novalidate>
+        <div class="agreement" tabindex="0" role="region" aria-label={a.agreement.title}>
+          {a.agreement.sections.map((s) => <><h2>{s.h}</h2><p>{s.p}</p></>)}
+          <p><a href={a.agreement.conductUrl}>{a.agreement.conductLabel} →</a></p>
+          <p class="agreement-v">{a.agreement.version}</p>
+        </div>
+        <label class="agree"><input type="checkbox" name="agree" aria-describedby="ap-agree-msg" /> <span>{a.agreement.check}</span></label>
+        <p class="field-msg" id="ap-agree-msg" data-msg="agree"></p>
+        <div class="apply-actions">
+          <a class="btn btn-ghost" href="#you">{a.back}</a>
+          <button class="btn btn-teal" type="submit">{a.next}<Icon name="arrow-right" size={18} /></button>
+        </div>
+      </form>
+    </section>
+
+    <!-- 3. The video -->
+    <section class="apply-screen" data-screen="video" aria-labelledby="ap-video" hidden>
+      <h1 id="ap-video" class="apply-title" tabindex="-1">{a.video.title}</h1>
+      <p class="lede">{a.video.lede}</p>
+      <div class="apply-video">
+        {a.video.src
+          ? <video controls playsinline preload="metadata" poster={a.video.poster || undefined} data-video>
+              <source src={a.video.src} />
+              {a.video.captions && <track kind="captions" src={a.video.captions} srclang="en" label="English" default />}
+            </video>
+          : <div class="apply-video-ph"><Icon name="deck" size={32} /><span>{a.video.placeholder}</span></div>}
+      </div>
+      <div class="apply-actions">
+        <a class="btn btn-ghost" href="#agreement">{a.back}</a>
+        <button class="btn btn-teal" type="button" data-watched disabled={Boolean(a.video.src)}>{a.video.watched}<Icon name="arrow-right" size={18} /></button>
+      </div>
+      {a.video.src && <p class="apply-note" data-watched-hint>{a.video.watchedHint}</p>}
+    </section>
+
+    <!-- 4. The quiz -->
+    <section class="apply-screen" data-screen="quiz" aria-labelledby="ap-quiz" hidden>
+      <h1 id="ap-quiz" class="apply-title" tabindex="-1">{a.quiz.title}</h1>
+      <p class="lede">{a.quiz.lede}</p>
+      <form class="apply-form quiz" data-form="quiz" novalidate>
+        {a.quiz.questions.map((q, i) => (
+          <fieldset class="qz" data-q={i}>
+            <legend><span class="qz-n">{i + 1}</span>{q.q}</legend>
+            {q.options.map((o, k) => (
+              <label class="qz-opt"><input type="radio" name={`q${i}`} value={k} /> <span>{o}</span></label>
+            ))}
+            <p class="qz-why" data-why hidden><strong data-verdict></strong> {q.why}</p>
+          </fieldset>
+        ))}
+        <div class="qz-result" role="status" aria-live="polite" data-result></div>
+        <div class="apply-actions">
+          <a class="btn btn-ghost" href="#video">{a.back}</a>
+          <button class="btn btn-teal" type="submit" data-check>{a.quiz.check}</button>
+          <button class="btn btn-teal" type="button" data-retry hidden>{a.quiz.retry}</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Done -->
+    <section class="apply-screen apply-done" data-screen="done" aria-labelledby="ap-done" hidden>
+      <img src={u("/join/button-800.webp")} alt={a.done.buttonAlt} width="160" height="160" />
+      <h1 id="ap-done" class="apply-title" tabindex="-1">{a.done.title}</h1>
+      <p class="lede">{a.done.lede}</p>
+      <a class="btn btn-teal btn-block btn-lg" href={c.phone ? `sms:${c.phone}` : `mailto:${c.email}`} data-send>{a.done.text}<Icon name="arrow-right" size={20} /></a>
+      <a class="btn btn-ghost btn-block" href={guideHome}>{a.done.guide}</a>
+      <p class="apply-note">{a.done.guideNote}</p>
+    </section>
+  </div>
+
+  <script>
+    import { application, type Application } from "../../lib/store";
+    import { coordinatorMessage, coordinatorHref } from "../../lib/apply";
+
+    const root = document.querySelector<HTMLElement>("[data-apply]")!;
+    const S = JSON.parse(root.dataset.strings!);
+    const answers: number[] = JSON.parse(root.dataset.answers!);
+    const order = ["you", "agreement", "video", "quiz", "done"] as const;
+    type Screen = (typeof order)[number];
+    const $ = <T extends Element = HTMLElement>(sel: string, el: ParentNode = root) => el.querySelector<T>(sel)!;
+    const fill = (s: string, v: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
+
+    // How far this person may go: each screen needs the ones before it.
+    const youDone = (a: Application) => Boolean(a.first && a.last && a.email && a.zip);
+    function furthest(a: Application): Screen {
+      if (!youDone(a)) return "you";
+      if (!a.agreement) return "agreement";
+      if (!a.videoAt) return "video";
+      if (!a.quiz?.passedAt) return "quiz";
+      return "done";
+    }
+
+    function show(name: Screen, focus = true) {
+      const a = application.get();
+      const max = order.indexOf(furthest(a));
+      const want = order.indexOf(name);
+      const s = order[Math.min(want < 0 ? max : want, max)];
+      root.querySelectorAll<HTMLElement>("[data-screen]").forEach((el) => (el.hidden = el.dataset.screen !== s));
+      const i = order.indexOf(s);
+      const head = $(".apply-head");
+      head.hidden = s === "done";
+      $("[data-apply-step]").textContent = fill(S.stepOf, { n: Math.min(i + 1, 4), total: 4 });
+      root.querySelectorAll<HTMLElement>("[data-apply-dot]").forEach((d, k) => {
+        d.classList.toggle("is-done", k < i);
+        d.toggleAttribute("aria-current", k === i);
+        if (k === i) d.setAttribute("aria-current", "step");
+      });
+      if (s === "done") paintDone(a);
+      if (location.hash.slice(1) !== s) history.replaceState(null, "", `#${s}`);
+      if (focus) $<HTMLElement>(`[data-screen="${s}"] .apply-title`).focus({ preventScroll: true });
+      scrollTo({ top: 0 });
+    }
+    const go = (s: Screen) => { location.hash = s; }; // hashchange → show()
+    addEventListener("hashchange", () => show((location.hash.slice(1) || "you") as Screen));
+
+    // 1. About you: fill from storage, save as you type, validate on Next.
+    const you = $<HTMLFormElement>('[data-form="you"]');
+    const saved = application.get();
+    you.querySelectorAll<HTMLInputElement>("input").forEach((inp) => {
+      const v = saved[inp.name as keyof Application];
+      if (typeof v === "string") inp.value = v;
+      inp.addEventListener("input", () => { application.set({ [inp.name]: inp.value.trim() }); if (inp.getAttribute("aria-invalid")) check(inp); });
+    });
+    const hints: Record<string, string> = {};
+    you.querySelectorAll<HTMLElement>("[data-msg]").forEach((m) => (hints[m.dataset.msg!] = m.textContent ?? ""));
+    function check(inp: HTMLInputElement): boolean {
+      inp.value = inp.name === "zip" ? inp.value.replace(/\D/g, "").slice(0, 5) : inp.value;
+      const ok = inp.checkValidity() && (inp.type !== "email" || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(inp.value.trim())) && (!inp.required || inp.value.trim() !== "");
+      const msg = $(`[data-msg="${inp.name}"]`, you);
+      if (ok) { inp.removeAttribute("aria-invalid"); msg.textContent = hints[inp.name] ?? ""; msg.classList.remove("is-error"); }
+      else { inp.setAttribute("aria-invalid", "true"); msg.textContent = S.errors[inp.name]; msg.classList.add("is-error"); }
+      return ok;
+    }
+    you.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const bad = [...you.querySelectorAll<HTMLInputElement>("input")].filter((inp) => !check(inp));
+      if (bad.length) { bad[0].focus(); return; }
+      const f = new FormData(you);
+      application.set({ first: String(f.get("first")).trim(), last: String(f.get("last")).trim(), email: String(f.get("email")).trim(), zip: String(f.get("zip")).trim(), referredBy: String(f.get("referredBy") ?? "").trim() });
+      go("agreement");
+    });
+
+    // 2. The agreement: the box must be ticked.
+    const ag = $<HTMLFormElement>('[data-form="agreement"]');
+    const box = $<HTMLInputElement>('input[name="agree"]', ag);
+    box.checked = Boolean(saved.agreement);
+    box.addEventListener("change", () => { if (box.checked) { box.removeAttribute("aria-invalid"); $('[data-msg="agree"]', ag).textContent = ""; } });
+    ag.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (!box.checked) { box.setAttribute("aria-invalid", "true"); const m = $('[data-msg="agree"]', ag); m.textContent = S.agreeError; m.classList.add("is-error"); box.focus(); return; }
+      if (!application.get().agreement) application.set({ agreement: { version: root.dataset.version!, acceptedAt: Date.now() } });
+      go("video");
+    });
+
+    // 3. The video: the quiz opens when it ends (or at once while it's a placeholder).
+    const watched = $<HTMLButtonElement>("[data-watched]");
+    const video = root.querySelector<HTMLVideoElement>("[data-video]");
+    if (video) {
+      if (saved.videoAt) watched.disabled = false;
+      video.addEventListener("timeupdate", () => { if (video.duration && video.currentTime / video.duration > 0.9) watched.disabled = false; });
+      video.addEventListener("ended", () => { watched.disabled = false; });
+    }
+    watched.addEventListener("click", () => { if (!application.get().videoAt) application.set({ videoAt: Date.now() }); go("quiz"); });
+
+    // 4. The quiz: check, explain, pass at S.quiz.pass; retry keeps the right ones.
+    const qz = $<HTMLFormElement>('[data-form="quiz"]');
+    const result = $("[data-result]", qz);
+    const checkBtn = $<HTMLButtonElement>("[data-check]", qz);
+    const retry = $<HTMLButtonElement>("[data-retry]", qz);
+    const sets = [...qz.querySelectorAll<HTMLFieldSetElement>("[data-q]")];
+    qz.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const picks = sets.map((fs) => fs.querySelector<HTMLInputElement>("input:checked")?.value);
+      if (picks.some((p) => p === undefined)) { result.textContent = S.quiz.unanswered; result.className = "qz-result is-error"; sets[picks.findIndex((p) => p === undefined)].querySelector("input")!.focus(); return; }
+      let score = 0;
+      sets.forEach((fs, i) => {
+        const ok = Number(picks[i]) === answers[i];
+        if (ok) score++;
+        fs.classList.toggle("is-right", ok); fs.classList.toggle("is-wrong", !ok);
+        $("[data-verdict]", fs).textContent = ok ? S.quiz.right : S.quiz.wrong;
+        $("[data-why]", fs).hidden = false;
+        fs.querySelectorAll("input").forEach((inp) => (inp.disabled = true));
+      });
+      const passed = score >= S.quiz.pass;
+      result.className = `qz-result ${passed ? "is-pass" : "is-error"}`;
+      result.textContent = `${fill(S.quiz.result, { score, total: sets.length })} ${passed ? S.quiz.passed : S.quiz.failed}`;
+      checkBtn.hidden = true;
+      if (passed) {
+        application.set({ quiz: { score, total: sets.length, passedAt: Date.now() } });
+        setTimeout(() => go("done"), 1600);
+      } else {
+        retry.hidden = false; retry.focus();
+      }
+    });
+    retry.addEventListener("click", () => {
+      sets.forEach((fs) => {
+        const wrong = fs.classList.contains("is-wrong");
+        fs.classList.remove("is-right", "is-wrong");
+        $("[data-why]", fs).hidden = true;
+        fs.querySelectorAll<HTMLInputElement>("input").forEach((inp) => { inp.disabled = false; if (wrong) inp.checked = false; });
+      });
+      result.textContent = ""; result.className = "qz-result";
+      retry.hidden = true; checkBtn.hidden = false;
+      sets.find((fs) => !fs.querySelector("input:checked"))?.querySelector("input")?.focus();
+    });
+
+    // Done: the coordinator message carries everything they need.
+    function paintDone(a: Application) {
+      const body = coordinatorMessage(S.message, a, S.nobody);
+      $<HTMLAnchorElement>("[data-send]").href = coordinatorHref(body, root.dataset.phone ?? "", root.dataset.email ?? "");
+    }
+
+    show((location.hash.slice(1) || "you") as Screen, false);
+  </script>
+</Base>

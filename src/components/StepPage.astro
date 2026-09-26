@@ -12,7 +12,7 @@ import Icon from "./Icon.astro";
 import StepList from "./StepList.astro";
 import { t, ui } from "../lib/i18n";
 import { u } from "../lib/url";
-import { path } from "../lib/content";
+import { path, guideHome } from "../lib/content";
 interface Props { entry: CollectionEntry<"steps">; /** false: the bar sits after the content (Practice: never over the deck's buttons). */ sticky?: boolean }
 const { entry, sticky = true } = Astro.props;
 const all = await path();
@@ -24,7 +24,7 @@ const next = all[i + 1];
   <aside class="rail" aria-label={t("nav.steps")}><StepList current={entry.id} /></aside>
   <div class="step-main">
   <PageHeader
-    back={{ href: "/", label: t("nav.home") }}
+    back={{ href: guideHome, label: t("nav.home") }}
     eyebrow={t("step.of", { n: i + 1, total: all.length, min: entry.data.readTime })}
     title={entry.data.title}
     lede={entry.data.summary}
@@ -34,7 +34,7 @@ const next = all[i + 1];
     <slot />
     <div class:list={["actionbar2", { static: !sticky }]}>
       <span class="ab-info"><span class="ab-kicker">{next ? t("step.next") : t("step.last")}</span><span class="ab-title">{next ? next.title : t("step.pin")}</span></span>
-      <button class="btn btn-teal" type="button" data-done={entry.id} data-next-href={next ? next.href : u("/")}>
+      <button class="btn btn-teal" type="button" data-done={entry.id} data-next-href={next ? next.href : guideHome}>
         {t("step.done")}<Icon name="arrow-right" size={18} />
       </button>
     </div>
@@ -42,7 +42,7 @@ const next = all[i + 1];
   </div>
   </div>
   <dialog class="donedlg" data-donedlg aria-labelledby="done-title"
-    data-steps={JSON.stringify(all)} data-current={entry.id} data-home={u("/")} data-strings={JSON.stringify(ui.done)}>
+    data-steps={JSON.stringify(all)} data-current={entry.id} data-home={guideHome} data-strings={JSON.stringify(ui.done)}>
     <svg class="done-check" viewBox="0 0 48 48" width="48" height="48" aria-hidden="true"><circle cx="24" cy="24" r="22" /><path d="M14 24.5l7 7 13-14" /></svg>
     <p class="done-kicker" data-done-kicker>{t("done.kicker", { n: i + 1, total: all.length })}</p>
     <h2 id="done-title" class="done-title" data-done-title>{t("done.title", { title: entry.data.title })}</h2>
@@ -58,9 +58,9 @@ const next = all[i + 1];
       <img src={u("/pin.svg")} alt={t("done.pinAlt")} width="72" height="72" />
       <span><strong>{t("done.pinKicker")}</strong><br />{t("done.pinBody")}</span>
     </div>
-    <a class="btn btn-teal done-go" data-done-go href={next ? next.href : u("/")}><span data-done-go-label>{next ? t("done.next", { title: next.title }) : t("done.toHome")}</span><Icon name="arrow-right" size={18} /></a>
+    <a class="btn btn-teal done-go" data-done-go href={next ? next.href : guideHome}><span data-done-go-label>{next ? t("done.next", { title: next.title }) : t("done.toHome")}</span><Icon name="arrow-right" size={18} /></a>
     <p class="done-links">
-      <a href={u("/")} data-done-home>{t("done.home")}</a>
+      <a href={guideHome} data-done-home>{t("done.home")}</a>
       <button type="button" class="linkbtn" data-done-stay>{t("done.stay")}</button>
     </p>
   </dialog>

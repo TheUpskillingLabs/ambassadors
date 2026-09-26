@@ -8,15 +8,17 @@ import "../styles/app.css";
 import Icon from "../components/Icon.astro";
 import StepList from "../components/StepList.astro";
 import { t } from "../lib/i18n";
-import { path } from "../lib/content";
+import { path, guideHome } from "../lib/content";
 
 interface Props {
   title?: string;
   description?: string;
   /** The step this page is, for the app bar's Steps menu. */
   step?: string;
+  /** Before someone is an ambassador (the apply flow): no Steps menu or progress, and the logo goes to the program page. */
+  bare?: boolean;
 }
-const { title, description = t("siteTagline"), step } = Astro.props;
+const { title, description = t("siteTagline"), step, bare = false } = Astro.props;
 const steps = await path();
 const stepIndex = steps.findIndex((s) => s.id === step);
 const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · The Upskilling Labs`;
@@ -40,11 +42,11 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
     <a class="skip" href="#main">{t("skipToContent")}</a>
     <header class="appbar">
       <div class="appbar-inner">
-        <a class="brand" href={u("/")}>
+        <a class="brand" href={bare ? u("/") : guideHome}>
           <img src={u("/assets/logo-lockup-white.png")} alt={t("brandAlt")} width="392" height="144" />
           <span class="brand-name">{t("siteName")}</span>
         </a>
-        <div class="appbar-end">
+        {!bare && <div class="appbar-end">
           <details class="stepsmenu" data-stepsmenu>
             <summary>
               <span>{stepIndex >= 0 ? t("nav.stepOf", { n: stepIndex + 1, total: steps.length }) : t("nav.steps")}</span>
@@ -53,10 +55,10 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
             <div class="stepsmenu-panel"><StepList current={step} dark /></div>
           </details>
           <a class="appbar-present" href={u("/present/")}><Icon name="deck" size={18} /> {t("nav.present")}</a>
-        </div>
+        </div>}
       </div>
-      <div class="appbar-progress" role="progressbar" aria-valuemin="0" aria-valuemax={steps.length} aria-valuenow="0"
-        data-total={steps.length} data-label={t("nav.progress")}><i data-progress-fill></i></div>
+      {!bare && <div class="appbar-progress" role="progressbar" aria-valuemin="0" aria-valuemax={steps.length} aria-valuenow="0"
+        data-total={steps.length} data-label={t("nav.progress")}><i data-progress-fill></i></div>}
     </header>
 
     <main id="main" tabindex="-1">
@@ -67,7 +69,7 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
       <div class="sitefoot-inner">
         <p>{t("footer.legal")}</p>
         <p class="foot-row">
-          <a href={u("/join/")}>{t("footer.program")}</a>
+          <a href={u("/")}>{t("footer.program")}</a>
           <a href="https://theupskillinglabs.org">{t("footer.site")}</a>
           <button class="foot-reset" type="button" data-reset data-confirm={t("footer.resetConfirm")}>{t("footer.reset")}</button>
         </p>
@@ -80,20 +82,24 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
       // Progress line and step states from saved progress; the Steps menu closes on Escape or outside click.
       const done = progress.all();
       document.querySelectorAll<HTMLElement>("[data-step-link]").forEach((a) => a.classList.toggle("is-done", Boolean(done[a.dataset.stepLink!])));
-      const bar = document.querySelector<HTMLElement>(".appbar-progress")!;
-      const total = Number(bar.dataset.total);
-      const n = new Set([...document.querySelectorAll<HTMLElement>(".stepsmenu [data-step-link]")].map((a) => a.dataset.stepLink!).filter((id) => done[id])).size;
-      bar.querySelector<HTMLElement>("[data-progress-fill]")!.style.width = `${(n / total) * 100}%`;
-      bar.setAttribute("aria-valuenow", String(n));
-      bar.setAttribute("aria-label", bar.dataset.label!.replace("{n}", String(n)).replace("{total}", String(total)));
-      const menu = document.querySelector<HTMLDetailsElement>("[data-stepsmenu]")!;
-      document.addEventListener("click", (e) => { if (menu.open && !menu.contains(e.target as Node)) menu.open = false; });
-      document.addEventListener("keydown", (e) => { if (e.key === "Escape" && menu.open) { menu.open = false; menu.querySelector("summary")!.focus(); } });
+      const bar = document.querySelector<HTMLElement>(".appbar-progress");
+      if (bar) {
+        const total = Number(bar.dataset.total);
+        const n = new Set([...document.querySelectorAll<HTMLElement>(".stepsmenu [data-step-link]")].map((a) => a.dataset.stepLink!).filter((id) => done[id])).size;
+        bar.querySelector<HTMLElement>("[data-progress-fill]")!.style.width = `${(n / total) * 100}%`;
+        bar.setAttribute("aria-valuenow", String(n));
+        bar.setAttribute("aria-label", bar.dataset.label!.replace("{n}", String(n)).replace("{total}", String(total)));
+      }
+      const menu = document.querySelector<HTMLDetailsElement>("[data-stepsmenu]");
+      if (menu) {
+        document.addEventListener("click", (e) => { if (menu.open && !menu.contains(e.target as Node)) menu.open = false; });
+        document.addEventListener("keydown", (e) => { if (e.key === "Escape" && menu.open) { menu.open = false; menu.querySelector("summary")!.focus(); } });
+      }
       const reset = document.querySelector<HTMLButtonElement>("[data-reset]")!;
       reset.addEventListener("click", () => {
         if (!confirm(reset.dataset.confirm)) return;
         resetAll();
-        location.href = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`;
+        location.href = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/guide/`;
       });
       if ("serviceWorker" in navigator && import.meta.env.PROD) {
         window.addEventListener("load", () => {

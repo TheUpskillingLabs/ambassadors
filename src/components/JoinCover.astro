@@ -1,23 +1,14 @@
 ---
-/* One chapter cover on /join/: full-bleed picture, "01 / 03", the chapter
-   title, and the two sides of it: what it does for the people you reach,
-   and what it does for you. */
+/* One chapter cover on the program page: a full-bleed picture and its
+   tagline, nothing else. */
 import { u } from "../lib/url";
 import j from "../../content/site/join.json";
 interface Props { n: number }
 const { n } = Astro.props;
 const m = j.mission[n];
 const img = (w: number) => u(`/join/${m.id}-${w}.webp`);
-const mark = j.chapters.of.replace("{n}", String(n + 1).padStart(2, "0")).replace("{total}", String(j.mission.length).padStart(2, "0"));
 ---
-<figure class="jp-cover" id={`ch-${m.id}`} aria-labelledby={`ch-${m.id}-t`}>
+<figure class="jp-cover" id={`ch-${m.id}`}>
   <img class="drift" src={img(1800)} srcset={`${img(900)} 900w, ${img(1800)} 1800w`} sizes="100vw" alt={m.alt} width="1800" height="1125" loading="lazy" decoding="async" style={`object-position: ${m.position}`} />
-  <figcaption class="jp-cover-cap">
-    <p class="jp-cover-n">{mark}</p>
-    <h2 id={`ch-${m.id}-t`}>{m.title}</h2>
-    <div class="jp-cover-sides">
-      <div><p class="label">{j.chapters.them}</p><p class="line">{m.them}</p></div>
-      <div><p class="label">{j.chapters.you}</p><p class="line">{m.you.title}</p><p class="sub">{m.you.body}</p></div>
-    </div>
-  </figcaption>
+  <figcaption class="jp-cover-cap"><h2>{m.title}</h2></figcaption>
 </figure>

@@ -1,0 +1,72 @@
+---
+/* /guide/ — the guide's Home: one button and the path ("/" is the public program page).
+   The button starts or continues the next step. The five steps are a plain
+   list. Finishing all five earns the ambassador pin (design/pin/), so the
+   button becomes "Text your coordinator for your pin". */
+import Base from "../../layouts/Base.astro";
+import Row from "../../components/Row.astro";
+import Icon from "../../components/Icon.astro";
+import CoordinatorLink from "../../components/CoordinatorLink.astro";
+import { u } from "../../lib/url";
+import { t } from "../../lib/i18n";
+import { path } from "../../lib/content";
+const steps = await path();
+---
+<Base>
+  <div class="wrap home" data-home={JSON.stringify(steps)} data-start={t("home.start")} data-continue={t("home.continue")} data-welcome={t("home.welcome")}>
+    <div class="panel apply-nudge" data-apply-nudge hidden>
+      <p class="nudge-t">{t("home.nudgeTitle")}</p>
+      <p>{t("home.nudge")}</p>
+      <a class="see" href={u("/apply/")} data-apply-link data-continue={t("home.applyContinue")}>{t("home.apply")} →</a>
+    </div>
+    <h1 class="home-title" data-title data-done={t("home.doneTitle")}>{t("home.title")}</h1>
+    <p class="home-member" data-member hidden>{t("home.member")}</p>
+    <script is:inline>
+      /* Before first paint, so nothing jumps: the nudge for people who haven't passed initiation, or the ambassador line. */
+      (function () {
+        var passed = false;
+        try { var a = JSON.parse(localStorage.getItem("ag.application.v1") || "{}"); passed = Boolean(a.quiz && a.quiz.passedAt); } catch (e) {}
+        document.querySelector(passed ? "[data-member]" : "[data-apply-nudge]").hidden = false;
+      })();
+    </script>
+    <p class="pin-goal"><img src={u("/pin.svg")} width="48" height="48" alt="" /><span data-goal data-done={t("home.doneGoal")}>{t("home.goal")}</span></p>
+
+    <a class="btn btn-teal btn-block btn-lg" href={steps[0].href} data-next><span data-next-label>{t("home.start")}</span><Icon name="arrow-right" size={20} /></a>
+    <CoordinatorLink class="btn btn-teal btn-block btn-lg" label={t("home.claim")} body={t("coord.pinBody")} attrs={{ "data-claim": "", hidden: "" }} />
+
+    <ol class="rows">
+      {steps.map((s, i) => (
+        <li><Row href={s.href} title={s.title} sub={`${s.readTime} min`} lead={String(i + 1)} check attrs={{ "data-step": s.id }} /></li>
+      ))}
+    </ol>
+
+    <p class="stuck" data-stuck><CoordinatorLink label={t("coord.stuck")} body={t("coord.body")} /></p>
+  </div>
+
+  <script>
+    import { progress, application } from "../../lib/store";
+    const root = document.querySelector<HTMLElement>("[data-home]")!;
+    // Open to everyone; people who haven't passed initiation get a nudge to apply,
+    // ambassadors get a welcome by name.
+    const app = application.get();
+    if (application.passed()) {
+      root.querySelector<HTMLElement>("[data-title]")!.textContent = root.dataset.welcome!.replace("{first}", app.first ?? "");
+    } else {
+      if (application.started()) { const l = root.querySelector<HTMLAnchorElement>("[data-apply-link]")!; l.textContent = `${l.dataset.continue} →`; }
+    }
+    const steps: { id: string; title: string; href: string }[] = JSON.parse(root.dataset.home!);
+    const read = progress.all();
+    steps.forEach((s) => root.querySelector(`[data-step="${s.id}"]`)!.classList.toggle("is-read", Boolean(read[s.id])));
+    const next = steps.find((s) => !read[s.id]);
+    const btn = root.querySelector<HTMLAnchorElement>("[data-next]")!;
+    if (next) {
+      btn.href = next.href;
+      if (steps.some((s) => read[s.id])) btn.querySelector("[data-next-label]")!.textContent = root.dataset.continue!.replace("{title}", next.title);
+    } else {
+      btn.hidden = true;
+      root.querySelector<HTMLElement>("[data-claim]")!.hidden = false;
+      root.querySelector<HTMLElement>("[data-stuck]")!.hidden = true;
+      for (const sel of ["[data-title]", "[data-goal]"]) { const el = root.querySelector<HTMLElement>(sel)!; el.textContent = el.dataset.done!; }
+    }
+  </script>
+</Base>

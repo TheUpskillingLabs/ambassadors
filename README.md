@@ -32,7 +32,8 @@ npm run check      # type-check
 | Practice situations (the prospect game will read these too) | `content/scenarios/*.json` |
 | Questions you'll get (shown on The Labs) | `content/faq/*.json` |
 | Deck copy, ladder, Your Story questions, coordinator contact | `content/site/*.json` |
-| The public program page's copy (and where "Become an ambassador" goes: `applyUrl`) | `content/site/join.json` |
+| The public program page's copy | `content/site/join.json` |
+| The apply flow: registration labels, the Ambassador Agreement (versioned), the video slot, the quiz | `content/site/apply.json` |
 | Every UI string a component renders | `content/site/ui.en.json` |
 | **Upcoming sessions (the only moving data)** | `data/schedule.json` |
 | The ambassador pin: production art, spec, and Blender notes | `design/pin/` |
@@ -67,9 +68,10 @@ These also need real values:
 
 | Route | What |
 | --- | --- |
-| `/join/` | The public Ambassador Program page in three chapters, each opened by a full-width cover (Spark curiosity, Build community, Inspire confidence) that says what it does for the people you reach and for you. Inside: why join, how it works (a sticky picture that turns from the button into the pin on wide screens), the launch goal with an ambassador's quote, questions, and what it takes. Built from the design mockup; copy in `content/site/join.json`, media in `public/join/`. |
-| `/` | Home: one button (Start, Continue, or, once all five are done, "Text your coordinator for your pin") and the five steps. |
-| `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/` | The five steps. Each ends with **Done**, which checks it off and opens a short "done" dialog: the five dots and one button to the next unfinished step (or Home and the pin once all five are done). Esc stays on the page. |
+| `/` | The front door: the public Ambassador Program page, in three chapters, each opened by a full-width cover with its tagline (Spark curiosity, Build community, Inspire confidence). Inside: why join, how it works (a sticky picture that turns from the button into the pin on wide screens), the launch goal with an ambassador's quote, questions, and what it takes. Every "Become an ambassador" goes to `/apply/`. Copy in `content/site/join.json`, media in `public/join/`. `/join/` redirects here. |
+| `/apply/` | Becoming an ambassador, one screen at a time: about you (first and last name, email, ZIP, who brought you in), the Ambassador Agreement, a short video, and a five-question quiz about The Labs (four right to pass, retry any time). Ends with "You're in", a pre-filled text to the coordinator, and a link into the guide. Copy in `content/site/apply.json`. |
+| `/guide/` | The guide's Home, and the ambassador's dashboard after they pass: one button (Start, Continue, or, once all five are done, "Text your coordinator for your pin") and the five steps. It's open to anyone; people who haven't passed initiation see a nudge to apply, and ambassadors are welcomed by name. |
+| `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/` | The five steps. Each ends with **Done**, which checks it off and opens a short "done" dialog: the five dots and one button to the next unfinished step (or the guide's Home and the pin once all five are done). Esc stays on the page. |
 | `/present/` | Full-screen deck. Arrows, click, and swipe move between slides; F toggles full screen. |
 | `/present/?short` | 60-second version (slides 1, 5, 6) |
 | `/present/?notes` | Laptop notes view: current slide, next slide, cues, and a timer. It drives any presentation window open on the same device. |
@@ -106,7 +108,16 @@ The spec's seven sections became one five-step path so an ambassador never has t
 
 ## Privacy
 
-The site never collects personal information. Steps done (`ag.progress.v1`), the story (`ag.story.v1`), practice self-checks (`ag.practice.v1`), your first name (`ag.profile.v1`), and the ask list (`ag.asks.v1`) live only in the browser's `localStorage`. **Start over** in the footer clears them. There are no cookies, and analytics aren't enabled.
+The site never sends personal information anywhere. The ambassador application (`ag.application.v1`: name, email, ZIP, who brought you in, agreement version, quiz score) stays on the device until the applicant chooses to text or email it to their coordinator from their own phone. Steps done (`ag.progress.v1`), the story (`ag.story.v1`), practice self-checks (`ag.practice.v1`), your first name (`ag.profile.v1`), and the ask list (`ag.asks.v1`) live only in the browser's `localStorage`. **Start over** in the footer clears them. There are no cookies, and analytics aren't enabled.
+
+## Hooking the apply flow up to OLOS
+
+`src/lib/apply.ts` is the only place that changes. `toOlosPayload()` already maps the application to OLOS's registration fields (`POST /api/registrations/funnel`: `first_name`, `last_name`, `email`, `zip`, `source`, `referred_by`), plus the ambassador parts OLOS doesn't have yet: an agreement with `doc: "ambassador"` and the quiz result. Before launch, OLOS needs:
+
+- an `ambassador` document type in `agreement_acceptances` (its `doc` CHECK allows `participation | guidelines | mentor` today);
+- a place to record initiation (quiz score, when passed);
+- its Terms of Service §3 updated: it says "The only additional agreement is the Build Cycle agreement", which an Ambassador Agreement would contradict;
+- Google sign-in on `/apply/` (OLOS registration requires it). Then the guide can require sign-in instead of the on-device nudge.
 
 ## Assets
 
