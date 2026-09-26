@@ -17,8 +17,10 @@ interface Props {
   step?: string;
   /** Before someone is an ambassador (the apply flow): no Steps menu or progress, and the logo goes to the program page. */
   bare?: boolean;
+  /** Keep out of search engines (the coordinator's unlisted /invite/ page). */
+  noindex?: boolean;
 }
-const { title, description = t("siteTagline"), step, bare = false } = Astro.props;
+const { title, description = t("siteTagline"), step, bare = false, noindex = false } = Astro.props;
 const steps = await path();
 const stepIndex = steps.findIndex((s) => s.id === step);
 const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · The Upskilling Labs`;
@@ -30,6 +32,7 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#00141B" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <link rel="manifest" href={u("/manifest.webmanifest")} />

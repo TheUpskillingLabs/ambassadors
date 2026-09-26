@@ -1,0 +1,130 @@
+---
+/* /invite/ — for coordinators (unlisted, noindex, not precached). Makes a
+   pre-approved invite link: /apply/#invite=<data>. The data sits after "#",
+   so the invitee's name and email never reach the web server. Nothing is
+   sent by the site: the coordinator copies, texts, or emails the link. */
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import { u } from "../../lib/url";
+import c from "../../../content/site/invite.json";
+const i = c.invite;
+const fields = [
+  { id: "first", label: i.first, type: "text", auto: "off", required: true },
+  { id: "last", label: i.last, type: "text", auto: "off", required: false },
+  { id: "email", label: i.email, type: "email", auto: "off", required: false, wide: true },
+  { id: "by", label: i.by, type: "text", auto: "name", required: true, hint: i.byHint },
+  { id: "note", label: i.note, type: "text", auto: "off", required: false, hint: i.noteHint, wide: true },
+] as const;
+---
+<Base title={i.title} description={i.lede} bare noindex>
+  <div class="wrap apply invite" data-invite data-apply-url={u("/apply/")}
+    data-strings={JSON.stringify({ errors: i.errors, message: i.message, subject: i.subject, copied: i.copied, copy: i.copy, sentNone: i.sentNone })}>
+    <p class="kicker">{i.unlisted}</p>
+    <h1 class="apply-title">{i.title}</h1>
+    <p class="lede">{i.lede}</p>
+
+    <form class="apply-form" data-form novalidate>
+      <div class="apply-grid">
+        {fields.map((f) => (
+          <div class:list={["field", { wide: "wide" in f && f.wide }]}>
+            <label for={`iv-${f.id}`}>{f.label}</label>
+            <input id={`iv-${f.id}`} name={f.id} type={f.type} autocomplete={f.auto} required={f.required} maxlength={f.id === "note" ? 200 : 80} aria-describedby={`iv-${f.id}-msg`} />
+            <p class="field-msg" id={`iv-${f.id}-msg`} data-msg={f.id}>{"hint" in f ? f.hint : ""}</p>
+          </div>
+        ))}
+      </div>
+      <div class="apply-actions"><span></span><button class="btn btn-teal" type="submit">{i.make}<Icon name="arrow-right" size={18} /></button></div>
+    </form>
+
+    <div class="panel invite-out" data-out hidden>
+      <label class="nudge-t" for="iv-link">{i.linkLabel}</label>
+      <input id="iv-link" class="invite-link" readonly data-link />
+      <div class="invite-send">
+        <button class="btn btn-teal" type="button" data-copy>{i.copy}</button>
+        <a class="btn btn-ghost" href="#" data-sms>{i.text}</a>
+        <a class="btn btn-ghost" href="#" data-mail>{i.emailIt}</a>
+      </div>
+      <p class="apply-note" role="status" aria-live="polite" data-copied></p>
+    </div>
+
+    <section class="invite-sent" aria-labelledby="iv-sent">
+      <h2 id="iv-sent">{i.sentTitle}</h2>
+      <ul class="invite-list" data-sent></ul>
+      <button class="linkbtn" type="button" data-clear data-confirm={i.clearConfirm}>{i.clear}</button>
+    </section>
+  </div>
+
+  <script>
+    import { invites } from "../../lib/store";
+    import { encodeInvite, type Invite } from "../../lib/invite";
+
+    const root = document.querySelector<HTMLElement>("[data-invite]")!;
+    const S = JSON.parse(root.dataset.strings!);
+    const form = root.querySelector<HTMLFormElement>("[data-form]")!;
+    const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const fill = (s: string, v: Record<string, string>) => s.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? "");
+    const BY = "ag.inviteBy.v1";
+    const byInput = form.elements.namedItem("by") as HTMLInputElement;
+    try { byInput.value = localStorage.getItem(BY) ?? ""; } catch { /* storage unavailable */ }
+
+    const hints: Record<string, string> = {};
+    root.querySelectorAll<HTMLElement>("[data-msg]").forEach((m) => (hints[m.dataset.msg!] = m.textContent ?? ""));
+    function check(inp: HTMLInputElement): boolean {
+      const v = inp.value.trim();
+      const ok = (!inp.required || v !== "") && (inp.type !== "email" || v === "" || /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v));
+      const m = $(`[data-msg="${inp.name}"]`);
+      if (ok) { inp.removeAttribute("aria-invalid"); m.textContent = hints[inp.name] ?? ""; m.classList.remove("is-error"); }
+      else { inp.setAttribute("aria-invalid", "true"); m.textContent = S.errors[inp.name]; m.classList.add("is-error"); }
+      return ok;
+    }
+
+    function paintSent() {
+      const list = $("[data-sent]");
+      const all = invites.all();
+      list.replaceChildren(...(all.length ? all.map((x) => {
+        const li = document.createElement("li");
+        const name = document.createElement("span");
+        name.textContent = `${x.first} ${x.last}`.trim();
+        const when = document.createElement("span");
+        when.className = "invite-when";
+        when.textContent = new Date(x.at).toLocaleDateString();
+        const b = document.createElement("button");
+        b.type = "button"; b.className = "linkbtn"; b.textContent = S.copy;
+        b.addEventListener("click", () => copy(x.link, b));
+        li.append(name, when, b);
+        return li;
+      }) : [Object.assign(document.createElement("li"), { textContent: S.sentNone, className: "invite-none" })]));
+      $("[data-clear]").hidden = !all.length;
+    }
+
+    async function copy(text: string, btn: HTMLElement) {
+      try { await navigator.clipboard.writeText(text); }
+      catch { const l = $<HTMLInputElement>("[data-link]"); l.value = text; l.select(); document.execCommand?.("copy"); }
+      $("[data-copied]").textContent = S.copied;
+      btn.textContent = S.copied;
+      setTimeout(() => { btn.textContent = S.copy; $("[data-copied]").textContent = ""; }, 2000);
+    }
+
+    form.querySelectorAll<HTMLInputElement>("input").forEach((inp) => inp.addEventListener("input", () => { if (inp.getAttribute("aria-invalid")) check(inp); }));
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const inputs = [...form.querySelectorAll<HTMLInputElement>("input")];
+      const bad = inputs.filter((inp) => !check(inp));
+      if (bad.length) { bad[0].focus(); return; }
+      const v = Object.fromEntries(inputs.map((inp) => [inp.name, inp.value.trim()])) as Invite;
+      try { localStorage.setItem(BY, v.by); } catch { /* storage unavailable */ }
+      const link = new URL(`${root.dataset.applyUrl}#invite=${encodeInvite(v)}`, location.origin).href;
+      const msg = fill(S.message, { first: v.first, by: v.by, link });
+      $<HTMLInputElement>("[data-link]").value = link;
+      $<HTMLAnchorElement>("[data-sms]").href = `sms:?&body=${encodeURIComponent(msg)}`;
+      $<HTMLAnchorElement>("[data-mail]").href = `mailto:${encodeURIComponent(v.email)}?subject=${encodeURIComponent(S.subject)}&body=${encodeURIComponent(msg)}`;
+      $("[data-out]").hidden = false;
+      invites.add({ first: v.first, last: v.last, link, at: Date.now() });
+      paintSent();
+      $<HTMLButtonElement>("[data-copy]").focus();
+    });
+    $("[data-copy]").addEventListener("click", (e) => copy($<HTMLInputElement>("[data-link]").value, e.currentTarget as HTMLElement));
+    $("[data-clear]").addEventListener("click", (e) => { if (confirm((e.currentTarget as HTMLElement).dataset.confirm)) { invites.clear(); paintSent(); } });
+    paintSent();
+  </script>
+</Base>

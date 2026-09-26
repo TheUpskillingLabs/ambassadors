@@ -18,7 +18,7 @@ async function walk(dir) {
 }
 
 // Large or non-essential files are cached on first use instead of up front.
-const SKIP = [/^sw\.js$/, /^icons\/icon-512\.png$/, /\.map$/, /^join\//, /^index\.html$/ /* the public program page and its 7 MB of media: cached on first visit, not up front */];
+const SKIP = [/^sw\.js$/, /^icons\/icon-512\.png$/, /\.map$/, /^join\//, /^index\.html$/, /^invite\// /* invite: the coordinator's unlisted page; the public program page and its 7 MB of media: cached on first visit, not up front */];
 // Only the latin subset of the font is precached; other subsets load on demand.
 const FONT_OK = /geologica-latin-wght-normal/;
 

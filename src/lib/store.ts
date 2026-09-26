@@ -9,6 +9,7 @@ const KEYS = {
   profile: "ag.profile.v1",
   asks: "ag.asks.v1",
   application: "ag.application.v1",
+  invites: "ag.invites.v1",
 } as const;
 
 function read<T>(key: string, fallback: T): T {
@@ -96,7 +97,12 @@ export type Application = {
   agreement?: { version: string; acceptedAt: number };
   videoAt?: number;
   quiz?: { score: number; total: number; passedAt: number };
+  /** A coordinator's pre-approved invite (from an /invite/ link). */
+  invite?: { by: string; note?: string; at: number };
 };
+/** none: hasn't started · started: part way · pending: passed, waiting for the
+ *  coordinator to confirm · in: passed with a pre-approved invite. */
+export type ApplicationStatus = "none" | "started" | "pending" | "in";
 export const application = {
   get(): Application {
     return read<Application>(KEYS.application, {});
@@ -106,13 +112,32 @@ export const application = {
     write(KEYS.application, next);
     return next;
   },
-  /** Passed the quiz: an ambassador. */
+  /** Passed the quiz (in, or pending the coordinator's confirmation). */
   passed(): boolean {
     return Boolean(this.get().quiz?.passedAt);
   },
   started(): boolean {
     const a = this.get();
     return Boolean(a.first || a.email || a.agreement);
+  },
+  status(): ApplicationStatus {
+    const a = this.get();
+    if (a.quiz?.passedAt) return a.invite ? "in" : "pending";
+    return this.started() ? "started" : "none";
+  },
+};
+
+/** Invites a coordinator has made on this device (/invite/). */
+export type SentInvite = { first: string; last: string; link: string; at: number };
+export const invites = {
+  all(): SentInvite[] {
+    return read<SentInvite[]>(KEYS.invites, []);
+  },
+  add(i: SentInvite): void {
+    write(KEYS.invites, [i, ...this.all().filter((x) => x.link !== i.link)].slice(0, 50));
+  },
+  clear(): void {
+    write(KEYS.invites, []);
   },
 };
 

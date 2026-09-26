@@ -25,7 +25,7 @@ const fields = [
 ---
 <Base title={a.title} description={a.description} bare>
   <div class="wrap apply" data-apply
-    data-strings={JSON.stringify({ stepOf: a.stepOf, errors: a.you.errors, agreeError: a.agreement.error, quiz: { result: a.quiz.result, passed: a.quiz.passed, failed: a.quiz.failed, right: a.quiz.right, wrong: a.quiz.wrong, unanswered: a.quiz.unanswered, pass: a.quiz.pass }, message: a.done.message, nobody: a.done.nobody })}
+    data-strings={JSON.stringify({ stepOf: a.stepOf, errors: a.you.errors, agreeError: a.agreement.error, quiz: { result: a.quiz.result, passed: a.quiz.passed, failed: a.quiz.failed, right: a.quiz.right, wrong: a.quiz.wrong, unanswered: a.quiz.unanswered, pass: a.quiz.pass }, message: a.done.message, nobody: a.done.nobody, invited: a.invited, done: { title: a.done.title, lede: a.done.lede, guide: a.done.guide, guideNote: a.done.guideNote }, pending: a.pending })}
     data-answers={JSON.stringify(a.quiz.questions.map((q) => q.answer))}
     data-version={a.agreement.version} data-phone={c.phone} data-email={c.email}>
 
@@ -34,6 +34,11 @@ const fields = [
       <ol class="apply-steps" aria-label={a.title}>
         {navs.map((n, i) => <li data-apply-dot={screens[i]}><span>{n}</span></li>)}
       </ol>
+    </div>
+
+    <div class="panel invited" data-invited hidden>
+      <p class="nudge-t" data-invited-text></p>
+      <p data-invited-note hidden></p>
     </div>
 
     <!-- 1. About you -->
@@ -119,17 +124,18 @@ const fields = [
     <!-- Done -->
     <section class="apply-screen apply-done" data-screen="done" aria-labelledby="ap-done" hidden>
       <img src={u("/join/button-800.webp")} alt={a.done.buttonAlt} width="160" height="160" />
-      <h1 id="ap-done" class="apply-title" tabindex="-1">{a.done.title}</h1>
-      <p class="lede">{a.done.lede}</p>
+      <h1 id="ap-done" class="apply-title" tabindex="-1" data-done-title>{a.done.title}</h1>
+      <p class="lede" data-done-lede>{a.done.lede}</p>
       <a class="btn btn-teal btn-block btn-lg" href={c.phone ? `sms:${c.phone}` : `mailto:${c.email}`} data-send>{a.done.text}<Icon name="arrow-right" size={20} /></a>
-      <a class="btn btn-ghost btn-block" href={guideHome}>{a.done.guide}</a>
-      <p class="apply-note">{a.done.guideNote}</p>
+      <a class="btn btn-ghost btn-block" href={guideHome} data-done-guide>{a.done.guide}</a>
+      <p class="apply-note" data-done-note>{a.done.guideNote}</p>
     </section>
   </div>
 
   <script>
     import { application, type Application } from "../../lib/store";
     import { coordinatorMessage, coordinatorHref } from "../../lib/apply";
+    import { readHash } from "../../lib/invite";
 
     const root = document.querySelector<HTMLElement>("[data-apply]")!;
     const S = JSON.parse(root.dataset.strings!);
@@ -158,6 +164,7 @@ const fields = [
       const i = order.indexOf(s);
       const head = $(".apply-head");
       head.hidden = s === "done";
+      $("[data-invited]").hidden = s === "done" || !a.invite;
       $("[data-apply-step]").textContent = fill(S.stepOf, { n: Math.min(i + 1, 4), total: 4 });
       root.querySelectorAll<HTMLElement>("[data-apply-dot]").forEach((d, k) => {
         d.classList.toggle("is-done", k < i);
@@ -170,10 +177,42 @@ const fields = [
       scrollTo({ top: 0 });
     }
     const go = (s: Screen) => { location.hash = s; }; // hashchange → show()
-    addEventListener("hashchange", () => show((location.hash.slice(1) || "you") as Screen));
+    addEventListener("hashchange", () => {
+      if (intake()) { location.reload(); return; } // an invite opened on this page: start again from it
+      show((location.hash.slice(1) || "you") as Screen);
+    });
 
     // 1. About you: fill from storage, save as you type, validate on Next.
     const you = $<HTMLFormElement>('[data-form="you"]');
+    // An invite link (#invite=…) pre-approves and pre-fills; a share link
+    // (#ref=Name) only fills "Who brought you in?". Either way the data leaves
+    // the address bar at once. Opening an invite after passing confirms you.
+    function intake(): boolean {
+      const { invite, ref } = readHash(location.hash);
+      if (!invite && !ref) return false;
+      const cur = application.get();
+      if (invite) {
+        application.set({
+          first: cur.first || invite.first, last: cur.last || invite.last, email: cur.email || invite.email,
+          referredBy: cur.referredBy || invite.by,
+          invite: { by: invite.by, note: invite.note || undefined, at: Date.now() },
+        });
+      } else if (ref && !cur.referredBy) application.set({ referredBy: ref });
+      history.replaceState(null, "", `#${application.passed() ? "done" : "you"}`);
+      return true;
+    }
+    intake();
+    function paintInvite() {
+      const inv = application.get().invite;
+      const box = $("[data-invited]");
+      box.hidden = !inv;
+      if (!inv) return;
+      $("[data-invited-text]").textContent = fill(S.invited.banner, { by: inv.by });
+      const note = $("[data-invited-note]");
+      note.hidden = !inv.note;
+      note.textContent = inv.note ? `${fill(S.invited.note, { by: inv.by })} “${inv.note}”` : "";
+    }
+    paintInvite();
     const saved = application.get();
     you.querySelectorAll<HTMLInputElement>("input").forEach((inp) => {
       const v = saved[inp.name as keyof Application];
@@ -265,6 +304,12 @@ const fields = [
 
     // Done: the coordinator message carries everything they need.
     function paintDone(a: Application) {
+      // Invited: in straight away. Not invited: pending until the coordinator confirms.
+      const v = a.invite ? S.done : S.pending;
+      $("[data-done-title]").textContent = v.title;
+      $("[data-done-lede]").textContent = v.lede;
+      $("[data-done-guide]").textContent = v.guide;
+      $("[data-done-note]").textContent = v.guideNote;
       const body = coordinatorMessage(S.message, a, S.nobody);
       $<HTMLAnchorElement>("[data-send]").href = coordinatorHref(body, root.dataset.phone ?? "", root.dataset.email ?? "");
     }

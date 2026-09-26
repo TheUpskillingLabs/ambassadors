@@ -1,0 +1,75 @@
+---
+/* /nominate/ — an ambassador suggests someone to their coordinator. The
+   coordinator decides and, if yes, sends a pre-approved invite from /invite/.
+   Nothing is sent by the site: the ambassador's own phone sends the message. */
+import Base from "../../layouts/Base.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import Icon from "../../components/Icon.astro";
+import { guideHome } from "../../lib/content";
+import { t } from "../../lib/i18n";
+import c from "../../../content/site/invite.json";
+import help from "../../../content/site/help.json";
+const n = c.nominate;
+const co = help.coordinator;
+---
+<Base title={n.title} description={n.lede}>
+  <PageHeader back={{ href: guideHome, label: t("nav.home") }} title={n.title} lede={n.lede} />
+  <div class="wrap apply nominate" data-nominate data-phone={co.phone} data-email={co.email}
+    data-strings={JSON.stringify({ message: n.message, noContact: n.noContact, errors: n.errors })}>
+    <form class="apply-form" data-form novalidate>
+      <div class="field">
+        <label for="nm-name">{n.name}</label>
+        <input id="nm-name" name="name" type="text" required maxlength="80" aria-describedby="nm-name-msg" />
+        <p class="field-msg" id="nm-name-msg" data-msg="name"></p>
+      </div>
+      <div class="field">
+        <label for="nm-how">{n.how}</label>
+        <input id="nm-how" name="how" type="text" maxlength="120" />
+      </div>
+      <div class="field">
+        <label for="nm-why">{n.why}</label>
+        <textarea id="nm-why" name="why" required maxlength="400" rows="3" aria-describedby="nm-why-msg"></textarea>
+        <p class="field-msg" id="nm-why-msg" data-msg="why"></p>
+      </div>
+      <div class="field">
+        <label for="nm-contact">{n.contact}</label>
+        <input id="nm-contact" name="contact" type="text" maxlength="120" aria-describedby="nm-contact-msg" />
+        <p class="field-msg" id="nm-contact-msg">{n.contactHint}</p>
+      </div>
+      <button class="btn btn-teal btn-block btn-lg" type="submit">{n.send}<Icon name="arrow-right" size={20} /></button>
+      <p class="apply-note">{n.note}</p>
+    </form>
+  </div>
+
+  <script>
+    import { application, profile } from "../../lib/store";
+    import { coordinatorHref } from "../../lib/apply";
+    const root = document.querySelector<HTMLElement>("[data-nominate]")!;
+    const S = JSON.parse(root.dataset.strings!);
+    const form = root.querySelector<HTMLFormElement>("[data-form]")!;
+    const fill = (s: string, v: Record<string, string>) => s.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? "");
+    function check(el: HTMLInputElement | HTMLTextAreaElement): boolean {
+      const ok = el.value.trim() !== "";
+      const m = root.querySelector<HTMLElement>(`[data-msg="${el.name}"]`)!;
+      if (ok) el.removeAttribute("aria-invalid"); else el.setAttribute("aria-invalid", "true");
+      m.textContent = ok ? "" : S.errors[el.name];
+      m.classList.toggle("is-error", !ok);
+      return ok;
+    }
+    form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("[required]").forEach((el) => el.addEventListener("input", () => { if (el.getAttribute("aria-invalid")) check(el); }));
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const req = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("[required]")];
+      const bad = req.filter((el) => !check(el));
+      if (bad.length) { bad[0].focus(); return; }
+      const f = new FormData(form);
+      const a = application.get();
+      const me = `${a.first ?? profile.get().me ?? ""} ${a.last ?? ""}`.trim();
+      const get = (k: string) => String(f.get(k) ?? "").trim();
+      const body = fill(S.message, { me, name: get("name"), how: get("how") || "-", why: get("why"), contact: get("contact") || S.noContact });
+      const href = coordinatorHref(body, root.dataset.phone ?? "", root.dataset.email ?? "");
+      form.dataset.sent = href; // the message just opened, for checking
+      location.href = href;
+    });
+  </script>
+</Base>

@@ -40,7 +40,8 @@
     "nudgeTitle": "Not an ambassador yet?",
     "nudge": "Apply in about ten minutes: a few details, the agreement, a short video, and a quiz.",
     "apply": "Become an ambassador",
-    "applyContinue": "Continue your application"
+    "applyContinue": "Continue your application",
+    "pending": "Almost there: your coordinator will confirm you. The guide is yours to read meanwhile."
   },
   "nav": {
     "home": "Home",

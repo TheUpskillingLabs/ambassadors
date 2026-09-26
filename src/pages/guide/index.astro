@@ -9,6 +9,7 @@ import Icon from "../../components/Icon.astro";
 import CoordinatorLink from "../../components/CoordinatorLink.astro";
 import { u } from "../../lib/url";
 import { t } from "../../lib/i18n";
+import inv from "../../../content/site/invite.json";
 import { path } from "../../lib/content";
 const steps = await path();
 ---
@@ -21,12 +22,16 @@ const steps = await path();
     </div>
     <h1 class="home-title" data-title data-done={t("home.doneTitle")}>{t("home.title")}</h1>
     <p class="home-member" data-member hidden>{t("home.member")}</p>
+    <p class="home-member" data-pending hidden>{t("home.pending")}</p>
     <script is:inline>
-      /* Before first paint, so nothing jumps: the nudge for people who haven't passed initiation, or the ambassador line. */
+      /* Before first paint, so nothing jumps: the nudge for people who haven't
+         passed initiation, "almost there" while the coordinator confirms, or
+         the ambassador line for people who are in. */
       (function () {
-        var passed = false;
-        try { var a = JSON.parse(localStorage.getItem("ag.application.v1") || "{}"); passed = Boolean(a.quiz && a.quiz.passedAt); } catch (e) {}
-        document.querySelector(passed ? "[data-member]" : "[data-apply-nudge]").hidden = false;
+        var a = {};
+        try { a = JSON.parse(localStorage.getItem("ag.application.v1") || "{}") || {}; } catch (e) {}
+        var passed = Boolean(a.quiz && a.quiz.passedAt);
+        document.querySelector(!passed ? "[data-apply-nudge]" : a.invite ? "[data-member]" : "[data-pending]").hidden = false;
       })();
     </script>
     <p class="pin-goal"><img src={u("/pin.svg")} width="48" height="48" alt="" /><span data-goal data-done={t("home.doneGoal")}>{t("home.goal")}</span></p>
@@ -40,6 +45,20 @@ const steps = await path();
       ))}
     </ol>
 
+    <div class="panel bring" data-bring hidden>
+      <p class="nudge-t">{inv.bring.title}</p>
+      <p class="apply-note">{inv.bring.shareHint}</p>
+      <p class="bring-row">
+        <button class="linkbtn" type="button" data-share data-apply={u("/apply/")} data-copied={inv.bring.copied}>{inv.bring.shareLabel}</button>
+        <a class="see" href={u("/nominate/")}>{inv.bring.nominate} →</a>
+      </p>
+    </div>
+    <script is:inline>
+      (function () {
+        try { var a = JSON.parse(localStorage.getItem("ag.application.v1") || "{}") || {}; if (a.quiz && a.quiz.passedAt) document.querySelector("[data-bring]").hidden = false; } catch (e) {}
+      })();
+    </script>
+
     <p class="stuck" data-stuck><CoordinatorLink label={t("coord.stuck")} body={t("coord.body")} /></p>
   </div>
 
@@ -49,9 +68,10 @@ const steps = await path();
     // Open to everyone; people who haven't passed initiation get a nudge to apply,
     // ambassadors get a welcome by name.
     const app = application.get();
-    if (application.passed()) {
+    const status = application.status();
+    if (status === "in") {
       root.querySelector<HTMLElement>("[data-title]")!.textContent = root.dataset.welcome!.replace("{first}", app.first ?? "");
-    } else {
+    } else if (status !== "pending") {
       if (application.started()) { const l = root.querySelector<HTMLAnchorElement>("[data-apply-link]")!; l.textContent = `${l.dataset.continue} →`; }
     }
     const steps: { id: string; title: string; href: string }[] = JSON.parse(root.dataset.home!);
@@ -68,5 +88,17 @@ const steps = await path();
       root.querySelector<HTMLElement>("[data-stuck]")!.hidden = true;
       for (const sel of ["[data-title]", "[data-goal]"]) { const el = root.querySelector<HTMLElement>(sel)!; el.textContent = el.dataset.done!; }
     }
+
+    // "Share your link": /apply/#ref=<your name>. Counts toward your pin; not a pre-approval.
+    const share = root.querySelector<HTMLButtonElement>("[data-share]")!;
+    share.addEventListener("click", async () => {
+      const name = `${app.first ?? ""} ${app.last ?? ""}`.trim();
+      const link = new URL(`${share.dataset.apply}#ref=${encodeURIComponent(name)}`, location.origin).href;
+      const label = share.textContent;
+      try {
+        if (navigator.share) await navigator.share({ url: link });
+        else { await navigator.clipboard.writeText(link); share.textContent = share.dataset.copied!; setTimeout(() => (share.textContent = label), 2000); }
+      } catch { /* share sheet closed */ }
+    });
   </script>
 </Base>

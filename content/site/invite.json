@@ -1,0 +1,49 @@
+{
+  "$comment": "The coordinator's invite page (/invite/, unlisted) and the ambassador's nominate page (/nominate/). Until OLOS sign-in exists, /invite/ is coordinator-only because its address isn't published. An invite link pre-approves: the person still signs the agreement and passes the quiz.",
+  "invite": {
+    "title": "Invite an ambassador",
+    "lede": "Make a pre-approved invite. They still sign the agreement and pass the quiz, then they're in straight away.",
+    "unlisted": "For coordinators. This page isn't linked anywhere; don't share its address.",
+    "first": "Their first name",
+    "last": "Their last name",
+    "email": "Their email (optional)",
+    "by": "Invited by",
+    "byHint": "Your name, as they'll see it. Remembered on this device.",
+    "note": "A note for them (optional)",
+    "noteHint": "One line, shown at the top of their application.",
+    "make": "Make the invite",
+    "linkLabel": "Their invite link",
+    "copy": "Copy link",
+    "copied": "Copied",
+    "text": "Text it",
+    "emailIt": "Email it",
+    "message": "Hi {first}, it's {by}. I'd love you to be an ambassador for The Labs, and you're pre-approved. It takes about ten minutes: {link}",
+    "subject": "Your invite to be an ambassador",
+    "errors": { "first": "Add their first name.", "by": "Add your name.", "email": "That email doesn't look right." },
+    "sentTitle": "Invites you've made",
+    "sentNone": "None yet on this device.",
+    "clear": "Clear the list",
+    "clearConfirm": "Clear the list of invites on this device? The links still work."
+  },
+  "nominate": {
+    "title": "Nominate someone",
+    "lede": "Know someone who'd make a great ambassador? Tell your coordinator. If they agree, they'll send them a pre-approved invite.",
+    "name": "Their name",
+    "how": "How you know them",
+    "why": "Why they'd be good at this",
+    "contact": "Their email or phone (optional)",
+    "contactHint": "Only if they've said it's OK to pass it on.",
+    "send": "Send to your coordinator",
+    "note": "Your phone sends it. Nothing is sent by this site.",
+    "message": "Hi, it's {me}. I'd like to nominate {name} as an ambassador. How I know them: {how}. Why: {why}. Contact: {contact}.",
+    "noContact": "not shared",
+    "errors": { "name": "Add their name.", "why": "Add a line on why." }
+  },
+  "bring": {
+    "title": "Bring someone in",
+    "shareLabel": "Share your link",
+    "shareHint": "Anyone who applies with it counts toward your pin. Your coordinator still confirms them.",
+    "copied": "Link copied",
+    "nominate": "Nominate someone"
+  }
+}

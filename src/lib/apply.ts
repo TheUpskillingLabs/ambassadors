@@ -13,9 +13,10 @@ export function toOlosPayload(a: Application) {
     last_name: a.last ?? "",
     email: a.email ?? "",
     zip: a.zip ?? "",
-    source: a.referredBy ? "referral" : "other",
+    source: a.invite ? "invited" : a.referredBy ? "referral" : "other",
     referred_by: a.referredBy || undefined,
     agreement: a.agreement ? { doc: "ambassador", version: a.agreement.version, accepted_at: new Date(a.agreement.acceptedAt).toISOString() } : undefined,
+    invite: a.invite ? { invited_by: a.invite.by, pre_approved: true } : undefined,
     initiation: a.quiz ? { quiz_score: a.quiz.score, quiz_total: a.quiz.total, passed_at: new Date(a.quiz.passedAt).toISOString() } : undefined,
   };
 }
@@ -26,8 +27,11 @@ export function coordinatorMessage(template: string, a: Application, nobody: str
     first: a.first ?? "", last: a.last ?? "", email: a.email ?? "", zip: a.zip ?? "",
     referredBy: a.referredBy || nobody, version: a.agreement?.version ?? "",
     score: a.quiz?.score ?? 0, total: a.quiz?.total ?? 0,
+    invitedBy: a.invite?.by ?? "",
   };
-  return template.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
+  // Leave out the "Invited by" sentence for people who weren't invited.
+  const t = a.invite ? template : template.replace(/\s*[^.]*\{invitedBy\}[^.]*\./, "");
+  return t.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
 }
 
 /** The link that sends it: a text when a coordinator phone is set, else an email. */
