@@ -38,10 +38,10 @@
     "welcome": "Welcome, {first}.",
     "member": "You're an ambassador. Your button is on its way.",
     "nudgeTitle": "Not an ambassador yet?",
-    "nudge": "Apply in about ten minutes: a few details, the agreement, a short video, and a quiz.",
+    "nudge": "About ten minutes: a few details, the agreement, a short video, and a quiz.",
     "apply": "Become an ambassador",
     "applyContinue": "Continue your application",
-    "pending": "Almost there: your coordinator will confirm you. The guide is yours to read meanwhile."
+    "pending": "Almost there. Your coordinator will confirm you. Read ahead while you wait."
   },
   "nav": {
     "home": "Home",

@@ -19,10 +19,10 @@
       "Program"
     ],
     "pinAlt": "The ambassador pin, floating and catching the light",
-    "lede": "Join the volunteer corps on a mission to spark curiosity, build community, and inspire confidence.",
+    "lede": "A volunteer corps for people who can't keep a good thing to themselves.",
     "cta": "Become an ambassador",
-    "secondary": "Why join",
-    "status": "Now recruiting our first ambassadors"
+    "secondary": "See why",
+    "status": "Recruiting our founding ambassadors"
   },
   "mission": [
     {
@@ -45,53 +45,53 @@
     }
   ],
   "you": {
-    "kicker": "Why be an ambassador",
+    "kicker": "Why ambassadors do it",
     "title": "It starts with you.",
-    "lede": "You'll give some of your time. It gives back in three ways at once.",
+    "lede": "Give a little time. It pays you back three ways.",
     "items": [
       {
         "label": "As a professional",
-        "title": "Skills that travel, and proof with your name on it.",
-        "body": "Storytelling, facilitation, community building, and discovery, practiced for real."
+        "title": "Skills that travel.",
+        "body": "Storytelling, facilitation, community building, discovery. Practiced for real, with your name on it."
       },
       {
-        "label": "As a citizen",
-        "title": "A real say in what your community builds.",
-        "body": "You'll listen to your neighbors and bring their voices into the problems The Labs takes on."
+        "label": "As a neighbor",
+        "title": "A say in what gets built.",
+        "body": "You listen to your neighbors, and their problems become the ones The Labs takes on."
       },
       {
         "label": "As a person",
-        "title": "Confidence you earn by doing.",
-        "body": "You'll tell your story, hold a room, and learn more by teaching than you ever did alone."
+        "title": "Confidence you earn.",
+        "body": "You tell your story, hold a room, and learn more by teaching than you ever did alone."
       }
     ]
   },
   "labs": {
     "kicker": "About The Labs",
-    "title": "Something worth being curious about.",
-    "lede": "The Upskilling Labs is free, runs on volunteers, and started at DC Public Library in fall 2025. Three habits run everything we do.",
+    "title": "Worth being curious about.",
+    "lede": "Free. Run by volunteers. Born at DC Public Library in fall 2025. Three habits run all of it.",
     "habits": [
       {
         "title": "We decide together.",
-        "body": "In every Build Cycle, participants choose the problems The Labs takes on. Everyone gets a vote."
+        "body": "Every Build Cycle, participants pick the problems. Everyone gets a vote."
       },
       {
         "title": "We learn by building.",
-        "body": "Small teams make something real and lasting in response to a real problem."
+        "body": "Small teams build real things for real problems, and make them last."
       },
       {
         "title": "We pass it on.",
-        "body": "Everyone shares what they learn as they go, because teaching is the best way to learn."
+        "body": "Everyone teaches what they learn as they go. It's the fastest way to learn it."
       }
     ]
   },
   "ripple": {
-    "kicker": "How a community grows",
+    "kicker": "How it spreads",
     "title": "One conversation, then it spreads.",
     "rings": [
       {
         "title": "You",
-        "body": "You learn to tell your story, hold a room, and bring someone new along."
+        "body": "You find your story, and the nerve to tell it."
       },
       {
         "title": "Someone you know",
@@ -103,36 +103,36 @@
       },
       {
         "title": "Everyone",
-        "body": "Picture that in every neighborhood. The future gets built either way. This is how everyone gets a hand in it."
+        "body": "Now picture it in every neighborhood. The future gets built either way. This is how everyone gets a hand in it."
       }
     ],
     "note": "America's first lending library started with a dozen neighbors who met to teach each other. The Labs started inside a library.",
     "videoLabel": "A small planet with teal and red glows at the centre of nickel orbits. Swoosh-shaped craft circle it, one on the first orbit, more on each one after, and a pulse of light spreads out past them all."
   },
   "team": {
-    "kicker": "What ambassadors do",
+    "kicker": "What you'll do",
     "title": "Curiosity goes both ways.",
-    "lede": "You'll spark it in other people, and follow your own. Every conversation is research: what you hear helps shape the problems The Labs takes on, and what you learn becomes the playbook every Labs project uses to grow.",
+    "lede": "You'll spark it in other people and follow your own. Every conversation is research: what you hear shapes the problems The Labs takes on, and what you learn becomes how every Labs project grows.",
     "roles": [
       {
         "icon": "talk",
         "title": "Talk to people.",
-        "body": "One-on-one, no script. Ask what they're working toward, and really listen."
+        "body": "One on one, no script. Ask what they're working toward. Then listen."
       },
       {
         "icon": "mic",
         "title": "Take the mic.",
-        "body": "Tell a room about The Labs at community events. You won't be winging it."
+        "body": "Tell a room about The Labs. You'll practice first, so you won't be winging it."
       },
       {
         "icon": "link",
         "title": "Share your link.",
-        "body": "You get a personal referral link. Everyone who joins The Labs through it counts."
+        "body": "It's yours alone. Everyone who joins The Labs through it counts."
       },
       {
         "icon": "people",
         "title": "Bring someone along.",
-        "body": "Mentor a new ambassador through orientation. It's how the corps grows."
+        "body": "Guide a new ambassador through orientation. That's how the corps grows."
       }
     ]
   },
@@ -142,26 +142,26 @@
       "The button says you're in.",
       "The pin says you passed it on."
     ],
-    "lede": "Every step is small, and every one is marked. By the time you stand in front of a room, you'll have practiced it.",
+    "lede": "Small steps, each one marked. By the time you face a room, you'll have done it in practice.",
     "steps": [
       {
         "title": "Raise your hand.",
-        "body": "Honestly, that's the whole step.",
+        "body": "That's it. That's the step.",
         "milestone": false
       },
       {
         "title": "Get oriented.",
-        "body": "A short video, the agreement, and a quick quiz. The button is yours.",
+        "body": "A short video, the agreement, a quick quiz. The button is yours.",
         "milestone": true
       },
       {
         "title": "Do the work.",
-        "body": "[N] new upskillers join The Labs through your link, and you give one talk to a room.",
+        "body": "[N] new upskillers join through your link. You give one talk to a room.",
         "milestone": false
       },
       {
         "title": "Mentor someone.",
-        "body": "Bring one new ambassador through orientation. Now you're a Mentor, and the pin is yours.",
+        "body": "Bring one new ambassador through orientation. You're a Mentor now, and the pin is yours.",
         "milestone": true
       }
     ],
@@ -170,7 +170,7 @@
         "id": "button",
         "kicker": "At orientation",
         "title": "The button",
-        "body": "A short video, the agreement, a quick quiz, and you're in. It's how people spot an ambassador, and how you'll spot each other.",
+        "body": "Ten minutes in, it's yours. It's how people spot an ambassador, and how you'll spot each other.",
         "image": "button-card.webp",
         "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
       },
@@ -178,7 +178,7 @@
         "id": "mentor",
         "kicker": "As a Mentor",
         "title": "The pin",
-        "body": "[N] new upskillers, one talk to a room, one new ambassador. You can't buy one.",
+        "body": "[N] new upskillers, one talk, one new ambassador. It can't be bought, only passed on.",
         "image": "pin-card.webp",
         "alt": "The Mentor pin: the orb mark in polished nickel with teal and red cat-eye enamel"
       }
@@ -191,7 +191,7 @@
   },
   "goal": {
     "kicker": "The launch goal",
-    "title": "Here's what we're building, together.",
+    "title": "What we're building, together.",
     "stats": [
       {
         "value": "60",
@@ -210,7 +210,7 @@
       }
     ],
     "meterLabel": "New upskillers adding up toward the goal",
-    "note": "That's about two new upskillers a week for each ambassador, as long as the corps keeps growing. Which is exactly what Mentors are for. Nobody carries this alone.",
+    "note": "About two new upskillers a week per ambassador, while the corps keeps growing. That's what Mentors are for. Nobody carries this alone.",
     "quote": {
       "text": "I came to one workshop for myself. Now the best part is watching someone I brought in find their team.",
       "name": "[PLACEHOLDER] Founding ambassador",
@@ -219,7 +219,7 @@
   },
   "join": {
     "title": "Come be an ambassador.",
-    "lede": "Orientation takes about ten minutes. The rest, we'll figure out together.",
+    "lede": "Ten minutes to get oriented. Everything after, we'll figure out together.",
     "cta": "Become an ambassador"
   },
   "footer": {
@@ -235,23 +235,23 @@
     "items": [
       {
         "q": "Does it cost anything?",
-        "a": "No. Being an ambassador is free, and so is The Labs: workshops and Build Cycles cost nothing."
+        "a": "No. Being an ambassador is free. So is The Labs: every workshop and Build Cycle."
       },
       {
         "q": "How much time does it take?",
-        "a": "Orientation takes about ten minutes: a short video, the agreement, and a quick quiz. After that it's up to you: most of it is conversations you'd have anyway, plus one talk to a room. [PLACEHOLDER: add a typical hours-per-month figure.]"
+        "a": "About ten minutes to get oriented. After that, mostly conversations you'd have anyway, plus one talk to a room. [PLACEHOLDER: add a typical hours-per-month figure.]"
       },
       {
         "q": "Do I need to be technical?",
-        "a": "No. You need to be curious about people and willing to tell your own story. The guide walks you through the rest."
+        "a": "No. You need curiosity about people and a story you're willing to tell. The guide covers the rest."
       },
       {
         "q": "What's the difference between the button and the pin?",
-        "a": "The button is yours at orientation. It says you're in. The pin is for Mentors: [N] new upskillers through your link, one talk to a room, and one new ambassador brought through orientation. You can't buy one."
+        "a": "The button comes at orientation. It says you're in. The pin is for Mentors: [N] new upskillers through your link, one talk to a room, and one new ambassador brought through orientation. It can't be bought."
       },
       {
         "q": "Can I stop?",
-        "a": "Yes, any time. Tell your coordinator, and you're always welcome back."
+        "a": "Yes, any time. Tell your coordinator. The door stays open."
       },
       {
         "q": "Who do I ask?",
@@ -266,13 +266,13 @@
     "items": [
       {
         "label": "What you commit to",
-        "title": "A few conversations and one talk.",
-        "body": "Tell your story, invite people you know, and give one short talk to a room. [PLACEHOLDER: add expected hours per month.]"
+        "title": "A few conversations. One talk.",
+        "body": "Tell your story, invite people you know, and give one short talk. [PLACEHOLDER: add expected hours per month.]"
       },
       {
         "label": "Who can join",
         "title": "Anyone who wants others to find The Labs.",
-        "body": "You don't need to be technical or an expert. [PLACEHOLDER: confirm eligibility, e.g. you've been to a workshop or Build Cycle.]"
+        "body": "No tech skills or expertise needed. [PLACEHOLDER: confirm eligibility, e.g. you've been to a workshop or Build Cycle.]"
       },
       {
         "label": "What happens next",
