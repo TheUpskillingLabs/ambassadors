@@ -1,11 +1,13 @@
 ---
 /* One step of the path. Every step has the same shape:
    ← Home · Step n of 5 · title · the one-line summary · the step · Done.
+   Wide screens add the five steps as a sticky rail on the left.
    Done marks the step and moves to the next one (the last goes Home). */
 import type { CollectionEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHeader from "./PageHeader.astro";
 import Icon from "./Icon.astro";
+import StepList from "./StepList.astro";
 import { t } from "../lib/i18n";
 import { u } from "../lib/url";
 import { path } from "../lib/content";
@@ -15,7 +17,10 @@ const all = await path();
 const i = all.findIndex((s) => s.id === entry.id);
 const next = all[i + 1];
 ---
-<Base title={entry.data.title} description={entry.data.summary}>
+<Base title={entry.data.title} description={entry.data.summary} step={entry.id}>
+  <div class="step-layout">
+  <aside class="rail" aria-label={t("nav.steps")}><StepList current={entry.id} /></aside>
+  <div class="step-main">
   <PageHeader
     back={{ href: "/", label: t("nav.home") }}
     eyebrow={t("step.of", { n: i + 1, total: all.length, min: entry.data.readTime })}
@@ -23,7 +28,7 @@ const next = all[i + 1];
     lede={entry.data.summary}
     placeholder={entry.data.placeholder}
   />
-  <article class="wrap page-body">
+  <article class="page-body">
     <slot />
     <div class:list={["actionbar2", { static: !sticky }]}>
       <span class="ab-info"><span class="ab-kicker">{next ? t("step.next") : t("step.last")}</span><span class="ab-title">{next ? next.title : t("step.pin")}</span></span>
@@ -32,6 +37,8 @@ const next = all[i + 1];
       </button>
     </div>
   </article>
+  </div>
+  </div>
   <script>
     import { progress } from "../lib/store";
     document.querySelectorAll<HTMLButtonElement>("[data-done]").forEach((b) => b.addEventListener("click", () => {

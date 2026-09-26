@@ -1,0 +1,23 @@
+---
+/* The five steps, with the pin as the finish line. Used by the app bar's
+   Steps menu and the wide-screen rail. Done/current/to-do is painted from
+   saved progress by Base's script ([data-step-link]). */
+import { t } from "../lib/i18n";
+import { u } from "../lib/url";
+import { path } from "../lib/content";
+import Icon from "./Icon.astro";
+interface Props { current?: string; dark?: boolean }
+const { current, dark = false } = Astro.props;
+const steps = await path();
+---
+<ol class:list={["steplist", { dark }]}>
+  {steps.map((s, i) => (
+    <li>
+      <a class="step-link" href={s.href} data-step-link={s.id} aria-current={s.id === current ? "step" : undefined}>
+        <span class="step-n" aria-hidden="true"><span class="n">{i + 1}</span><Icon name="check" size={14} /></span>
+        <span class="step-t">{s.title}</span>
+      </a>
+    </li>
+  ))}
+  <li class="step-finish"><img src={u("/pin.svg")} width="20" height="20" alt="" /><span>{t("nav.finish")}</span></li>
+</ol>

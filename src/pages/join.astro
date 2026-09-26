@@ -37,23 +37,27 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
   </head>
   <body class="jp">
     <a class="skip" href="#main">Skip to content</a>
-    <header class="jp-head">
+    <header class="jp-head" data-head>
       <nav aria-label="Ambassador program">
         <a class="jp-brand" href="#top">
           <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
           <span class="wide-only">{j.nav.brand}</span>
         </a>
-        <div class="jp-links">
-          <a class="navlink wide-only" href="#you">{j.nav.why}</a>
-          <a class="navlink wide-only" href="#path">{j.nav.how}</a>
-          <a class="navlink wide-only" href="#mentor">{j.nav.pin}</a>
-          <a class="btn" href="#join"><span class="wide-only">{j.nav.cta}</span><span class="narrow-only">{j.nav.ctaShort}</span></a>
+        <ul class="jp-links">
+          <li><a class="navlink" href="#you" data-spy="you labs ripple team">{j.nav.why}</a></li>
+          <li><a class="navlink" href="#path" data-spy="path">{j.nav.how}</a></li>
+          <li><a class="navlink" href="#mentor" data-spy="mentor">{j.nav.pin}</a></li>
+        </ul>
+        <div class="jp-end">
+          <a class="navlink wide-only" href={u("/")}>{j.nav.guide}</a>
+          <a class="btn" href="#join" data-head-cta><span class="wide-only">{j.nav.cta}</span><span class="narrow-only">{j.nav.ctaShort}</span></a>
         </div>
       </nav>
     </header>
 
     <main id="main">
       <section id="top" class="jp-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
         <p class="kicker rise">{j.hero.kicker}</p>
         <div class="stage">
           <h1 class="wordin">{j.hero.title[0]}<br />{j.hero.title[1]}</h1>
@@ -222,6 +226,29 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
     </footer>
 
     <script>
+      // Nav: transparent over the hero, solid once you scroll; the link for the
+      // section in view is marked; the header button steps aside at the join section.
+      const root = document.documentElement;
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
+        .observe(document.querySelector("[data-top-sentinel]")!);
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => {
+        head.classList.toggle("cta-off", e.isIntersecting);
+        cta.tabIndex = e.isIntersecting ? -1 : 0;
+      }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+      const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
+      const order = ["you", "labs", "ripple", "team", "path", "mentor", "goal", "join"].map((id) => document.getElementById(id)!);
+      let queued = false;
+      const spy = () => {
+        queued = false;
+        const line = innerHeight * 0.35;
+        const current = order.filter((el) => el.getBoundingClientRect().top <= line).pop()?.id ?? "";
+        links.forEach((a) => (a.dataset.spy!.split(" ").includes(current) ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current")));
+      };
+      addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
+      spy();
+
       // Hero: a 48-frame loop over 4.8 s, only while the hero is on screen.
       // Videos: muted inline loops, started here too (some browsers ignore autoplay).
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

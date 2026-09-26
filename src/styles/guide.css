@@ -8,7 +8,7 @@
      · One radius (14px), no pills. Red only for "Join The Labs".
    ════ */
 
-.wrap { max-width: calc(var(--prose) + 2 * var(--pad)); margin-inline: auto; padding-inline: var(--pad); }
+.wrap { padding-inline: var(--gutter); }
 main { display: block; padding-bottom: 72px; }
 main:focus { outline: none; }
 .skip { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--white); color: var(--ink); padding: 12px 16px; border-radius: var(--r); font-weight: 600; }
@@ -16,7 +16,7 @@ main:focus { outline: none; }
 
 /* ── app bar (ink; the white lockup lives only on dark surfaces) ── */
 .appbar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: var(--od1); padding-top: env(safe-area-inset-top); }
-.appbar-inner { max-width: var(--maxw); margin: 0 auto; padding: 6px var(--pad); min-height: 56px; display: flex; align-items: center; gap: 16px; }
+.appbar-inner { padding: 6px var(--gutter); min-height: 56px; display: flex; align-items: center; gap: 16px; }
 .brand { display: flex; align-items: center; gap: 12px; min-height: 44px; flex-shrink: 0; }
 .brand img { height: 30px; width: auto; display: block; }
 .brand-name { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--od2); padding-left: 12px; border-left: 1px solid var(--rule-d); line-height: 20px; }
@@ -27,7 +27,7 @@ main:focus { outline: none; }
 
 /* ── footer (ink) ── */
 .sitefoot { background: var(--ink); color: var(--od2); }
-.sitefoot-inner { max-width: var(--maxw); margin: 0 auto; padding: 32px var(--pad); display: flex; flex-direction: column; gap: 10px; font-size: 13px; line-height: 20px; }
+.sitefoot-inner { padding: 32px var(--gutter); display: flex; flex-direction: column; gap: 10px; font-size: 13px; line-height: 20px; }
 .foot-row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; }
 .sitefoot a { color: var(--od1); font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
 

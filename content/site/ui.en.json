@@ -38,7 +38,11 @@
   },
   "nav": {
     "home": "Home",
-    "present": "Present"
+    "present": "Present",
+    "steps": "Steps",
+    "finish": "Your pin",
+    "stepOf": "Step {n} of {total}",
+    "progress": "{n} of {total} steps done"
   },
   "offline": {
     "lede": "This page isn't saved on this device yet. Pages you've opened before, and the deck, work offline.",
