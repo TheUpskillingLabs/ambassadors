@@ -1,0 +1,170 @@
+{
+  "$comment": "The apply flow (/apply/): about you, the Ambassador Agreement, a short video, a quiz about The Labs. Until OLOS is connected, details stay on the device and are sent only when the applicant texts their coordinator at the end. Field names match OLOS's registration (first_name, last_name, email, zip, referred_by). [PLACEHOLDER] marks copy to confirm.",
+  "placeholder": true,
+  "title": "Become an ambassador",
+  "description": "A few details, the ambassador agreement, a short video, and a quiz about The Labs. About ten minutes.",
+  "stepOf": "Step {n} of {total}",
+  "back": "Back",
+  "next": "Next",
+  "privacy": "Until sign-in is ready, this stays on your device. You'll send it to your coordinator at the end.",
+  "you": {
+    "nav": "About you",
+    "title": "About you.",
+    "lede": "The basics, so your coordinator knows who you are.",
+    "first": "First name",
+    "last": "Last name",
+    "email": "Email",
+    "zip": "ZIP code",
+    "zipHint": "5 digits",
+    "referredBy": "Who brought you in? (optional)",
+    "referredByHint": "If an ambassador or Mentor sent you, their name counts toward their pin.",
+    "errors": {
+      "first": "Add your first name.",
+      "last": "Add your last name.",
+      "email": "Add an email address like name@example.com.",
+      "zip": "Add a 5-digit ZIP code."
+    }
+  },
+  "agreement": {
+    "nav": "Agreement",
+    "title": "The ambassador agreement.",
+    "lede": "Plain language, one read. [PLACEHOLDER: draft, needs review before launch.]",
+    "version": "ambassador-2026-09-v1",
+    "sections": [
+      {
+        "h": "Who this is between",
+        "p": "You and The Upskilling Labs. You're volunteering as an ambassador: you're not staff, and there's no pay."
+      },
+      {
+        "h": "What you'll do",
+        "p": "Have real conversations with people you know, tell your own story, and invite them to one dated next step. When you're ready, give one short talk to a room. Share your link, and bring someone new along."
+      },
+      {
+        "h": "How you represent The Labs",
+        "p": "Use the guide's words. Describe our legal status exactly as the guide says it. Never promise jobs, pay, or outcomes, and never speak for The Labs to the press or officials without asking your coordinator first."
+      },
+      {
+        "h": "Other people's information",
+        "p": "You don't collect anyone's contact details for The Labs. People Join The Labs themselves at theupskillinglabs.org."
+      },
+      {
+        "h": "How we treat each other",
+        "p": "Our Code of Conduct applies to ambassadors everywhere you represent The Labs, online and in person."
+      },
+      {
+        "h": "Stepping back",
+        "p": "You can stop any time. Tell your coordinator, and you're always welcome back. If an ambassador breaks this agreement or the Code of Conduct, we may ask them to step back."
+      },
+      {
+        "h": "The full terms",
+        "p": "This is a plain-language summary. The Upskilling Labs' Terms of Service, Privacy Policy, and Code of Conduct govern in full."
+      }
+    ],
+    "conductLabel": "Read the Code of Conduct",
+    "conductUrl": "https://theupskillinglabs.org/code-of-conduct",
+    "check": "I agree to the Ambassador Agreement and the Code of Conduct.",
+    "error": "Tick the box to agree before you continue."
+  },
+  "video": {
+    "nav": "Video",
+    "title": "Watch this first.",
+    "lede": "A few minutes on what The Labs is and why ambassadors matter. The quiz is about what's in it.",
+    "src": "",
+    "poster": "",
+    "captions": "",
+    "placeholder": "[PLACEHOLDER] The initiation video goes here.",
+    "watched": "I've watched it",
+    "watchedHint": "The quiz opens when the video ends."
+  },
+  "quiz": {
+    "nav": "Quiz",
+    "title": "A quick quiz.",
+    "lede": "Five questions about The Labs. Get four right and you're in. You can try again as many times as you like.",
+    "check": "Check my answers",
+    "retry": "Try again",
+    "pass": 4,
+    "result": "{score} of {total} right.",
+    "passed": "You passed.",
+    "failed": "Not yet. Look again at the ones marked, then try again.",
+    "right": "Right.",
+    "wrong": "Not quite.",
+    "unanswered": "Answer every question first.",
+    "questions": [
+      {
+        "q": "What does it cost to take part in The Labs?",
+        "options": [
+          "Nothing. It's free.",
+          "A small monthly fee",
+          "Free for the first month",
+          "Only Build Cycles cost money"
+        ],
+        "answer": 0,
+        "why": "The Labs is free: workshops and Build Cycles cost nothing."
+      },
+      {
+        "q": "Where did The Labs start?",
+        "options": [
+          "At a university",
+          "At DC Public Library, in fall 2025",
+          "As an online platform",
+          "Inside a tech company"
+        ],
+        "answer": 1,
+        "why": "It started at DC Public Library in fall 2025."
+      },
+      {
+        "q": "In a Build Cycle, who chooses the problems The Labs takes on?",
+        "options": [
+          "The coordinator",
+          "Sponsors",
+          "The participants, and everyone gets a vote",
+          "A city agency"
+        ],
+        "answer": 2,
+        "why": "Participants choose the problems. Everyone gets a vote."
+      },
+      {
+        "q": "You meet someone who might like The Labs. What's your job?",
+        "options": [
+          "Get their phone number for the coordinator",
+          "Sign them in on your phone",
+          "Ask what they're working toward, share your story, and invite them to one dated next step",
+          "Send them a list of every event"
+        ],
+        "answer": 2,
+        "why": "Ask, share, invite. You don't collect contact details: people Join The Labs themselves."
+      },
+      {
+        "q": "Someone asks whether The Labs is a nonprofit. What do you say?",
+        "options": [
+          "Yes, a registered nonprofit.",
+          "We're a startup.",
+          "\"A fiscally sponsored project of Superbloom Design, a 501(c)(3). Our own status is pending.\"",
+          "I'm not sure, sorry."
+        ],
+        "answer": 2,
+        "why": "Say exactly that, every time."
+      }
+    ]
+  },
+  "done": {
+    "title": "You're in.",
+    "lede": "Your button is on its way. One last thing: text your coordinator so they have your details.",
+    "buttonAlt": "The ambassador button",
+    "text": "Text your coordinator",
+    "message": "Hi, I'm {first} {last}. I just passed ambassador initiation. Email: {email}. ZIP: {zip}. Brought in by: {referredBy}. Agreement: {version}. Quiz: {score} of {total}. Invited by: {invitedBy}.",
+    "nobody": "nobody",
+    "guide": "Open your guide",
+    "guideNote": "The guide is yours from here: five short steps to get ready, and a reference for later."
+  },
+  "invited": {
+    "banner": "{by} invited you. You're pre-approved: sign the agreement and pass the quiz, and you're in.",
+    "note": "From {by}:"
+  },
+  "pending": {
+    "title": "Almost there.",
+    "lede": "You passed. Your coordinator will confirm you, usually within two working days. [PLACEHOLDER: confirm the timing.] Text them your details now so they can.",
+    "guide": "Open the guide meanwhile",
+    "guideNote": "The guide is open to you while you wait."
+  }
+}

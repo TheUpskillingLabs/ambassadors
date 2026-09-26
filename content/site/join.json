@@ -1,9 +1,8 @@
 {
-  "$comment": "The public Ambassador Program page (/join/), from the design mockup. [N] marks a number still to be set. applyUrl is where 'Become an ambassador' goes until initiation (video + quiz) exists; placeholder until then.",
+  "$comment": "The public Ambassador Program page (the front page, /; /join/ redirects there), from the design mockup. [N] marks a number still to be set. Every 'Become an ambassador' button goes to /apply/ (content/site/apply.json). mission[] are the three chapter covers (tagline only).",
   "placeholder": true,
   "title": "Ambassador Program",
   "description": "Join the volunteer corps on a mission to spark curiosity, build community, and inspire confidence.",
-  "applyUrl": "mailto:coordinator@example.org?subject=I%27d%20like%20to%20be%20an%20ambassador",
   "nav": {
     "brand": "Ambassadors",
     "why": "Why join",
@@ -27,20 +26,20 @@
   },
   "mission": [
     {
+      "id": "curiosity",
       "title": "Spark curiosity.",
-      "image": "curiosity.webp",
       "alt": "Teal cat-eye enamel glowing into ink, with fine teal glitter",
       "position": "40% 50%"
     },
     {
+      "id": "community",
       "title": "Build community.",
-      "image": "community.webp",
       "alt": "A raised nickel line tracing the swoosh over red enamel",
       "position": "58% 50%"
     },
     {
+      "id": "confidence",
       "title": "Inspire confidence.",
-      "image": "confidence.webp",
       "alt": "Red cat-eye enamel with fine red glitter",
       "position": "46% 50%"
     }

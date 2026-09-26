@@ -77,13 +77,13 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-hero .ctas { position: relative; margin-top: 28px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
 .jp-hero .status { position: relative; margin-top: 26px; }
 
-/* mission panels */
-.jp-mission { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 2px; }
-.jp-panel { position: relative; margin: 0; overflow: hidden; background: var(--ink); aspect-ratio: 4 / 5; }
-.jp-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.jp-panel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0, 20, 27, 0.9) 0%, rgba(0, 20, 27, 0.35) 30%, rgba(0, 20, 27, 0) 52%); }
-.jp-panel figcaption { position: absolute; z-index: 1; left: clamp(20px, 2.6vw, 40px); right: 20px; bottom: clamp(20px, 2.6vw, 40px); }
-.jp-panel h2 { margin: 0; font-size: clamp(30px, 3.2vw, 48px); font-weight: 700; line-height: 1; letter-spacing: -0.04em; color: var(--t1); }
+/* chapter covers: a full-bleed picture and the tagline */
+.jp-cover { position: relative; margin: clamp(112px, 16vh, 164px) 0 0; overflow: hidden; background: var(--ink); min-height: min(88vh, 900px); display: flex; align-items: flex-end; }
+.jp-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.jp-cover::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0, 20, 27, 0.85) 0%, rgba(0, 20, 27, 0.35) 30%, rgba(0, 20, 27, 0) 55%); }
+.jp-cover-cap { position: relative; z-index: 1; width: 100%; padding: clamp(96px, 20vh, 200px) var(--g) clamp(32px, 6vh, 72px); }
+.jp-cover h2 { margin: 0; font-size: clamp(56px, 10vw, 168px); font-weight: 700; line-height: 0.92; letter-spacing: -0.045em; color: var(--t1); text-wrap: balance; }
+@media (max-width: 759px) { .jp-cover { min-height: 80vh; min-height: 80svh; } }
 
 /* sections */
 .jp-sec { padding: clamp(112px, 16vh, 164px) 0 0; }

@@ -2,7 +2,7 @@
   "name": "Ambassador Guide · The Upskilling Labs",
   "short_name": "Ambassadors",
   "description": "Get ready to represent The Labs.",
-  "start_url": "./",
+  "start_url": "./guide/",
   "scope": "./",
   "display": "standalone",
   "background_color": "#F6F4EF",

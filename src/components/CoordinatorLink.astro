@@ -9,10 +9,10 @@ const c = help.coordinator;
 ---
 <a class={cls} href={c.phone ? `sms:${c.phone}` : `mailto:${c.email}`} data-coord data-phone={c.phone} data-email={c.email} data-body={body} {...attrs}>{label}{cls === "see" && " →"}</a>
 <script>
-  import { profile } from "../lib/store";
+  import { profile, application } from "../lib/store";
   // Built at tap time so the name typed on this page is included.
   const build = (a: HTMLAnchorElement) => {
-    const body = a.dataset.body!.replace("{me}", profile.get().me ?? "").replace(/\s+,/, ",");
+    const body = a.dataset.body!.replace("{me}", profile.get().me ?? application.get().first ?? "").replace(/\s+,/, ",");
     a.href = a.dataset.phone ? `sms:${a.dataset.phone}?&body=${encodeURIComponent(body)}` : `mailto:${a.dataset.email}?body=${encodeURIComponent(body)}`;
   };
   document.querySelectorAll<HTMLAnchorElement>("[data-coord]").forEach((a) => {
