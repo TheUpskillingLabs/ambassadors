@@ -4,9 +4,10 @@
 # CIE94 with lightness weighted half (kL = 2), so the glows stay vivid in print.
 from PIL import Image, ImageCms
 import numpy as np, sys
-KL = float(sys.argv[1]) if len(sys.argv) > 1 else 3.0
-TAG = sys.argv[2] if len(sys.argv) > 2 else ''
-SRC = 'ambassador-button-1.25in.png'   # run from design/button
+# usage: python3 tools/build_cmyk.py <rgb art.png> <output name stem>   (from design/button)
+SRC = sys.argv[1] if len(sys.argv) > 1 else 'ambassador-button-1.5in.png'
+STEM = sys.argv[2] if len(sys.argv) > 2 else SRC.rsplit('.', 1)[0]
+KL = 3.0      # lightness counts a third as much as colour when choosing the printable match
 FOGRA = '/usr/share/texlive/texmf-dist/tex/generic/colorprofiles/FOGRA39L_coated.icc'
 src = Image.open(SRC).convert('RGB')
 dpi = src.info.get('dpi', (600, 600))
@@ -67,11 +68,15 @@ cmyk_s = Image.merge('CMYK', [ch.filter(ImageFilter.GaussianBlur(0.6)) for ch in
 # ...but not across the white lettering: keep its pixels (and their anti-aliased edges) exactly as mapped, paper white inside
 light = (A.min(2) >= 200)[:, :, None]
 cmyk_s = Image.fromarray(np.where(light, out, np.asarray(cmyk_s)).astype(np.uint8), 'CMYK')
-cmyk_s.save(f'button_cmyk{TAG}.tif', compression='tiff_lzw', dpi=dpi, icc_profile=fogra.tobytes())
+cmyk_s.save(f'{STEM}-CMYK.tif', compression='tiff_lzw', dpi=dpi, icc_profile=fogra.tobytes())
 proof = ImageCms.applyTransform(cmyk_s, t_cmyk_rgb)
-proof.save(f'proof_mapped{TAG}.png')
-# the plain ICC conversion, for comparison
-plain = ImageCms.applyTransform(src, ImageCms.buildTransform(srgb, fogra, 'RGB', 'CMYK', renderingIntent=RI, flags=BPC))
-ImageCms.applyTransform(plain, t_cmyk_rgb).save('proof_plain.png')
+proof.save(f'{STEM}-print-preview.png', dpi=dpi)
 c = np.asarray(cmyk_s).astype(float) / 2.55
 print('max TAC %', round(c.sum(2).max()), ' mean err', round(best_err.mean(), 2))
+
+# the PDF to upload: the CMYK image on a page the size of the art, at full resolution, lossless
+import img2pdf
+side = img2pdf.in_to_pt(cmyk_s.size[0] / dpi[0])
+with open(f'{STEM}-CMYK.pdf', 'wb') as fh:
+    fh.write(img2pdf.convert(open(f'{STEM}-CMYK.tif', 'rb').read(), layout_fun=img2pdf.get_layout_fun((side, side))))
+print('wrote', f'{STEM}-CMYK.tif', f'{STEM}-CMYK.pdf', f'{STEM}-print-preview.png')
