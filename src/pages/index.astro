@@ -137,6 +137,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <div class="reveal">
             <p class="kicker">{j.ripple.kicker}</p>
             <h2 class="h2">{j.ripple.title}</h2>
+            <p class="lede">{j.ripple.lede}</p>
             <ol class="jp-rings">
               {j.ripple.rings.map((r) => (
                 <li><span class="ring" aria-hidden="true"></span><div><h3>{r.title}</h3><p>{r.body}</p></div></li>
@@ -172,7 +173,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <div class="jp-goal-foot">
             <p class="lede reveal">{j.goal.note}</p>
             <figure class="jp-quote reveal">
-              <blockquote>“{j.goal.quote.text}”</blockquote>
+              <blockquote><span class="q" aria-hidden="true">“</span>{j.goal.quote.text}<span class="q" aria-hidden="true">”</span></blockquote>
               <figcaption><b>{j.goal.quote.name}</b><span>{j.goal.quote.role}</span></figcaption>
             </figure>
           </div>
@@ -294,6 +295,16 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
       };
       addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
       spy();
+
+      // Chapter covers: where scroll-driven animation isn't supported, open each
+      // cover once as it comes into view (join.css does the rest).
+      if (!CSS.supports("animation-timeline: view()") && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.dataset.covers = "";
+        const coverIo = new IntersectionObserver((entries) => entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add("in"); coverIo.unobserve(e.target); }
+        }), { threshold: 0.3 });
+        document.querySelectorAll(".jp-cover").forEach((c) => coverIo.observe(c));
+      }
 
       // How it works: the step crossing the middle of the screen is the active
       // one, and the sticky picture shows its reward (button for 01-02, pin for 03-04).
