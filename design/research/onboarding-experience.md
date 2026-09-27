@@ -36,7 +36,7 @@ Where the prompt appears, in order: the meta description; the first chapter's le
 
 **The ladder, four verbs, on every surface.** Raise your hand. Get in. Get ready. Pass it on. "Get in" is ten minutes on your phone and ends with the coordinator handing you the button. "Get ready" is the guide, about half an hour, and ends on "You're ready. You know who." "Pass it on" is [N] new Upskillers, one talk, one new ambassador, and ends with the pin. The guide's old finish line ("finish five steps to earn the pin") predated the mockup and was never reconciled with it; now there is one ladder.
 
-**The manifesto**, which doubles as orientation's short read (the five questions are written from it):
+**The manifesto**, which opens orientation's short read (the read goes on to cover every fact the coordinator's ten questions ask about):
 
 1. Most people find The Labs because someone they know said "come with me."
 2. The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. Born at DC Public Library in fall 2025.
@@ -45,7 +45,7 @@ Where the prompt appears, in order: the meta description; the first chapter's le
 5. You don't sell, sign anyone up, or promise a job. People Join The Labs themselves at theupskillinglabs.org.
 6. If anyone asks what we are: "a fiscally sponsored project of Superbloom Design, a 501(c)(3). Our own status is pending."
 
-**Orientation, in the order that gives before it takes.** The Labs in three minutes (the film, or the read) → the five questions everyone asks → the agreement → your name → You're in. The quiz is reframed from a test of the person to rehearsal for the conversation ("You'll hear these in every conversation"); its trivia question ("Where did The Labs start?") became the positioning question people actually ask ("Is this like a coding bootcamp?").
+**Orientation, in the order that gives before it takes.** The Labs in three minutes (the film, or the read) → the quiz → the agreement → your name → You're in. The quiz is the ambassador coordinator's ten-question certification (tagline, why The Labs exist, Build Cycles, pods, no technical background, the two skill sets, the origin, open source, Google sign-in), with their hints and explanations and their pass mark of eight. Its lede keeps their framing: "It's not about being perfect, it's about being ready to tell the story."
 
 **The pass.** "You're in." The button, large on ink. "Maya Chen · Ambassador." "Show this to your coordinator. They'll hand you your button." Then the signature question: **Who's first?** "Think of someone who's figuring out what's next. Type their first name, and your phone sends the invite." One name; the same dated message the Conversation step sends; the name goes to the front of that step's list. Then a text link to say hi (the coordinator message now reads like a person wrote it, with the record-keeping in a trailing parenthesis), and "Get ready: open the guide."
 
@@ -68,7 +68,7 @@ Whatever the name, the pin's backstamp should drop the role word ("THE UPSKILLIN
 ## 3. Experience: the moments
 
 1. **The launch page.** Hero and covers as they were. The launch section trades a decorative pulse for **the roster**: ten numbered slots for the founding ten, read from `data/roster.json` and empty at launch so every slot reads "Open". Real, honest, updatable like the schedule, and it turns "Recruiting our founding ambassadors" into something people can watch fill. The launch quote is now a real one: Suzie Zhang, Inaugural AI Cohort, from Technical.ly (confirm with her before launch).
-2. **Orientation, in person.** Give first (film or manifesto), then the five questions, then the agreement, then your name. Ten minutes. A coordinator beside you.
+2. **Orientation, in person.** Give first (film or the short read), then the coordinator's ten questions, then the agreement, then your name. Ten minutes. A coordinator beside you.
 3. **The pass.** Built to be shown across a table. Then "Who's first?"
 4. **The guide.** Home welcomes by name. Five steps end on "You're ready. Who's first?" with the button, not the pin, in the rail, on Home and in the done dialog.
 5. **The coordinator's texts.** The site can't see who joins through whom, so the moments after "You're in" are the coordinator's to make. `/invite/` now carries them: the confirming invite for someone who finished on their own, "Someone just joined The Labs and said you sent them. That's one.", and "Your button's here." The second is the moment that keeps ambassadors ambassadors, and nothing produced it before.

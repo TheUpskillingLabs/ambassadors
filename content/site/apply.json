@@ -1,8 +1,8 @@
 {
-  "$comment": "The apply flow (/apply/): the short film or read, the five questions, the Ambassador Agreement, your name, then 'You're in', a pass to show your coordinator. Until OLOS is connected, details stay on the device and are sent only when the applicant texts their coordinator. Field names match OLOS's registration (first_name, last_name, email, zip, referred_by). [PLACEHOLDER] marks copy to confirm. The agreement is a draft and needs review before launch.",
+  "$comment": "The apply flow (/apply/): the short film or read, the quiz, the Ambassador Agreement, your name, then 'You're in', a pass to show your coordinator. The quiz is the ambassador coordinator's ten-question certification (their quiz.json, September 2026), with its hints and explanations, eight right to pass; punctuation follows this site's house style. Until OLOS is connected, details stay on the device and are sent only when the applicant texts their coordinator. Field names match OLOS's registration (first_name, last_name, email, zip, referred_by). [PLACEHOLDER] marks copy to confirm. The agreement is a draft and needs review before launch.",
   "placeholder": true,
   "title": "Become an ambassador",
-  "description": "The Labs in three minutes, five questions, the ambassador agreement, and your name. About ten minutes.",
+  "description": "The Labs in three minutes, ten questions, the ambassador agreement, and your name. About ten minutes.",
   "stepOf": "Step {n} of {total}",
   "back": "Back",
   "next": "Next",
@@ -68,7 +68,7 @@
   "video": {
     "nav": "Video",
     "title": "The Labs in three minutes.",
-    "lede": "Watch it, or read the short version. The five questions come from this.",
+    "lede": "Watch it, or read the short version. The ten questions come from this.",
     "src": "",
     "poster": "",
     "captions": "",
@@ -77,8 +77,12 @@
     "readTitle": "The short version",
     "read": [
       "Most people find The Labs because someone they know said “come with me.”",
-      "The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. Born at DC Public Library in fall 2025.",
-      "People pick the problems. Small teams build real things. Everyone teaches what they learn.",
+      "The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. It started as a pilot at DC Public Library in fall 2025, with about 50 ex-feds navigating career change and new technology together.",
+      "The tagline: “Find your people. Build your edge.” The idea behind it: AI is rewriting how we work, and it's easier to learn together than alone.",
+      "You don't need a technical background. Just a willingness to learn by doing alongside others.",
+      "A Build Cycle is twelve weeks, four a year: Problem Discovery, then Experimentation, then Synthesis. Small teams called pods form around the problems people vote for. Everything built is open-source by default.",
+      "Workshops teach two kinds of skills. Durable skills, like communication, storytelling, and framing problems. And AI skills, like prompt engineering and building agents.",
+      "Signing in uses a Google account for your name, email, and profile picture only. Never Gmail, Drive, or Calendar.",
       "Your job is three moves. Ask what they're working toward. Share thirty seconds of your story. Invite them to one dated next step.",
       "You don't sell, sign anyone up, or promise a job. People Join The Labs themselves at theupskillinglabs.org.",
       "If anyone asks what we are: “a fiscally sponsored project of Superbloom Design, a 501(c)(3). Our own status is pending.”"
@@ -86,74 +90,141 @@
   },
   "quiz": {
     "nav": "Quiz",
-    "title": "The five questions everyone asks.",
-    "lede": "You'll hear these in every conversation. Four of five and you're set. Try as often as you like.",
+    "title": "Ten questions about The Labs.",
+    "lede": "You're here because you lived The Labs and liked what you found. Eight of ten and you're set. It's not about being perfect, it's about being ready to tell the story. Try as often as you like.",
     "check": "Check my answers",
     "retry": "Try again",
-    "pass": 4,
+    "pass": 8,
     "result": "{score} of {total} right.",
-    "passed": "You passed. You can answer what people actually ask, and that's most of the job.",
+    "passed": "You passed. You're ready to tell the story.",
     "failed": "Not yet. Look again at the ones marked, then try again.",
     "right": "Right.",
     "wrong": "Not quite.",
     "unanswered": "Answer every question first.",
     "questions": [
       {
-        "q": "What does it cost to take part in The Labs?",
+        "q": "What is the tagline of The Upskilling Labs?",
         "options": [
-          "Nothing. It's free.",
-          "A small monthly fee",
-          "Free for the first month",
-          "Only Build Cycles cost money"
+          "Find your people. Build your edge.",
+          "Learn fast. Work smart.",
+          "The future of work, today.",
+          "Skills for a changing world."
         ],
         "answer": 0,
-        "why": "The Labs is free: workshops and Build Cycles cost nothing."
+        "hint": "It has two short parts: one about community, one about skills.",
+        "why": "“Find your people. Build your edge.” It captures both sides: the community (find your people) and the skills (build your edge)."
       },
       {
-        "q": "Someone asks, “Is this like a coding bootcamp?” What do you say?",
+        "q": "What is the central idea behind why The Labs exist?",
         "options": [
-          "Yes, but it's free.",
-          "Not really. There's no curriculum. You work with a small team on a real problem and learn what you need along the way.",
-          "It's all online, at your own pace.",
-          "It's a job placement program."
+          "AI is rewriting how we work, and it's easier to learn together than alone",
+          "Traditional universities are too expensive",
+          "Remote work has made networking impossible",
+          "Certifications are the fastest path to a new job"
         ],
-        "answer": 1,
-        "why": "No curriculum to get through. A small team, a real problem, and you learn what you need on the way."
+        "answer": 0,
+        "hint": "It's about a big shift in work, and doing something about it together.",
+        "why": "The Labs are built on the belief that AI is changing work, and learning it alongside people near you beats going it alone."
       },
       {
-        "q": "In a Build Cycle, who chooses the problems The Labs takes on?",
+        "q": "How long is a Build Cycle, and how many run per year?",
         "options": [
-          "The coordinator",
-          "Sponsors",
-          "The participants, and everyone gets a vote",
-          "A city agency"
+          "Twelve weeks, 4 cycles per year",
+          "Six weeks, 6 cycles per year",
+          "One year, 1 cycle per year",
+          "Eight weeks, 3 cycles per year"
         ],
-        "answer": 2,
-        "why": "Participants choose the problems. Everyone gets a vote."
+        "answer": 0,
+        "hint": "Three months long, once a quarter.",
+        "why": "A Build Cycle runs twelve weeks, and there are four a year, roughly one per quarter."
       },
       {
-        "q": "You meet someone who might like The Labs. What's your job?",
+        "q": "What are the three phases of a Build Cycle, in order?",
         "options": [
-          "Get their phone number for the coordinator",
-          "Sign them in on your phone",
-          "Ask what they're working toward, share your story, and invite them to one dated next step",
-          "Send them a list of every event"
+          "Problem Discovery → Experimentation → Synthesis",
+          "Research → Building → Launch",
+          "Onboarding → Workshops → Graduation",
+          "Ideation → Funding → Demo"
         ],
-        "answer": 2,
-        "why": "Ask, share, invite. You don't collect contact details: people Join The Labs themselves."
+        "answer": 0,
+        "hint": "You start by finding a problem and end by synthesizing a working prototype.",
+        "why": "Month 1 is Problem Discovery, Month 2 is Experimentation, and Month 3 is Synthesis. Each ends with a meetup, capped by a public showcase."
       },
       {
-        "q": "Someone asks whether The Labs is a nonprofit. What do you say?",
+        "q": "What is a “pod”?",
         "options": [
-          "Yes, a registered nonprofit.",
-          "We're a startup.",
-          "\"A fiscally sponsored project of Superbloom Design, a 501(c)(3). Our own status is pending.\"",
-          "I'm not sure, sorry."
+          "A small team that forms around a compelling problem",
+          "A weekly workshop session",
+          "The physical space at the library where members meet",
+          "A subscription tier for members"
         ],
-        "answer": 2,
-        "why": "Say exactly that, every time."
+        "answer": 0,
+        "hint": "It's a group of people, not a place or a plan.",
+        "why": "After community voting surfaces the most compelling problems, small teams called pods form around them to explore and prototype solutions."
+      },
+      {
+        "q": "Do you need a technical background to join The Labs?",
+        "options": [
+          "No. You just need a willingness to learn by doing alongside others",
+          "Yes. At least one year of coding experience is required",
+          "Yes. A college degree in a STEM field is required",
+          "Only for the Build Cycles, not the workshops"
+        ],
+        "answer": 0,
+        "hint": "The whole point is that it's open to everyone.",
+        "why": "No technical background is needed. The Labs are peer-powered and project-based, open to anyone willing to learn by doing."
+      },
+      {
+        "q": "What two broad categories of skills do The Labs teach?",
+        "options": [
+          "Durable (human) skills and AI (technical) skills",
+          "Coding skills and design skills",
+          "Leadership skills and sales skills",
+          "Beginner skills and advanced skills"
+        ],
+        "answer": 0,
+        "hint": "One set is timeless and human; the other is about working with AI.",
+        "why": "Durable skills are the human ones: communication, storytelling, problem framing. AI skills are the technical side: LLMs, prompt engineering, vibe coding, building agents."
+      },
+      {
+        "q": "Where did The Upskilling Labs start?",
+        "options": [
+          "At DC Public Library, with a pilot group of about 50 ex-feds",
+          "In Silicon Valley, as a startup accelerator",
+          "Online during the pandemic in 2020",
+          "At a university in Baltimore"
+        ],
+        "answer": 0,
+        "hint": "A library, the nation's capital, and a group of former federal workers.",
+        "why": "It began as a pilot at DC Public Library in fall 2025, with about 50 ex-feds navigating career change and new technology together.",
+        "$comment": "The coordinator's note: confirm the date. The brand brief lists the launch as January 2026; the pilot was fall 2025. Edit the explanation to match the official timeline."
+      },
+      {
+        "q": "What happens to the work members create during a Build Cycle?",
+        "options": [
+          "It's open-source by default, so others can learn from and build on it",
+          "It's kept private and owned by The Labs",
+          "It's sold to sponsors to fund the program",
+          "It's deleted at the end of each cycle"
+        ],
+        "answer": 0,
+        "hint": "Think about the phrase “built in the open.”",
+        "why": "Everything created is open-source by default (MIT code, CC BY 4.0 content). Even The Labs' own playbooks are built in the open."
+      },
+      {
+        "q": "Why does the Labs platform ask you to sign in with a Google account?",
+        "options": [
+          "To use only your name, email, and profile picture. Never your Gmail, Drive, or Calendar",
+          "To scan your emails for networking opportunities",
+          "To sync your Google Calendar with all events",
+          "To back up your project files to Google Drive"
+        ],
+        "answer": 0,
+        "hint": "It's the privacy-conscious answer: minimal access only.",
+        "why": "Sign-in uses only your name, email, and profile picture, to set up your profile and keep you signed in. The Labs never ask for Gmail, Drive, or Calendar access. A good privacy point to reassure people."
       }
-    ]
+    ],
+    "hint": "Hint"
   },
   "done": {
     "title": "You're in.",
@@ -174,7 +245,7 @@
     "guideNote": "The guide is yours from here: five short steps to get ready, and a reference for later."
   },
   "invited": {
-    "banner": "{by} invited you. You're pre-approved: pass the five questions, sign the agreement, and you're in.",
+    "banner": "{by} invited you. You're pre-approved: pass the quiz, sign the agreement, and you're in.",
     "note": "From {by}:"
   },
   "pending": {

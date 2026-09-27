@@ -1,6 +1,6 @@
 ---
 /* /apply/ — getting in: the Labs in three minutes (the film, or the short
-   read) → the five questions → the Ambassador Agreement → your name →
+   read) → the quiz → the Ambassador Agreement → your name →
    "You're in", a pass to show your coordinator, who hands you the button.
    One page, one screen at a time (#video, #quiz, #agreement, #you, #done),
    so Back works and a reload resumes where you were. Copy:
@@ -76,7 +76,7 @@ const strings = {
       </div>
     </section>
 
-    <!-- 2. The five questions -->
+    <!-- 2. The quiz: the coordinator's ten questions, with hints -->
     <section class="apply-screen" data-screen="quiz" aria-labelledby="ap-quiz" hidden>
       <h1 id="ap-quiz" class="apply-title" tabindex="-1">{a.quiz.title}</h1>
       <p class="lede">{a.quiz.lede}</p>
@@ -87,6 +87,7 @@ const strings = {
             {q.options.map((o, k) => (
               <label class="qz-opt"><input type="radio" name={`q${i}`} value={k} /> <span>{o}</span></label>
             ))}
+            {q.hint && <details class="qz-hint"><summary>{a.quiz.hint}</summary><p>{q.hint}</p></details>}
             <p class="qz-why" data-why hidden><strong data-verdict></strong> {q.why}</p>
           </fieldset>
         ))}
@@ -251,7 +252,7 @@ const strings = {
     // 1. The film, or the short read. Next is never gated: the questions are the check.
     $("[data-watched]").addEventListener("click", () => { if (!application.get().videoAt) application.set({ videoAt: Date.now() }); go("quiz"); });
 
-    // 2. The five questions: check, explain, pass at S.quiz.pass; retry keeps the right ones.
+    // 2. The quiz: check, explain, pass at S.quiz.pass; retry keeps the right ones.
     const qz = $<HTMLFormElement>('[data-form="quiz"]');
     const result = $("[data-result]", qz);
     const checkBtn = $<HTMLButtonElement>("[data-check]", qz);

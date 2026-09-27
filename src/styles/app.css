@@ -265,6 +265,9 @@ body > main { flex: 1; }
 .qz-result.is-pass { color: var(--teal-deep); }
 .qz-result.is-error { color: var(--warn); }
 
+.qz-hint { margin: 2px 0 4px; font-size: 14px; }
+.qz-hint summary { cursor: pointer; color: var(--teal-deep); font-weight: 600; width: fit-content; }
+.qz-hint p { margin: 6px 0 0; color: var(--meta); }
 .apply-read { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
 .apply-read .block-h { margin: 0 0 4px; }
 .apply-read p { margin: 0; font-size: 17px; line-height: 26px; color: var(--ink); max-width: 60ch; }

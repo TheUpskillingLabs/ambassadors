@@ -2,7 +2,7 @@
   "$comment": "The coordinator's invite page (/invite/, unlisted) and the ambassador's nominate page (/nominate/). Until OLOS sign-in exists, /invite/ is coordinator-only because its address isn't published. An invite link pre-approves: the person still signs the agreement and passes the quiz.",
   "invite": {
     "title": "Invite an ambassador",
-    "lede": "Make a pre-approved invite. They still pass the five questions and sign the agreement, then they're in straight away. Someone already passed on their own? Make them an invite anyway: opening it confirms them.",
+    "lede": "Make a pre-approved invite. They still pass the quiz and sign the agreement, then they're in straight away. Someone already passed on their own? Make them an invite anyway: opening it confirms them.",
     "unlisted": "For coordinators. This page isn't linked anywhere; don't share its address.",
     "first": "Their first name",
     "last": "Their last name",

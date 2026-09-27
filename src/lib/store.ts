@@ -112,7 +112,7 @@ export const application = {
     write(KEYS.application, next);
     return next;
   },
-  /** Passed the five questions. Not "done": the agreement and name come after. */
+  /** Passed the quiz. Not "done": the agreement and name come after. */
   passed(): boolean {
     return Boolean(this.get().quiz?.passedAt);
   },
