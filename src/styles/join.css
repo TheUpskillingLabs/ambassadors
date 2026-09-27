@@ -35,10 +35,12 @@ html:has(.jp) { scroll-behavior: smooth; background: #00141B; scroll-padding-top
 .jp .skip { position: absolute; left: -999px; top: 8px; z-index: 60; padding: 10px 14px; border-radius: 14px; background: var(--teal-deep); color: #fff; }
 .jp .skip:focus { left: 8px; }
 
-/* header: fixed; transparent over the hero, blurred ink once scrolled */
-.jp-head { position: fixed; inset: 0 0 auto; z-index: 50; background: transparent; border-bottom: 1px solid transparent; transition: background 0.3s, border-color 0.3s; }
-html[data-scrolled="true"] .jp-head { background: rgba(0, 20, 27, 0.86); border-bottom-color: var(--rule); -webkit-backdrop-filter: saturate(1.4) blur(16px); backdrop-filter: saturate(1.4) blur(16px); }
-@supports not (backdrop-filter: blur(1px)) { html[data-scrolled="true"] .jp-head { background: var(--ink); } }
+/* header: fixed, always mostly ink (never transparent), so the logo sits on ink
+   everywhere, including over the hero's teal glow. Scrolling compacts it and
+   shows its bottom edge. */
+.jp-head { position: fixed; inset: 0 0 auto; z-index: 50; background: rgba(0, 20, 27, 0.9); -webkit-backdrop-filter: saturate(1.4) blur(16px); backdrop-filter: saturate(1.4) blur(16px); border-bottom: 1px solid transparent; transition: border-color 0.3s; }
+html[data-scrolled="true"] .jp-head { border-bottom-color: var(--rule); }
+@supports not (backdrop-filter: blur(1px)) { .jp-head { background: var(--ink); } }
 .jp-head nav { min-height: var(--head); padding: 0 var(--g); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 24px; transition: min-height 0.3s; }
 html[data-scrolled="true"] .jp-head nav { min-height: 60px; }
 .jp-brand { justify-self: start; display: flex; align-items: center; gap: 14px; color: var(--t1); text-decoration: none; }
