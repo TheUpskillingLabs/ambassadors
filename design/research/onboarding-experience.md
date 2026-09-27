@@ -8,9 +8,9 @@ Sections 1 to 3 are the platform. Section 4 is what was built. The appendices ho
 
 **The person.** Someone The Labs changed. Most came in during a career shock (the pilot: fifty former federal workers chosen from two hundred applicants), found people, built something, and left more capable. The Urban Libraries Council's survey of that cohort: 89% more confident, 73% made five or more useful connections. The moment they became an ambassador in their heart came before any program: the first time they thought "I know exactly who needs this." A former colleague. A neighbour. Someone standing where they stood a year ago.
 
-**The truth.** Ambassadors don't need persuading to spread the word. They already have a name in their head. What stops them is the words and the nerve: how to bring it up without sounding like a pitch, what to say when someone asks "is this a bootcamp?", what to do with a room. The guide already is the words and the nerve (your story, the conversation, the room, practice). The program page's job is recognition: make the reader think "that's me, and I know who I'd bring." Suzie Zhang, from the pilot, said the thing itself to Technical.ly: "Burnout is real, and it's great that you have so many more people in the same boat."
+**The truth.** Ambassadors don't need persuading that The Labs is worth sharing. What they need is a nudge to think of a specific person, and then the words and the nerve: how to bring it up without sounding like a pitch, what to say when someone asks "is this a bootcamp?", what to do with a room. The guide already is the words and the nerve (your story, the conversation, the room, practice). The program page's job comes one step earlier: get the reader to picture someone. Suzie Zhang, from the pilot, said the thing itself to Technical.ly: "Burnout is real, and it's great that you have so many more people in the same boat."
 
-**The idea: You already know who.** One question, asked on every surface in a different register, until the ambassador answers it with a name on the "You're in" screen. It reframes the category the way Red Antler reframes categories (Hinge is "designed to be deleted"; Keeps makes prevention "a point of pride"): not a referral program with a code, but a way to act on the name you already have.
+**The idea: Think of someone who's figuring out what's next.** A prompt, not a claim about the reader. It is offered on every surface in a different register, and answered, when the person is ready, with a name on the "You're in" screen. It describes the person The Labs is for (the pilot's own words: "navigating career change") rather than promising what The Labs will do for them. It reframes the category the way Red Antler reframes categories (Hinge is "designed to be deleted"; Keeps makes prevention "a point of pride"): not a referral program with a code, but a way to act on a person you can picture.
 
 **The tension we keep on purpose.** A product launch for something nobody's selling. The page is staged like a hardware launch (the cinematic pin, the chapter covers, "Recruiting our founding ambassadors"), and the twist is that the product can't be bought and the thing being launched is you. Heyward's "embrace tension" principle: name it, and the page stops feeling borrowed and starts feeling like a point of view.
 
@@ -18,34 +18,36 @@ Sections 1 to 3 are the platform. Section 4 is what was built. The appendices ho
 
 **Personality.** The friend who went first. Dry, specific, generous. Speaks in names and dates, never adjectives. The best existing lines already have it: "That's it. That's the step." "It can't be bought, only passed on." "Earned, not given." The Labs' own site has it too: "Every lab started as a list of names. Enough names, and we come."
 
+**Tone.** Inviting before anything else. The idea is offered, not asserted: "think of someone", never "you already know who." No absolutes about the reader, no "never", no promises about what The Labs will do for anyone. Commands only where the reader has asked to be told what to do, which is the guide.
+
 ## 2. Verbal system
 
 **Hero.** Unchanged: "Ambassador Program" as the wordmark, "A volunteer corps for people who can't keep a good thing to themselves", "Recruiting our founding ambassadors".
 
-**Chapter covers.** The three full-screen pin close-ups are the page's chapter titles, and each chapter's opener flows from its cover (that structure was deliberate, commit deea568). The three virtues they carried ("Spark curiosity. Build community. Inspire confidence.") came in with the design mockup and appear nowhere in the Labs' brand; they read as any school's mission statement. The new lines carry the idea:
+**Inside the three chapters.** The three full-screen pin close-ups are the page's chapter titles, and each chapter's opener flows from its cover (that structure was deliberate, commit deea568). The taglines stay: **Spark curiosity. Build community. Inspire confidence.** They are the framework; the idea lives inside it, as the first thing each chapter says and the last thing the page says.
 
-| Cover | Line | Chapter it opens |
+| Chapter | Cover | How the idea enters |
 | --- | --- | --- |
-| 1 | You already know who. | Why ambassadors do it · About The Labs |
-| 2 | You'll know what to say. | What you'll do · How it spreads · The launch |
-| 3 | It can't be bought. | How it works · The button and the pin · Questions · What it takes |
+| 1 | Spark curiosity. | "It starts with you." / "Someone got you curious about The Labs. Now think of someone who's figuring out what's next. Give a little time. It pays you back three ways." Then "Worth being curious about." shows what you'd be bringing them into. |
+| 2 | Build community. | "Curiosity goes both ways." (what you'll do) · "One conversation. Then a network." · "What we're building, together." with the founding-ten roster under it: community, one name at a time. |
+| 3 | Inspire confidence. | "The button says you're in. The pin says you passed it on." (the four-verb ladder) · the questions · "What it takes." · the close: "Come be an ambassador." / "Think of someone who's figuring out what's next. Ten minutes to get in. Everything after, we'll figure out together." |
 
-**Chapter openers.** "There's someone you keep thinking of." (why) · "Here's what you'd be bringing them into." (The Labs) · "No script. Four moves." (what you'll do) · "The first ten start it." (the launch) · "The button says you're in. The pin says you passed it on." (how it works, unchanged).
+Where the prompt appears, in order: the meta description; the first chapter's lede; the page's close; the pass ("Who's first?" / "Think of someone who's figuring out what's next. Type their first name, and your phone sends the invite."); the guide's finish ("You're ready. Who's first?").
 
 **The ladder, four verbs, on every surface.** Raise your hand. Get in. Get ready. Pass it on. "Get in" is ten minutes on your phone and ends with the coordinator handing you the button. "Get ready" is the guide, about half an hour, and ends on "You're ready. You know who." "Pass it on" is [N] new Upskillers, one talk, one new ambassador, and ends with the pin. The guide's old finish line ("finish five steps to earn the pin") predated the mockup and was never reconciled with it; now there is one ladder.
 
 **The manifesto**, which doubles as orientation's short read (the five questions are written from it):
 
-1. Nobody finds The Labs from an ad. They find it because someone they know said "come with me."
+1. Most people find The Labs because someone they know said "come with me."
 2. The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. Born at DC Public Library in fall 2025.
 3. People pick the problems. Small teams build real things. Everyone teaches what they learn.
 4. Your job is three moves. Ask what they're working toward. Share thirty seconds of your story. Invite them to one dated next step.
-5. You never sell, sign anyone up, or promise a job. People Join The Labs themselves at theupskillinglabs.org.
+5. You don't sell, sign anyone up, or promise a job. People Join The Labs themselves at theupskillinglabs.org.
 6. If anyone asks what we are: "a fiscally sponsored project of Superbloom Design, a 501(c)(3). Our own status is pending."
 
 **Orientation, in the order that gives before it takes.** The Labs in three minutes (the film, or the read) → the five questions everyone asks → the agreement → your name → You're in. The quiz is reframed from a test of the person to rehearsal for the conversation ("You'll hear these in every conversation"); its trivia question ("Where did The Labs start?") became the positioning question people actually ask ("Is this like a coding bootcamp?").
 
-**The pass.** "You're in." The button, large on ink. "Maya Chen · Ambassador." "Show this to your coordinator. They'll hand you your button." Then the signature question: **Who's first?** "You already know who. Say the name, and your phone sends the invite." One name; the same dated message the Conversation step sends; the name goes to the front of that step's list. Then a text link to say hi (the coordinator message now reads like a person wrote it, with the record-keeping in a trailing parenthesis), and "Get ready: open the guide."
+**The pass.** "You're in." The button, large on ink. "Maya Chen · Ambassador." "Show this to your coordinator. They'll hand you your button." Then the signature question: **Who's first?** "Think of someone who's figuring out what's next. Type their first name, and your phone sends the invite." One name; the same dated message the Conversation step sends; the name goes to the front of that step's list. Then a text link to say hi (the coordinator message now reads like a person wrote it, with the record-keeping in a trailing parenthesis), and "Get ready: open the guide."
 
 **The voice, as guardrails.** OLOS's design system, §11, is the only written voice spec The Labs has: "second person, plain language, ~14-year-old reading level"; "Confident but not bossy"; "Encouraging, not effusive. 'Submitted.' not 'Awesome! 🎉'". The brand kit: "Warm, Clear, Grounded. Build · Practice · Momentum · Together"; avoid "Disrupt · Leverage · Ecosystem · Innovation"; sentence case. The live site's register: short declaratives and fragments, lists of three, "you" everywhere, "show up", "something real", "there's a place for you here", doors ("one door for everyone", "Same door"). House style here stays: no em dashes, no exclamation points, one idea per line. The copy linter now also bans "on a mission to", "passionate" and "thoughtfully", the three bland tells the first draft was closest to.
 
@@ -65,10 +67,10 @@ Whatever the name, the pin's backstamp should drop the role word ("THE UPSKILLIN
 
 ## 3. Experience: the moments
 
-1. **The launch page.** Hero as is. New cover lines. The launch section trades a decorative pulse for **the roster**: ten numbered slots for the founding ten, read from `data/roster.json` and empty at launch so every slot reads "Open". Real, honest, updatable like the schedule, and it turns "Recruiting our founding ambassadors" into something people can watch fill. The launch quote is now a real one: Suzie Zhang, Inaugural AI Cohort, from Technical.ly (confirm with her before launch).
+1. **The launch page.** Hero and covers as they were. The launch section trades a decorative pulse for **the roster**: ten numbered slots for the founding ten, read from `data/roster.json` and empty at launch so every slot reads "Open". Real, honest, updatable like the schedule, and it turns "Recruiting our founding ambassadors" into something people can watch fill. The launch quote is now a real one: Suzie Zhang, Inaugural AI Cohort, from Technical.ly (confirm with her before launch).
 2. **Orientation, in person.** Give first (film or manifesto), then the five questions, then the agreement, then your name. Ten minutes. A coordinator beside you.
 3. **The pass.** Built to be shown across a table. Then "Who's first?"
-4. **The guide.** Home welcomes by name. Five steps end on "You're ready. You know who." with the button, not the pin, in the rail, on Home and in the done dialog.
+4. **The guide.** Home welcomes by name. Five steps end on "You're ready. Who's first?" with the button, not the pin, in the rail, on Home and in the done dialog.
 5. **The coordinator's texts.** The site can't see who joins through whom, so the moments after "You're in" are the coordinator's to make. `/invite/` now carries them: the confirming invite for someone who finished on their own, "Someone just joined The Labs and said you sent them. That's one.", and "Your button's here." The second is the moment that keeps ambassadors ambassadors, and nothing produced it before.
 6. **The pin.** One object for everyone who keeps The Labs running. Ambassadors earn it by passing it on.
 
@@ -76,7 +78,7 @@ Whatever the name, the pin's backstamp should drop the role word ("THE UPSKILLIN
 
 ## 4. What was built
 
-- `content/site/join.json`: covers, chapter openers, the four-verb ladder, the rewards without "Mentor", the launch section with the roster, the FAQ ("Do I have to sell anything?"), casing.
+- `content/site/join.json`: the chapter ledes, the four-verb ladder, the rewards without "Mentor", the launch section with the roster, the FAQ ("Do I have to sell anything?"), casing.
 - `content/site/apply.json` and `src/pages/apply/index.astro`: the new order, the manifesto as the short read, the reframed questions, the pass, "Who's first?", the human coordinator message. A bare `/apply/` (the guide's "Continue") now resumes at the furthest screen.
 - `src/lib/store.ts`: `application.complete()` is the one definition of "done" (questions, agreement, name); the guide's inline scripts use the same test.
 - `src/lib/ask.ts`: the dated ask's message, link and "remember" logic, shared by the Conversation step and the pass.
@@ -107,7 +109,8 @@ Red Antler's method is a sequence, not an aesthetic: start from a human truth ("
 ## Appendix C: What the first pass got wrong, and other findings
 
 - **"Nobody finds it from an ad"** was an overclaim; the pilot had 200 applicants from DCPL's own channels. The line survives in the manifesto because it is true of what an ambassador does, not as a statement about all recruitment.
-- **The covers.** The first pass proposed replacing them with "Ask. Share. Invite." That would have broken the chapter structure the page is built on. The second pass keeps the structure and changes the lines.
+- **The covers.** The first pass proposed replacing them with "Ask. Share. Invite."; the second tried lines that carried the idea directly. Both were the wrong layer. The taglines are the page's framework, and the idea now lives inside the chapters as a prompt, not in place of them.
+- **"You already know who"** presumed a name in the reader's head, and "do wonders for" promised too much. The prompt now describes the person ("figuring out what's next") and asks the reader to think of one.
 - **"Almost there" is not permanent.** An invite link opened after finishing confirms the person on the spot (a code comment said so). The gap was that nobody was told; now the pending screen and `/invite/` both say it, and the coordinator's texts are written.
 - **Provenance.** The ladder ("button at initiation, pin for Mentors") and the three taglines came with the mockup (`Main.dc.html`, commit a4b0d5c). The corps line was written in-repo (5457079). The guide's pin copy predates the mockup (be3e1df), so the conflict was staleness, not competing intent. The behavioural evidence the README leans on (the dated ask, retrieval practice, implementation intentions) is asserted, never cited; the "ruthless cuts" report is not in the repo.
 - **The share link** counted ambassador applicants while the page promised a link that counts Upskillers (see "What waits on OLOS").

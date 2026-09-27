@@ -76,11 +76,11 @@
     "watched": "Next",
     "readTitle": "The short version",
     "read": [
-      "Nobody finds The Labs from an ad. They find it because someone they know said “come with me.”",
+      "Most people find The Labs because someone they know said “come with me.”",
       "The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. Born at DC Public Library in fall 2025.",
       "People pick the problems. Small teams build real things. Everyone teaches what they learn.",
       "Your job is three moves. Ask what they're working toward. Share thirty seconds of your story. Invite them to one dated next step.",
-      "You never sell, sign anyone up, or promise a job. People Join The Labs themselves at theupskillinglabs.org.",
+      "You don't sell, sign anyone up, or promise a job. People Join The Labs themselves at theupskillinglabs.org.",
       "If anyone asks what we are: “a fiscally sponsored project of Superbloom Design, a 501(c)(3). Our own status is pending.”"
     ]
   },
@@ -162,7 +162,7 @@
     "handover": "Show this to your coordinator. They'll hand you your button.",
     "ask": {
       "title": "Who's first?",
-      "lede": "You already know who. Say the name, and your phone sends the invite.",
+      "lede": "Think of someone who's figuring out what's next. Type their first name, and your phone sends the invite.",
       "label": "Their first name",
       "send": "Send",
       "sent": "Sent"

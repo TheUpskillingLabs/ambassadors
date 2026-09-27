@@ -1,6 +1,6 @@
 # Ambassador Guide
 
-A mobile-first site that gets Upskilling Labs ambassadors ready to represent The Labs. The idea behind every screen: **you already know who.** Ambassadors already have a name in their head; the site gives them the words and the nerve. The ladder is four verbs: **Raise your hand → Get in → Get ready → Pass it on.** Getting in takes ten minutes on a phone (`/apply/`) and ends with the coordinator handing over the button in person. Getting ready is the guide: one path of five steps, one page each, **The Labs → The Conversation → Your Story → The Room → Practice**. Passing it on earns the pin. There's also a boilerplate deck you can present from `/present`.
+A mobile-first site that gets Upskilling Labs ambassadors ready to represent The Labs. The idea behind every screen: **think of someone who's figuring out what's next.** The site keeps offering that prompt, then gives the ambassador the words and the nerve. The ladder is four verbs: **Raise your hand → Get in → Get ready → Pass it on.** Getting in takes ten minutes on a phone (`/apply/`) and ends with the coordinator handing over the button in person. Getting ready is the guide: one path of five steps, one page each, **The Labs → The Conversation → Your Story → The Room → Practice**. Passing it on earns the pin. There's also a boilerplate deck you can present from `/present`.
 
 It uses the same design system as OLOS: the brand tokens, type scale, buttons, cards, and ink chrome are ported from `OLOS/app/globals.css`.
 

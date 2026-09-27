@@ -30,7 +30,7 @@
   "home": {
     "claim": "Tell your coordinator you're ready",
     "continue": "Continue: {title}",
-    "doneGoal": "You're ready. You know who.",
+    "doneGoal": "You're ready. Who's first?",
     "doneTitle": "You're ready.",
     "goal": "Five steps and you're ready for your first conversation. About half an hour, whenever you like.",
     "start": "Start",

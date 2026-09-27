@@ -1,8 +1,8 @@
 {
-  "$comment": "The public Ambassador Program page (the front page, /; /join/ redirects there). The idea: 'You already know who.' The hero is the mockup's; the three covers are chapter titles and each chapter's opener flows from its cover. [N] marks a number still to be set. Every 'Become an ambassador' button goes to /apply/ (content/site/apply.json). The launch roster reads data/roster.json.",
+  "$comment": "The public Ambassador Program page (the front page, /; /join/ redirects there). The idea: think of someone who's figuring out what's next. The hero is the mockup's; the three covers are chapter titles and each chapter's opener flows from its cover. [N] marks a number still to be set. Every 'Become an ambassador' button goes to /apply/ (content/site/apply.json). The launch roster reads data/roster.json.",
   "placeholder": true,
   "title": "Ambassador Program",
-  "description": "You already know who. Ten minutes to get in, the words to bring them, and a pin that can't be bought.",
+  "description": "Think of someone who's figuring out what's next. Ten minutes to get in, the words to bring them, and a pin that can't be bought.",
   "nav": {
     "brand": "Ambassadors",
     "why": "Why join",
@@ -27,27 +27,27 @@
   "mission": [
     {
       "id": "curiosity",
-      "title": "You already know who.",
+      "title": "Spark curiosity.",
       "alt": "Teal cat-eye enamel glowing into ink, with fine teal glitter",
       "position": "40% 50%"
     },
     {
       "id": "community",
-      "title": "You'll know what to say.",
+      "title": "Build community.",
       "alt": "A raised nickel line tracing the swoosh over red enamel",
       "position": "58% 50%"
     },
     {
       "id": "confidence",
-      "title": "It can't be bought.",
+      "title": "Inspire confidence.",
       "alt": "Red cat-eye enamel with fine red glitter",
       "position": "46% 50%"
     }
   ],
   "you": {
     "kicker": "Why ambassadors do it",
-    "title": "There's someone you keep thinking of.",
-    "lede": "A former colleague. A neighbor. Someone standing where you stood a year ago. This is how you bring them in, and it pays you back three ways.",
+    "title": "It starts with you.",
+    "lede": "Someone got you curious about The Labs. Now think of someone who's figuring out what's next. Give a little time. It pays you back three ways.",
     "items": [
       {
         "label": "As a professional",
@@ -68,8 +68,8 @@
   },
   "labs": {
     "kicker": "About The Labs",
-    "title": "Here's what you'd be bringing them into.",
-    "lede": "Free. Run by volunteers. Born at DC Public Library in fall 2025, when fifty people in career limbo learned AI together, then built a place to keep going.",
+    "title": "Worth being curious about.",
+    "lede": "Free. Run by volunteers. Born at DC Public Library in fall 2025, when fifty people navigating career change learned AI together, then built a place to keep going. Three habits run all of it.",
     "habits": [
       {
         "title": "We decide together.",
@@ -112,7 +112,7 @@
   },
   "team": {
     "kicker": "What you'll do",
-    "title": "No script. Four moves.",
+    "title": "Curiosity goes both ways.",
     "lede": "You'll spark it in other people and follow your own. Every conversation is research: what you hear shapes the problems The Labs takes on, and what you learn becomes how every Labs project grows.",
     "roles": [
       {
@@ -191,8 +191,8 @@
     "cta": "Become an ambassador"
   },
   "goal": {
-    "kicker": "The launch",
-    "title": "The first ten start it.",
+    "kicker": "The launch goal",
+    "title": "What we're building, together.",
     "stats": [
       {
         "value": "60",
@@ -225,7 +225,7 @@
   },
   "join": {
     "title": "Come be an ambassador.",
-    "lede": "Ten minutes to get in. Everything after, we'll figure out together.",
+    "lede": "Think of someone who's figuring out what's next. Ten minutes to get in. Everything after, we'll figure out together.",
     "cta": "Become an ambassador"
   },
   "footer": {
@@ -253,7 +253,7 @@
       },
       {
         "q": "Do I have to sell anything?",
-        "a": "No. Nothing's for sale, and you never sign anyone up or promise anyone a job. You tell your story and point people to theupskillinglabs.org."
+        "a": "No. Nothing's for sale. You don't sign anyone up or promise anyone a job. You tell your story and point people to theupskillinglabs.org."
       },
       {
         "q": "What's the difference between the button and the pin?",

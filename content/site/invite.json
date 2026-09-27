@@ -27,7 +27,7 @@
     "textsTitle": "Texts you'll send",
     "textsLede": "Copy, fill in the name, send from your phone.",
     "texts": [
-      { "label": "When someone joins through them", "body": "Hi {first}, it's {by}. Someone just joined The Labs and said you sent them. That's one." },
+      { "label": "When someone joins through them", "body": "Hi {first}, it's {by}. Someone just joined The Labs and said you sent them. That's one. Thank you." },
       { "label": "When their button is ready", "body": "Hi {first}, it's {by}. Your button's here. I'll have it at the next session." }
     ]
   },
