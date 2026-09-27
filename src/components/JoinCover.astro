@@ -1,7 +1,10 @@
 ---
-/* One chapter cover on the program page: a full-bleed picture and its
-   tagline, nothing else. On scroll the picture opens from an inset window
-   to full bleed and the tagline rises word by word (join.css). */
+/* One chapter cover on the program page: a macro shot of the pin and its
+   tagline, nothing else. On scroll it plays like a product close-up: the
+   cover pins full screen, the shot rises out of black pushed in close and
+   slowly pulls back, a highlight glides across the enamel, and the tagline
+   resolves, holds, then lifts away as the scene falls back to black
+   (join.css). Reduced motion: a still, full-screen cover. */
 import { u } from "../lib/url";
 import j from "../../content/site/join.json";
 interface Props { n: number }
@@ -9,7 +12,11 @@ const { n } = Astro.props;
 const m = j.mission[n];
 const img = (w: number) => u(`/join/${m.id}-${w}.webp`);
 ---
-<figure class="jp-cover" id={`ch-${m.id}`}>
-  <div class="jp-cover-media"><img class="drift" src={img(1800)} srcset={`${img(900)} 900w, ${img(1800)} 1800w`} sizes="100vw" alt={m.alt} width="1800" height="1125" loading="lazy" decoding="async" style={`object-position: ${m.position}`} /></div>
-  <figcaption class="jp-cover-cap"><h2 aria-label={m.title}>{m.title.split(" ").map((w, i) => <><span class="w" aria-hidden="true" style={`--i: ${i}`}>{w}</span>{" "}</>)}</h2></figcaption>
-</figure>
+<section class="jp-cover" id={`ch-${m.id}`} aria-labelledby={`ch-${m.id}-t`}>
+  <div class="jp-cover-stage">
+    <div class="jp-cover-media"><img src={img(1800)} srcset={`${img(900)} 900w, ${img(1800)} 1800w`} sizes="100vw" alt={m.alt} width="1800" height="1125" loading="lazy" decoding="async" style={`object-position: ${m.position}`} /></div>
+    <div class="jp-cover-glint" aria-hidden="true"></div>
+    <div class="jp-cover-shade" aria-hidden="true"></div>
+    <h2 class="jp-cover-title" id={`ch-${m.id}-t`}>{m.title}</h2>
+  </div>
+</section>
