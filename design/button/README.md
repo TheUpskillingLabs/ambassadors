@@ -15,9 +15,8 @@ Art for Sticker Mule's 1.5" round button, 2" square at 600 dpi.
 ## The CMYK separation
 
 - **Closest colour match.** Every colour in the art gets the printable CMYK colour nearest to it by CIEDE2000, the standard measure of how different two colours look. Colours are compared relative to the paper, so the screen's near-black is matched by the deepest black the paper can hold.
-- **How close it is.** Seen at print scale, the whole button averages about 0.7 ΔE2000 from the RGB, under what most people can notice. A plain profile conversion averages 1.7 and the earlier vivid version 1.5.
-- **Where it can't match.** The brightest teal is outside what CMYK ink can print, so it stays about 2 ΔE2000 away (a plain conversion is 2.4). It prints as a softer, slightly lighter teal than the screen's (about C56–64 Y27–32). The printed black is also not as deep as a screen's.
-- **Inks.** The red prints close to the screen (about M89 Y91). The background is a cool rich black (about C91 M55 Y47 K94), under a 300% total-ink limit. The lettering is paper white, with no ink.
+- **How close it is.** Seen at print scale, the whole button averages about 0.7 ΔE2000 from the RGB, under what most people can notice. A plain profile conversion averages 1.7 and the earlier vivid version 1.5. Almost every pixel (99%) is within about 3.
+- **Where it can't match.** The bright teal of the glows is outside what CMYK ink can print. The glow's main teal (#01D6D4) stays about 6 ΔE2000 away, and the few pure-cyan hot spots at its core (#00FFFF, 0.03% of the button) about 14. Those print as the brightest teal CMYK can make, cyan and yellow on bare paper (about C52–65 Y24–30), which is softer and a little darker than the screen. The glow red is about 3.4 off. The printed black is also not as deep as a screen's.- **Inks.** The red prints close to the screen (about M89 Y91). The background is a cool rich black (about C91 M55 Y47 K94), under a 300% total-ink limit. The lettering is paper white, with no ink.
 
 ## Rebuilding
 
