@@ -14,10 +14,10 @@ Art for Sticker Mule's 1.5" round button, 2" square at 600 dpi.
 
 ## The CMYK separation
 
-- The screen teal is far brighter than ink can print. A plain profile conversion keeps its lightness and prints it pale mint. This separation keeps the colour instead: it lets the teal darken slightly so it stays saturated (the brightest teal is about C73 M6 Y36 K10).
-- The red is in gamut and prints close to the screen (about M93 Y95).
-- The background is a cool rich black (about C90 M62 Y45 K93), under a 300% total-ink limit.
-- The lettering is paper white, with no ink.
+- **Closest colour match.** Every colour in the art gets the printable CMYK colour nearest to it by CIEDE2000, the standard measure of how different two colours look. Colours are compared relative to the paper, so the screen's near-black is matched by the deepest black the paper can hold.
+- **How close it is.** Seen at print scale, the whole button averages about 0.7 ΔE2000 from the RGB, under what most people can notice. A plain profile conversion averages 1.7 and the earlier vivid version 1.5.
+- **Where it can't match.** The brightest teal is outside what CMYK ink can print, so it stays about 2 ΔE2000 away (a plain conversion is 2.4). It prints as a softer, slightly lighter teal than the screen's (about C56–64 Y27–32). The printed black is also not as deep as a screen's.
+- **Inks.** The red prints close to the screen (about M89 Y91). The background is a cool rich black (about C91 M55 Y47 K94), under a 300% total-ink limit. The lettering is paper white, with no ink.
 
 ## Rebuilding
 
