@@ -18,7 +18,7 @@ def make(centre, fill, face_in, cut_in, canvas_in=1.75, seed=7):
     # background: ink with the reference's grain (mean/std measured from its corners)
     rng = np.random.default_rng(seed)
     bg = np.stack([np.full((N, N), 0.0), rng.normal(18.78, 0.99, (N, N)), rng.normal(26.34, 1.0, (N, N))], 2)
-    canvas = Image.fromarray(bg.clip(0, 255).astype(np.uint8))
+    canvas = Image.fromarray(bg.clip(0, 255).round().astype(np.uint8))
     W = int(round(1024 * s))
     scaled = ref.resize((W, W), Image.LANCZOS)
     ox = int(round(N / 2 - centre[0] * s)); oy = int(round(N / 2 - centre[1] * s))
