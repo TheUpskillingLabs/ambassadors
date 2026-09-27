@@ -1,6 +1,7 @@
 ---
 /* One chapter cover on the program page: a full-bleed picture and its
-   tagline, nothing else. */
+   tagline, nothing else. On scroll the picture opens from an inset window
+   to full bleed and the tagline rises word by word (join.css). */
 import { u } from "../lib/url";
 import j from "../../content/site/join.json";
 interface Props { n: number }
@@ -9,6 +10,6 @@ const m = j.mission[n];
 const img = (w: number) => u(`/join/${m.id}-${w}.webp`);
 ---
 <figure class="jp-cover" id={`ch-${m.id}`}>
-  <img class="drift" src={img(1800)} srcset={`${img(900)} 900w, ${img(1800)} 1800w`} sizes="100vw" alt={m.alt} width="1800" height="1125" loading="lazy" decoding="async" style={`object-position: ${m.position}`} />
-  <figcaption class="jp-cover-cap"><h2>{m.title}</h2></figcaption>
+  <div class="jp-cover-media"><img class="drift" src={img(1800)} srcset={`${img(900)} 900w, ${img(1800)} 1800w`} sizes="100vw" alt={m.alt} width="1800" height="1125" loading="lazy" decoding="async" style={`object-position: ${m.position}`} /></div>
+  <figcaption class="jp-cover-cap"><h2 aria-label={m.title}>{m.title.split(" ").map((w, i) => <><span class="w" aria-hidden="true" style={`--i: ${i}`}>{w}</span>{" "}</>)}</h2></figcaption>
 </figure>

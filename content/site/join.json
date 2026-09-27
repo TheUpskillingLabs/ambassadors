@@ -87,26 +87,27 @@
   },
   "ripple": {
     "kicker": "How it spreads",
-    "title": "One conversation, then it spreads.",
+    "title": "One conversation. Then a network.",
+    "lede": "Every person you bring in brings someone too. Connection by connection, a neighborhood starts building together.",
     "rings": [
       {
         "title": "You",
-        "body": "You find your story, and the nerve to tell it."
+        "body": "It starts with your story, told out loud."
       },
       {
         "title": "Someone you know",
-        "body": "One conversation, and their next chapter starts."
+        "body": "One conversation, and they walk into their first workshop."
       },
       {
-        "title": "Your community",
-        "body": "Their Pod picks a problem your neighbors actually have, and builds something that lasts."
+        "title": "Your neighbors",
+        "body": "Their Pod picks a problem your community actually has, and builds something that lasts."
       },
       {
-        "title": "Everyone",
-        "body": "Now picture it in every neighborhood. The future gets built either way. This is how everyone gets a hand in it."
+        "title": "Everywhere",
+        "body": "Now picture that in every neighborhood. The future gets built either way. This way, everyone has a hand in it."
       }
     ],
-    "note": "America's first lending library started with a dozen neighbors who met to teach each other. The Labs started inside a library.",
+    "note": "America's first lending library began with a dozen neighbors teaching each other. The Labs began inside a library.",
     "videoLabel": "The Labs orb as a planet, teal glowing from its upper left and red from its lower right, at the centre of dense rings made of networks that orbit it. A pulse leaves the orb, travels node to node through each ring, and leaps across the gaps between rings in small arcs of light, like synapses firing."
   },
   "team": {
