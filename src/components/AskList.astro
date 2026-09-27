@@ -22,21 +22,13 @@ import { t } from "../lib/i18n";
 </section>
 <script>
   import { asks, profile } from "../lib/store";
-  import { nextSession, formatSession } from "../lib/schedule";
+  import { askMessage, askHref } from "../lib/ask";
   document.querySelectorAll<HTMLElement>("[data-ask]").forEach((root) => {
     const me = root.querySelector<HTMLInputElement>("[data-me]")!;
     const people = Array.from(root.querySelectorAll<HTMLInputElement>("[data-person]"));
     const sends = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-send]"));
-    const s = nextSession();
-    const f = s && formatSession(s);
 
-    const message = (them: string) => {
-      const name = me.value.trim() || "…";
-      const tpl = s ? root.dataset.msg! : root.dataset.msgOpen!;
-      return tpl.replaceAll("{them}", them || "…").replaceAll("{me}", name)
-        .replace("{what}", s?.type ?? "").replace("{day}", f?.day ?? "").replace("{time}", f?.time ?? "")
-        .replace("{place}", s ? s.location.split(",")[0] : "");
-    };
+    const message = (them: string) => askMessage(root.dataset.msg!, root.dataset.msgOpen!, them, me.value.trim());
     const save = () => {
       asks.set(people.map((p, i) => ({ name: p.value.trim(), sent: asks.get()[i]?.sent })));
       profile.set({ me: me.value.trim() || undefined });
@@ -59,7 +51,7 @@ import { t } from "../lib/i18n";
       const text = message(people[i].value.trim());
       try {
         if (navigator.share) await navigator.share({ text });
-        else location.href = `sms:?&body=${encodeURIComponent(text)}`;
+        else location.href = askHref(text);
         const list = asks.get(); list[i] = { name: people[i].value.trim(), sent: Date.now() }; asks.set(list);
       } catch { /* share cancelled */ }
       paint();

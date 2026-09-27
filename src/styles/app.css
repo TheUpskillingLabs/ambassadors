@@ -265,9 +265,24 @@ body > main { flex: 1; }
 .qz-result.is-pass { color: var(--teal-deep); }
 .qz-result.is-error { color: var(--warn); }
 
-.apply-done { align-items: flex-start; }
-.apply-done img { width: 128px; height: 128px; }
+.apply-read { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+.apply-read .block-h { margin: 0 0 4px; }
+.apply-read p { margin: 0; font-size: 17px; line-height: 26px; color: var(--ink); max-width: 60ch; }
+/* You're in: the pass. Built to be shown to a coordinator across a table. */
+.apply-done { align-items: flex-start; gap: 24px; }
 .apply-done .btn-block { max-width: 420px; }
+.pass { align-self: stretch; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; padding: 36px 24px 32px; border-radius: var(--r); background: var(--ink); color: #fff; }
+.pass img { width: min(220px, 56vw); height: auto; margin-bottom: 8px; }
+.pass .apply-title { color: #fff; }
+.pass-who { margin: 0; font-size: 18px; line-height: 24px; font-weight: 600; color: rgba(255, 255, 255, 0.92); }
+.pass-note { margin: 8px 0 0; font-size: 16px; line-height: 24px; color: rgba(255, 255, 255, 0.72); max-width: 36ch; }
+.first-ask { align-self: stretch; display: flex; flex-direction: column; gap: 8px; }
+.first-ask .block-h { margin: 0; }
+.first-ask .t-small { margin: 0; }
+.first-ask-row { display: flex; gap: 8px; margin-top: 8px; }
+.first-ask-row input { flex: 1; min-width: 0; }
+.first-ask-row .btn[aria-disabled="true"] { opacity: 0.5; pointer-events: none; }
+.pass-links { margin: 0; }
 
 /* Guide Home: nudge for people who haven't applied; a welcome line for ambassadors. */
 .apply-nudge p { margin: 0; font-size: 15px; line-height: 22px; color: var(--slate); }
@@ -282,6 +297,10 @@ body > main { flex: 1; }
 .invite-sent { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
 .invite-sent h2 { margin: 0; font-size: 18px; }
 .invite-list { list-style: none; margin: 0; padding: 0; width: 100%; }
+.invite-texts { margin-top: 28px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.invite-texts h2 { margin: 0; font-size: 18px; }
+.invite-text { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.invite-text p { margin: 0; }
 .invite-list li { display: flex; gap: 12px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--rule); font-size: 15px; }
 .invite-list li > span:first-child { flex: 1; font-weight: 600; }
 .invite-when { color: var(--meta); font-size: 13px; }

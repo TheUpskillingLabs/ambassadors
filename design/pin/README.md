@@ -1,6 +1,6 @@
 # Ambassador pin
 
-Earned by ambassadors who apply, are accepted, and finish onboarding.
+One pin for everyone who keeps The Labs running, whatever they carry: ambassadors earn it by passing it on ([N] new Upskillers, one talk, one new ambassador brought in). Mentors, Poderators, and organisers will earn it their own way once that tier has a name. It can't be bought.
 
 `pin-front.svg` is starter production art built from the OLOS orb by `build_pin.py`. It is 1:1 in millimetres, and every colour is a filled shape with raised metal between the colours. Send the factory this file (or a refined version of it). The 3D model in `blender/` is for mock-ups and approval only.
 
@@ -21,7 +21,7 @@ Earned by ambassadors who apply, are accepted, and finish onboarding.
 | Lines | 0.4 mm metal between colours, 0.8 mm rim (about 0.65 mm flat after the rounded edge) | Factory minimum is 0.2 to 0.3 mm. 0.4 mm survives polishing. `build_pin.py` fails if any metal comes out under 0.3 mm. |
 | Smallest enamel cell | 0.3 mm | Smaller cells can't be filled, so the build script drops them. |
 | Back | **2 posts**, 9 mm either side of centre, + locking clutches | A round pin with an arrow has an orientation. Single posts spin, and rubber clutches loosen. |
-| Backstamp | THE UPSKILLING LABS · AMBASSADOR · year, raised polished text on a satin back | Keeps text off the front. Ask for sans serif at 6 pt or more (1.5 mm caps), with strokes and the gaps between letters at least 0.25 mm; thinner raised text fills in. The year makes each cohort's pin distinct. Costs about $50 once. |
+| Backstamp | THE UPSKILLING LABS · year, raised polished text on a satin back. (Was "· AMBASSADOR ·"; dropped so one pin serves every role.) | Keeps text off the front. Ask for sans serif at 6 pt or more (1.5 mm caps), with strokes and the gaps between letters at least 0.25 mm; thinner raised text fills in. The year makes each cohort's pin distinct. Costs about $50 once. |
 | Card | Backing card: "Earned, not given." [PLACEHOLDER] | The card makes it a moment and not a freebie. |
 
 Pantone codes in the SVG (`data-pantone`) are nearest matches: Black 6 C, 185 C, and 3125 C. Confirm them against a physical **Solid Coated** guide, not a screen. Enamel reds usually come out darker than the chip.

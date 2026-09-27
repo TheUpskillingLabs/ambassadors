@@ -1,8 +1,9 @@
 ---
 /* /guide/ — the guide's Home: one button and the path ("/" is the public program page).
    The button starts or continues the next step. The five steps are a plain
-   list. Finishing all five earns the ambassador pin (design/pin/), so the
-   button becomes "Text your coordinator for your pin". */
+   list. Finishing all five means you're ready for your first conversation,
+   so the button becomes "Tell your coordinator you're ready". The pin is
+   earned later, by passing it on (design/pin/). */
 import Base from "../../layouts/Base.astro";
 import Row from "../../components/Row.astro";
 import Icon from "../../components/Icon.astro";
@@ -30,11 +31,12 @@ const steps = await path();
       (function () {
         var a = {};
         try { a = JSON.parse(localStorage.getItem("ag.application.v1") || "{}") || {}; } catch (e) {}
-        var passed = Boolean(a.quiz && a.quiz.passedAt);
-        document.querySelector(!passed ? "[data-apply-nudge]" : a.invite ? "[data-member]" : "[data-pending]").hidden = false;
+        // Same test as store.complete(): the questions, the agreement, and their name.
+        var done = Boolean(a.quiz && a.quiz.passedAt && a.agreement && a.first && a.last && a.email && a.zip);
+        document.querySelector(!done ? "[data-apply-nudge]" : a.invite ? "[data-member]" : "[data-pending]").hidden = false;
       })();
     </script>
-    <p class="pin-goal"><img src={u("/pin.svg")} width="48" height="48" alt="" /><span data-goal data-done={t("home.doneGoal")}>{t("home.goal")}</span></p>
+    <p class="pin-goal"><img src={u("/join/button-card.webp")} width="48" height="48" alt="" /><span data-goal data-done={t("home.doneGoal")}>{t("home.goal")}</span></p>
 
     <a class="btn btn-teal btn-block btn-lg" href={steps[0].href} data-next><span data-next-label>{t("home.start")}</span><Icon name="arrow-right" size={20} /></a>
     <CoordinatorLink class="btn btn-teal btn-block btn-lg" label={t("home.claim")} body={t("coord.pinBody")} attrs={{ "data-claim": "", hidden: "" }} />
@@ -55,7 +57,7 @@ const steps = await path();
     </div>
     <script is:inline>
       (function () {
-        try { var a = JSON.parse(localStorage.getItem("ag.application.v1") || "{}") || {}; if (a.quiz && a.quiz.passedAt) document.querySelector("[data-bring]").hidden = false; } catch (e) {}
+        try { var a = JSON.parse(localStorage.getItem("ag.application.v1") || "{}") || {}; if (a.quiz && a.quiz.passedAt && a.agreement && a.first && a.last && a.email && a.zip) document.querySelector("[data-bring]").hidden = false; } catch (e) {}
       })();
     </script>
 

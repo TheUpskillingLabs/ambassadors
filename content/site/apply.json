@@ -1,16 +1,16 @@
 {
-  "$comment": "The apply flow (/apply/): about you, the Ambassador Agreement, a short video, a quiz about The Labs. Until OLOS is connected, details stay on the device and are sent only when the applicant texts their coordinator at the end. Field names match OLOS's registration (first_name, last_name, email, zip, referred_by). [PLACEHOLDER] marks copy to confirm.",
+  "$comment": "The apply flow (/apply/): the short film or read, the five questions, the Ambassador Agreement, your name, then 'You're in', a pass to show your coordinator. Until OLOS is connected, details stay on the device and are sent only when the applicant texts their coordinator. Field names match OLOS's registration (first_name, last_name, email, zip, referred_by). [PLACEHOLDER] marks copy to confirm. The agreement is a draft and needs review before launch.",
   "placeholder": true,
   "title": "Become an ambassador",
-  "description": "A few details, the ambassador agreement, a short video, and a quiz about The Labs. About ten minutes.",
+  "description": "The Labs in three minutes, five questions, the ambassador agreement, and your name. About ten minutes.",
   "stepOf": "Step {n} of {total}",
   "back": "Back",
   "next": "Next",
-  "privacy": "Until sign-in is ready, this stays on your device. You'll send it to your coordinator at the end.",
+  "privacy": "Until sign-in is ready, this stays on your device. You'll share it with your coordinator at the end.",
   "you": {
     "nav": "About you",
-    "title": "About you.",
-    "lede": "Just the basics, so your coordinator knows who you are.",
+    "title": "Your name.",
+    "lede": "So your coordinator knows who's in.",
     "first": "First name",
     "last": "Last name",
     "email": "Email",
@@ -28,7 +28,7 @@
   "agreement": {
     "nav": "Agreement",
     "title": "The ambassador agreement.",
-    "lede": "Plain language. One read. [PLACEHOLDER: draft, needs review before launch.]",
+    "lede": "Plain language. One read.",
     "version": "ambassador-2026-09-v1",
     "sections": [
       {
@@ -37,7 +37,7 @@
       },
       {
         "h": "What you'll do",
-        "p": "Have real conversations with people you know, tell your own story, and invite them to one dated next step. When you're ready, give one short talk to a room. Share your link, and bring someone new along."
+        "p": "Have real conversations with people you know, tell your own story, and invite them to one dated next step. When you're ready, give one short talk to a room. Bring someone new along."
       },
       {
         "h": "How you represent The Labs",
@@ -67,24 +67,32 @@
   },
   "video": {
     "nav": "Video",
-    "title": "Start here.",
-    "lede": "A few minutes on what The Labs is and why ambassadors matter. The quiz comes from it.",
+    "title": "The Labs in three minutes.",
+    "lede": "Watch it, or read the short version. The five questions come from this.",
     "src": "",
     "poster": "",
     "captions": "",
-    "placeholder": "[PLACEHOLDER] The orientation video goes here.",
-    "watched": "I've watched it",
-    "watchedHint": "The quiz opens when the video ends."
+    "placeholder": "[PLACEHOLDER] The orientation film goes here.",
+    "watched": "Next",
+    "readTitle": "The short version",
+    "read": [
+      "Nobody finds The Labs from an ad. They find it because someone they know said “come with me.”",
+      "The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. Born at DC Public Library in fall 2025.",
+      "People pick the problems. Small teams build real things. Everyone teaches what they learn.",
+      "Your job is three moves. Ask what they're working toward. Share thirty seconds of your story. Invite them to one dated next step.",
+      "You never sell, sign anyone up, or promise a job. People Join The Labs themselves at theupskillinglabs.org.",
+      "If anyone asks what we are: “a fiscally sponsored project of Superbloom Design, a 501(c)(3). Our own status is pending.”"
+    ]
   },
   "quiz": {
     "nav": "Quiz",
-    "title": "A quick quiz.",
-    "lede": "Five questions about The Labs. Four right to pass. Retry as often as you like.",
+    "title": "The five questions everyone asks.",
+    "lede": "You'll hear these in every conversation. Four of five and you're set. Try as often as you like.",
     "check": "Check my answers",
     "retry": "Try again",
     "pass": 4,
     "result": "{score} of {total} right.",
-    "passed": "You passed.",
+    "passed": "You passed. You can answer what people actually ask, and that's most of the job.",
     "failed": "Not yet. Look again at the ones marked, then try again.",
     "right": "Right.",
     "wrong": "Not quite.",
@@ -102,15 +110,15 @@
         "why": "The Labs is free: workshops and Build Cycles cost nothing."
       },
       {
-        "q": "Where did The Labs start?",
+        "q": "Someone asks, “Is this like a coding bootcamp?” What do you say?",
         "options": [
-          "At a university",
-          "At DC Public Library, in fall 2025",
-          "As an online platform",
-          "Inside a tech company"
+          "Yes, but it's free.",
+          "Not really. There's no curriculum. You work with a small team on a real problem and learn what you need along the way.",
+          "It's all online, at your own pace.",
+          "It's a job placement program."
         ],
         "answer": 1,
-        "why": "It started at DC Public Library in fall 2025."
+        "why": "No curriculum to get through. A small team, a real problem, and you learn what you need on the way."
       },
       {
         "q": "In a Build Cycle, who chooses the problems The Labs takes on?",
@@ -149,22 +157,31 @@
   },
   "done": {
     "title": "You're in.",
-    "lede": "Your button is on its way. One last thing: text your coordinator so they have your details.",
+    "who": "{first} {last} · Ambassador",
     "buttonAlt": "The ambassador button",
-    "text": "Text your coordinator",
-    "message": "Hi, I'm {first} {last}. I just finished ambassador orientation. Email: {email}. ZIP: {zip}. Brought in by: {referredBy}. Agreement: {version}. Quiz: {score} of {total}. Invited by: {invitedBy}.",
+    "handover": "Show this to your coordinator. They'll hand you your button.",
+    "ask": {
+      "title": "Who's first?",
+      "lede": "You already know who. Say the name, and your phone sends the invite.",
+      "label": "Their first name",
+      "send": "Send",
+      "sent": "Sent"
+    },
+    "sayHi": "Say hi to your coordinator",
+    "message": "Hi, it's {first} {last}. I just finished ambassador orientation. My details: {email}, ZIP {zip}. Brought in by {referredBy}. Invited by {invitedBy}. (Agreement {version}, quiz {score} of {total}.)",
     "nobody": "nobody",
-    "guide": "Open your guide",
+    "guide": "Get ready: open the guide",
     "guideNote": "The guide is yours from here: five short steps to get ready, and a reference for later."
   },
   "invited": {
-    "banner": "{by} invited you. You're pre-approved: sign the agreement and pass the quiz, and you're in.",
+    "banner": "{by} invited you. You're pre-approved: pass the five questions, sign the agreement, and you're in.",
     "note": "From {by}:"
   },
   "pending": {
     "title": "Almost there.",
-    "lede": "You passed. Your coordinator will confirm you, usually within two working days. [PLACEHOLDER: confirm the timing.] Send them your details now.",
-    "guide": "Open the guide meanwhile",
+    "lede": "You passed. If your coordinator is with you, show them this screen. If not, they'll text you a link that confirms you; open it and you're in.",
+    "guide": "Get ready meanwhile",
     "guideNote": "The guide is open to you while you wait."
-  }
+  },
+  "finish": "Finish"
 }

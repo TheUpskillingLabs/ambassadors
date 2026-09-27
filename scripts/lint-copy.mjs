@@ -11,6 +11,9 @@ const RULES = [
   [/civic problems?/i, 'don\'t describe the work as "civic problems"'],
   [/\b(sign up|get started)\b/i, 'CTA is "Join The Labs"'],
   [/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}]/u, "no emoji"],
+  [/\bon a mission to\b/i, 'every brand says "on a mission to"; say what we do'],
+  [/\bpassionate\b/i, 'say what we do, not that we\'re "passionate" about it'],
+  [/\bthoughtfully\b/i, '"thoughtfully" is filler; cut it or say how'],
 ];
 // Files (or JSON keys) that quote banned words in order to forbid them.
 const ALLOW_FILES = new Set(["content/steps/labs.md", "content/site/ui.en.json"]);
@@ -34,7 +37,7 @@ function strings(value, key, out) {
 }
 
 let problems = 0;
-for (const file of [...(await walk("content")), "data/schedule.json"]) {
+for (const file of [...(await walk("content")), "data/schedule.json", "data/roster.json"]) {
   if (ALLOW_FILES.has(file)) continue;
   const text = await readFile(file, "utf8");
   const chunks = file.endsWith(".json")

@@ -1,8 +1,8 @@
 {
-  "$comment": "The public Ambassador Program page (the front page, /; /join/ redirects there), from the design mockup. [N] marks a number still to be set. Every 'Become an ambassador' button goes to /apply/ (content/site/apply.json). mission[] are the three chapter covers (tagline only).",
+  "$comment": "The public Ambassador Program page (the front page, /; /join/ redirects there). The idea: 'You already know who.' The hero is the mockup's; the three covers are chapter titles and each chapter's opener flows from its cover. [N] marks a number still to be set. Every 'Become an ambassador' button goes to /apply/ (content/site/apply.json). The launch roster reads data/roster.json.",
   "placeholder": true,
   "title": "Ambassador Program",
-  "description": "Join the volunteer corps on a mission to spark curiosity, build community, and inspire confidence.",
+  "description": "You already know who. Ten minutes to get in, the words to bring them, and a pin that can't be bought.",
   "nav": {
     "brand": "Ambassadors",
     "why": "Why join",
@@ -27,27 +27,27 @@
   "mission": [
     {
       "id": "curiosity",
-      "title": "Spark curiosity.",
+      "title": "You already know who.",
       "alt": "Teal cat-eye enamel glowing into ink, with fine teal glitter",
       "position": "40% 50%"
     },
     {
       "id": "community",
-      "title": "Build community.",
+      "title": "You'll know what to say.",
       "alt": "A raised nickel line tracing the swoosh over red enamel",
       "position": "58% 50%"
     },
     {
       "id": "confidence",
-      "title": "Inspire confidence.",
+      "title": "It can't be bought.",
       "alt": "Red cat-eye enamel with fine red glitter",
       "position": "46% 50%"
     }
   ],
   "you": {
     "kicker": "Why ambassadors do it",
-    "title": "It starts with you.",
-    "lede": "Give a little time. It pays you back three ways.",
+    "title": "There's someone you keep thinking of.",
+    "lede": "A former colleague. A neighbor. Someone standing where you stood a year ago. This is how you bring them in, and it pays you back three ways.",
     "items": [
       {
         "label": "As a professional",
@@ -68,8 +68,8 @@
   },
   "labs": {
     "kicker": "About The Labs",
-    "title": "Worth being curious about.",
-    "lede": "Free. Run by volunteers. Born at DC Public Library in fall 2025. Three habits run all of it.",
+    "title": "Here's what you'd be bringing them into.",
+    "lede": "Free. Run by volunteers. Born at DC Public Library in fall 2025, when fifty people in career limbo learned AI together, then built a place to keep going.",
     "habits": [
       {
         "title": "We decide together.",
@@ -100,7 +100,7 @@
       },
       {
         "title": "Your neighbors",
-        "body": "Their Pod picks a problem your community actually has, and builds something that lasts."
+        "body": "Their pod picks a problem your community actually has, and builds something that lasts."
       },
       {
         "title": "Everywhere",
@@ -112,7 +112,7 @@
   },
   "team": {
     "kicker": "What you'll do",
-    "title": "Curiosity goes both ways.",
+    "title": "No script. Four moves.",
     "lede": "You'll spark it in other people and follow your own. Every conversation is research: what you hear shapes the problems The Labs takes on, and what you learn becomes how every Labs project grows.",
     "roles": [
       {
@@ -127,8 +127,8 @@
       },
       {
         "icon": "link",
-        "title": "Share your link.",
-        "body": "It's yours alone. Everyone who joins The Labs through it counts."
+        "title": "Say your name.",
+        "body": "They join at theupskillinglabs.org and say you sent them. Every one counts."
       },
       {
         "icon": "people",
@@ -151,48 +151,48 @@
         "milestone": false
       },
       {
-        "title": "Get oriented.",
-        "body": "A short video, the agreement, a quick quiz. The button is yours.",
+        "title": "Get in.",
+        "body": "Ten minutes on your phone: a short film, five questions, the agreement, your name. Your coordinator hands you the button.",
         "milestone": true
       },
       {
-        "title": "Do the work.",
-        "body": "[N] new upskillers join through your link. You give one talk to a room.",
+        "title": "Get ready.",
+        "body": "Five short steps in the guide, about half an hour, whenever you like. Your story, the conversation, the room.",
         "milestone": false
       },
       {
-        "title": "Mentor someone.",
-        "body": "Bring one new ambassador through orientation. You're a Mentor now, and the pin is yours.",
+        "title": "Pass it on.",
+        "body": "[N] new Upskillers join through you. One talk to a room. One new ambassador you bring in. The pin is yours.",
         "milestone": true
       }
     ],
     "rewards": [
       {
         "id": "button",
-        "kicker": "At orientation",
+        "kicker": "When you get in",
         "title": "The button",
-        "body": "Ten minutes in, it's yours. It's how people spot an ambassador, and how you'll spot each other.",
+        "body": "Ten minutes in, your coordinator hands it to you. It's how people spot an ambassador, and how you'll spot each other.",
         "image": "button-card.webp",
         "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
       },
       {
-        "id": "mentor",
-        "kicker": "As a Mentor",
+        "id": "pin",
+        "kicker": "When you've passed it on",
         "title": "The pin",
-        "body": "[N] new upskillers, one talk, one new ambassador. It can't be bought, only passed on.",
+        "body": "[N] new Upskillers, one talk, one new ambassador. It can't be bought, only passed on. And the same pin marks everyone who keeps The Labs running.",
         "image": "pin-card.webp",
-        "alt": "The Mentor pin: the orb mark in polished nickel with teal and red cat-eye enamel"
+        "alt": "The pin: the orb mark in polished nickel with teal and red cat-eye enamel"
       }
     ],
     "visualAlt": {
       "button": "The ambassador button",
-      "pin": "The Mentor pin"
+      "pin": "The pin"
     },
     "cta": "Become an ambassador"
   },
   "goal": {
-    "kicker": "The launch goal",
-    "title": "What we're building, together.",
+    "kicker": "The launch",
+    "title": "The first ten start it.",
     "stats": [
       {
         "value": "60",
@@ -201,7 +201,7 @@
       },
       {
         "value": "1,200",
-        "label": "new upskillers in The Labs",
+        "label": "new Upskillers in The Labs",
         "accent": false
       },
       {
@@ -210,17 +210,22 @@
         "accent": false
       }
     ],
-    "meterLabel": "New upskillers adding up toward the goal",
-    "note": "About two new upskillers a week per ambassador, while the corps keeps growing. That's what Mentors are for. Nobody carries this alone.",
+    "note": "About two new Upskillers a week per ambassador, while the corps keeps growing. Every ambassador you bring in shares the load. Nobody carries this alone.",
     "quote": {
-      "text": "I came to one workshop for myself. Now the best part is watching someone I brought in find their team.",
-      "name": "[PLACEHOLDER] Founding ambassador",
-      "role": "Ambassador since 2026"
+      "$comment": "Quoted from Technical.ly, 2025-09-12 (Kaela Roeder). Confirm with Suzie before launch.",
+      "text": "You don't need a computer science degree to thrive in tech. You just need to be curious, persistent, and you need a community to help you.",
+      "name": "Suzie Zhang",
+      "role": "Inaugural AI Cohort, 2025"
+    },
+    "roster": {
+      "kicker": "The founding ten",
+      "open": "Open",
+      "label": "The founding ten ambassadors, {filled} of {slots} in"
     }
   },
   "join": {
     "title": "Come be an ambassador.",
-    "lede": "Ten minutes to get oriented. Everything after, we'll figure out together.",
+    "lede": "Ten minutes to get in. Everything after, we'll figure out together.",
     "cta": "Become an ambassador"
   },
   "footer": {
@@ -240,15 +245,19 @@
       },
       {
         "q": "How much time does it take?",
-        "a": "About ten minutes to get oriented. After that, mostly conversations you'd have anyway, plus one talk to a room. [PLACEHOLDER: add a typical hours-per-month figure.]"
+        "a": "Ten minutes to get in. About half an hour, whenever you like, to get ready. After that, mostly conversations you'd have anyway, plus one talk to a room. [PLACEHOLDER: add a typical hours-per-month figure.]"
       },
       {
         "q": "Do I need to be technical?",
         "a": "No. You need curiosity about people and a story you're willing to tell. The guide covers the rest."
       },
       {
+        "q": "Do I have to sell anything?",
+        "a": "No. Nothing's for sale, and you never sign anyone up or promise anyone a job. You tell your story and point people to theupskillinglabs.org."
+      },
+      {
         "q": "What's the difference between the button and the pin?",
-        "a": "The button comes at orientation. It says you're in. The pin is for Mentors: [N] new upskillers through your link, one talk to a room, and one new ambassador brought through orientation. It can't be bought."
+        "a": "The button comes when you get in. Your coordinator hands it to you. The pin comes when you've passed it on: [N] new Upskillers through you, one talk to a room, and one new ambassador brought in. It can't be bought."
       },
       {
         "q": "Can I stop?",
@@ -268,7 +277,7 @@
       {
         "label": "What you commit to",
         "title": "A few conversations. One talk.",
-        "body": "Tell your story, invite people you know, and give one short talk. [PLACEHOLDER: add expected hours per month.]"
+        "body": "Tell your story, invite people you know, and give one short talk. About half an hour with the guide first. [PLACEHOLDER: add expected hours per month.]"
       },
       {
         "label": "Who can join",
@@ -278,7 +287,7 @@
       {
         "label": "What happens next",
         "title": "Ten minutes, then the button.",
-        "body": "Raise your hand, get oriented, and your button is on its way. The guide takes it from there."
+        "body": "Raise your hand at an event, get in on your phone, and your coordinator hands you the button. The guide takes it from there."
       }
     ]
   }

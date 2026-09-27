@@ -11,6 +11,7 @@ import "../styles/join.css";
 import { guideHome } from "../lib/content";
 import { u } from "../lib/url";
 import j from "../../content/site/join.json";
+import { slots, founders } from "../lib/roster";
 import JoinCover from "../components/JoinCover.astro";
 
 const media = (f: string) => u(`/join/${f}`);
@@ -51,7 +52,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         <ul class="jp-links">
           <li><a class="navlink" href="#you" data-spy="you labs team ripple goal">{j.nav.why}</a></li>
           <li><a class="navlink" href="#path" data-spy="path">{j.nav.how}</a></li>
-          <li><a class="navlink" href="#mentor" data-spy="mentor">{j.nav.pin}</a></li>
+          <li><a class="navlink" href="#pin" data-spy="pin">{j.nav.pin}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={guideHome}>{j.nav.guide}</a>
@@ -167,8 +168,13 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
               <div class:list={["jp-stat", { accent: s.accent }]}><p class="v">{s.value}</p><p class="l">{s.label}</p></div>
             ))}
           </div>
-          <div class="jp-meter reveal" role="img" aria-label={j.goal.meterLabel}>
-            {Array.from({ length: 12 }, (_, i) => <span style={`animation-delay: ${(i * 0.16).toFixed(2)}s`}></span>)}
+          <div class="jp-roster reveal">
+            <p class="kicker">{j.goal.roster.kicker}</p>
+            <ol aria-label={j.goal.roster.label.replace("{filled}", String(founders.length)).replace("{slots}", String(slots))}>
+              {Array.from({ length: slots }, (_, i) => founders[i]).map((r, i) => (
+                <li class:list={{ in: Boolean(r) }}><span class="n">{String(i + 1).padStart(2, "0")}</span>{r ? <><b>{r.first}</b><span class="a">{r.area}</span></> : <span class="open">{j.goal.roster.open}</span>}</li>
+              ))}
+            </ol>
           </div>
           <div class="jp-goal-foot">
             <p class="lede reveal">{j.goal.note}</p>
@@ -285,7 +291,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["you", "labs", "team", "ripple", "goal", "path", "mentor", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
+      const order = ["you", "labs", "team", "ripple", "goal", "path", "pin", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
       let queued = false;
       const spy = () => {
         queued = false;

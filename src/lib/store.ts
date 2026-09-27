@@ -100,8 +100,8 @@ export type Application = {
   /** A coordinator's pre-approved invite (from an /invite/ link). */
   invite?: { by: string; note?: string; at: number };
 };
-/** none: hasn't started · started: part way · pending: passed, waiting for the
- *  coordinator to confirm · in: passed with a pre-approved invite. */
+/** none: hasn't started · started: part way · pending: finished, waiting for
+ *  the coordinator to confirm · in: finished with a pre-approved invite. */
 export type ApplicationStatus = "none" | "started" | "pending" | "in";
 export const application = {
   get(): Application {
@@ -112,17 +112,23 @@ export const application = {
     write(KEYS.application, next);
     return next;
   },
-  /** Passed the quiz (in, or pending the coordinator's confirmation). */
+  /** Passed the five questions. Not "done": the agreement and name come after. */
   passed(): boolean {
     return Boolean(this.get().quiz?.passedAt);
   },
+  /** Finished orientation: the questions, the agreement, and their name.
+   *  The one definition of "done"; guide/index.astro repeats it inline. */
+  complete(): boolean {
+    const a = this.get();
+    return Boolean(a.quiz?.passedAt && a.agreement && a.first && a.last && a.email && a.zip);
+  },
   started(): boolean {
     const a = this.get();
-    return Boolean(a.first || a.email || a.agreement);
+    return Boolean(a.videoAt || a.quiz || a.agreement || a.first || a.email);
   },
   status(): ApplicationStatus {
     const a = this.get();
-    if (a.quiz?.passedAt) return a.invite ? "in" : "pending";
+    if (this.complete()) return a.invite ? "in" : "pending";
     return this.started() ? "started" : "none";
   },
 };
