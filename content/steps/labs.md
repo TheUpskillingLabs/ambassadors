@@ -8,7 +8,7 @@ placeholder: true
 
 ## What we are
 
-It started at DC Public Library in fall 2025. It's nonpartisan, and it isn't a school or a bootcamp. Most people start at a workshop:
+It grew out of a fall 2025 pilot run by DC Public Library and Levy, a local strategic design firm. The pilot's alums founded The Labs. It's nonpartisan, and it isn't a school or a bootcamp. Most people start at a workshop:
 
 <!-- ladder -->
 

@@ -77,7 +77,7 @@
     "readTitle": "The short version",
     "read": [
       "Most people find The Labs because someone they know said “come with me.”",
-      "The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. It started as a pilot at DC Public Library in fall 2025, with about 50 ex-feds navigating career change and new technology together.",
+      "The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. It grew out of a fall 2025 pilot run by DC Public Library and Levy, a local strategic design firm, for about 50 ex-feds navigating career change and new technology. The pilot's alums founded The Labs.",
       "The tagline: “Find your people. Build your edge.” The idea behind it: AI is rewriting how we work, and it's easier to learn together than alone.",
       "You don't need a technical background. Just a willingness to learn by doing alongside others.",
       "A Build Cycle is twelve weeks, four a year: Problem Discovery, then Experimentation, then Synthesis. Small teams called pods form around the problems people vote for. Everything built is open-source by default.",
@@ -189,14 +189,14 @@
       {
         "q": "Where did The Upskilling Labs start?",
         "options": [
-          "At DC Public Library, with a pilot group of about 50 ex-feds",
+          "In a DC Public Library pilot, run with the design firm Levy, whose alums founded The Labs",
           "In Silicon Valley, as a startup accelerator",
           "Online during the pandemic in 2020",
           "At a university in Baltimore"
         ],
         "answer": 0,
         "hint": "A library, the nation's capital, and a group of former federal workers.",
-        "why": "It began as a pilot at DC Public Library in fall 2025, with about 50 ex-feds navigating career change and new technology together.",
+        "why": "It began as a fall 2025 pilot run by DC Public Library and Levy, a local strategic design firm, for about 50 ex-feds navigating career change and new technology. The alums of that pilot created The Upskilling Labs.",
         "$comment": "The coordinator's note: confirm the date. The brand brief lists the launch as January 2026; the pilot was fall 2025. Edit the explanation to match the official timeline."
       },
       {
