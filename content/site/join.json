@@ -97,39 +97,38 @@
     "videoLabel": "The Labs orb as a planet, teal glowing from its upper left and red from its lower right, at the centre of dense rings made of networks that orbit it. A pulse leaves the orb, travels node to node through each ring, and leaps across the gaps between rings in small arcs of light, like synapses firing."
   },
   "team": {
+    "$comment": "What you'll do: the three things, told as a story (first, then, one day), each with a brass outline icon (public/join/moment-{icon}.webp). The listening idea lives in the path section (Listening and leading).",
     "kicker": "What you'll do",
-    "title": "Curiosity goes both ways.",
-    "lede": "Every conversation is also a chance to listen. What you hear helps shape what The Labs works on.",
+    "title": "Coffee. A mic. A welcome.",
+    "lede": "Three moments, at your own pace. No pitch, no script.",
     "roles": [
       {
-        "icon": "talk",
-        "title": "Talk with people.",
-        "body": "No script needed. Ask questions, and listen."
+        "step": "First",
+        "icon": "coffee",
+        "title": "Start a conversation.",
+        "body": "Ask someone what they're curious about, and really listen. Over time, bring [N] people to their first workshop."
       },
       {
+        "step": "Then",
         "icon": "mic",
-        "title": "Take the mic, once.",
-        "body": "Give one short talk to a group. We'll help you practice first."
+        "title": "Take the mic.",
+        "body": "Give one short talk to a group you're part of. We'll help you practice first."
       },
       {
-        "icon": "link",
-        "title": "Share your name.",
-        "body": "When someone joins and mentions you, it counts toward your progress."
-      },
-      {
-        "icon": "people",
+        "step": "One day",
+        "icon": "handshake",
         "title": "Welcome the next ambassador.",
-        "body": "When you're ready, help someone new find their way in."
+        "body": "Help someone new find their way in, the way someone once did for you."
       }
     ]
   },
   "path": {
-    "kicker": "How it works",
+    "kicker": "Listening and leading",
     "title": [
-      "The button says you're in.",
-      "Then you pass it on."
+      "You start by listening.",
+      "You end up leading."
     ],
-    "lede": "A few small steps, each one celebrated. Your coordinator, a local volunteer lead, is with you the whole way.",
+    "lede": "What you hear in every conversation helps shape what The Labs works on next. Your coordinator, a local volunteer lead, is with you the whole way.",
     "steps": [
       {
         "title": "Raise your hand.",
@@ -144,14 +143,14 @@
         "reward": "button"
       },
       {
-        "title": "Get ready.",
-        "body": "Five short steps in the guide. About half an hour, whenever suits you.",
+        "title": "Listen first.",
+        "body": "Half an hour with the guide, then your first conversations. Ask, listen, and bring back what you hear.",
         "milestone": false,
         "reward": "button"
       },
       {
-        "title": "Pass it on.",
-        "body": "Invite [N] people to their first workshop, give one talk, and welcome one new ambassador.",
+        "title": "Then lead.",
+        "body": "Give your talk, and welcome the next ambassador. By then, you'll be ready.",
         "milestone": true,
         "reward": "button"
       }
