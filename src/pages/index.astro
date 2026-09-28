@@ -294,6 +294,7 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
 
     <script>
       import { mountButton } from "../scripts/button3d";
+      import { openCovers } from "../scripts/covers";
 
       // Nav: transparent over the hero, solid once you scroll; the link for the
       // section in view is marked; the header button steps aside at the join section.
@@ -318,15 +319,8 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
       addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
       spy();
 
-      // Chapter covers: where scroll-driven animation isn't supported, open each
-      // cover once as it comes into view (join.css does the rest).
-      if (!CSS.supports("view-timeline-name: --a") && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        document.documentElement.dataset.covers = "";
-        const coverIo = new IntersectionObserver((entries) => entries.forEach((e) => {
-          if (e.isIntersecting) { e.target.classList.add("in"); coverIo.unobserve(e.target); }
-        }), { threshold: 0.3 });
-        document.querySelectorAll(".jp-cover").forEach((c) => coverIo.observe(c));
-      }
+      // Chapter covers: opened as they come into view where scroll timelines aren't supported.
+      openCovers();
 
       // How it works: the step crossing the middle of the screen is the active
       // one, and the sticky picture shows its reward (each step names its own; all are the button for now).

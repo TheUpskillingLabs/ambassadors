@@ -4,16 +4,21 @@
    cover pins full screen, the shot rises out of black pushed in close and
    slowly pulls back, a highlight glides across the enamel, and the tagline
    resolves, holds, then lifts away as the scene falls back to black
-   (join.css). Reduced motion: a still, full-screen cover. */
+   (join.css). Reduced motion: a still, full-screen cover.
+   Used on the program page and on /contributing/, which passes its own id
+   and tagline over the same shots; src/scripts/covers.ts opens them where
+   scroll-driven animation isn't supported. */
 import { u } from "../lib/url";
 import j from "../../content/site/join.json";
-interface Props { n: number }
+interface Props { n: number; id?: string; title?: string }
 const { n } = Astro.props;
 const m = j.mission[n];
+const id = Astro.props.id ?? `ch-${m.id}`;
+const title = Astro.props.title ?? m.title;
 const img = (w: number) => u(`/join/${m.id}-${w}.webp`);
 const portrait = (w: number) => u(`/join/${m.id}-p-${w}.webp`); // 2:3 crops for phones, from scripts/cover-crops.mjs
 ---
-<section class="jp-cover" id={`ch-${m.id}`} aria-labelledby={`ch-${m.id}-t`}>
+<section class="jp-cover" id={id} aria-labelledby={`${id}-t`}>
   <div class="jp-cover-stage">
     <div class="jp-cover-media">
       <picture>
@@ -23,6 +28,6 @@ const portrait = (w: number) => u(`/join/${m.id}-p-${w}.webp`); // 2:3 crops for
     </div>
     <div class="jp-cover-glint" aria-hidden="true"></div>
     <div class="jp-cover-shade" aria-hidden="true"></div>
-    <h2 class="jp-cover-title" id={`ch-${m.id}-t`}>{m.title}</h2>
+    <h2 class="jp-cover-title" id={`${id}-t`}>{title}</h2>
   </div>
 </section>
