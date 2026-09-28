@@ -86,7 +86,8 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-hero { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center;
   padding: calc(var(--head) + clamp(40px, 7vh, 84px)) var(--g) clamp(64px, 10vh, 120px);
   background: radial-gradient(55% 45% at 0% 0%, rgba(0, 148, 160, 0.34), rgba(0, 148, 160, 0) 100%), radial-gradient(55% 50% at 100% 100%, rgba(0, 95, 104, 0.55), rgba(0, 95, 104, 0) 100%), var(--ink); }
-.jp-hero .stage { position: relative; width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: clamp(14px, 3vh, 30px); }
+/* The top margin keeps the title where it sat when a 15px kicker line was above it. */
+.jp-hero .stage { position: relative; width: 100%; display: flex; flex-direction: column; align-items: center; margin-top: calc(clamp(14px, 3vh, 30px) + 15px); }
 .jp-hero h1 { margin: 0; font-size: clamp(44px, 13.5vw, 210px); font-weight: 700; line-height: 0.86; letter-spacing: -0.05em; text-transform: uppercase; white-space: nowrap;
   background: linear-gradient(180deg, #F4F8F9 0%, rgba(244, 248, 249, 0.94) 34%, rgba(244, 248, 249, 0.16) 80%, rgba(244, 248, 249, 0) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent; }
