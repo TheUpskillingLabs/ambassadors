@@ -13,11 +13,15 @@
    reduced motion and machines without GPU WebGL get Cycles stills of the same
    pins from LabsPin.blend (public/contributing/), framed identically.
 
+   Three chapter covers (src/components/JoinCover.astro) reuse the program
+   page's macro shots of the pin, with this page's taglines.
+
    Copy lives in content/site/contributing.json. */
 import "@fontsource-variable/geologica/wght.css";
 import "../../styles/join.css";
 import "../../styles/contributing.css";
 import { u } from "../../lib/url";
+import JoinCover from "../../components/JoinCover.astro";
 import c from "../../../content/site/contributing.json";
 import j from "../../../content/site/join.json";
 
@@ -57,9 +61,9 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <span class="wide-only">{c.nav.brand}</span>
         </a>
         <ul class="jp-links">
-          <li><a class="navlink" href="#start" data-spy="why start">{c.nav.start}</a></li>
-          <li><a class="navlink" href="#rings" data-spy="rings">{c.nav.rings}</a></li>
-          <li><a class="navlink" href="#given" data-spy="given status decides">{c.nav.given}</a></li>
+          <li><a class="navlink" href="#start" data-spy="why ch-together start">{c.nav.start}</a></li>
+          <li><a class="navlink" href="#rings" data-spy="ch-levelup rings">{c.nav.rings}</a></li>
+          <li><a class="navlink" href="#given" data-spy="ch-leader given status decides">{c.nav.given}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={home}>{c.nav.program}</a>
@@ -104,6 +108,8 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         </div>
       </section>
 
+      <JoinCover n={c.chapters[0].shot} id={c.chapters[0].id} title={c.chapters[0].title} />
+
       <!-- Ways in: contribute, take a role, share what you know, get recognized. -->
       <section id="start" class="jp-sec">
         <div class="wrap">
@@ -119,6 +125,8 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           </div>
         </div>
       </section>
+
+      <JoinCover n={c.chapters[1].shot} id={c.chapters[1].id} title={c.chapters[1].title} />
 
       <!-- The way up: one level at a time, by scroll (wide screens) or by picking one. The pin beside it can be dragged. -->
       <section id="rings" class="jp-sec cm-rings">
@@ -166,6 +174,8 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         </div>
         <p class="wrap cm-note">{c.rings.names}</p>
       </section>
+
+      <JoinCover n={c.chapters[2].shot} id={c.chapters[2].id} title={c.chapters[2].title} />
 
       <section id="given" class="jp-sec">
         <div class="wrap">
@@ -233,6 +243,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
 
     <script>
       import { mountView, gpuOk, kick, type RankPin } from "../../scripts/rankpin";
+      import { openCovers } from "../../scripts/covers";
 
       const root = document.documentElement;
       const pin3d = document.querySelector<HTMLElement>("[data-pin3d]")!.dataset.pin3d!;
@@ -250,7 +261,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["why", "start", "rings", "given", "status", "decides", "join"].map((id) => document.getElementById(id)!);
+      const order = ["why", "ch-together", "start", "ch-levelup", "rings", "ch-leader", "given", "status", "decides", "join"].map((id) => document.getElementById(id)!);
       let spyQueued = false;
       const spy = () => {
         spyQueued = false;
@@ -260,6 +271,9 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
       };
       addEventListener("scroll", () => { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
       spy();
+
+      // Chapter covers: opened as they come into view where scroll timelines aren't supported.
+      openCovers();
 
       /* ── the way up: one level at a time ──
          Wide screens with motion: the stage holds still while you scroll, and the
