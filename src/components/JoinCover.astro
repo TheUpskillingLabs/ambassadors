@@ -11,10 +11,16 @@ interface Props { n: number }
 const { n } = Astro.props;
 const m = j.mission[n];
 const img = (w: number) => u(`/join/${m.id}-${w}.webp`);
+const portrait = (w: number) => u(`/join/${m.id}-p-${w}.webp`); // 2:3 crops for phones, from scripts/cover-crops.mjs
 ---
 <section class="jp-cover" id={`ch-${m.id}`} aria-labelledby={`ch-${m.id}-t`}>
   <div class="jp-cover-stage">
-    <div class="jp-cover-media"><img src={img(1800)} srcset={`${img(900)} 900w, ${img(1800)} 1800w`} sizes="100vw" alt={m.alt} width="1800" height="1125" loading="lazy" decoding="async" style={`object-position: ${m.position}`} /></div>
+    <div class="jp-cover-media">
+      <picture>
+        <source media="(orientation: portrait)" srcset={`${portrait(900)} 900w, ${portrait(1400)} 1400w`} sizes="100vw" />
+        <img src={img(1800)} srcset={`${img(900)} 900w, ${img(1800)} 1800w`} sizes="100vw" alt={m.alt} width="1800" height="1125" loading="lazy" decoding="async" style={`object-position: ${m.position}`} />
+      </picture>
+    </div>
     <div class="jp-cover-glint" aria-hidden="true"></div>
     <div class="jp-cover-shade" aria-hidden="true"></div>
     <h2 class="jp-cover-title" id={`ch-${m.id}-t`}>{m.title}</h2>

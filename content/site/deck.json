@@ -11,7 +11,7 @@
   },
   "photo": {
     "src": "/assets/photo-community.jpg",
-    "alt": "People working together at a Labs session."
+    "alt": "People working together at a session of The Labs."
   },
   "partners": [
     {
@@ -59,7 +59,7 @@
       "bg": "paper",
       "eyebrow": "What The Labs is",
       "cue": "Read the sentence as written, then walk the ladder in one breath.",
-      "notes": "30 seconds. Say 'small team' before 'Pod' if the room is new to The Labs.",
+      "notes": "30 seconds. Say 'small team' before 'pod' if the room is new to The Labs.",
       "seconds": 30
     },
     {
@@ -86,7 +86,7 @@
       "bg": "paper",
       "eyebrow": "Join The Labs",
       "cue": "Leave this up. 'The code goes to theupskillinglabs.org. Happy to take questions.'",
-      "notes": "Stay on this slide for all of Q&A.",
+      "notes": "Stay on this slide for all of Q&A. If asked where this is going: every metro region that wants it. The Labs isn't a place. It's something a region picks up, makes its own, and makes better. What they learn gets shared.",
       "seconds": 15
     }
   ],

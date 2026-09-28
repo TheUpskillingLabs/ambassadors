@@ -1,6 +1,6 @@
 # Ambassador Guide
 
-A mobile-first site that gets Upskilling Labs ambassadors ready to represent The Labs. It's one path of five steps, one page each: **The Labs → The Conversation → Your Story → The Room → Practice**. Finishing the path earns the ambassador pin. There's also a boilerplate deck you can present from `/present`.
+A mobile-first site that gets Upskilling Labs ambassadors ready to represent The Labs. The idea behind every screen: **think of someone who's figuring out what's next.** The site keeps offering that prompt, then gives the ambassador the words and the nerve. The ladder is four verbs: **Raise your hand → Get in → Get ready → Pass it on.** Getting in takes ten minutes on a phone (`/apply/`) and ends with the coordinator handing over the button in person. Getting ready is the guide: one path of five steps, one page each, **The Labs → The Conversation → Your Story → The Room → Practice**. Passing it on earns the pin. There's also a boilerplate deck you can present from `/present`.
 
 It uses the same design system as OLOS: the brand tokens, type scale, buttons, cards, and ink chrome are ported from `OLOS/app/globals.css`.
 
@@ -35,7 +35,8 @@ npm run check      # type-check
 | The public program page's copy | `content/site/join.json` |
 | The apply flow: registration labels, the Ambassador Agreement (versioned), the video slot, the quiz | `content/site/apply.json` |
 | Every UI string a component renders | `content/site/ui.en.json` |
-| **Upcoming sessions (the only moving data)** | `data/schedule.json` |
+| **Upcoming sessions** (moving data) | `data/schedule.json` |
+| **The founding ten** (moving data; the launch roster on the program page) | `data/roster.json` |
 | The ambassador pin: production art, spec, and Blender notes | `design/pin/` |
 
 Components don't hard-code copy. To add a translation later, add `content/site/ui.<locale>.json` and per-locale content folders.
@@ -69,11 +70,11 @@ These also need real values:
 | Route | What |
 | --- | --- |
 | `/` | The front door: the public Ambassador Program page. The hero pin is live 3D (`public/join/pin3d.js`: three.js and the pin mesh from `LabsPin.blend`, built in the design canvas; loaded once the page is idle, on screens 480 px and wider with a real GPU) that turns to follow the pointer; a Cycles still shows on phones, with reduced motion, and without GPU WebGL (`?pin3d=force` overrides that last check for testing). The page is in three chapters, each opened by a full-width cover with its tagline (Spark curiosity, Build community, Inspire confidence). Inside: why join, how it works (a sticky picture that turns from the button into the pin on wide screens), the launch goal with an ambassador's quote, questions, and what it takes. Every "Become an ambassador" goes to `/apply/`. Copy in `content/site/join.json`, media in `public/join/`. `/join/` redirects here. |
-| `/apply/` | Becoming an ambassador (orientation), one screen at a time: about you (first and last name, email, ZIP, who brought you in), the Ambassador Agreement, a short video, and a five-question quiz about The Labs (four right to pass, retry any time). Ends with "You're in" for people with a pre-approved invite, or "Almost there" (pending until the coordinator confirms) for everyone else, plus a pre-filled text to the coordinator and a link into the guide. An invite link pre-fills the form and shows who invited them; a share link (`/apply/#ref=Name`) only fills "Who brought you in?". Copy in `content/site/apply.json`. |
-| `/invite/` | **For coordinators (unlisted, not linked anywhere, `noindex`).** Makes a pre-approved invite link (`/apply/#invite=…`) to copy, text, or email, and keeps a list of invites made on that device. The invitee still signs the agreement and passes the quiz, then they're in straight away. Copy in `content/site/invite.json`. |
+| `/apply/` | Getting in (orientation), one screen at a time, in the order that gives before it takes: The Labs in three minutes (the film, or the short read the questions are written from), the coordinator's ten-question quiz (eight right to pass, retry any time, a hint on each), the Ambassador Agreement, then your name (first and last, email, ZIP, who brought you in). Ends with **the pass**: "You're in", the button, your name, and "Show this to your coordinator", who hands you the button at the event. Then the signature question, **Who's first?**: one name, and your phone sends the dated invite (the same message as the Conversation step). People without a pre-approved invite see "Almost there" until the coordinator sends them an invite link; opening it confirms them. An invite link pre-fills the form and shows who invited them; a share link (`/apply/#ref=Name`) only fills "Who brought you in?". Copy in `content/site/apply.json`. |
+| `/invite/` | **For coordinators (unlisted, not linked anywhere, `noindex`).** Makes a pre-approved invite link (`/apply/#invite=…`) to copy, text, or email, and keeps a list of invites made on that device. The invitee still passes the quiz and signs the agreement, then they're in straight away. An invite opened by someone who already finished on their own confirms them. Also holds the texts a coordinator sends later ("someone just joined through you"), since the site can't see those moments. Copy in `content/site/invite.json`. |
 | `/nominate/` | An ambassador suggests someone to their coordinator (a pre-filled text or email from their own phone). The coordinator decides and, if yes, sends a pre-approved invite. |
-| `/guide/` | The guide's Home, and the ambassador's dashboard after orientation: one button (Start, Continue, or, once all five are done, "Text your coordinator for your pin") and the five steps. It's open to anyone; people who haven't finished orientation see a nudge to apply, people waiting on their coordinator see "Almost there", and ambassadors are welcomed by name. Anyone who has passed gets **Bring someone in**: share your link, or nominate someone. |
-| `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/` | The five steps. Each ends with **Done**, which checks it off and opens a short "done" dialog: the five dots and one button to the next unfinished step (or the guide's Home and the pin once all five are done). Esc stays on the page. |
+| `/guide/` | The guide's Home, and the ambassador's dashboard after getting in: one button (Start, Continue, or, once all five are done, "Tell your coordinator you're ready") and the five steps. It's open to anyone; people who haven't finished orientation see a nudge to apply, people waiting on their coordinator see "Almost there", and ambassadors are welcomed by name. Anyone who has finished gets **Bring someone in**: share your ambassador link, or nominate someone. |
+| `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/` | The five steps. Each ends with **Done**, which checks it off and opens a short "done" dialog: the five dots and one button to the next unfinished step (or the guide's Home and "You're ready" once all five are done). Esc stays on the page. |
 | `/present/` | Full-screen deck. Arrows, click, and swipe move between slides; F toggles full screen. |
 | `/present/?short` | 60-second version (slides 1, 5, 6) |
 | `/present/?notes` | Laptop notes view: current slide, next slide, cues, and a timer. It drives any presentation window open on the same device. |
@@ -84,6 +85,7 @@ These also need real values:
 The site follows The Labs Brand Style Guide via the OLOS design system. Some rules are easy to break by accident:
 
 - **The logo always sits on ink.** The program page header has no bar: a soft pool of ink behind the logo fades out across it. The guide's bar is solid ink.
+- **Sentence case, with one deliberate exception.** The brand kit says no all-caps on the website. The program page's hero sets "Ambassador Program" in caps on purpose: it is treated as a product wordmark, the way a launch page sets a product name, and the 12px kickers follow the OLOS label style. Everything else is sentence case.
 - **Never let anything look like a button unless it is one.** Filled or outlined rounded boxes (`.btn`, `.chip`, `.ctl`) are only for things you can press. Labels, statuses, counters, page lists, and example quotes are plain text or text with a rule, never boxed. On slides, "Join The Labs" is words over a red rule, because nobody can press a projected slide.
 - **Full width.** Pages run edge to edge with one fluid gutter (`--gutter: clamp(16px, 4vw, 64px)`); text keeps a readable measure (`--measure: 68ch`) and sits left-aligned. On wide screens the steps become a sticky rail and Home splits into two columns. See `design/research/award-benchmarks.md` for the references behind this.
 - **One path, one button.** Every step is one page with one primary action (Done). Anything that adds a second path, a second menu, or a choice the ambassador has to make before they can start should earn its place with evidence.
@@ -97,7 +99,7 @@ The site follows The Labs Brand Style Guide via the OLOS design system. Some rul
 
 The spec's seven sections became one five-step path so an ambassador never has to choose where to go. Evidence for the cuts is in the "Ambassador guide ruthless cuts" research report.
 
-- **Structure:** Start Here and Know the Labs merged into **The Labs**. Each playbook is one page: The Conversation (Ask, Share, Invite) and The Room (the talk, the 60-second version, Q&A). Practice is its own step. There are no per-page templates, section landings, or progress meters; Home is the only progress view.
+- **Structure:** Start Here and Know The Labs merged into **The Labs**. Each playbook is one page: The Conversation (Ask, Share, Invite) and The Room (the talk, the 60-second version, Q&A). Practice is its own step. There are no per-page templates, section landings, or progress meters; Home is the only progress view.
 - **Removed:**
   - the tab bar and desktop nav (the app bar has the logo and **Present**);
   - the onboarding flow, the event countdown, and the if-then plan;
@@ -107,7 +109,8 @@ The spec's seven sections became one five-step path so an ambassador never has t
   - audience profiles (one line each in Invite), the glossary, story examples, and the story rehearsal timer;
   - practice filters, the Close rating, and Undo.
 - **Kept, because the evidence is strongest:** the dated personal ask (**Who will you ask?**), your own 30-second story, and retrieval practice with a think-first pause.
-- **Added:** the pin as the finish line. When all five steps are done, Home's button becomes "Text your coordinator for your pin". The coordinator confirms, because the site can't see anyone's progress. Nothing is sent by the site.
+- **Added:** "ready" as the guide's finish line. When all five steps are done, Home's button becomes "Tell your coordinator you're ready". The button is handed over in person when you get in; the pin is earned by passing it on. The coordinator confirms everything, because the site can't see anyone's progress. Nothing is sent by the site.
+- **Added:** the first ask on "You're in". The strongest thing in the guide is the dated personal ask, so the pass screen asks for one name the moment someone gets in, and saves it to the front of the Conversation step's list.
 
 ## Privacy
 
@@ -117,6 +120,8 @@ The site never sends personal information anywhere. The ambassador application (
 
 **Invites and pre-approval.** Until OLOS exists, the invite link itself is the pre-approval, and `/invite/` is coordinator-only only because its address isn't published. The invite's details sit after `#` in the link, so they never reach the web server. With OLOS: coordinators (and above) create invitations there (OLOS already has admin invitations, `app/api/invitations/route.ts`), `/invite/` goes behind sign-in, and nominations from `/nominate/` become a queue the coordinator approves. `toOlosPayload()` already sends `source: "invited"` and `invite: { invited_by, pre_approved }`.
 
+**The personal link.** The program page says everyone who joins The Labs through you counts. Today the only mechanism is the free-text "Who referred you?" field in OLOS's registration funnel, so the ask messages say "say {me} sent you", and the guide's share button makes an *ambassador* invite link (`/apply/#ref=Name`), which counts new ambassadors, not new Upskillers. For the promise to be literal, OLOS needs to accept a `?ref=` parameter on its join URL and pre-fill "Who referred you?" from it; then the guide's button can share a Labs URL. With sign-in, `/apply/` can also drop "Your name" (Google already has it) and the founding roster can come from OLOS instead of `data/roster.json`.
+
 `src/lib/apply.ts` is the only place that changes. `toOlosPayload()` already maps the application to OLOS's registration fields (`POST /api/registrations/funnel`: `first_name`, `last_name`, `email`, `zip`, `source`, `referred_by`), plus the ambassador parts OLOS doesn't have yet: an agreement with `doc: "ambassador"` and the quiz result. Before launch, OLOS needs:
 
 - an `ambassador` document type in `agreement_acceptances` (its `doc` CHECK allows `participation | guidelines | mentor` today);
@@ -125,6 +130,8 @@ The site never sends personal information anywhere. The ambassador application (
 - Google sign-in on `/apply/` (OLOS registration requires it). Then the guide can require sign-in instead of the on-device nudge.
 
 ## Assets
+
+`npm run covers` makes the portrait crops of the three chapter covers that phones get (`public/join/*-p-900.webp` and `*-p-1400.webp`, from the 1800w files, centred on each cover's `position`). The phone-sized orbits video (`orbits-600.mp4`, `orbits-600.webm`) was encoded with ffmpeg at 600px wide; re-encode it the same way if the source changes.
 
 `npm run assets` regenerates web-sized brand assets from a sibling OLOS checkout (`../OLOS`): the white logo lockup, partner marks, the grayscale community photo, and the app icons. The white lockup only appears on dark surfaces: the app bar and the dark slides.
 

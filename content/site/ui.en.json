@@ -13,7 +13,7 @@
   },
   "coord": {
     "body": "Hi, it's {me}, an ambassador. Quick question: ",
-    "pinBody": "Hi, it's {me}. I've finished the ambassador guide. How do I get my pin?",
+    "pinBody": "Hi, it's {me}. I've done all five steps of the ambassador guide. Ready when you are.",
     "stuck": "Stuck? Text your coordinator."
   },
   "deck": {
@@ -28,17 +28,17 @@
     "program": "The ambassador program"
   },
   "home": {
-    "claim": "Text your coordinator for your pin",
+    "claim": "Tell your coordinator you're ready",
     "continue": "Continue: {title}",
-    "doneGoal": "You've earned the ambassador pin.",
+    "doneGoal": "You're ready. Who's first?",
     "doneTitle": "You're ready.",
-    "goal": "Five steps. Finish them to earn the ambassador pin.",
+    "goal": "Five steps and you're ready for your first conversation. About half an hour, whenever you like.",
     "start": "Start",
     "title": "Get ready.",
     "welcome": "Welcome, {first}.",
-    "member": "You're an ambassador. Your button is on its way.",
+    "member": "You're an ambassador. Your coordinator has your button.",
     "nudgeTitle": "Not an ambassador yet?",
-    "nudge": "About ten minutes: a few details, the agreement, a short video, and a quiz.",
+    "nudge": "About ten minutes: The Labs in three minutes, ten questions, the agreement, your name.",
     "apply": "Become an ambassador",
     "applyContinue": "Continue your application",
     "pending": "Almost there. Your coordinator will confirm you. Read ahead while you wait."
@@ -47,7 +47,7 @@
     "home": "Home",
     "present": "Present",
     "steps": "Steps",
-    "finish": "Your pin",
+    "finish": "Ready",
     "stepOf": "Step {n} of {total}",
     "progress": "{n} of {total} steps done"
   },
@@ -148,7 +148,7 @@
     "last": "Last step",
     "next": "Next",
     "of": "Step {n} of {total} · {min} min",
-    "pin": "Your pin",
+    "pin": "You're ready",
     "present": "Present the deck",
     "short": "60-second version"
   },
@@ -171,9 +171,9 @@
     "upNext": "Up next",
     "nextMeta": "{min} min",
     "next": "Next: {title}",
-    "pinKicker": "Your pin is next",
-    "pinBody": "Text your coordinator from Home and your pin is on its way.",
-    "pinAlt": "The ambassador pin",
+    "pinKicker": "You're ready",
+    "pinBody": "Tell your coordinator from Home. Then go have the conversation.",
+    "pinAlt": "The ambassador button",
     "toHome": "Go to Home",
     "home": "Back to Home",
     "stay": "Stay on this page",

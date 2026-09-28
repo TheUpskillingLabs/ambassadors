@@ -4,7 +4,7 @@
    Wide screens add the five steps as a sticky rail on the left.
    Done marks the step and opens a short "done" dialog: what you finished,
    the five dots, and one button onward (the next unfinished step, or Home
-   and the pin once all five are done). Esc stays on the page. */
+   and "You're ready" once all five are done). Esc stays on the page. */
 import type { CollectionEntry } from "astro:content";
 import Base from "../layouts/Base.astro";
 import PageHeader from "./PageHeader.astro";
@@ -55,7 +55,7 @@ const next = all[i + 1];
       <span class="done-next-m" data-done-next-meta></span>
     </div>
     <div class="panel done-pin" data-done-pin hidden>
-      <img src={u("/pin.svg")} alt={t("done.pinAlt")} width="72" height="72" />
+      <img src={u("/join/button-card.webp")} alt={t("done.pinAlt")} width="72" height="72" />
       <span><strong>{t("done.pinKicker")}</strong><br />{t("done.pinBody")}</span>
     </div>
     <a class="btn btn-teal done-go" data-done-go href={next ? next.href : guideHome}><span data-done-go-label>{next ? t("done.next", { title: next.title }) : t("done.toHome")}</span><Icon name="arrow-right" size={18} /></a>

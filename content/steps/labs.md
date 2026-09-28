@@ -8,9 +8,27 @@ placeholder: true
 
 ## What we are
 
-It started at DC Public Library in fall 2025. It's nonpartisan, and it isn't a school or a bootcamp. Most people start at a workshop:
+It grew out of a fall 2025 pilot run by DC Public Library and Levy, a strategic design firm. The pilot's alums founded The Labs in January 2026. It's nonpartisan, and it isn't a school or a bootcamp. Most people start at a workshop:
 
 <!-- ladder -->
+
+## Why it needs you
+
+### You found your way through.
+
+You did the getting. The Labs made room. Now you know the way.
+
+### Be the one who says “come with me.”
+
+No pitch. Just someone they trust, saying it.
+
+### Be how it reaches the next neighborhood.
+
+The Labs isn't a place. A region picks it up. Only if someone says so.
+
+### Be early to something built to last. Bring someone.
+
+A year old, volunteer-run, and hoping to outlast us all. Every person you bring is one more pair of hands.
 
 ## Your job
 

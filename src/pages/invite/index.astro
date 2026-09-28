@@ -52,6 +52,20 @@ const fields = [
       <ul class="invite-list" data-sent></ul>
       <button class="linkbtn" type="button" data-clear data-confirm={i.clearConfirm}>{i.clear}</button>
     </section>
+
+    <!-- The texts a coordinator sends later, from their own phone. The site can't
+         see who joins through whom, so these moments are the coordinator's to make. -->
+    <section class="invite-texts" aria-labelledby="iv-texts">
+      <h2 id="iv-texts">{i.textsTitle}</h2>
+      <p class="apply-note">{i.textsLede}</p>
+      {i.texts.map((x) => (
+        <div class="panel invite-text">
+          <p class="nudge-t">{x.label}</p>
+          <p data-text-body>{x.body}</p>
+          <button class="linkbtn" type="button" data-copy-text={x.body}>{i.copy}</button>
+        </div>
+      ))}
+    </section>
   </div>
 
   <script>
@@ -63,6 +77,10 @@ const fields = [
     const form = root.querySelector<HTMLFormElement>("[data-form]")!;
     const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
     const fill = (s: string, v: Record<string, string>) => s.replace(/\{(\w+)\}/g, (_, k) => v[k] ?? "");
+    root.querySelectorAll<HTMLButtonElement>("[data-copy-text]").forEach((b) => b.addEventListener("click", async () => {
+      const label = b.textContent;
+      try { await navigator.clipboard.writeText(b.dataset.copyText!); b.textContent = S.copied; setTimeout(() => (b.textContent = label), 2000); } catch { /* clipboard unavailable */ }
+    }));
     const BY = "ag.inviteBy.v1";
     const byInput = form.elements.namedItem("by") as HTMLInputElement;
     try { byInput.value = localStorage.getItem(BY) ?? ""; } catch { /* storage unavailable */ }
