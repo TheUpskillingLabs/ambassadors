@@ -84,7 +84,7 @@
       {
         "label": "If you've got something to teach",
         "title": "Teach what you know.",
-        "body": "Everyone does. Mentor a pod, look over work you know well, and help newer people find their feet. Your time counts here, and we'll make sure people know it."
+        "body": "Everyone does. Mentor a pod, look over work you know well, and help newer people find their feet. Your time counts here."
       },
       {
         "label": "If you'd rather back it than build it",
@@ -185,17 +185,17 @@
   "status": {
     "kicker": "Active or emeritus",
     "title": "The pin is forever. The seat takes showing up.",
-    "lede": "Nobody takes the pin back. But the say that comes with it belongs to whoever's doing the work right now. Keep doing it, and it's yours.",
+    "lede": "Nobody takes the pin back. But the say that comes with it belongs to whoever's doing the work right now.",
     "items": [
       {
         "label": "Active",
         "title": "In the thick of it.",
-        "body": "A seat in your Lab. A say in your region's playbooks, tools, kits and platform. Both are yours as long as you keep showing up."
+        "body": "A seat in your Lab, and a say in your region's playbooks, tools, kits and platform."
       },
       {
         "label": "Emeritus",
         "title": "Taking a step back.",
-        "body": "Life happens. Step back and you keep the pin, the level, and your voice. When you're ready, take the next open seat."
+        "body": "Step back and you keep the pin, the level, and your voice. When you're ready, take the next open seat."
       }
     ]
   },
