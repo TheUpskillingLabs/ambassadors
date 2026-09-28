@@ -137,6 +137,12 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-col h3 { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.016em; color: var(--t1); }
 .jp-cols.four .jp-col h3 { font-size: 22px; line-height: normal; }
 .jp-col p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--t2); }
+/* What you'll do: three moments told in order, each with a polished brass
+   outline icon (Cycles renders from the "Moment Icons" scene in LabsPin.blend,
+   lit by the pin's studio). */
+.jp-moments { list-style: none; padding: 0; }
+.jp-moments .icon { display: block; width: clamp(96px, 9vw, 128px); height: auto; aspect-ratio: 1; margin: 0 0 14px; }
+.jp-moments .label { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
 
 /* about the labs: on ink like its neighbours, lit by the same teal glow as the
    hero and the join section, and feathered into ink above and below so it
