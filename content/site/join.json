@@ -97,7 +97,7 @@
     "videoLabel": "The Labs orb as a planet, teal glowing from its upper left and red from its lower right, at the centre of dense rings made of networks that orbit it. A pulse leaves the orb, travels node to node through each ring, and leaps across the gaps between rings in small arcs of light, like synapses firing."
   },
   "team": {
-    "$comment": "What you'll do: the three things, told as a story (first, then, one day), each with an orb icon. The listening idea lives in the path section (Listening and leading).",
+    "$comment": "What you'll do: the three things, told as a story (first, then, one day), each with a brass outline icon (public/join/moment-{icon}.webp). The listening idea lives in the path section (Listening and leading).",
     "kicker": "What you'll do",
     "title": "Coffee. A mic. A welcome.",
     "lede": "Three moments, at your own pace. No pitch, no script.",

@@ -19,12 +19,6 @@ const media = (f: string) => u(`/join/${f}`);
 const still = media("hero-button-760.webp");
 const stillSet = `${media("hero-button-760.webp")} 760w, ${media("hero-button-1200.webp")} 1200w`;
 const apply = u("/apply/");
-// What you'll do: the three moments' glyphs, from Lucide (ISC, lucide.dev), on a 24px grid.
-const icons: Record<string, string> = {
-  coffee: '<path d="M10 2v2"/><path d="M14 2v2"/><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/><path d="M6 2v2"/>',
-  mic: '<path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/>',
-  handshake: '<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>',
-};
 const pageTitle = `${j.title} · The Upskilling Labs`;
 
 // Our why: the manifesto, split into letters so the page can brighten it
@@ -126,7 +120,7 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
           <ol class="jp-cols three jp-moments reveal">
             {j.team.roles.map((r) => (
               <li class="jp-col">
-                <span class="orb" aria-hidden="true"><svg viewBox="0 0 24 24" set:html={icons[r.icon]} /></span>
+                <img class="icon" src={media(`moment-${r.icon}.webp`)} alt="" width="128" height="128" loading="lazy" />
                 <p class="label">{r.step}</p><h3>{r.title}</h3><p>{r.body}</p>
               </li>
             ))}
