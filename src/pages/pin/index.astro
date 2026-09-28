@@ -1,0 +1,263 @@
+---
+/* /pin/ — "The pin you can't buy": the public summary of The Labs'
+   recognition system (design/research/recognition-system.md, a draft).
+   Anyone can contribute; role buttons are Trained, a brass rim marks a
+   Practitioner; the Contributing Member pin starts at Reviewer, with backing
+   plates for Committer and Maintainer; membership has two doors. Same
+   standalone dark look as the program page (join.css). Copy lives in
+   content/site/pin.json; the register in data/register.json. */
+import "@fontsource-variable/geologica/wght.css";
+import "../../styles/join.css";
+import { u } from "../../lib/url";
+import c from "../../../content/site/pin.json";
+import j from "../../../content/site/join.json";
+import { register } from "../../lib/register";
+
+const media = (f: string) => u(`/join/${f}`);
+const home = u("/");
+const apply = u("/apply/");
+const pageTitle = `${c.title} · The Upskilling Labs`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={c.description} />
+    <meta name="theme-color" content="#00141B" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={c.description} />
+    <meta property="og:image" content={new URL(media("pin.webp"), Astro.site)} />
+    <link rel="icon" href={u("/favicon.png")} type="image/png" />
+    <link rel="preload" as="image" href={media("pin-800.webp")} fetchpriority="high" />
+  </head>
+  <body class="jp cp">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="jp-head" data-head>
+      <nav aria-label="The pin">
+        <a class="jp-brand" href="#top">
+          <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
+          <span class="wide-only">{c.nav.brand}</span>
+        </a>
+        <ul class="jp-links">
+          <li><a class="navlink" href="#buttons" data-spy="open buttons">{c.nav.buttons}</a></li>
+          <li><a class="navlink" href="#ladder" data-spy="ladder">{c.nav.pin}</a></li>
+          <li><a class="navlink" href="#membership" data-spy="membership">{c.nav.membership}</a></li>
+          <li><a class="navlink" href="#register" data-spy="ceremony seats register faq">{c.nav.register}</a></li>
+        </ul>
+        <div class="jp-end">
+          <a class="navlink wide-only" href={home}>{c.nav.program}</a>
+          <a class="btn" href={apply} data-head-cta><span class="wide-only">{c.nav.cta}</span><span class="narrow-only">{c.nav.ctaShort}</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section id="top" class="cp-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <div class="wrap cp-hero-grid">
+          <div>
+            <p class="kicker rise">{c.hero.kicker}</p>
+            <h1 class="rise">{c.hero.title}</h1>
+            <p class="lede rise">{c.hero.lede}</p>
+          </div>
+          <img class="cp-hero-pin pinin" src={media("pin-800.webp")} alt={c.hero.alt} width="800" height="800" fetchpriority="high" />
+        </div>
+      </section>
+
+      <section id="open" class="jp-sec">
+        <div class="wrap">
+          <p class="kicker">{c.open.kicker}</p>
+          <h2 class="h2">{c.open.title}</h2>
+          <p class="lede">{c.open.body}</p>
+        </div>
+      </section>
+
+      <section id="buttons" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.tiers.kicker}</p>
+            <h2 class="h2">{c.tiers.title}</h2>
+            <p class="lede">{c.tiers.lede}</p>
+          </div>
+          <div class="cp-tiers reveal">
+            {c.tiers.items.map((t) => (
+              <div class:list={["cp-tier", t.id]}>
+                <div class:list={["cp-button", { "jp-rimmed": t.id === "practitioner" }]} aria-hidden="true">
+                  <img src={media("button-card.webp")} alt="" width="180" height="180" loading="lazy" />
+                </div>
+                <div><p class="kicker">{t.label}</p><h3>{t.title}</h3><p>{t.body}</p></div>
+              </div>
+            ))}
+          </div>
+          <div class="cp-roles reveal">
+            <p class="kicker">{c.tiers.rolesLabel}</p>
+            <ul>{c.tiers.roles.map((r) => <li>{r}</li>)}</ul>
+            <p>{c.tiers.builder}</p>
+          </div>
+          <p class="cp-note reveal">{c.tiers.mark}</p>
+        </div>
+      </section>
+
+      <section id="ladder" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.ladder.kicker}</p>
+            <h2 class="h2">{c.ladder.title}</h2>
+            <p class="lede">{c.ladder.lede}</p>
+          </div>
+          <ol class="cp-ranks reveal">
+            {c.ladder.ranks.map((r) => (
+              <li class="cp-rank" data-rank={r.id}>
+                <div class="cp-plates" data-plates={r.plates} role="img" aria-label={c.ladder.alt[r.id as keyof typeof c.ladder.alt]}>
+                  <img src={media("pin-card.webp")} alt="" width="180" height="180" loading="lazy" />
+                </div>
+                <p class="kicker">{r.shows}</p>
+                <h3>{r.name}</h3>
+                <p>{r.body}</p>
+              </li>
+            ))}
+          </ol>
+          <p class="cp-metal reveal">{c.ladder.metal}</p>
+          <div class="cp-roles reveal">
+            <p class="kicker">{c.ladder.areasLabel}</p>
+            <ul>{c.ladder.areas.map((a) => <li>{a}</li>)}</ul>
+            <p>{c.ladder.areasNote}</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="membership" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.membership.kicker}</p>
+            <h2 class="h2">{c.membership.title}</h2>
+            <p class="lede">{c.membership.lede}</p>
+          </div>
+          <div class="cp-doors reveal">
+            {c.membership.doors.map((d) => (
+              <div class="cp-door" data-door={d.id}>
+                <h3>{d.name}</h3>
+                <dl><dt>How</dt><dd>{d.how}</dd><dt>You get</dt><dd>{d.gets}</dd></dl>
+                <p class="cp-door-note">{d.note}</p>
+              </div>
+            ))}
+          </div>
+          <ul class="cp-rules reveal">{c.membership.rules.map((r) => <li>{r}</li>)}</ul>
+        </div>
+      </section>
+
+      <section id="ceremony" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.ceremony.kicker}</p>
+            <h2 class="h2">{c.ceremony.title}</h2>
+            <p class="lede">{c.ceremony.lede}</p>
+          </div>
+          <div class="jp-cols four reveal">
+            {c.ceremony.moments.map((m) => (
+              <div class="jp-col"><p class="label">{m.label}</p><p>{m.body}</p></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="seats" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.seats.kicker}</p>
+            <h2 class="h2">{c.seats.title}</h2>
+          </div>
+          <div class="jp-cols three reveal">
+            {c.seats.items.map((it) => (
+              <div class="jp-col"><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
+          <p class="cp-note reveal">{c.seats.exception}</p>
+        </div>
+      </section>
+
+      <section id="register" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.register.kicker}</p>
+            <h2 class="h2">{c.register.title}</h2>
+          </div>
+          {register.length === 0
+            ? <p class="lede reveal" data-register-empty>{c.register.empty}</p>
+            : (
+              <ol class="cp-roll reveal" aria-label={c.register.label.replace("{n}", String(register.length))}>
+                {register.map((e) => (
+                  <li><span class="num">{e.number}</span><b>{e.name}</b><span>{e.rank}</span>{e.region && <span>{e.region}</span>}{e.status === "emeritus" && <span class="alum">{c.register.emeritus}</span>}</li>
+                ))}
+              </ol>
+            )}
+        </div>
+      </section>
+
+      <section id="faq" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.faq.kicker}</p>
+            <h2 class="h2">{c.faq.title}</h2>
+          </div>
+          <div class="jp-faq reveal">
+            {c.faq.items.map((f) => (
+              <details><summary><span>{f.q}</span><i aria-hidden="true"></i></summary><p>{f.a}</p></details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{c.join.title}</h2>
+          <p class="lede">{c.join.lede}</p>
+          <div class="row">
+            <a class="btn" href={apply}>{c.join.cta}</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="jp-foot">
+      <div class="wrap">
+        <div class="col">
+          <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
+          <p>{j.footer.legal}</p>
+          <p>{j.footer.rights}</p>
+          <p><a class="textlink" href={home}>{c.footer.program} →</a></p>
+          <p>{c.footer.renders}</p>
+          {c.placeholder && <p class="ph">{c.footer.draft}</p>}
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Nav: compact once you scroll; the link for the section in view is
+      // marked; the header button steps aside at the join section.
+      const root = document.documentElement;
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
+        .observe(document.querySelector("[data-top-sentinel]")!);
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => {
+        head.classList.toggle("cta-off", e.isIntersecting);
+        cta.tabIndex = e.isIntersecting ? -1 : 0;
+      }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+      const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
+      const order = ["open", "buttons", "ladder", "membership", "ceremony", "seats", "register", "faq", "join"].map((id) => document.getElementById(id)!);
+      let queued = false;
+      const spy = () => {
+        queued = false;
+        const line = innerHeight * 0.35;
+        const current = order.filter((el) => el.getBoundingClientRect().top <= line).pop()?.id ?? "";
+        links.forEach((a) => (a.dataset.spy!.split(" ").includes(current) ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current")));
+      };
+      addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
+      spy();
+    </script>
+  </body>
+</html>
