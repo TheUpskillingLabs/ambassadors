@@ -1,123 +1,207 @@
 {
-  "$comment": "The contributing framework (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page), a working draft to share by link. Roles, recognition and who decides; the pins and buttons are only the symbols of each step. Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open.",
+  "$comment": "The contributor community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the levels. Learning by doing, applied to The Labs itself: anyone can contribute, and each level means you've worked hands-on in more of its workstreams, major and minor. The pins are the symbol, live 3D on desktop. Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open.",
   "placeholder": true,
   "title": "Contributing",
-  "description": "How The Upskilling Labs is run, and who it trusts with what: public roles, recognition earned in steps, and who decides. A working draft.",
+  "description": "Learn by doing, on The Labs itself. Anyone can pitch in, beginners and experts side by side, and each level means you've had your hands on more of how The Labs runs.",
   "nav": {
     "brand": "Contributing",
-    "ladder": "The ladder",
-    "roles": "Roles",
-    "decides": "Who decides",
+    "start": "Start",
+    "rings": "The way up",
+    "metal": "Up close",
+    "given": "How it works",
     "program": "Ambassador program",
     "cta": "Become an ambassador",
     "ctaShort": "Join us"
   },
+  "draft": "A working draft. The board hasn't approved the levels or the workstreams yet, and the pins are still being made.",
   "hero": {
-    "kicker": "Contributing",
-    "title": "How The Labs is run, and who it trusts with what.",
-    "lede": "Anyone can contribute. Trust is earned in steps, confirmed by peers, and recorded. Each step has a symbol, but the responsibility is the point.",
-    "draft": "A draft for the board. Only the ambassador program exists today."
+    "title": [
+      "Build",
+      "The Labs"
+    ],
+    "lede": "At The Labs you learn by doing, and that includes helping run the place. Come as you are. Grow as far as you like.",
+    "cta": "See the way up",
+    "status": "First pins: our two steering committees",
+    "pinAlt": "The Contributing Member pin, turning to follow your pointer"
   },
-  "ladder": {
-    "kicker": "The ladder",
-    "title": "Six steps of trust.",
-    "cols": ["Who", "How you get there", "Trusted with", "Symbol"],
-    "rows": [
+  "why": {
+    "kicker": "Why here",
+    "title": "A community you can actually show up to.",
+    "items": [
       {
-        "id": "contributor",
-        "who": "Contributor",
-        "how": "Improve anything The Labs shares: a playbook, a flyer, the code.",
-        "trusted": "Propose changes.",
-        "symbol": "Credit by name"
+        "label": "In person",
+        "title": "Close to home.",
+        "body": "You'll work with people from your neighborhood, face to face, not just in a chat window."
       },
       {
-        "id": "role",
-        "who": "Role holder",
-        "how": "Trained and seated in a role.",
-        "trusted": "Act in The Labs' name, in that role.",
-        "symbol": "Role button",
-        "image": "join/button-card.webp"
+        "label": "Side by side",
+        "title": "Beginners and experts, together.",
+        "body": "Learn from people who've done it. Teach what you know."
       },
+      {
+        "label": "Hands-on",
+        "title": "Learning is the point.",
+        "body": "Every job here teaches you something, and AI tools help you build more than you'd expect."
+      },
+      {
+        "label": "Local",
+        "title": "Real problems, real neighbors.",
+        "body": "What you make helps someone you might pass on the street."
+      }
+    ]
+  },
+  "start": {
+    "kicker": "Start anywhere",
+    "title": "Some people use the playbook. Some write the next page.",
+    "lede": "Pick a way in. They all count.",
+    "items": [
+      {
+        "label": "Contribute",
+        "title": "Make something better.",
+        "body": "A guide, a flyer, a talk, a bit of code. Anyone can suggest a change, and we'll credit you by name."
+      },
+      {
+        "label": "Take a role",
+        "title": "Try it for real.",
+        "body": "Upskiller, Poderator, Mentor or Ambassador. You'll get trained, then get plenty of practice. Ambassador is open now."
+      },
+      {
+        "label": "Share what you know",
+        "title": "Already an expert?",
+        "body": "Mentor a pod, look over work in your field, and help newer people find their feet. Your time counts, and we'll recognize it."
+      },
+      {
+        "label": "Get recognized",
+        "title": "Earn the pin.",
+        "body": "When The Labs runs on something you've given, the people who saw it put your name forward."
+      }
+    ]
+  },
+  "rings": {
+    "kicker": "The way up",
+    "title": "Every level is more of The Labs, hands on.",
+    "lede": "Each level means you've worked in more parts of The Labs. Go as far as you like: plenty of people find the role they love and stay there.",
+    "readout": {
+      "label": "Hands-on in"
+    },
+    "labels": {
+      "how": "How you get there",
+      "trusted": "Trusted with"
+    },
+    "steps": [
       {
         "id": "member",
-        "who": "Contributing Member",
-        "how": "Recognized for work The Labs now runs on, with a written citation. The first go to our two steering committees.",
-        "trusted": "Vouch for Reviewers.",
-        "symbol": "The pin",
-        "image": "contributing/pin-member-brass-640.webp"
+        "rank": "Contributing Member",
+        "shows": "One part of The Labs",
+        "line": "Something you gave is part of how The Labs runs.",
+        "how": "Your work, your time, or your know-how made a real difference. We write down what it was.",
+        "trusted": "Vouching for people who are ready for the next level."
       },
       {
         "id": "reviewer",
-        "who": "Reviewer",
-        "how": "A Practitioner in two roles, sponsored by two pin holders.",
-        "trusted": "Review work in the roles you've practised.",
-        "symbol": "One ring",
-        "image": "contributing/pin-reviewer-brass-640.webp"
+        "rank": "Reviewer",
+        "shows": "Two major workstreams",
+        "line": "You've done it, so you can check it.",
+        "how": "Hands-on in two major workstreams, with two pin holders backing you.",
+        "trusted": "Looking over work in the areas you know, and helping newer people get there."
       },
       {
         "id": "committer",
-        "who": "Committer",
-        "how": "Has helped across every core area.",
-        "trusted": "Approve work, within a written grant from the board.",
-        "symbol": "Two rings",
-        "image": "contributing/pin-committer-brass-640.webp"
+        "rank": "Approver",
+        "shows": "Every major workstream",
+        "line": "You've seen every part of The Labs up close.",
+        "how": "Hands-on in every major workstream, and some of the smaller ones.",
+        "trusted": "Saying yes to changes in your Lab's playbooks, and mentoring Reviewers."
       },
       {
         "id": "maintainer",
-        "who": "Maintainer",
-        "how": "Nominated by Maintainers, confirmed by the board.",
-        "trusted": "Set direction for an area.",
-        "symbol": "Three rings",
-        "image": "contributing/pin-maintainer-brass-640.webp"
+        "rank": "Maintainer",
+        "shows": "Major and minor",
+        "line": "You know how it all fits together.",
+        "how": "Hands-on across the board. Other Maintainers put you forward, and the board confirms.",
+        "trusted": "Setting the direction for a workstream, with the board keeping the final say."
       }
     ],
-    "note": "Brass for regional work, silver for national. Rank names are drafts. [PLACEHOLDER]"
+    "names": "Workstreams and level names are still drafts. Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Smaller ones include events, communications and research. [PLACEHOLDER]"
   },
-  "roles": {
-    "kicker": "Roles",
-    "title": "Four roles to start.",
-    "lede": "Each has two stages: Trained, then Practitioner once the role's lead confirms the work.",
-    "open": "Open now",
-    "items": [
-      { "name": "Upskiller", "does": "Works on a real local problem with a small team (a pod). A Builder once practised.", "now": false },
-      { "name": "Poderator", "does": "Leads a pod through a Build Cycle.", "now": false },
-      { "name": "Mentor", "does": "Helps pods when they get stuck.", "now": false },
-      { "name": "Ambassador", "does": "Brings people to their first workshop, and gives one talk.", "now": true }
+  "metal": {
+    "kicker": "Up close",
+    "title": "Every level has its own pin.",
+    "lede": "Pick one and turn it. Each is handed to you in person, and none is ever for sale.",
+    "rankLegend": "Level",
+    "ranks": [
+      "Member",
+      "Reviewer",
+      "Approver",
+      "Maintainer"
+    ],
+    "hint": "Drag to turn it",
+    "hintKeys": "Arrow keys turn it",
+    "stageLabel": "The {rank} pin. Drag, or use the arrow keys, to turn it.",
+    "ringsLabel": [
+      "The Contributing Member pin",
+      "The Reviewer pin",
+      "The Approver pin",
+      "The Maintainer pin"
     ]
   },
   "given": {
-    "kicker": "Recognition",
-    "title": "How it happens.",
+    "kicker": "How it works",
+    "title": "It starts with the work. It ends with a handshake.",
     "steps": [
-      { "title": "Do the work.", "body": "Recognition always starts there." },
-      { "title": "Two pin holders vouch.", "body": "From different roles or Labs." },
-      { "title": "It's recorded.", "body": "Your Lab checks it. HQ records it, with a one-line citation." },
-      { "title": "Pinned.", "body": "At a regional gathering. The record comes first; the handshake follows." }
+      {
+        "title": "Do the work.",
+        "body": "Give your time, your skills, or something you made."
+      },
+      {
+        "title": "Two people back you.",
+        "body": "Sponsors who already wear the pin help you get there, then vouch that you did."
+      },
+      {
+        "title": "We write it down.",
+        "body": "Your Lab checks it, and it goes on the record with a line about what you did."
+      },
+      {
+        "title": "Pinned.",
+        "body": "At the next regional gathering. Your sponsors pin it on and say a few words."
+      }
+    ],
+    "note": "There's no rush. Take the time it takes, and every kind of help counts."
+  },
+  "status": {
+    "kicker": "Active or emeritus",
+    "title": "Every level is active or emeritus.",
+    "lede": "Your level is yours for good. The only question is whether you're doing the work right now.",
+    "items": [
+      {
+        "label": "Active",
+        "title": "In the thick of it.",
+        "body": "You have a seat in your Lab, and the say that comes with your level."
+      },
+      {
+        "label": "Emeritus",
+        "title": "Taking a step back.",
+        "body": "You keep your level, your pin, and your voice. Come back whenever there's a seat open."
+      }
     ]
   },
   "decides": {
-    "kicker": "Who decides",
-    "title": "Ranks recognize. Boards decide.",
+    "kicker": "What stays true",
+    "title": "A few things that won't change.",
     "rules": [
-      "Ranks are permanent. Permissions come with an active seat, which the board grants in writing. Stepping back makes you emeritus.",
-      "Ranks carry no vote. The boards run programs, money, people and the brand.",
-      "No one can buy a rank, a pin, or a vote. Supporting Members get a button, nothing more.",
-      "It's recognition, not certification.",
-      "The one exception to permanence is a serious breach of the Code of Conduct."
+      "Levels don't come with a vote. The boards look after programs, money, people and the brand.",
+      "No one can buy a pin, a level, or a vote.",
+      "This is a thank-you from the community, not a certificate.",
+      "The only way to lose a level is a serious breach of the Code of Conduct."
     ]
   },
-  "open": {
-    "kicker": "Still open",
-    "title": "For the board.",
-    "items": [
-      "The rank names.",
-      "The core areas.",
-      "What each seat may do.",
-      "Who confers the Contributing Member pin.",
-      "Whether paid work counts."
-    ]
+  "join": {
+    "title": "Every pin starts with one contribution.",
+    "lede": "Right now the way in is the ambassador program. Share your story, bring someone to their first workshop, and see what you end up building.",
+    "cta": "Become an ambassador"
   },
   "footer": {
+    "renders": "Images of the pin are 3D renders, not photos. The real pins are still being made.",
     "program": "The ambassador program",
     "source": "Draft source: design/research/recognition-system.md"
   }

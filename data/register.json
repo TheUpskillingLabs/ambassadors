@@ -1,4 +1,4 @@
 {
-  "$comment": "The register of Contributing Members, shown on /roles/ and /contributing/. An award is recorded here first; HQ makes and ships only what the register shows. Each entry: number (matches the back of the pin), name, rank (Contributing Member | Reviewer | Committer | Maintainer), level (regional | national), region, since (e.g. 2026-Q4), status (active | emeritus). Never delete an entry, except for a serious Code of Conduct breach. Moving data, like roster.json.",
+  "$comment": "The register of Contributing Members, shown on /roles/ and /contributing/. An award is recorded here first; HQ makes and ships only what the register shows. Each entry: number (matches the back of the pin), name, rank (Contributing Member | Reviewer | Approver | Maintainer), level (regional | national), region, since (e.g. 2026-Q4), status (active | emeritus). Never delete an entry, except for a serious Code of Conduct breach. Moving data, like roster.json.",
   "entries": []
 }
