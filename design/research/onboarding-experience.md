@@ -63,7 +63,7 @@ Where the prompt appears, in order: the meta description; the first chapter's le
 
 **Casing, from the live site.** Upskiller (always capitalised), pod (lowercase), Build Cycle, "Join The Labs" in buttons. The Labs' own site lowercases "the" mid-sentence; this site never does: always "The Upskilling Labs" or "The Labs", never a bare "Labs", never a plural verb, and the copy linter now enforces it. Fixed across the site. "Poderator" now carries a two-word gloss the first time an ambassador meets it.
 
-**The tier name** (decided 2026-09-28: **Contributor**, the open-source word, over the recommendation below. The pin takes a bit of every way of contributing; Maintainer and Lead are the proposed rungs above. See the README's Roles.) Constraints: volunteers, no statutory membership; an umbrella over mentors, Poderators, organisers and ambassadors; fits The Labs' vocabulary; sentence-case friendly; not member, fellow, partner or staff.
+**The tier name** (superseded 2026-09-28 by `recognition-system.md`: Contributor is open to anyone and not a rank; the pin is the Contributing Member pin, from Reviewer up. See the README's Roles.) Constraints: volunteers, no statutory membership; an umbrella over mentors, Poderators, organisers and ambassadors; fits The Labs' vocabulary; sentence-case friendly; not member, fellow, partner or staff.
 
 | Candidate | For | Against |
 | --- | --- | --- |

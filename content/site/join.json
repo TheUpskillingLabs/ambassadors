@@ -17,7 +17,7 @@
       "Ambassador",
       "Program"
     ],
-    "pinAlt": "The Contributor pin, floating and turning to follow your pointer",
+    "pinAlt": "The pin, floating and turning to follow your pointer",
     "lede": "A volunteer corps for people who can't keep a good thing to themselves.",
     "cta": "Become an ambassador",
     "secondary": "See why",
@@ -157,10 +157,10 @@
   "path": {
     "kicker": "How it works",
     "title": [
-      "The button says you're an ambassador.",
-      "The pin says you're a contributor."
+      "The button says you're trained.",
+      "The rim says you've done it."
     ],
-    "lede": "Small steps, each one marked. Your coordinator walks the ambassador part with you.",
+    "lede": "Small steps, each one marked. Your coordinator walks the ambassador part with you. The pin comes after.",
     "steps": [
       {
         "title": "Raise your hand.",
@@ -170,7 +170,7 @@
       },
       {
         "title": "Get in.",
-        "body": "Ten minutes on your phone. Your coordinator hands you the button: Oriented.",
+        "body": "Ten minutes on your phone. Your coordinator hands you the Ambassador button.",
         "milestone": true,
         "reward": "button"
       },
@@ -182,13 +182,13 @@
       },
       {
         "title": "Pass it on.",
-        "body": "[N] new Upskillers. One talk. One new ambassador. Your button is Practiced.",
+        "body": "[N] new Upskillers. One talk. One new ambassador. Your button gets its brass rim.",
         "milestone": true,
-        "reward": "button"
+        "reward": "rim"
       },
       {
-        "title": "Contribute.",
-        "body": "Oriented and Practiced in every core area of The Labs. Pinned at a regional summit.",
+        "title": "Go for the pin.",
+        "body": "Practise one more role, like Mentor or Poderator. Two people who wear the pin sponsor you. It's yours.",
         "milestone": true,
         "reward": "pin"
       }
@@ -196,25 +196,35 @@
     "rewards": [
       {
         "id": "button",
-        "kicker": "From your coordinator",
+        "kicker": "Trained · From your coordinator",
         "title": "The button",
         "body": "Ten minutes in, it's in your hand. It's how ambassadors spot each other.",
         "image": "button-card.webp",
         "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
       },
       {
+        "id": "rim",
+        "kicker": "Practitioner",
+        "title": "The rim",
+        "body": "Brass, added around your button once you've passed it on. Numbered, and on the register.",
+        "image": "button-card.webp",
+        "alt": "The ambassador button with a brass rim around it",
+        "rim": true
+      },
+      {
         "id": "pin",
-        "kicker": "Next: Contributor",
+        "kicker": "Contributing Member",
         "title": "The pin",
-        "body": "Oriented and Practiced in every core area of The Labs. Pinned at a regional summit. Yours for life.",
+        "body": "The pin you can't buy. Two practices. Two sponsors. One pin.",
         "image": "pin-card.webp",
-        "alt": "The Contributor pin: the orb mark in polished nickel with teal and red cat-eye enamel",
+        "alt": "The pin: the orb mark with teal and red cat-eye enamel",
         "link": "How the pin works"
       }
     ],
     "visualAlt": {
       "button": "The ambassador button",
-      "pin": "The Contributor pin"
+      "rim": "The ambassador button with its brass rim",
+      "pin": "The pin"
     },
     "cta": "Become an ambassador"
   },
@@ -262,7 +272,8 @@
     "pinLink": "Meet the pin",
     "sponsors": "Started at, and sponsored by",
     "guide": "Already an ambassador? Open the guide",
-    "rights": "© 2026 The Upskilling Labs, Inc. All rights reserved."
+    "rights": "© 2026 The Upskilling Labs, Inc. All rights reserved.",
+    "pinPage": "The pin you can't buy"
   },
   "faq": {
     "kicker": "Questions",
@@ -286,7 +297,11 @@
       },
       {
         "q": "What's the pin for?",
-        "a": "Contributors. Every area of The Labs has a button, Oriented then Practiced. Earn both in every core area, and you're pinned at a regional summit, for life."
+        "a": "People The Labs trusts with its practice. Practise two roles, get two sponsors who already wear it, and it's yours. It can't be bought."
+      },
+      {
+        "q": "Can I just buy one?",
+        "a": "No. Supporting Members pay light dues and get their own button. The pin is only ever earned."
       },
       {
         "q": "Can I stop?",

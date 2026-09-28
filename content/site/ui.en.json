@@ -21,7 +21,7 @@
   },
   "footer": {
     "legal": "A fiscally sponsored project of Superbloom Design, a 501(c)(3).",
-    "license": "© 2026 The Upskilling Labs, Inc. All rights reserved.",
+    "license": "Playbook content CC BY 4.0. Everything else © 2026 The Upskilling Labs, Inc.",
     "reset": "Start over",
     "resetConfirm": "Forget your progress, story, and names on this device?",
     "site": "theupskillinglabs.org",
@@ -30,7 +30,7 @@
   "home": {
     "claim": "Tell your coordinator you're ready",
     "continue": "Continue: {title}",
-    "doneGoal": "You're ready. Who's first?",
+    "doneGoal": "You're ready. Who's first? Pass it on, and your button gets its rim.",
     "doneTitle": "You're ready.",
     "goal": "Five steps and you're ready for your first conversation. About half an hour, whenever you like.",
     "start": "Start",

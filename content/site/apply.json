@@ -17,7 +17,7 @@
     "zip": "ZIP code",
     "zipHint": "5 digits",
     "referredBy": "Who brought you in? (optional)",
-    "referredByHint": "If an ambassador or contributor sent you, their name counts toward their pin.",
+    "referredByHint": "If an ambassador sent you, it counts toward their rim.",
     "errors": {
       "first": "Add your first name.",
       "last": "Add your last name.",
@@ -200,7 +200,7 @@
         "$comment": "Dates confirmed: the pilot ran in fall 2025; the organisation was founded in January 2026."
       },
       {
-        "q": "What happens to the work members create during a Build Cycle?",
+        "q": "What happens to the work participants create during a Build Cycle?",
         "options": [
           "It's open-source by default, so others can learn from and build on it",
           "It's kept private and owned by The Labs",

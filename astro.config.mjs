@@ -14,8 +14,12 @@ export default defineConfig({
   base: BASE,
   trailingSlash: "ignore",
   build: { format: "directory" },
-  // The program page moved from /join/ to the front door; old links still work.
-  // Astro doesn't add the base to a redirect target, so it's added here.
-  redirects: { "/join": `${BASE.replace(/\/+$/, "")}/` },
+  // The program page moved from /join/ to the front door, and /contributors/
+  // became /pin/; old links still work. Astro doesn't add the base to a
+  // redirect target, so it's added here.
+  redirects: {
+    "/join": `${BASE.replace(/\/+$/, "")}/`,
+    "/contributors": `${BASE.replace(/\/+$/, "")}/pin/`,
+  },
   integrations: [offline()],
 });

@@ -1,9 +1,20 @@
-Copyright (c) 2026 The Upskilling Labs, Inc. All rights reserved.
+Copyright (c) 2026 The Upskilling Labs, Inc.
 
-This repository and the website built from it, including its code, written
-content, designs, and the pin and button artwork, are proprietary. No license
-is granted to copy, modify, publish, distribute, sublicense, or sell any part
-of it without prior written permission from The Upskilling Labs, Inc.
+This repository has two parts.
+
+1. The playbook: CC BY 4.0.
+   The ambassador playbook content in content/steps/, content/scenarios/,
+   content/faq/, content/site/deck.json and content/site/story.json is
+   licensed under the Creative Commons Attribution 4.0 International License
+   (https://creativecommons.org/licenses/by/4.0/). See content/LICENSE.md.
+   CC BY 4.0 grants no trademark rights.
+
+2. Everything else: all rights reserved.
+   The site's code, its other written content, its designs, the pin and
+   button artwork, and The Upskilling Labs' name and marks are proprietary.
+   No license is granted to copy, modify, publish, distribute, sublicense,
+   or sell them without prior written permission from The Upskilling Labs,
+   Inc.
 
 Third-party components included here remain under their own licenses:
 three.js (bundled in public/join/pin3d.js, MIT; its notice is kept in that

@@ -70,7 +70,7 @@ These also need real values:
 | Route | What |
 | --- | --- |
 | `/` | The front door: the public Ambassador Program page. The hero pin is live 3D (`public/join/pin3d.js`: three.js and the pin mesh from `LabsPin.blend`, built in the design canvas; loaded once the page is idle, on screens 480 px and wider with a real GPU) that turns to follow the pointer; a Cycles still shows on phones, with reduced motion, and without GPU WebGL (`?pin3d=force` overrides that last check for testing). The page is in three chapters, each opened by a full-width cover with its tagline (Spark curiosity, Build community, Inspire confidence). Inside: why join, how it works (a sticky picture that turns from the button into the pin on wide screens), the launch goal with an ambassador's quote, questions, and what it takes. Every "Become an ambassador" goes to `/apply/`. Copy in `content/site/join.json`, media in `public/join/`. `/join/` redirects here. |
-| `/contributors/` | How someone becomes a Contributor. Every area of The Labs has a button in two tiers, **Oriented** then **Practiced**. The board designates the core areas; only Ambassador is named so far, and the rest read as open slots (`coreSlots`). Oriented and Practiced in every core area means the Contributor pin, conferred at a quarterly regional summit, for life. The roll reads `data/contributors.json` (append-only; set `alum: true`, never delete). Copy in `content/site/contributors.json`. The program page's pin card links here. |
+| `/pin/` | **The pin you can't buy**: the public summary of The Labs' recognition system (draft, `design/research/recognition-system.md`). Anyone can contribute (no rank, no gate). Role buttons (Upskiller, Poderator, Mentor, Ambassador) are **Trained**; a brass rim marks a **Practitioner**. The Contributing Member pin starts at **Reviewer** (Practitioner in two roles, two sponsors); a backing plate marks **Committer**, two mark **Maintainer**; brass regional, silver national. Membership has two doors: Supporting Member (light dues, a button, no rim, no pin, no vote) and Contributing Member (Reviewer and up). The register reads `data/register.json` (append-only; emeritus, never deleted). Copy in `content/site/pin.json`. `/contributors/` redirects here. |
 | `/apply/` | Getting in (orientation), one screen at a time, in the order that gives before it takes: The Labs in three minutes (the film, or the short read the questions are written from), the coordinator's ten-question quiz (eight right to pass, retry any time, a hint on each), the Ambassador Agreement, then your name (first and last, email, ZIP, who brought you in). Ends with **the pass**: "You're in", the button, your name, and "Show this to your coordinator", who hands you the button at the event. Then the signature question, **Who's first?**: one name, and your phone sends the dated invite (the same message as the Conversation step). People without a pre-approved invite see "Almost there" until the coordinator sends them an invite link; opening it confirms them. An invite link pre-fills the form and shows who invited them; a share link (`/apply/#ref=Name`) only fills "Who brought you in?". Copy in `content/site/apply.json`. |
 | `/invite/` | **For coordinators (unlisted, not linked anywhere, `noindex`).** Makes a pre-approved invite link (`/apply/#invite=…`) to copy, text, or email, and keeps a list of invites made on that device. The invitee still passes the quiz and signs the agreement, then they're in straight away. An invite opened by someone who already finished on their own confirms them. Also holds the texts a coordinator sends later ("someone just joined through you"), since the site can't see those moments. Copy in `content/site/invite.json`. |
 | `/nominate/` | An ambassador suggests someone to their coordinator (a pre-filled text or email from their own phone). The coordinator decides and, if yes, sends a pre-approved invite. |
@@ -115,17 +115,15 @@ The spec's seven sections became one five-step path so an ambassador never has t
 
 ## Roles
 
-Named the open-source way ([opensource.guide](https://opensource.guide/leadership-and-governance/)), and laid out on `/contributors/`.
+The site shows the settled parts of the recognition-system draft (`design/research/recognition-system.md`, not yet board-approved); everything still open is marked `[PLACEHOLDER]`.
 
-- **Buttons, one per area, two tiers.** Every area that keeps The Labs running has a button. **Oriented**: the area's orientation (a film or read, a quick check, its agreement); the area's lead hands you the button. **Practiced**: real work in that area, confirmed by its lead; the button gets a mark (to be designed).
-- **Core and elective areas.** The board designates the core areas. Ambassador is the first: Oriented is getting in, Practiced is passing it on. Other areas can offer elective buttons, which don't count toward the pin.
-- **Contributor** (the pin): Oriented and Practiced in every core area. OLOS tracks it, a coordinator or area lead nominates, the core team (regional or HQ) confirms, and you're pinned at the next quarterly regional summit by a sponsor who already wears the pin. For life: stepping back makes you an alum; only a serious Code of Conduct breach removes someone.
-- **Maintainer** and **Lead** [PLACEHOLDER names]: the proposed rungs above (committing to a cycle and helping run a program, the way a Poderator does; then running a lab). Not on the site yet.
-- "Mentor" is no longer a rank. It stays The Labs' word for helping a pod.
+- **Contributor** is open to anyone, in the open-source sense. Not a rank, no pin.
+- **Role buttons, two tiers:** Trained (the button) and Practitioner (a brass rim around it, numbered on the register). The ambassador path is Trained at "Get in" and Practitioner at "Pass it on". Mentor is its own role again; a Builder is an Upskiller with a rim.
+- **The pin (Contributing Member):** Reviewer (Practitioner in two roles, two sponsors) → Committer (one backing plate) → Maintainer (two). Brass regional, silver national. Pinned at a quarterly regional summit; the award is recorded first.
+- **Membership, two doors:** Supporting Member (dues, a button) and Contributing Member (merit). Dues never buy a rim, a pin or a vote.
+- **Active and emeritus:** ranks are permanent; active seats carry permissions.
 
-Avoid "core contributor" in copy: OLOS uses it for its staff flag.
-
-Before launch, OLOS needs per-area button records (Oriented, Practiced, who confirmed, when), the board's list of core areas, a nominate-then-confirm step for the pin, and an append-only roll.
+Avoid "certified" anywhere, and "core contributor" (OLOS's staff flag).
 
 ## Privacy
 
@@ -152,8 +150,9 @@ The site never sends personal information anywhere. The ambassador application (
 
 ## License
 
-Proprietary. © 2026 The Upskilling Labs, Inc. All rights reserved (`LICENSE`). The code, content, designs, and pin and button artwork are not openly licensed; copying, modifying, or redistributing them needs written permission.
+Split in two (see `LICENSE`):
 
-Third-party parts keep their own licenses: three.js, bundled in `public/join/pin3d.js` (MIT, notice kept in the file), the Geologica font (SIL OFL), and npm dependencies. Partner logos in `public/assets/` belong to their owners and are used with permission.
+- **The playbook is CC BY 4.0:** `content/steps/`, `content/scenarios/`, `content/faq/`, `content/site/deck.json` and `content/site/story.json` (`content/LICENSE.md`). CC BY grants no trademark rights.
+- **Everything else is all rights reserved,** © 2026 The Upskilling Labs, Inc.: the code, the rest of `content/` (program page, apply flow, pin page, invites, interface text), `design/`, `public/`, the pin and button art, and the name and marks.
 
-Earlier versions of this repository were published under MIT (code) and CC BY 4.0 (content); copies taken under those terms stay under them.
+Third-party parts keep their own licenses: three.js in `public/join/pin3d.js` (MIT, notice kept), Geologica (SIL OFL), and npm dependencies. Partner logos belong to their owners. Copies taken under the earlier MIT / CC BY terms stay under them.

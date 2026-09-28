@@ -1,6 +1,6 @@
 # Ambassador pin
 
-The Contributor pin. One pin for everyone who keeps The Labs running: Oriented and Practiced in every core area, then pinned at a quarterly regional summit, for life (see `/contributors/`). It can't be bought.
+The Contributing Member pin: "the pin you can't buy." One pin from Reviewer up (Practitioner in two roles, two sponsors); rank shows as laser-cut backing plates behind it (one for Committer, two for Maintainer). Polished brass for regional, polished nickel for national; this model and its renders are the nickel finish. See `/pin/` and `design/research/recognition-system.md`.
 
 `pin-front.svg` is starter production art built from the OLOS orb by `build_pin.py`. It is 1:1 in millimetres, and every colour is a filled shape with raised metal between the colours. Send the factory this file (or a refined version of it). The 3D model in `blender/` is for mock-ups and approval only.
 

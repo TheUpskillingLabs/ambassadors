@@ -1,0 +1,162 @@
+{
+  "$comment": "The pin page (/pin/; /contributors/ redirects here). Summarises the recognition system draft (design/research/recognition-system.md) for the public: anyone can contribute; role buttons are Trained, a brass rim marks a Practitioner; the Contributing Member pin starts at Reviewer, with backing plates for Committer and Maintainer; membership has two doors. Not board-approved: [PLACEHOLDER] marks what's still open. The register reads data/register.json.",
+  "placeholder": true,
+  "title": "The pin",
+  "description": "The pin you can't buy. Earned from peers: two practices, two sponsors, one pin. How buttons, rims, pins and membership work at The Upskilling Labs.",
+  "nav": {
+    "brand": "The pin",
+    "buttons": "Buttons",
+    "pin": "The pin",
+    "membership": "Membership",
+    "register": "The register",
+    "program": "Ambassador program",
+    "cta": "Become an ambassador",
+    "ctaShort": "Join us"
+  },
+  "hero": {
+    "kicker": "Contributing Members",
+    "title": "The pin you can't buy.",
+    "lede": "Earned from peers. Two practices. Two sponsors. One pin.",
+    "alt": "The pin: the orb mark with teal and red cat-eye enamel"
+  },
+  "open": {
+    "kicker": "Contributors",
+    "title": "Anyone can contribute.",
+    "body": "Contributor isn't a rank. Improve a playbook, a flyer, or the code, and you're a contributor, credited by name. No gate, no sign-up."
+  },
+  "tiers": {
+    "kicker": "Buttons",
+    "title": "Wear what you do.",
+    "lede": "Every role at The Labs has its own button. When you've done the work, it gets a rim.",
+    "items": [
+      {
+        "id": "trained",
+        "label": "Trained",
+        "title": "The button",
+        "body": "Trained and seated in a role. Your coordinator or the role's lead hands it to you."
+      },
+      {
+        "id": "practitioner",
+        "label": "Practitioner",
+        "title": "The rim",
+        "body": "You've done the work. A brass rim goes around the same button, numbered to match your entry on the register."
+      }
+    ],
+    "rolesLabel": "Role buttons",
+    "roles": ["Upskiller", "Poderator", "Mentor", "Ambassador"],
+    "builder": "A Builder is an Upskiller with a brass rim.",
+    "mark": "The rim is being prototyped. The picture is a sketch. [PLACEHOLDER]",
+    "buttonAlt": "A role button: the orb mark on ink, ringed in white"
+  },
+  "ladder": {
+    "kicker": "The pin",
+    "title": "One pin. Rank shows behind it.",
+    "lede": "Every Contributing Member wears the same pin. A metal plate behind it marks each step up.",
+    "ranks": [
+      {
+        "id": "reviewer",
+        "plates": 0,
+        "name": "Reviewer",
+        "shows": "The pin alone",
+        "body": "A Practitioner in two roles, sponsored by two people who already wear the pin, from different roles or Labs. Reviewers review work in the roles they've practised."
+      },
+      {
+        "id": "committer",
+        "plates": 1,
+        "name": "Committer",
+        "shows": "On one plate",
+        "body": "Has helped across every core area of The Labs. Committers approve work, within limits the board sets."
+      },
+      {
+        "id": "maintainer",
+        "plates": 2,
+        "name": "Maintainer",
+        "shows": "On two plates",
+        "body": "Sets direction for an area. Nominated by Maintainers, confirmed by the board."
+      }
+    ],
+    "metal": "Brass for your region. Silver for national.",
+    "areasLabel": "Core areas (draft)",
+    "areas": ["Build Cycle", "Learning Pathways", "Community & Outreach", "Platform (OLOS)", "Operations & Governance"],
+    "areasNote": "The board sets the core areas. [PLACEHOLDER]",
+    "alt": {
+      "reviewer": "The pin on its own",
+      "committer": "The pin on one metal backing plate",
+      "maintainer": "The pin on two stacked metal backing plates"
+    }
+  },
+  "membership": {
+    "kicker": "Membership",
+    "title": "Two doors.",
+    "lede": "Support The Labs, or earn your way in. They're separate, and you can walk through both.",
+    "doors": [
+      {
+        "id": "supporting",
+        "name": "Supporting Member",
+        "how": "Pay light dues, on a sliding scale, with a no-questions waiver.",
+        "gets": "The SUPPORTING MEMBER button, your entry on the register, and events.",
+        "note": "Dues: [PLACEHOLDER: $X a year, $75 at most]. Coming soon."
+      },
+      {
+        "id": "contributing",
+        "name": "Contributing Member",
+        "how": "Earn it: Reviewer and up.",
+        "gets": "The pin, your entry on the register, and a voice in the practice you've earned.",
+        "note": "Free. Merit only."
+      }
+    ],
+    "rules": [
+      "Dues never buy a rim, a pin, or a vote.",
+      "Paying isn't a step toward Reviewer, and Reviewers don't have to pay."
+    ]
+  },
+  "ceremony": {
+    "kicker": "The pinning",
+    "title": "Recorded first. Then the handshake.",
+    "lede": "The award goes on the register first. The pinning is at the next quarterly regional summit. [PLACEHOLDER: the run of show is a draft.]",
+    "moments": [
+      { "label": "Your name", "body": "Called out, with the roles you've practised." },
+      { "label": "Your sponsors", "body": "The two who vouched for you pin it on." },
+      { "label": "One line", "body": "They say, in a sentence, what you did." },
+      { "label": "The register", "body": "Your number, matched to the back of your pin." }
+    ]
+  },
+  "seats": {
+    "kicker": "Active and emeritus",
+    "title": "The rank is yours. Seats come and go.",
+    "items": [
+      { "title": "Rank is permanent.", "body": "A pin records what you've done. It stays yours." },
+      { "title": "Seats carry the permissions.", "body": "Each Lab keeps as many active seats as the work needs. The register says who holds one now." },
+      { "title": "Emeritus is an honour.", "body": "Step back and you keep the rank, the title, and your voice. Come back to any open seat." }
+    ],
+    "exception": "The one exception: a serious breach of the Code of Conduct."
+  },
+  "register": {
+    "kicker": "The register",
+    "title": "Contributing Members.",
+    "empty": "Nobody yet. The first pinning is at the next regional summit.",
+    "emeritus": "emeritus",
+    "label": "The register, {n} entries"
+  },
+  "faq": {
+    "kicker": "Questions",
+    "title": "Before you ask.",
+    "items": [
+      { "q": "Can I buy the pin?", "a": "No. Supporting Members pay dues and get their own button. The pin is only ever earned." },
+      { "q": "Is this a certification?", "a": "No. It's community recognition: The Labs saying you've done the work." },
+      { "q": "Brass or silver?", "a": "Brass is earned in your region. Silver is earned on national work." },
+      { "q": "Does paid work count?", "a": "[PLACEHOLDER: to be decided.]" },
+      { "q": "What if I step back?", "a": "You go emeritus. The rank and the pin are still yours." }
+    ]
+  },
+  "join": {
+    "title": "Start with one button.",
+    "lede": "Most people start as an ambassador. Ten minutes to get in.",
+    "cta": "Become an ambassador"
+  },
+  "footer": {
+    "renders": "Images of the button and pin are 3D renders, not photos. The rim and plates are sketches.",
+    "program": "The ambassador program",
+    "draft": "[PLACEHOLDER] A draft, not yet approved by the board."
+  }
+}

@@ -1,20 +1,21 @@
 ---
-/* /contributors/ — how someone becomes a Contributor: a button for every area
-   of The Labs in two tiers (Oriented, then Practiced), the pin for both tiers
-   in every core area, and the pinning at the quarterly regional summits.
-   Same standalone dark look as the program page (join.css). Copy lives in
-   content/site/contributors.json; the roll in data/contributors.json. */
+/* /pin/ — "The pin you can't buy": the public summary of The Labs'
+   recognition system (design/research/recognition-system.md, a draft).
+   Anyone can contribute; role buttons are Trained, a brass rim marks a
+   Practitioner; the Contributing Member pin starts at Reviewer, with backing
+   plates for Committer and Maintainer; membership has two doors. Same
+   standalone dark look as the program page (join.css). Copy lives in
+   content/site/pin.json; the register in data/register.json. */
 import "@fontsource-variable/geologica/wght.css";
 import "../../styles/join.css";
 import { u } from "../../lib/url";
-import c from "../../../content/site/contributors.json";
+import c from "../../../content/site/pin.json";
 import j from "../../../content/site/join.json";
-import { contributors } from "../../lib/contributors";
+import { register } from "../../lib/register";
 
 const media = (f: string) => u(`/join/${f}`);
 const home = u("/");
 const apply = u("/apply/");
-const open = Math.max(0, c.areas.coreSlots - c.areas.core.length);
 const pageTitle = `${c.title} · The Upskilling Labs`;
 ---
 <!doctype html>
@@ -35,15 +36,16 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
   <body class="jp cp">
     <a class="skip" href="#main">Skip to content</a>
     <header class="jp-head" data-head>
-      <nav aria-label="Contributors">
+      <nav aria-label="The pin">
         <a class="jp-brand" href="#top">
           <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
           <span class="wide-only">{c.nav.brand}</span>
         </a>
         <ul class="jp-links">
-          <li><a class="navlink" href="#buttons" data-spy="buttons areas">{c.nav.buttons}</a></li>
-          <li><a class="navlink" href="#pin" data-spy="pin ceremony life">{c.nav.pin}</a></li>
-          <li><a class="navlink" href="#roll" data-spy="roll faq">{c.nav.roll}</a></li>
+          <li><a class="navlink" href="#buttons" data-spy="open buttons">{c.nav.buttons}</a></li>
+          <li><a class="navlink" href="#ladder" data-spy="ladder">{c.nav.pin}</a></li>
+          <li><a class="navlink" href="#membership" data-spy="membership">{c.nav.membership}</a></li>
+          <li><a class="navlink" href="#register" data-spy="ceremony seats register faq">{c.nav.register}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={home}>{c.nav.program}</a>
@@ -65,6 +67,14 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         </div>
       </section>
 
+      <section id="open" class="jp-sec">
+        <div class="wrap">
+          <p class="kicker">{c.open.kicker}</p>
+          <h2 class="h2">{c.open.title}</h2>
+          <p class="lede">{c.open.body}</p>
+        </div>
+      </section>
+
       <section id="buttons" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
@@ -75,54 +85,67 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <div class="cp-tiers reveal">
             {c.tiers.items.map((t) => (
               <div class:list={["cp-tier", t.id]}>
-                <div class="cp-button" aria-hidden="true">
+                <div class:list={["cp-button", { "jp-rimmed": t.id === "practitioner" }]} aria-hidden="true">
                   <img src={media("button-card.webp")} alt="" width="180" height="180" loading="lazy" />
                 </div>
-                <div><p class="kicker">{t.n} · {t.label}</p><h3>{t.title}</h3><p>{t.body}</p></div>
+                <div><p class="kicker">{t.label}</p><h3>{t.title}</h3><p>{t.body}</p></div>
               </div>
             ))}
+          </div>
+          <div class="cp-roles reveal">
+            <p class="kicker">{c.tiers.rolesLabel}</p>
+            <ul>{c.tiers.roles.map((r) => <li>{r}</li>)}</ul>
+            <p>{c.tiers.builder}</p>
           </div>
           <p class="cp-note reveal">{c.tiers.mark}</p>
         </div>
       </section>
 
-      <section id="areas" class="jp-sec">
+      <section id="ladder" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
-            <p class="kicker">{c.areas.kicker}</p>
-            <h2 class="h2">{c.areas.title}</h2>
-            <p class="lede">{c.areas.lede}</p>
+            <p class="kicker">{c.ladder.kicker}</p>
+            <h2 class="h2">{c.ladder.title}</h2>
+            <p class="lede">{c.ladder.lede}</p>
           </div>
-          <ul class="cp-areas reveal">
-            {c.areas.core.map((a) => (
-              <li class="cp-area">
-                <h3>{a.name}</h3>
-                <dl>
-                  <dt>{c.tiers.items[0].label}</dt><dd>{a.oriented}</dd>
-                  <dt>{c.tiers.items[1].label}</dt><dd>{a.practiced}</dd>
-                </dl>
-                <a class="textlink" href={home}>{a.link} →</a>
+          <ol class="cp-ranks reveal">
+            {c.ladder.ranks.map((r) => (
+              <li class="cp-rank" data-rank={r.id}>
+                <div class="cp-plates" data-plates={r.plates} role="img" aria-label={c.ladder.alt[r.id as keyof typeof c.ladder.alt]}>
+                  <img src={media("pin-card.webp")} alt="" width="180" height="180" loading="lazy" />
+                </div>
+                <p class="kicker">{r.shows}</p>
+                <h3>{r.name}</h3>
+                <p>{r.body}</p>
               </li>
             ))}
-            {Array.from({ length: open }, () => (
-              <li class="cp-area open"><p>{c.areas.open}</p></li>
-            ))}
-          </ul>
-          <p class="cp-note reveal">{c.areas.electives}</p>
+          </ol>
+          <p class="cp-metal reveal">{c.ladder.metal}</p>
+          <div class="cp-roles reveal">
+            <p class="kicker">{c.ladder.areasLabel}</p>
+            <ul>{c.ladder.areas.map((a) => <li>{a}</li>)}</ul>
+            <p>{c.ladder.areasNote}</p>
+          </div>
         </div>
       </section>
 
-      <section id="pin" class="jp-sec">
+      <section id="membership" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
-            <p class="kicker">{c.pin.kicker}</p>
-            <h2 class="h2">{c.pin.title}</h2>
+            <p class="kicker">{c.membership.kicker}</p>
+            <h2 class="h2">{c.membership.title}</h2>
+            <p class="lede">{c.membership.lede}</p>
           </div>
-          <ol class="jp-steps cp-steps reveal">
-            {c.pin.steps.map((s, i) => (
-              <li class:list={{ milestone: s.milestone }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
+          <div class="cp-doors reveal">
+            {c.membership.doors.map((d) => (
+              <div class="cp-door" data-door={d.id}>
+                <h3>{d.name}</h3>
+                <dl><dt>How</dt><dd>{d.how}</dd><dt>You get</dt><dd>{d.gets}</dd></dl>
+                <p class="cp-door-note">{d.note}</p>
+              </div>
             ))}
-          </ol>
+          </div>
+          <ul class="cp-rules reveal">{c.membership.rules.map((r) => <li>{r}</li>)}</ul>
         </div>
       </section>
 
@@ -138,36 +161,36 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
               <div class="jp-col"><p class="label">{m.label}</p><p>{m.body}</p></div>
             ))}
           </div>
-          <p class="cp-note reveal">{c.ceremony.first}</p>
         </div>
       </section>
 
-      <section id="life" class="jp-sec">
+      <section id="seats" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
-            <p class="kicker">{c.life.kicker}</p>
-            <h2 class="h2">{c.life.title}</h2>
+            <p class="kicker">{c.seats.kicker}</p>
+            <h2 class="h2">{c.seats.title}</h2>
           </div>
           <div class="jp-cols three reveal">
-            {c.life.items.map((it) => (
+            {c.seats.items.map((it) => (
               <div class="jp-col"><h3>{it.title}</h3><p>{it.body}</p></div>
             ))}
           </div>
+          <p class="cp-note reveal">{c.seats.exception}</p>
         </div>
       </section>
 
-      <section id="roll" class="jp-sec">
+      <section id="register" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
-            <p class="kicker">{c.roll.kicker}</p>
-            <h2 class="h2">{c.roll.title}</h2>
+            <p class="kicker">{c.register.kicker}</p>
+            <h2 class="h2">{c.register.title}</h2>
           </div>
-          {contributors.length === 0
-            ? <p class="lede reveal" data-roll-empty>{c.roll.empty}</p>
+          {register.length === 0
+            ? <p class="lede reveal" data-register-empty>{c.register.empty}</p>
             : (
-              <ol class="cp-roll reveal" aria-label={c.roll.label.replace("{n}", String(contributors.length))}>
-                {contributors.map((p) => (
-                  <li><b>{p.name}</b>{p.region && <span>{p.region}</span>}{p.pinned && <span>{p.pinned}</span>}{p.alum && <span class="alum">{c.roll.alum}</span>}</li>
+              <ol class="cp-roll reveal" aria-label={c.register.label.replace("{n}", String(register.length))}>
+                {register.map((e) => (
+                  <li><span class="num">{e.number}</span><b>{e.name}</b><span>{e.rank}</span>{e.region && <span>{e.region}</span>}{e.status === "emeritus" && <span class="alum">{c.register.emeritus}</span>}</li>
                 ))}
               </ol>
             )}
@@ -205,8 +228,9 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
           <p>{j.footer.legal}</p>
           <p>{j.footer.rights}</p>
-          <p><a class="textlink" href={home}>{c.footer.program} →</a> · {c.footer.renders}</p>
-          {c.placeholder && <p class="ph">[PLACEHOLDER] draft: the core areas, the Practiced mark, and the ceremony's run of show are still to be set.</p>}
+          <p><a class="textlink" href={home}>{c.footer.program} →</a></p>
+          <p>{c.footer.renders}</p>
+          {c.placeholder && <p class="ph">{c.footer.draft}</p>}
         </div>
       </div>
     </footer>
@@ -224,7 +248,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["buttons", "areas", "pin", "ceremony", "life", "roll", "faq", "join"].map((id) => document.getElementById(id)!);
+      const order = ["open", "buttons", "ladder", "membership", "ceremony", "seats", "register", "faq", "join"].map((id) => document.getElementById(id)!);
       let queued = false;
       const spy = () => {
         queued = false;
