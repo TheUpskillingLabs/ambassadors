@@ -14,13 +14,14 @@ export default defineConfig({
   base: BASE,
   trailingSlash: "ignore",
   build: { format: "directory" },
-  // The program page moved from /join/ to the front door, /contributors/
-  // became /roles/, and /pin/ is now the Contributing Member page; old links
-  // still work. Astro doesn't add the base to a redirect target, so it's added here.
+  // The program page moved from /join/ to the front door, and /contributors/,
+  // /pin/ and /roles/ became /contributing/; old links still work. Astro
+  // doesn't add the base to a redirect target, so it's added here.
   redirects: {
     "/join": `${BASE.replace(/\/+$/, "")}/`,
-    "/contributors": `${BASE.replace(/\/+$/, "")}/roles/`,
+    "/contributors": `${BASE.replace(/\/+$/, "")}/contributing/`,
     "/pin": `${BASE.replace(/\/+$/, "")}/contributing/`,
+    "/roles": `${BASE.replace(/\/+$/, "")}/contributing/`,
   },
   integrations: [offline()],
 });
