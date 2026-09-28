@@ -96,7 +96,7 @@
   },
   "rings": {
     "kicker": "The way up",
-    "title": "Four levels. Each one means you've had your hands on more of The Labs, and you're trusted with more of it.",
+    "title": "Four levels. Each one puts more of The Labs in your hands.",
     "lede": "It isn't a ladder you have to climb. Plenty of people find the job they love and stay there for years. But if you want to see how the whole thing fits together, this is how you get there.",
     "readout": {
       "label": "Hands-on in"
@@ -184,18 +184,18 @@
   },
   "status": {
     "kicker": "Active or emeritus",
-    "title": "It's yours forever. Staying active is up to you.",
-    "lede": "Nobody takes the pin back. But the say that comes with it belongs to the people doing the work right now, so an active seat has to be kept up.",
+    "title": "The pin is forever. The seat takes showing up.",
+    "lede": "Nobody takes the pin back. But the say that comes with it belongs to whoever's doing the work right now. Keep doing it, and it's yours.",
     "items": [
       {
         "label": "Active",
         "title": "In the thick of it.",
-        "body": "You've got a seat in your Lab, and a say over your region's playbooks, tools, kits and platform that comes with your level. Keep showing up and it stays that way."
+        "body": "A seat in your Lab. A say in your region's playbooks, tools, kits and platform. Both are yours as long as you keep showing up."
       },
       {
         "label": "Emeritus",
         "title": "Taking a step back.",
-        "body": "Step back, and you keep your pin, your level, and your voice. The rest waits until you take a seat again."
+        "body": "Life happens. Step back and you keep the pin, the level, and your voice. When you're ready, take the next open seat."
       }
     ]
   },
@@ -203,7 +203,7 @@
     "kicker": "What stays true",
     "title": "A few things that won't change.",
     "rules": [
-      "The pin means The Labs trusts you with more of itself: the playbooks, the tools, the kits for running programs, and the platform. In your own region first. That's a responsibility as much as a thank-you.",
+      "The pin is trust, not a trophy. The Labs hands you more of itself: the playbooks, the tools, the kits, the platform. Your region first. Take care of it.",
       "No one can buy a pin, a level, or a vote.",
       "Levels don't come with a vote, either. The boards look after programs, money, people and the brand.",
       "The only way to lose a level is to seriously break the Code of Conduct."
