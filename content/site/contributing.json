@@ -1,5 +1,5 @@
 {
-  "$comment": "The Contributor Community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the levels. The one idea: The Labs is built by the people who learn here. Learning by doing, applied to The Labs itself: anyone can contribute (make something, take a role, teach what you know, or back it as a Supporting Member; roles open in order, and Poderator comes after a Build Cycle), and each level means you've worked hands-on in more of its workstreams, major and minor. The page is three chapters, and each cover's promise is paid off by the sections right under it: Start anywhere (the ways in), Go as far as you like (the levels), Yours for good (how the pin is given, active or emeritus, what won't change). The pins are the symbol: one section walks the levels, by scroll or by picking one, with a pin you can drag (live 3D on desktop). Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open. The covers reuse the program page's macro shots of the pin (src/components/JoinCover.astro): chapters[].shot picks the shot (join.json mission[n]); title is this page's tagline.",
+  "$comment": "The Contributor Community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the levels. The one idea: The Labs is built by the people who learn here. Learning by doing, applied to The Labs itself: anyone can contribute (make something, take a role, teach what you know, or back it as a Supporting Member; roles open in order, and Poderator comes after a Build Cycle), and each level means you've worked hands-on in more of its workstreams, major and minor. The page is three chapters, and each cover's promise is paid off by the sections right under it: Start anywhere (the ways in), Go as far as you like (the levels), Yours for good (how the pin is given, active or emeritus, what won't change). The pin recognizes new permissions and responsibilities over the playbooks, tools, program kits and platform; it's yours forever, but the say that comes with it needs an active seat, which has to be kept up. The pins are the symbol: one section walks the levels, by scroll or by picking one, with a pin you can drag (live 3D on desktop). Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open. The covers reuse the program page's macro shots of the pin (src/components/JoinCover.astro): chapters[].shot picks the shot (join.json mission[n]); title is this page's tagline.",
   "placeholder": true,
   "title": "Contributor Community",
   "description": "The Labs is built by the people who learn here. Start anywhere, go as far as you like, and what you earn is yours for good.",
@@ -96,7 +96,7 @@
   },
   "rings": {
     "kicker": "The way up",
-    "title": "Four levels. Each one means you've had your hands on more of The Labs.",
+    "title": "Four levels. Each one means you've had your hands on more of The Labs, and you're trusted with more of it.",
     "lede": "It isn't a ladder you have to climb. Plenty of people find the job they love and stay there for years. But if you want to see how the whole thing fits together, this is how you get there.",
     "readout": {
       "label": "Hands-on in"
@@ -184,18 +184,18 @@
   },
   "status": {
     "kicker": "Active or emeritus",
-    "title": "Once it's yours, it stays yours.",
-    "lede": "Your level doesn't go away. The only question is whether you're doing the work right now.",
+    "title": "It's yours forever. Staying active is up to you.",
+    "lede": "Nobody takes the pin back. But the say that comes with it belongs to the people doing the work right now, so an active seat has to be kept up.",
     "items": [
       {
         "label": "Active",
         "title": "In the thick of it.",
-        "body": "You've got a seat in your Lab, and the say that comes with it."
+        "body": "You've got a seat in your Lab, and a say over the playbooks, tools, kits and platform that comes with your level. Keep showing up and it stays that way."
       },
       {
         "label": "Emeritus",
         "title": "Taking a step back.",
-        "body": "You keep your level, your pin, and your voice. When a seat opens up, come on back."
+        "body": "Step back, and you keep your pin, your level, and your voice. The rest waits until you take a seat again."
       }
     ]
   },
@@ -203,7 +203,7 @@
     "kicker": "What stays true",
     "title": "A few things that won't change.",
     "rules": [
-      "The pin is a thank-you from the community, not a certificate. It says what you did, not what you're allowed to do.",
+      "The pin means The Labs trusts you with more of itself: the playbooks, the tools, the kits for running programs, and the platform. That's a responsibility as much as a thank-you.",
       "No one can buy a pin, a level, or a vote.",
       "Levels don't come with a vote, either. The boards look after programs, money, people and the brand.",
       "The only way to lose a level is to seriously break the Code of Conduct."
