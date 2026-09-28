@@ -95,6 +95,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <ol class="jp-argument reveal">
             {j.you.argument.map((a) => <li><h3>{a.title}</h3><p>{a.body}</p></li>)}
           </ol>
+          <p class="kicker jp-gives reveal">{j.you.gives}</p>
           <div class="jp-cols three reveal">
             {j.you.items.map((it) => (
               <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>

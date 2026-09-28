@@ -44,9 +44,11 @@
     }
   ],
   "you": {
-    "kicker": "Why ambassadors do it",
-    "title": "It starts with you.",
-    "lede": "Someone once got you curious. Now think of who might be next. Being an ambassador gives back in three ways.",
+    "$comment": "Our why: the mission first (why The Labs, why now, why ambassadors), then why you're the one to carry it, then what it gives back.",
+    "kicker": "Our why",
+    "title": "Nobody should have to figure out what's next alone.",
+    "lede": "Work is changing fast, and communities everywhere need a way to learn and adapt together. The Upskilling Labs is built for exactly that, and it's just getting on its feet. Ambassadors are how it reaches more people.",
+    "gives": "What it gives back",
     "items": [
       {
         "label": "As a professional",
@@ -195,10 +197,10 @@
       "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
     },
     "members": {
-      "$comment": "The member community, beside the button. Two doors that aren't exclusive: Supporting (light dues, a button) and Contributing (recognized for work, never bought). Neither is statutory membership, and neither buys a vote (design/research/recognition-system.md). No link or dues amount yet: how to join as a Supporting Member isn't set, and /contributing/ stays unlisted until the board approves the ranks.",
-      "kicker": "Beyond the program",
+      "$comment": "The member community, beside the button. Being an ambassador is a way into the contributor community. Two doors that aren't exclusive: Supporting (light dues, a button) and Contributing (recognized for work, never bought). Neither is statutory membership, and neither buys a vote (design/research/recognition-system.md). No link or dues amount yet: how to join as a Supporting Member isn't set, and /contributing/ stays unlisted until the board approves the ranks.",
+      "kicker": "Where it leads",
       "title": "The member community",
-      "body": "There are two ways in, and you can take both. Neither is needed to be an ambassador.",
+      "body": "Being an ambassador is a great first step into our contributor community, the people who build The Labs. There are two ways to become a member, and you can take both.",
       "doors": [
         {
           "name": "Supporting Member",
