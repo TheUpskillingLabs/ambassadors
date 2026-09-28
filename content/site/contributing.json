@@ -79,17 +79,17 @@
       {
         "label": "If you want a job to do",
         "title": "Take a role.",
-        "body": "Ambassador and Upskiller are open now. Poderator comes after you've been through a Build Cycle yourself. Every role has its own training, and soon its own page."
+        "body": "Ambassador, Upskiller and Mentor are open now. Poderator comes after you've been through a Build Cycle yourself. Every role has its own training, and soon its own page."
       },
       {
-        "label": "If you already know your stuff",
+        "label": "If you've got something to teach",
         "title": "Teach what you know.",
-        "body": "Mentor a pod, look over work in your field, and help newer people find their feet. Your time counts here, and we'll make sure it's recognized."
+        "body": "Everyone does. Mentor a pod, look over work you know well, and help newer people find their feet. Your time counts here, and we'll make sure people know it."
       },
       {
         "label": "If you'd rather back it than build it",
         "title": "Become a Supporting Member.",
-        "body": "Chip in light dues, wear the button that says you back The Labs, and come to everything. You can always start here."
+        "body": "Chip in a little each year, wear the button that says you back The Labs, and come to everything. You can always start here."
       }
     ],
     "note": "Whichever door you take, the pin works the same way. When The Labs runs on something you gave, the people who saw it happen put your name forward. Dues don't count toward it. Only the work does."
@@ -136,7 +136,7 @@
         "shows": "Every workstream, major and minor",
         "line": "You know how it all fits together.",
         "how": "You've been hands-on across the board. The other Maintainers put your name forward, and the board says yes.",
-        "trusted": "Setting the direction for a workstream. The board keeps the final say."
+        "trusted": "Deciding where a workstream goes next. The board keeps the final say."
       }
     ],
     "names": "Workstreams and level names are still drafts. Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Smaller ones include events, communications and research. [PLACEHOLDER]",
@@ -177,7 +177,7 @@
       },
       {
         "title": "Pinned.",
-        "body": "At the next regional gathering, in front of everyone. The two people who vouched for you pin it on and say a few words."
+        "body": "At the next big get-together in your region, in front of everyone. The two people who vouched for you pin it on and say a few words."
       }
     ],
     "note": "There's no clock on any of this. Take the time it takes, and every kind of help counts."
@@ -185,7 +185,7 @@
   "status": {
     "kicker": "Active or emeritus",
     "title": "Once it's yours, it stays yours.",
-    "lede": "Your level doesn't expire. The only question is whether you're doing the work right now.",
+    "lede": "Your level doesn't go away. The only question is whether you're doing the work right now.",
     "items": [
       {
         "label": "Active",
@@ -206,11 +206,11 @@
       "The pin is a thank-you from the community, not a certificate. It says what you did, not what you're allowed to do.",
       "No one can buy a pin, a level, or a vote.",
       "Levels don't come with a vote, either. The boards look after programs, money, people and the brand.",
-      "The only way to lose a level is a serious breach of the Code of Conduct."
+      "The only way to lose a level is to seriously break the Code of Conduct."
     ]
   },
   "join": {
-    "title": "Every pin starts with one contribution.",
+    "title": "Every pin starts with one small thing you did.",
     "lede": "The simplest way to start is the ambassador program. Share your story, bring someone to their first workshop, and see what you end up building.",
     "cta": "Become an ambassador"
   },
