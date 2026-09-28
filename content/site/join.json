@@ -47,11 +47,9 @@
     "$comment": "Our why: one manifesto block under the hero, nothing else, in the ambassadors' own voice (we = the corps): why we spread the word about The Labs. Its one effect: it lights up word by word as you scroll. em beats end bright, the rest end dim, so the bright ones read on their own. Keep it to one statement and one effect.",
     "kicker": "Our why",
     "statement": [
-      { "text": "Work is changing faster than anyone can learn alone.", "em": true },
-      { "text": "We discovered a community where nobody has to.", "em": true },
-      { "text": "It's called The Upskilling Labs. It's still finding its feet, and most people who'd love it haven't heard of it yet.", "em": false },
-      { "text": "So we help them discover it too.", "em": true },
-      { "text": "One conversation at a time.", "em": true }
+      { "text": "Work is changing faster than anyone can keep up alone.", "em": true },
+      { "text": "The Upskilling Labs is a community where we learn and adapt together.", "em": false },
+      { "text": "As ambassadors, we help folks who'd love it discover it—one conversation at a time.", "em": true }
     ]
   },
   "labs": {
