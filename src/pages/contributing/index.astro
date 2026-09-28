@@ -110,7 +110,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
 
       <JoinCover n={c.chapters[0].shot} id={c.chapters[0].id} title={c.chapters[0].title} />
 
-      <!-- Ways in: contribute, take a role, share what you know, get recognized. -->
+      <!-- Ways in: make something, take a role, teach what you know, or back it as a Supporting Member. Then how the pin works, whichever door. -->
       <section id="start" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
@@ -123,6 +123,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
               <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
             ))}
           </div>
+          <p class="cm-note reveal">{c.start.note}</p>
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 {
-  "$comment": "The Contributor Community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the levels. The one idea: The Labs is built by the people who learn here. Learning by doing, applied to The Labs itself: anyone can contribute, and each level means you've worked hands-on in more of its workstreams, major and minor. The page is three chapters, and each cover's promise is paid off by the sections right under it: Start anywhere (the ways in), Go as far as you like (the levels), Yours for good (how the pin is given, active or emeritus, what won't change). The pins are the symbol: one section walks the levels, by scroll or by picking one, with a pin you can drag (live 3D on desktop). Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open. The covers reuse the program page's macro shots of the pin (src/components/JoinCover.astro): chapters[].shot picks the shot (join.json mission[n]); title is this page's tagline.",
+  "$comment": "The Contributor Community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the levels. The one idea: The Labs is built by the people who learn here. Learning by doing, applied to The Labs itself: anyone can contribute (make something, take a role, teach what you know, or back it as a Supporting Member; roles open in order, and Poderator comes after a Build Cycle), and each level means you've worked hands-on in more of its workstreams, major and minor. The page is three chapters, and each cover's promise is paid off by the sections right under it: Start anywhere (the ways in), Go as far as you like (the levels), Yours for good (how the pin is given, active or emeritus, what won't change). The pins are the symbol: one section walks the levels, by scroll or by picking one, with a pin you can drag (live 3D on desktop). Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open. The covers reuse the program page's macro shots of the pin (src/components/JoinCover.astro): chapters[].shot picks the shot (join.json mission[n]); title is this page's tagline.",
   "placeholder": true,
   "title": "Contributor Community",
   "description": "The Labs is built by the people who learn here. Start anywhere, go as far as you like, and what you earn is yours for good.",
@@ -79,7 +79,7 @@
       {
         "label": "If you want a job to do",
         "title": "Take a role.",
-        "body": "Upskiller, Poderator, Mentor or Ambassador. We'll train you, then give you plenty of chances to practice. Ambassador is open right now."
+        "body": "Ambassador and Upskiller are open now. Poderator comes after you've been through a Build Cycle yourself. Every role has its own training, and soon its own page."
       },
       {
         "label": "If you already know your stuff",
@@ -87,11 +87,12 @@
         "body": "Mentor a pod, look over work in your field, and help newer people find their feet. Your time counts here, and we'll make sure it's recognized."
       },
       {
-        "label": "Whichever you pick",
-        "title": "Earn the pin.",
-        "body": "When something you gave becomes part of how The Labs runs, the people who saw it happen put your name forward."
+        "label": "If you'd rather back it than build it",
+        "title": "Become a Supporting Member.",
+        "body": "Chip in light dues, wear the button that says you back The Labs, and come to everything. You can always start here."
       }
-    ]
+    ],
+    "note": "Whichever door you take, the pin works the same way. When The Labs runs on something you gave, the people who saw it happen put your name forward. Dues don't count toward it. Only the work does."
   },
   "rings": {
     "kicker": "The way up",
@@ -210,7 +211,7 @@
   },
   "join": {
     "title": "Every pin starts with one contribution.",
-    "lede": "For now, the ambassador program is the door that's open. Share your story, bring someone to their first workshop, and see what you end up building.",
+    "lede": "The simplest way to start is the ambassador program. Share your story, bring someone to their first workshop, and see what you end up building.",
     "cta": "Become an ambassador"
   },
   "footer": {
