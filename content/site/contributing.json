@@ -1,5 +1,5 @@
 {
-  "$comment": "The contributor community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the levels. Learning by doing, applied to The Labs itself: anyone can contribute, and each level means you've worked hands-on in more of its workstreams, major and minor. The pins are the symbol, live 3D on desktop. Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open.",
+  "$comment": "The contributor community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the levels. Learning by doing, applied to The Labs itself: anyone can contribute, and each level means you've worked hands-on in more of its workstreams, major and minor. The pins are the symbol: one section walks the levels, by scroll or by picking one, with a pin you can drag (live 3D on desktop). Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open.",
   "placeholder": true,
   "title": "Contributing",
   "description": "Learn by doing, on The Labs itself. Anyone can pitch in, beginners and experts side by side, and each level means you've had your hands on more of how The Labs runs.",
@@ -7,7 +7,6 @@
     "brand": "Contributing",
     "start": "Start",
     "rings": "The way up",
-    "metal": "Up close",
     "given": "How it works",
     "program": "Ambassador program",
     "cta": "Become an ambassador",
@@ -122,28 +121,25 @@
         "trusted": "Setting the direction for a workstream, with the board keeping the final say."
       }
     ],
-    "names": "Workstreams and level names are still drafts. Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Smaller ones include events, communications and research. [PLACEHOLDER]"
-  },
-  "metal": {
-    "kicker": "Up close",
-    "title": "Every level has its own pin.",
-    "lede": "Pick one and turn it. Each is handed to you in person, and none is ever for sale.",
-    "rankLegend": "Level",
-    "ranks": [
-      "Member",
-      "Reviewer",
-      "Approver",
-      "Maintainer"
-    ],
-    "hint": "Drag to turn it",
-    "hintKeys": "Arrow keys turn it",
-    "stageLabel": "The {rank} pin. Drag, or use the arrow keys, to turn it.",
-    "ringsLabel": [
-      "The Contributing Member pin",
-      "The Reviewer pin",
-      "The Approver pin",
-      "The Maintainer pin"
-    ]
+    "names": "Workstreams and level names are still drafts. Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Smaller ones include events, communications and research. [PLACEHOLDER]",
+    "picker": {
+      "legend": "Level",
+      "levels": [
+        "Member",
+        "Reviewer",
+        "Approver",
+        "Maintainer"
+      ],
+      "hint": "Drag to turn it",
+      "hintKeys": "Arrow keys turn it",
+      "stageLabel": "The {rank} pin. Drag, or use the arrow keys, to turn it.",
+      "alts": [
+        "The Contributing Member pin",
+        "The Reviewer pin",
+        "The Approver pin",
+        "The Maintainer pin"
+      ]
+    }
   },
   "given": {
     "kicker": "How it works",
