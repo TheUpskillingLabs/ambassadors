@@ -119,17 +119,16 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-sec { padding: clamp(112px, 16vh, 164px) 0 0; }
 .jp-sec > .jp-split { padding-inline: var(--g); }
 .jp-you { padding-top: clamp(140px, 24vh, 260px); padding-bottom: clamp(140px, 24vh, 260px); }
-/* Our why: one manifesto block, set large, with room around it. The em beats
-   end bright and the rest end dim, so the bright sentences read on their own.
-   Its one effect: with motion on, the page script adds .dim and lights it word
-   by word (.lit) as it passes the reading line. Without the script, or with
-   reduced motion, it's simply lit. */
+/* Our why: one manifesto block, set large, with room around it. Its one
+   effect: with motion on, the page script adds .dim and brightens it letter by
+   letter (.lit) as you scroll, line by line, until it's all bright. Without the
+   script, or with reduced motion, it's simply bright. */
 .jp-you .kicker { margin-bottom: clamp(28px, 4vw, 48px); }
-.jp-manifesto { margin: 0; max-width: 1040px; font-size: clamp(28px, 3.4vw, 50px); line-height: 1.24; font-weight: 600; letter-spacing: -0.022em; text-wrap: pretty; }
-.jp-manifesto .beat { color: rgba(255, 255, 255, 0.5); }
-.jp-manifesto .beat.em { color: var(--t1); }
-.jp-manifesto.dim .w { color: rgba(255, 255, 255, 0.13); transition: color 0.5s ease; }
-.jp-manifesto.dim .w.lit { color: inherit; }
+.jp-manifesto { margin: 0; max-width: 1040px; font-size: clamp(28px, 3.4vw, 50px); line-height: 1.24; font-weight: 600; letter-spacing: -0.022em; color: var(--t1); text-wrap: pretty; }
+.jp-manifesto .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; -webkit-user-select: none; user-select: none; }
+.jp-manifesto .w { white-space: nowrap; }
+.jp-manifesto.dim .c { color: rgba(255, 255, 255, 0.14); transition: color 0.4s ease; }
+.jp-manifesto.dim .c.lit { color: inherit; }
 .jp-cols { margin-top: clamp(40px, 6vw, 72px); display: grid; column-gap: clamp(24px, 4vw, 48px); }
 .jp-cols.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
 .jp-cols.four { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); column-gap: clamp(20px, 3vw, 36px); }

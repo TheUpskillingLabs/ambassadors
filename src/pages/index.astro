@@ -27,9 +27,11 @@ const icons: Record<string, string> = {
 };
 const pageTitle = `${j.title} · The Upskilling Labs`;
 
-// Our why: the manifesto, split into words so the page can light them up as
-// you read down (its one effect).
-const manifesto = j.you.statement.map((beat) => ({ em: beat.em, words: beat.text.split(/\s+/) }));
+// Our why: the manifesto, split into letters so the page can brighten it
+// letter by letter as you read down (its one effect). Screen readers get the
+// plain sentence; the letters are hidden from them.
+const manifestoText = j.you.statement.join(" ");
+const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
 ---
 <!doctype html>
 <html lang="en">
@@ -93,9 +95,8 @@ const manifesto = j.you.statement.map((beat) => ({ em: beat.em, words: beat.text
         <div class="wrap">
           <p class="kicker reveal">{j.you.kicker}</p>
           <p class="jp-manifesto" data-manifesto>
-            {manifesto.map((beat, bi) => (
-              <>{bi > 0 && " "}<span class:list={["beat", { em: beat.em }]}>{beat.words.map((w, wi) => <>{wi > 0 && " "}<span class="w">{w}</span></>)}</span></>
-            ))}
+            <span class="sr">{manifestoText}</span>
+            <span aria-hidden="true">{manifestoWords.map((w, wi) => <>{wi > 0 && " "}<span class="w">{w.map((c) => <span class="c">{c}</span>)}</span></>)}</span>
           </p>
         </div>
       </section>
@@ -347,27 +348,26 @@ const manifesto = j.you.statement.map((beat) => ({ em: beat.em, words: beat.text
       }), { rootMargin: "-45% 0px -45% 0px" });
       howSteps.forEach((st) => howIo.observe(st));
 
-      // Our why: the manifesto lights up word by word as you scroll, starting as it
-      // rises past 85% of the screen and finishing as its centre passes 55%, so it's
-      // fully lit by the time you're looking straight at it. Scrolling back up puts
-      // it back in shadow. That's its one effect. Reduced motion: it's simply lit.
+      // Our why: the manifesto brightens letter by letter, line by line, as you
+      // scroll: it starts as the block rises past 85% of the screen and is fully
+      // bright once its centre passes 55%. Scrolling back up dims it again. That's
+      // its one effect. Reduced motion: it's simply bright.
       const manifesto = document.querySelector<HTMLElement>("[data-manifesto]");
       if (manifesto && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        const words = [...manifesto.querySelectorAll<HTMLElement>(".w")];
+        const letters = [...manifesto.querySelectorAll<HTMLElement>(".c")];
         manifesto.classList.add("dim");
-        let lit = -1, near = false, queued = false;
+        let lit = 0, near = false, queued = false;
         const paint = () => {
           queued = false;
           const r = manifesto.getBoundingClientRect();
           const start = innerHeight * 0.85, end = Math.min(start - 1, innerHeight * 0.55 - r.height / 2);
-          const n = Math.max(0, Math.min(words.length, Math.round(((start - r.top) / (start - end)) * words.length)));
-          if (n === lit) return;
+          const n = Math.max(0, Math.min(letters.length, Math.round(((start - r.top) / (start - end)) * letters.length)));
+          for (let i = Math.min(n, lit); i < Math.max(n, lit); i++) letters[i].classList.toggle("lit", i < n);
           lit = n;
-          words.forEach((w, i) => w.classList.toggle("lit", i < n));
         };
         new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) paint(); }, { rootMargin: "25% 0px" }).observe(manifesto);
         addEventListener("scroll", () => { if (near && !queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
-        addEventListener("resize", () => { lit = -1; paint(); }, { passive: true });
+        addEventListener("resize", paint, { passive: true });
         paint();
       }
 
