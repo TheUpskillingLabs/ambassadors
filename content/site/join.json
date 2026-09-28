@@ -2,7 +2,7 @@
   "$comment": "The public Ambassador Program page (the front page, /; /join/ redirects there). The idea: think of someone who's figuring out what's next. The hero is the mockup's; the three covers are chapter titles and each chapter's opener flows from its cover. [N] marks a number still to be set. Every 'Become an ambassador' button goes to /apply/ (content/site/apply.json). The launch roster reads data/roster.json.",
   "placeholder": true,
   "title": "Ambassador Program",
-  "description": "Think of someone who's figuring out what's next. It takes about ten minutes to join, we'll give you the words, and there's a pin to earn along the way.",
+  "description": "Think of someone who's figuring out what's next. It takes about ten minutes to join, we'll give you the words, and there's a pin we're building toward together.",
   "nav": {
     "brand": "Ambassadors",
     "why": "Why join",
@@ -157,10 +157,10 @@
   "path": {
     "kicker": "How it works",
     "title": [
-      "A button to welcome you in.",
-      "A rim to celebrate what you've done."
+      "The button says you're in.",
+      "The pin is what we're building toward."
     ],
-    "lede": "A few small steps, each one celebrated. Your coordinator, a local volunteer lead, is with you the whole way. The pin comes later, if you'd like it.",
+    "lede": "A few small steps, each one celebrated. Your coordinator, a local volunteer lead, is with you the whole way.",
     "steps": [
       {
         "title": "Raise your hand.",
@@ -182,14 +182,14 @@
       },
       {
         "title": "Pass it on.",
-        "body": "Invite [N] people to their first workshop, give one talk, and welcome one new ambassador. Your button gets a brass rim to mark it.",
+        "body": "Invite [N] people to their first workshop, give one talk, and welcome one new ambassador.",
         "milestone": true,
-        "reward": "rim"
+        "reward": "button"
       },
       {
-        "title": "Go further, if you like.",
-        "body": "Try one more way of helping, like mentoring a small team. Two people who already wear the pin vouch for you, and it's yours.",
-        "milestone": true,
+        "title": "Help shape what's next.",
+        "body": "We're building toward a pin for people who help The Labs in more than one way. Our first ambassadors will help decide what it takes.",
+        "milestone": false,
         "reward": "pin"
       }
     ],
@@ -203,27 +203,16 @@
         "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
       },
       {
-        "id": "rim",
-        "kicker": "When you've passed it on",
-        "title": "The rim",
-        "body": "A brass ring added around your button to mark the work you've done. Each one is numbered and recorded.",
-        "image": "button-card.webp",
-        "alt": "The ambassador button with a brass rim around it",
-        "rim": true
-      },
-      {
         "id": "pin",
-        "kicker": "For contributing members",
+        "kicker": "What we're building toward",
         "title": "The pin",
-        "body": "Earned, never bought. It's for people who've helped in two different ways, with two pin holders vouching for them.",
+        "body": "A pin for people who help The Labs in more than one way, earned rather than bought. We're still working out the details, together with our first ambassadors.",
         "image": "pin-card.webp",
-        "alt": "The pin: the orb mark with teal and red cat-eye enamel",
-        "link": "How the pin works"
+        "alt": "The pin: the orb mark with teal and red cat-eye enamel"
       }
     ],
     "visualAlt": {
       "button": "The ambassador button",
-      "rim": "The ambassador button with its brass rim",
       "pin": "The pin"
     },
     "cta": "Become an ambassador"
@@ -272,8 +261,7 @@
     "pinLink": "Meet the pin",
     "sponsors": "Started at, and sponsored by",
     "guide": "Already an ambassador? Open the guide",
-    "rights": "© 2026 The Upskilling Labs, Inc. All rights reserved.",
-    "pinPage": "How the pin works"
+    "rights": "© 2026 The Upskilling Labs, Inc. All rights reserved."
   },
   "faq": {
     "kicker": "Questions",
@@ -296,12 +284,8 @@
         "a": "Not at all. Curiosity and a story of your own are plenty."
       },
       {
-        "q": "What's the pin for?",
-        "a": "It's a thank-you for people who've helped The Labs in more than one way. Once you've practised two roles, two people who already wear the pin can vouch for you, and it's yours."
-      },
-      {
-        "q": "Can I buy one?",
-        "a": "The pin can only be earned. If you'd like to support The Labs with money, you can become a Supporting Member, which comes with its own button."
+        "q": "What's the pin?",
+        "a": "It's what we're building toward: a pin for people who help The Labs in more than one way, earned rather than bought. Our first ambassadors will help shape it."
       },
       {
         "q": "Can I stop?",

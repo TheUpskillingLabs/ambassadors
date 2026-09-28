@@ -1,9 +1,8 @@
 ---
 /* /pin/ — "The pin you can't buy": the public summary of The Labs'
    recognition system (design/research/recognition-system.md, a draft).
-   Anyone can contribute; role buttons are Trained, a brass rim marks a
-   Practitioner; the Contributing Member pin starts at Reviewer, with backing
-   plates for Committer and Maintainer; membership has two doors. Same
+   Not linked from anywhere (noindex): only the button and the ambassador
+   program exist today, so this sketches what The Labs is building toward. Same
    standalone dark look as the program page (join.css). Copy lives in
    content/site/pin.json; the register in data/register.json. */
 import "@fontsource-variable/geologica/wght.css";
@@ -26,6 +25,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
     <title>{pageTitle}</title>
     <meta name="description" content={c.description} />
     <meta name="theme-color" content="#00141B" />
+    <meta name="robots" content="noindex" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={c.description} />
@@ -85,7 +85,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <div class="cp-tiers reveal">
             {c.tiers.items.map((t) => (
               <div class:list={["cp-tier", t.id]}>
-                <div class:list={["cp-button", { "jp-rimmed": t.id === "practitioner" }]} aria-hidden="true">
+                <div class="cp-button" aria-hidden="true">
                   <img src={media("button-card.webp")} alt="" width="180" height="180" loading="lazy" />
                 </div>
                 <div><p class="kicker">{t.label}</p><h3>{t.title}</h3><p>{t.body}</p></div>
@@ -95,9 +95,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <div class="cp-roles reveal">
             <p class="kicker">{c.tiers.rolesLabel}</p>
             <ul>{c.tiers.roles.map((r) => <li>{r}</li>)}</ul>
-            <p>{c.tiers.builder}</p>
           </div>
-          <p class="cp-note reveal">{c.tiers.mark}</p>
         </div>
       </section>
 

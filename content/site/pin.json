@@ -1,8 +1,8 @@
 {
-  "$comment": "The pin page (/pin/; /contributors/ redirects here). Summarises the recognition system draft (design/research/recognition-system.md) for the public: anyone can contribute; role buttons are Trained, a brass rim marks a Practitioner; the Contributing Member pin starts at Reviewer, with backing plates for Committer and Maintainer; membership has two doors. Not board-approved: [PLACEHOLDER] marks what's still open. The register reads data/register.json.",
+  "$comment": "The pin page (/pin/; /contributors/ redirects here). Not linked from anywhere and kept out of search engines: only the button and the ambassador program exist today. It sketches what The Labs is building toward, from the recognition-system draft (design/research/recognition-system.md). [PLACEHOLDER] marks what's still open.",
   "placeholder": true,
   "title": "The pin",
-  "description": "A pin that's earned, never bought. How buttons, rims, the pin and membership work at The Upskilling Labs.",
+  "description": "A first look at the pin The Labs is building toward: earned, never bought.",
   "nav": {
     "brand": "The pin",
     "buttons": "Buttons",
@@ -14,9 +14,9 @@
     "ctaShort": "Join us"
   },
   "hero": {
-    "kicker": "The pin",
+    "kicker": "What we're building toward",
     "title": "A pin that's earned.",
-    "lede": "It's how The Labs says thank you to people who've helped in more than one way, with two friends who already wear it vouching for them.",
+    "lede": "A first look at how The Labs hopes to thank people who help in more than one way. It's still a draft, and our first ambassadors will help shape it.",
     "alt": "The pin: the orb mark with teal and red cat-eye enamel"
   },
   "open": {
@@ -27,30 +27,22 @@
   "tiers": {
     "kicker": "Buttons",
     "title": "A button for what you do.",
-    "lede": "Each role at The Labs has its own button. Once you've spent some time in the role, we add a rim to celebrate it.",
+    "lede": "Each role at The Labs will have its own button. The Ambassador button is the first.",
     "items": [
       {
         "id": "trained",
         "label": "When you start",
         "title": "The button",
         "body": "Once you're trained for a role, your coordinator or the role's lead gives you its button."
-      },
-      {
-        "id": "practitioner",
-        "label": "Once you've done the work",
-        "title": "The rim",
-        "body": "A brass ring added around the same button. Each one is numbered and recorded, so it's always yours."
       }
     ],
-    "rolesLabel": "Buttons so far",
+    "rolesLabel": "Buttons we're planning",
     "roles": [
       "Upskiller (a participant)",
       "Poderator (leads a small team)",
       "Mentor",
       "Ambassador"
     ],
-    "builder": "An Upskiller whose button has a rim is called a Builder.",
-    "mark": "We're still prototyping the rim, so the picture is a sketch. [PLACEHOLDER]",
     "buttonAlt": "A role button: the orb mark on ink, ringed in white"
   },
   "ladder": {
@@ -117,8 +109,8 @@
       }
     ],
     "rules": [
-      "Contributions help The Labs, but they never buy a rim, a pin, or a vote.",
-      "You don't need to pay to earn the pin, and earning the pin never asks you to pay."
+      "Contributions will help The Labs, but they'll never buy a pin or a vote.",
+      "You won't need to pay to earn the pin, and earning the pin will never ask you to pay."
     ]
   },
   "ceremony": {
@@ -202,7 +194,7 @@
     "cta": "Become an ambassador"
   },
   "footer": {
-    "renders": "Images of the button and pin are 3D renders, not photos. The rim and plates are sketches.",
+    "renders": "Images of the button and pin are 3D renders, not photos. The plates are sketches.",
     "program": "The ambassador program",
     "draft": "[PLACEHOLDER] A draft, not yet approved by the board."
   }

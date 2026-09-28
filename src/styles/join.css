@@ -173,12 +173,6 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-rewards { margin-top: clamp(24px, 4vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: clamp(16px, 2.5vw, 28px); }
 .jp-reward { scroll-margin-top: var(--head); border-radius: 14px; background: rgba(255, 255, 255, 0.04); padding: clamp(24px, 3vw, 40px); display: grid; grid-template-columns: minmax(0, 132px) 1fr; align-items: center; gap: clamp(16px, 3vw, 32px); }
 .jp-reward img { width: 100%; aspect-ratio: 1; object-fit: contain; }
-/* The Practitioner rim, sketched: a brass halo around the same button (the
-   real one is a laser-cut ring behind it). Also used on /pin/. */
-.jp-rimmed { position: relative; aspect-ratio: 1; align-self: center; }
-.jp-rimmed img { width: 100%; height: 100%; object-fit: contain; }
-.jp-rimmed::after { content: ""; position: absolute; inset: 9%; border-radius: 50%; pointer-events: none;
-  box-shadow: 0 0 0 4px #B08D57, 0 0 0 5px rgba(255, 236, 190, 0.35), 0 0 24px rgba(176, 141, 87, 0.45); }
 .jp-reward h3 { margin: 10px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
 .jp-reward p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
 
@@ -263,7 +257,6 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   .jp-how-visual { display: block; position: sticky; top: calc(50vh - min(19vw, 260px)); align-self: start; aspect-ratio: 1; width: min(38vw, 520px); }
   .jp-how-visual > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transform: scale(0.94) rotate(-4deg); transition: opacity 0.6s ease, transform 0.8s cubic-bezier(.2, .7, .2, 1); }
   .jp-how-visual > .on { opacity: 1; transform: none; }
-  .jp-how-visual .jp-rimmed img { width: 100%; height: 100%; object-fit: contain; }
   .jp-how .jp-steps { margin: 0; grid-template-columns: 1fr; }
   .jp-how .jp-steps li { min-height: 42vh; padding-top: 28px; justify-content: flex-start; }
   .jp-how .jp-steps li:last-child { min-height: 30vh; }
@@ -387,8 +380,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 }
 @media (max-width: 480px) {
   .jp-reward { grid-template-columns: 1fr; gap: 12px; }
-  .jp-reward img, .jp-reward .jp-rimmed { width: 104px; }
-  .jp-reward .jp-rimmed img { width: 100%; }
+  .jp-reward img { width: 104px; }
   .jp-reward h3 { font-size: 22px; }
 }
 /* Filter animations are expensive on phones: covers and the hero keep opacity and transform only. */

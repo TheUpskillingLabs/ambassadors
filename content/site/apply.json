@@ -17,7 +17,7 @@
     "zip": "ZIP code",
     "zipHint": "5 digits",
     "referredBy": "Who brought you in? (optional)",
-    "referredByHint": "If an ambassador sent you, it counts toward their rim.",
+    "referredByHint": "If an ambassador sent you, add their name so we can thank them.",
     "errors": {
       "first": "Add your first name.",
       "last": "Add your last name.",
