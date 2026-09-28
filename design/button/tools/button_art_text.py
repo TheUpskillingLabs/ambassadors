@@ -1,5 +1,6 @@
-"""Round button with the orb mark ringed by THE UPSKILLING LABS (top) and AMBASSADOR (bottom).
-Sizes follow Sticker Mule's templates; every measurement scales with the button face."""
+"""Round button with the orb mark ringed by THE UPSKILLING LABS (top) and a role (bottom, AMBASSADOR by default).
+Sizes follow Sticker Mule's templates; every measurement scales with the button face.
+usage: python3 tools/button_art_text.py <size: 1.25 | 1.5> <output folder> [ROLE WORD] [file name stem]"""
 import math, sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -64,7 +65,7 @@ def dot(layer, deg, r_mm, rad_mm, colour, px_mm):
     rr = rad_mm * px_mm
     ImageDraw.Draw(layer).ellipse([x - rr, y - rr, x + rr, y + rr], fill=colour)
 
-def build(size="1.25"):
+def build(size="1.25", role="AMBASSADOR"):
     z = SIZES[size]
     k = z["face"] / 1.25
     FACE_R = BASE_FACE_R * k
@@ -81,7 +82,7 @@ def build(size="1.25"):
         size += 1
     f_name, f_role = font(size, 600), font(size, 700)
     top = arc_text(layer, "THE UPSKILLING LABS", f_name, WHITE, BAND[0], 90, True, px_mm)
-    bot = arc_text(layer, "AMBASSADOR", f_role, WHITE, BAND[1], -90, False, px_mm)
+    bot = arc_text(layer, role, f_role, WHITE, BAND[1], -90, False, px_mm)
     mid_r = (BAND[0] + BAND[1]) / 2
     for deg in (180 - (180 - top) / 4 - top / 2 + 0, ):
         pass
@@ -99,8 +100,10 @@ def build(size="1.25"):
 if __name__ == "__main__":
     size = sys.argv[1] if len(sys.argv) > 1 else "1.25"
     out = sys.argv[2] if len(sys.argv) > 2 else "/home/claude/work/out2"
+    role = sys.argv[3] if len(sys.argv) > 3 else "AMBASSADOR"
+    stem = sys.argv[4] if len(sys.argv) > 4 else role.lower().replace(" ", "-")
     z = SIZES[size]
-    img, info = build(size)
-    img.save(f"{out}/ambassador-button-{size}in.png", dpi=(DPI, DPI))
-    guides(img, z["face"], z["cut"]).save(f"{out}/ambassador-button-{size}in-guides.png", dpi=(DPI, DPI))
+    img, info = build(size, role)
+    img.save(f"{out}/{stem}-button-{size}in.png", dpi=(DPI, DPI))
+    guides(img, z["face"], z["cut"]).save(f"{out}/{stem}-button-{size}in-guides.png", dpi=(DPI, DPI))
     print(info, img.size)

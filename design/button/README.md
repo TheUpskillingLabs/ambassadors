@@ -38,7 +38,7 @@ Art for Sticker Mule's 1.5" round button, 2" square at 600 dpi.
 
 From this folder, with Pillow, NumPy, img2pdf and LittleCMS 2 (`liblcms2`; `brew install little-cms2` on a Mac):
 
-1. `python3 tools/button_art_text.py 1.5 .` draws the RGB art and a guides image.
+1. `python3 tools/button_art_text.py 1.5 .` draws the RGB art and a guides image. Add a role word and a file stem to make another role's button, for example `python3 tools/button_art_text.py 1.5 . "SUPPORTING MEMBER" supporting-member`.
    - It needs the brandkit's `orb-mark.png` and `Geologica-VariableFont.ttf`, whose paths are set at the top of `tools/button_art.py` and `tools/button_art_text.py`.
    - The script also knows the 1.25" template.
 2. `python3 tools/build_cmyk.py ambassador-button-1.5in.png ambassador-button-1.5in [profile.icc]` writes the CMYK TIFF, the PDF and the print preview.
