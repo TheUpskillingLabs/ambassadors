@@ -18,7 +18,7 @@
       "Contributor",
       "Community"
     ],
-    "lede": "The Labs is built by the people who learn here. This is how you become one of them.",
+    "lede": "The Labs is built by the people who learn here. That's the whole idea. Here's how you become one of them.",
     "cta": "See the ways in",
     "status": "The first pins go to our two steering committees",
     "pinAlt": "The Contributing Member pin, turning to follow your pointer"
@@ -47,7 +47,7 @@
       {
         "label": "In person",
         "title": "Close to home.",
-        "body": "Neighbors, face to face. Not a chat window."
+        "body": "People from your own neighborhood, face to face. Not just a chat window."
       },
       {
         "label": "Side by side",
@@ -57,7 +57,7 @@
       {
         "label": "Hands-on",
         "title": "Learning is the point.",
-        "body": "Every job here teaches you something, and with AI tools you'll build more than you expect."
+        "body": "Every job here teaches you something. And with AI tools, you'll end up building more than you thought you could."
       },
       {
         "label": "Local",
@@ -68,35 +68,35 @@
   },
   "start": {
     "kicker": "Ways in",
-    "title": "There's no front door.",
-    "lede": "Some people fix a typo in the guide. Some run a room. It all counts, and it all gets written down.",
+    "title": "There's no front door. Come in wherever you like.",
+    "lede": "Somebody fixes a typo in the guide. Somebody else runs a whole room. It all counts, and none of it gets forgotten.",
     "items": [
       {
         "label": "If you make things",
         "title": "Make something better.",
-        "body": "A guide, a flyer, a talk, a bit of code. Suggest a change to anything The Labs runs on, and we'll credit you by name."
+        "body": "See something that could be better? Change it. A guide, a flyer, a talk, a bit of code. We'll credit you by name."
       },
       {
         "label": "If you want a job to do",
         "title": "Take a role.",
-        "body": "Upskiller, Poderator, Mentor or Ambassador. You'll be trained, then given plenty of practice. Ambassador is open now."
+        "body": "Upskiller, Poderator, Mentor or Ambassador. We'll train you, then give you plenty of chances to practice. Ambassador is open right now."
       },
       {
         "label": "If you already know your stuff",
         "title": "Teach what you know.",
-        "body": "Mentor a pod, look over work in your field, and help newer people find their feet. Your time counts, and we'll recognize it."
+        "body": "Mentor a pod, look over work in your field, and help newer people find their feet. Your time counts here, and we'll make sure it's recognized."
       },
       {
         "label": "Whichever you pick",
         "title": "Earn the pin.",
-        "body": "When The Labs runs on something you gave, the people who saw it put your name forward."
+        "body": "When something you gave becomes part of how The Labs runs, the people who saw it happen put your name forward."
       }
     ]
   },
   "rings": {
     "kicker": "The way up",
     "title": "Four levels. Each one means you've had your hands on more of The Labs.",
-    "lede": "It isn't a ladder you have to climb. Plenty of people find the job they love and stay there for years. But if you want to see how the whole thing fits together, this is the way.",
+    "lede": "It isn't a ladder you have to climb. Plenty of people find the job they love and stay there for years. But if you want to see how the whole thing fits together, this is how you get there.",
     "readout": {
       "label": "Hands-on in"
     },
@@ -118,7 +118,7 @@
         "rank": "Reviewer",
         "shows": "Two major workstreams",
         "line": "You've done it, so you can check it.",
-        "how": "Hands-on in two major workstreams, with two people who already wear the pin vouching for you.",
+        "how": "You've worked hands-on in two major workstreams, and two people who already wear the pin have vouched for you.",
         "trusted": "Checking work in the areas you know, and helping newer people get there."
       },
       {
@@ -126,7 +126,7 @@
         "rank": "Approver",
         "shows": "Every major workstream",
         "line": "You've seen every part of The Labs up close.",
-        "how": "Hands-on in every major workstream, and some of the smaller ones.",
+        "how": "You've worked hands-on in every major workstream, and a few of the smaller ones.",
         "trusted": "Saying yes to changes in your Lab's playbooks, and mentoring Reviewers."
       },
       {
@@ -134,7 +134,7 @@
         "rank": "Maintainer",
         "shows": "Every workstream, major and minor",
         "line": "You know how it all fits together.",
-        "how": "Hands-on across the board. Other Maintainers put you forward, and the board confirms.",
+        "how": "You've been hands-on across the board. The other Maintainers put your name forward, and the board says yes.",
         "trusted": "Setting the direction for a workstream. The board keeps the final say."
       }
     ],
@@ -168,7 +168,7 @@
       },
       {
         "title": "Two people vouch for you.",
-        "body": "Both already wear the pin. They help you get there, then say that you did."
+        "body": "Both of them already wear the pin. They help you get there, and then they say so."
       },
       {
         "title": "It goes on the record.",
@@ -176,7 +176,7 @@
       },
       {
         "title": "Pinned.",
-        "body": "At the next regional gathering, in front of everyone. Your sponsors pin it on and say a few words."
+        "body": "At the next regional gathering, in front of everyone. The two people who vouched for you pin it on and say a few words."
       }
     ],
     "note": "There's no clock on any of this. Take the time it takes, and every kind of help counts."
@@ -189,12 +189,12 @@
       {
         "label": "Active",
         "title": "In the thick of it.",
-        "body": "You hold a seat in your Lab, and the say that comes with your level."
+        "body": "You've got a seat in your Lab, and the say that comes with it."
       },
       {
         "label": "Emeritus",
         "title": "Taking a step back.",
-        "body": "You keep the level, the pin, and your voice. When a seat opens, come back."
+        "body": "You keep your level, your pin, and your voice. When a seat opens up, come on back."
       }
     ]
   },
@@ -210,7 +210,7 @@
   },
   "join": {
     "title": "Every pin starts with one contribution.",
-    "lede": "Right now, the open door is the ambassador program. Share your story, bring someone to their first workshop, and see what you end up building.",
+    "lede": "For now, the ambassador program is the door that's open. Share your story, bring someone to their first workshop, and see what you end up building.",
     "cta": "Become an ambassador"
   },
   "footer": {
