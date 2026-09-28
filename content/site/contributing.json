@@ -1,0 +1,180 @@
+{
+  "$comment": "The Contributing Member explainer (/contributing/; /pin/ redirects here). Unlisted, like /roles/: linked only from /roles/ and kept out of search engines until the board approves the ranks. The pin on its own is the Contributing Member pin; Reviewer, Committer and Maintainer each add a ring. Brass for regional work, silver for national. Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open.",
+  "placeholder": true,
+  "title": "Contributing Member",
+  "description": "The Contributing Member pin, and the three rings that can grow around it. What each one says about the person wearing it. A working draft.",
+  "nav": {
+    "brand": "Contributing Member",
+    "pin": "The pin",
+    "rings": "The rings",
+    "metal": "Brass or silver",
+    "given": "How it's given",
+    "roles": "Roles and ranks",
+    "cta": "Become an ambassador",
+    "ctaShort": "Join us"
+  },
+  "draft": "A working draft. The board hasn't approved the ranks yet, and the pin is still being made. Everything here is what we're building toward.",
+  "hero": {
+    "title": ["Contributing", "Member"],
+    "lede": "For the people who leave The Labs better than they found it.",
+    "cta": "See the rings",
+    "status": "First pins: our two steering committees",
+    "pinAlt": "The Contributing Member pin, turning to follow your pointer"
+  },
+  "idea": {
+    "kicker": "The pin",
+    "title": "Some people use the playbook. Some people write the next page.",
+    "lede": "This pin is for the second kind: people whose work The Labs now runs on. A playbook, a kit, a process, a first program. There's no application and no checklist. It's given by the people who saw the work.",
+    "items": [
+      {
+        "label": "Given",
+        "title": "Never sold.",
+        "body": "Dues get you a Supporting Member button, and our thanks. The pin only comes from work."
+      },
+      {
+        "label": "Recorded",
+        "title": "One line, for good.",
+        "body": "The register keeps your name, your number and a sentence on what you did."
+      },
+      {
+        "label": "Pinned",
+        "title": "In person.",
+        "body": "Handed to you at a gathering, by people who know exactly what it's for."
+      }
+    ]
+  },
+  "first": {
+    "kicker": "The first pins",
+    "title": "Before there were ranks, there were people doing the work anyway.",
+    "body": "Our two steering committees get the first Contributing Member pins. They built The Labs before there was anything to earn."
+  },
+  "rings": {
+    "kicker": "The rings",
+    "title": "Every ring is earned.",
+    "lede": "The pin says you contributed. The rings say how far you've carried it. Scroll, and watch it grow.",
+    "readout": {
+      "rings": "Rings",
+      "across": "Across"
+    },
+    "steps": [
+      {
+        "id": "member",
+        "rank": "Contributing Member",
+        "shows": "The pin",
+        "line": "You made something we now run on.",
+        "body": "Recognized for real work on The Labs itself. No formal requirement. It's given by people who saw it."
+      },
+      {
+        "id": "reviewer",
+        "rank": "Reviewer",
+        "shows": "One ring",
+        "line": "You've done it, so you can judge it.",
+        "body": "A Practitioner in two roles, sponsored by two Reviewers. You review changes, and new Practitioners, in the roles you know."
+      },
+      {
+        "id": "committer",
+        "rank": "Committer",
+        "shows": "Two rings",
+        "line": "You've helped everywhere. Now you can say yes.",
+        "body": "You've helped in every core area of The Labs. You approve changes to your Lab's playbooks, within a written grant from the board."
+      },
+      {
+        "id": "maintainer",
+        "rank": "Maintainer",
+        "shows": "Three rings",
+        "line": "You set the standard others build to.",
+        "body": "You shape the standard for an area. The board keeps the final say."
+      }
+    ],
+    "names": "Rank names are drafts, borrowed from open-source projects, until the board decides. [PLACEHOLDER]"
+  },
+  "metal": {
+    "kicker": "Brass or silver",
+    "title": "The metal says where the work happened.",
+    "lede": "Brass for work in your region. Silver for work across the whole network. Same pin, same rings, different shine.",
+    "rankLegend": "Rank",
+    "metalLegend": "Metal",
+    "ranks": ["Member", "Reviewer", "Committer", "Maintainer"],
+    "metals": [
+      { "id": "brass", "name": "Brass", "note": "Regional" },
+      { "id": "silver", "name": "Silver", "note": "National" }
+    ],
+    "hint": "Drag to turn it",
+    "hintKeys": "Arrow keys turn it",
+    "stageLabel": "The {rank} pin in {metal}. Drag, or use the arrow keys, to turn it.",
+    "ringsLabel": ["The pin on its own", "One ring", "Two rings", "Three rings"]
+  },
+  "finish": {
+    "cover": "Sunray.",
+    "coverAlt": "Low close-up of the brass rings, brushed in fine radiating lines, stepping down from the red enamel",
+    "kicker": "The finish",
+    "title": "Light runs around it.",
+    "lede": "Each ring is brushed in fine lines that radiate from the center, the way a good watch dial is. Tilt it, and a sweep of light turns with you.",
+    "details": [
+      {
+        "title": "Cut bright at every step.",
+        "body": "The edge of each ring is polished, so every step draws its own thin line of light.",
+        "image": "macro-steps",
+        "alt": "Low-angle close-up of the silver rings' polished, stepped edges"
+      },
+      {
+        "title": "One piece, not a stack.",
+        "body": "The rings are struck into the pin itself. Nothing rattles, nothing comes loose, and it sits flat on a jacket. Each rank is its own pin, so the old one is yours to keep.",
+        "image": "macro-detail",
+        "alt": "Close-up of the brass pin: the enamel orb and swoosh inside three stepped, brushed rings"
+      }
+    ]
+  },
+  "given": {
+    "kicker": "How it's given",
+    "title": "It starts with the work. It ends with a handshake.",
+    "steps": [
+      {
+        "title": "Do the work.",
+        "body": "Make something The Labs can reuse, or practice the roles a rank asks for."
+      },
+      {
+        "title": "Someone vouches.",
+        "body": "People who already hold the pin put your name forward. For a rank, that's two sponsors, from different roles or Labs."
+      },
+      {
+        "title": "It's recorded.",
+        "body": "Your Lab checks it, and HQ writes it on the register with a line on what you did."
+      },
+      {
+        "title": "Pinned.",
+        "body": "At the next regional gathering. Your sponsors pin it on and say a sentence about why."
+      }
+    ],
+    "note": "Who confers the Contributing Member pin is still being decided. [PLACEHOLDER]"
+  },
+  "true": {
+    "kicker": "What stays true",
+    "title": "A few things that don't change.",
+    "items": [
+      "No one can buy a pin, a ring or a vote.",
+      "A pin records what you did. It doesn't expire.",
+      "Recognition isn't certification. It's the community saying thank you.",
+      "Step back whenever you need to. You keep the pin and the title."
+    ]
+  },
+  "register": {
+    "kicker": "The register",
+    "title": "Recognized so far.",
+    "empty": "No one yet. The first pins go to our two steering committees.",
+    "emeritus": "emeritus",
+    "label": "The register, {n} entries"
+  },
+  "join": {
+    "title": "Every pin starts with one contribution.",
+    "lede": "The way in today is the ambassador program. Tell your story, bring someone to their first workshop, and see what you end up building.",
+    "cta": "Become an ambassador",
+    "secondary": "How roles and ranks work"
+  },
+  "footer": {
+    "renders": "Images of the pin are 3D renders, not photos. The finish is the design; the real pin is still being made.",
+    "program": "The ambassador program",
+    "roles": "Roles and ranks",
+    "source": "Draft source: design/research/recognition-system.md"
+  }
+}
