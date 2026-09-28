@@ -6,6 +6,7 @@
   --rule: rgba(255, 255, 255, 0.16);
   --g: clamp(16px, 4vw, 64px); /* full width: one fluid gutter */
   --head: 76px;
+  --grain: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMjAnIGhlaWdodD0nMjIwJz48ZmlsdGVyIGlkPSduJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC45JyBudW1PY3RhdmVzPScyJyBzdGl0Y2hUaWxlcz0nc3RpdGNoJy8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPScwIDAgMCAwIDEgIDAgMCAwIDAgMSAgMCAwIDAgMCAxICAwIDAgMCAwLjUgMCcvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIGZpbHRlcj0ndXJsKCNuKScgb3BhY2l0eT0nMC41NScvPjwvc3ZnPg=="); /* the brand grain (colors_and_type.css) */
   margin: 0; background: var(--ink); color: var(--t1);
   font-family: "Geologica Variable", "Geologica", system-ui, -apple-system, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -140,6 +141,19 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 /* What you'll do: three moments told in order, each with a polished brass
    outline icon (Cycles renders from the "Moment Icons" scene in LabsPin.blend,
    lit by the pin's studio). */
+/* The section's atmosphere: the orb's light behind the row (teal from the
+   left, a warm red from the lower right), with the brand grain living only in
+   the glows, like the orb's stipple. Every glow reaches zero inside the section,
+   so there is no seam. */
+.jp-moments-sec { position: relative; isolation: isolate; padding-bottom: clamp(88px, 12vh, 140px); }
+.jp-moments-sec::before, .jp-moments-sec::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.jp-moments-sec::before { background:
+  radial-gradient(ellipse 44% 30% at 18% 66%, rgba(0, 148, 160, 0.38) 0%, rgba(0, 148, 160, 0.15) 45%, rgba(0, 148, 160, 0) 100%),
+  radial-gradient(ellipse 36% 26% at 74% 72%, rgba(214, 44, 52, 0.26) 0%, rgba(214, 44, 52, 0.09) 48%, rgba(214, 44, 52, 0) 100%),
+  radial-gradient(ellipse 30% 24% at 88% 22%, rgba(0, 148, 160, 0.12) 0%, rgba(0, 148, 160, 0) 100%); }
+.jp-moments-sec::after { background-image: var(--grain); mix-blend-mode: overlay; opacity: 0.7;
+  -webkit-mask-image: radial-gradient(ellipse 44% 30% at 18% 66%, #000 0%, transparent 100%), radial-gradient(ellipse 36% 26% at 74% 72%, #000 0%, transparent 100%), radial-gradient(ellipse 30% 24% at 88% 22%, #000 0%, transparent 100%);
+  mask-image: radial-gradient(ellipse 44% 30% at 18% 66%, #000 0%, transparent 100%), radial-gradient(ellipse 36% 26% at 74% 72%, #000 0%, transparent 100%), radial-gradient(ellipse 30% 24% at 88% 22%, #000 0%, transparent 100%); }
 .jp-moments { list-style: none; padding: 0; }
 .jp-moments .icon { display: block; width: clamp(96px, 9vw, 128px); height: auto; aspect-ratio: 1; margin: 0 0 14px; }
 .jp-moments .label { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
