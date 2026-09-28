@@ -119,6 +119,10 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-sec { padding: clamp(112px, 16vh, 164px) 0 0; }
 .jp-sec > .jp-split { padding-inline: var(--g); }
 .jp-you { padding-top: clamp(96px, 14vh, 148px); }
+/* Our why: one manifesto block, set large. The bright sentences carry the
+   argument; the dim middle is the detail you read if you stay. */
+.jp-manifesto { margin: clamp(18px, 2.5vw, 28px) 0 0; max-width: 1080px; font-size: clamp(28px, 3.5vw, 52px); line-height: 1.16; font-weight: 600; letter-spacing: -0.025em; color: rgba(255, 255, 255, 0.46); text-wrap: pretty; }
+.jp-manifesto .em { color: var(--t1); }
 .jp-cols { margin-top: clamp(40px, 6vw, 72px); display: grid; column-gap: clamp(24px, 4vw, 48px); }
 .jp-cols.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
 .jp-cols.four { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); column-gap: clamp(20px, 3vw, 36px); }
@@ -198,11 +202,6 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-stat .l { margin: 12px 0 0; font-size: 16px; line-height: 1.5; color: var(--t2); }
 /* The argument: four short headers with a line or two under each, between the
    "Why ambassadors do it" lede and the three cards. Plain text, no boxes. */
-.jp-argument { list-style: none; margin: clamp(32px, 5vw, 56px) 0 clamp(40px, 6vw, 72px); padding: 0; max-width: 720px; display: flex; flex-direction: column; gap: clamp(24px, 3vw, 36px); }
-.jp-argument h3 { margin: 0 0 10px; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.15; letter-spacing: -0.02em; font-weight: 700; color: var(--t1); text-wrap: balance; }
-.jp-argument p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--t3); text-wrap: pretty; }
-/* "What it gives back" sits right on top of the three columns it introduces. */
-.jp-gives + .jp-cols { margin-top: clamp(4px, 1vw, 12px); }
 /* The founding ten: a numbered roster read from data/roster.json. Filled
    slots show a first name and a part of town; the rest read as open. */
 .jp-roster { margin: clamp(24px, 4vw, 40px) 0 0; max-width: 760px; }
@@ -374,8 +373,6 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   .jp-cover-title { font-size: 48px; }
   .jp-cols { margin-top: 32px; }
   .jp-col { padding: 18px 0 22px; }
-  .jp-argument { margin: 28px 0 40px; gap: 22px; }
-  .jp-argument h3 { font-size: 22px; }
   .jp-stats { grid-template-columns: 1fr; margin-top: 24px; }
   .jp-stat { display: grid; grid-template-columns: 136px 1fr; align-items: baseline; column-gap: 16px; padding: 12px 0; border-top: 1px solid var(--rule); }
   .jp-stat .v { font-size: 48px; }

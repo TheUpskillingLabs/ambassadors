@@ -86,21 +86,9 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
       </section>
 
       <section id="you" class="jp-sec jp-you">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{j.you.kicker}</p>
-            <h2 class="h2" style="max-width: 900px">{j.you.title}</h2>
-            <p class="lede">{j.you.lede}</p>
-          </div>
-          <ol class="jp-argument reveal">
-            {j.you.argument.map((a) => <li><h3>{a.title}</h3><p>{a.body}</p></li>)}
-          </ol>
-          <p class="kicker jp-gives reveal">{j.you.gives}</p>
-          <div class="jp-cols three reveal">
-            {j.you.items.map((it) => (
-              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
-            ))}
-          </div>
+        <div class="wrap reveal">
+          <p class="kicker">{j.you.kicker}</p>
+          <p class="jp-manifesto">{j.you.statement.map((t, i) => <>{i > 0 && " "}<span class:list={{ em: t.em }}>{t.text}</span></>)}</p>
         </div>
       </section>
 

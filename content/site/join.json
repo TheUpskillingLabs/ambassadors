@@ -44,45 +44,12 @@
     }
   ],
   "you": {
-    "$comment": "Our why: the mission first (why The Labs, why now, why ambassadors), then why you're the one to carry it, then what it gives back.",
+    "$comment": "Our why: one manifesto block under the hero, nothing else. Bright sentences carry it; the dim middle is the detail. Keep it to one statement.",
     "kicker": "Our why",
-    "title": "Nobody should have to figure out what's next alone.",
-    "lede": "Work is changing fast, and communities everywhere need a way to learn and adapt together. The Upskilling Labs is built for exactly that, and it's just getting on its feet. Ambassadors are how it reaches more people.",
-    "gives": "What it gives back",
-    "items": [
-      {
-        "label": "As a professional",
-        "title": "Skills that go with you.",
-        "body": "Telling your story, leading a conversation, listening well. You'll use them everywhere."
-      },
-      {
-        "label": "As a neighbor",
-        "title": "A say in what gets built.",
-        "body": "What you hear from people helps shape what The Labs works on next."
-      },
-      {
-        "label": "As a person",
-        "title": "Confidence that grows.",
-        "body": "Share your story, and find out you can hold a room."
-      }
-    ],
-    "argument": [
-      {
-        "title": "You found your way.",
-        "body": "You showed up and did the work, and The Labs made room for you. Now you know the way in."
-      },
-      {
-        "title": "Be the one who says “come with me.”",
-        "body": "No pitch needed. Just a friendly face they already trust."
-      },
-      {
-        "title": "Help it reach the next neighborhood.",
-        "body": "The Labs grows one neighborhood at a time, whenever someone like you invites others in."
-      },
-      {
-        "title": "Be early to something built to last.",
-        "body": "It's a year old, run by volunteers, and meant to be around for a long time. Everyone you bring adds another pair of hands."
-      }
+    "statement": [
+      { "text": "Work is changing faster than anyone can keep up with alone. So don't.", "em": true },
+      { "text": "The Upskilling Labs is where people team up to learn, build, and adapt together. It's young, it's free, and it's just getting on its feet. Every community in the country could use one. Ambassadors are how it gets there.", "em": false },
+      { "text": "You already know who's next.", "em": true }
     ]
   },
   "labs": {
