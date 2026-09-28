@@ -119,10 +119,33 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-sec { padding: clamp(112px, 16vh, 164px) 0 0; }
 .jp-sec > .jp-split { padding-inline: var(--g); }
 .jp-you { padding-top: clamp(96px, 14vh, 148px); }
-/* Our why: one manifesto block, set large. The bright sentences carry the
-   argument; the dim middle is the detail you read if you stay. */
-.jp-manifesto { margin: clamp(18px, 2.5vw, 28px) 0 0; max-width: 1080px; font-size: clamp(28px, 3.5vw, 52px); line-height: 1.16; font-weight: 600; letter-spacing: -0.025em; color: rgba(255, 255, 255, 0.46); text-wrap: pretty; }
-.jp-manifesto .em { color: var(--t1); }
+/* Our why: one manifesto block, set large. The em beats end bright and the
+   rest end dim, so the bright sentences read on their own. With motion on, the
+   page script adds .dim and lights it word by word (.lit) as it passes the
+   reading line; without the script, or with reduced motion, it's simply lit. */
+.jp-manifesto { margin: clamp(18px, 2.5vw, 28px) 0 0; max-width: 1080px; font-size: clamp(28px, 3.5vw, 52px); line-height: 1.16; font-weight: 600; letter-spacing: -0.025em; text-wrap: pretty; }
+.jp-manifesto .beat { color: rgba(255, 255, 255, 0.5); }
+.jp-manifesto .beat.em { color: var(--t1); }
+.jp-manifesto .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.jp-manifesto .mv { display: inline-block; white-space: nowrap; }
+.jp-manifesto .mv > [aria-hidden] { -webkit-user-select: none; user-select: none; }
+.jp-manifesto .l { display: inline-block; }
+/* "together": its letters sit in place, in teal. "alone": its letters drift a
+   little apart, and it fades a touch. */
+.jp-manifesto .together .l { color: var(--teal); }
+.jp-manifesto .apart { margin-inline: 0.1em; } /* room for the drift, so it never crowds its neighbours */
+.jp-manifesto .apart .l { transform: translateX(calc(var(--o) * 0.05em)); opacity: 0.72; }
+/* "who's next": a teal underline. */
+.jp-manifesto .mark { background: linear-gradient(var(--teal), var(--teal)) no-repeat 0 100% / 100% 0.07em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+/* The scroll version: unlit words wait in shadow, then light up in reading order. */
+.jp-manifesto.dim .w { color: rgba(255, 255, 255, 0.13); transition: color 0.45s ease; }
+.jp-manifesto.dim .w.lit { color: inherit; }
+.jp-manifesto.dim .l { transition: transform 0.9s cubic-bezier(.2, .9, .3, 1.25), color 0.5s ease, opacity 1.2s ease; transition-delay: calc(0.12s + var(--i, 0) * 38ms); }
+.jp-manifesto.dim .together:not(.lit) .l { color: rgba(255, 255, 255, 0.13); transform: translate(calc(var(--o) * 0.035em), calc(var(--y) * 0.32em)) rotate(calc(var(--y) * 10deg)); }
+.jp-manifesto.dim .apart:not(.lit) .l { transform: none; opacity: 1; }
+.jp-manifesto.dim .apart.lit .l { transition-duration: 1.6s; transition-delay: 0.35s; }
+.jp-manifesto.dim .mark { background-size: 0% 0.07em; transition: background-size 0.9s cubic-bezier(.2, .7, .2, 1) 0.25s; }
+.jp-manifesto.dim .mark.lit { background-size: 100% 0.07em; }
 .jp-cols { margin-top: clamp(40px, 6vw, 72px); display: grid; column-gap: clamp(24px, 4vw, 48px); }
 .jp-cols.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
 .jp-cols.four { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); column-gap: clamp(20px, 3vw, 36px); }
@@ -187,6 +210,13 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-members .venn .a { stroke: rgba(255, 255, 255, 0.72); }
 .jp-members .venn .b { stroke: var(--teal); }
 .jp-members .venn .both { fill: rgba(0, 148, 160, 0.22); stroke: none; }
+/* With motion on, the rings start apart and slide together as the card comes
+   into view; the overlap fills in once they meet. */
+.jp-members .venn .a, .jp-members .venn .b { transition: transform 1.2s cubic-bezier(.2, .85, .25, 1.1); }
+.jp-members .venn .both { transition: opacity 0.7s ease 0.75s; }
+.jp-members .venn.apart .a { transform: translateX(-18px); }
+.jp-members .venn.apart .b { transform: translateX(18px); }
+.jp-members .venn.apart .both { opacity: 0; transition-delay: 0s; }
 .jp-members .doors { margin: 18px 0 0; display: grid; gap: 14px; }
 .jp-members .doors dt { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--t1); }
 .jp-members .doors dt::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.72); }
@@ -262,6 +292,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 @media (prefers-reduced-motion: reduce) {
   html:has(.jp) { scroll-behavior: auto; }
   .jp .rise, .jp .wordin, .jp .pinin, .jp .bob, .jp .reveal, .jp .status i { animation: none !important; }
+  .jp-manifesto *, .jp-members .venn * { transition: none !important; }
 }
 
 /* ── how it works: sticky split on wide screens ── */
