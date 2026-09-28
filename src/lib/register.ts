@@ -1,5 +1,5 @@
-/* The register of Contributing Members, read from data/register.json for the
-   /roles/ and /contributing/ pages. Awards are recorded here first; entries are never deleted, and
+/* The register of Contributing Members, kept in data/register.json.
+   Not shown on any page yet. Awards are recorded here first; entries are never deleted, and
    stepping back moves someone to emeritus. */
 import data from "../../data/register.json";
 
