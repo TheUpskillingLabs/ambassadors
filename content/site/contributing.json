@@ -1,22 +1,25 @@
 {
-  "$comment": "The contributor community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the ranks. Sells joining the contributor community and working your way up: anyone can contribute; roles; the Contributing Member pin; Reviewer, Committer and Maintainer each add a ring and a responsibility. The pins are live 3D on desktop. Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open.",
+  "$comment": "The contributor community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the ranks. Learning by doing, applied to The Labs itself: anyone can contribute, and each rank means you've worked hands-on in more of its workstreams, major and minor. The pins are the symbol, live 3D on desktop. Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open.",
   "placeholder": true,
   "title": "Contributing",
-  "description": "Join the people who build The Upskilling Labs. Anyone can contribute; the ones who keep at it earn the pin, then the rings, and the trust that comes with each.",
+  "description": "Learn by doing, on The Labs itself. Anyone can contribute; every step up means you've worked hands-on in more of how The Labs runs.",
   "nav": {
     "brand": "Contributing",
     "start": "Start",
     "rings": "The way up",
-    "metal": "Brass or silver",
+    "metal": "Up close",
     "given": "How it works",
     "program": "Ambassador program",
     "cta": "Become an ambassador",
     "ctaShort": "Join us"
   },
-  "draft": "A working draft. The board hasn't approved the ranks yet, and the pins are still being made.",
+  "draft": "A working draft. The board hasn't approved the ranks or the workstreams yet, and the pins are still being made.",
   "hero": {
-    "title": ["Build", "The Labs"],
-    "lede": "Anyone can contribute. Keep at it, and you earn the pin, then the rings, and more of the work to lead.",
+    "title": [
+      "Build",
+      "The Labs"
+    ],
+    "lede": "The Labs teaches by doing, and that includes running The Labs. Every step up means you've had your hands on more of how it works.",
     "cta": "See the way up",
     "status": "First pins: our two steering committees",
     "pinAlt": "The Contributing Member pin, turning to follow your pointer"
@@ -39,17 +42,16 @@
       {
         "label": "Get recognized",
         "title": "Earn the pin.",
-        "body": "When The Labs runs on something you made, the people who saw it put your name forward."
+        "body": "When The Labs runs on something you made, the people who saw it put your name forward. That's your first pin."
       }
     ]
   },
   "rings": {
     "kicker": "The way up",
-    "title": "Every ring is earned.",
-    "lede": "The pin says you contributed. Each ring says you're trusted with more. Scroll, and watch it grow.",
+    "title": "Every step up is more of The Labs, hands on.",
+    "lede": "Each rank means you've worked in more of The Labs' workstreams: the major ones, and the minor ones along the way. The pin marks how far you've gone.",
     "readout": {
-      "rings": "Rings",
-      "across": "Across"
+      "label": "Hands-on in"
     },
     "labels": {
       "how": "How you get there",
@@ -59,62 +61,79 @@
       {
         "id": "member",
         "rank": "Contributing Member",
-        "shows": "The pin",
-        "line": "You made something we now run on.",
-        "how": "Recognized for real work on The Labs itself, with a line on the register saying what it was.",
+        "shows": "One workstream",
+        "line": "You made something The Labs now runs on.",
+        "how": "Hands-on in one workstream, with work The Labs now runs on. A line on the register says what it was.",
         "trusted": "Vouching for the next Reviewers."
       },
       {
         "id": "reviewer",
         "rank": "Reviewer",
-        "shows": "One ring",
-        "line": "You've done it, so you can judge it.",
-        "how": "A Practitioner in two roles, sponsored by two pin holders from different roles or Labs.",
-        "trusted": "Reviewing changes, and new Practitioners, in the roles you know."
+        "shows": "Two major workstreams",
+        "line": "You've done it, so you can review it.",
+        "how": "Practised in two major workstreams, sponsored by two pin holders from different workstreams or Labs.",
+        "trusted": "Reviewing work, and new Practitioners, in the workstreams you know."
       },
       {
         "id": "committer",
         "rank": "Committer",
-        "shows": "Two rings",
-        "line": "You've helped everywhere. Now you can say yes.",
-        "how": "You've helped in every core area of The Labs.",
+        "shows": "Every major workstream",
+        "line": "You've worked in every part of The Labs.",
+        "how": "Hands-on in every major workstream, and some of the minor ones.",
         "trusted": "Approving changes to your Lab's playbooks, within a written grant from the board."
       },
       {
         "id": "maintainer",
         "rank": "Maintainer",
-        "shows": "Three rings",
-        "line": "You set the standard others build to.",
-        "how": "Nominated by Maintainers, confirmed by the board.",
-        "trusted": "Setting the direction for an area. The board keeps the final say."
+        "shows": "Major and minor",
+        "line": "You know how all of it fits together.",
+        "how": "Hands-on across the major and minor workstreams. Nominated by Maintainers, confirmed by the board.",
+        "trusted": "Setting the direction for a workstream. The board keeps the final say."
       }
     ],
-    "names": "Rank names are drafts, borrowed from open-source projects, until the board decides. [PLACEHOLDER]"
+    "names": "Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Minor ones include events, communications and research. Workstreams and rank names are drafts until the board decides. [PLACEHOLDER]"
   },
   "metal": {
-    "kicker": "Brass or silver",
-    "title": "The metal says where you did the work.",
-    "lede": "Brass for your region. Silver for work across the whole network. Same pin, same rings.",
+    "kicker": "Up close",
+    "title": "Every rank has its own pin.",
+    "lede": "Pick one and turn it. Each is given in person, and none is ever for sale.",
     "rankLegend": "Rank",
-    "metalLegend": "Metal",
-    "ranks": ["Member", "Reviewer", "Committer", "Maintainer"],
-    "metals": [
-      { "id": "brass", "name": "Brass", "note": "Regional" },
-      { "id": "silver", "name": "Silver", "note": "National" }
+    "ranks": [
+      "Member",
+      "Reviewer",
+      "Committer",
+      "Maintainer"
     ],
     "hint": "Drag to turn it",
     "hintKeys": "Arrow keys turn it",
-    "stageLabel": "The {rank} pin in {metal}. Drag, or use the arrow keys, to turn it.",
-    "ringsLabel": ["The pin on its own", "One ring", "Two rings", "Three rings"]
+    "stageLabel": "The {rank} pin. Drag, or use the arrow keys, to turn it.",
+    "ringsLabel": [
+      "The Contributing Member pin",
+      "The Reviewer pin",
+      "The Committer pin",
+      "The Maintainer pin"
+    ]
   },
   "given": {
     "kicker": "How it works",
     "title": "It starts with the work. It ends with a handshake.",
     "steps": [
-      { "title": "Do the work.", "body": "Make something The Labs can reuse, or practise the roles a rank asks for." },
-      { "title": "Someone vouches.", "body": "Pin holders put your name forward. For a ring, that's two sponsors, from different roles or Labs." },
-      { "title": "It's recorded.", "body": "Your Lab checks it, and HQ writes it on the register with a line on what you did." },
-      { "title": "Pinned.", "body": "At the next regional gathering. Your sponsors pin it on and say a sentence about why." }
+      {
+        "title": "Do the work.",
+        "body": "Get hands-on: make something The Labs can reuse, or practise in the workstreams a rank asks for."
+      },
+      {
+        "title": "Someone vouches.",
+        "body": "Pin holders put your name forward. For a rank, that's two sponsors, from different workstreams or Labs."
+      },
+      {
+        "title": "It's recorded.",
+        "body": "Your Lab checks it, and HQ writes it on the register with a line on what you did."
+      },
+      {
+        "title": "Pinned.",
+        "body": "At the next regional gathering. Your sponsors pin it on and say a sentence about why."
+      }
     ]
   },
   "decides": {
@@ -123,7 +142,7 @@
     "rules": [
       "The pin is yours for good. Permissions come with an active seat, granted by the board in writing.",
       "Ranks carry no vote. The boards run programs, money, people and the brand.",
-      "No one can buy a pin, a ring, or a vote.",
+      "No one can buy a pin, a rank, or a vote.",
       "It's recognition, not certification. It's the community saying thank you.",
       "Step back whenever you need to. You keep the pin and the title."
     ]

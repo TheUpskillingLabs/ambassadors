@@ -62,8 +62,7 @@ html[data-cm-scrub] .cm-scrub-side { display: flex; flex-direction: column; alig
 /* the readout under the scrubbed pin: counts in tabular figures */
 .cm-readout { display: flex; align-items: baseline; gap: 28px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t2); }
 .cm-readout > div { display: flex; align-items: baseline; gap: 8px; }
-.cm-readout b { font-size: 28px; font-weight: 600; letter-spacing: -0.02em; text-transform: none; color: var(--t1); font-variant-numeric: tabular-nums; min-width: 2ch; text-align: right; }
-.cm-readout i { font-style: normal; color: var(--t2); letter-spacing: 0.04em; text-transform: none; font-size: 14px; }
+.cm-readout b { font-size: 20px; font-weight: 600; letter-spacing: -0.01em; text-transform: none; color: var(--t1); }
 .cm-ticks { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; align-self: center; }
 .cm-ticks li { width: 22px; height: 3px; border-radius: 2px; background: var(--rule); transition: background 0.3s ease; }
 .cm-ticks li.on { background: var(--teal); }
@@ -102,13 +101,6 @@ html:not([data-live]) .cm-hint { visibility: hidden; }
 .cm-seg label > span:active { transform: scale(0.97); }
 .cm-seg input:focus-visible + span { outline: 2px solid var(--teal); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .cm-seg label > span:hover { color: var(--t1); } }
-.cm-seg-metal label > span { min-height: 64px; flex-direction: row; }
-.cm-seg-metal small { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t2); }
-.cm-seg-metal label > span { flex-wrap: wrap; row-gap: 0; }
-.cm-seg-metal label > span small { flex-basis: 100%; }
-.cm-swatch { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25); }
-[data-metal="brass"] .cm-swatch { background: radial-gradient(circle at 35% 30%, #F4DDA4, #C9A45E 55%, #8C6A30); }
-[data-metal="silver"] .cm-swatch { background: radial-gradient(circle at 35% 30%, #FFFFFF, #C9CED3 55%, #7E868D); }
 
 .cm-spec { margin: 6px 0 0; display: grid; gap: 0; }
 .cm-spec > div { display: grid; grid-template-columns: 96px 1fr; align-items: baseline; gap: 12px; padding: 12px 0; border-top: 1px solid var(--rule); }

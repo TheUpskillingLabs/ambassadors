@@ -59,7 +59,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         <ul class="jp-links">
           <li><a class="navlink" href="#start" data-spy="start">{c.nav.start}</a></li>
           <li><a class="navlink" href="#rings" data-spy="rings">{c.nav.rings}</a></li>
-          <li><a class="navlink" href="#metal" data-spy="metal">{c.nav.metal}</a></li>
+          <li><a class="navlink" href="#closeup" data-spy="closeup">{c.nav.metal}</a></li>
           <li><a class="navlink" href="#given" data-spy="given decides">{c.nav.given}</a></li>
         </ul>
         <div class="jp-end">
@@ -138,8 +138,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
                   <canvas aria-hidden="true"></canvas>
                 </div>
                 <div class="cm-readout" aria-hidden="true">
-                  <div><span>{c.rings.readout.rings}</span><b data-read-rings>0</b><i>/3</i></div>
-                  <div><span>{c.rings.readout.across}</span><b data-read-across>32.0</b><i>mm</i></div>
+                  <div><span>{c.rings.readout.label}</span><b data-read-work>{c.rings.steps[0].shows}</b></div>
                   <ol class="cm-ticks">{RANKS.map((_, i) => <li class:list={{ on: i === 0 }} data-tick={i}></li>)}</ol>
                 </div>
               </div>
@@ -149,8 +148,8 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         <p class="wrap cm-note">{c.rings.names}</p>
       </section>
 
-      <!-- Brass or silver: a configurator you can drag. -->
-      <section id="metal" class="jp-sec cm-metal">
+      <!-- Up close: pick a rank and turn its pin. -->
+      <section id="closeup" class="jp-sec cm-metal">
         <div class="wrap">
           <div class="reveal">
             <p class="kicker">{c.metal.kicker}</p>
@@ -159,8 +158,8 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           </div>
           <div class="cm-config reveal" data-config>
             <div class="cm-config-view">
-              <div class="cm-view cm-square cm-drag" role="img" tabindex="0" aria-label={c.metal.stageLabel.replace("{rank}", "Maintainer").replace("{metal}", "brass")} aria-describedby="cm-hint" data-view="config" data-label={c.metal.stageLabel}>
-                {["brass", "silver"].map((m) => RANKS.map((r) => (
+              <div class="cm-view cm-square cm-drag" role="img" tabindex="0" aria-label={c.metal.stageLabel.replace("{rank}", "Maintainer")} aria-describedby="cm-hint" data-view="config" data-label={c.metal.stageLabel}>
+                {["brass"].map((m) => RANKS.map((r) => (
                   <img src={pinSrc(r, m, 1200)} srcset={pinSet(r, m)} sizes="min(640px, 90vw, 70vh)" alt="" width="1200" height="1200" loading="lazy" data-combo={`${r}-${m}`} class:list={{ on: r === "maintainer" && m === "brass" }} />
                 )))}
                 <canvas aria-hidden="true"></canvas>
@@ -175,17 +174,8 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
                   <label><input type="radio" name="cm-rank" value={i} checked={i === 3} /><span>{name}</span></label>
                 ))}
               </fieldset>
-              <fieldset class="cm-seg cm-seg-metal" data-seg="metal">
-                <legend>{c.metal.metalLegend}</legend>
-                <span class="cm-pill" aria-hidden="true"></span>
-                {c.metal.metals.map((m, i) => (
-                  <label data-metal={m.id} data-name={m.name}><input type="radio" name="cm-metal" value={m.id} checked={i === 0} /><span><i class="cm-swatch" aria-hidden="true"></i>{m.name}<small>{m.note}</small></span></label>
-                ))}
-              </fieldset>
               <dl class="cm-spec" aria-live="polite">
-                <div><dt>{c.rings.readout.rings}</dt><dd><b data-spec-rings>3</b> · <span data-spec-shows>{c.rings.steps[3].shows}</span></dd></div>
-                <div><dt>{c.rings.readout.across}</dt><dd><b data-spec-across>48.8</b> mm</dd></div>
-                <div><dt>{c.metal.metalLegend}</dt><dd><b data-spec-metal>{c.metal.metals[0].name}</b> · <span data-spec-note>{c.metal.metals[0].note}</span></dd></div>
+                <div><dt>{c.rings.readout.label}</dt><dd><b data-spec-shows>{c.rings.steps[3].shows}</b></dd></div>
               </dl>
               <p class="cm-spec-line" data-spec-line>{c.rings.steps[3].line}</p>
             </div>
@@ -242,7 +232,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
     </footer>
 
     <script>
-      import { mountView, gpuOk, kick, ACROSS, type RankPin, type MetalId } from "../../scripts/rankpin";
+      import { mountView, gpuOk, kick, type RankPin, type MetalId } from "../../scripts/rankpin";
 
       const root = document.documentElement;
       const pin3d = document.querySelector<HTMLElement>("[data-pin3d]")!.dataset.pin3d!;
@@ -260,7 +250,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["start", "rings", "metal", "given", "decides", "join"].map((id) => document.getElementById(id)!);
+      const order = ["start", "rings", "closeup", "given", "decides", "join"].map((id) => document.getElementById(id)!);
       let spyQueued = false;
       const spy = () => {
         spyQueued = false;
@@ -271,30 +261,12 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
       addEventListener("scroll", () => { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
       spy();
 
-      /* ── numbers that count, in tabular figures ── */
-      const tickers = new WeakMap<HTMLElement, { from: number; to: number; t0: number; raf: number }>();
-      function countTo(el: HTMLElement, to: number, digits: number) {
-        const cur = parseFloat(el.textContent || "0") || 0;
-        const prev = tickers.get(el);
-        if (prev) cancelAnimationFrame(prev.raf);
-        if (reduce.matches || Math.abs(cur - to) < 1e-6) { el.textContent = to.toFixed(digits); return; }
-        const st = { from: cur, to, t0: performance.now(), raf: 0 };
-        const run = (now: number) => {
-          const t = clamp((now - st.t0) / 480, 0, 1), e = 1 - Math.pow(1 - t, 3);
-          el.textContent = (st.from + (st.to - st.from) * e).toFixed(digits);
-          if (t < 1) st.raf = requestAnimationFrame(run);
-        };
-        st.raf = requestAnimationFrame(run);
-        tickers.set(el, st);
-      }
-
-      /* ── the rings: scrubbed by scroll on wide screens ── */
+      /* ── the way up: the pin grows by scroll on wide screens ── */
       const scrub = document.querySelector<HTMLElement>("[data-scrub]")!;
       const steps = [...scrub.querySelectorAll<HTMLElement>("[data-step]")];
       const frames = [...scrub.querySelectorAll<HTMLImageElement>("[data-frame]")];
       const ticks = [...scrub.querySelectorAll<HTMLElement>("[data-tick]")];
-      const readRings = scrub.querySelector<HTMLElement>("[data-read-rings]")!;
-      const readAcross = scrub.querySelector<HTMLElement>("[data-read-across]")!;
+      const readWork = scrub.querySelector<HTMLElement>("[data-read-work]")!;
       const ringsView = scrub.querySelector<HTMLElement>('[data-view="rings"]')!;
       const scrubMode = () => desktop.matches && !reduce.matches && innerHeight >= 560;
       let scrubP = 0, scrubStep = 0;
@@ -313,11 +285,9 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           frames.forEach((f, i) => f.classList.toggle("on", i === step));
           ticks.forEach((t, i) => t.classList.toggle("on", i <= step));
           ringsView.setAttribute("aria-label", steps[step].querySelector("img")!.alt);
+          readWork.textContent = steps[step].querySelector(".kicker")!.textContent;
         }
         const rings = clamp(x, 0, 3);
-        readRings.textContent = String(Math.round(rings));
-        const a = ACROSS[Math.floor(rings)] + (ACROSS[Math.min(3, Math.floor(rings) + 1)] - ACROSS[Math.floor(rings)]) * (rings % 1);
-        readAcross.textContent = a.toFixed(1);
         if (ringsPin) { ringsPin.setRingsExact(rings); kick(ringsPin); }
       }
       let scrubQueued = false;
@@ -335,13 +305,10 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
       const shows = [...document.querySelectorAll<HTMLElement>("[data-step] .kicker")].map((k) => k.textContent || "");
       const lines = [...document.querySelectorAll<HTMLElement>("[data-step] .cm-line")].map((k) => k.textContent || "");
       const rankNames = [...document.querySelectorAll<HTMLElement>("[data-step] h3")].map((k) => k.textContent || "");
-      const specRings = config.querySelector<HTMLElement>("[data-spec-rings]")!;
       const specShows = config.querySelector<HTMLElement>("[data-spec-shows]")!;
-      const specAcross = config.querySelector<HTMLElement>("[data-spec-across]")!;
-      const specMetal = config.querySelector<HTMLElement>("[data-spec-metal]")!;
-      const specNote = config.querySelector<HTMLElement>("[data-spec-note]")!;
       const specLine = config.querySelector<HTMLElement>("[data-spec-line]")!;
-      let rank = 3, metal: MetalId = "brass";
+      let rank = 3;
+      const metal: MetalId = "brass";
 
       // Segmented controls: one pill slides behind the checked option.
       const segs = [...config.querySelectorAll<HTMLFieldSetElement>("[data-seg]")];
@@ -358,17 +325,11 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
       document.fonts?.ready.then(placePills);
 
       function applyConfig() {
-        const m = config.querySelector<HTMLInputElement>('input[name="cm-metal"]:checked')!;
-        const label = m.closest("label")!;
-        specRings.textContent = String(rank);
         specShows.textContent = shows[rank];
-        countTo(specAcross, ACROSS[rank], 1);
-        specMetal.textContent = label.dataset.name || metal;
-        specNote.textContent = label.querySelector("small")!.textContent || "";
         specLine.textContent = lines[rank];
         specLine.animate?.([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: reduce.matches ? 0 : 260, easing: "cubic-bezier(0.23, 1, 0.32, 1)" });
         combos.forEach((im) => im.classList.toggle("on", im.dataset.combo === `${RANK_IDS[rank]}-${metal}`));
-        configView.setAttribute("aria-label", configView.dataset.label!.replace("{rank}", rankNames[rank]).replace("{metal}", metal));
+        configView.setAttribute("aria-label", configView.dataset.label!.replace("{rank}", rankNames[rank]));
         if (configPin) {
           configPin.setRings(rank, reduce.matches);
           configPin.setMetal(metal, reduce.matches);
@@ -379,7 +340,6 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
       config.addEventListener("change", (e) => {
         const t = e.target as HTMLInputElement;
         if (t.name === "cm-rank") rank = Number(t.value);
-        if (t.name === "cm-metal") metal = t.value as MetalId;
         applyConfig();
       });
       applyConfig();
