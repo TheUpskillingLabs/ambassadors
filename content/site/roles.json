@@ -1,5 +1,5 @@
 {
-  "$comment": "The roles and recognition explainer (/roles/; /pin/ and /contributors/ redirect here). Unlisted: not linked from anywhere and kept out of search engines, for sharing by link with the board, coordinators and early ambassadors. Summarises the recognition-system draft (design/research/recognition-system.md), which the board hasn't approved yet. Only the ambassador program and its button exist today. [PLACEHOLDER] marks what's still open.",
+  "$comment": "The roles and recognition explainer (/roles/; /contributors/ redirects here). Unlisted: not linked from anywhere and kept out of search engines, for sharing by link with the board, coordinators and early ambassadors. Summarises the recognition-system draft (design/research/recognition-system.md), which the board hasn't approved yet. Only the ambassador program and its button exist today. [PLACEHOLDER] marks what's still open.",
   "placeholder": true,
   "title": "Roles and recognition",
   "description": "How people take part in The Upskilling Labs, and how the community recognizes them: public roles, and a merit system built on nomination. A working draft.",
@@ -93,13 +93,15 @@
   "ranks": {
     "kicker": "Merit ranks",
     "title": "Recognized by peers, one step at a time.",
-    "lede": "Ranks are for people who've done the work in more than one role and are trusted by those who already hold the rank. Everyone from Reviewer up wears the same pin; a thin plate behind it marks each step.",
+    "lede": "Every Contributing Member wears the same pin. Each rank adds a ring around it, for people who've done the work in more than one role and are trusted by those who already hold the rank.",
+    "member": "The pin on its own is the Contributing Member pin: given for work The Labs runs on, with no formal requirement. The first ones go to our two steering committees.",
+    "more": "See the pin and its rings up close",
     "items": [
       {
         "id": "reviewer",
         "plates": 0,
         "name": "Reviewer",
-        "shows": "The pin",
+        "shows": "The pin with one ring",
         "recognizes": "A Practitioner in two roles.",
         "nominated": "Two people who already hold the rank sponsor you, from different roles or different Labs.",
         "can": "Review suggested changes, and new Practitioners, in the roles you've practised. Sponsor new Reviewers."
@@ -108,7 +110,7 @@
         "id": "committer",
         "plates": 1,
         "name": "Committer",
-        "shows": "The pin on one plate",
+        "shows": "The pin with two rings",
         "recognizes": "Has helped across every core area of The Labs.",
         "nominated": "Sponsored by Committers, and recorded by HQ.",
         "can": "Approve changes to their Lab's playbooks, sign off Practitioners, run a Build Cycle or workshop series, within a written grant from the board."
@@ -117,7 +119,7 @@
         "id": "maintainer",
         "plates": 2,
         "name": "Maintainer",
-        "shows": "The pin on two plates",
+        "shows": "The pin with three rings",
         "recognizes": "Sets direction for an area.",
         "nominated": "Nominated by Maintainers, confirmed by the board.",
         "can": "Shape the standard for their area, with the board keeping the final say."
@@ -134,9 +136,9 @@
     "areasNote": "The board sets the core areas. [PLACEHOLDER]",
     "names": "Rank names are drafts, borrowed from open-source projects, until the board decides. [PLACEHOLDER]",
     "alt": {
-      "reviewer": "The pin on its own",
-      "committer": "The pin on one metal backing plate",
-      "maintainer": "The pin on two stacked metal backing plates"
+      "reviewer": "The pin with one brushed brass ring around it",
+      "committer": "The pin with two brushed brass rings around it",
+      "maintainer": "The pin with three brushed brass rings around it"
     }
   },
   "nomination": {
@@ -195,7 +197,7 @@
     "cta": "Become an ambassador"
   },
   "footer": {
-    "renders": "Images of the pin are 3D renders; the plates are sketches.",
+    "renders": "Images of the pin are 3D renders, not photos.",
     "program": "The ambassador program",
     "source": "Draft source: design/research/recognition-system.md"
   }

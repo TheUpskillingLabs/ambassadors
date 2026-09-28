@@ -6,7 +6,7 @@
    program and its button exist today. Same standalone dark look as the
    program page (join.css). Copy lives in content/site/roles.json, from
    design/research/recognition-system.md; the register in data/register.json.
-   /pin/ and /contributors/ redirect here. */
+   /contributors/ redirects here; the pin itself has its own page, /contributing/. */
 import "@fontsource-variable/geologica/wght.css";
 import "../../styles/join.css";
 import { u } from "../../lib/url";
@@ -131,9 +131,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <ol class="cp-ranks reveal">
             {c.ranks.items.map((r) => (
               <li class="cp-rank" data-rank={r.id}>
-                <div class="cp-plates" data-plates={r.plates} role="img" aria-label={c.ranks.alt[r.id as keyof typeof c.ranks.alt]}>
-                  <img src={media("pin-card.webp")} alt="" width="180" height="180" loading="lazy" />
-                </div>
+                <img class="cp-rankpin" src={u(`/contributing/pin-${r.id}-brass-640.webp`)} alt={c.ranks.alt[r.id as keyof typeof c.ranks.alt]} width="640" height="640" loading="lazy" />
                 <p class="kicker">{r.shows}</p>
                 <h3>{r.name}</h3>
                 <dl class="cp-rankdl">
@@ -145,6 +143,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
             ))}
           </ol>
           <p class="cp-metal reveal">{c.ranks.metal}</p>
+          <p class="cp-note reveal">{c.ranks.member} <a class="textlink" href={u("/contributing/")}>{c.ranks.more} →</a></p>
           <div class="cp-roles reveal">
             <p class="kicker">{c.ranks.areasLabel}</p>
             <ul>{c.ranks.areas.map((a) => <li>{a}</li>)}</ul>

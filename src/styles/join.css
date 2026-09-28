@@ -408,16 +408,9 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .cp-rank h3 { margin: 8px 0 0; font-size: 28px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
 .cp-rank p:not(.kicker) { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
 .cp-rank .kicker { margin-top: 22px; }
-/* Backing plates, sketched to scale: the pin fills 64% of pin-card.webp
-   (centred), and each plate adds a ~1.6 mm band around the 32 mm pin, about
-   3.2% of the frame per side. Real plates follow the pin's outline. */
-.cp-plates { position: relative; width: min(180px, 60%); aspect-ratio: 1; display: grid; place-items: center; }
-.cp-plates img { position: relative; z-index: 2; width: 100%; height: 100%; object-fit: contain; }
-.cp-plates::before, .cp-plates::after { content: ""; position: absolute; border-radius: 50%; display: none;
-  background: radial-gradient(circle at 35% 30%, #E6CC8F, #B08D57 45%, #7A5C2E 100%); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45); }
-.cp-plates::before { z-index: 1; inset: 14.8%; }
-.cp-plates::after { z-index: 0; inset: 11.6%; filter: brightness(0.78); }
-.cp-plates[data-plates="1"]::before, .cp-plates[data-plates="2"]::before, .cp-plates[data-plates="2"]::after { display: block; }
+/* The ring renders from /contributing/ (Cycles, LabsPin.blend): the same
+   framing for every rank, so the pin grows by a ring from card to card. */
+.cp-rankpin { width: min(280px, 86%); height: auto; aspect-ratio: 1; object-fit: contain; margin: -10% 0 -8% -12%; }
 .cp-metal { margin: clamp(24px, 3vw, 36px) 0 0; font-size: clamp(20px, 2vw, 26px); font-weight: 600; letter-spacing: -0.01em; color: var(--t1); }
 .cp-roll .num { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--teal); }
 .cp-draft { margin: 22px 0 0; max-width: 560px; font-size: 15px; line-height: 1.55; color: var(--t3); }
