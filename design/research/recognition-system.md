@@ -1,6 +1,6 @@
 # Roles, ranks, merch and brand use: The Labs' recognition system (draft)
 
-> Saved from the owner's working draft (Sep 28, 2026) as the source for `/pin/` and the program page's "How it works". Not approved by the board. The public pages show only the settled parts, with `[PLACEHOLDER]` wherever the draft is still open.
+> Saved from the owner's working draft (Sep 28, 2026, latest revision: Contributing Member and one-piece ring pins) as the source for the unlisted `/contributing/` page. Not approved by the board. The site shows only the framework, with `[PLACEHOLDER]` wherever the draft is still open.
 
 Explored Sep 28, 2026. It's a working draft: nothing here is approved by the board yet. It supersedes the "Roles and recognition" section in `ambassador-program.md`.
 
@@ -14,16 +14,19 @@ Explored Sep 28, 2026. It's a working draft: nothing here is approved by the boa
   - **Tier 2, Practitioner (or "practiced"):** a metal rim added to the role button (decided Sep 28, 2026, in place of a coin).
 - **Challenge coins stay, for general use** (Sep 28, 2026). They're no longer the tier 2 marker. See "Challenge coins: moments and thanks".
 - **Contributor is open to anyone,** in the open-source sense. It isn't a rank, and there's no gate.
-- **The ladder** (set Sep 28, 2026): Contributor (open to anyone) → **Reviewer** → **Committer** → Maintainer, with **Supporting Member** alongside as the paid way in.
+- **The ladder** (set Sep 28, 2026): Contributor (open to anyone) → **Contributing Member** (the bare pin) → **Reviewer** → **Committer** → Maintainer, with **Supporting Member** alongside as the paid way in.
 - **Membership has two doors** (Sep 28, 2026). It's a community status, not a statutory membership of the legal entity.
   - **Supporting Members** pay light dues, which help cover the cost of merch, and get a button.
-  - **Contributing Members** are recognised through merit, and **Reviewer is the first type of Contributing Member.** Committers and Maintainers are Contributing Members too, and all of them wear pins.
+  - **Contributing Members** are recognised for what they've contributed, and all of them wear the enamel pin.
+    - **The bare pin is the Contributing Member pin (Brendan, Sep 28, 2026).** It has no formal requirement. At first it goes to the volunteers recognised for their early contributions, who couldn't go through the ranks because the ranks didn't exist yet.
+    - **Reviewer is the first rank above it,** and adds the first ring. Committers and Maintainers add the second and third.
   - The two doors are separate. Paying dues isn't a step toward Reviewer, and a Reviewer doesn't have to pay. Someone can be both.
   - **No one buys a vote.** Following the YMCA, a vote has to be arranged, invited or consented to by the board, at the regional level and for the national org.
 - **Structure (the YMCA model):** The Upskilling Labs (national) → The Upskilling Labs of [metro region], with its own governance separate from the software → neighbourhood Labs, which are branches of the regional org.
 - **Neighbourhood Labs (Sep 28, 2026)** are small coordinating committees. Each has a small set of physical locations, which it activates in coordination with the regional workstream teams.
 - **Merit ranks, as pins:**
-  - **Reviewer** (confirmed Sep 28, 2026): the first merit rank, above Member, for people who have contributed helpfully in a number of roles. It's the brass pin.
+  - **Contributing Member** (Sep 28, 2026): the enamel pin on its own. It's a recognition rather than a rank, and has no formal requirement.
+  - **Reviewer** (confirmed Sep 28, 2026): the first merit rank, for people who have contributed helpfully in a number of roles. It's the pin with one ring.
     - Not "Peer": every paying Member is already one of The Labs' peers. Calling only the rank above them "Peer" would take their dues and then imply they aren't.
   - **Committer** (or The Labs' own word for it): has helped across all the core areas of The Labs. Committer comes with real permissions, because by then people have the experience and context.
   - **Maintainer / Steward:** the highest merit rank.
@@ -167,51 +170,46 @@ If any one fails, it's a button. Tier 2 practice is shown by a metal rim added t
 
 ## Positioning the enamel pin (suggestion, Sep 28, 2026)
 
-The cat-eye enamel pin began as the reward for finishing the ambassador path, and the ambassador recruitment page is built around it. The system has since changed:
+The cat-eye enamel pin began as the reward for finishing the ambassador path. The system has since changed:
 - Finishing the ambassador path now earns a brass rim on the Ambassador button (Ambassador Practitioner).
-- The enamel pin now belongs to Contributing Members, starting at Reviewer.
+- The enamel pin now belongs to Contributing Members. On its own it's the Contributing Member pin, and rings show rank from Reviewer up.
 
-**What the pin means now: earned from peers, never bought or appointed.** It says the wearer has practised in more than one part of The Labs, and two people who already hold it vouched for them. Nothing else in the system combines those three things:
-- Buttons can be paid for (Supporting Member) or handed out on training.
-- Office pins are appointed.
-- Coins are thanks.
+**What the pin means now: recognised for contribution, never bought.**
+- **The bare pin** says The Labs recognised the wearer's contribution to it. It's conferred, with no formal requirement.
+- **The rings** are earned from peers. A Reviewer has practised in more than one part of The Labs, and two people who already hold the pin vouched for them.
+- Nothing else in the system works this way: buttons can be paid for (Supporting Member) or handed out on training; office pins are appointed to a job; coins are thanks.
+
+**The bare pin: Contributing Member (Brendan, Sep 28, 2026).**
+- **What it is:** the Contributing Member pin, with no formal requirement. In the near future it goes mainly to volunteers recognised for their early contributions.
+- **It solves the start-up problem.** Rings need vouching from people who already hold the pin, and at the start nobody does. Apache works the same way: a new project names its initial committers in its proposal, and meritocracy takes over from there.
+- **Early volunteering counts as contribution.** Before The Labs had a commons, the people running its first programmes were also building its playbooks, kits and processes.
+- **Keeping it meaningful without a formal requirement:** conferred, not claimed (the steering committee, or the ED/CEO for now, on a nomination); a one-line citation in the register; never sold; the founding cohort marked by register number and year on the back; the founding coin still says thanks to everyone who helped at launch.
+- **Everyday wear:** ranked members can wear the bare pin alone. It understates their rank but never overstates it.
 
 **Decided (Sep 28, 2026):**
 - **Metal:** silver for national, brass for regional.
-- **One pin, with rank shown by a metal backing,** the same idea as the rim on the buttons.
-  - **Reviewer:** the pin alone.
-  - **Committer:** the pin on one backing plate.
-  - **Maintainer:** the pin on two stacked plates.
-  - **The backings:** laser-cut plates that follow the pin's outline, each adding a band about 1.6 mm wide. That makes the Committer pin about 35.5 mm across and the Maintainer pin about 38.7 mm, against 32 × 31 mm for the pin itself.
-  - **How they attach:** the pin's own two posts pass through holes in the plates, and the clutches hold everything together. No glue, and a backing can be added at promotion.
-  - **What they're made of:** brass plates for regional, stainless steel or nickel-plated plates for national. The back of each plate is engraved with the register number.
-  - **The rule across both objects:** metal added around what you already wear marks the step up. A rim on a button marks practice; a backing on the pin marks rank.
-  - Flat preview: `pin-rank-backings.png`, sent in chat Sep 28, 2026.
-- This supersedes the per-rank designs below, and `perfect-pin-concept.md`'s description of the pin as the ambassador pin.
+- **Rings are all the same width, and each rank adds one.** Every ring is 3 mm wide; the pin covers the centre out to 15.4 mm.
 
-**The two options that were weighed:**
-- **A different design per rank (the earlier suggestion):** Reviewer is the orb in relief with one enamel colour, Committer adds the glows, and Maintainer is the cat-eye with glitter.
-  - The problem: the best design would then go only to a handful of Maintainers.
-  - The recruitment page's hero pin would become something almost no ambassador will ever hold, which oversells.
-- **One Contributing Member pin, with small marks for rank (suggested).** Every Contributing Member, from Reviewer up, wears the cat-eye pin. The metal shows the level: brass for regional, nickel for national. Committer and Maintainer are shown by a small addition, for example:
-  - a small bar or "guard" beneath the pin, the way a fraternity badge carries guards on a chain; or
-  - small stones or notches on the rim, the way Rotary adds stones to its Paul Harris Fellow pin for further levels. (That's a donor pin, so borrow only the design device, not the meaning.)
-- **Why one pin:**
-  - One iconic object is easier to recognise and talk about.
-  - It needs one mould family in two platings.
-  - It keeps the recruitment page honest: the pin in the hero is the one an ambassador can realistically earn.
+  | Rank | Rings | Across |
+  |---|---|---|
+  | Reviewer | 1 | about 37 mm |
+  | Committer | 2 | about 43 mm |
+  | Maintainer | 3 | about 49 mm |
 
-**Metal finish:** the cat-eye's look depends on polished raised lines catching the light, so use polished brass for regional and polished nickel for national. Antique brass is matte and would dull the lines. Polished brass reads as gold, which is fine as long as there's no gold tier.
+- **The two steering committees get the first pins.** They're the first Contributing Members, with the bare pin.
+- **Rank pins are normal one-piece pins, not stacks.** Each rank is its own pin, with its rings simulated in the metal; the fallback is the bare pin plus a single attachment carrying the rings.
+  - Four designs: the bare pin (about 32 × 31 mm), then rank pins of about 37, 43 and 49 mm.
+  - The first order is only the bare pin (the existing cat-eye design). The rank pins wait until the ranks start.
+  - Keep the steps shallow (about 0.3 mm). A solid 49 mm pin is roughly 20–25 g: ask for a hollowed back, two posts and locking clutches.
+  - Finish: a sunray (radial) brushed face with polished chamfers, engraved into the mould before plating. Confirm with the vendor.
+  - Minimum orders are the catch: ask about small runs and splitting one order between brass and silver plating.
+  - Promotion means a new pin; the wearer keeps the old one. An office is shown by its own office pin.
 
-**How to say it:**
-- "The pin you can't buy."
-- "Earned, never bought."
-- "Two practices. Two sponsors. One pin."
+**Alternatives considered (superseded):** stacked rings behind the pin; a carved metal cockade with engraved tails; a pleated ribbon cockade (ink, teal and red bands, with printed tails); laser-cut backing plates; and a different design per rank. Renders and previews from Sep 28, 2026: `metal-cockades-tiers.png`, `cockade-sunray-tiers.jpg`, `pin-cockades.png`, `pin-rank-backings.png`, and the "Cockade" scene in `LabsPin.blend`.
 
-**What this changes on the recruitment page** (the "Ambassador Program Page" design canvas):
-- **The path section:** button at initiation, then a brass rim when you finish the path, then the Contributing Member pin when you've practised in a second workstream and two members sponsor you. An ambassador who finishes the path is halfway to the pin.
-- **The pin showcase page:** it becomes the Contributing Member pin, not the Mentor pin.
-- **Unchanged:** the hero pin and the three close-up renders can stay as they are.
+**Metal finish:** polished brass for regional and polished nickel for national, so the cat-eye's raised lines catch the light. Polished brass reads as gold, which is fine as long as there's no gold tier.
+
+**How to say it:** "Recognised, never bought." For the Reviewer ring: "Two practices. Two sponsors."
 
 ## Challenge coins: moments and thanks (suggestion)
 
@@ -289,7 +287,7 @@ Every bottom-arc word fits.
 
 | | Contributor | Supporting Member | Reviewer | Committer | Maintainer |
 |---|---|---|---|---|---|
-| **The Labs** | open to anyone | light dues, a button, a separate door | first Contributing Member, brass pin | Contributing Member, real permissions | Contributing Member, top rank |
+| **The Labs** | open to anyone | light dues, a button, a separate door | the pin with one ring (Contributing Member starts with the bare pin) | pin with two rings, real permissions | pin with three rings, top rank |
 | **CNCF template equivalent** | Contributor | Organization Member (earned there, not paid) | Reviewer | (none) | Maintainer |
 
 **How membership works elsewhere (researched Sep 28, 2026):**
@@ -367,7 +365,7 @@ Brendan prefers how the YMCA does it:
   - **No voting members (YMCA of Metropolitan Milwaukee).** Its bylaws create no voting membership, so the board picks its own successors. Its branch boards are "advisory in nature only."
 
 **What this means for The Labs:**
-- **Supporting and Contributing Members stay, without votes.** Supporting Members fund The Labs. Contributing Members are the Reviewers, Committers and Maintainers, who earn their place through merit. Neither kind buys a vote.
+- **Supporting and Contributing Members stay, without votes.** Supporting Members fund The Labs. Contributing Members are everyone who holds the pin: the bare pin, and the Reviewers, Committers and Maintainers above it. Neither kind buys a vote.
 - **Each regional board picks one of the two YMCA routes:**
   - **A self-renewing board (Milwaukee).** This is the simplest. There are no statutory members, so there are no member meetings or quorums.
   - **An invited assembly (New York).** The regional board, plus representatives each neighbourhood Lab's coordinating committee appoints, elect some of the directors. Under DC law these invited voting members would be statutory members, with the rights that come with that:
@@ -384,12 +382,12 @@ Brendan prefers how the YMCA does it:
 - **Brand approval becomes the charter.** National owns the name and marks. A regional org uses "The Upskilling Labs of [metro region]" because it's a chartered member of the network. It keeps that right by certifying every year that it meets national standards: the purpose, non-discrimination, and qualifications for its lead.
 - **Two governance tracks:**
   - **The organisation:** the boards run programs, money, people and the brand locally.
-  - **The commons:** Contributor → Reviewer → Committer → Maintainer govern the software and playbooks. They're merit-based and national, and carry no organisational vote.
+  - **The commons:** Contributor → Contributing Member → Reviewer → Committer → Maintainer govern the software and playbooks. They're merit-based and national, and carry no organisational vote.
   - So Committers' program permissions (running a Build Cycle, approving local playbook changes) come from the regional board. Permissions over the commons come from national.
 - **Legal set-up.** YMCA associations are separate nonprofits. Today The Labs' regional work sits inside one legal entity. If regional orgs become separate nonprofits, the national org's 501(c)(3) could hold an IRS group exemption that covers them, so each doesn't have to apply individually.
 
 **Dues buy belonging, not rank.**
-- Paying makes you a Supporting Member. Contributing membership starts at Reviewer and needs practice and sponsors, so merit can't be bought.
+- Paying makes you a Supporting Member. Contributing membership starts with the bare pin, conferred for contribution, so it can't be bought.
 - Dues should never gate taking part (being an Upskiller) or contributing.
 
 **Keep membership open to people who can't pay.**
@@ -423,7 +421,7 @@ Brendan prefers how the YMCA does it:
 | What limits its size | Seats | How many Reviewers there are to review work |
 | Who it belongs to | The Labs: volunteers represent it | Everyone: Apache-2.0 for code, CC BY 4.0 for docs |
 | What they agree to | A volunteer agreement (conduct, safeguarding, use of the brand) | Licence terms for their contributions |
-| Recognition | Buttons and rims: what you do and have practised | Credit, then ranks: Reviewer → Committer → Maintainer |
+| Recognition | Buttons and rims: what you do and have practised | Credit, then the Contributing Member pin, then ranks: Reviewer → Committer → Maintainer |
 | Pay | Unpaid by definition | Doesn't matter: staff, fellows and outsiders all contribute |
 
 **Why the gate sits in different places.** A workshop can't be reviewed before it happens, so The Labs has to trust the person first. A playbook edit can be reviewed, so anyone can propose one. That's why open source can be open to everyone: review absorbs the risk.

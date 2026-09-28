@@ -1,4 +1,5 @@
-/* Rank pins in live 3D, for /contributing/.
+/* Shared 3D loader (loadPin3D), used by the program page's button hero (button3d.ts).
+   Written for the rank pins on the old /contributing/ page; the ring code stays for later.
 
    The pin itself comes from public/join/pin3d.js (three.js and the pin mesh
    from LabsPin.blend, the same bundle the program page's hero uses). That
