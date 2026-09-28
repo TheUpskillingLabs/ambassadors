@@ -1,11 +1,19 @@
 ---
-/* /contributing/ — how The Labs is run and who it trusts with what: the
-   ladder (Contributor → Role holder → Contributing Member → Reviewer →
-   Committer → Maintainer), the public roles, how recognition happens, and
-   who decides. The pins and buttons appear only as the symbol of each step.
-   Unlisted (noindex, not linked from the program page): a working draft to
-   share by link. /roles/, /pin/ and /contributors/ redirect here. Copy lives
-   in content/site/contributing.json, from design/research/recognition-system.md. */
+/* /contributing/ — the contributor community: join it, and work your way up.
+   Anyone can contribute; roles are where you practise; the Contributing
+   Member pin recognizes work The Labs runs on; Reviewer, Committer and
+   Maintainer each add a ring and a responsibility. Unlisted (noindex, not
+   linked from the program page) until the board approves the ranks.
+   /roles/, /pin/ and /contributors/ redirect here.
+
+   The pins are live 3D on desktop: public/join/pin3d.js (the program page's
+   pin) plus rings built in src/scripts/rankpin.ts. Three views share one
+   script: the hero pin, which turns to follow the pointer; the rings, which
+   stack on as you scroll; and the configurator, which you can drag. Phones,
+   reduced motion and machines without GPU WebGL get Cycles stills of the same
+   pins from LabsPin.blend (public/contributing/), framed identically.
+
+   Copy lives in content/site/contributing.json. */
 import "@fontsource-variable/geologica/wght.css";
 import "../../styles/join.css";
 import "../../styles/contributing.css";
@@ -13,6 +21,13 @@ import { u } from "../../lib/url";
 import c from "../../../content/site/contributing.json";
 import j from "../../../content/site/join.json";
 
+const media = (f: string) => u(`/contributing/${f}`);
+const RANKS = ["member", "reviewer", "committer", "maintainer"] as const;
+const pinSrc = (rank: string, metal: string, size = 1200) => media(`pin-${rank}-${metal}-${size}.webp`);
+const pinSet = (rank: string, metal: string) => `${pinSrc(rank, metal, 640)} 640w, ${pinSrc(rank, metal, 1200)} 1200w`;
+const heroStill = media("hero-brass-760.webp");
+const heroSet = `${media("hero-brass-760.webp")} 760w, ${media("hero-brass-1200.webp")} 1200w`;
+const pin3d = u("/join/pin3d.js");
 const home = u("/");
 const apply = u("/apply/");
 const pageTitle = `${c.title} · The Upskilling Labs`;
@@ -29,10 +44,11 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={c.description} />
-    <meta property="og:image" content={new URL(u("/contributing/og.jpg"), Astro.site)} />
+    <meta property="og:image" content={new URL(media("og.jpg"), Astro.site)} />
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
+    <link rel="preload" as="image" href={heroStill} imagesrcset={heroSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" />
   </head>
-  <body class="jp cf">
+  <body class="jp cm">
     <a class="skip" href="#main">Skip to content</a>
     <header class="jp-head" data-head>
       <nav aria-label="Contributing">
@@ -41,9 +57,10 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <span class="wide-only">{c.nav.brand}</span>
         </a>
         <ul class="jp-links">
-          <li><a class="navlink" href="#ladder" data-spy="ladder">{c.nav.ladder}</a></li>
-          <li><a class="navlink" href="#roles" data-spy="roles given">{c.nav.roles}</a></li>
-          <li><a class="navlink" href="#decides" data-spy="decides open">{c.nav.decides}</a></li>
+          <li><a class="navlink" href="#start" data-spy="start">{c.nav.start}</a></li>
+          <li><a class="navlink" href="#rings" data-spy="rings">{c.nav.rings}</a></li>
+          <li><a class="navlink" href="#metal" data-spy="metal">{c.nav.metal}</a></li>
+          <li><a class="navlink" href="#given" data-spy="given decides">{c.nav.given}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={home}>{c.nav.program}</a>
@@ -53,58 +70,136 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
     </header>
 
     <main id="main">
-      <section id="top" class="cf-hero">
+      <!-- Hero: the pin on its own, in brass, turning toward the pointer. -->
+      <section id="top" class="jp-hero cm-hero">
         <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
-        <div class="wrap">
-          <p class="kicker">{c.hero.kicker}</p>
-          <h1>{c.hero.title}</h1>
-          <p class="lede">{c.hero.lede}</p>
-          <p class="cf-draft" data-draft><b>Draft.</b> {c.hero.draft}</p>
+        <div class="stage">
+          <h1 class="wordin">{c.hero.title[0]}<br />{c.hero.title[1]}</h1>
+          <div class="jp-pin pinin">
+            <div class="bob cm-view" role="img" aria-label={c.hero.pinAlt} data-view="hero" data-pin3d={pin3d}>
+              <img src={heroStill} srcset={heroSet} sizes="min(760px, 94vw, 56vh)" alt="" width="760" height="760" fetchpriority="high" data-still />
+              <canvas aria-hidden="true"></canvas>
+            </div>
+          </div>
         </div>
+        <p class="lede-hero rise d1">{c.hero.lede}</p>
+        <div class="ctas rise d2">
+          <a class="ghost" href="#rings">{c.hero.cta}<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v11M2.5 8 7 12.5 11.5 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+        </div>
+        <p class="status rise d3"><i aria-hidden="true"></i>{c.hero.status}</p>
+        <p class="cm-draft rise d3"><b>Draft.</b> {c.draft}</p>
       </section>
 
-      <section id="ladder" class="jp-sec">
+      <!-- Ways in: contribute, take a role, get recognized. -->
+      <section id="start" class="jp-sec">
         <div class="wrap">
-          <p class="kicker">{c.ladder.kicker}</p>
-          <h2 class="h2">{c.ladder.title}</h2>
-          <table class="cf-ladder">
-            <thead><tr>{c.ladder.cols.map((h) => <th scope="col">{h}</th>)}</tr></thead>
-            <tbody>
-              {c.ladder.rows.map((r) => (
-                <tr data-row={r.id}>
-                  <th scope="row" data-label={c.ladder.cols[0]}>{r.who}</th>
-                  <td data-label={c.ladder.cols[1]}>{r.how}</td>
-                  <td data-label={c.ladder.cols[2]}>{r.trusted}</td>
-                  <td data-label={c.ladder.cols[3]} class="cf-symbol">
-                    {r.image ? <img src={u(`/${r.image}`)} alt="" width="48" height="48" loading="lazy" /> : <span class="cf-nosym" aria-hidden="true"></span>}
-                    <span>{r.symbol}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p class="cf-note">{c.ladder.note}</p>
-        </div>
-      </section>
-
-      <section id="roles" class="jp-sec">
-        <div class="wrap">
-          <p class="kicker">{c.roles.kicker}</p>
-          <h2 class="h2">{c.roles.title}</h2>
-          <p class="lede">{c.roles.lede}</p>
-          <ul class="cf-roles">
-            {c.roles.items.map((r) => (
-              <li class:list={{ now: r.now }}><b>{r.name}</b><span>{r.does}</span>{r.now && <em>{c.roles.open}</em>}</li>
+          <div class="reveal">
+            <p class="kicker">{c.start.kicker}</p>
+            <h2 class="h2 cm-h2-wide">{c.start.title}</h2>
+            <p class="lede">{c.start.lede}</p>
+          </div>
+          <div class="jp-cols three reveal">
+            {c.start.items.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
             ))}
-          </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- The rings: they stack on as you scroll (desktop), or sit in a row. -->
+      <section id="rings" class="jp-sec cm-rings">
+        <div class="wrap reveal">
+          <p class="kicker">{c.rings.kicker}</p>
+          <h2 class="h2">{c.rings.title}</h2>
+          <p class="lede">{c.rings.lede}</p>
+        </div>
+        <div class="cm-scrub" data-scrub>
+          <div class="cm-scrub-stage">
+            <div class="wrap cm-scrub-grid">
+              <ol class="cm-steps" data-steps>
+                {c.rings.steps.map((s, i) => (
+                  <li class:list={["cm-step", { on: i === 0 }]} data-step={i}>
+                    <img class="cm-step-pin" src={pinSrc(RANKS[i], "brass", 640)} srcset={pinSet(RANKS[i], "brass")} sizes="(max-width: 680px) 64vw, 320px" alt={c.metal.ringsLabel[i]} width="640" height="640" loading="lazy" />
+                    <p class="kicker">{s.shows}</p>
+                    <h3>{s.rank}</h3>
+                    <p class="cm-line">{s.line}</p>
+                    <dl class="cm-body">
+                      <dt>{c.rings.labels.how}</dt><dd>{s.how}</dd>
+                      <dt>{c.rings.labels.trusted}</dt><dd>{s.trusted}</dd>
+                    </dl>
+                  </li>
+                ))}
+              </ol>
+              <div class="cm-scrub-side">
+                <div class="cm-view cm-square" role="img" aria-label={c.metal.ringsLabel[3]} data-view="rings">
+                  {RANKS.map((r, i) => (
+                    <img src={pinSrc(r, "brass", 1200)} srcset={pinSet(r, "brass")} sizes="min(620px, 46vw, 70vh)" alt="" width="1200" height="1200" loading="lazy" data-frame={i} class:list={{ on: i === 0 }} />
+                  ))}
+                  <canvas aria-hidden="true"></canvas>
+                </div>
+                <div class="cm-readout" aria-hidden="true">
+                  <div><span>{c.rings.readout.rings}</span><b data-read-rings>0</b><i>/3</i></div>
+                  <div><span>{c.rings.readout.across}</span><b data-read-across>32.0</b><i>mm</i></div>
+                  <ol class="cm-ticks">{RANKS.map((_, i) => <li class:list={{ on: i === 0 }} data-tick={i}></li>)}</ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="wrap cm-note">{c.rings.names}</p>
+      </section>
+
+      <!-- Brass or silver: a configurator you can drag. -->
+      <section id="metal" class="jp-sec cm-metal">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.metal.kicker}</p>
+            <h2 class="h2">{c.metal.title}</h2>
+            <p class="lede">{c.metal.lede}</p>
+          </div>
+          <div class="cm-config reveal" data-config>
+            <div class="cm-config-view">
+              <div class="cm-view cm-square cm-drag" role="img" tabindex="0" aria-label={c.metal.stageLabel.replace("{rank}", "Maintainer").replace("{metal}", "brass")} aria-describedby="cm-hint" data-view="config" data-label={c.metal.stageLabel}>
+                {["brass", "silver"].map((m) => RANKS.map((r) => (
+                  <img src={pinSrc(r, m, 1200)} srcset={pinSet(r, m)} sizes="min(640px, 90vw, 70vh)" alt="" width="1200" height="1200" loading="lazy" data-combo={`${r}-${m}`} class:list={{ on: r === "maintainer" && m === "brass" }} />
+                )))}
+                <canvas aria-hidden="true"></canvas>
+              </div>
+              <p id="cm-hint" class="cm-hint"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9a6 6 0 0 1 11.2-3M15 9a6 6 0 0 1-11.2 3M14.5 2.5v3.5H11M3.5 15.5V12H7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg><span class="cm-hint-drag">{c.metal.hint}</span><span class="cm-hint-keys">{c.metal.hintKeys}</span></p>
+            </div>
+            <div class="cm-controls">
+              <fieldset class="cm-seg cm-seg-rank" data-seg="rank">
+                <legend>{c.metal.rankLegend}</legend>
+                <span class="cm-pill" aria-hidden="true"></span>
+                {c.metal.ranks.map((name, i) => (
+                  <label><input type="radio" name="cm-rank" value={i} checked={i === 3} /><span>{name}</span></label>
+                ))}
+              </fieldset>
+              <fieldset class="cm-seg cm-seg-metal" data-seg="metal">
+                <legend>{c.metal.metalLegend}</legend>
+                <span class="cm-pill" aria-hidden="true"></span>
+                {c.metal.metals.map((m, i) => (
+                  <label data-metal={m.id} data-name={m.name}><input type="radio" name="cm-metal" value={m.id} checked={i === 0} /><span><i class="cm-swatch" aria-hidden="true"></i>{m.name}<small>{m.note}</small></span></label>
+                ))}
+              </fieldset>
+              <dl class="cm-spec" aria-live="polite">
+                <div><dt>{c.rings.readout.rings}</dt><dd><b data-spec-rings>3</b> · <span data-spec-shows>{c.rings.steps[3].shows}</span></dd></div>
+                <div><dt>{c.rings.readout.across}</dt><dd><b data-spec-across>48.8</b> mm</dd></div>
+                <div><dt>{c.metal.metalLegend}</dt><dd><b data-spec-metal>{c.metal.metals[0].name}</b> · <span data-spec-note>{c.metal.metals[0].note}</span></dd></div>
+              </dl>
+              <p class="cm-spec-line" data-spec-line>{c.rings.steps[3].line}</p>
+            </div>
+          </div>
         </div>
       </section>
 
       <section id="given" class="jp-sec">
         <div class="wrap">
-          <p class="kicker">{c.given.kicker}</p>
-          <h2 class="h2">{c.given.title}</h2>
-          <ol class="jp-steps cf-steps">
+          <div class="reveal">
+            <p class="kicker">{c.given.kicker}</p>
+            <h2 class="h2">{c.given.title}</h2>
+          </div>
+          <ol class="jp-steps reveal">
             {c.given.steps.map((s, i) => (
               <li class:list={{ milestone: i === c.given.steps.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
             ))}
@@ -114,17 +209,21 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
 
       <section id="decides" class="jp-sec">
         <div class="wrap">
-          <p class="kicker">{c.decides.kicker}</p>
-          <h2 class="h2">{c.decides.title}</h2>
-          <ul class="cf-list">{c.decides.rules.map((r) => <li>{r}</li>)}</ul>
+          <div class="reveal">
+            <p class="kicker">{c.decides.kicker}</p>
+            <h2 class="h2">{c.decides.title}</h2>
+          </div>
+          <ul class="cm-list reveal">{c.decides.rules.map((g) => <li>{g}</li>)}</ul>
         </div>
       </section>
 
-      <section id="open" class="jp-sec cf-last">
-        <div class="wrap">
-          <p class="kicker">{c.open.kicker}</p>
-          <h2 class="h2">{c.open.title}</h2>
-          <ul class="cf-list muted">{c.open.items.map((q) => <li>{q}</li>)}</ul>
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{c.join.title}</h2>
+          <p class="lede">{c.join.lede}</p>
+          <div class="row">
+            <a class="btn" href={apply}>{c.join.cta}</a>
+          </div>
         </div>
       </section>
     </main>
@@ -136,28 +235,292 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <p>{j.footer.legal}</p>
           <p>{j.footer.rights}</p>
           <p><a class="textlink" href={home}>{c.footer.program} →</a></p>
+          <p>{c.footer.renders}</p>
           {c.placeholder && <p class="ph">[PLACEHOLDER] {c.footer.source}</p>}
         </div>
       </div>
     </footer>
 
     <script>
-      // Nav: compact once you scroll, and mark the section in view.
+      import { mountView, gpuOk, kick, ACROSS, type RankPin, type MetalId } from "../../scripts/rankpin";
+
       const root = document.documentElement;
+      const pin3d = document.querySelector<HTMLElement>("[data-pin3d]")!.dataset.pin3d!;
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+      const desktop = matchMedia("(hover: hover) and (pointer: fine) and (min-width: 900px)");
+      const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+
+      /* ── nav: compact once you scroll; the section in view is marked ── */
       const head = document.querySelector<HTMLElement>("[data-head]")!;
       new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
         .observe(document.querySelector("[data-top-sentinel]")!);
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => {
+        head.classList.toggle("cta-off", e.isIntersecting);
+        cta.tabIndex = e.isIntersecting ? -1 : 0;
+      }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["ladder", "roles", "given", "decides", "open"].map((id) => document.getElementById(id)!);
-      let queued = false;
+      const order = ["start", "rings", "metal", "given", "decides", "join"].map((id) => document.getElementById(id)!);
+      let spyQueued = false;
       const spy = () => {
-        queued = false;
+        spyQueued = false;
         const line = innerHeight * 0.35;
         const current = order.filter((el) => el.getBoundingClientRect().top <= line).pop()?.id ?? "";
         links.forEach((a) => (a.dataset.spy!.split(" ").includes(current) ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current")));
       };
-      addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
+      addEventListener("scroll", () => { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
       spy();
+
+      /* ── numbers that count, in tabular figures ── */
+      const tickers = new WeakMap<HTMLElement, { from: number; to: number; t0: number; raf: number }>();
+      function countTo(el: HTMLElement, to: number, digits: number) {
+        const cur = parseFloat(el.textContent || "0") || 0;
+        const prev = tickers.get(el);
+        if (prev) cancelAnimationFrame(prev.raf);
+        if (reduce.matches || Math.abs(cur - to) < 1e-6) { el.textContent = to.toFixed(digits); return; }
+        const st = { from: cur, to, t0: performance.now(), raf: 0 };
+        const run = (now: number) => {
+          const t = clamp((now - st.t0) / 480, 0, 1), e = 1 - Math.pow(1 - t, 3);
+          el.textContent = (st.from + (st.to - st.from) * e).toFixed(digits);
+          if (t < 1) st.raf = requestAnimationFrame(run);
+        };
+        st.raf = requestAnimationFrame(run);
+        tickers.set(el, st);
+      }
+
+      /* ── the rings: scrubbed by scroll on wide screens ── */
+      const scrub = document.querySelector<HTMLElement>("[data-scrub]")!;
+      const steps = [...scrub.querySelectorAll<HTMLElement>("[data-step]")];
+      const frames = [...scrub.querySelectorAll<HTMLImageElement>("[data-frame]")];
+      const ticks = [...scrub.querySelectorAll<HTMLElement>("[data-tick]")];
+      const readRings = scrub.querySelector<HTMLElement>("[data-read-rings]")!;
+      const readAcross = scrub.querySelector<HTMLElement>("[data-read-across]")!;
+      const ringsView = scrub.querySelector<HTMLElement>('[data-view="rings"]')!;
+      const scrubMode = () => desktop.matches && !reduce.matches && innerHeight >= 560;
+      let scrubP = 0, scrubStep = 0;
+      const setScrubMode = () => { root.toggleAttribute("data-cm-scrub", scrubMode()); onScrub(); };
+      function onScrub() {
+        if (!root.hasAttribute("data-cm-scrub")) return;
+        const r = scrub.getBoundingClientRect();
+        const span = r.height - innerHeight;
+        scrubP = span > 0 ? clamp(-r.top / span, 0, 1) : 0;
+        // Four resting points, with a short hold at each: 0, 1, 2, 3 rings.
+        const x = scrubP * 3.4 - 0.2;
+        const step = clamp(Math.round(x), 0, 3);
+        if (step !== scrubStep) {
+          scrubStep = step;
+          steps.forEach((s, i) => s.classList.toggle("on", i === step));
+          frames.forEach((f, i) => f.classList.toggle("on", i === step));
+          ticks.forEach((t, i) => t.classList.toggle("on", i <= step));
+          ringsView.setAttribute("aria-label", steps[step].querySelector("img")!.alt);
+        }
+        const rings = clamp(x, 0, 3);
+        readRings.textContent = String(Math.round(rings));
+        const a = ACROSS[Math.floor(rings)] + (ACROSS[Math.min(3, Math.floor(rings) + 1)] - ACROSS[Math.floor(rings)]) * (rings % 1);
+        readAcross.textContent = a.toFixed(1);
+        if (ringsPin) { ringsPin.setRingsExact(rings); kick(ringsPin); }
+      }
+      let scrubQueued = false;
+      addEventListener("scroll", () => { if (!scrubQueued) { scrubQueued = true; requestAnimationFrame(() => { scrubQueued = false; onScrub(); }); } }, { passive: true });
+      addEventListener("resize", setScrubMode);
+      desktop.addEventListener("change", setScrubMode);
+      reduce.addEventListener("change", setScrubMode);
+      setScrubMode();
+
+      /* ── the configurator ── */
+      const config = document.querySelector<HTMLElement>("[data-config]")!;
+      const configView = config.querySelector<HTMLElement>('[data-view="config"]')!;
+      const combos = [...config.querySelectorAll<HTMLImageElement>("[data-combo]")];
+      const RANK_IDS = ["member", "reviewer", "committer", "maintainer"];
+      const shows = [...document.querySelectorAll<HTMLElement>("[data-step] .kicker")].map((k) => k.textContent || "");
+      const lines = [...document.querySelectorAll<HTMLElement>("[data-step] .cm-line")].map((k) => k.textContent || "");
+      const rankNames = [...document.querySelectorAll<HTMLElement>("[data-step] h3")].map((k) => k.textContent || "");
+      const specRings = config.querySelector<HTMLElement>("[data-spec-rings]")!;
+      const specShows = config.querySelector<HTMLElement>("[data-spec-shows]")!;
+      const specAcross = config.querySelector<HTMLElement>("[data-spec-across]")!;
+      const specMetal = config.querySelector<HTMLElement>("[data-spec-metal]")!;
+      const specNote = config.querySelector<HTMLElement>("[data-spec-note]")!;
+      const specLine = config.querySelector<HTMLElement>("[data-spec-line]")!;
+      let rank = 3, metal: MetalId = "brass";
+
+      // Segmented controls: one pill slides behind the checked option.
+      const segs = [...config.querySelectorAll<HTMLFieldSetElement>("[data-seg]")];
+      function placePill(seg: HTMLFieldSetElement) {
+        const pill = seg.querySelector<HTMLElement>(".cm-pill")!;
+        const on = seg.querySelector<HTMLInputElement>("input:checked")!.closest("label")!;
+        pill.style.width = `${on.offsetWidth}px`;
+        pill.style.height = `${on.offsetHeight}px`;
+        pill.style.transform = `translate(${on.offsetLeft}px, ${on.offsetTop}px)`;
+      }
+      const placePills = () => segs.forEach(placePill);
+      placePills();
+      new ResizeObserver(placePills).observe(config);
+      document.fonts?.ready.then(placePills);
+
+      function applyConfig() {
+        const m = config.querySelector<HTMLInputElement>('input[name="cm-metal"]:checked')!;
+        const label = m.closest("label")!;
+        specRings.textContent = String(rank);
+        specShows.textContent = shows[rank];
+        countTo(specAcross, ACROSS[rank], 1);
+        specMetal.textContent = label.dataset.name || metal;
+        specNote.textContent = label.querySelector("small")!.textContent || "";
+        specLine.textContent = lines[rank];
+        specLine.animate?.([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: reduce.matches ? 0 : 260, easing: "cubic-bezier(0.23, 1, 0.32, 1)" });
+        combos.forEach((im) => im.classList.toggle("on", im.dataset.combo === `${RANK_IDS[rank]}-${metal}`));
+        configView.setAttribute("aria-label", configView.dataset.label!.replace("{rank}", rankNames[rank]).replace("{metal}", metal));
+        if (configPin) {
+          configPin.setRings(rank, reduce.matches);
+          configPin.setMetal(metal, reduce.matches);
+          kick(configPin);
+        }
+        placePills();
+      }
+      config.addEventListener("change", (e) => {
+        const t = e.target as HTMLInputElement;
+        if (t.name === "cm-rank") rank = Number(t.value);
+        if (t.name === "cm-metal") metal = t.value as MetalId;
+        applyConfig();
+      });
+      applyConfig();
+
+      /* ── live 3D: desktop with a real GPU, after the page has loaded ── */
+      let ringsPin: RankPin | null = null;
+      let configPin: RankPin | null = null;
+      // With "?pin3d" (testing), the views are reachable from the console.
+      const debug: Record<string, RankPin> | null = new URLSearchParams(location.search).has("pin3d") ? ((window as unknown as { __cmPins: Record<string, RankPin> }).__cmPins = {}) : null;
+
+      // The hero: turns toward a mouse or pen through a soft spring, and drifts when the pointer rests.
+      let px = 0, py = 0, pt = 0;
+      addEventListener("pointermove", (e) => { if (e.pointerType === "touch") return; px = e.clientX; py = e.clientY; pt = performance.now(); }, { passive: true });
+      function follow(stage: HTMLElement, c: { s: number; t: number; vs: number; vt: number }, now: number, dt: number, t0: number): boolean {
+        let ts: number, tt: number;
+        if (pt && now - pt < 3500) {
+          const r = stage.getBoundingClientRect();
+          const nx = clamp((px - (r.left + r.width / 2)) / (Math.min(innerWidth, 1800) * 0.5), -1, 1);
+          const ny = clamp((py - (r.top + r.height / 2)) / (Math.min(innerHeight, 1000) * 0.5), -1, 1);
+          const soft = (v: number) => Math.sign(v) * Math.pow(Math.abs(v), 0.8);
+          ts = soft(nx) < 0 ? -soft(nx) * 24 : soft(nx) * -36;
+          tt = soft(ny) < 0 ? -soft(ny) * 14 : soft(ny) * -14;
+        } else {
+          const s = (now - t0) / 1000;
+          ts = -6 + 15 * Math.sin((s * 2 * Math.PI) / 10);
+          tt = -3 + 6 * Math.sin((s * 2 * Math.PI) / 7 + 1);
+        }
+        const k = 70, d = 2 * Math.sqrt(k) * 0.85;
+        c.vs += ((ts - c.s) * k - c.vs * d) * dt; c.s += c.vs * dt;
+        c.vt += ((tt - c.t) * k - c.vt * d) * dt; c.t += c.vt * dt;
+        return Math.abs(ts - c.s) + Math.abs(tt - c.t) + Math.abs(c.vs) + Math.abs(c.vt) > 0.002;
+      }
+
+      function startHero() {
+        const stage = document.querySelector<HTMLElement>('[data-view="hero"]')!;
+        const pose = { s: 0, t: 0, vs: 0, vt: 0 }, t0 = performance.now();
+        mountView(pin3d, stage.querySelector("canvas")!, stage, { metal: "brass", rings: 0 }, {
+          frame(rp, dt, now) {
+            const moving = follow(stage, pose, now, dt, t0);
+            rp.pin.setPose(pose.s, pose.t);
+            return rp.step(dt) || moving;
+          },
+        }).then((rp) => { if (debug) debug.hero = rp; }).catch(() => {});
+      }
+
+      function startRings() {
+        const canvas = ringsView.querySelector("canvas")!;
+        mountView(pin3d, canvas, ringsView, { metal: "brass", rings: 0, zoom: 1.4 }, {
+          frame(rp) {
+            // The pin turns from three-quarters toward face-on as the rings arrive.
+            const p = scrubP;
+            rp.pin.setPose(-26 + 22 * p, 12 - 9 * p);
+            return false;
+          },
+        }).then((rp) => { ringsPin = rp; if (debug) debug.rings = rp; onScrub(); kick(rp); }).catch(() => {});
+      }
+
+      function startConfig() {
+        const canvas = configView.querySelector("canvas")!;
+        // Drag to turn, with momentum; the arrow keys step 15 degrees. It eases back to a resting angle after a while.
+        const REST = { s: -14, t: 6 };
+        const pose = { s: REST.s, t: REST.t, vs: 0, vt: 0 };
+        let dragging = false, lastX = 0, lastY = 0, idle = 0;
+        const samples: { x: number; y: number; t: number }[] = [];
+        configView.addEventListener("pointerdown", (e) => {
+          dragging = true; configView.setPointerCapture(e.pointerId); configView.classList.add("grabbing", "used");
+          lastX = e.clientX; lastY = e.clientY; samples.length = 0; pose.vs = pose.vt = 0;
+          if (configPin) kick(configPin);
+        });
+        configView.addEventListener("pointermove", (e) => {
+          if (!dragging) return;
+          const now = performance.now();
+          pose.s += (e.clientX - lastX) * 0.45;
+          pose.t = clamp(pose.t + (e.clientY - lastY) * 0.3, -40, 40);
+          samples.push({ x: e.clientX, y: e.clientY, t: now });
+          while (samples.length && now - samples[0].t > 90) samples.shift();
+          lastX = e.clientX; lastY = e.clientY; idle = 0;
+          if (configPin) kick(configPin);
+        });
+        const release = () => {
+          if (!dragging) return;
+          dragging = false; configView.classList.remove("grabbing");
+          // Release velocity from the last ~90 ms of movement, not the last event.
+          if (samples.length > 1 && !reduce.matches) {
+            const a = samples[0], b = samples[samples.length - 1], dt = Math.max(16, b.t - a.t) / 1000;
+            pose.vs = ((b.x - a.x) * 0.45) / dt;
+            pose.vt = ((b.y - a.y) * 0.3) / dt;
+          }
+          if (configPin) kick(configPin);
+        };
+        configView.addEventListener("pointerup", release);
+        configView.addEventListener("pointercancel", release);
+        configView.addEventListener("keydown", (e) => {
+          const map: Record<string, [number, number]> = { ArrowLeft: [-15, 0], ArrowRight: [15, 0], ArrowUp: [0, -10], ArrowDown: [0, 10] };
+          const mv = map[e.key];
+          if (!mv) return;
+          e.preventDefault();
+          pose.s += mv[0]; pose.t = clamp(pose.t + mv[1], -40, 40); idle = 0; pose.vs = pose.vt = 0;
+          configView.classList.add("used");
+          if (configPin) kick(configPin);
+        });
+        mountView(pin3d, canvas, configView, { metal, rings: rank, zoom: 1.4 }, {
+          frame(rp, dt) {
+            let moving = dragging;
+            if (!dragging) {
+              // Coast: momentum that fades, then a slow return to the resting angle.
+              const fr = Math.pow(0.94, dt / (1 / 60));
+              pose.s += pose.vs * dt; pose.t = clamp(pose.t + pose.vt * dt, -40, 40);
+              pose.vs *= fr; pose.vt *= fr;
+              if (Math.abs(pose.vs) + Math.abs(pose.vt) > 2) moving = true;
+              else {
+                pose.vs = pose.vt = 0;
+                idle += dt;
+                if (idle > 2.5 && !reduce.matches) {
+                  // Unwind whole turns first, so it never spins the long way home.
+                  const target = REST.s + 360 * Math.round((pose.s - REST.s) / 360);
+                  const ds = target - pose.s, dtl = REST.t - pose.t;
+                  if (Math.abs(ds) + Math.abs(dtl) > 0.05) { pose.s += ds * Math.min(1, dt * 2.2); pose.t += dtl * Math.min(1, dt * 2.2); moving = true; }
+                }
+              }
+            }
+            rp.pin.setPose(pose.s, pose.t);
+            return rp.step(dt) || moving;
+          },
+        }).then((rp) => { configPin = rp; if (debug) debug.config = rp; rp.setRings(rank, true); rp.setMetal(metal, true); kick(rp); }).catch(() => {});
+      }
+
+      const start = () => {
+        if (!desktop.matches || reduce.matches || !gpuOk()) return;
+        root.dataset.live = "";
+        startHero();
+        // The other two mount as they come near, so the page never builds three pins at once.
+        const near = (el: HTMLElement, fn: () => void) => {
+          const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); fn(); } }, { rootMargin: "600px 0px" });
+          io.observe(el);
+        };
+        near(ringsView, startRings);
+        near(configView, startConfig);
+      };
+      const later = () => ("requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1200));
+      if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
     </script>
   </body>
 </html>
