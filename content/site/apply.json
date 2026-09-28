@@ -17,7 +17,7 @@
     "zip": "ZIP code",
     "zipHint": "5 digits",
     "referredBy": "Who brought you in? (optional)",
-    "referredByHint": "If an ambassador or Mentor sent you, their name counts toward their pin.",
+    "referredByHint": "If an ambassador or contributor sent you, their name counts toward their pin.",
     "errors": {
       "first": "Add your first name.",
       "last": "Add your last name.",

@@ -17,7 +17,7 @@
       "Ambassador",
       "Program"
     ],
-    "pinAlt": "The ambassador pin, floating and turning to follow your pointer",
+    "pinAlt": "The Contributor pin, floating and turning to follow your pointer",
     "lede": "A volunteer corps for people who can't keep a good thing to themselves.",
     "cta": "Become an ambassador",
     "secondary": "See why",
@@ -157,36 +157,46 @@
   "path": {
     "kicker": "How it works",
     "title": [
-      "The button says you're in.",
-      "The pin says you passed it on."
+      "The button says you're an ambassador.",
+      "The pin says you're a contributor."
     ],
-    "lede": "Small steps, each one marked.",
+    "lede": "Small steps, each one marked. Your coordinator walks the ambassador part with you.",
     "steps": [
       {
         "title": "Raise your hand.",
         "body": "That's it. That's the step.",
-        "milestone": false
+        "milestone": false,
+        "reward": "button"
       },
       {
         "title": "Get in.",
         "body": "Ten minutes on your phone. Your coordinator hands you the button.",
-        "milestone": true
+        "milestone": true,
+        "reward": "button"
       },
       {
         "title": "Get ready.",
         "body": "Five short steps in the guide. Half an hour, whenever.",
-        "milestone": false
+        "milestone": false,
+        "reward": "button"
       },
       {
         "title": "Pass it on.",
-        "body": "[N] new Upskillers. One talk. One new ambassador. The pin is yours.",
-        "milestone": true
+        "body": "[N] new Upskillers. One talk. One new ambassador.",
+        "milestone": false,
+        "reward": "button"
+      },
+      {
+        "title": "Contribute.",
+        "body": "Mentor a pod. Help build The Labs itself. A bit of each, and the pin is yours.",
+        "milestone": true,
+        "reward": "pin"
       }
     ],
     "rewards": [
       {
         "id": "button",
-        "kicker": "When you get in",
+        "kicker": "From your coordinator",
         "title": "The button",
         "body": "Ten minutes in, it's in your hand. It's how ambassadors spot each other.",
         "image": "button-card.webp",
@@ -194,16 +204,17 @@
       },
       {
         "id": "pin",
-        "kicker": "When you've passed it on",
+        "kicker": "Next: Contributor",
         "title": "The pin",
-        "body": "It can't be bought, only passed on. One pin for everyone who keeps The Labs running.",
+        "body": "A bit of every way to contribute: ambassador, mentor, and building The Labs itself. Your coordinator puts you forward. The core team confirms. It can't be bought.",
         "image": "pin-card.webp",
-        "alt": "The pin: the orb mark in polished nickel with teal and red cat-eye enamel"
+        "alt": "The Contributor pin: the orb mark in polished nickel with teal and red cat-eye enamel"
       }
     ],
+    "beyond": "After the pin: Maintainer, when you commit to a cycle and help run a program, the way a Poderator does. Then Lead, when a lab is yours to run. [PLACEHOLDER: confirm both names.]",
     "visualAlt": {
       "button": "The ambassador button",
-      "pin": "The pin"
+      "pin": "The Contributor pin"
     },
     "cta": "Become an ambassador"
   },
@@ -273,6 +284,10 @@
         "a": "No. Curiosity, and a story."
       },
       {
+        "q": "What's the pin for?",
+        "a": "Contributors. Three ways to contribute: ambassador (bring people in), mentor (help a pod when it's stuck), and building The Labs itself (events, docs, design, code, operations). Do a bit of each. OLOS keeps track, your coordinator puts you forward, and the core team confirms."
+      },
+      {
         "q": "Can I stop?",
         "a": "Any time. The door stays open."
       },
@@ -282,7 +297,7 @@
       }
     ],
     "cta": "Become an ambassador",
-    "$comment": "Placeholders kept out of the copy: add a typical hours-per-month figure to the time answer; confirm the coordinator's details for the last answer."
+    "$comment": "Placeholders kept out of the copy: add a typical hours-per-month figure to the time answer; confirm the coordinator's details for the last answer. Confirm how much of each way of contributing earns the pin, and who the core team is (regional or HQ)."
   },
   "commit": {
     "kicker": "The short version",

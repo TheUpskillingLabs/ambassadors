@@ -109,8 +109,21 @@ The spec's seven sections became one five-step path so an ambassador never has t
   - audience profiles (one line each in Invite), the glossary, story examples, and the story rehearsal timer;
   - practice filters, the Close rating, and Undo.
 - **Kept, because the evidence is strongest:** the dated personal ask (**Who will you ask?**), your own 30-second story, and retrieval practice with a think-first pause.
-- **Added:** "ready" as the guide's finish line. When all five steps are done, Home's button becomes "Tell your coordinator you're ready". The button is handed over in person when you get in; the pin is earned by passing it on. The coordinator confirms everything, because the site can't see anyone's progress. Nothing is sent by the site.
+- **Added:** "ready" as the guide's finish line. When all five steps are done, Home's button becomes "Tell your coordinator you're ready". The button is the coordinator's, handed over in person when you get in. The pin is the Contributor pin (see Roles below). The coordinator confirms everything, because the site can't see anyone's progress. Nothing is sent by the site.
 - **Added:** the first ask on "You're in". The strongest thing in the guide is the dated personal ask, so the pass screen asks for one name the moment someone gets in, and saves it to the front of the Conversation step's list.
+
+## Roles
+
+Named the open-source way ([opensource.guide](https://opensource.guide/leadership-and-governance/)). Ambassador, mentor, and building The Labs (events, docs, design, code, operations) are **ways of contributing**.
+
+- **Ambassador** (the button): the local ambassador coordinator's program, from getting in to passing it on.
+- **Contributor** (the pin): a bit of every way of contributing. OLOS tracks it, the coordinator can nominate, and the core team (regional or HQ) confirms. Replaces the retired "Mentor" rank; "mentor" stays The Labs' word for helping a pod.
+- **Maintainer** [PLACEHOLDER name]: commits for a period, is on call, and helps run a program, the way a Poderator does.
+- **Lead** [PLACEHOLDER name]: runs a lab.
+
+Avoid "core contributor" in copy: OLOS uses it for its staff flag.
+
+Before launch, OLOS needs a way to record contributions by way (ambassador, mentor, org project) and a nominate-then-confirm step for the pin.
 
 ## Privacy
 
