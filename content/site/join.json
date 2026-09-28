@@ -2,7 +2,7 @@
   "$comment": "The public Ambassador Program page (the front page, /; /join/ redirects there). The idea: think of someone who's figuring out what's next. The hero is the mockup's; the three covers are chapter titles and each chapter's opener flows from its cover. [N] marks a number still to be set. Every 'Become an ambassador' button goes to /apply/ (content/site/apply.json). The launch roster reads data/roster.json.",
   "placeholder": true,
   "title": "Ambassador Program",
-  "description": "Think of someone who's figuring out what's next. Ten minutes to get in, the words to bring them, and a pin that can't be bought.",
+  "description": "Think of someone who's figuring out what's next. It takes about ten minutes to join, we'll give you the words, and there's a pin to earn along the way.",
   "nav": {
     "brand": "Ambassadors",
     "why": "Why join",
@@ -18,10 +18,10 @@
       "Program"
     ],
     "pinAlt": "The pin, floating and turning to follow your pointer",
-    "lede": "A volunteer corps for people who can't keep a good thing to themselves.",
+    "lede": "A volunteer community for people who love to share a good thing.",
     "cta": "Become an ambassador",
     "secondary": "See why",
-    "status": "Recruiting our founding ambassadors"
+    "status": "Now welcoming our first ambassadors"
   },
   "mission": [
     {
@@ -46,82 +46,82 @@
   "you": {
     "kicker": "Why ambassadors do it",
     "title": "It starts with you.",
-    "lede": "Someone got you curious. Now think of who's next. It pays you back three ways.",
+    "lede": "Someone once got you curious. Now think of who might be next. Being an ambassador gives back in three ways.",
     "items": [
       {
         "label": "As a professional",
-        "title": "Skills that travel.",
-        "body": "Storytelling, facilitation, discovery. For real."
+        "title": "Skills that go with you.",
+        "body": "Telling your story, leading a conversation, listening well. You'll use them everywhere."
       },
       {
         "label": "As a neighbor",
         "title": "A say in what gets built.",
-        "body": "What you hear becomes what The Labs takes on."
+        "body": "What you hear from people helps shape what The Labs works on next."
       },
       {
         "label": "As a person",
-        "title": "Confidence you earn.",
-        "body": "Tell your story. Hold a room."
+        "title": "Confidence that grows.",
+        "body": "Share your story, and find out you can hold a room."
       }
     ],
     "argument": [
       {
-        "title": "You found your way through.",
-        "body": "You did the getting. The Labs made room. Now you know the way."
+        "title": "You found your way.",
+        "body": "You showed up and did the work, and The Labs made room for you. Now you know the way in."
       },
       {
         "title": "Be the one who says “come with me.”",
-        "body": "No pitch. Just someone they trust, saying it."
+        "body": "No pitch needed. Just a friendly face they already trust."
       },
       {
-        "title": "Be how it reaches the next neighborhood.",
-        "body": "The Labs isn't a place. A region picks it up. Only if someone says so."
+        "title": "Help it reach the next neighborhood.",
+        "body": "The Labs grows one neighborhood at a time, whenever someone like you invites others in."
       },
       {
-        "title": "Be early to something built to last. Bring someone.",
-        "body": "A year old, volunteer-run, and hoping to outlast us all. Every person you bring is one more pair of hands."
+        "title": "Be early to something built to last.",
+        "body": "It's a year old, run by volunteers, and meant to be around for a long time. Everyone you bring adds another pair of hands."
       }
     ]
   },
   "labs": {
     "kicker": "About The Labs",
     "title": "Worth being curious about.",
-    "lede": "Free. Volunteer-run. A year old, and born in a library.",
+    "lede": "It's free, run by volunteers, and it started in a public library a year ago.",
     "habits": [
       {
         "title": "We decide together.",
-        "body": "Everyone gets a vote on the problems."
+        "body": "Everyone gets a say in which problems we work on."
       },
       {
         "title": "We learn by building.",
-        "body": "Real things, for real problems, built to last."
+        "body": "We build real things for real problems, and make them to last."
       },
       {
         "title": "We pass it on.",
-        "body": "Everyone teaches what they learn."
+        "body": "Whatever we learn, we share with the next person."
       }
     ]
   },
   "ripple": {
     "kicker": "How it spreads",
     "title": "One conversation. Then a network.",
-    "lede": "Every person you bring in brings someone too.",
+    "lede": "Each person you bring in often brings someone too.",
     "rings": [
       {
         "title": "You",
-        "body": "Your story, out loud."
+        "body": "Sharing your story."
       },
       {
         "title": "Someone you know",
-        "body": "One conversation. Their first workshop."
+        "body": "One conversation, and their first workshop."
       },
       {
         "title": "Your neighbors",
-        "body": "A pod, a real problem, something that lasts."
+        "body": "A small team, which we call a pod, working on a real local problem."
       },
       {
         "title": "Everywhere",
-        "body": "Every region, every neighborhood. The future of work gets built either way. This way, everyone has a hand in it."
+        "body": "Every neighborhood, everywhere. The future of work is coming either way. This way, more people get a hand in shaping it."
       }
     ],
     "note": "America's first lending library began with a dozen neighbors teaching each other. The Labs began inside a library.",
@@ -130,65 +130,65 @@
   "team": {
     "kicker": "What you'll do",
     "title": "Curiosity goes both ways.",
-    "lede": "Every conversation is research. What you hear shapes what The Labs takes on.",
+    "lede": "Every conversation is also a chance to listen. What you hear helps shape what The Labs works on.",
     "roles": [
       {
         "icon": "talk",
-        "title": "Talk to people.",
-        "body": "No script. Ask. Listen."
+        "title": "Talk with people.",
+        "body": "No script needed. Ask questions, and listen."
       },
       {
         "icon": "mic",
-        "title": "Take the mic.",
-        "body": "One talk to a room. You'll practice first."
+        "title": "Take the mic, once.",
+        "body": "Give one short talk to a group. We'll help you practice first."
       },
       {
         "icon": "link",
-        "title": "Say your name.",
-        "body": "They join and say you sent them. It counts."
+        "title": "Share your name.",
+        "body": "When someone joins and mentions you, it counts toward your progress."
       },
       {
         "icon": "people",
-        "title": "Bring someone along.",
-        "body": "Guide the next ambassador in."
+        "title": "Welcome the next ambassador.",
+        "body": "When you're ready, help someone new find their way in."
       }
     ]
   },
   "path": {
     "kicker": "How it works",
     "title": [
-      "The button says you're trained.",
-      "The rim says you've done it."
+      "A button to welcome you in.",
+      "A rim to celebrate what you've done."
     ],
-    "lede": "Small steps, each one marked. Your coordinator walks the ambassador part with you. The pin comes after.",
+    "lede": "A few small steps, each one celebrated. Your coordinator, a local volunteer lead, is with you the whole way. The pin comes later, if you'd like it.",
     "steps": [
       {
         "title": "Raise your hand.",
-        "body": "That's it. That's the step.",
+        "body": "Let us know you're interested. That's the whole first step.",
         "milestone": false,
         "reward": "button"
       },
       {
-        "title": "Get in.",
-        "body": "Ten minutes on your phone. Your coordinator hands you the Ambassador button.",
+        "title": "Join in.",
+        "body": "About ten minutes on your phone. Your coordinator gives you your Ambassador button.",
         "milestone": true,
         "reward": "button"
       },
       {
         "title": "Get ready.",
-        "body": "Five short steps in the guide. Half an hour, whenever.",
+        "body": "Five short steps in the guide. About half an hour, whenever suits you.",
         "milestone": false,
         "reward": "button"
       },
       {
         "title": "Pass it on.",
-        "body": "[N] new Upskillers. One talk. One new ambassador. Your button gets its brass rim.",
+        "body": "Invite [N] people to their first workshop, give one talk, and welcome one new ambassador. Your button gets a brass rim to mark it.",
         "milestone": true,
         "reward": "rim"
       },
       {
-        "title": "Go for the pin.",
-        "body": "Practise one more role, like Mentor or Poderator. Two people who wear the pin sponsor you. It's yours.",
+        "title": "Go further, if you like.",
+        "body": "Try one more way of helping, like mentoring a small team. Two people who already wear the pin vouch for you, and it's yours.",
         "milestone": true,
         "reward": "pin"
       }
@@ -196,26 +196,26 @@
     "rewards": [
       {
         "id": "button",
-        "kicker": "Trained · From your coordinator",
+        "kicker": "When you join",
         "title": "The button",
-        "body": "Ten minutes in, it's in your hand. It's how ambassadors spot each other.",
+        "body": "Given to you in person by your coordinator. It's how ambassadors recognize each other.",
         "image": "button-card.webp",
         "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
       },
       {
         "id": "rim",
-        "kicker": "Practitioner",
+        "kicker": "When you've passed it on",
         "title": "The rim",
-        "body": "Brass, added around your button once you've passed it on. Numbered, and on the register.",
+        "body": "A brass ring added around your button to mark the work you've done. Each one is numbered and recorded.",
         "image": "button-card.webp",
         "alt": "The ambassador button with a brass rim around it",
         "rim": true
       },
       {
         "id": "pin",
-        "kicker": "Contributing Member",
+        "kicker": "For contributing members",
         "title": "The pin",
-        "body": "The pin you can't buy. Two practices. Two sponsors. One pin.",
+        "body": "Earned, never bought. It's for people who've helped in two different ways, with two pin holders vouching for them.",
         "image": "pin-card.webp",
         "alt": "The pin: the orb mark with teal and red cat-eye enamel",
         "link": "How the pin works"
@@ -229,17 +229,17 @@
     "cta": "Become an ambassador"
   },
   "goal": {
-    "kicker": "The launch goal",
+    "kicker": "Our first goal",
     "title": "What we're building, together.",
     "stats": [
       {
         "value": "60",
-        "label": "ambassadors, starting from 10",
+        "label": "ambassadors, growing from our first 10",
         "accent": true
       },
       {
         "value": "1,200",
-        "label": "new Upskillers in The Labs",
+        "label": "new people learning with The Labs",
         "accent": false
       },
       {
@@ -248,7 +248,7 @@
         "accent": false
       }
     ],
-    "note": "Two new Upskillers a week per ambassador. Nobody carries it alone.",
+    "note": "That's about two new people a week for each ambassador. And nobody does it alone.",
     "quote": {
       "$comment": "Quoted from Technical.ly, 2025-09-12 (Kaela Roeder). Confirm with Suzie before launch.",
       "text": "You don't need a computer science degree to thrive in tech. You just need to be curious, persistent, and you need a community to help you.",
@@ -256,14 +256,14 @@
       "role": "Inaugural AI Cohort, 2025"
     },
     "roster": {
-      "kicker": "The founding ten",
+      "kicker": "Our first ten",
       "open": "Open",
       "label": "The founding ten ambassadors, {filled} of {slots} in"
     }
   },
   "join": {
     "title": "Come be an ambassador.",
-    "lede": "Think of who's next. Ten minutes to get in. Everything after, we'll figure out together.",
+    "lede": "Think of who might be next. It takes about ten minutes to join, and we'll figure out the rest together.",
     "cta": "Become an ambassador"
   },
   "footer": {
@@ -273,66 +273,66 @@
     "sponsors": "Started at, and sponsored by",
     "guide": "Already an ambassador? Open the guide",
     "rights": "© 2026 The Upskilling Labs, Inc. All rights reserved.",
-    "pinPage": "The pin you can't buy"
+    "pinPage": "How the pin works"
   },
   "faq": {
     "kicker": "Questions",
-    "title": "Before you ask.",
+    "title": "Questions you might have.",
     "items": [
       {
         "q": "Does it cost anything?",
-        "a": "No. Not this, not The Labs."
+        "a": "No. Being an ambassador is free, and so is everything at The Labs."
       },
       {
         "q": "How much time does it take?",
-        "a": "Ten minutes to get in. Half an hour to get ready. Then conversations you'd have anyway, and one talk."
+        "a": "About ten minutes to join and half an hour to get ready. After that, it's mostly conversations you'd have anyway, plus one talk."
       },
       {
         "q": "Do I have to sell anything?",
-        "a": "No. Nothing's for sale. Tell your story and point people to theupskillinglabs.org."
+        "a": "Not at all. There's nothing for sale. Just share your story and point people to theupskillinglabs.org."
       },
       {
         "q": "Do I need to be technical?",
-        "a": "No. Curiosity, and a story."
+        "a": "Not at all. Curiosity and a story of your own are plenty."
       },
       {
         "q": "What's the pin for?",
-        "a": "People The Labs trusts with its practice. Practise two roles, get two sponsors who already wear it, and it's yours. It can't be bought."
+        "a": "It's a thank-you for people who've helped The Labs in more than one way. Once you've practised two roles, two people who already wear the pin can vouch for you, and it's yours."
       },
       {
-        "q": "Can I just buy one?",
-        "a": "No. Supporting Members pay light dues and get their own button. The pin is only ever earned."
+        "q": "Can I buy one?",
+        "a": "The pin can only be earned. If you'd like to support The Labs with money, you can become a Supporting Member, which comes with its own button."
       },
       {
         "q": "Can I stop?",
-        "a": "Any time. The door stays open."
+        "a": "Yes, any time. You're always welcome back."
       },
       {
         "q": "Who do I ask?",
-        "a": "Your coordinator. They're in the guide."
+        "a": "Your coordinator. You'll find their details in the guide."
       }
     ],
     "cta": "Become an ambassador",
     "$comment": "Placeholders kept out of the copy: add a typical hours-per-month figure to the time answer; confirm the coordinator's details for the last answer. Confirm how much of each way of contributing earns the pin, and who the core team is (regional or HQ)."
   },
   "commit": {
-    "kicker": "The short version",
+    "kicker": "In short",
     "title": "What it takes.",
     "items": [
       {
         "label": "What you commit to",
-        "title": "A few conversations. One talk.",
-        "body": "Plus half an hour with the guide first."
+        "title": "A few conversations and one talk.",
+        "body": "Plus about half an hour with the guide beforehand."
       },
       {
         "label": "Who can join",
-        "title": "Anyone who wants others to find The Labs.",
+        "title": "Anyone who'd like more people to find The Labs.",
         "body": "No tech skills needed."
       },
       {
         "label": "What happens next",
-        "title": "Ten minutes, then the button.",
-        "body": "Raise your hand at an event. The guide takes it from there."
+        "title": "Ten minutes, then your button.",
+        "body": "Raise your hand at any event, and the guide will walk you through the rest."
       }
     ],
     "$comment": "Placeholders kept out of the copy: expected hours per month; eligibility (e.g. you've been to a workshop or Build Cycle)."
