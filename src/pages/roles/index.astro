@@ -1,15 +1,16 @@
 ---
-/* /pin/ — "The pin you can't buy": the public summary of The Labs'
-   recognition system (design/research/recognition-system.md, a draft).
-   Anyone can contribute; role buttons are Trained, a brass rim marks a
-   Practitioner; the Contributing Member pin starts at Reviewer, with backing
-   plates for Committer and Maintainer; membership has two doors. Same
-   standalone dark look as the program page (join.css). Copy lives in
-   content/site/pin.json; the register in data/register.json. */
+/* /roles/ — roles and recognition, explained: the public roles (Upskiller /
+   Builder, Poderator, Mentor, Ambassador) and the merit ranks (Reviewer,
+   Committer, Maintainer) with how nomination works. Unlisted (noindex, not
+   linked anywhere): a working draft to share by link. Only the ambassador
+   program and its button exist today. Same standalone dark look as the
+   program page (join.css). Copy lives in content/site/roles.json, from
+   design/research/recognition-system.md; the register in data/register.json.
+   /pin/ and /contributors/ redirect here. */
 import "@fontsource-variable/geologica/wght.css";
 import "../../styles/join.css";
 import { u } from "../../lib/url";
-import c from "../../../content/site/pin.json";
+import c from "../../../content/site/roles.json";
 import j from "../../../content/site/join.json";
 import { register } from "../../lib/register";
 
@@ -26,6 +27,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
     <title>{pageTitle}</title>
     <meta name="description" content={c.description} />
     <meta name="theme-color" content="#00141B" />
+    <meta name="robots" content="noindex" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={c.description} />
@@ -36,16 +38,15 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
   <body class="jp cp">
     <a class="skip" href="#main">Skip to content</a>
     <header class="jp-head" data-head>
-      <nav aria-label="The pin">
+      <nav aria-label="Roles and recognition">
         <a class="jp-brand" href="#top">
           <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
           <span class="wide-only">{c.nav.brand}</span>
         </a>
         <ul class="jp-links">
-          <li><a class="navlink" href="#buttons" data-spy="open buttons">{c.nav.buttons}</a></li>
-          <li><a class="navlink" href="#ladder" data-spy="ladder">{c.nav.pin}</a></li>
-          <li><a class="navlink" href="#membership" data-spy="membership">{c.nav.membership}</a></li>
-          <li><a class="navlink" href="#register" data-spy="ceremony seats register faq">{c.nav.register}</a></li>
+          <li><a class="navlink" href="#roles" data-spy="two roles open">{c.nav.roles}</a></li>
+          <li><a class="navlink" href="#ranks" data-spy="ranks">{c.nav.ranks}</a></li>
+          <li><a class="navlink" href="#nomination" data-spy="nomination seats guardrails questions register">{c.nav.nomination}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={home}>{c.nav.program}</a>
@@ -62,105 +63,109 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
             <p class="kicker rise">{c.hero.kicker}</p>
             <h1 class="rise">{c.hero.title}</h1>
             <p class="lede rise">{c.hero.lede}</p>
+            <p class="cp-draft rise" data-draft><b>Draft.</b> {c.draft}</p>
           </div>
           <img class="cp-hero-pin pinin" src={media("pin-800.webp")} alt={c.hero.alt} width="800" height="800" fetchpriority="high" />
         </div>
       </section>
 
-      <section id="open" class="jp-sec">
+      <section id="two" class="jp-sec">
         <div class="wrap">
+          <div>
+            <p class="kicker">{c.two.kicker}</p>
+            <h2 class="h2">{c.two.title}</h2>
+          </div>
+          <div class="jp-cols three cp-two reveal">
+            {c.two.items.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
+          <p class="cp-note reveal">{c.two.bridge}</p>
+        </div>
+      </section>
+
+      <section id="roles" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.roles.kicker}</p>
+            <h2 class="h2">{c.roles.title}</h2>
+            <p class="lede">{c.roles.lede}</p>
+          </div>
+          <ul class="cp-rolecards reveal">
+            {c.roles.items.map((r) => (
+              <li class:list={["cp-rolecard", { now: r.now }]} data-role={r.id}>
+                <div class="cp-rolehead">
+                  {r.now
+                    ? <img src={media("button-card.webp")} alt="The Ambassador button" width="72" height="72" loading="lazy" />
+                    : <span class="cp-slot" aria-hidden="true"></span>}
+                  <div><h3>{r.name}</h3><p class="cp-status">{r.status}</p></div>
+                </div>
+                <p>{r.does}</p>
+                <dl>
+                  <dt>{c.roles.labels.trained}</dt><dd>{r.trained}</dd>
+                  <dt>{c.roles.labels.practitioner}</dt><dd>{r.practitioner}</dd>
+                </dl>
+              </li>
+            ))}
+          </ul>
+          <p class="cp-note reveal">{c.roles.buttonNote}</p>
+          <p class="cp-note reveal">{c.roles.notRoles}</p>
+        </div>
+      </section>
+
+      <section id="open" class="jp-sec">
+        <div class="wrap reveal">
           <p class="kicker">{c.open.kicker}</p>
           <h2 class="h2">{c.open.title}</h2>
           <p class="lede">{c.open.body}</p>
         </div>
       </section>
 
-      <section id="buttons" class="jp-sec">
+      <section id="ranks" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
-            <p class="kicker">{c.tiers.kicker}</p>
-            <h2 class="h2">{c.tiers.title}</h2>
-            <p class="lede">{c.tiers.lede}</p>
-          </div>
-          <div class="cp-tiers reveal">
-            {c.tiers.items.map((t) => (
-              <div class:list={["cp-tier", t.id]}>
-                <div class:list={["cp-button", { "jp-rimmed": t.id === "practitioner" }]} aria-hidden="true">
-                  <img src={media("button-card.webp")} alt="" width="180" height="180" loading="lazy" />
-                </div>
-                <div><p class="kicker">{t.label}</p><h3>{t.title}</h3><p>{t.body}</p></div>
-              </div>
-            ))}
-          </div>
-          <div class="cp-roles reveal">
-            <p class="kicker">{c.tiers.rolesLabel}</p>
-            <ul>{c.tiers.roles.map((r) => <li>{r}</li>)}</ul>
-            <p>{c.tiers.builder}</p>
-          </div>
-          <p class="cp-note reveal">{c.tiers.mark}</p>
-        </div>
-      </section>
-
-      <section id="ladder" class="jp-sec">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{c.ladder.kicker}</p>
-            <h2 class="h2">{c.ladder.title}</h2>
-            <p class="lede">{c.ladder.lede}</p>
+            <p class="kicker">{c.ranks.kicker}</p>
+            <h2 class="h2">{c.ranks.title}</h2>
+            <p class="lede">{c.ranks.lede}</p>
           </div>
           <ol class="cp-ranks reveal">
-            {c.ladder.ranks.map((r) => (
+            {c.ranks.items.map((r) => (
               <li class="cp-rank" data-rank={r.id}>
-                <div class="cp-plates" data-plates={r.plates} role="img" aria-label={c.ladder.alt[r.id as keyof typeof c.ladder.alt]}>
+                <div class="cp-plates" data-plates={r.plates} role="img" aria-label={c.ranks.alt[r.id as keyof typeof c.ranks.alt]}>
                   <img src={media("pin-card.webp")} alt="" width="180" height="180" loading="lazy" />
                 </div>
                 <p class="kicker">{r.shows}</p>
                 <h3>{r.name}</h3>
-                <p>{r.body}</p>
+                <dl class="cp-rankdl">
+                  <dt>{c.ranks.labels.recognizes}</dt><dd>{r.recognizes}</dd>
+                  <dt>{c.ranks.labels.nominated}</dt><dd>{r.nominated}</dd>
+                  <dt>{c.ranks.labels.can}</dt><dd>{r.can}</dd>
+                </dl>
               </li>
             ))}
           </ol>
-          <p class="cp-metal reveal">{c.ladder.metal}</p>
+          <p class="cp-metal reveal">{c.ranks.metal}</p>
           <div class="cp-roles reveal">
-            <p class="kicker">{c.ladder.areasLabel}</p>
-            <ul>{c.ladder.areas.map((a) => <li>{a}</li>)}</ul>
-            <p>{c.ladder.areasNote}</p>
+            <p class="kicker">{c.ranks.areasLabel}</p>
+            <ul>{c.ranks.areas.map((a) => <li>{a}</li>)}</ul>
+            <p>{c.ranks.areasNote}</p>
           </div>
+          <p class="cp-note reveal">{c.ranks.names}</p>
         </div>
       </section>
 
-      <section id="membership" class="jp-sec">
+      <section id="nomination" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
-            <p class="kicker">{c.membership.kicker}</p>
-            <h2 class="h2">{c.membership.title}</h2>
-            <p class="lede">{c.membership.lede}</p>
+            <p class="kicker">{c.nomination.kicker}</p>
+            <h2 class="h2">{c.nomination.title}</h2>
+            <p class="lede">{c.nomination.lede}</p>
           </div>
-          <div class="cp-doors reveal">
-            {c.membership.doors.map((d) => (
-              <div class="cp-door" data-door={d.id}>
-                <h3>{d.name}</h3>
-                <dl><dt>How</dt><dd>{d.how}</dd><dt>You get</dt><dd>{d.gets}</dd></dl>
-                <p class="cp-door-note">{d.note}</p>
-              </div>
+          <ol class="jp-steps cp-nsteps reveal">
+            {c.nomination.steps.map((s, i) => (
+              <li class:list={{ milestone: i === c.nomination.steps.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
             ))}
-          </div>
-          <ul class="cp-rules reveal">{c.membership.rules.map((r) => <li>{r}</li>)}</ul>
-        </div>
-      </section>
-
-      <section id="ceremony" class="jp-sec">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{c.ceremony.kicker}</p>
-            <h2 class="h2">{c.ceremony.title}</h2>
-            <p class="lede">{c.ceremony.lede}</p>
-          </div>
-          <div class="jp-cols four reveal">
-            {c.ceremony.moments.map((m) => (
-              <div class="jp-col"><p class="label">{m.label}</p><p>{m.body}</p></div>
-            ))}
-          </div>
+          </ol>
         </div>
       </section>
 
@@ -175,7 +180,26 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
               <div class="jp-col"><h3>{it.title}</h3><p>{it.body}</p></div>
             ))}
           </div>
-          <p class="cp-note reveal">{c.seats.exception}</p>
+        </div>
+      </section>
+
+      <section id="guardrails" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.guardrails.kicker}</p>
+            <h2 class="h2">{c.guardrails.title}</h2>
+          </div>
+          <ul class="cp-list reveal">{c.guardrails.items.map((g) => <li>{g}</li>)}</ul>
+        </div>
+      </section>
+
+      <section id="questions" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.questions.kicker}</p>
+            <h2 class="h2">{c.questions.title}</h2>
+          </div>
+          <ul class="cp-list muted reveal">{c.questions.items.map((q) => <li>{q}</li>)}</ul>
         </div>
       </section>
 
@@ -194,20 +218,6 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
                 ))}
               </ol>
             )}
-        </div>
-      </section>
-
-      <section id="faq" class="jp-sec">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{c.faq.kicker}</p>
-            <h2 class="h2">{c.faq.title}</h2>
-          </div>
-          <div class="jp-faq reveal">
-            {c.faq.items.map((f) => (
-              <details><summary><span>{f.q}</span><i aria-hidden="true"></i></summary><p>{f.a}</p></details>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -230,7 +240,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <p>{j.footer.rights}</p>
           <p><a class="textlink" href={home}>{c.footer.program} →</a></p>
           <p>{c.footer.renders}</p>
-          {c.placeholder && <p class="ph">{c.footer.draft}</p>}
+          {c.placeholder && <p class="ph">[PLACEHOLDER] {c.footer.source}</p>}
         </div>
       </div>
     </footer>
@@ -248,7 +258,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["open", "buttons", "ladder", "membership", "ceremony", "seats", "register", "faq", "join"].map((id) => document.getElementById(id)!);
+      const order = ["two", "roles", "open", "ranks", "nomination", "seats", "guardrails", "questions", "register", "join"].map((id) => document.getElementById(id)!);
       let queued = false;
       const spy = () => {
         queued = false;

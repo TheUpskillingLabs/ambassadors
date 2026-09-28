@@ -173,12 +173,6 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-rewards { margin-top: clamp(24px, 4vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: clamp(16px, 2.5vw, 28px); }
 .jp-reward { scroll-margin-top: var(--head); border-radius: 14px; background: rgba(255, 255, 255, 0.04); padding: clamp(24px, 3vw, 40px); display: grid; grid-template-columns: minmax(0, 132px) 1fr; align-items: center; gap: clamp(16px, 3vw, 32px); }
 .jp-reward img { width: 100%; aspect-ratio: 1; object-fit: contain; }
-/* The Practitioner rim, sketched: a brass halo around the same button (the
-   real one is a laser-cut ring behind it). Also used on /pin/. */
-.jp-rimmed { position: relative; aspect-ratio: 1; align-self: center; }
-.jp-rimmed img { width: 100%; height: 100%; object-fit: contain; }
-.jp-rimmed::after { content: ""; position: absolute; inset: 9%; border-radius: 50%; pointer-events: none;
-  box-shadow: 0 0 0 4px #B08D57, 0 0 0 5px rgba(255, 236, 190, 0.35), 0 0 24px rgba(176, 141, 87, 0.45); }
 .jp-reward h3 { margin: 10px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
 .jp-reward p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
 
@@ -263,7 +257,6 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   .jp-how-visual { display: block; position: sticky; top: calc(50vh - min(19vw, 260px)); align-self: start; aspect-ratio: 1; width: min(38vw, 520px); }
   .jp-how-visual > * { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; opacity: 0; transform: scale(0.94) rotate(-4deg); transition: opacity 0.6s ease, transform 0.8s cubic-bezier(.2, .7, .2, 1); }
   .jp-how-visual > .on { opacity: 1; transform: none; }
-  .jp-how-visual .jp-rimmed img { width: 100%; height: 100%; object-fit: contain; }
   .jp-how .jp-steps { margin: 0; grid-template-columns: 1fr; }
   .jp-how .jp-steps li { min-height: 42vh; padding-top: 28px; justify-content: flex-start; }
   .jp-how .jp-steps li:last-child { min-height: 30vh; }
@@ -387,8 +380,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 }
 @media (max-width: 480px) {
   .jp-reward { grid-template-columns: 1fr; gap: 12px; }
-  .jp-reward img, .jp-reward .jp-rimmed { width: 104px; }
-  .jp-reward .jp-rimmed img { width: 100%; }
+  .jp-reward img { width: 104px; }
   .jp-reward h3 { font-size: 22px; }
 }
 /* Filter animations are expensive on phones: covers and the hero keep opacity and transform only. */
@@ -401,19 +393,13 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   .jp-cover-glint { display: none; }
 }
 
-/* ════ /pin/ — buttons and rims, the pin and its plates, membership, the
-   register. Reuses the program page's pieces; these are the few it adds. ════ */
+/* ════ /roles/ — roles and recognition. Reuses the program page's pieces;
+   these are the few it adds. ════ */
 .cp-hero { position: relative; padding: calc(var(--head) + clamp(48px, 9vh, 112px)) 0 clamp(24px, 4vh, 48px);
   background: radial-gradient(55% 60% at 100% 0%, rgba(0, 148, 160, 0.28), rgba(0, 148, 160, 0) 100%), var(--ink); }
 .cp-hero-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; gap: clamp(24px, 4vw, 64px); }
-.cp-hero h1 { margin: 16px 0 0; font-size: clamp(48px, 8.4vw, 132px); font-weight: 700; line-height: 0.94; letter-spacing: -0.05em; color: var(--t1); }
+.cp-hero h1 { margin: 16px 0 0; font-size: clamp(40px, 5.6vw, 88px); font-weight: 700; line-height: 0.94; letter-spacing: -0.05em; color: var(--t1); }
 .cp-hero-pin { width: 100%; height: auto; max-width: 520px; aspect-ratio: 1; object-fit: contain; justify-self: center; }
-.cp-tiers { margin-top: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(16px, 2.5vw, 28px); }
-.cp-tier { border-radius: 14px; background: rgba(255, 255, 255, 0.04); padding: clamp(24px, 3vw, 40px); display: grid; grid-template-columns: minmax(0, 150px) 1fr; align-items: center; gap: clamp(16px, 3vw, 32px); }
-.cp-tier h3 { margin: 10px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
-.cp-tier p:not(.kicker) { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
-.cp-button { position: relative; aspect-ratio: 1; border-radius: 50%; }
-.cp-button img { width: 100%; height: 100%; object-fit: contain; }
 .cp-note { margin: clamp(20px, 3vw, 32px) 0 0; max-width: 720px; font-size: 16px; line-height: 1.55; color: var(--t3); }
 .cp-roles { margin: clamp(20px, 3vw, 32px) 0 0; max-width: 820px; }
 .cp-roles ul { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; color: var(--t1); }
@@ -433,15 +419,27 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .cp-plates::after { z-index: 0; inset: 11.6%; filter: brightness(0.78); }
 .cp-plates[data-plates="1"]::before, .cp-plates[data-plates="2"]::before, .cp-plates[data-plates="2"]::after { display: block; }
 .cp-metal { margin: clamp(24px, 3vw, 36px) 0 0; font-size: clamp(20px, 2vw, 26px); font-weight: 600; letter-spacing: -0.01em; color: var(--t1); }
-.cp-doors { margin-top: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(16px, 2.5vw, 28px); }
-.cp-door { border-radius: 14px; background: rgba(255, 255, 255, 0.04); padding: clamp(24px, 3vw, 40px); }
-.cp-door h3 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
-.cp-door dl { margin: 12px 0 0; }
-.cp-door dt { margin-top: 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
-.cp-door dd { margin: 4px 0 0; font-size: 17px; line-height: 1.5; color: var(--t2); }
-.cp-door-note { margin: 18px 0 0; font-size: 14px; color: var(--t3); }
-.cp-rules { list-style: none; margin: clamp(24px, 3vw, 36px) 0 0; padding: 0; display: grid; gap: 8px; font-size: clamp(18px, 1.7vw, 21px); font-weight: 600; color: var(--t1); }
 .cp-roll .num { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; color: var(--teal); }
+.cp-draft { margin: 22px 0 0; max-width: 560px; font-size: 15px; line-height: 1.55; color: var(--t3); }
+.cp-draft b { color: var(--teal); font-weight: 600; }
+.cp-rolecards { list-style: none; margin: clamp(32px, 5vw, 56px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: clamp(16px, 2.5vw, 24px); }
+.cp-rolecard { border-radius: 14px; background: rgba(255, 255, 255, 0.04); padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 14px; }
+.cp-rolecard > p { margin: 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
+.cp-rolehead { display: flex; align-items: center; gap: 14px; }
+.cp-rolehead img, .cp-slot { width: 56px; height: 56px; flex-shrink: 0; border-radius: 50%; }
+.cp-slot { outline: 1px dashed var(--rule); outline-offset: -1px; }
+.cp-rolehead h3 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
+.cp-status { margin: 2px 0 0; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t2); }
+.cp-rolecard.now .cp-status { color: var(--teal); }
+.cp-rolecard dl, .cp-rankdl { margin: 0; }
+.cp-rolecard dt, .cp-rankdl dt { margin-top: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
+.cp-rolecard dd, .cp-rankdl dd { margin: 4px 0 0; font-size: 16px; line-height: 1.5; color: var(--t2); }
+.cp-rankdl { margin-top: 6px; }
+.cp-nsteps { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+.cp-list { margin: clamp(24px, 4vw, 40px) 0 0; padding: 0 0 0 1.1em; max-width: 820px; display: grid; gap: 14px; font-size: clamp(17px, 1.6vw, 20px); line-height: 1.5; color: var(--t1); }
+.cp-list.muted { color: var(--t2); }
+.cp-list li::marker { color: var(--teal); }
+.cp-two { margin-top: clamp(24px, 4vw, 40px); }
 .cp-roll { list-style: none; margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px 24px; }
 .cp-roll li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 16px; color: var(--t2); }
 .cp-roll b { color: var(--t1); font-weight: 600; }
@@ -449,5 +447,4 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 @media (max-width: 760px) {
   .cp-hero-grid { grid-template-columns: 1fr; }
   .cp-hero-pin { max-width: 320px; justify-self: start; }
-  .cp-tier { grid-template-columns: 96px 1fr; }
-}
+  }
