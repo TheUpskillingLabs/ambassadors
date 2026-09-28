@@ -1,0 +1,263 @@
+---
+/* /structure/ — a plain explainer of the structure Brendan is proposing:
+   the shape (national, regional, neighborhood), the workstreams, the roles
+   and their buttons, the two membership doors, the pin's levels, what each
+   object means, who decides, how it starts in one city, and how changes
+   move upstream. Unlisted (noindex, not linked from the program page) and
+   marked as a draft until the board approves it. The Contributor Community
+   page (/contributing/) is the same system told to a person; this is the
+   map. Same styles as the program page, no 3D and no covers.
+
+   Copy lives in content/site/structure.json. */
+import "@fontsource-variable/geologica/wght.css";
+import "../../styles/join.css";
+import "../../styles/contributing.css";
+import { u } from "../../lib/url";
+import c from "../../../content/site/structure.json";
+import j from "../../../content/site/join.json";
+
+const home = u("/");
+const contributing = u("/contributing/");
+const apply = u("/apply/");
+const pageTitle = `${c.title} · The Upskilling Labs`;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={c.description} />
+    <meta name="theme-color" content="#00141B" />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={c.description} />
+    <link rel="icon" href={u("/favicon.png")} type="image/png" />
+    <style>
+      /* A text-only hero: no pin to overlap, so the title keeps its color and the lede sits below it. */
+      .st-hero h1 { background: none; color: var(--t1); }
+      .st-hero .lede-hero { margin-top: 28px; }
+      .st-hero .cm-draft { max-width: 560px; }
+      .st-link { margin: clamp(24px, 3vw, 36px) 0 0; font-size: 17px; }
+      .jp-cols.st-five { grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+      .jp-cols.st-two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); max-width: 900px; }
+    </style>
+  </head>
+  <body class="jp cm">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="jp-head" data-head>
+      <nav aria-label="The Structure">
+        <a class="jp-brand" href="#top">
+          <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
+          <span class="wide-only">{c.nav.brand}</span>
+        </a>
+        <ul class="jp-links">
+          <li><a class="navlink" href="#shape">{c.nav.shape}</a></li>
+          <li><a class="navlink" href="#roles">{c.nav.people}</a></li>
+          <li><a class="navlink" href="#grows">{c.nav.grows}</a></li>
+        </ul>
+        <div class="jp-end">
+          <a class="navlink wide-only" href={home}>{c.nav.program}</a>
+          <a class="btn" href={contributing}><span class="wide-only">{c.nav.cta}</span><span class="narrow-only">{c.nav.ctaShort}</span></a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section id="top" class="jp-hero st-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <div class="stage">
+          <h1 class="wordin">{c.hero.title[0]}<br />{c.hero.title[1]}</h1>
+        </div>
+        <p class="lede-hero rise d1">{c.hero.lede}</p>
+        <div class="ctas rise d2">
+          <a class="ghost" href="#shape">{c.hero.cta}<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v11M2.5 8 7 12.5 11.5 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+        </div>
+        <p class="cm-draft rise d3"><b>Draft.</b> {c.draft}</p>
+      </section>
+
+      <!-- The shape: national, regional, neighborhood. -->
+      <section id="shape" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.shape.kicker}</p>
+            <h2 class="h2">{c.shape.title}</h2>
+            <p class="lede">{c.shape.lede}</p>
+          </div>
+          <ol class="jp-steps reveal">
+            {c.shape.levels.map((s, i) => (
+              <li><span class="n">{String(i + 1).padStart(2, "0")}</span><p class="kicker">{s.label}</p><h3>{s.title}</h3><p>{s.body}</p></li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- The work: the five workstreams (draft). -->
+      <section id="work" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.work.kicker}</p>
+            <h2 class="h2">{c.work.title}</h2>
+            <p class="lede">{c.work.lede}</p>
+          </div>
+          <div class="jp-cols st-five reveal">
+            {c.work.items.map((it) => (
+              <div class="jp-col"><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
+          <p class="cm-note">{c.work.note}</p>
+        </div>
+      </section>
+
+      <!-- The people: roles and their buttons. -->
+      <section id="roles" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.roles.kicker}</p>
+            <h2 class="h2">{c.roles.title}</h2>
+            <p class="lede">{c.roles.lede}</p>
+          </div>
+          <div class="jp-cols four cm-four reveal">
+            {c.roles.items.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Membership: two doors. -->
+      <section id="members" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.members.kicker}</p>
+            <h2 class="h2">{c.members.title}</h2>
+          </div>
+          <div class="jp-cols st-two reveal">
+            {c.members.items.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- The pin: four levels. -->
+      <section id="pin" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.pin.kicker}</p>
+            <h2 class="h2">{c.pin.title}</h2>
+            <p class="lede">{c.pin.lede}</p>
+          </div>
+          <ol class="jp-steps reveal">
+            {c.pin.levels.map((s, i) => (
+              <li class:list={{ milestone: i === c.pin.levels.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
+            ))}
+          </ol>
+          <p class="st-link reveal"><a class="textlink" href={contributing}>{c.pin.link} →</a></p>
+        </div>
+      </section>
+
+      <!-- What shows what: button, rim, pin, coin. -->
+      <section id="objects" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.objects.kicker}</p>
+            <h2 class="h2">{c.objects.title}</h2>
+          </div>
+          <div class="jp-cols four cm-four reveal">
+            {c.objects.items.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
+          <p class="cm-note">{c.objects.note}</p>
+        </div>
+      </section>
+
+      <!-- Who decides. -->
+      <section id="decides" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.decides.kicker}</p>
+            <h2 class="h2">{c.decides.title}</h2>
+          </div>
+          <ul class="cm-list reveal">{c.decides.rules.map((r) => <li>{r}</li>)}</ul>
+        </div>
+      </section>
+
+      <!-- How it starts: one city, then the next. -->
+      <section id="starts" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.starts.kicker}</p>
+            <h2 class="h2">{c.starts.title}</h2>
+          </div>
+          <ol class="jp-steps reveal">
+            {c.starts.steps.map((s, i) => (
+              <li class:list={{ milestone: i === c.starts.steps.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- How it grows: pilot, regional, national. -->
+      <section id="grows" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.grows.kicker}</p>
+            <h2 class="h2">{c.grows.title}</h2>
+            <p class="lede">{c.grows.lede}</p>
+          </div>
+          <div class="jp-cols three reveal">
+            {c.grows.stages.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
+          <p class="cm-note">{c.grows.note}</p>
+        </div>
+      </section>
+
+      <!-- Still open. -->
+      <section id="open" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.open.kicker}</p>
+            <h2 class="h2">{c.open.title}</h2>
+          </div>
+          <ul class="cm-list reveal">{c.open.items.map((r) => <li>{r}</li>)}</ul>
+        </div>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{c.join.title}</h2>
+          <p class="lede">{c.join.lede}</p>
+          <div class="row">
+            <a class="btn" href={contributing}>{c.join.cta}</a>
+            <a class="ghost" href={apply}>{c.join.secondary}</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="jp-foot">
+      <div class="wrap">
+        <div class="col">
+          <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
+          <p>{j.footer.legal}</p>
+          <p>{j.footer.rights}</p>
+          <p><a class="textlink" href={home}>{c.footer.program} →</a></p>
+          <p><a class="textlink" href={contributing}>{c.footer.contributing} →</a></p>
+          {c.placeholder && <p class="ph">[PLACEHOLDER] {c.footer.source}</p>}
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      /* The header compacts once you scroll past the top. */
+      const root = document.documentElement;
+      new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
+        .observe(document.querySelector("[data-top-sentinel]")!);
+    </script>
+  </body>
+</html>

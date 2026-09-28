@@ -1,0 +1,248 @@
+{
+  "$comment": "The structure explainer (/structure/): a plain walk through the structure Brendan is proposing, from design/research/recognition-system.md. Unlisted (noindex, not linked from the program page) and marked as a draft until the board approves it. Nothing here is decided: [PLACEHOLDER] marks what's still open. The Contributor Community page (/contributing/) is the same system told to a person; this page is the map. Same styles as the program page (join.css), no 3D and no covers.",
+  "placeholder": true,
+  "title": "The Structure",
+  "description": "How The Labs is put together: who does what, how you're recognized, and how one city becomes a network. A working draft.",
+  "nav": {
+    "brand": "The Structure",
+    "shape": "The shape",
+    "people": "The people",
+    "grows": "How it grows",
+    "program": "Ambassador program",
+    "cta": "Contributor Community",
+    "ctaShort": "Contributors"
+  },
+  "draft": "Brendan's working draft, for the board. Nothing on this page is approved yet.",
+  "hero": {
+    "title": [
+      "The",
+      "Structure"
+    ],
+    "lede": "How The Labs is put together. Who does what, how you're recognized, and how one city becomes a network.",
+    "cta": "Start with the shape"
+  },
+  "shape": {
+    "kicker": "The shape",
+    "title": "One network. Many regions. Lots of neighborhoods.",
+    "lede": "Same shape as the YMCA: a national body, metro associations, and branches. Regions follow national on the standard and the brand, and run everything else themselves.",
+    "levels": [
+      {
+        "label": "National",
+        "title": "The Upskilling Labs",
+        "body": "Holds the commons: the playbooks, the platform, the standard, and the brand. Its board hires the CEO."
+      },
+      {
+        "label": "Regional",
+        "title": "The Upskilling Labs of your region",
+        "body": "Its own board and its own director. Runs the programs, signs the venue deals, and keeps its own books. A team for each workstream runs across the whole region."
+      },
+      {
+        "label": "Neighborhood",
+        "title": "Your local Lab",
+        "body": "A small committee with a few places, like a library branch. It brings the region's work to those places, and it's where new ideas get tried first."
+      }
+    ]
+  },
+  "work": {
+    "kicker": "The work",
+    "title": "Five kinds of work.",
+    "lede": "Regional teams run each workstream across the region. Neighborhood committees bring them to their places. Together they make a grid.",
+    "items": [
+      {
+        "title": "Build Cycle",
+        "body": "Small teams, which we call pods, build real things for real local problems over a few weeks, then show them at Demo Day."
+      },
+      {
+        "title": "Learning Pathways",
+        "body": "Free workshops by people who do the work, and by Upskillers who learned it last cycle."
+      },
+      {
+        "title": "Community & Outreach",
+        "body": "Ambassadors, partners, and how new people find The Labs."
+      },
+      {
+        "title": "Platform",
+        "body": "OLOS, the software The Labs runs on. Each region runs its own copy, kept close to the national one."
+      },
+      {
+        "title": "Operations & Governance",
+        "body": "Money, venues, the register, and the boards."
+      }
+    ],
+    "note": "The list is a draft. Founding new regions may become a sixth. [PLACEHOLDER]"
+  },
+  "roles": {
+    "kicker": "The people",
+    "title": "A button says what you're doing.",
+    "lede": "Every role starts with training and a button. Practice it for real and the button gets a metal rim.",
+    "items": [
+      {
+        "label": "Upskiller",
+        "title": "Anyone in a Build Cycle.",
+        "body": "Practiced, you're a Builder: the Upskiller button with a brass rim, after a real contribution to a real problem."
+      },
+      {
+        "label": "Poderator",
+        "title": "Runs a pod.",
+        "body": "Comes after you've been through a cycle yourself. One per pod."
+      },
+      {
+        "label": "Mentor",
+        "title": "Helps a pod with what they know.",
+        "body": "Everyone has something to teach. A set number for every few pods."
+      },
+      {
+        "label": "Ambassador",
+        "title": "Brings people in.",
+        "body": "One conversation at a time. Open now."
+      }
+    ]
+  },
+  "members": {
+    "kicker": "Membership",
+    "title": "Two ways to be a member. Take either, or both.",
+    "items": [
+      {
+        "label": "Supporting Member",
+        "title": "You back it.",
+        "body": "Chip in a little each year and wear the button that says so. Dues buy the button, never a pin, and never a vote."
+      },
+      {
+        "label": "Contributing Member",
+        "title": "You built some of it.",
+        "body": "Something you gave is now part of how The Labs runs. People who saw it put your name forward, and you wear the pin."
+      }
+    ]
+  },
+  "pin": {
+    "kicker": "The pin",
+    "title": "Four levels. Each one puts more of The Labs in your hands.",
+    "lede": "The pin is trust, not a trophy: a say over your region's playbooks, tools, kits and platform. Brass for a region, silver for national. Yours forever. The seat takes showing up.",
+    "levels": [
+      {
+        "title": "Contributing Member",
+        "body": "The bare pin. One part of The Labs runs on something you gave."
+      },
+      {
+        "title": "Reviewer",
+        "body": "One ring. Hands-on in two major workstreams, with two people who wear the pin vouching for you."
+      },
+      {
+        "title": "Approver",
+        "body": "Two rings. Hands-on in every major workstream. Says yes to changes in the Lab's playbooks."
+      },
+      {
+        "title": "Maintainer",
+        "body": "Three rings. Hands-on across the board. Put forward by the other Maintainers, confirmed by the board."
+      }
+    ],
+    "link": "The whole story, told to a person: the Contributor Community page"
+  },
+  "objects": {
+    "kicker": "What shows what",
+    "title": "Button, rim, pin, coin.",
+    "items": [
+      {
+        "label": "Button",
+        "title": "What you're doing.",
+        "body": "Given on training. Printed paper, so it's easy to reissue."
+      },
+      {
+        "label": "Rim",
+        "title": "What you've practiced.",
+        "body": "Real metal added to your own button. It moves to your next one."
+      },
+      {
+        "label": "Pin",
+        "title": "What you've been trusted with.",
+        "body": "Earned, numbered, and on the register. Merit pins are the orb. Office pins, for a seat on a committee or board, are a different shape."
+      },
+      {
+        "label": "Coin",
+        "title": "A moment, or a thanks.",
+        "body": "No status at all, so anyone can get one, even outside The Labs. A founding coin, a cycle coin, a leader's coin."
+      }
+    ],
+    "note": "The rule for a pin: it's given, never bought. It lasts. It's scarce. And it's on the register. Miss any one of those and it's a button."
+  },
+  "decides": {
+    "kicker": "Who decides",
+    "title": "Levels recognize. Seats carry the say. Boards set the rules.",
+    "rules": [
+      "Every level is active or emeritus. Active means a seat in your Lab and the say that comes with it. Step back and you keep the pin, the level, and your voice.",
+      "Seats are limited, follow the work, and are reconfirmed every Build Cycle. One Poderator per pod. At least two Approvers for every workstream, so nothing depends on one person.",
+      "The say is granted once, in writing, by the board to every active Approver at once. It lapses when you step back. The board can change it.",
+      "No level carries a vote. The boards look after programs, money, people and the brand.",
+      "Everything is written down in the register. The handshake is the ceremony. The register is the record.",
+      "The only way to lose a level is to seriously break the Code of Conduct."
+    ]
+  },
+  "starts": {
+    "kicker": "How it starts",
+    "title": "One city first. Then the next.",
+    "steps": [
+      {
+        "title": "One entity.",
+        "body": "Regions begin as steering committees inside The Labs. Greater Washington is first."
+      },
+      {
+        "title": "The CEO runs DC, for now.",
+        "body": "They support the steering committee and hire one person to serve it directly."
+      },
+      {
+        "title": "That person builds the network.",
+        "body": "Everything they do in DC gets written down as the launch kit. Then they help found the next region with it."
+      },
+      {
+        "title": "DC spins off.",
+        "body": "When it runs a full cycle on its own, pays for its own staff, and has its own director lined up, it becomes The Upskilling Labs of Greater Washington."
+      }
+    ]
+  },
+  "grows": {
+    "kicker": "How it grows",
+    "title": "Try it in a neighborhood. Adopt it in the region. Send it upstream.",
+    "lede": "Playbooks and code move the same way, in three stages.",
+    "stages": [
+      {
+        "label": "Pilot",
+        "title": "A neighborhood Lab tries it.",
+        "body": "At its own places, with the region's workstream team."
+      },
+      {
+        "label": "Regional",
+        "title": "The region adopts it.",
+        "body": "In its own copy of the platform and playbooks."
+      },
+      {
+        "label": "National",
+        "title": "It goes into the standard.",
+        "body": "With a note on where it was tried and what happened."
+      }
+    ],
+    "note": "Regions keep their copy close to the national one, keep people's data local, and send only the numbers up. Anyone can use the open code and playbooks. Only a chartered region can call itself The Upskilling Labs of somewhere."
+  },
+  "open": {
+    "kicker": "Still open",
+    "title": "What the board still has to decide.",
+    "items": [
+      "The workstreams, and the names of the levels.",
+      "The dues, and what a Supporting Member gets.",
+      "Exactly what an active Approver can do.",
+      "How many seats, how long a term, and how long before someone goes emeritus.",
+      "When Greater Washington is ready to spin off.",
+      "The neighborhood committee: its size, its term, and its pin."
+    ]
+  },
+  "join": {
+    "title": "Come build it.",
+    "lede": "The Contributor Community page is this same system, told to a person. The ambassador program is the open door.",
+    "cta": "Contributor Community",
+    "secondary": "Become an ambassador"
+  },
+  "footer": {
+    "program": "The ambassador program",
+    "contributing": "The Contributor Community",
+    "source": "Draft source: design/research/recognition-system.md"
+  }
+}
