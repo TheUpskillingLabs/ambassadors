@@ -175,7 +175,6 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-reward img { width: 100%; aspect-ratio: 1; object-fit: contain; }
 .jp-reward h3 { margin: 10px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
 .jp-reward p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
-.jp-beyond { margin: clamp(20px, 3vw, 32px) 0 0; max-width: 720px; font-size: 16px; line-height: 1.55; color: var(--t3); }
 
 /* goal */
 .jp-goal { padding-top: clamp(120px, 18vh, 176px); }
@@ -392,4 +391,40 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   @keyframes jp-macro-title-in { from { opacity: 0; transform: scale(1.08); } to { opacity: 1; transform: none; } }
   @keyframes jp-macro-title-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-6vh) scale(0.97); } }
   .jp-cover-glint { display: none; }
+}
+
+/* ════ /contributors/ — the buttons, the pin, and the ceremony. Reuses the
+   program page's pieces; these are the few it adds. ════ */
+.cp-hero { position: relative; padding: calc(var(--head) + clamp(48px, 9vh, 112px)) 0 clamp(24px, 4vh, 48px);
+  background: radial-gradient(55% 60% at 100% 0%, rgba(0, 148, 160, 0.28), rgba(0, 148, 160, 0) 100%), var(--ink); }
+.cp-hero-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: center; gap: clamp(24px, 4vw, 64px); }
+.cp-hero h1 { margin: 16px 0 0; font-size: clamp(48px, 8.4vw, 132px); font-weight: 700; line-height: 0.94; letter-spacing: -0.05em; color: var(--t1); }
+.cp-hero-pin { width: 100%; height: auto; max-width: 520px; aspect-ratio: 1; object-fit: contain; justify-self: center; }
+.cp-tiers { margin-top: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(16px, 2.5vw, 28px); }
+.cp-tier { border-radius: 14px; background: rgba(255, 255, 255, 0.04); padding: clamp(24px, 3vw, 40px); display: grid; grid-template-columns: minmax(0, 150px) 1fr; align-items: center; gap: clamp(16px, 3vw, 32px); }
+.cp-tier h3 { margin: 10px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
+.cp-tier p:not(.kicker) { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
+.cp-button { position: relative; aspect-ratio: 1; border-radius: 50%; }
+.cp-button img { width: 100%; height: 100%; object-fit: contain; }
+/* The Practiced mark, sketched: a teal ring around the same button. */
+.cp-tier.practiced .cp-button::after { content: ""; position: absolute; inset: 9%; border-radius: 50%; box-shadow: 0 0 0 3px var(--teal), 0 0 22px rgba(0, 148, 160, 0.55); }
+.cp-note { margin: clamp(20px, 3vw, 32px) 0 0; max-width: 720px; font-size: 16px; line-height: 1.55; color: var(--t3); }
+.cp-areas { list-style: none; margin: clamp(32px, 5vw, 56px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap: clamp(16px, 2.5vw, 24px); }
+.cp-area { border-radius: 14px; background: rgba(255, 255, 255, 0.04); padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 14px; }
+.cp-area h3 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
+.cp-area dl { margin: 0; display: grid; gap: 4px; }
+.cp-area dt { margin-top: 8px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
+.cp-area dd { margin: 0; font-size: 16px; line-height: 1.5; color: var(--t2); }
+.cp-area .textlink { align-self: flex-start; margin-top: auto; font-size: 15px; }
+.cp-area.open { background: transparent; outline: 1px dashed var(--rule); outline-offset: -1px; justify-content: center; min-height: 120px; }
+.cp-area.open p { margin: 0; font-size: 16px; color: var(--t2); opacity: 0.8; }
+.cp-steps { grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.cp-roll { list-style: none; margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px 24px; }
+.cp-roll li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 16px; color: var(--t2); }
+.cp-roll b { color: var(--t1); font-weight: 600; }
+.cp-roll .alum { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal); }
+@media (max-width: 760px) {
+  .cp-hero-grid { grid-template-columns: 1fr; }
+  .cp-hero-pin { max-width: 320px; justify-self: start; }
+  .cp-tier { grid-template-columns: 96px 1fr; }
 }

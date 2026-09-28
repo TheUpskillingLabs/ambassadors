@@ -70,6 +70,7 @@ These also need real values:
 | Route | What |
 | --- | --- |
 | `/` | The front door: the public Ambassador Program page. The hero pin is live 3D (`public/join/pin3d.js`: three.js and the pin mesh from `LabsPin.blend`, built in the design canvas; loaded once the page is idle, on screens 480 px and wider with a real GPU) that turns to follow the pointer; a Cycles still shows on phones, with reduced motion, and without GPU WebGL (`?pin3d=force` overrides that last check for testing). The page is in three chapters, each opened by a full-width cover with its tagline (Spark curiosity, Build community, Inspire confidence). Inside: why join, how it works (a sticky picture that turns from the button into the pin on wide screens), the launch goal with an ambassador's quote, questions, and what it takes. Every "Become an ambassador" goes to `/apply/`. Copy in `content/site/join.json`, media in `public/join/`. `/join/` redirects here. |
+| `/contributors/` | How someone becomes a Contributor. Every area of The Labs has a button in two tiers, **Oriented** then **Practiced**. The board designates the core areas; only Ambassador is named so far, and the rest read as open slots (`coreSlots`). Oriented and Practiced in every core area means the Contributor pin, conferred at a quarterly regional summit, for life. The roll reads `data/contributors.json` (append-only; set `alum: true`, never delete). Copy in `content/site/contributors.json`. The program page's pin card links here. |
 | `/apply/` | Getting in (orientation), one screen at a time, in the order that gives before it takes: The Labs in three minutes (the film, or the short read the questions are written from), the coordinator's ten-question quiz (eight right to pass, retry any time, a hint on each), the Ambassador Agreement, then your name (first and last, email, ZIP, who brought you in). Ends with **the pass**: "You're in", the button, your name, and "Show this to your coordinator", who hands you the button at the event. Then the signature question, **Who's first?**: one name, and your phone sends the dated invite (the same message as the Conversation step). People without a pre-approved invite see "Almost there" until the coordinator sends them an invite link; opening it confirms them. An invite link pre-fills the form and shows who invited them; a share link (`/apply/#ref=Name`) only fills "Who brought you in?". Copy in `content/site/apply.json`. |
 | `/invite/` | **For coordinators (unlisted, not linked anywhere, `noindex`).** Makes a pre-approved invite link (`/apply/#invite=…`) to copy, text, or email, and keeps a list of invites made on that device. The invitee still passes the quiz and signs the agreement, then they're in straight away. An invite opened by someone who already finished on their own confirms them. Also holds the texts a coordinator sends later ("someone just joined through you"), since the site can't see those moments. Copy in `content/site/invite.json`. |
 | `/nominate/` | An ambassador suggests someone to their coordinator (a pre-filled text or email from their own phone). The coordinator decides and, if yes, sends a pre-approved invite. |
@@ -114,16 +115,17 @@ The spec's seven sections became one five-step path so an ambassador never has t
 
 ## Roles
 
-Named the open-source way ([opensource.guide](https://opensource.guide/leadership-and-governance/)). Ambassador, mentor, and building The Labs (events, docs, design, code, operations) are **ways of contributing**.
+Named the open-source way ([opensource.guide](https://opensource.guide/leadership-and-governance/)), and laid out on `/contributors/`.
 
-- **Ambassador** (the button): the local ambassador coordinator's program, from getting in to passing it on.
-- **Contributor** (the pin): a bit of every way of contributing. OLOS tracks it, the coordinator can nominate, and the core team (regional or HQ) confirms. Replaces the retired "Mentor" rank; "mentor" stays The Labs' word for helping a pod.
-- **Maintainer** [PLACEHOLDER name]: commits for a period, is on call, and helps run a program, the way a Poderator does.
-- **Lead** [PLACEHOLDER name]: runs a lab.
+- **Buttons, one per area, two tiers.** Every area that keeps The Labs running has a button. **Oriented**: the area's orientation (a film or read, a quick check, its agreement); the area's lead hands you the button. **Practiced**: real work in that area, confirmed by its lead; the button gets a mark (to be designed).
+- **Core and elective areas.** The board designates the core areas. Ambassador is the first: Oriented is getting in, Practiced is passing it on. Other areas can offer elective buttons, which don't count toward the pin.
+- **Contributor** (the pin): Oriented and Practiced in every core area. OLOS tracks it, a coordinator or area lead nominates, the core team (regional or HQ) confirms, and you're pinned at the next quarterly regional summit by a sponsor who already wears the pin. For life: stepping back makes you an alum; only a serious Code of Conduct breach removes someone.
+- **Maintainer** and **Lead** [PLACEHOLDER names]: the proposed rungs above (committing to a cycle and helping run a program, the way a Poderator does; then running a lab). Not on the site yet.
+- "Mentor" is no longer a rank. It stays The Labs' word for helping a pod.
 
 Avoid "core contributor" in copy: OLOS uses it for its staff flag.
 
-Before launch, OLOS needs a way to record contributions by way (ambassador, mentor, org project) and a nominate-then-confirm step for the pin.
+Before launch, OLOS needs per-area button records (Oriented, Practiced, who confirmed, when), the board's list of core areas, a nominate-then-confirm step for the pin, and an append-only roll.
 
 ## Privacy
 
@@ -148,6 +150,10 @@ The site never sends personal information anywhere. The ambassador application (
 
 `npm run assets` regenerates web-sized brand assets from a sibling OLOS checkout (`../OLOS`): the white logo lockup, partner marks, the grayscale community photo, and the app icons. The white lockup only appears on dark surfaces: the app bar and the dark slides.
 
-## Licenses
+## License
 
-Code is MIT (`LICENSE`). Content in `content/` and `data/` is CC BY 4.0 (`content/LICENSE.md`).
+Proprietary. © 2026 The Upskilling Labs, Inc. All rights reserved (`LICENSE`). The code, content, designs, and pin and button artwork are not openly licensed; copying, modifying, or redistributing them needs written permission.
+
+Third-party parts keep their own licenses: three.js, bundled in `public/join/pin3d.js` (MIT, notice kept in the file), the Geologica font (SIL OFL), and npm dependencies. Partner logos in `public/assets/` belong to their owners and are used with permission.
+
+Earlier versions of this repository were published under MIT (code) and CC BY 4.0 (content); copies taken under those terms stay under them.

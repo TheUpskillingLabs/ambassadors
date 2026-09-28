@@ -1,0 +1,119 @@
+{
+  "$comment": "The Contributors page (/contributors/): buttons in two tiers for each area of The Labs, the Contributor pin, and the pinning ceremony at the quarterly regional summits. The board designates the core areas; until it does, only Ambassador is named and the rest read as open. The roll of Contributors reads data/contributors.json. [PLACEHOLDER] marks copy to confirm.",
+  "placeholder": true,
+  "title": "Contributors",
+  "description": "A button for every area of The Labs, in two tiers. Oriented and Practiced in every core area, and you're pinned at a regional summit. A Contributor for life.",
+  "nav": {
+    "brand": "Contributors",
+    "buttons": "Buttons",
+    "pin": "The pin",
+    "roll": "The roll",
+    "program": "Ambassador program",
+    "cta": "Become an ambassador",
+    "ctaShort": "Join us"
+  },
+  "hero": {
+    "kicker": "Contributors",
+    "title": "The Contributor pin.",
+    "lede": "For people who've learned every part of The Labs by doing it. Pinned in front of your region. Yours for life.",
+    "alt": "The Contributor pin: the orb mark in polished nickel with teal and red cat-eye enamel"
+  },
+  "tiers": {
+    "kicker": "Buttons",
+    "title": "One button for every area. Two tiers.",
+    "lede": "Every area that keeps The Labs running has its own button. You earn it twice.",
+    "items": [
+      {
+        "id": "oriented",
+        "n": "01",
+        "title": "Oriented",
+        "body": "You've done the area's orientation: a short film or read, a quick check, and its agreement. The area's lead hands you the button.",
+        "label": "Oriented"
+      },
+      {
+        "id": "practiced",
+        "n": "02",
+        "title": "Practiced",
+        "body": "You've done the real work, for long enough to know it. The area's lead confirms it, and your button gets its mark.",
+        "label": "Practiced"
+      }
+    ],
+    "mark": "The Practiced mark on the physical button is still to be designed. [PLACEHOLDER]",
+    "buttonAlt": "An area button: the orb mark on ink, ringed in white"
+  },
+  "areas": {
+    "kicker": "Core areas",
+    "title": "Set by the board.",
+    "lede": "The board decides which areas are core. The pin takes all of them.",
+    "coreSlots": 4,
+    "open": "To be set by the board",
+    "core": [
+      {
+        "name": "Ambassador",
+        "oriented": "Get in: the film, the coordinator's questions, the agreement.",
+        "practiced": "Pass it on: [N] new Upskillers, one talk, one new ambassador.",
+        "link": "The ambassador program"
+      }
+    ],
+    "electives": "Other areas offer elective buttons. Collect them because you care about the work. They don't count toward the pin."
+  },
+  "pin": {
+    "kicker": "The pin",
+    "title": "Every core area. Both tiers.",
+    "steps": [
+      { "title": "Oriented everywhere.", "body": "Oriented in every core area.", "milestone": false },
+      { "title": "Practiced everywhere.", "body": "Practiced in every core area.", "milestone": false },
+      { "title": "Put forward.", "body": "OLOS shows you're there. A coordinator or an area lead nominates you.", "milestone": false },
+      { "title": "Confirmed.", "body": "The core team for your region, or HQ, confirms it.", "milestone": false },
+      { "title": "Pinned.", "body": "At the next regional summit, in front of everyone.", "milestone": true }
+    ]
+  },
+  "ceremony": {
+    "kicker": "The ceremony",
+    "title": "Pinned at the summit.",
+    "lede": "Every quarter, each region holds a summit. The pinning is part of it. [PLACEHOLDER: the run of show is a draft.]",
+    "moments": [
+      { "label": "Your name", "body": "Called out, with the areas you've worked in." },
+      { "label": "Your sponsor", "body": "Someone who already wears the pin pins it on you." },
+      { "label": "One line", "body": "They say, in a sentence, what you did." },
+      { "label": "The roll", "body": "Your name goes on the roll, for good." }
+    ],
+    "first": "At the first summit nobody wears the pin yet, so the founders and the board do the pinning."
+  },
+  "life": {
+    "kicker": "For life",
+    "title": "Once pinned, always a Contributor.",
+    "items": [
+      { "title": "The roll never shrinks.", "body": "Your name stays, whatever comes next." },
+      { "title": "Step back any time.", "body": "You become an alum, not an ex. The pin is still yours." },
+      { "title": "One exception.", "body": "A serious breach of the Code of Conduct." }
+    ]
+  },
+  "roll": {
+    "kicker": "The roll",
+    "title": "Contributors.",
+    "empty": "Nobody yet. The first pinning is at the next regional summit.",
+    "alum": "alum",
+    "label": "Contributors, {n} pinned"
+  },
+  "faq": {
+    "kicker": "Questions",
+    "title": "Before you ask.",
+    "items": [
+      { "q": "Which areas are core?", "a": "The board decides. Ambassador is the first. The rest are named as the board sets them." },
+      { "q": "Do elective buttons count?", "a": "Not toward the pin. They count toward knowing The Labs." },
+      { "q": "Is there a deadline?", "a": "No. Take the time it takes." },
+      { "q": "Who can nominate me?", "a": "Your coordinator, or the lead of any area you've worked in." },
+      { "q": "What if I step back?", "a": "You stay on the roll as an alum. The pin is yours." }
+    ]
+  },
+  "join": {
+    "title": "Start with one button.",
+    "lede": "Most people start as an ambassador. Ten minutes to get in.",
+    "cta": "Become an ambassador"
+  },
+  "footer": {
+    "renders": "Images of the button and pin are 3D renders, not photos.",
+    "program": "The ambassador program"
+  }
+}

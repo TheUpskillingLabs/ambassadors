@@ -1,6 +1,6 @@
 # Ambassador pin
 
-The Contributor pin. One pin for everyone who keeps The Labs running: it takes a bit of every way of contributing (ambassador, mentor, and building The Labs itself). OLOS tracks it, a coordinator can nominate, and the core team confirms. It can't be bought.
+The Contributor pin. One pin for everyone who keeps The Labs running: Oriented and Practiced in every core area, then pinned at a quarterly regional summit, for life (see `/contributors/`). It can't be bought.
 
 `pin-front.svg` is starter production art built from the OLOS orb by `build_pin.py`. It is 1:1 in millimetres, and every colour is a filled shape with raised metal between the colours. Send the factory this file (or a refined version of it). The 3D model in `blender/` is for mock-ups and approval only.
 
