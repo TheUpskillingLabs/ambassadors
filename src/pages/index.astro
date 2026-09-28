@@ -26,6 +26,12 @@ const icons: Record<string, string> = {
   people: '<circle cx="12" cy="11" r="4"/><path d="M4 26c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke-linecap="round"/><circle cx="22.5" cy="12.5" r="3"/><path d="M21.5 18.1c.3 0 .7-.1 1-.1 3.6 0 6.5 2.9 6.5 6.5" stroke-linecap="round"/>',
 };
 const pageTitle = `${j.title} · The Upskilling Labs`;
+
+// Our why: the manifesto, split into letters so the page can brighten it
+// letter by letter as you read down (its one effect). Screen readers get the
+// plain sentence; the letters are hidden from them.
+const manifestoText = j.you.statement.join(" ");
+const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
 ---
 <!doctype html>
 <html lang="en">
@@ -38,7 +44,10 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={j.description} />
-    <meta property="og:image" content={new URL(media("pin.webp"), Astro.site)} />
+    <meta property="og:image" content={new URL(media("button-share.jpg"), Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={j.hero.buttonAlt} />
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" />
   </head>
@@ -53,7 +62,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         <ul class="jp-links">
           <li><a class="navlink" href="#you" data-spy="you labs team ripple goal">{j.nav.why}</a></li>
           <li><a class="navlink" href="#path" data-spy="path">{j.nav.how}</a></li>
-          <li><a class="navlink" href="#pin" data-spy="pin">{j.nav.pin}</a></li>
+          <li><a class="navlink" href="#commit" data-spy="commit join">{j.nav.commit}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={guideHome}>{j.nav.guide}</a>
@@ -68,7 +77,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         <div class="stage">
           <h1 class="wordin">{j.hero.title[0]}<br />{j.hero.title[1]}</h1>
           <div class="jp-pin pinin">
-            <div class="bob" role="img" aria-label={j.hero.pinAlt} data-pin3d={media("pin3d.js")} data-art={media("button-art.webp")}>
+            <div class="bob" role="img" aria-label={j.hero.buttonAlt} data-pin3d={media("pin3d.js")} data-art={media("button-art.webp")}>
               <img src={still} srcset={stillSet} sizes="min(760px, 94vw, 56vh)" alt="" width="760" height="760" fetchpriority="high" data-still />
               <canvas aria-hidden="true" data-pin-canvas></canvas>
             </div>
@@ -84,19 +93,11 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
 
       <section id="you" class="jp-sec jp-you">
         <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{j.you.kicker}</p>
-            <h2 class="h2" style="max-width: 900px">{j.you.title}</h2>
-            <p class="lede">{j.you.lede}</p>
-          </div>
-          <ol class="jp-argument reveal">
-            {j.you.argument.map((a) => <li><h3>{a.title}</h3><p>{a.body}</p></li>)}
-          </ol>
-          <div class="jp-cols three reveal">
-            {j.you.items.map((it) => (
-              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
-            ))}
-          </div>
+          <p class="kicker reveal">{j.you.kicker}</p>
+          <p class="jp-manifesto" data-manifesto>
+            <span class="sr">{manifestoText}</span>
+            <span aria-hidden="true">{manifestoWords.map((w, wi) => <>{wi > 0 && " "}<span class="w">{w.map((c) => <span class="c">{c}</span>)}</span></>)}</span>
+          </p>
         </div>
       </section>
 
@@ -202,7 +203,6 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <div class="jp-how" data-how>
             <div class="jp-how-visual" aria-hidden="true">
               <img src={media("button-800.webp")} alt="" width="800" height="800" loading="lazy" data-how-visual="button" class="on" />
-              <img src={media("pin-800.webp")} alt="" width="800" height="800" loading="lazy" data-how-visual="pin" />
             </div>
             <ol class="jp-steps reveal">
               {j.path.steps.map((s, i) => (
@@ -211,12 +211,27 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
             </ol>
           </div>
           <div class="jp-rewards reveal">
-            {j.path.rewards.map((r) => (
-              <div id={r.id} class="jp-reward">
-                <img src={media(r.image)} alt={r.alt} loading="lazy" width="180" height="180" />
-                <div><p class="kicker">{r.kicker}</p><h3>{r.title}</h3><p>{r.body}</p></div>
+            <div id="button" class="jp-reward">
+              <img src={media(j.path.button.image)} alt={j.path.button.alt} loading="lazy" width="180" height="180" />
+              <div><p class="kicker">{j.path.button.kicker}</p><h3>{j.path.button.title}</h3><p>{j.path.button.body}</p></div>
+            </div>
+            <div id="members" class="jp-reward jp-members">
+              <!-- Two doors that overlap: you can be both. -->
+              <svg class="venn" viewBox="0 0 132 132" aria-hidden="true">
+                <defs><clipPath id="venn-a"><circle cx="50" cy="66" r="38" /></clipPath></defs>
+                <circle cx="82" cy="66" r="38" clip-path="url(#venn-a)" class="both" />
+                <circle cx="50" cy="66" r="38" class="a" />
+                <circle cx="82" cy="66" r="38" class="b" />
+              </svg>
+              <div>
+                <p class="kicker">{j.path.members.kicker}</p><h3>{j.path.members.title}</h3><p>{j.path.members.body}</p>
+                <dl class="doors">
+                  {j.path.members.doors.map((d, i) => (
+                    <div class={i ? "b" : "a"}><dt>{d.name}</dt><dd>{d.body}</dd></div>
+                  ))}
+                </dl>
               </div>
-            ))}
+            </div>
           </div>
           <p class="jp-cta-row reveal"><a class="btn" href={apply}>{j.path.cta}</a></p>
         </div>
@@ -269,7 +284,6 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
           <p>{j.footer.legal}</p>
           <p>{j.footer.rights}</p>
-          <p><a class="textlink" href="#pin">{j.footer.pinLink}</a></p>
           <p>{j.footer.renders}</p>
           <p><a class="textlink" href={guideHome}>{j.footer.guide} →</a></p>
           {j.placeholder && <p class="ph">[PLACEHOLDER] draft copy: [N] and the join link are still to be set.</p>}
@@ -299,7 +313,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["you", "labs", "team", "ripple", "goal", "path", "pin", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
+      const order = ["you", "labs", "team", "ripple", "goal", "path", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
       let queued = false;
       const spy = () => {
         queued = false;
@@ -321,7 +335,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
       }
 
       // How it works: the step crossing the middle of the screen is the active
-      // one, and the sticky picture shows its reward (each step names its own: button or pin).
+      // one, and the sticky picture shows its reward (each step names its own; all are the button for now).
       const how = document.querySelector<HTMLElement>("[data-how]")!;
       const howSteps = [...how.querySelectorAll<HTMLElement>("[data-how-step]")];
       const howVisuals = [...how.querySelectorAll<HTMLElement>("[data-how-visual]")];
@@ -333,6 +347,29 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         howVisuals.forEach((v) => v.classList.toggle("on", v.dataset.howVisual === step.dataset.howStep));
       }), { rootMargin: "-45% 0px -45% 0px" });
       howSteps.forEach((st) => howIo.observe(st));
+
+      // Our why: the manifesto brightens letter by letter, line by line, as you
+      // scroll: it starts as the block rises past 85% of the screen and is fully
+      // bright once its centre passes 55%. Scrolling back up dims it again. That's
+      // its one effect. Reduced motion: it's simply bright.
+      const manifesto = document.querySelector<HTMLElement>("[data-manifesto]");
+      if (manifesto && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        const letters = [...manifesto.querySelectorAll<HTMLElement>(".c")];
+        manifesto.classList.add("dim");
+        let lit = 0, near = false, queued = false;
+        const paint = () => {
+          queued = false;
+          const r = manifesto.getBoundingClientRect();
+          const start = innerHeight * 0.85, end = Math.min(start - 1, innerHeight * 0.55 - r.height / 2);
+          const n = Math.max(0, Math.min(letters.length, Math.round(((start - r.top) / (start - end)) * letters.length)));
+          for (let i = Math.min(n, lit); i < Math.max(n, lit); i++) letters[i].classList.toggle("lit", i < n);
+          lit = n;
+        };
+        new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) paint(); }, { rootMargin: "25% 0px" }).observe(manifesto);
+        addEventListener("scroll", () => { if (near && !queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
+        addEventListener("resize", paint, { passive: true });
+        paint();
+      }
 
       // Videos: muted inline loops, started here too (some browsers ignore autoplay).
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -118,7 +118,17 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 /* sections */
 .jp-sec { padding: clamp(112px, 16vh, 164px) 0 0; }
 .jp-sec > .jp-split { padding-inline: var(--g); }
-.jp-you { padding-top: clamp(96px, 14vh, 148px); }
+.jp-you { padding-top: clamp(140px, 24vh, 260px); padding-bottom: clamp(140px, 24vh, 260px); }
+/* Our why: one manifesto block, set large, with room around it. Its one
+   effect: with motion on, the page script adds .dim and brightens it letter by
+   letter (.lit) as you scroll, line by line, until it's all bright. Without the
+   script, or with reduced motion, it's simply bright. */
+.jp-you .kicker { margin-bottom: clamp(28px, 4vw, 48px); }
+.jp-manifesto { margin: 0; max-width: 1040px; font-size: clamp(28px, 3.4vw, 50px); line-height: 1.24; font-weight: 600; letter-spacing: -0.022em; color: var(--t1); text-wrap: pretty; }
+.jp-manifesto .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; -webkit-user-select: none; user-select: none; }
+.jp-manifesto .w { white-space: nowrap; }
+.jp-manifesto.dim .c { color: rgba(255, 255, 255, 0.14); transition: color 0.4s ease; }
+.jp-manifesto.dim .c.lit { color: inherit; }
 .jp-cols { margin-top: clamp(40px, 6vw, 72px); display: grid; column-gap: clamp(24px, 4vw, 48px); }
 .jp-cols.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
 .jp-cols.four { grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); column-gap: clamp(20px, 3vw, 36px); }
@@ -175,6 +185,19 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-reward img { width: 100%; aspect-ratio: 1; object-fit: contain; }
 .jp-reward h3 { margin: 10px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
 .jp-reward p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
+/* The member community: two overlapping rings (you can be both), matched by
+   a small ring beside each door's name. White for Supporting, teal for Contributing. */
+.jp-members { align-items: start; }
+.jp-members .venn { width: 100%; aspect-ratio: 1; align-self: center; }
+.jp-members .venn circle { fill: none; stroke-width: 2.5; }
+.jp-members .venn .a { stroke: rgba(255, 255, 255, 0.72); }
+.jp-members .venn .b { stroke: var(--teal); }
+.jp-members .venn .both { fill: rgba(0, 148, 160, 0.22); stroke: none; }
+.jp-members .doors { margin: 18px 0 0; display: grid; gap: 14px; }
+.jp-members .doors dt { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--t1); }
+.jp-members .doors dt::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.72); }
+.jp-members .doors .b dt::before { border-color: var(--teal); }
+.jp-members .doors dd { margin: 4px 0 0 20px; font-size: 15px; line-height: 1.5; color: var(--t2); }
 
 /* goal */
 .jp-goal { padding-top: clamp(120px, 18vh, 176px); }
@@ -185,9 +208,6 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-stat .l { margin: 12px 0 0; font-size: 16px; line-height: 1.5; color: var(--t2); }
 /* The argument: four short headers with a line or two under each, between the
    "Why ambassadors do it" lede and the three cards. Plain text, no boxes. */
-.jp-argument { list-style: none; margin: clamp(32px, 5vw, 56px) 0 clamp(40px, 6vw, 72px); padding: 0; max-width: 720px; display: flex; flex-direction: column; gap: clamp(24px, 3vw, 36px); }
-.jp-argument h3 { margin: 0 0 10px; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.15; letter-spacing: -0.02em; font-weight: 700; color: var(--t1); text-wrap: balance; }
-.jp-argument p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--t3); text-wrap: pretty; }
 /* The founding ten: a numbered roster read from data/roster.json. Filled
    slots show a first name and a part of town; the rest read as open. */
 .jp-roster { margin: clamp(24px, 4vw, 40px) 0 0; max-width: 760px; }
@@ -248,6 +268,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 @media (prefers-reduced-motion: reduce) {
   html:has(.jp) { scroll-behavior: auto; }
   .jp .rise, .jp .wordin, .jp .pinin, .jp .bob, .jp .reveal, .jp .status i { animation: none !important; }
+  .jp-manifesto * { transition: none !important; }
 }
 
 /* ── how it works: sticky split on wide screens ── */
@@ -352,7 +373,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   .jp-hero .status { margin-top: 16px; }
   .jp-cover { margin-top: 88px; }
   .jp-sec, .jp-goal { padding-top: 88px; }
-  .jp-you { padding-top: 72px; }
+  .jp-you { padding-top: 112px; padding-bottom: 112px; }
   .jp-labs { margin-top: 88px; padding-block: 88px; }
   .jp-join { padding-block: 112px 96px; }
   .jp .h2 { font-size: 36px; }
@@ -360,8 +381,6 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   .jp-cover-title { font-size: 48px; }
   .jp-cols { margin-top: 32px; }
   .jp-col { padding: 18px 0 22px; }
-  .jp-argument { margin: 28px 0 40px; gap: 22px; }
-  .jp-argument h3 { font-size: 22px; }
   .jp-stats { grid-template-columns: 1fr; margin-top: 24px; }
   .jp-stat { display: grid; grid-template-columns: 136px 1fr; align-items: baseline; column-gap: 16px; padding: 12px 0; border-top: 1px solid var(--rule); }
   .jp-stat .v { font-size: 48px; }
@@ -382,6 +401,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 @media (max-width: 480px) {
   .jp-reward { grid-template-columns: 1fr; gap: 12px; }
   .jp-reward img { width: 104px; }
+  .jp-members .venn { width: 104px; }
   .jp-reward h3 { font-size: 22px; }
 }
 /* Filter animations are expensive on phones: covers and the hero keep opacity and transform only. */
