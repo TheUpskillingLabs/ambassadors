@@ -131,6 +131,8 @@ The site never sends personal information anywhere. The ambassador application (
 
 ## Assets
 
+`npm run covers` makes the portrait crops of the three chapter covers that phones get (`public/join/*-p-900.webp` and `*-p-1400.webp`, from the 1800w files, centred on each cover's `position`). The phone-sized orbits video (`orbits-600.mp4`, `orbits-600.webm`) was encoded with ffmpeg at 600px wide; re-encode it the same way if the source changes.
+
 `npm run assets` regenerates web-sized brand assets from a sibling OLOS checkout (`../OLOS`): the white logo lockup, partner marks, the grayscale community photo, and the app icons. The white lockup only appears on dark surfaces: the app bar and the dark slides.
 
 ## Licenses

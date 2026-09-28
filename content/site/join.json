@@ -47,82 +47,82 @@
   "you": {
     "kicker": "Why ambassadors do it",
     "title": "It starts with you.",
-    "lede": "Someone got you curious about The Labs. Now think of someone who's figuring out what's next. Give a little time. It pays you back three ways.",
+    "lede": "Someone got you curious. Now think of who's next. It pays you back three ways.",
     "items": [
       {
         "label": "As a professional",
         "title": "Skills that travel.",
-        "body": "Storytelling, facilitation, community building, discovery. Practiced for real, with your name on it."
+        "body": "Storytelling, facilitation, discovery. For real."
       },
       {
         "label": "As a neighbor",
         "title": "A say in what gets built.",
-        "body": "You listen to your neighbors, and their problems become the ones The Labs takes on."
+        "body": "What you hear becomes what The Labs takes on."
       },
       {
         "label": "As a person",
         "title": "Confidence you earn.",
-        "body": "You tell your story, hold a room, and learn more by teaching than you ever did alone."
+        "body": "Tell your story. Hold a room."
       }
     ],
     "argument": [
       {
         "title": "You found your way through.",
-        "body": "Work changed under your feet, and you didn't face it alone. Free workshops by people who do the work for a living, and by Upskillers who learned it last cycle. A Build Cycle, fast and on a team, or your own project at your own pace. Whatever you got out of it, you did the getting. The Labs just made room. Now you're the one who knows the way."
+        "body": "You did the getting. The Labs made room. Now you know the way."
       },
       {
         "title": "Be the one who says “come with me.”",
-        "body": "A former colleague. A neighbor. Someone figuring out what's next. They don't need a pitch. They need someone they trust to say it. That's the whole job, and you're already good at it."
+        "body": "No pitch. Just someone they trust, saying it."
       },
       {
         "title": "Be how it reaches the next neighborhood.",
-        "body": "The Labs isn't a place, and it isn't much of an organization yet: a year old, run by volunteers. It's something a region picks up and makes its own, the way Greater Washington did. It grew the way it started, with alums who couldn't keep it to themselves. If it's going to reach other regions, and other neighborhoods here, that's the only way it will."
+        "body": "The Labs isn't a place. A region picks it up. Only if someone says so."
       },
       {
         "title": "Be early to something built to last. Bring someone.",
-        "body": "The Labs is a year old, volunteer-run, and growing. We hope it becomes a normal part of American life, the way scouting and the YMCA did: something every region has, that neighbors run, that outlasts the people who started it. That's a lot to hope for. It only happens if people build it early. And the future of work gets built either way. We want you competitive for the jobs coming, and nobody knows what those are. The jobs that are mostly labor are being automated. What's left is work and action: what people make together that lasts, and what they do together in public. So The Labs is built to shift as the tech and the world shift, in the open, one Build Cycle at a time. Maybe to lead a shift or two. If a few people build that future, the rest of us live in it. If neighbors build it too, everyone has a hand in it. Every person you bring is one more pair of hands. Yours are among the first."
+        "body": "A year old, volunteer-run, and hoping to outlast us all. Every person you bring is one more pair of hands."
       }
     ]
   },
   "labs": {
     "kicker": "About The Labs",
     "title": "Worth being curious about.",
-    "lede": "Free. Run by volunteers. It grew out of a fall 2025 pilot run by DC Public Library and Levy, a strategic design firm. The alums founded The Labs in January 2026 to keep going. Three habits run all of it.",
+    "lede": "Free. Volunteer-run. A year old, and born in a library.",
     "habits": [
       {
         "title": "We decide together.",
-        "body": "Every Build Cycle, participants pick the problems. Everyone gets a vote."
+        "body": "Everyone gets a vote on the problems."
       },
       {
         "title": "We learn by building.",
-        "body": "Small teams build real things for real problems, and make them last."
+        "body": "Real things, for real problems, built to last."
       },
       {
         "title": "We pass it on.",
-        "body": "Everyone teaches what they learn as they go. It's the fastest way to learn it."
+        "body": "Everyone teaches what they learn."
       }
     ]
   },
   "ripple": {
     "kicker": "How it spreads",
     "title": "One conversation. Then a network.",
-    "lede": "Every person you bring in brings someone too. Connection by connection, a neighborhood starts building together.",
+    "lede": "Every person you bring in brings someone too.",
     "rings": [
       {
         "title": "You",
-        "body": "It starts with your story, told out loud."
+        "body": "Your story, out loud."
       },
       {
         "title": "Someone you know",
-        "body": "One conversation, and they walk into their first workshop."
+        "body": "One conversation. Their first workshop."
       },
       {
         "title": "Your neighbors",
-        "body": "Their pod picks a problem your community actually has, and builds something that lasts."
+        "body": "A pod, a real problem, something that lasts."
       },
       {
         "title": "Everywhere",
-        "body": "Now picture that in every region, every neighborhood. The Labs isn't a place. It's something a region picks up, makes its own, and makes better. The future of work gets built either way. This way, everyone has a hand in it."
+        "body": "Every region, every neighborhood. The future of work gets built either way. This way, everyone has a hand in it."
       }
     ],
     "note": "America's first lending library began with a dozen neighbors teaching each other. The Labs began inside a library.",
@@ -131,27 +131,27 @@
   "team": {
     "kicker": "What you'll do",
     "title": "Curiosity goes both ways.",
-    "lede": "You'll spark it in other people and follow your own. Every conversation is research: what you hear shapes the problems The Labs takes on, and what you learn becomes how every project in The Labs grows.",
+    "lede": "Every conversation is research. What you hear shapes what The Labs takes on.",
     "roles": [
       {
         "icon": "talk",
         "title": "Talk to people.",
-        "body": "One on one, no script. Ask what they're working toward. Then listen."
+        "body": "No script. Ask. Listen."
       },
       {
         "icon": "mic",
         "title": "Take the mic.",
-        "body": "Tell a room about The Labs. You'll practice first, so you won't be winging it."
+        "body": "One talk to a room. You'll practice first."
       },
       {
         "icon": "link",
         "title": "Say your name.",
-        "body": "They join at theupskillinglabs.org and say you sent them. Every one counts."
+        "body": "They join and say you sent them. It counts."
       },
       {
         "icon": "people",
         "title": "Bring someone along.",
-        "body": "Guide a new ambassador through orientation. That's how the corps grows."
+        "body": "Guide the next ambassador in."
       }
     ]
   },
@@ -161,7 +161,7 @@
       "The button says you're in.",
       "The pin says you passed it on."
     ],
-    "lede": "Small steps, each one marked. By the time you face a room, you'll have done it in practice.",
+    "lede": "Small steps, each one marked.",
     "steps": [
       {
         "title": "Raise your hand.",
@@ -170,17 +170,17 @@
       },
       {
         "title": "Get in.",
-        "body": "Ten minutes on your phone: a short film, ten questions, the agreement, your name. Your coordinator hands you the button.",
+        "body": "Ten minutes on your phone. Your coordinator hands you the button.",
         "milestone": true
       },
       {
         "title": "Get ready.",
-        "body": "Five short steps in the guide, about half an hour, whenever you like. Your story, the conversation, the room.",
+        "body": "Five short steps in the guide. Half an hour, whenever.",
         "milestone": false
       },
       {
         "title": "Pass it on.",
-        "body": "[N] new Upskillers join through you. One talk to a room. One new ambassador you bring in. The pin is yours.",
+        "body": "[N] new Upskillers. One talk. One new ambassador. The pin is yours.",
         "milestone": true
       }
     ],
@@ -189,7 +189,7 @@
         "id": "button",
         "kicker": "When you get in",
         "title": "The button",
-        "body": "Ten minutes in, your coordinator hands it to you. It's how people spot an ambassador, and how you'll spot each other.",
+        "body": "Ten minutes in, it's in your hand. It's how ambassadors spot each other.",
         "image": "button-card.webp",
         "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
       },
@@ -197,7 +197,7 @@
         "id": "pin",
         "kicker": "When you've passed it on",
         "title": "The pin",
-        "body": "[N] new Upskillers, one talk, one new ambassador. It can't be bought, only passed on. And the same pin marks everyone who keeps The Labs running.",
+        "body": "It can't be bought, only passed on. One pin for everyone who keeps The Labs running.",
         "image": "pin-card.webp",
         "alt": "The pin: the orb mark in polished nickel with teal and red cat-eye enamel"
       }
@@ -228,7 +228,7 @@
         "accent": false
       }
     ],
-    "note": "About two new Upskillers a week per ambassador, while the corps keeps growing. Every ambassador you bring in shares the load. Nobody carries this alone.",
+    "note": "Two new Upskillers a week per ambassador. Nobody carries it alone.",
     "quote": {
       "$comment": "Quoted from Technical.ly, 2025-09-12 (Kaela Roeder). Confirm with Suzie before launch.",
       "text": "You don't need a computer science degree to thrive in tech. You just need to be curious, persistent, and you need a community to help you.",
@@ -243,7 +243,7 @@
   },
   "join": {
     "title": "Come be an ambassador.",
-    "lede": "Think of someone who's figuring out what's next. Ten minutes to get in. Everything after, we'll figure out together.",
+    "lede": "Think of who's next. Ten minutes to get in. Everything after, we'll figure out together.",
     "cta": "Become an ambassador"
   },
   "footer": {
@@ -259,34 +259,31 @@
     "items": [
       {
         "q": "Does it cost anything?",
-        "a": "No. Being an ambassador is free. So is The Labs: every workshop and Build Cycle."
+        "a": "No. Not this, not The Labs."
       },
       {
         "q": "How much time does it take?",
-        "a": "Ten minutes to get in. About half an hour, whenever you like, to get ready. After that, mostly conversations you'd have anyway, plus one talk to a room. [PLACEHOLDER: add a typical hours-per-month figure.]"
-      },
-      {
-        "q": "Do I need to be technical?",
-        "a": "No. You need curiosity about people and a story you're willing to tell. The guide covers the rest."
+        "a": "Ten minutes to get in. Half an hour to get ready. Then conversations you'd have anyway, and one talk."
       },
       {
         "q": "Do I have to sell anything?",
-        "a": "No. Nothing's for sale. You don't sign anyone up or promise anyone a job. You tell your story and point people to theupskillinglabs.org."
+        "a": "No. Nothing's for sale. Tell your story and point people to theupskillinglabs.org."
       },
       {
-        "q": "What's the difference between the button and the pin?",
-        "a": "The button comes when you get in. Your coordinator hands it to you. The pin comes when you've passed it on: [N] new Upskillers through you, one talk to a room, and one new ambassador brought in. It can't be bought."
+        "q": "Do I need to be technical?",
+        "a": "No. Curiosity, and a story."
       },
       {
         "q": "Can I stop?",
-        "a": "Yes, any time. Tell your coordinator. The door stays open."
+        "a": "Any time. The door stays open."
       },
       {
         "q": "Who do I ask?",
-        "a": "Your ambassador coordinator. Their contact is in the guide, and they reply within two working days. [PLACEHOLDER: confirm the coordinator's details.]"
+        "a": "Your coordinator. They're in the guide."
       }
     ],
-    "cta": "Become an ambassador"
+    "cta": "Become an ambassador",
+    "$comment": "Placeholders kept out of the copy: add a typical hours-per-month figure to the time answer; confirm the coordinator's details for the last answer."
   },
   "commit": {
     "kicker": "The short version",
@@ -295,18 +292,19 @@
       {
         "label": "What you commit to",
         "title": "A few conversations. One talk.",
-        "body": "Tell your story, invite people you know, and give one short talk. About half an hour with the guide first. [PLACEHOLDER: add expected hours per month.]"
+        "body": "Plus half an hour with the guide first."
       },
       {
         "label": "Who can join",
         "title": "Anyone who wants others to find The Labs.",
-        "body": "No tech skills or expertise needed. [PLACEHOLDER: confirm eligibility, e.g. you've been to a workshop or Build Cycle.]"
+        "body": "No tech skills needed."
       },
       {
         "label": "What happens next",
         "title": "Ten minutes, then the button.",
-        "body": "Raise your hand at an event, get in on your phone, and your coordinator hands you the button. The guide takes it from there."
+        "body": "Raise your hand at an event. The guide takes it from there."
       }
-    ]
+    ],
+    "$comment": "Placeholders kept out of the copy: expected hours per month; eligibility (e.g. you've been to a workshop or Build Cycle)."
   }
 }

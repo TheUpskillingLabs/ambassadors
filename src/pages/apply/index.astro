@@ -96,6 +96,7 @@ const strings = {
           <a class="btn btn-ghost" href="#video">{a.back}</a>
           <button class="btn btn-teal" type="submit" data-check>{a.quiz.check}</button>
           <button class="btn btn-teal" type="button" data-retry hidden>{a.quiz.retry}</button>
+          <button class="btn btn-teal" type="button" data-quiz-next hidden>{a.next}<Icon name="arrow-right" size={18} /></button>
         </div>
       </form>
     </section>
@@ -257,6 +258,8 @@ const strings = {
     const result = $("[data-result]", qz);
     const checkBtn = $<HTMLButtonElement>("[data-check]", qz);
     const retry = $<HTMLButtonElement>("[data-retry]", qz);
+    const next = $<HTMLButtonElement>("[data-quiz-next]", qz);
+    next.addEventListener("click", () => go("agreement"));
     const sets = [...qz.querySelectorAll<HTMLFieldSetElement>("[data-q]")];
     qz.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -277,7 +280,7 @@ const strings = {
       checkBtn.hidden = true;
       if (passed) {
         application.set({ quiz: { score, total: sets.length, passedAt: Date.now() } });
-        setTimeout(() => go("agreement"), 1600);
+        next.hidden = false; next.focus(); // read the explanations, then move on
       } else {
         retry.hidden = false; retry.focus();
       }

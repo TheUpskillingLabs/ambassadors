@@ -68,10 +68,18 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-head.cta-off .btn { opacity: 0; visibility: hidden; }
 .jp-sentinel { position: absolute; top: 80px; left: 0; width: 1px; height: 1px; }
 @media (max-width: 680px) {
-  .jp-head nav { grid-template-columns: 1fr auto; }
-  .jp-links { display: none; grid-column: 1 / -1; grid-row: 2; gap: 22px; overflow-x: auto; scrollbar-width: none; margin: -6px calc(-1 * var(--g)) 0; padding: 0 var(--g) 4px; }
-  html[data-scrolled="true"] .jp-links { display: flex; }
-  html:has(.jp) { scroll-padding-top: 116px; }
+  .jp { --head: 64px; }
+  .jp-head nav { grid-template-columns: 1fr auto; padding-top: env(safe-area-inset-top); }
+  html[data-scrolled="true"] .jp-head nav { min-height: 56px; }
+  .jp-brand img { height: 40px; }
+  html[data-scrolled="true"] .jp-brand img { height: 34px; }
+  .jp-links { display: flex; grid-column: 1 / -1; grid-row: 2; gap: 20px; font-size: 14px; overflow-x: auto; scrollbar-width: none; margin: -8px calc(-1 * var(--g)) 0; padding: 0 var(--g) 2px;
+    max-height: 0; opacity: 0; transform: translateY(-4px); pointer-events: none; transition: max-height 0.25s, opacity 0.2s, transform 0.25s; }
+  .jp-links .navlink { min-height: 36px; }
+  html[data-scrolled="true"] .jp-links { max-height: 40px; opacity: 1; transform: none; pointer-events: auto; }
+  .jp-head::before { height: 200px; }
+  .jp-head::after { height: calc(var(--head) + 56px); }
+  html:has(.jp) { scroll-padding-top: 100px; }
 }
 
 /* hero */
@@ -96,7 +104,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
    overflow: clip, never hidden: hidden makes a scroll container, and the
    scroll timelines below would track it instead of the page. */
 .jp-cover { position: relative; margin: clamp(112px, 16vh, 164px) 0 0; background: var(--ink); }
-.jp-cover-stage { position: relative; height: 100vh; height: 100svh; min-height: 520px; overflow: clip; display: grid; place-items: center; }
+.jp-cover-stage { position: relative; height: 100vh; height: 100lvh; min-height: 520px; overflow: clip; display: grid; place-items: center; }
 .jp-cover-media { position: absolute; inset: 0; overflow: clip; }
 .jp-cover-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 50%; }
 /* A soft vignette keeps the centred tagline legible over bright enamel. */
@@ -160,7 +168,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-steps h3 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.016em; color: var(--t1); }
 .jp-steps p { margin: 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
 .jp-rewards { margin-top: clamp(24px, 4vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: clamp(16px, 2.5vw, 28px); }
-.jp-reward { border-radius: 14px; background: rgba(255, 255, 255, 0.04); padding: clamp(24px, 3vw, 40px); display: grid; grid-template-columns: minmax(0, 180px) 1fr; align-items: center; gap: clamp(16px, 3vw, 32px); scroll-margin-top: 96px; }
+.jp-reward { scroll-margin-top: var(--head); border-radius: 14px; background: rgba(255, 255, 255, 0.04); padding: clamp(24px, 3vw, 40px); display: grid; grid-template-columns: minmax(0, 180px) 1fr; align-items: center; gap: clamp(16px, 3vw, 32px); }
 .jp-reward img { width: 100%; aspect-ratio: 1; object-fit: contain; }
 .jp-reward h3 { margin: 10px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
 .jp-reward p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
@@ -210,11 +218,10 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 
 /* motion */
 @keyframes jp-rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
-@keyframes jp-wordin { from { opacity: 0; letter-spacing: 0.04em; filter: blur(14px); } to { opacity: 1; filter: blur(0); } }
+@keyframes jp-wordin { from { opacity: 0; transform: translateY(10px); filter: blur(14px); } to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes jp-pinin { from { opacity: 0; transform: translateY(48px) scale(0.9); filter: blur(16px); } to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes jp-bob { 0% { transform: translateY(0); } 50% { transform: translateY(-14px); } 100% { transform: translateY(0); } }
 @keyframes jp-live { 0% { box-shadow: 0 0 0 0 rgba(0, 148, 160, 0.6); } 70% { box-shadow: 0 0 0 8px rgba(0, 148, 160, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 148, 160, 0); } }
-@keyframes jp-drift { from { transform: scale(1.16) translateY(4%); } to { transform: scale(1.02) translateY(-3%); } }
 .jp .rise { animation: jp-rise 1.1s cubic-bezier(.2, .7, .2, 1) both; }
 .jp .wordin { animation: jp-wordin 1.6s cubic-bezier(.2, .7, .2, 1) both; }
 .jp .pinin { animation: jp-pinin 1.5s cubic-bezier(.2, .7, .2, 1) .35s both; }
@@ -227,20 +234,17 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   /* The timeline sits on a separate, more specific rule: minifiers otherwise fold
      view() into the animation shorthand, which browsers reject. */
   .jp .reveal { animation: jp-rise linear both; }
-  html .jp .reveal { animation-timeline: view(); animation-range: entry 0% cover 28%; }
-  .jp .drift { animation: jp-drift linear both; }
-  html .jp .drift { animation-timeline: view(); animation-range: cover 0% cover 100%; }
+  html .jp .reveal { animation-timeline: view(); animation-range: entry 0% entry 45%; }
 }
 @media (max-width: 680px) {
   .jp .wide-only { display: none !important; }
   .jp .narrow-only { display: inline !important; }
-  .jp-panel { aspect-ratio: 5 / 4; }
   .jp-orbits .bleed { width: 100%; margin-right: 0; }
   .jp-reward { grid-template-columns: minmax(0, 120px) 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
   html:has(.jp) { scroll-behavior: auto; }
-  .jp .rise, .jp .wordin, .jp .pinin, .jp .bob, .jp .reveal, .jp .drift, .jp .status i { animation: none !important; }
+  .jp .rise, .jp .wordin, .jp .pinin, .jp .bob, .jp .reveal, .jp .status i { animation: none !important; }
 }
 
 /* ── how it works: sticky split on wide screens ── */
@@ -328,3 +332,60 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 @keyframes jp-macro-glint { 0% { opacity: 0; transform: translateX(-45%); } 30% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; transform: translateX(45%); } }
 @keyframes jp-macro-title-in { from { opacity: 0; transform: scale(1.12); filter: blur(14px); } to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes jp-macro-title-out { from { opacity: 1; transform: none; filter: blur(0); } to { opacity: 0; transform: translateY(-8vh) scale(0.96); filter: blur(8px); } }
+
+/* ── phones (≤680px): a real pass, not just the clamp minimums ──
+   Shorter covers, tighter rhythm, the hero's CTA above the fold, stats as a
+   row, rewards stacked, safe-area gutters, no filter animations. */
+@media (max-width: 680px) {
+  .jp { --g: max(16px, env(safe-area-inset-left), env(safe-area-inset-right)); -webkit-tap-highlight-color: transparent; }
+  html:has(.jp) { -webkit-text-size-adjust: 100%; }
+  .jp-hero { padding-top: calc(var(--head) + 24px); padding-bottom: 56px; }
+  .jp-hero .stage { margin-top: 8px; }
+  .jp-pin { width: min(84vw, 40svh); margin-top: calc(-0.8 * clamp(44px, 13.5vw, 210px)); }
+  .jp-hero .lede-hero { margin-top: -6px; font-size: 20px; }
+  .jp-hero .ctas { margin-top: 22px; flex-direction: column; align-items: center; gap: 4px; }
+  .jp-hero .ghost { min-height: 44px; padding: 0 12px; border: 0; color: var(--t2); font-size: 15px; }
+  .jp-hero .status { margin-top: 16px; }
+  .jp-cover { margin-top: 88px; }
+  .jp-sec, .jp-goal { padding-top: 88px; }
+  .jp-you { padding-top: 72px; }
+  .jp-labs { margin-top: 88px; padding-block: 88px; }
+  .jp-join { padding-block: 112px 96px; }
+  .jp .h2 { font-size: 36px; }
+  .jp-join h2 { font-size: 44px; }
+  .jp-cover-title { font-size: 48px; }
+  .jp-cols { margin-top: 32px; }
+  .jp-col { padding: 18px 0 22px; }
+  .jp-argument { margin: 28px 0 40px; gap: 22px; }
+  .jp-argument h3 { font-size: 22px; }
+  .jp-stats { grid-template-columns: 1fr; margin-top: 24px; }
+  .jp-stat { display: grid; grid-template-columns: 136px 1fr; align-items: baseline; column-gap: 16px; padding: 12px 0; border-top: 1px solid var(--rule); }
+  .jp-stat .v { font-size: 48px; }
+  .jp-stat .l { margin: 0; }
+  .jp-steps { margin-top: 24px; }
+  .jp-steps li { padding: 14px 0 18px; }
+  .jp-rewards { margin-top: 12px; gap: 12px; }
+  .jp-cta-row { margin-top: 28px; }
+  .jp-rings li { padding: 12px 0; }
+  .jp-orbits .bleed { max-width: 320px; }
+  .jp-reward { padding: 20px; }
+  .jp-quote { margin-top: 36px; }
+  .jp-quote blockquote { font-size: 22px; }
+  .jp-faq details p { margin-bottom: 18px; }
+  .jp-foot .textlink { display: inline-block; padding-block: 8px; }
+  .jp-foot .wrap { padding-block: 32px 40px; gap: 24px 40px; }
+}
+@media (max-width: 480px) {
+  .jp-reward { grid-template-columns: 1fr; gap: 12px; }
+  .jp-reward img { width: 104px; }
+  .jp-reward h3 { font-size: 22px; }
+}
+/* Filter animations are expensive on phones: covers and the hero keep opacity and transform only. */
+@media (max-width: 680px) and (prefers-reduced-motion: no-preference) {
+  @supports (view-timeline-name: --a) { .jp-cover { height: 150vh; } }
+  @keyframes jp-wordin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes jp-pinin { from { opacity: 0; transform: translateY(32px) scale(0.92); } to { opacity: 1; transform: none; } }
+  @keyframes jp-macro-title-in { from { opacity: 0; transform: scale(1.08); } to { opacity: 1; transform: none; } }
+  @keyframes jp-macro-title-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-6vh) scale(0.97); } }
+  .jp-cover-glint { display: none; }
+}

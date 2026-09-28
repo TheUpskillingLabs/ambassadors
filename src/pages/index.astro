@@ -152,6 +152,8 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <div class="jp-orbits reveal">
             <div class="bleed">
               <video data-loop poster={media("orbits.jpg")} muted loop playsinline preload="metadata" aria-label={j.ripple.videoLabel}>
+                <source src={media("orbits-600.webm")} type="video/webm" media="(max-width: 680px)" />
+                <source src={media("orbits-600.mp4")} type="video/mp4" media="(max-width: 680px)" />
                 <source src={media("orbits.webm")} type="video/webm" />
                 <source src={media("orbits.mp4")} type="video/mp4" />
               </video>
@@ -267,7 +269,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         <div class="col">
           <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
           <p>{j.footer.legal}</p>
-          <p><a class="textlink" href="#mentor">{j.footer.pinLink}</a> · {j.footer.renders}</p>
+          <p><a class="textlink" href="#pin">{j.footer.pinLink}</a> · {j.footer.renders}</p>
           <p><a class="textlink" href={guideHome}>{j.footer.guide} →</a></p>
           {j.placeholder && <p class="ph">[PLACEHOLDER] draft copy: [N] and the join link are still to be set.</p>}
         </div>
@@ -331,8 +333,9 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
 
       // Videos: muted inline loops, started here too (some browsers ignore autoplay).
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const saveData = Boolean((navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData);
       const videos = document.querySelectorAll<HTMLVideoElement>("video[data-loop]");
-      if (!reduce) {
+      if (!reduce && !saveData) {
         const io = new IntersectionObserver((entries) => entries.forEach((e) => {
           const v = e.target as HTMLVideoElement;
           if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
@@ -373,11 +376,16 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
             let size = 0, dpr = 1, scale = 1, drawn = false, n = 0, sum = 0, raf = 0;
             const c = { s: 0, t: 0, vs: 0, vt: 0 };
             const t0 = performance.now(); let last = t0;
+            // Off screen, the loop stops entirely; it restarts when the hero comes back.
+            let onScreen = true;
+            new IntersectionObserver(([e]) => {
+              onScreen = e.isIntersecting;
+              if (onScreen && !raf) { last = performance.now(); raf = requestAnimationFrame(tick); }
+            }).observe(hero);
             const tick = (now: number) => {
+              if (!onScreen) { raf = 0; return; }
               raf = requestAnimationFrame(tick);
               const dt = Math.min(0.05, (now - last) / 1000); last = now;
-              const hr = hero.getBoundingClientRect();
-              if (hr.bottom < 0 || hr.top > innerHeight) return; // off screen: rest
               // Up to 2x, capped near 1400 px across, stepped down if frames run slow.
               const cs = Math.round(canvas.clientWidth);
               let dirty = false;
@@ -412,7 +420,8 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           }).catch(() => {}); // no WebGL after all: the still stays
         };
         const start = () => {
-          if (innerWidth < 480 || !webgl()) return; // phones and no WebGL keep the still
+          // Phones, touch-only devices and no WebGL keep the still (1.2 MB of script otherwise).
+          if (!matchMedia("(hover: hover) and (pointer: fine) and (min-width: 900px)").matches || !webgl()) return;
           if (w.LabsPin3D) { mount(); return; }
           addEventListener("labspin3d", mount, { once: true });
           const sc = document.createElement("script");
