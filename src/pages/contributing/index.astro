@@ -87,7 +87,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         </div>
         <p class="lede-hero rise d1">{c.hero.lede}</p>
         <div class="ctas rise d2">
-          <a class="ghost" href="#rings">{c.hero.cta}<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v11M2.5 8 7 12.5 11.5 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+          <a class="ghost" href="#start">{c.hero.cta}<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v11M2.5 8 7 12.5 11.5 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
         </div>
         <p class="status rise d3"><i aria-hidden="true"></i>{c.hero.status}</p>
         <p class="cm-draft rise d3"><b>Draft.</b> {c.draft}</p>
@@ -110,7 +110,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
 
       <JoinCover n={c.chapters[0].shot} id={c.chapters[0].id} title={c.chapters[0].title} />
 
-      <!-- Ways in: contribute, take a role, share what you know, get recognized. -->
+      <!-- Ways in: make something, take a role, teach what you know, or back it as a Supporting Member. Then how the pin works, whichever door. -->
       <section id="start" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
@@ -123,6 +123,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
               <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
             ))}
           </div>
+          <p class="cm-note reveal">{c.start.note}</p>
         </div>
       </section>
 
