@@ -1,15 +1,15 @@
 ---
 /* /contributing/ — the contributor community: join it, and work your way up.
    Anyone can contribute; roles are where you practise; the Contributing
-   Member pin recognizes work The Labs runs on; Reviewer, Committer and
-   Maintainer each add a ring and a responsibility. Unlisted (noindex, not
+   Member pin recognizes work The Labs runs on; Reviewer, Approver and
+   Maintainer each add more of The Labs, hands on. Unlisted (noindex, not
    linked from the program page) until the board approves the levels.
    /roles/, /pin/ and /contributors/ redirect here.
 
    The pins are live 3D on desktop: public/join/pin3d.js (the program page's
-   pin) plus rings built in src/scripts/rankpin.ts. Three views share one
-   script: the hero pin, which turns to follow the pointer; the rings, which
-   stack on as you scroll; and the configurator, which you can drag. Phones,
+   pin) plus rings built in src/scripts/rankpin.ts. Two views: the hero pin,
+   which turns to follow the pointer, and the way up, where each level's pin
+   builds as you scroll (or pick a level) and can be dragged to turn. Phones,
    reduced motion and machines without GPU WebGL get Cycles stills of the same
    pins from LabsPin.blend (public/contributing/), framed identically.
 
@@ -59,7 +59,6 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         <ul class="jp-links">
           <li><a class="navlink" href="#start" data-spy="why start">{c.nav.start}</a></li>
           <li><a class="navlink" href="#rings" data-spy="rings">{c.nav.rings}</a></li>
-          <li><a class="navlink" href="#closeup" data-spy="closeup">{c.nav.metal}</a></li>
           <li><a class="navlink" href="#given" data-spy="given status decides">{c.nav.given}</a></li>
         </ul>
         <div class="jp-end">
@@ -121,7 +120,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         </div>
       </section>
 
-      <!-- The rings: they stack on as you scroll (desktop), or sit in a row. -->
+      <!-- The way up: one level at a time, by scroll (wide screens) or by picking one. The pin beside it can be dragged. -->
       <section id="rings" class="jp-sec cm-rings">
         <div class="wrap reveal">
           <p class="kicker">{c.rings.kicker}</p>
@@ -131,71 +130,41 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         <div class="cm-scrub" data-scrub>
           <div class="cm-scrub-stage">
             <div class="wrap cm-scrub-grid">
-              <ol class="cm-steps" data-steps>
-                {c.rings.steps.map((s, i) => (
-                  <li class:list={["cm-step", { on: i === 0 }]} data-step={i}>
-                    <img class="cm-step-pin" src={pinSrc(RANKS[i], "brass", 640)} srcset={pinSet(RANKS[i], "brass")} sizes="(max-width: 680px) 64vw, 320px" alt={c.metal.ringsLabel[i]} width="640" height="640" loading="lazy" />
-                    <p class="kicker">{s.shows}</p>
-                    <h3>{s.rank}</h3>
-                    <p class="cm-line">{s.line}</p>
-                    <dl class="cm-body">
-                      <dt>{c.rings.labels.how}</dt><dd>{s.how}</dd>
-                      <dt>{c.rings.labels.trusted}</dt><dd>{s.trusted}</dd>
-                    </dl>
-                  </li>
-                ))}
-              </ol>
+              <div class="cm-scrub-main">
+                <fieldset class="cm-seg cm-seg-rank" data-seg>
+                  <legend>{c.rings.picker.legend}</legend>
+                  <span class="cm-pill" aria-hidden="true"></span>
+                  {c.rings.picker.levels.map((name, i) => (
+                    <label><input type="radio" name="cm-rank" value={i} checked={i === 0} aria-controls={`cm-step-${i}`} /><span>{name}</span></label>
+                  ))}
+                </fieldset>
+                <ol class="cm-steps" data-steps>
+                  {c.rings.steps.map((s, i) => (
+                    <li class:list={["cm-step", { on: i === 0 }]} id={`cm-step-${i}`} data-step={i}>
+                      <p class="kicker">{s.shows}</p>
+                      <h3>{s.rank}</h3>
+                      <p class="cm-line">{s.line}</p>
+                      <dl class="cm-body">
+                        <dt>{c.rings.labels.how}</dt><dd>{s.how}</dd>
+                        <dt>{c.rings.labels.trusted}</dt><dd>{s.trusted}</dd>
+                      </dl>
+                    </li>
+                  ))}
+                </ol>
+              </div>
               <div class="cm-scrub-side">
-                <div class="cm-view cm-square" role="img" aria-label={c.metal.ringsLabel[3]} data-view="rings">
+                <div class="cm-view cm-square cm-drag" role="img" tabindex="0" aria-label={c.rings.picker.stageLabel.replace("{rank}", c.rings.steps[0].rank)} aria-describedby="cm-hint" data-view="rings" data-label={c.rings.picker.stageLabel}>
                   {RANKS.map((r, i) => (
-                    <img src={pinSrc(r, "brass", 1200)} srcset={pinSet(r, "brass")} sizes="min(620px, 46vw, 70vh)" alt="" width="1200" height="1200" loading="lazy" data-frame={i} class:list={{ on: i === 0 }} />
+                    <img src={pinSrc(r, "brass", 1200)} srcset={pinSet(r, "brass")} sizes="(max-width: 899px) min(64vw, 360px), min(620px, 46vw, 64vh)" alt="" width="1200" height="1200" loading="lazy" data-frame={i} class:list={{ on: i === 0 }} />
                   ))}
                   <canvas aria-hidden="true"></canvas>
                 </div>
-                <div class="cm-readout" aria-hidden="true">
-                  <div><span>{c.rings.readout.label}</span><b data-read-work>{c.rings.steps[0].shows}</b></div>
-                  <ol class="cm-ticks">{RANKS.map((_, i) => <li class:list={{ on: i === 0 }} data-tick={i}></li>)}</ol>
-                </div>
+                <p id="cm-hint" class="cm-hint"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9a6 6 0 0 1 11.2-3M15 9a6 6 0 0 1-11.2 3M14.5 2.5v3.5H11M3.5 15.5V12H7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg><span class="cm-hint-drag">{c.rings.picker.hint}</span><span class="cm-hint-keys">{c.rings.picker.hintKeys}</span></p>
               </div>
             </div>
           </div>
         </div>
         <p class="wrap cm-note">{c.rings.names}</p>
-      </section>
-
-      <!-- Up close: pick a level and turn its pin. -->
-      <section id="closeup" class="jp-sec cm-metal">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{c.metal.kicker}</p>
-            <h2 class="h2">{c.metal.title}</h2>
-            <p class="lede">{c.metal.lede}</p>
-          </div>
-          <div class="cm-config reveal" data-config>
-            <div class="cm-config-view">
-              <div class="cm-view cm-square cm-drag" role="img" tabindex="0" aria-label={c.metal.stageLabel.replace("{rank}", "Maintainer")} aria-describedby="cm-hint" data-view="config" data-label={c.metal.stageLabel}>
-                {["brass"].map((m) => RANKS.map((r) => (
-                  <img src={pinSrc(r, m, 1200)} srcset={pinSet(r, m)} sizes="min(640px, 90vw, 70vh)" alt="" width="1200" height="1200" loading="lazy" data-combo={`${r}-${m}`} class:list={{ on: r === "maintainer" && m === "brass" }} />
-                )))}
-                <canvas aria-hidden="true"></canvas>
-              </div>
-              <p id="cm-hint" class="cm-hint"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M3 9a6 6 0 0 1 11.2-3M15 9a6 6 0 0 1-11.2 3M14.5 2.5v3.5H11M3.5 15.5V12H7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg><span class="cm-hint-drag">{c.metal.hint}</span><span class="cm-hint-keys">{c.metal.hintKeys}</span></p>
-            </div>
-            <div class="cm-controls">
-              <fieldset class="cm-seg cm-seg-rank" data-seg="rank">
-                <legend>{c.metal.rankLegend}</legend>
-                <span class="cm-pill" aria-hidden="true"></span>
-                {c.metal.ranks.map((name, i) => (
-                  <label><input type="radio" name="cm-rank" value={i} checked={i === 3} /><span>{name}</span></label>
-                ))}
-              </fieldset>
-              <dl class="cm-spec" aria-live="polite">
-                <div><dt>{c.rings.readout.label}</dt><dd><b data-spec-shows>{c.rings.steps[3].shows}</b></dd></div>
-              </dl>
-              <p class="cm-spec-line" data-spec-line>{c.rings.steps[3].line}</p>
-            </div>
-          </div>
-        </div>
       </section>
 
       <section id="given" class="jp-sec">
@@ -263,7 +232,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
     </footer>
 
     <script>
-      import { mountView, gpuOk, kick, type RankPin, type MetalId } from "../../scripts/rankpin";
+      import { mountView, gpuOk, kick, type RankPin } from "../../scripts/rankpin";
 
       const root = document.documentElement;
       const pin3d = document.querySelector<HTMLElement>("[data-pin3d]")!.dataset.pin3d!;
@@ -281,7 +250,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["why", "start", "rings", "closeup", "given", "status", "decides", "join"].map((id) => document.getElementById(id)!);
+      const order = ["why", "start", "rings", "given", "status", "decides", "join"].map((id) => document.getElementById(id)!);
       let spyQueued = false;
       const spy = () => {
         spyQueued = false;
@@ -292,92 +261,79 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
       addEventListener("scroll", () => { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
       spy();
 
-      /* ── the way up: the pin grows by scroll on wide screens ── */
+      /* ── the way up: one level at a time ──
+         Wide screens with motion: the stage holds still while you scroll, and the
+         pin builds from one level to the next; picking a level scrolls there.
+         Everywhere else, the levels are tabs. Either way the pin can be dragged. */
       const scrub = document.querySelector<HTMLElement>("[data-scrub]")!;
       const steps = [...scrub.querySelectorAll<HTMLElement>("[data-step]")];
       const frames = [...scrub.querySelectorAll<HTMLImageElement>("[data-frame]")];
-      const ticks = [...scrub.querySelectorAll<HTMLElement>("[data-tick]")];
-      const readWork = scrub.querySelector<HTMLElement>("[data-read-work]")!;
-      const ringsView = scrub.querySelector<HTMLElement>('[data-view="rings"]')!;
-      const scrubMode = () => desktop.matches && !reduce.matches && innerHeight >= 560;
-      let scrubP = 0, scrubStep = 0;
-      const setScrubMode = () => { root.toggleAttribute("data-cm-scrub", scrubMode()); onScrub(); };
-      function onScrub() {
-        if (!root.hasAttribute("data-cm-scrub")) return;
-        const r = scrub.getBoundingClientRect();
-        const span = r.height - innerHeight;
-        scrubP = span > 0 ? clamp(-r.top / span, 0, 1) : 0;
-        // Four resting points, with a short hold at each: 0, 1, 2, 3 rings.
-        const x = scrubP * 3.4 - 0.2;
-        const step = clamp(Math.round(x), 0, 3);
-        if (step !== scrubStep) {
-          scrubStep = step;
-          steps.forEach((s, i) => s.classList.toggle("on", i === step));
-          frames.forEach((f, i) => f.classList.toggle("on", i === step));
-          ticks.forEach((t, i) => t.classList.toggle("on", i <= step));
-          ringsView.setAttribute("aria-label", steps[step].querySelector("img")!.alt);
-          readWork.textContent = steps[step].querySelector(".kicker")!.textContent;
-        }
-        const rings = clamp(x, 0, 3);
-        if (ringsPin) { ringsPin.setRingsExact(rings); kick(ringsPin); }
-      }
-      let scrubQueued = false;
-      addEventListener("scroll", () => { if (!scrubQueued) { scrubQueued = true; requestAnimationFrame(() => { scrubQueued = false; onScrub(); }); } }, { passive: true });
-      addEventListener("resize", setScrubMode);
-      desktop.addEventListener("change", setScrubMode);
-      reduce.addEventListener("change", setScrubMode);
-      setScrubMode();
+      const view = scrub.querySelector<HTMLElement>('[data-view="rings"]')!;
+      const seg = scrub.querySelector<HTMLFieldSetElement>("[data-seg]")!;
+      const radios = [...seg.querySelectorAll<HTMLInputElement>('input[name="cm-rank"]')];
+      const names = steps.map((st) => st.querySelector("h3")!.textContent || "");
+      const scrubMode = () => desktop.matches && !reduce.matches && innerHeight >= 640;
+      const scrubbing = () => root.hasAttribute("data-cm-scrub");
+      let scrubP = 0, level = -1, seekUntil = 0;
+      let pin: RankPin | null = null;
 
-      /* ── the configurator ── */
-      const config = document.querySelector<HTMLElement>("[data-config]")!;
-      const configView = config.querySelector<HTMLElement>('[data-view="config"]')!;
-      const combos = [...config.querySelectorAll<HTMLImageElement>("[data-combo]")];
-      const RANK_IDS = ["member", "reviewer", "committer", "maintainer"];
-      const shows = [...document.querySelectorAll<HTMLElement>("[data-step] .kicker")].map((k) => k.textContent || "");
-      const lines = [...document.querySelectorAll<HTMLElement>("[data-step] .cm-line")].map((k) => k.textContent || "");
-      const rankNames = [...document.querySelectorAll<HTMLElement>("[data-step] h3")].map((k) => k.textContent || "");
-      const specShows = config.querySelector<HTMLElement>("[data-spec-shows]")!;
-      const specLine = config.querySelector<HTMLElement>("[data-spec-line]")!;
-      let rank = 3;
-      const metal: MetalId = "brass";
-
-      // Segmented controls: one pill slides behind the checked option.
-      const segs = [...config.querySelectorAll<HTMLFieldSetElement>("[data-seg]")];
-      function placePill(seg: HTMLFieldSetElement) {
+      // One pill slides behind the checked level (transform only).
+      function placePill() {
         const pill = seg.querySelector<HTMLElement>(".cm-pill")!;
         const on = seg.querySelector<HTMLInputElement>("input:checked")!.closest("label")!;
         pill.style.width = `${on.offsetWidth}px`;
         pill.style.height = `${on.offsetHeight}px`;
         pill.style.transform = `translate(${on.offsetLeft}px, ${on.offsetTop}px)`;
       }
-      const placePills = () => segs.forEach(placePill);
-      placePills();
-      new ResizeObserver(placePills).observe(config);
-      document.fonts?.ready.then(placePills);
+      placePill();
+      new ResizeObserver(placePill).observe(seg);
+      document.fonts?.ready.then(placePill);
 
-      function applyConfig() {
-        specShows.textContent = shows[rank];
-        specLine.textContent = lines[rank];
-        specLine.animate?.([{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: reduce.matches ? 0 : 260, easing: "cubic-bezier(0.23, 1, 0.32, 1)" });
-        combos.forEach((im) => im.classList.toggle("on", im.dataset.combo === `${RANK_IDS[rank]}-${metal}`));
-        configView.setAttribute("aria-label", configView.dataset.label!.replace("{rank}", rankNames[rank]));
-        if (configPin) {
-          configPin.setRings(rank, reduce.matches);
-          configPin.setMetal(metal, reduce.matches);
-          kick(configPin);
-        }
-        placePills();
+      function show(i: number) {
+        if (i === level) return;
+        level = i;
+        steps.forEach((st, k) => { st.classList.toggle("on", k === i); st.inert = k !== i; });
+        frames.forEach((f, k) => f.classList.toggle("on", k === i));
+        // While a picked level is scrolling into place, the picker already shows where it's going.
+        if (!scrubbing() || performance.now() > seekUntil) { radios[i].checked = true; placePill(); }
+        view.setAttribute("aria-label", view.dataset.label!.replace("{rank}", names[i]));
+        if (pin && !scrubbing()) { pin.setRings(i, reduce.matches); kick(pin); }
       }
-      config.addEventListener("change", (e) => {
-        const t = e.target as HTMLInputElement;
-        if (t.name === "cm-rank") rank = Number(t.value);
-        applyConfig();
+
+      function onScrub() {
+        if (!scrubbing()) return;
+        const r = scrub.getBoundingClientRect();
+        const span = r.height - innerHeight;
+        scrubP = span > 0 ? clamp(-r.top / span, 0, 1) : 0;
+        // Four resting points, with a short hold at each.
+        const x = scrubP * 3.4 - 0.2;
+        show(clamp(Math.round(x), 0, 3));
+        if (pin) { pin.setRingsExact(clamp(x, 0, 3)); kick(pin); }
+      }
+      const setScrubMode = () => {
+        root.toggleAttribute("data-cm-scrub", scrubMode());
+        if (scrubbing()) onScrub();
+        else if (pin) { pin.setRings(level, true); kick(pin); }
+      };
+      let scrubQueued = false;
+      addEventListener("scroll", () => { if (!scrubQueued) { scrubQueued = true; requestAnimationFrame(() => { scrubQueued = false; onScrub(); }); } }, { passive: true });
+      addEventListener("resize", setScrubMode);
+      desktop.addEventListener("change", setScrubMode);
+      reduce.addEventListener("change", setScrubMode);
+      show(0);
+      setScrubMode();
+
+      seg.addEventListener("change", (e) => {
+        const i = Number((e.target as HTMLInputElement).value);
+        placePill();
+        if (!scrubbing()) { show(i); return; }
+        // Scroll to that level's resting point; the pin builds on the way.
+        const top = scrub.getBoundingClientRect().top + scrollY;
+        seekUntil = performance.now() + 1200;
+        scrollTo({ top: top + ((i + 0.2) / 3.4) * (scrub.offsetHeight - innerHeight), behavior: reduce.matches ? "auto" : "smooth" });
       });
-      applyConfig();
 
       /* ── live 3D: desktop with a real GPU, after the page has loaded ── */
-      let ringsPin: RankPin | null = null;
-      let configPin: RankPin | null = null;
       // With "?pin3d" (testing), the views are reachable from the console.
       const debug: Record<string, RankPin> | null = new URLSearchParams(location.search).has("pin3d") ? ((window as unknown as { __cmPins: Record<string, RankPin> }).__cmPins = {}) : null;
 
@@ -416,99 +372,92 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         }).then((rp) => { if (debug) debug.hero = rp; }).catch(() => {});
       }
 
-      function startRings() {
-        const canvas = ringsView.querySelector("canvas")!;
-        mountView(pin3d, canvas, ringsView, { metal: "brass", rings: 0, zoom: 1.4 }, {
-          frame(rp) {
-            // The pin turns from three-quarters toward face-on as the rings arrive.
-            const p = scrubP;
-            rp.pin.setPose(-26 + 22 * p, 12 - 9 * p);
-            return false;
-          },
-        }).then((rp) => { ringsPin = rp; if (debug) debug.rings = rp; onScrub(); kick(rp); }).catch(() => {});
-      }
-
-      function startConfig() {
-        const canvas = configView.querySelector("canvas")!;
-        // Drag to turn, with momentum; the arrow keys step 15 degrees. It eases back to a resting angle after a while.
+      function startWay() {
+        const canvas = view.querySelector("canvas")!;
+        // The resting angle comes from the scroll (three-quarters toward face-on as
+        // the levels build) or a fixed pose. Dragging turns it from there, with
+        // momentum; the arrow keys step 15 degrees; after a while it eases back.
         const REST = { s: -14, t: 6 };
-        const pose = { s: REST.s, t: REST.t, vs: 0, vt: 0 };
+        const off = { s: 0, t: 0, vs: 0, vt: 0 };
         let dragging = false, lastX = 0, lastY = 0, idle = 0;
         const samples: { x: number; y: number; t: number }[] = [];
-        configView.addEventListener("pointerdown", (e) => {
-          dragging = true; configView.setPointerCapture(e.pointerId); configView.classList.add("grabbing", "used");
-          lastX = e.clientX; lastY = e.clientY; samples.length = 0; pose.vs = pose.vt = 0;
-          if (configPin) kick(configPin);
+        const nudge = () => { if (pin) kick(pin); };
+        view.addEventListener("pointerdown", (e) => {
+          dragging = true; view.setPointerCapture(e.pointerId); view.classList.add("grabbing", "used");
+          lastX = e.clientX; lastY = e.clientY; samples.length = 0; off.vs = off.vt = 0; nudge();
         });
-        configView.addEventListener("pointermove", (e) => {
+        view.addEventListener("pointermove", (e) => {
           if (!dragging) return;
           const now = performance.now();
-          pose.s += (e.clientX - lastX) * 0.45;
-          pose.t = clamp(pose.t + (e.clientY - lastY) * 0.3, -40, 40);
+          off.s += (e.clientX - lastX) * 0.45;
+          off.t = clamp(off.t + (e.clientY - lastY) * 0.3, -40, 40);
           samples.push({ x: e.clientX, y: e.clientY, t: now });
           while (samples.length && now - samples[0].t > 90) samples.shift();
-          lastX = e.clientX; lastY = e.clientY; idle = 0;
-          if (configPin) kick(configPin);
+          lastX = e.clientX; lastY = e.clientY; idle = 0; nudge();
         });
         const release = () => {
           if (!dragging) return;
-          dragging = false; configView.classList.remove("grabbing");
+          dragging = false; view.classList.remove("grabbing");
           // Release velocity from the last ~90 ms of movement, not the last event.
           if (samples.length > 1 && !reduce.matches) {
             const a = samples[0], b = samples[samples.length - 1], dt = Math.max(16, b.t - a.t) / 1000;
-            pose.vs = ((b.x - a.x) * 0.45) / dt;
-            pose.vt = ((b.y - a.y) * 0.3) / dt;
+            off.vs = ((b.x - a.x) * 0.45) / dt;
+            off.vt = ((b.y - a.y) * 0.3) / dt;
           }
-          if (configPin) kick(configPin);
+          nudge();
         };
-        configView.addEventListener("pointerup", release);
-        configView.addEventListener("pointercancel", release);
-        configView.addEventListener("keydown", (e) => {
+        view.addEventListener("pointerup", release);
+        view.addEventListener("pointercancel", release);
+        view.addEventListener("keydown", (e) => {
           const map: Record<string, [number, number]> = { ArrowLeft: [-15, 0], ArrowRight: [15, 0], ArrowUp: [0, -10], ArrowDown: [0, 10] };
           const mv = map[e.key];
           if (!mv) return;
           e.preventDefault();
-          pose.s += mv[0]; pose.t = clamp(pose.t + mv[1], -40, 40); idle = 0; pose.vs = pose.vt = 0;
-          configView.classList.add("used");
-          if (configPin) kick(configPin);
+          off.s += mv[0]; off.t = clamp(off.t + mv[1], -40, 40); idle = 0; off.vs = off.vt = 0;
+          view.classList.add("used"); nudge();
         });
-        mountView(pin3d, canvas, configView, { metal, rings: rank, zoom: 1.4 }, {
+        mountView(pin3d, canvas, view, { metal: "brass", rings: level, zoom: 1.4 }, {
           frame(rp, dt) {
             let moving = dragging;
             if (!dragging) {
               // Coast: momentum that fades, then a slow return to the resting angle.
               const fr = Math.pow(0.94, dt / (1 / 60));
-              pose.s += pose.vs * dt; pose.t = clamp(pose.t + pose.vt * dt, -40, 40);
-              pose.vs *= fr; pose.vt *= fr;
-              if (Math.abs(pose.vs) + Math.abs(pose.vt) > 2) moving = true;
+              off.s += off.vs * dt; off.t = clamp(off.t + off.vt * dt, -40, 40);
+              off.vs *= fr; off.vt *= fr;
+              if (Math.abs(off.vs) + Math.abs(off.vt) > 2) moving = true;
               else {
-                pose.vs = pose.vt = 0;
+                off.vs = off.vt = 0;
                 idle += dt;
                 if (idle > 2.5 && !reduce.matches) {
                   // Unwind whole turns first, so it never spins the long way home.
-                  const target = REST.s + 360 * Math.round((pose.s - REST.s) / 360);
-                  const ds = target - pose.s, dtl = REST.t - pose.t;
-                  if (Math.abs(ds) + Math.abs(dtl) > 0.05) { pose.s += ds * Math.min(1, dt * 2.2); pose.t += dtl * Math.min(1, dt * 2.2); moving = true; }
+                  const target = 360 * Math.round(off.s / 360);
+                  const ds = target - off.s, dtl = -off.t;
+                  if (Math.abs(ds) + Math.abs(dtl) > 0.05) { off.s += ds * Math.min(1, dt * 2.2); off.t += dtl * Math.min(1, dt * 2.2); moving = true; }
+                  else { off.s = 0; off.t = 0; }
                 }
               }
             }
-            rp.pin.setPose(pose.s, pose.t);
+            const base = scrubbing() ? { s: -26 + 22 * scrubP, t: 12 - 9 * scrubP } : REST;
+            rp.pin.setPose(base.s + off.s, clamp(base.t + off.t, -40, 40));
             return rp.step(dt) || moving;
           },
-        }).then((rp) => { configPin = rp; if (debug) debug.config = rp; rp.setRings(rank, true); rp.setMetal(metal, true); kick(rp); }).catch(() => {});
+        }).then((rp) => {
+          pin = rp; if (debug) debug.way = rp;
+          if (scrubbing()) onScrub(); else rp.setRings(level, true);
+          kick(rp);
+        }).catch(() => {});
       }
 
       const start = () => {
         if (!desktop.matches || reduce.matches || !gpuOk()) return;
         root.dataset.live = "";
         startHero();
-        // The other two mount as they come near, so the page never builds three pins at once.
+        // The second mounts as it comes near, so the page never builds two pins at once.
         const near = (el: HTMLElement, fn: () => void) => {
           const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { io.disconnect(); fn(); } }, { rootMargin: "600px 0px" });
           io.observe(el);
         };
-        near(ringsView, startRings);
-        near(configView, startConfig);
+        near(view, startWay);
       };
       const later = () => ("requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1200));
       if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
