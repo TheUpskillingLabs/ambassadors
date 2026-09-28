@@ -44,14 +44,13 @@
     }
   ],
   "you": {
-    "$comment": "Our why: one manifesto block under the hero, nothing else. Its one effect: it lights up word by word as you scroll. em beats end bright, the rest end dim, so the bright ones read on their own. Keep it to one statement and one effect.",
+    "$comment": "Our why: one manifesto block under the hero, nothing else, in the ambassadors' own voice (we = the corps): why we spread the word about The Labs. Its one effect: it lights up word by word as you scroll. em beats end bright, the rest end dim, so the bright ones read on their own. Keep it to one statement and one effect.",
     "kicker": "Our why",
     "statement": [
       { "text": "Work is changing faster than anyone can learn alone.", "em": true },
-      { "text": "So we learn together.", "em": true },
-      { "text": "That's The Upskilling Labs. It's still finding its feet.", "em": false },
-      { "text": "Every community deserves one.", "em": false },
-      { "text": "Ambassadors are how it gets there.", "em": true },
+      { "text": "We found a place where nobody has to.", "em": true },
+      { "text": "It's called The Upskilling Labs. It's still finding its feet, and most people who'd love it haven't heard of it yet.", "em": false },
+      { "text": "So we tell them.", "em": true },
       { "text": "One conversation at a time.", "em": true }
     ]
   },
