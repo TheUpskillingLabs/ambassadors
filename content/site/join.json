@@ -44,7 +44,7 @@
     }
   ],
   "you": {
-    "$comment": "Our why: one manifesto block under the hero, nothing else. It lights up word by word as you scroll. em beats end bright, the rest end dim, so the bright ones read on their own. Words in [brackets] get a teal underline that draws in. 'moves' names words that animate: 'together' slides its letters together and turns teal, 'alone' drifts slightly apart.",
+    "$comment": "Our why: one manifesto block under the hero, nothing else. Its one effect: it lights up word by word as you scroll. em beats end bright, the rest end dim, so the bright ones read on their own. Keep it to one statement and one effect.",
     "kicker": "Our why",
     "statement": [
       { "text": "Work is changing faster than anyone can keep up with.", "em": true },
@@ -52,10 +52,9 @@
       { "text": "So we started The Upskilling Labs, where neighbors figure it out together.", "em": false },
       { "text": "It's just getting on its feet.", "em": false },
       { "text": "Every community could use one. Most don't have one yet.", "em": false },
-      { "text": "Ambassadors are how it gets there, one conversation at a time.", "em": true },
-      { "text": "You already know [who's next].", "em": true }
-    ],
-    "moves": { "alone": "apart", "together": "together" }
+      { "text": "Ambassadors are how it gets there.", "em": true },
+      { "text": "One conversation at a time.", "em": true }
+    ]
   },
   "labs": {
     "kicker": "About The Labs",

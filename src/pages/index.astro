@@ -28,20 +28,8 @@ const icons: Record<string, string> = {
 const pageTitle = `${j.title} · The Upskilling Labs`;
 
 // Our why: the manifesto, split into words so the page can light them up as
-// you read down. [Brackets] mark the phrase that gets an underline; "moves"
-// names the words whose letters animate (see join.json).
-const moves = j.you.moves as Record<string, string | undefined>;
-const manifesto = j.you.statement.map((beat) => ({
-  em: beat.em,
-  parts: beat.text.split(/(\[[^\]]+\])/).filter(Boolean).map((part) => ({
-    mark: part.startsWith("["),
-    words: part.replace(/^\[|\]$/g, "").trim().split(/\s+/).filter(Boolean).map((w) => {
-      const [, core = w] = w.match(/^([A-Za-z'’]+)/) ?? [];
-      const move = moves[core.toLowerCase()];
-      return { w, move, letters: move ? [...w] : [], mid: (core.length - 1) / 2 };
-    }),
-  })),
-}));
+// you read down (its one effect).
+const manifesto = j.you.statement.map((beat) => ({ em: beat.em, words: beat.text.split(/\s+/) }));
 ---
 <!doctype html>
 <html lang="en">
@@ -106,16 +94,7 @@ const manifesto = j.you.statement.map((beat) => ({
           <p class="kicker reveal">{j.you.kicker}</p>
           <p class="jp-manifesto" data-manifesto>
             {manifesto.map((beat, bi) => (
-              <>{bi > 0 && " "}<span class:list={["beat", { em: beat.em }]}>
-                {beat.parts.map((part, pi) => {
-                  const words = part.words.map((wd, wi) => (
-                    <>{wi > 0 && " "}{wd.move ? (
-                      <span class={`w mv ${wd.move}`}><span class="sr">{wd.w}</span><span aria-hidden="true">{wd.letters.map((l, li) => <span class="l" style={`--o:${(li - wd.mid).toFixed(2)};--i:${li};--y:${li % 2 ? 1 : -1}`}>{l}</span>)}</span></span>
-                    ) : <span class="w">{wd.w}</span>}</>
-                  ));
-                  return <>{pi > 0 && !/^[.,;:]/.test(part.words[0]?.w ?? "") && " "}{part.mark ? <span class="mark">{words}</span> : words}</>;
-                })}
-              </span></>
+              <>{bi > 0 && " "}<span class:list={["beat", { em: beat.em }]}>{beat.words.map((w, wi) => <>{wi > 0 && " "}<span class="w">{w}</span></>)}</span></>
             ))}
           </p>
         </div>
@@ -368,41 +347,28 @@ const manifesto = j.you.statement.map((beat) => ({
       }), { rootMargin: "-45% 0px -45% 0px" });
       howSteps.forEach((st) => howIo.observe(st));
 
-      // Our why: the manifesto lights up word by word as it passes a reading line
-      // 70% of the way down the screen, and goes back to shadow if you scroll up.
-      // "together" gathers its letters, "alone" lets them drift, and "who's next"
-      // gets its underline once its last word is lit. Reduced motion: all lit.
-      // The member card's two rings slide together when it comes into view.
-      const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // Our why: the manifesto lights up word by word as you scroll, starting as it
+      // rises past 85% of the screen and finishing as its centre passes 55%, so it's
+      // fully lit by the time you're looking straight at it. Scrolling back up puts
+      // it back in shadow. That's its one effect. Reduced motion: it's simply lit.
       const manifesto = document.querySelector<HTMLElement>("[data-manifesto]");
-      if (manifesto && !calm) {
+      if (manifesto && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
         const words = [...manifesto.querySelectorAll<HTMLElement>(".w")];
-        const marks = [...manifesto.querySelectorAll<HTMLElement>(".mark")].map((m) => ({ m, end: [...m.querySelectorAll<HTMLElement>(".w")].pop()! }));
         manifesto.classList.add("dim");
         let lit = -1, near = false, queued = false;
         const paint = () => {
           queued = false;
           const r = manifesto.getBoundingClientRect();
-          const n = Math.max(0, Math.min(words.length, Math.round(((innerHeight * 0.7 - r.top) / r.height) * words.length)));
+          const start = innerHeight * 0.85, end = Math.min(start - 1, innerHeight * 0.55 - r.height / 2);
+          const n = Math.max(0, Math.min(words.length, Math.round(((start - r.top) / (start - end)) * words.length)));
           if (n === lit) return;
           lit = n;
           words.forEach((w, i) => w.classList.toggle("lit", i < n));
-          marks.forEach(({ m, end }) => m.classList.toggle("lit", end.classList.contains("lit")));
         };
         new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) paint(); }, { rootMargin: "25% 0px" }).observe(manifesto);
         addEventListener("scroll", () => { if (near && !queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
         addEventListener("resize", () => { lit = -1; paint(); }, { passive: true });
         paint();
-      }
-      const venn = document.querySelector<SVGSVGElement>(".jp-members .venn");
-      if (venn && !calm) {
-        venn.classList.add("apart");
-        const meet = new IntersectionObserver(([e]) => {
-          if (!e.isIntersecting) return;
-          meet.disconnect();
-          setTimeout(() => venn.classList.remove("apart"), 250);
-        }, { threshold: 1, rootMargin: "0px 0px -15% 0px" });
-        meet.observe(venn);
       }
 
       // Videos: muted inline loops, started here too (some browsers ignore autoplay).
