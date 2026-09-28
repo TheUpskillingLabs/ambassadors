@@ -342,7 +342,8 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 @media (max-width: 680px) {
   .jp { --g: max(16px, env(safe-area-inset-left), env(safe-area-inset-right)); -webkit-tap-highlight-color: transparent; }
   html:has(.jp) { -webkit-text-size-adjust: 100%; }
-  .jp-hero { padding-top: calc(var(--head) + 24px); padding-bottom: 56px; }
+  /* The hero fills the first screen, so the next section never sits half-faded at the fold. */
+  .jp-hero { min-height: 100svh; justify-content: center; padding-top: calc(var(--head) + 24px); padding-bottom: 56px; }
   .jp-hero .stage { margin-top: 8px; }
   .jp-pin { width: min(84vw, 40svh); margin-top: calc(-0.8 * clamp(44px, 13.5vw, 210px)); }
   .jp-hero .lede-hero { margin-top: -6px; font-size: 20px; }
