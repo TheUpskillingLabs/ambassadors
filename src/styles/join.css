@@ -175,6 +175,19 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-reward img { width: 100%; aspect-ratio: 1; object-fit: contain; }
 .jp-reward h3 { margin: 10px 0 0; font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
 .jp-reward p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
+/* The member community: two overlapping rings (you can be both), matched by
+   a small ring beside each door's name. White for Supporting, teal for Contributing. */
+.jp-members { align-items: start; }
+.jp-members .venn { width: 100%; aspect-ratio: 1; align-self: center; }
+.jp-members .venn circle { fill: none; stroke-width: 2.5; }
+.jp-members .venn .a { stroke: rgba(255, 255, 255, 0.72); }
+.jp-members .venn .b { stroke: var(--teal); }
+.jp-members .venn .both { fill: rgba(0, 148, 160, 0.22); stroke: none; }
+.jp-members .doors { margin: 18px 0 0; display: grid; gap: 14px; }
+.jp-members .doors dt { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--t1); }
+.jp-members .doors dt::before { content: ""; flex: none; width: 10px; height: 10px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.72); }
+.jp-members .doors .b dt::before { border-color: var(--teal); }
+.jp-members .doors dd { margin: 4px 0 0 20px; font-size: 15px; line-height: 1.5; color: var(--t2); }
 
 /* goal */
 .jp-goal { padding-top: clamp(120px, 18vh, 176px); }
@@ -381,6 +394,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 @media (max-width: 480px) {
   .jp-reward { grid-template-columns: 1fr; gap: 12px; }
   .jp-reward img { width: 104px; }
+  .jp-members .venn { width: 104px; }
   .jp-reward h3 { font-size: 22px; }
 }
 /* Filter animations are expensive on phones: covers and the hero keep opacity and transform only. */

@@ -1,13 +1,13 @@
 {
-  "$comment": "The public Ambassador Program page (the front page, /; /join/ redirects there). The idea: think of someone who's figuring out what's next. The hero is the mockup's; the three covers are chapter titles and each chapter's opener flows from its cover. [N] marks a number still to be set. Every 'Become an ambassador' button goes to /apply/ (content/site/apply.json). The launch roster reads data/roster.json.",
+  "$comment": "The public Ambassador Program page (the front page, /; /join/ redirects there). The idea: think of someone who's figuring out what's next. The hero is the mockup's; the three covers are chapter titles and each chapter's opener flows from its cover. [N] marks a number still to be set. Every 'Become an ambassador' button goes to /apply/ (content/site/apply.json). The launch roster reads data/roster.json. The pin isn't on this page: it's the Contributing Member pin now, not an ambassador reward (see /contributing/). The page mentions the member community instead, in the path section.",
   "placeholder": true,
   "title": "Ambassador Program",
-  "description": "Think of someone who's figuring out what's next. It takes about ten minutes to join, we'll give you the words, and there's a pin we're building toward together.",
+  "description": "Think of someone who's figuring out what's next. It takes about ten minutes to join, and we'll give you the words.",
   "nav": {
     "brand": "Ambassadors",
     "why": "Why join",
     "how": "How it works",
-    "pin": "The pin",
+    "commit": "What it takes",
     "cta": "Become an ambassador",
     "ctaShort": "Join us",
     "guide": "Ambassador guide"
@@ -17,7 +17,7 @@
       "Ambassador",
       "Program"
     ],
-    "pinAlt": "The Ambassador button, floating and turning to follow your pointer",
+    "buttonAlt": "The Ambassador button, floating and turning to follow your pointer",
     "lede": "A volunteer community for people who love to share a good thing.",
     "cta": "Become an ambassador",
     "secondary": "See why",
@@ -158,7 +158,7 @@
     "kicker": "How it works",
     "title": [
       "The button says you're in.",
-      "The pin is what we're building toward."
+      "Then you pass it on."
     ],
     "lede": "A few small steps, each one celebrated. Your coordinator, a local volunteer lead, is with you the whole way.",
     "steps": [
@@ -185,35 +185,30 @@
         "body": "Invite [N] people to their first workshop, give one talk, and welcome one new ambassador.",
         "milestone": true,
         "reward": "button"
-      },
-      {
-        "title": "Help shape what's next.",
-        "body": "We're building toward a pin for people who help The Labs in more than one way. Our first ambassadors will help decide what it takes.",
-        "milestone": false,
-        "reward": "pin"
       }
     ],
-    "rewards": [
-      {
-        "id": "button",
-        "kicker": "When you join",
-        "title": "The button",
-        "body": "Given to you in person by your coordinator. It's how ambassadors recognize each other.",
-        "image": "button-card.webp",
-        "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
-      },
-      {
-        "id": "pin",
-        "kicker": "What we're building toward",
-        "title": "The pin",
-        "body": "A pin for people who help The Labs in more than one way, earned rather than bought. We're still working out the details, together with our first ambassadors.",
-        "image": "pin-card.webp",
-        "alt": "The pin: the orb mark with teal and red cat-eye enamel"
-      }
-    ],
-    "visualAlt": {
-      "button": "The ambassador button",
-      "pin": "The pin"
+    "button": {
+      "kicker": "When you join",
+      "title": "The button",
+      "body": "Given to you in person by your coordinator. It's how ambassadors recognize each other.",
+      "image": "button-card.webp",
+      "alt": "The ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR in white"
+    },
+    "members": {
+      "$comment": "The member community, beside the button. Two doors that aren't exclusive: Supporting (light dues, a button) and Contributing (recognized for work, never bought). Neither is statutory membership, and neither buys a vote (design/research/recognition-system.md). No link or dues amount yet: how to join as a Supporting Member isn't set, and /contributing/ stays unlisted until the board approves the ranks.",
+      "kicker": "Beyond the program",
+      "title": "The member community",
+      "body": "There are two ways in, and you can take both. Neither is needed to be an ambassador.",
+      "doors": [
+        {
+          "name": "Supporting Member",
+          "body": "Chip in light dues, and wear a button that says you back The Labs."
+        },
+        {
+          "name": "Contributing Member",
+          "body": "Make something The Labs now runs on, like a better version of the guide you're about to use. It's recognized, never bought."
+        }
+      ]
     },
     "cta": "Become an ambassador"
   },
@@ -257,8 +252,7 @@
   },
   "footer": {
     "legal": "A fiscally sponsored project of Superbloom Design, a 501(c)(3). Our own status is pending.",
-    "renders": "Images of the button and pin are 3D renders, not photos.",
-    "pinLink": "Meet the pin",
+    "renders": "Images of the button are 3D renders, not photos.",
     "sponsors": "Started at, and sponsored by",
     "guide": "Already an ambassador? Open the guide",
     "rights": "© 2026 The Upskilling Labs, Inc. All rights reserved."
@@ -269,7 +263,7 @@
     "items": [
       {
         "q": "Does it cost anything?",
-        "a": "No. Being an ambassador is free, and so is everything at The Labs."
+        "a": "No. Being an ambassador is free, and so is every program at The Labs. Supporting membership is the only thing with dues, and it's optional."
       },
       {
         "q": "How much time does it take?",
@@ -284,10 +278,6 @@
         "a": "Not at all. Curiosity and a story of your own are plenty."
       },
       {
-        "q": "What's the pin?",
-        "a": "It's what we're building toward: a pin for people who help The Labs in more than one way, earned rather than bought. Our first ambassadors will help shape it."
-      },
-      {
         "q": "Can I stop?",
         "a": "Yes, any time. You're always welcome back."
       },
@@ -297,7 +287,7 @@
       }
     ],
     "cta": "Become an ambassador",
-    "$comment": "Placeholders kept out of the copy: add a typical hours-per-month figure to the time answer; confirm the coordinator's details for the last answer. Confirm how much of each way of contributing earns the pin, and who the core team is (regional or HQ)."
+    "$comment": "Placeholders kept out of the copy: add a typical hours-per-month figure to the time answer; confirm the coordinator's details for the last answer. Confirm who the core team is (regional or HQ)."
   },
   "commit": {
     "kicker": "In short",

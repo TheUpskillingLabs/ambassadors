@@ -38,7 +38,10 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={j.description} />
-    <meta property="og:image" content={new URL(media("pin.webp"), Astro.site)} />
+    <meta property="og:image" content={new URL(media("button-share.jpg"), Astro.site)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={j.hero.buttonAlt} />
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" />
   </head>
@@ -53,7 +56,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         <ul class="jp-links">
           <li><a class="navlink" href="#you" data-spy="you labs team ripple goal">{j.nav.why}</a></li>
           <li><a class="navlink" href="#path" data-spy="path">{j.nav.how}</a></li>
-          <li><a class="navlink" href="#pin" data-spy="pin">{j.nav.pin}</a></li>
+          <li><a class="navlink" href="#commit" data-spy="commit join">{j.nav.commit}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={guideHome}>{j.nav.guide}</a>
@@ -68,7 +71,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         <div class="stage">
           <h1 class="wordin">{j.hero.title[0]}<br />{j.hero.title[1]}</h1>
           <div class="jp-pin pinin">
-            <div class="bob" role="img" aria-label={j.hero.pinAlt} data-pin3d={media("pin3d.js")} data-art={media("button-art.webp")}>
+            <div class="bob" role="img" aria-label={j.hero.buttonAlt} data-pin3d={media("pin3d.js")} data-art={media("button-art.webp")}>
               <img src={still} srcset={stillSet} sizes="min(760px, 94vw, 56vh)" alt="" width="760" height="760" fetchpriority="high" data-still />
               <canvas aria-hidden="true" data-pin-canvas></canvas>
             </div>
@@ -202,7 +205,6 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <div class="jp-how" data-how>
             <div class="jp-how-visual" aria-hidden="true">
               <img src={media("button-800.webp")} alt="" width="800" height="800" loading="lazy" data-how-visual="button" class="on" />
-              <img src={media("pin-800.webp")} alt="" width="800" height="800" loading="lazy" data-how-visual="pin" />
             </div>
             <ol class="jp-steps reveal">
               {j.path.steps.map((s, i) => (
@@ -211,12 +213,27 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
             </ol>
           </div>
           <div class="jp-rewards reveal">
-            {j.path.rewards.map((r) => (
-              <div id={r.id} class="jp-reward">
-                <img src={media(r.image)} alt={r.alt} loading="lazy" width="180" height="180" />
-                <div><p class="kicker">{r.kicker}</p><h3>{r.title}</h3><p>{r.body}</p></div>
+            <div id="button" class="jp-reward">
+              <img src={media(j.path.button.image)} alt={j.path.button.alt} loading="lazy" width="180" height="180" />
+              <div><p class="kicker">{j.path.button.kicker}</p><h3>{j.path.button.title}</h3><p>{j.path.button.body}</p></div>
+            </div>
+            <div id="members" class="jp-reward jp-members">
+              <!-- Two doors that overlap: you can be both. -->
+              <svg class="venn" viewBox="0 0 132 132" aria-hidden="true">
+                <defs><clipPath id="venn-a"><circle cx="50" cy="66" r="38" /></clipPath></defs>
+                <circle cx="82" cy="66" r="38" clip-path="url(#venn-a)" class="both" />
+                <circle cx="50" cy="66" r="38" class="a" />
+                <circle cx="82" cy="66" r="38" class="b" />
+              </svg>
+              <div>
+                <p class="kicker">{j.path.members.kicker}</p><h3>{j.path.members.title}</h3><p>{j.path.members.body}</p>
+                <dl class="doors">
+                  {j.path.members.doors.map((d, i) => (
+                    <div class={i ? "b" : "a"}><dt>{d.name}</dt><dd>{d.body}</dd></div>
+                  ))}
+                </dl>
               </div>
-            ))}
+            </div>
           </div>
           <p class="jp-cta-row reveal"><a class="btn" href={apply}>{j.path.cta}</a></p>
         </div>
@@ -269,7 +286,6 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
           <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
           <p>{j.footer.legal}</p>
           <p>{j.footer.rights}</p>
-          <p><a class="textlink" href="#pin">{j.footer.pinLink}</a></p>
           <p>{j.footer.renders}</p>
           <p><a class="textlink" href={guideHome}>{j.footer.guide} →</a></p>
           {j.placeholder && <p class="ph">[PLACEHOLDER] draft copy: [N] and the join link are still to be set.</p>}
@@ -299,7 +315,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["you", "labs", "team", "ripple", "goal", "path", "pin", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
+      const order = ["you", "labs", "team", "ripple", "goal", "path", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
       let queued = false;
       const spy = () => {
         queued = false;
@@ -321,7 +337,7 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
       }
 
       // How it works: the step crossing the middle of the screen is the active
-      // one, and the sticky picture shows its reward (each step names its own: button or pin).
+      // one, and the sticky picture shows its reward (each step names its own; all are the button for now).
       const how = document.querySelector<HTMLElement>("[data-how]")!;
       const howSteps = [...how.querySelectorAll<HTMLElement>("[data-how-step]")];
       const howVisuals = [...how.querySelectorAll<HTMLElement>("[data-how-visual]")];
