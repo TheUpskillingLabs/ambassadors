@@ -77,7 +77,7 @@
     "readTitle": "The short version",
     "read": [
       "Most people find The Labs because someone they know said “come with me.”",
-      "The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. It grew out of a fall 2025 pilot run by DC Public Library and Levy, a local strategic design firm, for about 50 ex-feds navigating career change and new technology. The pilot's alums founded The Labs.",
+      "The Labs is free. Workshops, Build Cycles, all of it. Run by volunteers. It grew out of a fall 2025 pilot run by DC Public Library and Levy, a strategic design firm, for about 50 ex-feds navigating career change and new technology. The pilot's alums founded The Labs in January 2026.",
       "The tagline: “Find your people. Build your edge.” The idea behind it: AI is rewriting how we work, and it's easier to learn together than alone.",
       "You don't need a technical background. Just a willingness to learn by doing alongside others.",
       "A Build Cycle is twelve weeks, four a year: Problem Discovery, then Experimentation, then Synthesis. Small teams called pods form around the problems people vote for. Everything built is open-source by default.",
@@ -115,7 +115,7 @@
         "why": "“Find your people. Build your edge.” It captures both sides: the community (find your people) and the skills (build your edge)."
       },
       {
-        "q": "What is the central idea behind why The Labs exist?",
+        "q": "What is the central idea behind why The Labs exists?",
         "options": [
           "AI is rewriting how we work, and it's easier to learn together than alone",
           "Traditional universities are too expensive",
@@ -124,7 +124,7 @@
         ],
         "answer": 0,
         "hint": "It's about a big shift in work, and doing something about it together.",
-        "why": "The Labs are built on the belief that AI is changing work, and learning it alongside people near you beats going it alone."
+        "why": "The Labs is built on the belief that AI is changing work, and learning it alongside people near you beats going it alone."
       },
       {
         "q": "How long is a Build Cycle, and how many run per year?",
@@ -172,10 +172,10 @@
         ],
         "answer": 0,
         "hint": "The whole point is that it's open to everyone.",
-        "why": "No technical background is needed. The Labs are peer-powered and project-based, open to anyone willing to learn by doing."
+        "why": "No technical background is needed. The Labs is peer-powered and project-based, open to anyone willing to learn by doing."
       },
       {
-        "q": "What two broad categories of skills do The Labs teach?",
+        "q": "What two broad categories of skills does The Labs teach?",
         "options": [
           "Durable (human) skills and AI (technical) skills",
           "Coding skills and design skills",
@@ -189,15 +189,15 @@
       {
         "q": "Where did The Upskilling Labs start?",
         "options": [
-          "In a DC Public Library pilot, run with the design firm Levy, whose alums founded The Labs",
+          "In a DC Public Library pilot, run with the strategic design firm Levy, whose alums founded The Labs",
           "In Silicon Valley, as a startup accelerator",
           "Online during the pandemic in 2020",
           "At a university in Baltimore"
         ],
         "answer": 0,
         "hint": "A library, the nation's capital, and a group of former federal workers.",
-        "why": "It began as a fall 2025 pilot run by DC Public Library and Levy, a local strategic design firm, for about 50 ex-feds navigating career change and new technology. The alums of that pilot created The Upskilling Labs.",
-        "$comment": "The coordinator's note: confirm the date. The brand brief lists the launch as January 2026; the pilot was fall 2025. Edit the explanation to match the official timeline."
+        "why": "It began as a fall 2025 pilot run by DC Public Library and Levy, a strategic design firm, for about 50 ex-feds navigating career change and new technology. The alums of that pilot founded The Upskilling Labs in January 2026.",
+        "$comment": "Dates confirmed: the pilot ran in fall 2025; the organisation was founded in January 2026."
       },
       {
         "q": "What happens to the work members create during a Build Cycle?",
@@ -212,7 +212,7 @@
         "why": "Everything created is open-source by default (MIT code, CC BY 4.0 content). Even The Labs' own playbooks are built in the open."
       },
       {
-        "q": "Why does the Labs platform ask you to sign in with a Google account?",
+        "q": "Why does The Labs ask you to sign in with a Google account?",
         "options": [
           "To use only your name, email, and profile picture. Never your Gmail, Drive, or Calendar",
           "To scan your emails for networking opportunities",

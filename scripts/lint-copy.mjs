@@ -14,6 +14,8 @@ const RULES = [
   [/\bon a mission to\b/i, 'every brand says "on a mission to"; say what we do'],
   [/\bpassionate\b/i, 'say what we do, not that we\'re "passionate" about it'],
   [/\bthoughtfully\b/i, '"thoughtfully" is filler; cut it or say how'],
+  [/(^|[^A-Za-z])the Labs\b/, 'always "The Labs", capital T'],
+  [/\b(a|every|each|those|these|any|your|per) Labs\b/, 'never a bare "Labs": say "The Labs"'],
 ];
 // Files (or JSON keys) that quote banned words in order to forbid them.
 const ALLOW_FILES = new Set(["content/steps/labs.md", "content/site/ui.en.json"]);
