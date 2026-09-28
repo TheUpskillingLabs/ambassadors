@@ -3,7 +3,7 @@
    Anyone can contribute; roles are where you practise; the Contributing
    Member pin recognizes work The Labs runs on; Reviewer, Committer and
    Maintainer each add a ring and a responsibility. Unlisted (noindex, not
-   linked from the program page) until the board approves the ranks.
+   linked from the program page) until the board approves the levels.
    /roles/, /pin/ and /contributors/ redirect here.
 
    The pins are live 3D on desktop: public/join/pin3d.js (the program page's
@@ -60,7 +60,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <li><a class="navlink" href="#start" data-spy="start">{c.nav.start}</a></li>
           <li><a class="navlink" href="#rings" data-spy="rings">{c.nav.rings}</a></li>
           <li><a class="navlink" href="#closeup" data-spy="closeup">{c.nav.metal}</a></li>
-          <li><a class="navlink" href="#given" data-spy="given decides">{c.nav.given}</a></li>
+          <li><a class="navlink" href="#given" data-spy="given status decides">{c.nav.given}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={home}>{c.nav.program}</a>
@@ -148,7 +148,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         <p class="wrap cm-note">{c.rings.names}</p>
       </section>
 
-      <!-- Up close: pick a rank and turn its pin. -->
+      <!-- Up close: pick a level and turn its pin. -->
       <section id="closeup" class="jp-sec cm-metal">
         <div class="wrap">
           <div class="reveal">
@@ -194,6 +194,21 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
               <li class:list={{ milestone: i === c.given.steps.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
             ))}
           </ol>
+        </div>
+      </section>
+
+      <section id="status" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.status.kicker}</p>
+            <h2 class="h2">{c.status.title}</h2>
+            <p class="lede">{c.status.lede}</p>
+          </div>
+          <div class="jp-cols three cm-status reveal">
+            {c.status.items.map((it) => (
+              <div class="jp-col" data-status={it.label.toLowerCase()}><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -250,7 +265,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["start", "rings", "closeup", "given", "decides", "join"].map((id) => document.getElementById(id)!);
+      const order = ["start", "rings", "closeup", "given", "status", "decides", "join"].map((id) => document.getElementById(id)!);
       let spyQueued = false;
       const spy = () => {
         spyQueued = false;

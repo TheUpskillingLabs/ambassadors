@@ -1,5 +1,5 @@
 {
-  "$comment": "The contributor community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the ranks. Learning by doing, applied to The Labs itself: anyone can contribute, and each rank means you've worked hands-on in more of its workstreams, major and minor. The pins are the symbol, live 3D on desktop. Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open.",
+  "$comment": "The contributor community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, not linked from the program page) until the board approves the levels. Learning by doing, applied to The Labs itself: anyone can contribute, and each level means you've worked hands-on in more of its workstreams, major and minor. The pins are the symbol, live 3D on desktop. Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open.",
   "placeholder": true,
   "title": "Contributing",
   "description": "Learn by doing, on The Labs itself. Anyone can contribute; every step up means you've worked hands-on in more of how The Labs runs.",
@@ -13,7 +13,7 @@
     "cta": "Become an ambassador",
     "ctaShort": "Join us"
   },
-  "draft": "A working draft. The board hasn't approved the ranks or the workstreams yet, and the pins are still being made.",
+  "draft": "A working draft. The board hasn't approved the levels or the workstreams yet, and the pins are still being made.",
   "hero": {
     "title": [
       "Build",
@@ -49,7 +49,7 @@
   "rings": {
     "kicker": "The way up",
     "title": "Every step up is more of The Labs, hands on.",
-    "lede": "Each rank means you've worked in more of The Labs' workstreams: the major ones, and the minor ones along the way. The pin marks how far you've gone.",
+    "lede": "Each level means you've worked in more of The Labs' workstreams: the major ones, and the minor ones along the way. The pin marks how far you've gone.",
     "readout": {
       "label": "Hands-on in"
     },
@@ -91,13 +91,13 @@
         "trusted": "Setting the direction for a workstream. The board keeps the final say."
       }
     ],
-    "names": "Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Minor ones include events, communications and research. Workstreams and rank names are drafts until the board decides. [PLACEHOLDER]"
+    "names": "Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Minor ones include events, communications and research. Workstreams and level names are drafts until the board decides. [PLACEHOLDER]"
   },
   "metal": {
     "kicker": "Up close",
-    "title": "Every rank has its own pin.",
-    "lede": "Pick one and turn it. Each is given in person, and none is ever for sale.",
-    "rankLegend": "Rank",
+    "title": "Every level has its own pin.",
+    "lede": "Pick a level and turn its pin. Each is given in person, and none is ever for sale.",
+    "rankLegend": "Level",
     "ranks": [
       "Member",
       "Reviewer",
@@ -120,11 +120,11 @@
     "steps": [
       {
         "title": "Do the work.",
-        "body": "Get hands-on: make something The Labs can reuse, or practise in the workstreams a rank asks for."
+        "body": "Get hands-on: make something The Labs can reuse, or practise in the workstreams a level asks for."
       },
       {
         "title": "Someone vouches.",
-        "body": "Pin holders put your name forward. For a rank, that's two sponsors, from different workstreams or Labs."
+        "body": "Pin holders put your name forward. For the next level, that's two sponsors, from different workstreams or Labs."
       },
       {
         "title": "It's recorded.",
@@ -136,15 +136,31 @@
       }
     ]
   },
+  "status": {
+    "kicker": "Active or emeritus",
+    "title": "Every level is active or emeritus.",
+    "lede": "Your level is yours for good. What changes is whether you're doing the work right now.",
+    "items": [
+      {
+        "label": "Active",
+        "title": "Doing the work now.",
+        "body": "You hold a seat in your Lab, with the permissions your level brings. The board grants them in writing, and the register shows who's active."
+      },
+      {
+        "label": "Emeritus",
+        "title": "Stepped back, still yours.",
+        "body": "You keep the level, the title, the pin, and your voice. Come back to any open seat without starting over."
+      }
+    ]
+  },
   "decides": {
     "kicker": "What stays true",
-    "title": "Ranks recognize. Boards decide.",
+    "title": "Levels recognize. Boards decide.",
     "rules": [
-      "The pin is yours for good. Permissions come with an active seat, granted by the board in writing.",
-      "Ranks carry no vote. The boards run programs, money, people and the brand.",
-      "No one can buy a pin, a rank, or a vote.",
+      "Levels carry no vote. The boards run programs, money, people and the brand.",
+      "No one can buy a pin, a level, or a vote.",
       "It's recognition, not certification. It's the community saying thank you.",
-      "Step back whenever you need to. You keep the pin and the title."
+      "The one exception to keeping your level: a serious breach of the Code of Conduct."
     ]
   },
   "join": {
