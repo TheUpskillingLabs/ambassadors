@@ -57,7 +57,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <span class="wide-only">{c.nav.brand}</span>
         </a>
         <ul class="jp-links">
-          <li><a class="navlink" href="#start" data-spy="start">{c.nav.start}</a></li>
+          <li><a class="navlink" href="#start" data-spy="why start">{c.nav.start}</a></li>
           <li><a class="navlink" href="#rings" data-spy="rings">{c.nav.rings}</a></li>
           <li><a class="navlink" href="#closeup" data-spy="closeup">{c.nav.metal}</a></li>
           <li><a class="navlink" href="#given" data-spy="given status decides">{c.nav.given}</a></li>
@@ -90,7 +90,22 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         <p class="cm-draft rise d3"><b>Draft.</b> {c.draft}</p>
       </section>
 
-      <!-- Ways in: contribute, take a role, get recognized. -->
+      <!-- Why here: what makes The Labs different. -->
+      <section id="why" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.why.kicker}</p>
+            <h2 class="h2">{c.why.title}</h2>
+          </div>
+          <div class="jp-cols four cm-four reveal">
+            {c.why.items.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Ways in: contribute, take a role, share what you know, get recognized. -->
       <section id="start" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
@@ -98,7 +113,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
             <h2 class="h2 cm-h2-wide">{c.start.title}</h2>
             <p class="lede">{c.start.lede}</p>
           </div>
-          <div class="jp-cols three reveal">
+          <div class="jp-cols four cm-four reveal">
             {c.start.items.map((it) => (
               <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
             ))}
@@ -194,6 +209,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
               <li class:list={{ milestone: i === c.given.steps.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
             ))}
           </ol>
+          <p class="cm-note">{c.given.note}</p>
         </div>
       </section>
 
@@ -265,7 +281,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["start", "rings", "closeup", "given", "status", "decides", "join"].map((id) => document.getElementById(id)!);
+      const order = ["why", "start", "rings", "closeup", "given", "status", "decides", "join"].map((id) => document.getElementById(id)!);
       let spyQueued = false;
       const spy = () => {
         spyQueued = false;

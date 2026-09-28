@@ -2,6 +2,8 @@
 
 > Saved from the owner's working draft (Sep 28, 2026, latest revision: Contributing Member and one-piece ring pins) as the source for the unlisted `/contributing/` page. Not approved by the board. The site shows only the framework, with `[PLACEHOLDER]` wherever the draft is still open.
 
+> **Site update (Sep 28, 2026):** the page calls these **levels**, each **active** or **emeritus**, not ranks. **Committer** is shown as **Approver** (plainer, and it avoids code-only language); the pin images keep `committer` as an internal ID. The page also says that experts can stay mentors: their time counts toward recognition without climbing further. The draft below is unchanged.
+
 Explored Sep 28, 2026. It's a working draft: nothing here is approved by the board yet. It supersedes the "Roles and recognition" section in `ambassador-program.md`.
 
 ## Brendan's direction so far

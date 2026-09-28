@@ -6,7 +6,7 @@ import data from "../../data/register.json";
 export type RegisterEntry = {
   number: string;
   name: string;
-  rank: "Contributing Member" | "Reviewer" | "Committer" | "Maintainer";
+  rank: "Contributing Member" | "Reviewer" | "Approver" | "Maintainer";
   level: "regional" | "national";
   region?: string;
   since?: string;
