@@ -80,9 +80,11 @@
 
 /* ── hero: a Swiss poster, with ma (間): the space left empty is part of the
    composition. The title is set to the full width of the grid across the top,
-   flush left (sized from the width: "AMBASSADOR" in Geologica Bold at -0.05em
-   is 6.83 times as wide as its size, and 100cqw is the hero's content width,
-   inside the gutters), fading as it falls. The foot of the poster holds two
+   flush left, in sentence case (sized from the width: "Ambassador" in Geologica
+   Bold at -0.045em is 5.86 times as wide as its size, and 100cqw is the hero's
+   content width, inside the gutters; on short, wide screens the height caps
+   it), fading as it falls. "Program" then ends where column 9 begins, so the
+   button nests beside it. The foot of the poster holds two
    things on one line: the lede and the one button at the bottom left, and the
    Ambassador button at the bottom right with the status set under it like a
    caption. Between them and the title, nothing.
@@ -94,7 +96,7 @@
   justify-items: start; text-align: left; min-height: 100svh;
   padding: calc(var(--head) + clamp(40px, 7vh, 72px)) var(--g) clamp(32px, 6vh, 64px); }
 .sw .jp-hero .stage { display: contents; }
-.sw .jp-hero h1 { grid-row: 1; position: relative; z-index: 1; font-size: calc(100cqw / 6.86); line-height: 0.82; letter-spacing: -0.05em; }
+.sw .jp-hero h1 { grid-row: 1; position: relative; z-index: 1; font-size: min(calc(100cqw / 5.9), 32vh); line-height: 0.86; letter-spacing: -0.045em; text-transform: none; }
 .sw .jp-hero .lede-hero { grid-row: 2; width: auto; max-width: 17em; margin: clamp(20px, 3vh, 32px) 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: balance; }
 .sw .jp-hero .ctas { grid-row: 3; margin-top: 22px; justify-content: flex-start; }
 .sw .jp-pin { --v: min(58vw, 30svh); grid-row: 5; justify-self: end; width: calc(var(--v) / 0.613); pointer-events: none;
@@ -106,7 +108,7 @@
   .sw .jp-hero h1 { grid-column: 1 / -1; grid-row: 1; }
   .sw .jp-hero .lede-hero { grid-column: 1 / span 6; grid-row: 3; align-self: end; margin: 0; }
   .sw .jp-hero .ctas { grid-column: 1 / span 6; grid-row: 4; margin: 26px 0 0; }
-  .sw .jp-pin { --v: min(100%, 36vh); grid-column: 9 / -1; grid-row: 2 / 4; align-self: end; justify-self: start; }
+  .sw .jp-pin { --v: min(100%, 36vh); grid-column: 9 / -1; grid-row: 1 / 4; align-self: end; justify-self: start; }
   .sw .jp-hero .status { grid-column: 9 / -1; grid-row: 4; justify-self: start; align-self: start; width: auto; margin: 26px 0 0; padding-top: 2px; }
 }
 
