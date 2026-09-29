@@ -1,5 +1,5 @@
 {
-  "$comment": "The role recruitment pages, one per role button, in this order (the comparison section on every page lists them all). Each page's copy is in content/roles/<slug>.json. Unlisted drafts (noindex) until the board approves the roles; see design/research/recognition-system.md. Ambassador's page is also the program page at /.",
+  "$comment": "The role recruitment pages, one per role button, in this order (the comparison section on every page, and the home page's roles, list them all). Each page's copy is in content/roles/<slug>.json. Unlisted drafts (noindex) until the board approves the roles; see design/research/recognition-system.md. /ambassador/ is the Ambassador program page.",
   "placeholder": true,
   "kicker": "Other roles",
   "title": "Which role is right for you?",
@@ -8,10 +8,35 @@
   "more": "Learn more",
   "draft": "A draft for review. The roles and their details aren't final until the board approves them.",
   "roles": [
-    { "slug": "upskiller", "name": "Upskiller", "line": "Learn by building a real thing, on a team.", "time": "About three months" },
-    { "slug": "ambassador", "name": "Ambassador", "line": "Help the right people find The Labs.", "time": "A few conversations and one talk" },
-    { "slug": "poderator", "name": "Poderator", "line": "Keep a Pod together, first night to Demo Day.", "time": "One Build Cycle" },
-    { "slug": "mentor", "name": "Mentor", "line": "Help a Pod when it gets stuck.", "time": "A single workshop, or a whole cycle" },
-    { "slug": "supporting-member", "name": "Supporting Member", "line": "Back The Labs, and wear it.", "time": "Light dues, once a year" }
+    {
+      "slug": "upskiller",
+      "name": "Upskiller",
+      "line": "Learn by building a real thing, on a team.",
+      "time": "About three months"
+    },
+    {
+      "slug": "ambassador",
+      "name": "Ambassador",
+      "line": "Help the right people find The Labs.",
+      "time": "A few conversations and one talk"
+    },
+    {
+      "slug": "poderator",
+      "name": "Poderator",
+      "line": "Keep a Pod together, first night to Demo Day.",
+      "time": "One Build Cycle"
+    },
+    {
+      "slug": "mentor",
+      "name": "Mentor",
+      "line": "Help a Pod when it gets stuck.",
+      "time": "A single workshop, or a whole cycle"
+    },
+    {
+      "slug": "supporting-member",
+      "name": "Supporting Member",
+      "line": "Back The Labs, and wear it.",
+      "time": "Light dues, once a year"
+    }
   ]
 }

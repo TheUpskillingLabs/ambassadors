@@ -14,11 +14,12 @@ export default defineConfig({
   base: BASE,
   trailingSlash: "ignore",
   build: { format: "directory" },
-  // The program page moved from /join/ to the front door, and /contributors/,
+  // The Ambassador program page is /ambassador/ (it was /join/, then the front
+  // door, which is now The Upskilling Labs home page), and /contributors/,
   // /pin/ and /roles/ became /contributing/; old links still work. Astro
   // doesn't add the base to a redirect target, so it's added here.
   redirects: {
-    "/join": `${BASE.replace(/\/+$/, "")}/`,
+    "/join": `${BASE.replace(/\/+$/, "")}/ambassador/`,
     "/contributors": `${BASE.replace(/\/+$/, "")}/contributing/`,
     "/pin": `${BASE.replace(/\/+$/, "")}/contributing/`,
     "/roles": `${BASE.replace(/\/+$/, "")}/contributing/`,

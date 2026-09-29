@@ -40,7 +40,7 @@ interface Role {
   nav: { why: string; how: string; roles: string; cta: string; ctaShort: string };
   hero: { eyebrow: string; title: string[]; alt: string };
   intro: { lede: string; strong: string; terms: string; cta: string; href: string; status: string };
-  moments: { kicker: string; title: string; items: { step: string; title: string; body: string }[] };
+  moments: { kicker: string; title: string; items: { step: string; title: string; body: string; icon?: string }[] };
   simple: { kicker: string; title: string; items: { icon: string; title: string; body: string }[] };
   path: { kicker: string; title: string; steps: Step[] };
   button: { kicker: string; title: string; body: string; rim: string };
@@ -66,6 +66,8 @@ const pageTitle = `${r.role} · The Upskilling Labs`;
 const sizes = "(min-width: 1024px) min(75vh, 848px), min(128vw, 69svh)";
 const ph = (s: string) => s.includes("[PLACEHOLDER]") || s.includes("[N]");
 const nos = ["01", "02", "03", "04", "05", "06"];
+// The brass moment pins are centred in their renders; each hangs flush left by its own inset (its left edge as a share of the image's width).
+const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake: 0.079 };
 
 // Line icons for the facts, 24px, drawn in the page's teal.
 const icons: Record<string, string> = {
@@ -155,6 +157,7 @@ const icons: Record<string, string> = {
             {r.moments.items.map((m, i) => (
               <li class="rp-row reveal">
                 <p class="rp-step"><span class="no">{nos[i]}</span>{m.step}</p>
+                {m.icon && <img class="rp-row-pin" src={u(`/join/moment-${m.icon}.webp`)} alt="" width="480" height="480" loading="lazy" decoding="async" style={`--inset: ${pinInset[m.icon] ?? 0.1}`} />}
                 <h3>{m.title}</h3>
                 <p class:list={["rp-body", { ph: ph(m.body) }]}>{m.body}</p>
               </li>
