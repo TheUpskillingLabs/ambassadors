@@ -35,12 +35,12 @@ Three acts, one continuous camera, scrubbed by scroll like the levels on `/contr
 ```
 
 - **Five major wedges**, wide. **Minor wedges**, narrow, between them (events, communications, research). Every wedge has the same depth from the outer edge to the pin.
-- **A wedge is a room, not a role.** Each wedge holds everything that kind of work involves. Community & Outreach holds the ambassador corps, partners, events, the newsletter, the story of The Labs. Build Cycle holds pods, Poderators, Mentors, Demo Day. The role you enter by is drawn as a doorway at the rim; the rest of the wedge is open floor, with a few small markers for the other kinds of work in it, so it's clear the room is bigger than the door.
+- **A wedge is a room, not a role.** Each wedge holds everything that kind of work involves. Community & Outreach holds the ambassador corps, partners, events, the newsletter, the story of The Labs. Build Cycle holds pods, Poderators, Demo Day. Learning Pathways holds workshops, Mentors, the people who learned it last cycle teaching the next. The role you enter by is drawn as a doorway at the rim; the rest of the wedge is open floor, with a few small markers for the other kinds of work in it, so it's clear the room is bigger than the door.
 - **Depth is practice.** Each wedge has two bands: the outer band is *trained* (you hold the role's button), the inner band is *practiced* (the metal rim on the button, or hands-on work anywhere in the wedge). A wedge counts as hands-on once its inner band is lit. Practice can come through the role's door or through any other work in the room: an Ambassador who ends up running the newsletter has practiced comms.
 - **The doors** are on the outer rim of the disc, one per way in, marked with the object you get:
-  - **Take a role.** A button-shaped door at the mouth of the wedge the role opens into. Ambassador on Community & Outreach: the way into comms overall. Upskiller, Poderator and Mentor on Build Cycle (Mentor also opens onto Learning Pathways). Poderator's door sits one band in, behind Upskiller, because it opens after a Build Cycle.
+  - **Take a role.** A button-shaped door at the mouth of the wedge the role opens into. Ambassador on Community & Outreach: the way into comms overall. Upskiller and Poderator on Build Cycle; Poderator's door sits one band in, behind Upskiller, because it opens after a Build Cycle. Mentor on Learning Pathways: mentors are the door into workshops and teaching, and from there they also help pods (Brendan, Sep 29, 2026).
   - **Make something.** A door that isn't tied to one wedge: a small marker that can land on any wedge (a guide, a flyer, a bit of code go where the work is).
-  - **Teach what you know.** The Mentor door, plus a marker on Learning Pathways.
+  - **Teach what you know.** The Mentor door on Learning Pathways.
   - **Supporting Member.** A button on the *outside* of the rim, beside the disc, not on it. It's a real door, but it never lights a wedge. That's the visual statement of "dues buy the button, never a pin."
 - **The pin lights when The Labs runs on something you gave**: the moment any wedge's inner band lights and the marker for "we wrote it down" appears (a one-line citation, drawn as a small brass plate under the pin, the register).
 - **The rings build from coverage:**
@@ -129,7 +129,7 @@ Scroll-scrubbed, one section, with a picker for the beats (the same pattern as t
 
 - **Settled (Brendan, Sep 29, 2026):** a workstream is much bigger than a role, and Ambassador is the entry point into comms overall. The disc draws roles as doors and workstreams as rooms.
 - **Is communications its own minor wedge, or part of Community & Outreach?** The draft lists it as a smaller workstream. If Ambassador opens onto comms overall, the two may be one wedge, and the disc should draw it that way.
-- **Learning Pathways has no role button yet.** The disc needs a door there. Facilitator, Workshop Lead, or something else.
+- **Settled (Brendan, Sep 29, 2026):** Mentor is the Learning Pathways door. The button audit's open question about a Learning Pathways role word is answered by that.
 - **What does "Main Street" name?** Problem owners and local businesses at the region's edge, a corridor-level unit under a neighborhood, or a field team of its own. The edge of the disc draws whichever it is.
 - **How many regions to show.** Three brass discs around the core reads as a network without looking like a promise. More would.
 - **Whether to show office pins** (committees, boards) at all in Act 2. They're a different shape on purpose, so they can be there without confusion, but they're one more thing to read.
