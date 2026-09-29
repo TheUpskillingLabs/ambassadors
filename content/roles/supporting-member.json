@@ -1,0 +1,133 @@
+{
+  "$comment": "Supporting Members pay light dues and get a button; dues never buy a vote, a rank or a pin (design/research/recognition-system.md, Membership and dues). Placeholders: the amount, the sliding scale and waiver, what Members get, and how to join.",
+  "placeholder": true,
+  "slug": "supporting-member",
+  "role": "Supporting Member",
+  "description": "Back The Upskilling Labs with light dues, and wear a button that says so.",
+  "nav": {
+    "why": "Why",
+    "how": "How it works",
+    "roles": "Roles",
+    "cta": "Become a Supporting Member",
+    "ctaShort": "Join"
+  },
+  "hero": {
+    "eyebrow": "Supporting Member",
+    "title": [
+      "Back The Labs.",
+      "Wear it."
+    ],
+    "alt": "The Supporting Member button: the orb mark on ink, ringed by THE UPSKILLING LABS and SUPPORTING MEMBER"
+  },
+  "intro": {
+    "lede": "Everything at The Labs is free for everyone who takes part. Supporting Members help keep it that way, with light dues that pay for the buttons and pins others earn, and a button that says you back it.",
+    "strong": "Light dues.",
+    "terms": "[PLACEHOLDER] Amount and sliding scale to be set.",
+    "cta": "Become a Supporting Member",
+    "href": "https://theupskillinglabs.org/login?intent=join&path=supporting-member",
+    "status": "[PLACEHOLDER] Opening once dues are set"
+  },
+  "moments": {
+    "kicker": "What you'll do",
+    "title": "Chip in. Wear it. Show up.",
+    "items": [
+      {
+        "step": "First",
+        "title": "Chip in.",
+        "body": "Light dues, once a year, that pay for the pieces others earn."
+      },
+      {
+        "step": "Then",
+        "title": "Wear the button.",
+        "body": "SUPPORTING MEMBER, spelled out, so backing The Labs is visible."
+      },
+      {
+        "step": "One day",
+        "title": "Show up.",
+        "body": "[PLACEHOLDER] Member events, and your entry in the register."
+      }
+    ]
+  },
+  "simple": {
+    "kicker": "In short",
+    "title": "Simple, on purpose.",
+    "items": [
+      {
+        "icon": "free",
+        "title": "Light dues.",
+        "body": "[PLACEHOLDER] The amount, with a sliding scale."
+      },
+      {
+        "icon": "keep",
+        "title": "Yours to keep.",
+        "body": "The button, and your entry in the register."
+      },
+      {
+        "icon": "vote",
+        "title": "Never a vote.",
+        "body": "Dues don't buy a vote, a rank or a pin."
+      },
+      {
+        "icon": "people",
+        "title": "Open to anyone.",
+        "body": "Backing The Labs never depends on taking part in it."
+      }
+    ]
+  },
+  "path": {
+    "kicker": "How it works",
+    "title": "Back it once a year.",
+    "steps": [
+      {
+        "title": "Create your account.",
+        "body": "Your free Upskilling account: sign in with Google.",
+        "mark": "account"
+      },
+      {
+        "title": "Choose your amount.",
+        "body": "[PLACEHOLDER] Light dues on a sliding scale."
+      },
+      {
+        "title": "Get your button.",
+        "body": "Your Supporting Member button, and your entry in the register.",
+        "mark": "button"
+      },
+      {
+        "title": "Renew each year.",
+        "body": "Membership runs a year at a time."
+      }
+    ]
+  },
+  "button": {
+    "kicker": "The button",
+    "title": "Giving, made visible.",
+    "body": "It spells out SUPPORTING MEMBER all the way round, so giving is visible and never reads as a role."
+  },
+  "faq": {
+    "kicker": "Questions",
+    "title": "Questions you might have.",
+    "items": [
+      {
+        "q": "How much are the dues?",
+        "a": "[PLACEHOLDER] Light, on a sliding scale."
+      },
+      {
+        "q": "Do I get a vote?",
+        "a": "No. Dues never buy a vote, a rank or a pin."
+      },
+      {
+        "q": "Do I have to take part?",
+        "a": "No. You can back The Labs without taking a role, and take a role without paying."
+      },
+      {
+        "q": "Where does the money go?",
+        "a": "Toward the buttons and pins others earn. [PLACEHOLDER] The rest."
+      }
+    ]
+  },
+  "join": {
+    "title": "Back The Labs.",
+    "lede": "It starts with your free Upskilling account. [PLACEHOLDER] Dues aren't set yet.",
+    "cta": "Become a Supporting Member"
+  }
+}

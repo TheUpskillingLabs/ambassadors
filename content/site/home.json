@@ -1,0 +1,249 @@
+{
+  "$comment": "The Upskilling Labs home page (/), a prototype of the pre-login experience for OLOS, the app behind theupskillinglabs.org, to adopt. Facts come from the live home page (Sep 29, 2026) and content/site/ladder.json. The sessions, cities and member count are a snapshot: in OLOS they come from its own data (events, Labs, members), and the links below point at the live site until then. Built on the role pages' system (src/styles/role.css). Every path starts with one free Upskilling account (OLOS manages everything centrally): Join The Labs creates it.",
+  "placeholder": true,
+  "title": "The Upskilling Labs",
+  "description": "A free community where people learn by building real things together, in person and near you. Find your people. Build your edge.",
+  "links": {
+    "join": "https://theupskillinglabs.org/login?intent=join",
+    "login": "https://theupskillinglabs.org/login",
+    "events": "https://theupskillinglabs.org/events",
+    "donate": "https://theupskillinglabs.org/donate",
+    "about": "https://theupskillinglabs.org/about",
+    "board": "https://theupskillinglabs.org/board",
+    "contact": "https://theupskillinglabs.org/contact",
+    "privacy": "https://theupskillinglabs.org/privacy",
+    "github": "https://github.com/TheUpskillingLabs/OLOS"
+  },
+  "nav": {
+    "how": "How it works",
+    "sessions": "Sessions",
+    "roles": "Roles",
+    "story": "Our story",
+    "login": "Log in",
+    "cta": "Join The Labs",
+    "ctaShort": "Join"
+  },
+  "hero": {
+    "eyebrow": "The Upskilling Labs",
+    "title": [
+      "Find your people.",
+      "Build your edge."
+    ],
+    "videoLabel": "The Labs orb as a planet, teal glowing from its upper left and red from its lower right, at the centre of rings made of networks that orbit it."
+  },
+  "intro": {
+    "lede": "AI is rewriting how we work, and it's easier to learn together than alone. The Upskilling Labs is a free community where you find people near you, build something real, and grow more confident together.",
+    "strong": "Free.",
+    "terms": "One Upskilling account, whichever path you take.",
+    "cta": "Join The Labs",
+    "login": "Log in",
+    "status": "Fall 2026 Build Cycle: registration open",
+    "note": "Creates your free Upskilling account, with Google."
+  },
+  "facts": {
+    "kicker": "What this is",
+    "title": "A new way to learn, together.",
+    "items": [
+      {
+        "icon": "free",
+        "title": "Free, always.",
+        "body": "Workshops and Build Cycles cost nothing."
+      },
+      {
+        "icon": "place",
+        "title": "Rooted in your library.",
+        "body": "In person at your local Lab, with sessions online too."
+      },
+      {
+        "icon": "people",
+        "title": "No tech background.",
+        "body": "Just a willingness to learn by doing, alongside others."
+      },
+      {
+        "icon": "keep",
+        "title": "Built in the open.",
+        "body": "Everything we make is open source, free for anyone to use and build on."
+      }
+    ]
+  },
+  "how": {
+    "kicker": "How it works",
+    "title": "One account. Then build something, and pass it on.",
+    "steps": [
+      {
+        "title": "Create your account.",
+        "body": "One free Upskilling account for everything: sign in with Google.",
+        "mark": "account"
+      },
+      {
+        "title": "Drop into a workshop.",
+        "body": "Free, hands-on and weekly. Most people start here."
+      },
+      {
+        "title": "Join a Build Cycle.",
+        "body": "Twelve weeks. Month one: find a problem worth solving, and form a Pod around it.",
+        "mark": "button"
+      },
+      {
+        "title": "Experiment.",
+        "body": "Month two: prototype and test your ideas, with peers and Mentors beside you."
+      },
+      {
+        "title": "Show it.",
+        "body": "Month three: a working prototype and a public showcase. It can keep going as open source."
+      },
+      {
+        "title": "Give back.",
+        "body": "Mentor, run a Pod, or bring the next person in."
+      }
+    ],
+    "markButton": "Your Upskiller button",
+    "markAccount": "Your Upskilling account"
+  },
+  "cycle": {
+    "kicker": "Registration open",
+    "title": "Fall 2026 starts October 13.",
+    "body": "Twelve weeks, a group of curious peers, and a problem worth solving. It's an open cycle: the projects are open source, free for anyone to use and build on.",
+    "cta": "Join The Labs"
+  },
+  "sessions": {
+    "kicker": "Workshops and sessions",
+    "title": "Drop into a session.",
+    "all": "All events",
+    "$comment": "A snapshot of the next sessions on Sep 29, 2026. In OLOS, the next few from its events.",
+    "items": [
+      {
+        "date": "Sep 29",
+        "time": "4 PM",
+        "title": "Privacy by Design",
+        "where": "Washington"
+      },
+      {
+        "date": "Oct 1",
+        "time": "5 PM",
+        "title": "AI Curious? Join our Build Cycle Open House",
+        "where": "Virtual"
+      },
+      {
+        "date": "Oct 5",
+        "time": "5 PM",
+        "title": "AI Curious? Join our Build Cycle Open House",
+        "where": "Virtual"
+      },
+      {
+        "date": "Oct 13",
+        "time": "4 PM",
+        "title": "Upskilling Summit #3: Showcase and Kick-off",
+        "where": "Washington"
+      }
+    ],
+    "learn": [
+      {
+        "title": "Durable skills",
+        "body": "The human skills the future of work runs on: communication, storytelling, and framing problems well."
+      },
+      {
+        "title": "AI skills",
+        "body": "Working with AI: understanding LLMs, prompting, vibe coding, building agents."
+      },
+      {
+        "title": "In step with the cycle",
+        "body": "Drop in whenever. Sessions track the Build Cycle, so each one gives your Pod what it needs next."
+      }
+    ]
+  },
+  "roles": {
+    "kicker": "Get involved",
+    "title": "Find your role.",
+    "lede": "Every path starts with your free Upskilling account. Then take a role, or several; each has its own button."
+  },
+  "spotlights": {
+    "kicker": "Upskiller spotlights",
+    "title": "In their words.",
+    "items": [
+      {
+        "quote": "The program gave me purpose again—connecting me with mission-driven public servants to tackle real problems.",
+        "name": "Hector Perla",
+        "role": "Inaugural AI Cohort"
+      },
+      {
+        "quote": "I left realizing my gap is exactly where my strength lies—translating between tools, teams, and user needs.",
+        "name": "Suzie Zhang",
+        "role": "Inaugural AI Cohort"
+      }
+    ],
+    "share": "Share your story"
+  },
+  "cities": {
+    "kicker": "Local Labs",
+    "title": "Find your city.",
+    "$comment": "A snapshot from the live site on Sep 29, 2026. In OLOS, from its Labs and waitlists.",
+    "items": [
+      {
+        "city": "Washington, DC",
+        "status": "Active",
+        "detail": "DC Public Library · 185 members",
+        "active": true
+      },
+      {
+        "city": "Baltimore, MD",
+        "status": "Waitlist open",
+        "detail": "1 person waiting"
+      },
+      {
+        "city": "Dallas, TX",
+        "status": "Waitlist open",
+        "detail": "1 person waiting"
+      },
+      {
+        "city": "Fairfax, VA",
+        "status": "Waitlist open",
+        "detail": "Be the first on the list"
+      }
+    ],
+    "note": "Don't see yours? Join The Labs and tell us where you are."
+  },
+  "story": {
+    "kicker": "Our story",
+    "title": "It began inside a library.",
+    "items": [
+      {
+        "title": "Founded in DC.",
+        "body": "A pilot at the DC Public Library in the fall of 2025: a small group of 50 former federal workers, navigating career change and new technologies together. Now it's open to every professional."
+      },
+      {
+        "title": "Built to scale.",
+        "body": "We run the Build Cycle on ourselves and turn what works into an operating system and playbooks, so a new Lab can start anywhere without reinventing it."
+      },
+      {
+        "title": "Expanding nationally.",
+        "body": "From DC to cities across the country, wherever people are ready to learn by doing alongside their neighbors."
+      }
+    ]
+  },
+  "join": {
+    "title": "Find your people.",
+    "lede": "The systems we've relied on are breaking. Here, you're invited to turn that disruption into resilience, rooted in your local library and powered by you and your neighbors.",
+    "cta": "Join The Labs",
+    "donate": "Support The Labs",
+    "note": "Creates your free Upskilling account, with Google."
+  },
+  "footer": {
+    "explore": "Explore",
+    "community": "Community",
+    "roles": "Roles",
+    "open": "Open source",
+    "workshops": "Workshops",
+    "about": "About",
+    "board": "Our board",
+    "contact": "Contact",
+    "member": "Become a member",
+    "built": "Built in the open",
+    "partners": "In partnership with",
+    "legal": "The Upskilling Labs, Inc. is a fiscally sponsored project of Superbloom Design, a 501(c)(3). Donations are tax-deductible to the extent permitted by law.",
+    "google": "You join by signing in with Google. We use only your name, email address and profile picture, and never ask for your Gmail, Drive or Calendar.",
+    "privacy": "How we handle your data",
+    "license": "MIT code · CC BY 4.0 content · Built in the open",
+    "rights": "© 2026 The Upskilling Labs, Inc."
+  }
+}

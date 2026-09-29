@@ -1,37 +1,42 @@
 ---
-/* / — the public Ambassador Program page (the site's front door; /join/ redirects here), built from the design mockup
-   (Main.dc.html). A standalone page: its own header and footer, dark
-   throughout. Copy lives in content/site/join.json; media in public/join/.
-   The hero is the Ambassador button in live 3D (src/scripts/button3d.ts, on
-   the pin's 3D bundle, public/join/pin3d.js), loaded after the page on wide
-   screens with a mouse. It turns to face the pointer; a Cycles still of the
-   same button shows while it loads, on phones, with reduced motion, and
-   without WebGL. */
+/* The Upskilling Labs home page: a prototype of the pre-login experience for
+   OLOS (the app behind theupskillinglabs.org) to adopt. It keeps the live home
+   page's facts and its one action (Join The Labs), and puts them in the order a
+   newcomer needs: what this is, how it works, when the next cycle starts, a
+   session to drop into, a role to take, who's here, where, and how it began.
+
+   It's built on the role pages' system (src/styles/role.css, with home.css for
+   what only this page has): ink, the teal and red glows with the grain only in
+   them, Geologica, hairline rules, teal labels. The hero follows Apple's AirTag
+   page: the name, one line, and one object centred, here the orb at the centre
+   of its orbiting network (public/join/orbits.*).
+
+   The sessions, cities and member count are a snapshot in
+   content/site/home.json; in OLOS they come from its own data. Links point at
+   the live site until then. The Ambassador program page moved to /ambassador/,
+   one role page among five. */
 import "@fontsource-variable/geologica/wght.css";
 import "../styles/join.css";
-import "../styles/swiss.css";
-import { guideHome } from "../lib/content";
+import "../styles/role.css";
+import "../styles/home.css";
 import { u } from "../lib/url";
-import j from "../../content/site/join.json";
-import { slots, founders } from "../lib/roster";
 import JoinCover from "../components/JoinCover.astro";
+import h from "../../content/site/home.json";
+import list from "../../content/roles/roles.json";
+import j from "../../content/site/join.json";
 
-const media = (f: string) => u(`/join/${f}`);
-const still = media("hero-button-760.webp");
-const stillSet = `${media("hero-button-760.webp")} 760w, ${media("hero-button-1200.webp")} 1200w`;
-const apply = u("/apply/");
-const pageTitle = `${j.title} · The Upskilling Labs`;
-
-// Our why: the manifesto, split into letters so the page can brighten it
-// letter by letter as you read down (its one effect). Screen readers get the
-// plain sentence; the letters are hidden from them.
-const manifestoText = j.you.statement.join(" ");
-const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
-
-// The moment pins are centred in their renders; on the Swiss grid they hang
-// flush left, so each is nudged left by its own inset (the pin's left edge,
-// as a share of the image's width, measured from the 480 px webps).
-const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake: 0.079 };
+const L = h.links;
+const orbit = (f: string) => u(`/join/${f}`);
+const small = (s: string) => u(`/roles/${s}/button-400.webp`);
+const ACCT = '<svg class="acct" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="10" r="3.2"/><path d="M6.2 18.4c1.3-2.2 3.4-3.4 5.8-3.4s4.5 1.2 5.8 3.4"/></svg>';
+const nos = ["01", "02", "03", "04", "05", "06"];
+const icons: Record<string, string> = {
+  free: '<path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/>',
+  place: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+  people: '<circle cx="9" cy="9" r="3"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><circle cx="16.5" cy="8" r="2.4"/><path d="M15.2 13.4c.4-.1.9-.2 1.3-.2 2.3 0 4.1 1.5 4.6 4"/>',
+  keep: '<path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5M13.5 5l-3 14"/>',
+};
+const pageTitle = h.title;
 ---
 <!doctype html>
 <html lang="en">
@@ -39,447 +44,308 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{pageTitle}</title>
-    <meta name="description" content={j.description} />
+    <meta name="description" content={h.description} />
     <meta name="theme-color" content="#00141B" />
+    <meta name="robots" content="noindex" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={j.description} />
-    <meta property="og:image" content={new URL(media("button-share.jpg"), Astro.site)} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={j.hero.buttonAlt} />
-    <!-- The narrow-screen menu (src/scripts/navmenu.ts) collapses the nav from the first paint, so nothing shifts when it loads. -->
+    <meta property="og:description" content={h.description} />
+    <meta property="og:image" content={new URL(orbit("orbits.jpg"), Astro.site)} />
     <script is:inline>document.documentElement.dataset.menu = "";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
-    <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes="(min-width: 1024px) min(59vh, 48vw), min(95vw, 49vh)" fetchpriority="high" />
+    <link rel="preload" as="image" href={orbit("orbits.jpg")} fetchpriority="high" />
   </head>
-  <body class="jp sw">
+  <body class="jp rp hm">
     <a class="skip" href="#main">Skip to content</a>
     <header class="jp-head cta-off" data-head>
-      <nav aria-label="Ambassador program">
+      <nav aria-label="The Upskilling Labs">
         <a class="jp-brand" href="#top">
           <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
-          <span class="wide-only">{j.nav.brand}</span>
         </a>
         <ul class="jp-links" id="jp-menu">
-          <li><a class="navlink" href="#you" data-spy="you labs team ripple goal">{j.nav.why}</a></li>
-          <li><a class="navlink" href="#path" data-spy="path">{j.nav.how}</a></li>
-          <li><a class="navlink" href="#commit" data-spy="commit join">{j.nav.commit}</a></li>
-          <li class="menu-only"><a class="navlink" href={guideHome}>{j.nav.guide}</a></li>
+          <li><a class="navlink" href="#how">{h.nav.how}</a></li>
+          <li><a class="navlink" href="#sessions">{h.nav.sessions}</a></li>
+          <li><a class="navlink" href="#roles">{h.nav.roles}</a></li>
+          <li><a class="navlink" href="#story">{h.nav.story}</a></li>
+          <li class="menu-only"><a class="navlink" href={L.login}>{h.nav.login}</a></li>
         </ul>
         <div class="jp-end">
-          <a class="navlink wide-only" href={guideHome}>{j.nav.guide}</a>
-          <a class="btn" href={apply} data-head-cta><span class="wide-only">{j.nav.cta}</span><span class="narrow-only">{j.nav.ctaShort}</span></a>
+          <a class="navlink wide-only" href={L.login}>{h.nav.login}</a>
+          <a class="btn" href={L.join} data-head-cta><span class="wide-only">{h.nav.cta}</span><span class="narrow-only">{h.nav.ctaShort}</span></a>
           <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={j.nav.menu} data-menu-btn data-label-open={j.nav.menu} data-label-close={j.nav.menuClose}><span></span><span></span><span></span></button>
         </div>
       </nav>
     </header>
 
     <main id="main">
-      <section id="top" class="jp-hero">
+      <!-- The hero: the name, one line, and the orb at the centre of its network. -->
+      <section id="top" class="rp-hero hm-hero">
         <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
-        <div class="stage">
-          <h1 class="wordin">{j.hero.title[0]}<br />{j.hero.title[1]}</h1>
-          <div class="jp-pin pinin">
-            <div class="bob" role="img" aria-label={j.hero.buttonAlt} data-pin3d={media("pin3d.js")} data-art={media("button-art.webp")}>
-              <img src={still} srcset={stillSet} sizes="(min-width: 1024px) min(59vh, 48vw), min(95vw, 49vh)" alt="" width="760" height="760" fetchpriority="high" data-still />
-              <canvas aria-hidden="true" data-pin-canvas></canvas>
-            </div>
-          </div>
-        </div>
-        <p class="status rise d1"><i aria-hidden="true"></i>{j.hero.status}</p>
-        <p class="lede-hero rise d1">{j.hero.lede}</p>
-        <div class="ctas rise d2">
-          <a class="btn" href={apply} data-hero-cta>{j.hero.cta}</a>
+        <p class="rp-eyebrow rise">{h.hero.eyebrow}</p>
+        <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
+        <div class="hm-orbit pinin">
+          <video data-loop poster={orbit("orbits.jpg")} muted loop playsinline preload="metadata" aria-label={h.hero.videoLabel}>
+            <source src={orbit("orbits-600.webm")} type="video/webm" media="(max-width: 680px)" />
+            <source src={orbit("orbits-600.mp4")} type="video/mp4" media="(max-width: 680px)" />
+            <source src={orbit("orbits.webm")} type="video/webm" />
+            <source src={orbit("orbits.mp4")} type="video/mp4" />
+          </video>
         </div>
       </section>
 
-      <section id="you" class="jp-sec jp-you">
-        <div class="sw-grid ruled">
-          <p class="kicker sw-rail reveal"><span class="no">01</span>{j.you.kicker}</p>
-          <p class="jp-manifesto sw-main" data-manifesto>
-            <span class="sr">{manifestoText}</span>
-            <span aria-hidden="true">{manifestoWords.map((w, wi) => <>{wi > 0 && " "}<span class="w">{w.map((c) => <span class="c">{c}</span>)}</span></>)}</span>
-          </p>
+      <!-- The intro: what this is, what it costs, the one action. -->
+      <section id="intro" class="rp-intro">
+        <p class="rp-lede reveal">{h.intro.lede}</p>
+        <p class="rp-terms reveal"><b>{h.intro.strong}</b> {h.intro.terms}</p>
+        <div class="rp-cta reveal">
+          <div class="hm-actions">
+            <a class="btn" href={L.join} data-hero-cta>{h.intro.cta}</a>
+            <a class="textlink" href={L.login}>{h.intro.login}</a>
+          </div>
+          <p class="rp-account">{h.intro.note}</p>
+          <p class="status"><i aria-hidden="true"></i>{h.intro.status}</p>
         </div>
       </section>
 
-      <JoinCover n={0} />
-
-      <section id="labs" class="jp-labs">
-        <div class="sw-grid ruled">
-          <p class="kicker sw-rail reveal"><span class="no">02</span>{j.labs.kicker}</p>
-          <div class="sw-main reveal">
-            <h2 class="h2">{j.labs.title}</h2>
-            <p class="lede">{j.labs.lede}</p>
+      <!-- What this is: four facts. -->
+      <section id="what" class="rp-sec rp-simple">
+        <div class="rp-wrap">
+          <div class="rp-head center reveal">
+            <p class="kicker">{h.facts.kicker}</p>
+            <h2 class="rp-h2">{h.facts.title}</h2>
           </div>
-          <dl class="jp-habits sw-main sw-row3 reveal">
-            {j.labs.habits.map((h) => <div><dt>{h.title}</dt><dd>{h.body}</dd></div>)}
-          </dl>
+          <ul class="rp-facts">
+            {h.facts.items.map((f) => (
+              <li class="reveal">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[f.icon] ?? icons.people} />
+                <h3>{f.title}</h3>
+                <p>{f.body}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <section id="team" class="jp-sec jp-moments-sec">
-        <div class="sw-grid ruled">
-          <p class="kicker sw-rail reveal"><span class="no">03</span>{j.team.kicker}</p>
-          <div class="sw-main reveal">
-            <h2 class="h2">{j.team.title}</h2>
-            <p class="lede">{j.team.lede}</p>
+      <!-- How it works: from a workshop to giving back. -->
+      <section id="how" class="rp-sec rp-path">
+        <div class="rp-wrap">
+          <div class="rp-head reveal">
+            <p class="kicker">{h.how.kicker}</p>
+            <h2 class="rp-h2">{h.how.title}</h2>
           </div>
-          <ol class="jp-moments sw-main sw-row3 reveal">
-            {j.team.roles.map((r) => (
-              <li class="jp-col">
-                <img class="icon" src={media(`moment-${r.icon}.webp`)} alt="" width="184" height="184" loading="lazy" style={`--inset: ${pinInset[r.icon] ?? 0}`} />
-                <p class="label">{r.step}</p><h3>{r.title}</h3><p>{r.body}</p>
+          <ol class="rp-steps" style={`--n: ${h.how.steps.length}`}>
+            {h.how.steps.map((s, i) => (
+              <li class:list={["reveal", s.mark && `is-${s.mark}`]}>
+                <span class="dot" aria-hidden="true"></span>
+                <p class="rp-step"><span class="no">{nos[i]}</span></p>
+                <h3>{s.title}</h3>
+                <p class="rp-body">{s.body}</p>
+                {s.mark === "account" && <p class="rp-mark"><Fragment set:html={ACCT} />{h.how.markAccount}</p>}
+                {s.mark === "button" && <p class="rp-mark"><img src={small("upskiller")} alt="" width="40" height="40" loading="lazy" />{h.how.markButton}</p>}
               </li>
             ))}
           </ol>
         </div>
       </section>
 
-      <JoinCover n={1} />
-
-      <section id="ripple" class="jp-sec jp-ripple">
-        <div class="sw-grid ruled">
-          <p class="kicker sw-rail reveal"><span class="no">04</span>{j.ripple.kicker}</p>
-          <div class="sw-text reveal">
-            <h2 class="h2">{j.ripple.title}</h2>
-            <p class="lede">{j.ripple.lede}</p>
-            <ol class="jp-rings">
-              {j.ripple.rings.map((r) => (
-                <li><span class="ring" aria-hidden="true"></span><div><h3>{r.title}</h3><p>{r.body}</p></div></li>
-              ))}
-            </ol>
-            <p class="jp-note">{j.ripple.note}</p>
+      <!-- The next Build Cycle, with the button every Upskiller gets. -->
+      <section id="cycle" class="hm-cycle">
+        <div class="rp-wrap hm-cycle-in reveal">
+          <div class="hm-cycle-text">
+            <p class="status"><i aria-hidden="true"></i>{h.cycle.kicker}</p>
+            <h2 class="rp-h2">{h.cycle.title}</h2>
+            <p class="rp-lede-sm">{h.cycle.body}</p>
+            <a class="btn" href={L.join}>{h.cycle.cta}</a>
           </div>
-          <div class="jp-orbits sw-aside reveal">
-            <div class="bleed">
-              <video data-loop poster={media("orbits.jpg")} muted loop playsinline preload="metadata" aria-label={j.ripple.videoLabel}>
-                <source src={media("orbits-600.webm")} type="video/webm" media="(max-width: 680px)" />
-                <source src={media("orbits-600.mp4")} type="video/mp4" media="(max-width: 680px)" />
-                <source src={media("orbits.webm")} type="video/webm" />
-                <source src={media("orbits.mp4")} type="video/mp4" />
-              </video>
-            </div>
-          </div>
+          <a class="hm-cycle-button" href={u("/upskiller/")} aria-label="The Upskiller button: what Upskillers do">
+            <img src={u("/roles/upskiller/hero-760.webp")} alt="" width="760" height="760" loading="lazy" decoding="async" />
+          </a>
         </div>
       </section>
 
-      <section id="goal" class="jp-sec jp-goal">
-        <div class="sw-grid ruled">
-          <p class="kicker sw-rail reveal"><span class="no">05</span>{j.goal.kicker}</p>
-          <div class="sw-main reveal">
-            <h2 class="h2">{j.goal.title}</h2>
+      <!-- Sessions: the next few to drop into, and what they teach. -->
+      <section id="sessions" class="rp-sec hm-sessions">
+        <div class="rp-wrap">
+          <div class="hm-head-row reveal">
+            <div class="rp-head">
+              <p class="kicker">{h.sessions.kicker}</p>
+              <h2 class="rp-h2">{h.sessions.title}</h2>
+            </div>
+            <a class="textlink" href={L.events}>{h.sessions.all} →</a>
           </div>
-          <div class="jp-stats sw-main sw-row3 reveal">
-            {j.goal.stats.map((s) => (
-              <div class:list={["jp-stat", { accent: s.accent }]}><p class="v">{s.value}</p><p class="l">{s.label}</p></div>
+          <ol class="hm-events">
+            {h.sessions.items.map((e) => (
+              <li class="reveal">
+                <p class="when"><b>{e.date}</b> {e.time}</p>
+                <h3>{e.title}</h3>
+                <p class="where">{e.where}</p>
+              </li>
             ))}
-          </div>
-          <p class="kicker sw-rail sw-sub reveal">{j.goal.roster.kicker}</p>
-          <div class="jp-roster sw-main reveal">
-            <ol aria-label={j.goal.roster.label.replace("{filled}", String(founders.length)).replace("{slots}", String(slots))}>
-              {Array.from({ length: slots }, (_, i) => founders[i]).map((r, i) => (
-                <li class:list={{ in: Boolean(r) }}><span class="n">{String(i + 1).padStart(2, "0")}</span>{r ? <><b>{r.first}</b><span class="a">{r.area}</span></> : <span class="open">{j.goal.roster.open}</span>}</li>
-              ))}
-            </ol>
-          </div>
-          <p class="lede sw-note reveal">{j.goal.note}</p>
-          <figure class="jp-quote sw-quote reveal">
-            <blockquote><span class="q" aria-hidden="true">“</span>{j.goal.quote.text}<span class="q" aria-hidden="true">”</span></blockquote>
-            <figcaption><b>{j.goal.quote.name}</b><span>{j.goal.quote.role}</span></figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <JoinCover n={2} />
-
-      <section id="path" class="jp-sec jp-path">
-        <div class="sw-grid ruled">
-          <p class="kicker sw-rail reveal"><span class="no">06</span>{j.path.kicker}</p>
-          <div class="sw-main reveal">
-            <h2 class="h2">{j.path.title[0]}<br />{j.path.title[1]}</h2>
-            <p class="lede">{j.path.lede}</p>
-          </div>
-          <div class="jp-how sw-wide" data-how>
-            <ol class="jp-steps reveal">
-              {j.path.steps.map((s, i) => (
-                <li class:list={{ milestone: s.milestone }} data-how-step={s.reward}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
-              ))}
-            </ol>
-            <div class="jp-how-visual" aria-hidden="true">
-              <img src={media("button-800.webp")} alt="" width="800" height="800" loading="lazy" data-how-visual="button" class="on" />
-            </div>
-          </div>
-          <div id="button" class="jp-reward sw-half-a reveal">
-            <img src={media(j.path.button.image)} alt={j.path.button.alt} loading="lazy" width="180" height="180" />
-            <div><p class="kicker">{j.path.button.kicker}</p><h3>{j.path.button.title}</h3><p>{j.path.button.body}</p></div>
-          </div>
-          <div id="members" class="jp-reward jp-members sw-half-b reveal">
-            <!-- Two doors that overlap: you can be both. -->
-            <svg class="venn" viewBox="0 0 132 132" aria-hidden="true">
-              <defs><clipPath id="venn-a"><circle cx="50" cy="66" r="38" /></clipPath></defs>
-              <circle cx="82" cy="66" r="38" clip-path="url(#venn-a)" class="both" />
-              <circle cx="50" cy="66" r="38" class="a" />
-              <circle cx="82" cy="66" r="38" class="b" />
-            </svg>
-            <div>
-              <p class="kicker">{j.path.members.kicker}</p><h3>{j.path.members.title}</h3><p>{j.path.members.body}</p>
-              <dl class="doors">
-                {j.path.members.doors.map((d, i) => (
-                  <div class={i ? "b" : "a"}><dt>{d.name}</dt><dd>{d.body}</dd></div>
-                ))}
-              </dl>
-            </div>
-          </div>
-          <p class="jp-cta-row sw-main reveal"><a class="btn" href={apply}>{j.path.cta}</a></p>
-        </div>
-      </section>
-
-      <section id="faq" class="jp-sec">
-        <div class="sw-grid ruled">
-          <p class="kicker sw-rail reveal"><span class="no">07</span>{j.faq.kicker}</p>
-          <div class="sw-main reveal">
-            <h2 class="h2">{j.faq.title}</h2>
-          </div>
-          <div class="jp-faq sw-main reveal">
-            {j.faq.items.map((f) => (
-              <details><summary><span>{f.q}</span><i aria-hidden="true"></i></summary><p>{f.a}</p></details>
+          </ol>
+          <ul class="hm-learn">
+            {h.sessions.learn.map((l) => (
+              <li class="reveal"><h3>{l.title}</h3><p>{l.body}</p></li>
             ))}
-          </div>
-          <p class="jp-cta-row sw-main reveal"><a class="btn" href={apply}>{j.faq.cta}</a></p>
+          </ul>
         </div>
       </section>
 
-      <section id="commit" class="jp-sec">
-        <div class="sw-grid ruled">
-          <p class="kicker sw-rail reveal"><span class="no">08</span>{j.commit.kicker}</p>
-          <div class="sw-main reveal">
-            <h2 class="h2">{j.commit.title}</h2>
+      <JoinCover n={1} id="ch-community" />
+
+      <!-- Roles: every way to take part, each with its button. -->
+      <section id="roles" class="rp-sec rp-compare">
+        <div class="rp-wrap">
+          <div class="rp-head center reveal">
+            <p class="kicker">{h.roles.kicker}</p>
+            <h2 class="rp-h2">{h.roles.title}</h2>
+            <p class="rp-lede-sm">{h.roles.lede}</p>
           </div>
-          <div class="jp-commit sw-main sw-row3 reveal">
-            {j.commit.items.map((it) => (
-              <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
+          <ul class="rp-cards">
+            {list.roles.map((c) => (
+              <li class="reveal">
+                <img src={small(c.slug)} alt="" width="400" height="400" loading="lazy" decoding="async" />
+                <h3>{c.name}</h3>
+                <p>{c.line}</p>
+                <p class="time">{c.time}</p>
+                <a class="textlink" href={u(`/${c.slug}/`)}>{list.more} <span class="sr">about {c.name}</span>→</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- Spotlights: two Upskillers, in their own words. -->
+      <section id="spotlights" class="rp-sec hm-quotes">
+        <div class="rp-wrap">
+          <div class="rp-head reveal">
+            <p class="kicker">{h.spotlights.kicker}</p>
+            <h2 class="rp-h2">{h.spotlights.title}</h2>
+          </div>
+          <div class="hm-quote-row">
+            {h.spotlights.items.map((q) => (
+              <figure class="reveal">
+                <blockquote>“{q.quote}”</blockquote>
+                <figcaption><b>{q.name}</b> {q.role}</figcaption>
+              </figure>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="join" class="jp-join">
-        <div class="sw-grid reveal">
-          <h2 class="sw-display">{j.join.title}</h2>
-          <p class="lede sw-lead">{j.join.lede}</p>
-          <div class="row sw-lead">
-            <a class="btn" href={apply}>{j.join.cta}</a>
-            <p class="status"><i aria-hidden="true"></i>{j.hero.status}</p>
+      <!-- Cities: where there's a Lab, and where there's a waitlist. -->
+      <section id="cities" class="rp-sec hm-cities">
+        <div class="rp-wrap rp-split">
+          <div class="rp-head reveal">
+            <p class="kicker">{h.cities.kicker}</p>
+            <h2 class="rp-h2">{h.cities.title}</h2>
+            <p class="rp-lede-sm">{h.cities.note}</p>
           </div>
+          <ul class="hm-city-list reveal">
+            {h.cities.items.map((c) => (
+              <li class:list={{ active: c.active }}>
+                <h3>{c.city}</h3>
+                <p class="state"><i aria-hidden="true"></i>{c.status}</p>
+                <p class="detail">{c.detail}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- Our story: how it began, and where it's going. -->
+      <section id="story" class="rp-sec rp-moments hm-story">
+        <div class="rp-wrap">
+          <div class="rp-head reveal">
+            <p class="kicker">{h.story.kicker}</p>
+            <h2 class="rp-h2">{h.story.title}</h2>
+          </div>
+          <ol class="rp-rows">
+            {h.story.items.map((m, i) => (
+              <li class="rp-row reveal">
+                <p class="rp-step"><span class="no">{nos[i]}</span></p>
+                <h3>{m.title}</h3>
+                <p class="rp-body">{m.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- Join. -->
+      <section id="join" class="rp-join hm-join">
+        <div class="rp-wrap reveal">
+          <h2>{h.join.title}</h2>
+          <p class="rp-lede-sm">{h.join.lede}</p>
+          <div class="hm-actions center">
+            <a class="btn" href={L.join}>{h.join.cta}</a>
+            <a class="ghost" href={L.donate}>{h.join.donate}</a>
+          </div>
+          <p class="rp-account">{h.join.note}</p>
         </div>
       </section>
     </main>
 
-    <footer class="jp-foot">
-      <div class="sw-grid">
-        <div class="sw-rail">
-          <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
+    <footer class="hm-foot">
+      <div class="rp-wrap">
+        <div class="hm-foot-top">
+          <div class="hm-foot-brand">
+            <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
+            <p>{h.join.lede}</p>
+            <a class="ghost small" href={L.donate}>{h.join.donate}</a>
+          </div>
+          <nav class="hm-foot-cols" aria-label="Footer">
+            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#how">{h.nav.how}</a><a href="#cities">{h.cities.title.replace(".", "")}</a></div>
+            <div><p class="kicker">{h.footer.roles}</p>{list.roles.map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
+            <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={L.contact}>{h.footer.contact}</a><a href={L.join}>{h.footer.member}</a></div>
+            <div><p class="kicker">{h.footer.open}</p><a href={L.github}>{h.footer.built}</a><a href={L.join}>{h.nav.cta}</a></div>
+          </nav>
         </div>
-        <div class="col sw-foot-main">
-          <p>{j.footer.legal}</p>
-          <p>{j.footer.rights}</p>
-          <p>{j.footer.renders}</p>
-          <p><a class="textlink" href={guideHome}>{j.footer.guide} →</a></p>
-          {j.placeholder && <p class="ph">[PLACEHOLDER] draft copy: [N] and the join link are still to be set.</p>}
-        </div>
-        <div class="col sw-foot-end">
-          <p class="kicker">{j.footer.sponsors}</p>
+        <div class="hm-foot-mid">
+          <p class="kicker">{h.footer.partners}</p>
           <div class="sponsors">
             <img src={u("/assets/dcpl-knockout-logo.png")} alt="DC Public Library" width="117" height="96" loading="lazy" />
+            <img src={u("/assets/levy-strategic-design-white.png")} alt="Levy Strategic Design" width="198" height="96" loading="lazy" />
             <img src={u("/assets/superbloom-white.png")} alt="Superbloom Design" width="406" height="96" loading="lazy" />
           </div>
+        </div>
+        <div class="hm-foot-legal">
+          <p>{h.footer.legal}</p>
+          <p>{h.footer.google} <a class="textlink" href={L.privacy}>{h.footer.privacy} →</a></p>
+          <p>{h.footer.rights} · {h.footer.license}</p>
+          {h.placeholder && <p class="ph">Prototype for OLOS: sessions, cities and member counts are a snapshot from Sep 29, 2026.</p>}
         </div>
       </div>
     </footer>
 
     <script>
-      import { mountButton } from "../scripts/button3d";
       import { openCovers } from "../scripts/covers";
       import { initMenu } from "../scripts/navmenu";
 
-      // Nav: transparent over the hero, solid once you scroll; the link for the
-      // section in view is marked. The header's button never doubles the page's
-      // own: it steps aside while the hero's button is on screen (so it starts
-      // hidden, in the markup) and again at the join section.
+      // The header's button steps aside while the hero or the intro's button is
+      // on screen, and again at the join section, so the page never shows two.
       const root = document.documentElement;
       const head = document.querySelector<HTMLElement>("[data-head]")!;
       new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
         .observe(document.querySelector("[data-top-sentinel]")!);
       const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
-      let heroCtaIn = true, joinIn = false;
-      const syncCta = () => {
-        const off = heroCtaIn || joinIn;
-        head.classList.toggle("cta-off", off);
-        cta.tabIndex = off ? -1 : 0;
-      };
-      new IntersectionObserver(([e]) => { heroCtaIn = e.isIntersecting; syncCta(); })
-        .observe(document.querySelector("[data-hero-cta]")!);
-      new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 })
-        .observe(document.getElementById("join")!);
-      const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["you", "labs", "team", "ripple", "goal", "path", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
-      let queued = false;
-      const spy = () => {
-        queued = false;
-        const line = innerHeight * 0.35;
-        const current = order.filter((el) => el.getBoundingClientRect().top <= line).pop()?.id ?? "";
-        links.forEach((a) => (a.dataset.spy!.split(" ").includes(current) ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current")));
-      };
-      addEventListener("scroll", () => { if (!queued) { queued = true; requestAnimationFrame(spy); } }, { passive: true });
-      spy();
-
-      // Chapter covers: opened as they come into view where scroll timelines aren't supported.
+      let heroIn = true, introIn = false, joinIn = false;
+      const syncCta = () => { const off = heroIn || introIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
+      new IntersectionObserver(([e]) => { heroIn = e.isIntersecting; syncCta(); }, { threshold: 0.5 }).observe(document.getElementById("top")!);
+      new IntersectionObserver(([e]) => { introIn = e.isIntersecting; syncCta(); }).observe(document.querySelector("[data-hero-cta]")!);
+      new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+      initMenu();
       openCovers();
 
-      // Narrow screens: the section links sit behind the menu button.
-      initMenu();
-
-      // How it works: the step crossing the middle of the screen is the active
-      // one, and the sticky picture shows its reward (each step names its own; all are the button for now).
-      const how = document.querySelector<HTMLElement>("[data-how]")!;
-      const howSteps = [...how.querySelectorAll<HTMLElement>("[data-how-step]")];
-      const howVisuals = [...how.querySelectorAll<HTMLElement>("[data-how-visual]")];
-      howSteps[0].classList.add("active");
-      const howIo = new IntersectionObserver((entries) => entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        const step = e.target as HTMLElement;
-        howSteps.forEach((st) => st.classList.toggle("active", st === step));
-        howVisuals.forEach((v) => v.classList.toggle("on", v.dataset.howVisual === step.dataset.howStep));
-      }), { rootMargin: "-45% 0px -45% 0px" });
-      howSteps.forEach((st) => howIo.observe(st));
-
-      // Our why: the manifesto brightens letter by letter, line by line, as you
-      // scroll: it starts as the block rises past 85% of the screen and is fully
-      // bright once its centre passes 55%. Scrolling back up dims it again. That's
-      // its one effect. Reduced motion: it's simply bright.
-      const manifesto = document.querySelector<HTMLElement>("[data-manifesto]");
-      if (manifesto && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        const letters = [...manifesto.querySelectorAll<HTMLElement>(".c")];
-        manifesto.classList.add("dim");
-        let lit = 0, near = false, queued = false;
-        const paint = () => {
-          queued = false;
-          const r = manifesto.getBoundingClientRect();
-          const start = innerHeight * 0.85, end = Math.min(start - 1, innerHeight * 0.55 - r.height / 2);
-          const n = Math.max(0, Math.min(letters.length, Math.round(((start - r.top) / (start - end)) * letters.length)));
-          for (let i = Math.min(n, lit); i < Math.max(n, lit); i++) letters[i].classList.toggle("lit", i < n);
-          lit = n;
-        };
-        new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) paint(); }, { rootMargin: "25% 0px" }).observe(manifesto);
-        addEventListener("scroll", () => { if (near && !queued) { queued = true; requestAnimationFrame(paint); } }, { passive: true });
-        addEventListener("resize", paint, { passive: true });
-        paint();
-      }
-
-      // Videos: muted inline loops, started here too (some browsers ignore autoplay).
+      // The orbit: a muted loop that plays while it's on screen. Reduced motion
+      // or data saving keep the still.
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const saveData = Boolean((navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData);
-      const videos = document.querySelectorAll<HTMLVideoElement>("video[data-loop]");
       if (!reduce && !saveData) {
         const io = new IntersectionObserver((entries) => entries.forEach((e) => {
           const v = e.target as HTMLVideoElement;
           if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
         }));
-        videos.forEach((v) => { v.muted = true; io.observe(v); });
-
-        // Hero button: live 3D on wide screens with a mouse, after the page has loaded.
-        // It turns to face a mouse or pen through a soft spring, and drifts on its
-        // own after a few seconds without the pointer moving. The same behaviour
-        // the pin had (poses are the Blender rig's, in degrees); the button is
-        // built on the pin's 3D bundle in src/scripts/button3d.ts.
-        // Scrolling hands the hero on: as it leaves, the button lies back, its face
-        // tipping up through the key light (the light glints across the dome) with
-        // a small turn, through the same spring, so it has weight rather than
-        // following the scrollbar exactly. That's the hero's one moment.
-        const stage = document.querySelector<HTMLElement>("[data-pin3d]")!;
-        const canvas = stage.querySelector<HTMLCanvasElement>("[data-pin-canvas]")!;
-        const hero = document.getElementById("top")!;
-        const SPIN_LEFT = 24, SPIN_RIGHT = -36, TILT_UP = 14, TILT_DOWN = -14, TILT_BACK = 58, SPIN_BACK = -16;
-        const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
-        const soft = (v: number) => Math.sign(v) * Math.pow(Math.abs(v), 0.8);
-        // WebGL on a real GPU only: software renderers (no GPU, and headless test
-        // browsers) draw the button on the CPU, which stalls the page; they keep the still.
-        // "?pin3d=force" skips that check, for testing.
-        const force = new URLSearchParams(location.search).has("pin3d");
-        const webgl = () => {
-          try {
-            const gl = document.createElement("canvas").getContext("webgl2");
-            if (!gl) return false;
-            if (force) return true;
-            const info = gl.getExtension("WEBGL_debug_renderer_info");
-            const name = String(info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
-            return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
-          } catch { return false; }
-        };
-        let px = 0, py = 0, pt = 0;
-        addEventListener("pointermove", (e) => { if (e.pointerType === "touch") return; px = e.clientX; py = e.clientY; pt = performance.now(); }, { passive: true });
-        addEventListener("pointerout", (e) => { if (!e.relatedTarget) pt = 0; });
-        const mount = () => {
-          mountButton(stage.dataset.pin3d!, canvas, stage.dataset.art!).then((pin) => {
-            let size = 0, dpr = 1, scale = 1, drawn = false, n = 0, sum = 0, raf = 0;
-            const c = { s: 0, t: 0, vs: 0, vt: 0 };
-            const t0 = performance.now(); let last = t0;
-            // Off screen, the loop stops entirely; it restarts when the hero comes back.
-            let onScreen = true;
-            new IntersectionObserver(([e]) => {
-              onScreen = e.isIntersecting;
-              if (onScreen && !raf) { last = performance.now(); raf = requestAnimationFrame(tick); }
-            }).observe(hero);
-            const tick = (now: number) => {
-              if (!onScreen) { raf = 0; return; }
-              raf = requestAnimationFrame(tick);
-              const dt = Math.min(0.05, (now - last) / 1000); last = now;
-              // Up to 2x, capped near 1400 px across, stepped down if frames run slow.
-              const cs = Math.round(canvas.clientWidth);
-              let dirty = false;
-              if (cs && cs !== size) { size = cs; dpr = Math.min(devicePixelRatio || 1, 2, 1400 / size) * scale; pin.resize(size, dpr); dirty = true; }
-              let ts: number, tt: number;
-              if (pt && now - pt < 3500) {
-                const r = canvas.getBoundingClientRect();
-                const hw = Math.min(innerWidth, 1800) * 0.5, hh = Math.min(innerHeight, 1000) * 0.5;
-                const nx = soft(clamp((px - (r.left + r.width / 2)) / hw, -1, 1));
-                const ny = soft(clamp((py - (r.top + r.height / 2)) / hh, -1, 1));
-                ts = nx < 0 ? -nx * SPIN_LEFT : nx * SPIN_RIGHT;
-                tt = ny < 0 ? -ny * TILT_UP : ny * TILT_DOWN;
-              } else {
-                const s = (now - t0) / 1000;
-                ts = -6 + 15 * Math.sin((s * 2 * Math.PI) / 10);
-                tt = -3 + 6 * Math.sin((s * 2 * Math.PI) / 7 + 1);
-              }
-              // Leaving the hero, the pose eases from the pointer's toward lying back.
-              const hp = clamp(scrollY / (hero.offsetHeight * 0.75), 0, 1), he = hp * hp * (3 - 2 * hp);
-              ts += (SPIN_BACK - ts) * he; tt += (TILT_BACK - tt) * he;
-              // A soft spring: quick to answer, no jitter, a whisper of overshoot.
-              const k = 70, d = 2 * Math.sqrt(k) * 0.85;
-              c.vs += ((ts - c.s) * k - c.vs * d) * dt; c.s += c.vs * dt;
-              c.vt += ((tt - c.t) * k - c.vt * d) * dt; c.t += c.vt * dt;
-              const moving = Math.abs(ts - c.s) + Math.abs(tt - c.t) + Math.abs(c.vs) + Math.abs(c.vt) > 0.002;
-              if (!(moving || dirty || !drawn)) return;
-              pin.setPose(c.s, c.t);
-              pin.render();
-              if (!drawn) { drawn = true; stage.classList.add("live"); }
-              n++; sum += dt;
-              if (n >= 40) { if (sum / n > 0.024 && dpr > 1) { scale *= 0.8; size = 0; } n = 0; sum = 0; }
-            };
-            raf = requestAnimationFrame(tick);
-            addEventListener("pagehide", () => { cancelAnimationFrame(raf); pin.dispose(); }, { once: true });
-          }).catch(() => {}); // no WebGL after all: the still stays
-        };
-        const start = () => {
-          // Phones, touch-only devices and no WebGL keep the still (1.2 MB of script otherwise).
-          if (!matchMedia("(hover: hover) and (pointer: fine) and (min-width: 900px)").matches || !webgl()) return;
-          mount();
-        };
-        // After the page has loaded and gone quiet, so it never competes with the intro.
-        const later = () => ("requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1200));
-        if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
+        document.querySelectorAll<HTMLVideoElement>("video[data-loop]").forEach((v) => { v.muted = true; io.observe(v); });
       }
     </script>
   </body>

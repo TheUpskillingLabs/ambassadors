@@ -1,0 +1,109 @@
+/* ════ The Upskilling Labs home page (src/pages/index.astro): what only it has,
+   on top of the role pages' system (role.css). Scoped to body.jp.rp.hm. ════ */
+
+/* ── hero: the orb at the centre of its orbiting network, centred under the
+   title like the product on AirTag's page, feathered into the ink. ── */
+.hm-hero { --v: min(46vh, 520px); }
+.hm-orbit { position: relative; z-index: 0; width: min(96vw, 1180px, calc((100svh - 300px) * 1.6)); aspect-ratio: 8 / 5; margin-top: clamp(-40px, -3vh, -16px);
+  -webkit-mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 52%, transparent 100%); mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 52%, transparent 100%); }
+.hm-orbit video { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); }
+
+.hm-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 28px; }
+.hm-actions .textlink { font-size: 17px; font-weight: 600; }
+.rp .ghost.small { min-height: 44px; padding: 0 18px; font-size: 15px; }
+
+/* ── the next Build Cycle: a band lit by the glows, with the Upskiller button. ── */
+.hm-cycle { position: relative; isolation: isolate; margin-top: clamp(112px, 16vh, 164px); padding: clamp(72px, 10vh, 120px) 0; overflow-x: clip; }
+.hm-cycle::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background:
+  radial-gradient(ellipse 40% 42% at 72% 50%, rgba(var(--tl), 0.3) 0%, rgba(var(--tl), 0.1) 45%, rgba(var(--tl), 0) 100%),
+  radial-gradient(ellipse 30% 36% at 88% 76%, rgba(var(--red), 0.2) 0%, rgba(var(--red), 0) 100%); }
+.hm-cycle::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: var(--grain); mix-blend-mode: overlay; opacity: 0.6;
+  -webkit-mask-image: radial-gradient(ellipse 40% 42% at 72% 50%, #000, transparent); mask-image: radial-gradient(ellipse 40% 42% at 72% 50%, #000, transparent); }
+.hm-cycle-in { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); align-items: center; }
+.hm-cycle-text { grid-column: 1 / span 6; }
+.hm-cycle-text .rp-h2 { margin-top: 18px; font-size: var(--fs-d1); line-height: 0.96; letter-spacing: -0.045em; }
+.hm-cycle-text .btn { margin-top: 32px; }
+.hm-cycle-button { grid-column: 8 / -1; justify-self: center; width: min(100%, 560px); }
+.hm-cycle-button img { width: 100%; height: auto; }
+
+/* ── sessions: the next few, as rows of when, what and where; then what they teach. ── */
+.hm-head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; }
+.hm-head-row .textlink { font-size: var(--fs-body); font-weight: 600; }
+.hm-events { list-style: none; margin: clamp(40px, 5vw, 72px) 0 0; padding: 0; border-bottom: 1px solid var(--rule); }
+.hm-events li { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); align-items: baseline; padding: 26px 0; border-top: 1px solid var(--rule); }
+.hm-events .when { grid-column: 1 / span 3; margin: 0; font-size: var(--fs-body); color: var(--t2); font-variant-numeric: tabular-nums; }
+.hm-events .when b { margin-right: 10px; font-weight: 600; color: var(--t1); }
+.hm-events h3 { grid-column: 4 / span 6; margin: 0; font-size: var(--fs-lead); font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; color: var(--t1); }
+.hm-events .where { grid-column: 10 / -1; margin: 0; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); text-align: right; }
+.hm-learn { list-style: none; margin: clamp(56px, 7vw, 96px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gut); }
+.hm-learn h3 { margin: 0; font-size: var(--fs-lead); font-weight: 600; letter-spacing: -0.02em; color: var(--t1); }
+.hm-learn p { margin: 12px 0 0; max-width: 32ch; font-size: var(--fs-body); line-height: 1.55; color: var(--t2); }
+
+/* ── spotlights: two Upskillers, their words set large. ── */
+.hm-quote-row { margin-top: clamp(40px, 5vw, 72px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 96px); row-gap: 48px; }
+.hm-quote-row figure { margin: 0; padding-top: 28px; border-top: 1px solid var(--rule); }
+.hm-quote-row blockquote { margin: 0; font-size: var(--fs-sub); font-weight: 500; line-height: 1.18; letter-spacing: -0.025em; color: var(--t1); text-wrap: pretty; text-indent: -0.4em; }
+.hm-quote-row figcaption { margin-top: 24px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
+.hm-quote-row figcaption b { margin-right: 12px; color: var(--t1); }
+
+/* ── cities: a list, the live one lit. ── */
+.hm-cities .rp-split { align-items: start; }
+.hm-cities .rp-head { grid-column: 1 / span 5; }
+.hm-city-list { grid-column: 6 / -1; list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--rule); }
+.hm-city-list li { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.3fr); column-gap: var(--gut); align-items: baseline; padding: 24px 0; border-top: 1px solid var(--rule); }
+.hm-city-list h3 { margin: 0; font-size: var(--fs-lead); font-weight: 600; letter-spacing: -0.02em; color: var(--t2); }
+.hm-city-list .active h3 { color: var(--t1); }
+.hm-city-list .state { margin: 0; display: inline-flex; align-items: center; gap: 10px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t2); }
+.hm-city-list .state i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--t2); }
+.hm-city-list .active .state { color: var(--teal); }
+.hm-city-list .active .state i { background: var(--teal); border-color: var(--teal); animation: jp-live 2s ease-out infinite; }
+.hm-city-list .detail { margin: 0; font-size: var(--fs-body); color: var(--t2); }
+
+/* ── story: the program page's rows, without the glow's red. ── */
+.hm-story::before { background: radial-gradient(ellipse 36% 26% at 10% 55%, rgba(var(--tl), 0.22) 0%, rgba(var(--tl), 0) 100%); }
+
+/* ── join ── */
+.hm-join h2 { max-width: 12em; }
+.hm-join .hm-actions { margin-top: 34px; }
+.hm-join .btn, .hm-join .ghost { min-height: 56px; padding: 0 30px; font-size: 18px; }
+.hm-join .btn { margin-top: 0; }
+
+/* ── footer: the live site's columns, on ink. ── */
+.hm-foot { border-top: 1px solid var(--rule); background: var(--ink); padding: clamp(48px, 7vh, 80px) 0 40px; }
+.hm-foot-top { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); row-gap: 40px; }
+.hm-foot-brand { grid-column: 1 / span 4; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.hm-foot-brand .logo { height: 44px; width: auto; }
+.hm-foot-brand p { margin: 0; max-width: 34ch; font-size: var(--fs-sm); line-height: 1.55; color: var(--t2); }
+.hm-foot-cols { grid-column: 6 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--gut); row-gap: 32px; }
+.hm-foot-cols div { display: flex; flex-direction: column; gap: 12px; }
+.hm-foot-cols .kicker { margin-bottom: 4px; color: var(--t2); }
+.hm-foot-cols a { font-size: var(--fs-sm); color: var(--t1); text-decoration: none; }
+.hm-foot-cols a:hover { color: var(--teal); }
+.hm-foot-mid { margin-top: clamp(40px, 6vh, 64px); padding-top: 28px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; align-items: center; gap: 20px 40px; }
+.hm-foot-mid .kicker { color: var(--t2); }
+.hm-foot .sponsors { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; }
+.hm-foot .sponsors img { height: 26px; width: auto; }
+.hm-foot .sponsors img:first-child { height: 44px; }
+.hm-foot-legal { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--rule); display: grid; gap: 10px; }
+.hm-foot-legal p { margin: 0; max-width: 90ch; font-size: 13px; line-height: 1.55; color: var(--t2); }
+
+@media (max-width: 1080px) {
+  .hm-foot-brand, .hm-foot-cols { grid-column: 1 / -1; }
+  .hm-foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  .hm-cycle-in { grid-template-columns: minmax(0, 1fr); row-gap: 24px; }
+  .hm-cycle-text, .hm-cycle-button { grid-column: auto; }
+  .hm-cycle-button { order: -1; width: min(82vw, 420px); margin-bottom: -40px; }
+  .hm-events li { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
+  .hm-events .when, .hm-events h3, .hm-events .where { grid-column: auto; text-align: left; }
+  .hm-learn { grid-template-columns: minmax(0, 1fr); row-gap: 32px; }
+  .hm-quote-row { grid-template-columns: minmax(0, 1fr); }
+  .hm-cities .rp-head, .hm-city-list { grid-column: auto; }
+  .hm-city-list li { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
+  .hm-city-list .detail { grid-column: 1 / -1; }
+}
+@media (max-width: 680px) {
+  .hm-orbit { width: 120vw; margin-top: -8px; }
+  .rp.hm .rp-cta .hm-actions { justify-content: flex-start; }
+}

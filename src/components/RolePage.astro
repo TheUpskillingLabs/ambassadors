@@ -1,0 +1,410 @@
+---
+/* A role's recruitment page, built around its button: one template for every
+   public role (Ambassador, Upskiller, Poderator, Mentor, Supporting Member),
+   with each role's words in content/roles/<slug>.json and the list of roles in
+   content/roles/roles.json.
+
+   The structure follows two product pages for a single round object, Apple's
+   AirTag and Lusion's Oryzo; the look is The Labs' own (ink, the teal and red
+   glows with the grain only in the glows, Geologica, hairline rules, teal
+   labels):
+   - the hero: the role's name, one line, and its button centred and large,
+     with rings spreading out from it (AirTag's hero; the spreading is ours);
+   - the intro: what the role is in a few sentences, what it costs you, and the
+     one button (AirTag's intro and price line);
+   - what you'll do: three moments as rows, label, line and a sentence (Oryzo's
+     kicker, headline and caption);
+   - in short: four facts with small icons (AirTag's "Beautifully simple.");
+   - how it works: the steps, marking where the account starts and where the
+     button is given;
+   - the button, drawn face on from its print file with construction lines and
+     callouts (Oryzo's blueprint, AirTag's tech specs);
+   - which role is right for you: every role's button side by side (Apple's
+     comparison);
+   - questions, then the join section.
+
+   The hero button is live 3D on wide screens with a mouse and a real GPU
+   (src/scripts/button3d.ts, as on the program page) and a Cycles still from
+   LabsPin.blend's "Button Hero" scene everywhere else. Unlisted drafts
+   (noindex) until the board approves the roles. */
+import "@fontsource-variable/geologica/wght.css";
+import "../styles/join.css";
+import "../styles/role.css";
+import { u } from "../lib/url";
+import list from "../../content/roles/roles.json";
+import j from "../../content/site/join.json";
+
+interface Step { title: string; body: string; mark?: string }
+interface Role {
+  placeholder?: boolean; slug: string; role: string; description: string;
+  nav: { why: string; how: string; roles: string; cta: string; ctaShort: string };
+  hero: { eyebrow: string; title: string[]; alt: string };
+  intro: { lede: string; strong: string; terms: string; cta: string; href: string; status: string };
+  moments: { kicker: string; title: string; items: { step: string; title: string; body: string; icon?: string }[] };
+  simple: { kicker: string; title: string; items: { icon: string; title: string; body: string }[] };
+  path: { kicker: string; title: string; steps: Step[] };
+  button: { kicker: string; title: string; body: string };
+  faq: { kicker: string; title: string; items: { q: string; a: string }[] };
+  join: { title: string; lede: string; cta: string };
+}
+interface Props { slug: string }
+const { slug } = Astro.props;
+const all = import.meta.glob<{ default: Role }>("../../content/roles/*.json", { eager: true });
+const r = Object.entries(all).find(([p]) => p.endsWith(`/${slug}.json`))![1].default;
+
+// Ambassador's button already lives with the program page.
+const amb = slug === "ambassador";
+const still = amb ? u("/join/hero-button-760.webp") : u(`/roles/${slug}/hero-760.webp`);
+const stillSet = amb
+  ? `${u("/join/hero-button-760.webp")} 760w, ${u("/join/hero-button-1200.webp")} 1200w`
+  : `${u(`/roles/${slug}/hero-760.webp`)} 760w, ${u(`/roles/${slug}/hero-1200.webp`)} 1200w`;
+const art = amb ? u("/join/button-art.webp") : u(`/roles/${slug}/button-art.webp`);
+const small = (s: string) => u(`/roles/${s}/button-400.webp`);
+const pin3d = u("/join/pin3d.js");
+const href = u(r.intro.href);
+const pageTitle = `${r.role} · The Upskilling Labs`;
+const sizes = "(min-width: 1024px) min(75vh, 848px), min(128vw, 69svh)";
+const ph = (s: string) => s.includes("[PLACEHOLDER]") || s.includes("[N]");
+const ACCT = '<svg class="acct" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="10" r="3.2"/><path d="M6.2 18.4c1.3-2.2 3.4-3.4 5.8-3.4s4.5 1.2 5.8 3.4"/></svg>';
+const nos = ["01", "02", "03", "04", "05", "06"];
+// The brass moment pins are centred in their renders; each hangs flush left by its own inset (its left edge as a share of the image's width).
+const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake: 0.079 };
+
+// Line icons for the facts, 24px, drawn in the page's teal.
+const icons: Record<string, string> = {
+  time: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  place: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+  people: '<circle cx="9" cy="9" r="3"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><circle cx="16.5" cy="8" r="2.4"/><path d="M15.2 13.4c.4-.1.9-.2 1.3-.2 2.3 0 4.1 1.5 4.6 4"/>',
+  free: '<path d="M12 20s-7.5-4.4-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.6-7.5 10-7.5 10z"/>',
+  talk: '<path d="M4.5 6.5h15v9h-8l-4 3.5v-3.5h-3z"/>',
+  learn: '<path d="M3.5 9 12 5l8.5 4-8.5 4z"/><path d="M7 10.8V15c1.3 1.4 3 2 5 2s3.7-.6 5-2v-4.2"/>',
+  keep: '<path d="M7 4.5h10v15l-5-3.6-5 3.6z"/>',
+  vote: '<rect x="4.5" y="10" width="15" height="9.5" rx="1.5"/><path d="M9 10V5.5h6V10"/><path d="M5 5l14 14"/>',
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={r.description} />
+    <meta name="theme-color" content="#00141B" />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={r.description} />
+    <meta property="og:image" content={new URL(amb ? u("/join/button-share.jpg") : u(`/roles/${slug}/hero-1200.webp`), Astro.site)} />
+    <script is:inline>document.documentElement.dataset.menu = "";</script>
+    <link rel="icon" href={u("/favicon.png")} type="image/png" />
+    <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes={sizes} fetchpriority="high" />
+  </head>
+  <body class="jp rp" data-role={slug}>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="jp-head cta-off" data-head>
+      <nav aria-label={r.role}>
+        <a class="jp-brand" href="#top">
+          <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
+          <span class="wide-only">{r.role}</span>
+        </a>
+        <ul class="jp-links" id="jp-menu">
+          <li><a class="navlink" href="#intro">{r.nav.why}</a></li>
+          <li><a class="navlink" href="#path">{r.nav.how}</a></li>
+          <li><a class="navlink" href="#roles">{r.nav.roles}</a></li>
+        </ul>
+        <div class="jp-end">
+          <a class="btn" href={href} data-head-cta><span class="wide-only">{r.nav.cta}</span><span class="narrow-only">{r.nav.ctaShort}</span></a>
+          <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={j.nav.menu} data-menu-btn data-label-open={j.nav.menu} data-label-close={j.nav.menuClose}><span></span><span></span><span></span></button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <!-- The hero: the role, one line, and its button, with rings spreading from it. -->
+      <section id="top" class="rp-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="rp-eyebrow rise">{r.hero.eyebrow}</p>
+        <h1 class="rp-title wordin">{r.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
+        <div class="rp-stage pinin">
+          <div class="rp-rings" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="jp-pin rp-pin">
+            <div class="bob" role="img" aria-label={r.hero.alt} data-pin3d={pin3d} data-art={art}>
+              <img src={still} srcset={stillSet} sizes={sizes} alt="" width="760" height="760" fetchpriority="high" data-still />
+              <canvas aria-hidden="true" data-pin-canvas></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- The intro: the role in a few sentences, what it asks of you, and the one button. -->
+      <section id="intro" class="rp-intro">
+        <p class="rp-lede reveal">{r.intro.lede}</p>
+        <p class="rp-terms reveal"><b>{r.intro.strong}</b> <span class:list={{ ph: ph(r.intro.terms) }}>{r.intro.terms}</span></p>
+        <div class="rp-cta reveal">
+          <a class="btn" href={href} data-hero-cta>{r.intro.cta}</a>
+          <p class="rp-account">{list.account}</p>
+          <p class:list={["status", { ph: ph(r.intro.status) }]}><i aria-hidden="true"></i>{r.intro.status}</p>
+        </div>
+        {r.placeholder && <p class="rp-draft reveal"><b>Draft.</b> {list.draft}</p>}
+      </section>
+
+      <!-- What you'll do: three moments, told in order. -->
+      <section id="moments" class="rp-sec rp-moments">
+        <div class="rp-wrap">
+          <div class="rp-head reveal">
+            <p class="kicker">{r.moments.kicker}</p>
+            <h2 class="rp-h2">{r.moments.title}</h2>
+          </div>
+          <ol class="rp-rows">
+            {r.moments.items.map((m, i) => (
+              <li class="rp-row reveal">
+                <p class="rp-step"><span class="no">{nos[i]}</span>{m.step}</p>
+                {m.icon && <img class="rp-row-pin" src={u(`/join/moment-${m.icon}.webp`)} alt="" width="480" height="480" loading="lazy" decoding="async" style={`--inset: ${pinInset[m.icon] ?? 0.1}`} />}
+                <h3>{m.title}</h3>
+                <p class:list={["rp-body", { ph: ph(m.body) }]}>{m.body}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- In short: four facts. -->
+      <section id="simple" class="rp-sec rp-simple">
+        <div class="rp-wrap">
+          <div class="rp-head center reveal">
+            <p class="kicker">{r.simple.kicker}</p>
+            <h2 class="rp-h2">{r.simple.title}</h2>
+          </div>
+          <ul class="rp-facts">
+            {r.simple.items.map((f) => (
+              <li class="reveal">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[f.icon] ?? icons.people} />
+                <h3>{f.title}</h3>
+                <p class:list={{ ph: ph(f.body) }}>{f.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- How it works: the steps, marking where the account starts and the button is given. -->
+      <section id="path" class="rp-sec rp-path">
+        <div class="rp-wrap">
+          <div class="rp-head reveal">
+            <p class="kicker">{r.path.kicker}</p>
+            <h2 class="rp-h2">{r.path.title}</h2>
+          </div>
+          <ol class="rp-steps" style={`--n: ${r.path.steps.length}`}>
+            {r.path.steps.map((s, i) => (
+              <li class:list={["reveal", s.mark && `is-${s.mark}`]}>
+                <span class="dot" aria-hidden="true"></span>
+                <p class="rp-step"><span class="no">{nos[i]}</span></p>
+                <h3>{s.title}</h3>
+                <p class:list={["rp-body", { ph: ph(s.body) }]}>{s.body}</p>
+                {s.mark === "account" && <p class="rp-mark"><Fragment set:html={ACCT} />{list.markAccount}</p>}
+                {s.mark === "button" && <p class="rp-mark"><img src={small(slug)} alt="" width="40" height="40" loading="lazy" />Your button</p>}
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <!-- The button, face on from its print file, with construction lines. -->
+      <section id="button" class="rp-sec rp-anatomy">
+        <div class="rp-wrap rp-split">
+          <div class="rp-anatomy-text reveal">
+            <p class="kicker">{r.button.kicker}</p>
+            <h2 class="rp-h2">{r.button.title}</h2>
+            <p class="rp-lede-sm">{r.button.body}</p>
+          </div>
+          <figure class="rp-drawing reveal">
+            <div class="face"><img src={art} alt={r.hero.alt} width="1200" height="1200" loading="lazy" decoding="async" /></div>
+            <svg class="lines" viewBox="0 0 200 200" aria-hidden="true">
+              <circle cx="100" cy="100" r="75" />
+              <circle cx="100" cy="100" r="91.5" class="cut" />
+              <path d="M100 18v12M100 170v12M18 100h12M170 100h12" />
+              <rect x="97.5" y="22.5" width="5" height="5" /><rect x="97.5" y="172.5" width="5" height="5" /><rect x="22.5" y="97.5" width="5" height="5" /><rect x="172.5" y="97.5" width="5" height="5" />
+              <path d="M25 196h150M25 192v8M175 192v8" class="dim" />
+              <path d="M16 11 56 55M184 11 121 79M184 171 133 152" class="lead" />
+              <circle cx="56" cy="55" r="1.3" class="end" /><circle cx="121" cy="79" r="1.3" class="end" /><circle cx="133" cy="152" r="1.3" class="end" />
+            </svg>
+            <figcaption>
+              <span class="c c-mark">Orb mark</span>
+              <span class="c c-top">The Upskilling Labs</span>
+              <span class="c c-role">{r.role}</span>
+              <span class="c c-size">1.5 in · 38 mm</span>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Which role is right for you: every role's button, side by side. -->
+      <section id="roles" class="rp-sec rp-compare">
+        <div class="rp-wrap">
+          <div class="rp-head center reveal">
+            <p class="kicker">{list.kicker}</p>
+            <h2 class="rp-h2">{list.title}</h2>
+            <p class="rp-lede-sm">{list.lede}</p>
+          </div>
+          <ul class="rp-cards">
+            {list.roles.map((c) => (
+              <li class:list={["reveal", { here: c.slug === slug }]}>
+                <img src={small(c.slug)} alt="" width="400" height="400" loading="lazy" decoding="async" />
+                <h3>{c.name}</h3>
+                <p>{c.line}</p>
+                <p class="time">{c.time}</p>
+                {c.slug === slug
+                  ? <p class="here-tag">{list.here}</p>
+                  : <a class="textlink" href={u(`/${c.slug}/`)}>{list.more} <span class="sr">about {c.name}</span>→</a>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- Questions. -->
+      <section id="faq" class="rp-sec rp-faq">
+        <div class="rp-wrap rp-split">
+          <div class="rp-head reveal">
+            <p class="kicker">{r.faq.kicker}</p>
+            <h2 class="rp-h2">{r.faq.title}</h2>
+          </div>
+          <div class="jp-faq reveal">
+            {[...r.faq.items, list.accountFaq].map((f) => (
+              <details>
+                <summary><span>{f.q}</span><i aria-hidden="true"></i></summary>
+                <p class:list={{ ph: ph(f.a) }}>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- Join. -->
+      <section id="join" class="rp-join">
+        <div class="rp-wrap reveal">
+          <img class="rp-join-button" src={small(slug)} alt="" width="400" height="400" loading="lazy" />
+          <h2>{r.join.title}</h2>
+          <p class:list={["rp-lede-sm", { ph: ph(r.join.lede) }]}>{r.join.lede}</p>
+          <a class="btn" href={href}>{r.join.cta}</a>
+          <p class="rp-account">{list.account}</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="jp-foot">
+      <div class="wrap">
+        <div class="col">
+          <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
+          <p>{j.footer.legal}</p>
+          <p>{j.footer.rights}</p>
+          <p>{j.footer.renders}</p>
+          {r.placeholder && <p class="ph">[PLACEHOLDER] draft copy: details marked in this style are still to be set.</p>}
+        </div>
+        <div class="col">
+          <p class="kicker">{j.footer.sponsors}</p>
+          <div class="sponsors">
+            <img src={u("/assets/dcpl-knockout-logo.png")} alt="DC Public Library" width="117" height="96" loading="lazy" />
+            <img src={u("/assets/superbloom-white.png")} alt="Superbloom Design" width="406" height="96" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      import { mountButton } from "../scripts/button3d";
+      import { initMenu } from "../scripts/navmenu";
+
+      // Nav: the header's button steps aside while the intro's is on screen,
+      // and again at the join section, so the page never shows two.
+      const root = document.documentElement;
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
+        .observe(document.querySelector("[data-top-sentinel]")!);
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      let heroIn = true, introIn = false, joinIn = false;
+      const syncCta = () => { const off = heroIn || introIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
+      new IntersectionObserver(([e]) => { heroIn = e.isIntersecting; syncCta(); }, { threshold: 0.5 }).observe(document.getElementById("top")!);
+      new IntersectionObserver(([e]) => { introIn = e.isIntersecting; syncCta(); }).observe(document.querySelector("[data-hero-cta]")!);
+      new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+      initMenu();
+
+      // The hero button: live 3D on wide screens with a mouse and a real GPU,
+      // after the page has gone quiet; it turns toward the pointer through a
+      // soft spring and drifts on its own when the pointer rests. The same
+      // behaviour as the program page's hero. Everywhere else, the still.
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const stage = document.querySelector<HTMLElement>("[data-pin3d]")!;
+      const canvas = stage.querySelector<HTMLCanvasElement>("[data-pin-canvas]")!;
+      const hero = document.getElementById("top")!;
+      const SPIN_LEFT = 24, SPIN_RIGHT = -36, TILT_UP = 14, TILT_DOWN = -14;
+      const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
+      const soft = (v: number) => Math.sign(v) * Math.pow(Math.abs(v), 0.8);
+      const force = new URLSearchParams(location.search).has("pin3d");
+      const webgl = () => {
+        try {
+          const gl = document.createElement("canvas").getContext("webgl2");
+          if (!gl) return false;
+          if (force) return true;
+          const info = gl.getExtension("WEBGL_debug_renderer_info");
+          const name = String(info ? gl.getParameter(info.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER));
+          return !/swiftshader|llvmpipe|softpipe|software|basic render/i.test(name);
+        } catch { return false; }
+      };
+      let px = 0, py = 0, pt = 0;
+      addEventListener("pointermove", (e) => { if (e.pointerType === "touch") return; px = e.clientX; py = e.clientY; pt = performance.now(); }, { passive: true });
+      addEventListener("pointerout", (e) => { if (!e.relatedTarget) pt = 0; });
+      const mount = () => {
+        mountButton(stage.dataset.pin3d!, canvas, stage.dataset.art!).then((pin) => {
+          let size = 0, dpr = 1, scale = 1, drawn = false, n = 0, sum = 0, raf = 0;
+          const c = { s: 0, t: 0, vs: 0, vt: 0 };
+          const t0 = performance.now(); let last = t0;
+          let onScreen = true;
+          new IntersectionObserver(([e]) => {
+            onScreen = e.isIntersecting;
+            if (onScreen && !raf) { last = performance.now(); raf = requestAnimationFrame(tick); }
+          }).observe(hero);
+          const tick = (now: number) => {
+            if (!onScreen) { raf = 0; return; }
+            raf = requestAnimationFrame(tick);
+            const dt = Math.min(0.05, (now - last) / 1000); last = now;
+            const cs = Math.round(canvas.clientWidth);
+            let dirty = false;
+            if (cs && cs !== size) { size = cs; dpr = Math.min(devicePixelRatio || 1, 2, 1400 / size) * scale; pin.resize(size, dpr); dirty = true; }
+            let ts: number, tt: number;
+            if (pt && now - pt < 3500) {
+              const b = canvas.getBoundingClientRect();
+              const hw = Math.min(innerWidth, 1800) * 0.5, hh = Math.min(innerHeight, 1000) * 0.5;
+              const nx = soft(clamp((px - (b.left + b.width / 2)) / hw, -1, 1));
+              const ny = soft(clamp((py - (b.top + b.height / 2)) / hh, -1, 1));
+              ts = nx < 0 ? -nx * SPIN_LEFT : nx * SPIN_RIGHT;
+              tt = ny < 0 ? -ny * TILT_UP : ny * TILT_DOWN;
+            } else {
+              const s = (now - t0) / 1000;
+              ts = -6 + 15 * Math.sin((s * 2 * Math.PI) / 10);
+              tt = -3 + 6 * Math.sin((s * 2 * Math.PI) / 7 + 1);
+            }
+            const k = 70, d = 2 * Math.sqrt(k) * 0.85;
+            c.vs += ((ts - c.s) * k - c.vs * d) * dt; c.s += c.vs * dt;
+            c.vt += ((tt - c.t) * k - c.vt * d) * dt; c.t += c.vt * dt;
+            const moving = Math.abs(ts - c.s) + Math.abs(tt - c.t) + Math.abs(c.vs) + Math.abs(c.vt) > 0.002;
+            if (!(moving || dirty || !drawn)) return;
+            pin.setPose(c.s, c.t);
+            pin.render();
+            if (!drawn) { drawn = true; stage.classList.add("live"); }
+            n++; sum += dt;
+            if (n >= 40) { if (sum / n > 0.024 && dpr > 1) { scale *= 0.8; size = 0; } n = 0; sum = 0; }
+          };
+          raf = requestAnimationFrame(tick);
+          addEventListener("pagehide", () => { cancelAnimationFrame(raf); pin.dispose(); }, { once: true });
+        }).catch(() => {});
+      };
+      const start = () => {
+        if (reduce || !matchMedia("(hover: hover) and (pointer: fine) and (min-width: 900px)").matches || !webgl()) return;
+        mount();
+      };
+      const later = () => ("requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1200));
+      if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
+    </script>
+  </body>
+</html>
