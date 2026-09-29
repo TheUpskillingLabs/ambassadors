@@ -116,15 +116,15 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
 
       <section id="team" class="jp-sec jp-moments-sec">
         <div class="wrap">
-          <div class="reveal">
+          <div class="reveal head">
             <p class="kicker">{j.team.kicker}</p>
-            <h2 class="h2" style="max-width: 900px">{j.team.title}</h2>
-            <p class="lede" style="max-width: 640px">{j.team.lede}</p>
+            <h2 class="h2">{j.team.title}</h2>
+            <p class="lede">{j.team.lede}</p>
           </div>
           <ol class="jp-cols three jp-moments reveal">
             {j.team.roles.map((r) => (
               <li class="jp-col">
-                <img class="icon" src={media(`moment-${r.icon}.webp`)} alt="" width="128" height="128" loading="lazy" />
+                <img class="icon" src={media(`moment-${r.icon}.webp`)} alt="" width="184" height="184" loading="lazy" />
                 <p class="label">{r.step}</p><h3>{r.title}</h3><p>{r.body}</p>
               </li>
             ))}

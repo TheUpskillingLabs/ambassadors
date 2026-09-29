@@ -175,24 +175,32 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-col h3 { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.016em; color: var(--t1); }
 .jp-cols.four .jp-col h3 { font-size: 22px; line-height: normal; }
 .jp-col p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--t2); }
-/* What you'll do: three moments told in order, each with a polished brass
-   outline icon (Cycles renders from the "Moment Icons" scene in LabsPin.blend,
-   lit by the pin's studio). */
-/* The section's atmosphere: the orb's light behind the row (teal from the
-   left, a warm red from the lower right), with the brand grain living only in
-   the glows, like the orb's stipple. Every glow reaches zero inside the section,
-   so there is no seam. */
-.jp-moments-sec { position: relative; isolation: isolate; padding-bottom: clamp(88px, 12vh, 140px); }
+/* What you'll do: three moments told in order, each with its own small brass
+   soft enamel pin (a cup, a mic, a handshake) in teal and red glitter enamel:
+   Cycles renders from the "Moment Icons" scene in LabsPin.blend, in the pin's studio.
+   Laid out as a centred showcase (unlike its left-set neighbours): the heading
+   over a row of three, each pin centred over its words, so the pins carry the
+   section and the page turns symmetrical just before the centred chapter cover. */
+/* The section's atmosphere: the orb's light behind the pins (teal behind the
+   first, a warm red behind the last) and a faint teal wash behind the heading,
+   with the brand grain living only in the glows, like the orb's stipple. Every
+   glow reaches zero inside the section, so there is no seam. */
+.jp-moments-sec { --glow-y: 64%; position: relative; isolation: isolate; padding-bottom: clamp(96px, 13vh, 152px); }
 .jp-moments-sec::before, .jp-moments-sec::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .jp-moments-sec::before { background:
-  radial-gradient(ellipse 44% 30% at 18% 66%, rgba(0, 148, 160, 0.38) 0%, rgba(0, 148, 160, 0.15) 45%, rgba(0, 148, 160, 0) 100%),
-  radial-gradient(ellipse 36% 26% at 74% 72%, rgba(214, 44, 52, 0.26) 0%, rgba(214, 44, 52, 0.09) 48%, rgba(214, 44, 52, 0) 100%),
-  radial-gradient(ellipse 30% 24% at 88% 22%, rgba(0, 148, 160, 0.12) 0%, rgba(0, 148, 160, 0) 100%); }
+  radial-gradient(ellipse 34% 28% at 19% var(--glow-y), rgba(0, 148, 160, 0.36) 0%, rgba(0, 148, 160, 0.14) 45%, rgba(0, 148, 160, 0) 100%),
+  radial-gradient(ellipse 34% 28% at 81% var(--glow-y), rgba(214, 44, 52, 0.26) 0%, rgba(214, 44, 52, 0.09) 48%, rgba(214, 44, 52, 0) 100%),
+  radial-gradient(ellipse 40% 24% at 50% 26%, rgba(0, 148, 160, 0.12) 0%, rgba(0, 148, 160, 0) 100%); }
 .jp-moments-sec::after { background-image: var(--grain); mix-blend-mode: overlay; opacity: 0.7;
-  -webkit-mask-image: radial-gradient(ellipse 44% 30% at 18% 66%, #000 0%, transparent 100%), radial-gradient(ellipse 36% 26% at 74% 72%, #000 0%, transparent 100%), radial-gradient(ellipse 30% 24% at 88% 22%, #000 0%, transparent 100%);
-  mask-image: radial-gradient(ellipse 44% 30% at 18% 66%, #000 0%, transparent 100%), radial-gradient(ellipse 36% 26% at 74% 72%, #000 0%, transparent 100%), radial-gradient(ellipse 30% 24% at 88% 22%, #000 0%, transparent 100%); }
-.jp-moments { list-style: none; padding: 0; }
-.jp-moments .icon { display: block; width: clamp(96px, 9vw, 128px); height: auto; aspect-ratio: 1; margin: 0 0 14px; }
+  -webkit-mask-image: radial-gradient(ellipse 34% 28% at 19% var(--glow-y), #000 0%, transparent 100%), radial-gradient(ellipse 34% 28% at 81% var(--glow-y), #000 0%, transparent 100%), radial-gradient(ellipse 40% 24% at 50% 26%, #000 0%, transparent 100%);
+  mask-image: radial-gradient(ellipse 34% 28% at 19% var(--glow-y), #000 0%, transparent 100%), radial-gradient(ellipse 34% 28% at 81% var(--glow-y), #000 0%, transparent 100%), radial-gradient(ellipse 40% 24% at 50% 26%, #000 0%, transparent 100%); }
+.jp-moments-sec .head { text-align: center; }
+.jp-moments-sec .head .h2 { max-width: 900px; margin-inline: auto; text-wrap: balance; }
+.jp-moments-sec .head .lede { max-width: 640px; margin-inline: auto; text-wrap: balance; }
+.jp-moments { list-style: none; padding: 0; margin-top: clamp(56px, 7vw, 96px); column-gap: clamp(32px, 5vw, 72px); row-gap: 24px; text-align: center; }
+.jp-moments .jp-col { align-items: center; padding-top: 0; }
+.jp-moments .jp-col p:last-child { max-width: 32ch; text-wrap: pretty; }
+.jp-moments .icon { display: block; width: clamp(136px, 13vw, 184px); height: auto; aspect-ratio: 1; margin: 0 auto 10px; }
 .jp-moments .label { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
 
 /* about the labs: on ink like its neighbours, lit by the same teal glow as the
