@@ -48,6 +48,8 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={j.hero.buttonAlt} />
+    <!-- The narrow-screen menu (src/scripts/navmenu.ts) collapses the nav from the first paint, so nothing shifts when it loads. -->
+    <script is:inline>document.documentElement.dataset.menu = "";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" />
   </head>
@@ -59,14 +61,16 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
           <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
           <span class="wide-only">{j.nav.brand}</span>
         </a>
-        <ul class="jp-links">
+        <ul class="jp-links" id="jp-menu">
           <li><a class="navlink" href="#you" data-spy="you labs team ripple goal">{j.nav.why}</a></li>
           <li><a class="navlink" href="#path" data-spy="path">{j.nav.how}</a></li>
           <li><a class="navlink" href="#commit" data-spy="commit join">{j.nav.commit}</a></li>
+          <li class="menu-only"><a class="navlink" href={guideHome}>{j.nav.guide}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={guideHome}>{j.nav.guide}</a>
           <a class="btn" href={apply} data-head-cta><span class="wide-only">{j.nav.cta}</span><span class="narrow-only">{j.nav.ctaShort}</span></a>
+          <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={j.nav.menu} data-menu-btn data-label-open={j.nav.menu} data-label-close={j.nav.menuClose}><span></span><span></span><span></span></button>
         </div>
       </nav>
     </header>
@@ -298,6 +302,7 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
     <script>
       import { mountButton } from "../scripts/button3d";
       import { openCovers } from "../scripts/covers";
+      import { initMenu } from "../scripts/navmenu";
 
       // Nav: transparent over the hero, solid once you scroll; the link for the
       // section in view is marked. The header's button never doubles the page's
@@ -332,6 +337,9 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
 
       // Chapter covers: opened as they come into view where scroll timelines aren't supported.
       openCovers();
+
+      // Narrow screens: the section links sit behind the menu button.
+      initMenu();
 
       // How it works: the step crossing the middle of the screen is the active
       // one, and the sticky picture shows its reward (each step names its own; all are the button for now).

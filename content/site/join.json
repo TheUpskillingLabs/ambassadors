@@ -10,7 +10,9 @@
     "commit": "What it takes",
     "cta": "Become an ambassador",
     "ctaShort": "Join us",
-    "guide": "Ambassador guide"
+    "guide": "Ambassador guide",
+    "menu": "Menu",
+    "menuClose": "Close menu"
   },
   "hero": {
     "title": [
