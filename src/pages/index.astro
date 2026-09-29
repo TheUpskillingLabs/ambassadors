@@ -51,7 +51,7 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
     <!-- The narrow-screen menu (src/scripts/navmenu.ts) collapses the nav from the first paint, so nothing shifts when it loads. -->
     <script is:inline>document.documentElement.dataset.menu = "";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
-    <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" />
+    <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes="(min-width: 1024px) min(59vh, 48vw), min(95vw, 49vh)" fetchpriority="high" />
   </head>
   <body class="jp sw">
     <a class="skip" href="#main">Skip to content</a>
@@ -82,7 +82,7 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
           <h1 class="wordin">{j.hero.title[0]}<br />{j.hero.title[1]}</h1>
           <div class="jp-pin pinin">
             <div class="bob" role="img" aria-label={j.hero.buttonAlt} data-pin3d={media("pin3d.js")} data-art={media("button-art.webp")}>
-              <img src={still} srcset={stillSet} sizes="min(760px, 94vw, 56vh)" alt="" width="760" height="760" fetchpriority="high" data-still />
+              <img src={still} srcset={stillSet} sizes="(min-width: 1024px) min(59vh, 48vw), min(95vw, 49vh)" alt="" width="760" height="760" fetchpriority="high" data-still />
               <canvas aria-hidden="true" data-pin-canvas></canvas>
             </div>
           </div>
@@ -394,10 +394,14 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
         // own after a few seconds without the pointer moving. The same behaviour
         // the pin had (poses are the Blender rig's, in degrees); the button is
         // built on the pin's 3D bundle in src/scripts/button3d.ts.
+        // Scrolling hands the hero on: as it leaves, the button lies back, its face
+        // tipping up through the key light (the light glints across the dome) with
+        // a small turn, through the same spring, so it has weight rather than
+        // following the scrollbar exactly. That's the hero's one moment.
         const stage = document.querySelector<HTMLElement>("[data-pin3d]")!;
         const canvas = stage.querySelector<HTMLCanvasElement>("[data-pin-canvas]")!;
         const hero = document.getElementById("top")!;
-        const SPIN_LEFT = 24, SPIN_RIGHT = -36, TILT_UP = 14, TILT_DOWN = -14;
+        const SPIN_LEFT = 24, SPIN_RIGHT = -36, TILT_UP = 14, TILT_DOWN = -14, TILT_BACK = 58, SPIN_BACK = -16;
         const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
         const soft = (v: number) => Math.sign(v) * Math.pow(Math.abs(v), 0.8);
         // WebGL on a real GPU only: software renderers (no GPU, and headless test
@@ -449,6 +453,9 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
                 ts = -6 + 15 * Math.sin((s * 2 * Math.PI) / 10);
                 tt = -3 + 6 * Math.sin((s * 2 * Math.PI) / 7 + 1);
               }
+              // Leaving the hero, the pose eases from the pointer's toward lying back.
+              const hp = clamp(scrollY / (hero.offsetHeight * 0.75), 0, 1), he = hp * hp * (3 - 2 * hp);
+              ts += (SPIN_BACK - ts) * he; tt += (TILT_BACK - tt) * he;
               // A soft spring: quick to answer, no jitter, a whisper of overshoot.
               const k = 70, d = 2 * Math.sqrt(k) * 0.85;
               c.vs += ((ts - c.s) * k - c.vs * d) * dt; c.s += c.vs * dt;
