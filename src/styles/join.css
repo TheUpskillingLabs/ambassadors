@@ -138,9 +138,9 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-col h3 { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.25; letter-spacing: -0.016em; color: var(--t1); }
 .jp-cols.four .jp-col h3 { font-size: 22px; line-height: normal; }
 .jp-col p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--t2); }
-/* What you'll do: three moments told in order, each with a polished brass
-   outline icon (Cycles renders from the "Moment Icons" scene in LabsPin.blend,
-   lit by the pin's studio). */
+/* What you'll do: three moments told in order, each with its own small enamel
+   pin (a cup, a mic, an open door) in the Labs pin's nickel and cat-eye enamel:
+   Cycles renders from the "Moment Icons" scene in LabsPin.blend, in the pin's studio. */
 /* The section's atmosphere: the orb's light behind the row (teal from the
    left, a warm red from the lower right), with the brand grain living only in
    the glows, like the orb's stipple. Every glow reaches zero inside the section,
@@ -155,7 +155,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   -webkit-mask-image: radial-gradient(ellipse 44% 30% at 18% 66%, #000 0%, transparent 100%), radial-gradient(ellipse 36% 26% at 74% 72%, #000 0%, transparent 100%), radial-gradient(ellipse 30% 24% at 88% 22%, #000 0%, transparent 100%);
   mask-image: radial-gradient(ellipse 44% 30% at 18% 66%, #000 0%, transparent 100%), radial-gradient(ellipse 36% 26% at 74% 72%, #000 0%, transparent 100%), radial-gradient(ellipse 30% 24% at 88% 22%, #000 0%, transparent 100%); }
 .jp-moments { list-style: none; padding: 0; }
-.jp-moments .icon { display: block; width: clamp(96px, 9vw, 128px); height: auto; aspect-ratio: 1; margin: 0 0 14px; }
+.jp-moments .icon { display: block; width: clamp(104px, 10vw, 148px); height: auto; aspect-ratio: 1; margin: 0 0 14px; }
 .jp-moments .label { font-size: 13px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
 
 /* about the labs: on ink like its neighbours, lit by the same teal glow as the
