@@ -1,0 +1,90 @@
+---
+import { u } from "../../lib/url";
+/* /proposal — Brendan's proposal deck for the retreat. Unlisted (noindex,
+   not linked from the program page). Same shell and controls as /present:
+     /proposal            full-screen presentation
+     /proposal?notes      laptop notes view (current, next, notes, timer);
+                          stays in sync with a presentation window
+   Slides: content/proposal/slides/*.html in the order content/proposal/deck.json gives. */
+import "@fontsource-variable/geologica/wght.css";
+import "../../styles/colors_and_type.css";
+import "../../styles/system.css";
+import "../../styles/deck.css";
+import "../../styles/proposal.css";
+import ProposalSlides from "../../components/ProposalSlides.astro";
+import Icon from "../../components/Icon.astro";
+import { t, ui } from "../../lib/i18n";
+import deck from "../../../content/proposal/deck.json";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{deck.title} · {t("siteName")}</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#00141B" />
+    <link rel="icon" href={u("/favicon.png")} type="image/png" />
+    <link rel="apple-touch-icon" href={u("/icons/apple-touch-icon.png")} />
+  </head>
+  <body class="deck" data-short-slides="[]">
+    <div class="deck-shell">
+      <div class="viewport" data-viewport="main" aria-live="polite">
+        <div class="scaler"><ProposalSlides /></div>
+      </div>
+
+      <!-- practice mode: note under the slide -->
+      <section class="practice-cue" data-practice-cue hidden>
+        <div class="lbl">{t("present.talkCue")}</div>
+        <p class="pc-cue" data-cue-text></p>
+        <p class="pc-notes" data-notes-text></p>
+      </section>
+
+      <!-- notes view: next slide + notes + timer -->
+      <aside class="notes-pane on-dark" data-notes-pane hidden>
+        <div class="np-top">
+          <span class="np-count" data-counter></span>
+          <button class="np-timer" type="button" data-timer title={t("present.resetTimer")} aria-label={t("present.resetTimer")}>0:00</button>
+        </div>
+        <p class="np-pace" data-pace role="status" data-on={t("present.paceOn")} data-behind={t("present.paceBehind")} data-ahead={t("present.paceAhead")}></p>
+        <div class="lbl">{t("present.talkCue")}</div>
+        <p class="np-cue" data-cue-text></p>
+        <p class="np-notes" data-notes-text></p>
+        <div class="lbl">{t("present.next")}</div>
+        <div class="viewport np-next" data-viewport="next"><div class="scaler"></div></div>
+        <p class="np-end" data-next-empty hidden>{t("present.noNext")}</p>
+        <div class="np-btns">
+          <button class="btn btn-ghost" type="button" data-prev><Icon name="arrow-left" size={18} /> {t("page.previous")}</button>
+          <button class="btn btn-white" type="button" data-next>{t("present.next")} <Icon name="arrow-right" size={18} /></button>
+        </div>
+        <a class="see" href="#" data-open-audience>{t("present.openAudience")} →</a>
+      </aside>
+
+      <section class="cue-sheet" data-cue-sheet hidden>
+        <div class="lbl"><span data-counter></span> · {t("present.talkCue")}</div>
+        <p class="pc-cue" data-cue-text></p>
+      </section>
+
+      <div class="controls" data-controls>
+        <a class="ctl" href={u("/structure/")} data-ctl>{t("present.exit")}</a>
+        <button class="ctl" type="button" data-ctl data-toggle-cues aria-pressed="false">{t("present.cues")}</button>
+        <button class="ctl" type="button" data-ctl data-fullscreen>{t("present.fullscreen")}</button>
+        <button class="ctl" type="button" data-ctl data-help-open aria-label={t("present.keys")}>?</button>
+      </div>
+      <div class="blank" data-blank hidden></div>
+      <dialog class="keys" data-help aria-labelledby="keys-h">
+        <h2 id="keys-h" class="t-h3">{t("present.keys")}</h2>
+        <dl class="keys-list">
+          {ui.present.keyListItems.map(([k, v]) => <div><dt>{k}</dt><dd>{v}</dd></div>)}
+        </dl>
+        <form method="dialog"><button class="btn btn-ink btn-sm">{t("present.close")}</button></form>
+      </dialog>
+      <p class="deck-hint" data-hint><span data-counter></span> · {t("present.hint")}</p>
+    </div>
+
+    <script>
+      import { initDeck } from "../../scripts/deck";
+      initDeck();
+    </script>
+  </body>
+</html>

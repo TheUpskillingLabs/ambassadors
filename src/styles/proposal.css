@@ -1,0 +1,14 @@
+/* ════ /proposal — the proposal deck. Builds on deck.css (the shell, the
+   scaler, the notes view). What's here: the authored <section> inside each
+   .slide is its own 1920×1080 canvas with inline styles, so give it the box
+   and the few defaults the slides were written against. ════ */
+.slide > section { position: relative; width: 1920px; height: 1080px; box-sizing: border-box; overflow: hidden; }
+.slide > section h1 { font-size: 96px; font-weight: 600; line-height: 1.1; }
+.slide > section h2 { font-size: 64px; font-weight: 600; line-height: 1.15; }
+.slide > section h3 { font-size: 44px; font-weight: 600; line-height: 1.2; }
+.slide > section p { font-size: 32px; line-height: 1.4; }
+.slide > section ul, .slide > section ol { padding-left: 1.2em; }
+.slide > section table { border-collapse: collapse; width: 100%; }
+.slide > section th, .slide > section td { padding: 0.35em 0.6em; border: 1px solid rgba(128, 128, 128, 0.35); text-align: left; vertical-align: top; }
+.slide > section img, .slide > section svg { display: block; }
+.slide > section hr { margin: 0; }

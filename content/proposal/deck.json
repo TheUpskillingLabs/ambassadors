@@ -1,0 +1,28 @@
+{
+  "$comment": "The proposal deck at /proposal/. Slides are the HTML files in slides/, one section each, shown in this order. Each file's <aside> is its speaker note.",
+  "title": "The Labs: A Proposal",
+  "order": [
+    "cover",
+    "idea",
+    "map",
+    "judgments",
+    "maritime",
+    "lanes",
+    "ocean",
+    "shape",
+    "structure",
+    "doors",
+    "register",
+    "quarterly",
+    "washington",
+    "engine",
+    "summit",
+    "charter",
+    "ports",
+    "horizon",
+    "rules",
+    "decide",
+    "ask",
+    "close"
+  ]
+}
