@@ -24,6 +24,7 @@ import { u } from "../lib/url";
 import h from "../../content/site/home.json";
 import list from "../../content/roles/roles.json";
 import j from "../../content/site/join.json";
+import upskiller from "../../content/roles/upskiller.json";
 
 const L = h.links;
 const orbit = (f: string) => u(`/join/${f}`);
@@ -78,12 +79,40 @@ const pageTitle = h.title;
     </header>
 
     <main id="main">
-      <!-- The hero: the name, one line, and the orb at the centre of its network. -->
-      <section id="top" class="rp-hero hm-hero">
+      <!-- The hero: the title over a live model of The Labs, then its story, one shot per scroll. -->
+      <section id="top" class="hm-model" data-story>
         <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
-        <p class="status hm-eyebrow rise"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
-        <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
-        <div class="hm-orbit pinin" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
+        <div class="hm-stage" data-stage>
+          <div class="hm-hero-copy" data-hero-copy>
+            <p class="status hm-eyebrow rise"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
+            <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
+          </div>
+          <div class="hm-orbit" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
+          <a class="hm-orb-link" href={upskiller.intro.href} aria-label={h.model.orbLabel} data-orb-link><span class="hm-orb-label">{h.model.orb} <b aria-hidden="true">→</b></span></a>
+          <ol class="hm-beats">
+            {h.model.beats.map((b, i) => (
+              <li class="hm-beat" data-beat={i + 1}>
+                <p class="rp-step"><span class="no">{nos[i]}</span> {b.kicker}</p>
+                <p class="hm-beat-line">{b.line}</p>
+                {i === h.model.beats.length - 1 && (
+                  <div class="hm-beat-cta">
+                    <a class="btn" href={L.join}>{h.intro.cta}</a>
+                    <p class="hm-beat-hint"><span class="fine">{h.model.click}</span><span class="coarse">{h.model.tap}</span></p>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ol>
+          <ul class="hm-legend" aria-hidden="true">
+            {h.model.legend.map((l, i) => <li class="hm-tag" data-tag={i}><i class={`mk mk-${i}`}></i>{l}</li>)}
+          </ul>
+          <p class="hm-tag hm-you" data-you aria-hidden="true"><i class="mk mk-you"></i>{h.model.you}</p>
+          <p class="hm-cue" data-cue aria-hidden="true"><span>{h.model.cue}</span><i></i></p>
+          <button class="hm-pause" type="button" aria-pressed="false" aria-label={h.model.pauseLabel} data-pause data-pause-label={h.model.pauseLabel} data-play-label={h.model.playLabel} data-pause-text={h.model.pause} data-play-text={h.model.play}>
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M3 2h2v8H3zM7 2h2v8H7z" /><path class="i-play" d="M3 2l7 4-7 4z" /></svg>
+            <span>{h.model.pause}</span>
+          </button>
+        </div>
       </section>
 
       <!-- The intro: what this is, what it costs, the one action. -->
@@ -335,20 +364,57 @@ const pageTitle = h.title;
       new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
         .observe(document.querySelector("[data-top-sentinel]")!);
       const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
-      let heroIn = true, introIn = false, joinIn = false;
-      const syncCta = () => { const off = heroIn || introIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
-      new IntersectionObserver(([e]) => { heroIn = e.isIntersecting; syncCta(); }, { threshold: 0.5 }).observe(document.getElementById("top")!);
+      let introIn = false, joinIn = false;
+      const syncCta = () => { const off = introIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
+      syncCta();
       new IntersectionObserver(([e]) => { introIn = e.isIntersecting; syncCta(); }).observe(document.querySelector("[data-hero-cta]")!);
       new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       initMenu();
       openCovers();
 
-      // The orb: live, at the hub of its network. Reduced motion gets one still
-      // frame; without WebGL 2 the poster stays.
+      // The hero: the live model, and its story told by scrolling. Reduced motion gets a still frame and
+      // the four lines as a list; without WebGL 2 the poster stays.
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const orbEl = document.querySelector<HTMLElement>("[data-orbnet]");
       const orbMode = new URLSearchParams(location.search).get("orb");
-      if (orbEl) mountOrbNet(orbEl, { still: reduce || orbMode === "still", poster: orbMode === "poster" });
+      const still = reduce || orbMode === "still" || orbMode === "poster";
+      const story = document.querySelector<HTMLElement>("[data-story]")!;
+      const stage = document.querySelector<HTMLElement>("[data-stage]")!;
+      const copy = stage.querySelector<HTMLElement>("[data-hero-copy]")!;
+      const beatsEl = [...stage.querySelectorAll<HTMLElement>("[data-beat]")];
+      const tags = [...stage.querySelectorAll<HTMLElement>("[data-tag]")];
+      const you = stage.querySelector<HTMLElement>("[data-you]")!;
+      const cue = stage.querySelector<HTMLElement>("[data-cue]")!;
+      const pause = stage.querySelector<HTMLButtonElement>("[data-pause]")!;
+      const orbLink = stage.querySelector<HTMLAnchorElement>("[data-orb-link]")!;
+      if (still) story.classList.add("is-still");
+      const net = mountOrbNet(stage.querySelector<HTMLElement>("[data-orbnet]")!, {
+        still, poster: orbMode === "poster", story, stage,
+        onFrame: (f) => {
+          copy.style.opacity = String(f.beats[0]);
+          copy.style.transform = `translateY(${(-(1 - f.beats[0]) * 48).toFixed(1)}px)`;
+          beatsEl.forEach((el, i) => { const w = f.beats[i + 1]; el.style.opacity = String(w); el.style.transform = `translateY(${((1 - w) * 18).toFixed(1)}px)`; el.classList.toggle("on", w > 0.5); });
+          tags.forEach((el, i) => { const q = f.legend[i]; el.style.opacity = q ? String(f.beats[1]) : "0"; if (q) el.style.transform = `translate(${q.x.toFixed(1)}px, ${q.y.toFixed(1)}px)`; });
+          you.style.opacity = f.you ? "1" : "0"; if (f.you) you.style.transform = `translate(${f.you.x.toFixed(1)}px, ${f.you.y.toFixed(1)}px)`;
+          cue.style.opacity = String(Math.max(0, 1 - f.p * 40));
+          // The orb is the button: a link laid over it, its label shown on hover and in the last shot.
+          orbLink.style.transform = `translate(${(f.orb.x - f.orb.r).toFixed(1)}px, ${(f.orb.y - f.orb.r).toFixed(1)}px)`;
+          orbLink.style.width = orbLink.style.height = `${(f.orb.r * 2).toFixed(1)}px`;
+          orbLink.style.setProperty("--show", String(f.beats[4]));
+        },
+      });
+      if (!net || still) pause.hidden = true;
+      if (net) {
+        const hov = (v: boolean) => () => net.setOrbHover(v);
+        orbLink.addEventListener("pointerenter", hov(true)); orbLink.addEventListener("pointerleave", hov(false));
+        orbLink.addEventListener("focus", hov(true)); orbLink.addEventListener("blur", hov(false));
+      }
+      pause.addEventListener("click", () => {
+        if (!net) return;
+        const v = !net.paused(); net.setPaused(v);
+        pause.setAttribute("aria-pressed", String(v));
+        pause.setAttribute("aria-label", v ? pause.dataset.playLabel! : pause.dataset.pauseLabel!);
+        pause.querySelector("span")!.textContent = v ? pause.dataset.playText! : pause.dataset.pauseText!;
+      });
     </script>
   </body>
 </html>

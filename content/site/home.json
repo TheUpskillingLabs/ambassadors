@@ -31,6 +31,26 @@
     ],
     "orbLabel": "A living model of The Labs: local Labs orbit the orb, each a network of people, places, projects and knowledge tied together, with a commons of contributors circling the centre. The denser a Lab's ties, the stronger its pull; the densest have formed small orbs of their own. Sparks of new ideas run along the ties, up to the centre and back out to every Lab."
   },
+  "model": {
+    "$comment": "The hero's story: the live model (src/scripts/orbnet.ts) and one line for each of its four shots after the title. The legend names the four kinds of actor, pinned to real ones in the DC Lab.",
+    "beats": [
+      { "kicker": "Actors", "line": "Every Lab is its people, places, projects and knowledge, and the ties between them." },
+      { "kicker": "Gravity", "line": "The denser the ties, the stronger the pull." },
+      { "kicker": "Ideas", "line": "A new idea travels up to the centre, then out to every Lab." },
+      { "kicker": "You", "line": "There's a place in it for you." }
+    ],
+    "legend": ["People", "Places", "Projects", "Knowledge"],
+    "you": "You",
+    "click": "Or click anywhere in the system to join a Lab.",
+    "tap": "Or tap anywhere in the system to join a Lab.",
+    "cue": "Scroll",
+    "pause": "Pause",
+    "play": "Play",
+    "orb": "Become an Upskiller",
+    "orbLabel": "Become an Upskiller: create your free Upskilling account",
+    "pauseLabel": "Pause the animation",
+    "playLabel": "Play the animation"
+  },
   "intro": {
     "lede": "AI is rewriting how we work, and it's easier to learn together than alone. The Upskilling Labs is a free community where you find people near you, build something real, and grow more confident together.",
     "strong": "Free.",
