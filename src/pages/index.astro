@@ -9,6 +9,7 @@
    without WebGL. */
 import "@fontsource-variable/geologica/wght.css";
 import "../styles/join.css";
+import "../styles/swiss.css";
 import { guideHome } from "../lib/content";
 import { u } from "../lib/url";
 import j from "../../content/site/join.json";
@@ -26,6 +27,11 @@ const pageTitle = `${j.title} · The Upskilling Labs`;
 // plain sentence; the letters are hidden from them.
 const manifestoText = j.you.statement.join(" ");
 const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
+
+// The moment pins are centred in their renders; on the Swiss grid they hang
+// flush left, so each is nudged left by its own inset (the pin's left edge,
+// as a share of the image's width, measured from the 480 px webps).
+const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake: 0.079 };
 ---
 <!doctype html>
 <html lang="en">
@@ -45,7 +51,7 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" />
   </head>
-  <body class="jp">
+  <body class="jp sw">
     <a class="skip" href="#main">Skip to content</a>
     <header class="jp-head" data-head>
       <nav aria-label="Ambassador program">
@@ -86,9 +92,9 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
       </section>
 
       <section id="you" class="jp-sec jp-you">
-        <div class="wrap">
-          <p class="kicker reveal">{j.you.kicker}</p>
-          <p class="jp-manifesto" data-manifesto>
+        <div class="sw-grid ruled">
+          <p class="kicker sw-rail reveal"><span class="no">01</span>{j.you.kicker}</p>
+          <p class="jp-manifesto sw-main" data-manifesto>
             <span class="sr">{manifestoText}</span>
             <span aria-hidden="true">{manifestoWords.map((w, wi) => <>{wi > 0 && " "}<span class="w">{w.map((c) => <span class="c">{c}</span>)}</span></>)}</span>
           </p>
@@ -98,29 +104,29 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
       <JoinCover n={0} />
 
       <section id="labs" class="jp-labs">
-        <div class="jp-split">
-          <div class="reveal">
-            <p class="kicker">{j.labs.kicker}</p>
+        <div class="sw-grid ruled">
+          <p class="kicker sw-rail reveal"><span class="no">02</span>{j.labs.kicker}</p>
+          <div class="sw-main reveal">
             <h2 class="h2">{j.labs.title}</h2>
             <p class="lede">{j.labs.lede}</p>
           </div>
-          <dl class="jp-habits reveal">
+          <dl class="jp-habits sw-main sw-row3 reveal">
             {j.labs.habits.map((h) => <div><dt>{h.title}</dt><dd>{h.body}</dd></div>)}
           </dl>
         </div>
       </section>
 
       <section id="team" class="jp-sec jp-moments-sec">
-        <div class="wrap">
-          <div class="reveal head">
-            <p class="kicker">{j.team.kicker}</p>
+        <div class="sw-grid ruled">
+          <p class="kicker sw-rail reveal"><span class="no">03</span>{j.team.kicker}</p>
+          <div class="sw-main reveal">
             <h2 class="h2">{j.team.title}</h2>
             <p class="lede">{j.team.lede}</p>
           </div>
-          <ol class="jp-cols three jp-moments reveal">
+          <ol class="jp-moments sw-main sw-row3 reveal">
             {j.team.roles.map((r) => (
               <li class="jp-col">
-                <img class="icon" src={media(`moment-${r.icon}.webp`)} alt="" width="184" height="184" loading="lazy" />
+                <img class="icon" src={media(`moment-${r.icon}.webp`)} alt="" width="184" height="184" loading="lazy" style={`--inset: ${pinInset[r.icon] ?? 0}`} />
                 <p class="label">{r.step}</p><h3>{r.title}</h3><p>{r.body}</p>
               </li>
             ))}
@@ -131,9 +137,9 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
       <JoinCover n={1} />
 
       <section id="ripple" class="jp-sec jp-ripple">
-        <div class="jp-split">
-          <div class="reveal">
-            <p class="kicker">{j.ripple.kicker}</p>
+        <div class="sw-grid ruled">
+          <p class="kicker sw-rail reveal"><span class="no">04</span>{j.ripple.kicker}</p>
+          <div class="sw-text reveal">
             <h2 class="h2">{j.ripple.title}</h2>
             <p class="lede">{j.ripple.lede}</p>
             <ol class="jp-rings">
@@ -143,7 +149,7 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
             </ol>
             <p class="jp-note">{j.ripple.note}</p>
           </div>
-          <div class="jp-orbits reveal">
+          <div class="jp-orbits sw-aside reveal">
             <div class="bleed">
               <video data-loop poster={media("orbits.jpg")} muted loop playsinline preload="metadata" aria-label={j.ripple.videoLabel}>
                 <source src={media("orbits-600.webm")} type="video/webm" media="(max-width: 680px)" />
@@ -157,102 +163,98 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
       </section>
 
       <section id="goal" class="jp-sec jp-goal">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{j.goal.kicker}</p>
-            <h2 class="h2" style="max-width: 900px">{j.goal.title}</h2>
+        <div class="sw-grid ruled">
+          <p class="kicker sw-rail reveal"><span class="no">05</span>{j.goal.kicker}</p>
+          <div class="sw-main reveal">
+            <h2 class="h2">{j.goal.title}</h2>
           </div>
-          <div class="jp-cols jp-stats reveal">
+          <div class="jp-stats sw-main sw-row3 reveal">
             {j.goal.stats.map((s) => (
               <div class:list={["jp-stat", { accent: s.accent }]}><p class="v">{s.value}</p><p class="l">{s.label}</p></div>
             ))}
           </div>
-          <div class="jp-roster reveal">
-            <p class="kicker">{j.goal.roster.kicker}</p>
+          <p class="kicker sw-rail sw-sub reveal">{j.goal.roster.kicker}</p>
+          <div class="jp-roster sw-main reveal">
             <ol aria-label={j.goal.roster.label.replace("{filled}", String(founders.length)).replace("{slots}", String(slots))}>
               {Array.from({ length: slots }, (_, i) => founders[i]).map((r, i) => (
                 <li class:list={{ in: Boolean(r) }}><span class="n">{String(i + 1).padStart(2, "0")}</span>{r ? <><b>{r.first}</b><span class="a">{r.area}</span></> : <span class="open">{j.goal.roster.open}</span>}</li>
               ))}
             </ol>
           </div>
-          <div class="jp-goal-foot">
-            <p class="lede reveal">{j.goal.note}</p>
-            <figure class="jp-quote reveal">
-              <blockquote><span class="q" aria-hidden="true">“</span>{j.goal.quote.text}<span class="q" aria-hidden="true">”</span></blockquote>
-              <figcaption><b>{j.goal.quote.name}</b><span>{j.goal.quote.role}</span></figcaption>
-            </figure>
-          </div>
+          <p class="lede sw-note reveal">{j.goal.note}</p>
+          <figure class="jp-quote sw-quote reveal">
+            <blockquote><span class="q" aria-hidden="true">“</span>{j.goal.quote.text}<span class="q" aria-hidden="true">”</span></blockquote>
+            <figcaption><b>{j.goal.quote.name}</b><span>{j.goal.quote.role}</span></figcaption>
+          </figure>
         </div>
       </section>
 
       <JoinCover n={2} />
 
       <section id="path" class="jp-sec jp-path">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{j.path.kicker}</p>
+        <div class="sw-grid ruled">
+          <p class="kicker sw-rail reveal"><span class="no">06</span>{j.path.kicker}</p>
+          <div class="sw-main reveal">
             <h2 class="h2">{j.path.title[0]}<br />{j.path.title[1]}</h2>
-            <p class="lede" style="max-width: 640px">{j.path.lede}</p>
+            <p class="lede">{j.path.lede}</p>
           </div>
-          <div class="jp-how" data-how>
-            <div class="jp-how-visual" aria-hidden="true">
-              <img src={media("button-800.webp")} alt="" width="800" height="800" loading="lazy" data-how-visual="button" class="on" />
-            </div>
+          <div class="jp-how sw-wide" data-how>
             <ol class="jp-steps reveal">
               {j.path.steps.map((s, i) => (
                 <li class:list={{ milestone: s.milestone }} data-how-step={s.reward}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
               ))}
             </ol>
-          </div>
-          <div class="jp-rewards reveal">
-            <div id="button" class="jp-reward">
-              <img src={media(j.path.button.image)} alt={j.path.button.alt} loading="lazy" width="180" height="180" />
-              <div><p class="kicker">{j.path.button.kicker}</p><h3>{j.path.button.title}</h3><p>{j.path.button.body}</p></div>
-            </div>
-            <div id="members" class="jp-reward jp-members">
-              <!-- Two doors that overlap: you can be both. -->
-              <svg class="venn" viewBox="0 0 132 132" aria-hidden="true">
-                <defs><clipPath id="venn-a"><circle cx="50" cy="66" r="38" /></clipPath></defs>
-                <circle cx="82" cy="66" r="38" clip-path="url(#venn-a)" class="both" />
-                <circle cx="50" cy="66" r="38" class="a" />
-                <circle cx="82" cy="66" r="38" class="b" />
-              </svg>
-              <div>
-                <p class="kicker">{j.path.members.kicker}</p><h3>{j.path.members.title}</h3><p>{j.path.members.body}</p>
-                <dl class="doors">
-                  {j.path.members.doors.map((d, i) => (
-                    <div class={i ? "b" : "a"}><dt>{d.name}</dt><dd>{d.body}</dd></div>
-                  ))}
-                </dl>
-              </div>
+            <div class="jp-how-visual" aria-hidden="true">
+              <img src={media("button-800.webp")} alt="" width="800" height="800" loading="lazy" data-how-visual="button" class="on" />
             </div>
           </div>
-          <p class="jp-cta-row reveal"><a class="btn" href={apply}>{j.path.cta}</a></p>
+          <div id="button" class="jp-reward sw-half-a reveal">
+            <img src={media(j.path.button.image)} alt={j.path.button.alt} loading="lazy" width="180" height="180" />
+            <div><p class="kicker">{j.path.button.kicker}</p><h3>{j.path.button.title}</h3><p>{j.path.button.body}</p></div>
+          </div>
+          <div id="members" class="jp-reward jp-members sw-half-b reveal">
+            <!-- Two doors that overlap: you can be both. -->
+            <svg class="venn" viewBox="0 0 132 132" aria-hidden="true">
+              <defs><clipPath id="venn-a"><circle cx="50" cy="66" r="38" /></clipPath></defs>
+              <circle cx="82" cy="66" r="38" clip-path="url(#venn-a)" class="both" />
+              <circle cx="50" cy="66" r="38" class="a" />
+              <circle cx="82" cy="66" r="38" class="b" />
+            </svg>
+            <div>
+              <p class="kicker">{j.path.members.kicker}</p><h3>{j.path.members.title}</h3><p>{j.path.members.body}</p>
+              <dl class="doors">
+                {j.path.members.doors.map((d, i) => (
+                  <div class={i ? "b" : "a"}><dt>{d.name}</dt><dd>{d.body}</dd></div>
+                ))}
+              </dl>
+            </div>
+          </div>
+          <p class="jp-cta-row sw-main reveal"><a class="btn" href={apply}>{j.path.cta}</a></p>
         </div>
       </section>
 
       <section id="faq" class="jp-sec">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{j.faq.kicker}</p>
+        <div class="sw-grid ruled">
+          <p class="kicker sw-rail reveal"><span class="no">07</span>{j.faq.kicker}</p>
+          <div class="sw-main reveal">
             <h2 class="h2">{j.faq.title}</h2>
           </div>
-          <div class="jp-faq reveal">
+          <div class="jp-faq sw-main reveal">
             {j.faq.items.map((f) => (
               <details><summary><span>{f.q}</span><i aria-hidden="true"></i></summary><p>{f.a}</p></details>
             ))}
           </div>
-          <p class="jp-cta-row reveal"><a class="btn" href={apply}>{j.faq.cta}</a></p>
+          <p class="jp-cta-row sw-main reveal"><a class="btn" href={apply}>{j.faq.cta}</a></p>
         </div>
       </section>
 
       <section id="commit" class="jp-sec">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{j.commit.kicker}</p>
+        <div class="sw-grid ruled">
+          <p class="kicker sw-rail reveal"><span class="no">08</span>{j.commit.kicker}</p>
+          <div class="sw-main reveal">
             <h2 class="h2">{j.commit.title}</h2>
           </div>
-          <div class="jp-cols three reveal">
+          <div class="jp-commit sw-main sw-row3 reveal">
             {j.commit.items.map((it) => (
               <div class="jp-col"><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
             ))}
@@ -261,10 +263,10 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
       </section>
 
       <section id="join" class="jp-join">
-        <div class="wrap reveal" style="position: relative">
-          <h2>{j.join.title}</h2>
-          <p class="lede">{j.join.lede}</p>
-          <div class="row">
+        <div class="sw-grid reveal">
+          <h2 class="sw-display">{j.join.title}</h2>
+          <p class="lede sw-lead">{j.join.lede}</p>
+          <div class="row sw-lead">
             <a class="btn" href={apply}>{j.join.cta}</a>
             <p class="status"><i aria-hidden="true"></i>{j.hero.status}</p>
           </div>
@@ -273,16 +275,18 @@ const manifestoWords = manifestoText.split(/\s+/).map((w) => [...w]);
     </main>
 
     <footer class="jp-foot">
-      <div class="wrap">
-        <div class="col">
+      <div class="sw-grid">
+        <div class="sw-rail">
           <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
+        </div>
+        <div class="col sw-foot-main">
           <p>{j.footer.legal}</p>
           <p>{j.footer.rights}</p>
           <p>{j.footer.renders}</p>
           <p><a class="textlink" href={guideHome}>{j.footer.guide} →</a></p>
           {j.placeholder && <p class="ph">[PLACEHOLDER] draft copy: [N] and the join link are still to be set.</p>}
         </div>
-        <div class="col">
+        <div class="col sw-foot-end">
           <p class="kicker">{j.footer.sponsors}</p>
           <div class="sponsors">
             <img src={u("/assets/dcpl-knockout-logo.png")} alt="DC Public Library" width="117" height="96" loading="lazy" />

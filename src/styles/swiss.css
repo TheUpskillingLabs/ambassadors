@@ -1,0 +1,198 @@
+/* ════ The program page on a Swiss grid (an exploration, scoped to <body class="jp sw">).
+   Loaded after join.css, only by src/pages/index.astro, so /contributing/ (which
+   shares join.css) is untouched. Delete this file and the page's sw-* markup to go back.
+
+   The grid: 12 columns inside the page gutter. Each numbered section opens on
+   a hairline rule; its number and label hang in a rail (columns 1–3) and
+   everything else sits on one axis at column 4. Display moments (the hero, the
+   chapter covers, the closing call) hang on the outer axis, column 1.
+   Everything is set flush left, ragged right.
+
+   The type scale follows The Futur's: one large body size and big, even steps
+   (their site: 22 body, 32 subheads, 52–64 titles, 88–120 display, about ×1.45
+   a step), tight leading on display type, and negative tracking throughout.
+   Here, on desktop: 20 · 29 · 42 · 61 · 88 · 128, each step ×1.45, fluid down
+   to phones. Headings and ledes share a size and differ by weight. ════ */
+.sw {
+  --gut: clamp(16px, 1.7vw, 28px);
+  --row: clamp(40px, 5vw, 72px);
+  --fs-cap: 13px;                          /* labels, set in caps */
+  --fs-sm: 15px;                           /* notes, captions, the footer */
+  --fs-body: clamp(17px, 1.39vw, 20px);    /* body */
+  --fs-lead: clamp(21px, 2vw, 29px);       /* ledes (regular) and h3 (semibold) */
+  --fs-sub: clamp(26px, 2.92vw, 42px);     /* quotes, the path's step titles */
+  --fs-h2: clamp(34px, 4.24vw, 61px);      /* section titles, the manifesto */
+  --fs-d1: clamp(44px, 6.12vw, 88px);      /* numbers */
+  --fs-d2: clamp(52px, 8.9vw, 128px);      /* the hero, the covers, the closing call */
+}
+
+/* ── the type scale ── */
+.sw .kicker { font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.08em; line-height: 1.3; color: var(--t2); }
+.sw .kicker .no { margin-right: 14px; color: var(--teal); font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+.sw .h2, .sw .jp-labs .h2, .sw .jp-path .h2 { margin: 0; font-size: var(--fs-h2); font-weight: 650; line-height: 1; letter-spacing: -0.035em; }
+.sw .lede { margin: clamp(18px, 2vw, 28px) 0 0; max-width: 26em; font-size: var(--fs-lead); font-weight: 400; line-height: 1.24; letter-spacing: -0.016em; color: var(--t2); text-wrap: pretty; }
+.sw .jp-col h3, .sw .jp-habits dt, .sw .jp-reward h3, .sw .jp-steps h3 { margin: 0; font-size: var(--fs-lead); font-weight: 580; line-height: 1.12; letter-spacing: -0.022em; color: var(--t1); }
+.sw .jp-col p, .sw .jp-habits dd, .sw .jp-rings p, .sw .jp-steps p, .sw .jp-reward p, .sw .jp-faq details p, .sw .jp-stat .l {
+  font-size: var(--fs-body); line-height: 1.45; letter-spacing: -0.011em; color: var(--t2); }
+.sw .jp-col .label, .sw .jp-moments .label, .sw .jp-steps .n { margin: 0; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
+
+/* ── the grid ── */
+.sw .sw-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); row-gap: var(--row); align-items: start; padding-inline: var(--g); }
+.sw .sw-grid.ruled { padding-top: clamp(20px, 2.2vw, 32px); }
+.sw .sw-grid.ruled::before { content: ""; position: absolute; top: 0; left: var(--g); right: var(--g); border-top: 1px solid var(--rule); }
+.sw .sw-rail + * { margin-top: calc(20px - var(--row)); } /* stacked: the label sits just above its title */
+.sw .sw-row3 { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); column-gap: var(--gut); }
+.sw .sw-row3 > * { border-top: 1px solid var(--rule); padding: 18px 0 30px; }
+@media (min-width: 720px) {
+  .sw .sw-row3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .sw .sw-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); }
+  .sw .sw-rail { grid-column: 1 / span 3; }
+  .sw .sw-rail + * { margin-top: 0; }
+  .sw .sw-main, .sw .sw-wide { grid-column: 4 / -1; }
+  .sw .sw-text { grid-column: 4 / span 5; }
+  .sw .sw-aside { grid-column: 9 / -1; align-self: center; }
+  .sw .sw-half-a { grid-column: 4 / span 4; }
+  .sw .sw-half-b { grid-column: 8 / -1; }
+  .sw .sw-note { grid-column: 4 / span 4; }
+  .sw .sw-quote { grid-column: 8 / -1; }
+  .sw .sw-display { grid-column: 1 / span 10; }
+  .sw .sw-lead { grid-column: 1 / span 7; }
+  /* The rail's label lines up with the cap height of the title beside it. */
+  .sw .sw-rail:has(+ .sw-main .h2) { padding-top: calc(var(--fs-h2) * 0.14); }
+}
+
+/* ── header: on wide screens the links start on the content axis ── */
+@media (min-width: 1280px) {
+  .sw .jp-head nav { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); }
+  .sw .jp-brand { grid-column: 1 / span 3; }
+  .sw .jp-links { grid-column: 4 / span 5; }
+  .sw .jp-end { grid-column: 9 / -1; }
+}
+
+/* ── hero: the title hangs on the outer axis, the button to its right ── */
+.sw .jp-hero { display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; justify-items: start; text-align: left; min-height: 100svh; }
+.sw .jp-hero .stage { display: contents; }
+.sw .jp-hero h1 { font-size: var(--fs-d2); font-weight: 700; line-height: 0.88; letter-spacing: -0.045em; text-transform: none;
+  background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--t1); }
+.sw .jp-pin { width: min(84vw, 42svh); margin: clamp(20px, 3vh, 32px) 0 0; }
+.sw .jp-hero .lede-hero { width: auto; max-width: 20em; margin: clamp(20px, 3vh, 32px) 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: pretty; }
+.sw .jp-hero .ctas { margin-top: clamp(24px, 3vh, 36px); justify-content: flex-start; }
+.sw .jp-hero .status { margin-top: clamp(20px, 3vh, 28px); }
+@media (max-width: 1023px) {
+  .sw .jp-pin { order: -1; margin: 0 0 clamp(16px, 3vh, 28px); }
+}
+@media (max-width: 680px) {
+  .sw .jp-hero .ctas { align-items: flex-start; }
+  .sw .jp-hero .ghost { padding-left: 0; }
+}
+@media (min-width: 1024px) {
+  .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); padding-top: calc(var(--head) + clamp(24px, 4vh, 56px)); }
+  .sw .jp-hero h1 { grid-column: 1 / span 8; grid-row: 1; align-self: end; position: relative; z-index: 1; }
+  .sw .jp-pin { grid-column: 7 / -1; grid-row: 1 / span 4; justify-self: end; align-self: center; width: min(100%, 72vh, 700px); margin: 0; }
+  .sw .jp-hero .lede-hero { grid-column: 1 / span 6; grid-row: 2; }
+  .sw .jp-hero .ctas { grid-column: 1 / span 6; grid-row: 3; }
+  .sw .jp-hero .status { grid-column: 1 / span 6; grid-row: 4; }
+}
+
+/* ── chapter covers: the tagline sits bottom left, like a poster ── */
+.sw .jp-cover-stage { place-items: end start; }
+.sw .jp-cover-media::after { background:
+  linear-gradient(0deg, rgba(0, 20, 27, 0.74) 0%, rgba(0, 20, 27, 0.3) 36%, rgba(0, 20, 27, 0) 60%),
+  radial-gradient(ellipse 90% 80% at 50% 45%, rgba(0, 20, 27, 0) 55%, rgba(0, 20, 27, 0.45) 100%); }
+.sw .jp-cover-title { max-width: 9em; padding: 0 var(--g) clamp(56px, 11vh, 128px); text-align: left; font-size: var(--fs-d2); line-height: 0.9; letter-spacing: -0.045em; transform-origin: 0 100%; }
+
+/* ── 01 our why ── */
+.sw .jp-you .kicker { margin-bottom: 0; }
+.sw .jp-manifesto { max-width: none; font-size: var(--fs-h2); font-weight: 600; line-height: 1.08; letter-spacing: -0.03em; }
+@media (min-width: 1024px) {
+  .sw .jp-you .sw-rail { padding-top: calc(var(--fs-h2) * 0.14); }
+}
+
+/* ── 02 about the labs ── */
+.sw .jp-labs { padding-inline: 0; }
+.sw .jp-habits div { padding: 18px 0 30px; }
+.sw .jp-habits dd { margin: 10px 0 0; }
+
+/* ── 03 what you'll do: the pins hang flush left, each nudged by its own inset ── */
+.sw .jp-moments { margin-top: 0; text-align: left; }
+.sw .jp-moments.sw-row3 > * { border-top: 0; padding-top: 0; }
+.sw .jp-moments .jp-col { align-items: flex-start; gap: 12px; }
+.sw .jp-moments .jp-col p:last-child { max-width: none; }
+.sw .jp-moments .icon { width: clamp(128px, 12.2vw, 176px); margin: 0 0 14px; translate: calc(-1 * var(--inset, 0) * 100%) 0; }
+.sw .jp-moments-sec::before { background:
+  radial-gradient(ellipse 30% 26% at 32% 64%, rgba(0, 148, 160, 0.34) 0%, rgba(0, 148, 160, 0.13) 45%, rgba(0, 148, 160, 0) 100%),
+  radial-gradient(ellipse 30% 26% at 80% 66%, rgba(214, 44, 52, 0.24) 0%, rgba(214, 44, 52, 0.08) 48%, rgba(214, 44, 52, 0) 100%),
+  radial-gradient(ellipse 40% 22% at 40% 20%, rgba(0, 148, 160, 0.1) 0%, rgba(0, 148, 160, 0) 100%); }
+.sw .jp-moments-sec::after {
+  -webkit-mask-image: radial-gradient(ellipse 30% 26% at 32% 64%, #000 0%, transparent 100%), radial-gradient(ellipse 30% 26% at 80% 66%, #000 0%, transparent 100%), radial-gradient(ellipse 40% 22% at 40% 20%, #000 0%, transparent 100%);
+  mask-image: radial-gradient(ellipse 30% 26% at 32% 64%, #000 0%, transparent 100%), radial-gradient(ellipse 30% 26% at 80% 66%, #000 0%, transparent 100%), radial-gradient(ellipse 40% 22% at 40% 20%, #000 0%, transparent 100%); }
+
+/* ── 04 how it spreads ── */
+.sw .jp-rings { margin-top: clamp(28px, 3vw, 40px); }
+.sw .jp-rings li { border-top: 1px solid var(--rule); padding: 16px 0 18px; }
+.sw .jp-rings h3 { font-size: var(--fs-body); font-weight: 600; letter-spacing: -0.011em; }
+.sw .jp-note { margin-top: 20px; max-width: none; font-size: var(--fs-sm); }
+
+/* ── 05 our first goal ── */
+.sw .jp-stat { padding: 18px 0 30px; }
+.sw .jp-stat .v { font-size: var(--fs-d1); font-weight: 650; line-height: 0.9; letter-spacing: -0.045em; }
+.sw .jp-stat .l { margin: 14px 0 0; max-width: 15em; }
+.sw .sw-sub { padding-top: 14px; }
+.sw .jp-roster { margin: 0; max-width: none; }
+.sw .jp-roster ol { margin: 0; }
+.sw .jp-goal .lede.sw-note { margin: 0; max-width: none; }
+.sw .jp-quote { margin: 0; max-width: none; }
+.sw .jp-quote blockquote { font-size: var(--fs-sub); font-weight: 500; line-height: 1.14; letter-spacing: -0.025em; }
+.sw .jp-quote figcaption { font-size: var(--fs-sm); }
+
+/* ── 06 listening and leading ── */
+.sw .jp-steps { margin: 0; column-gap: var(--gut); }
+@media (min-width: 720px) { .sw .jp-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .sw .jp-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.sw .jp-steps li { border-top: 1px solid var(--rule); padding: 18px 0 30px; }
+.sw .jp-steps li.milestone .n { color: var(--teal); }
+.sw .jp-steps li:not(.milestone) .n { color: var(--t2); }
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  /* The steps stay on the content axis; the button holds still to their right. */
+  .sw .jp-how { grid-template-columns: repeat(9, minmax(0, 1fr)); column-gap: var(--gut); margin-top: 0; }
+  .sw .jp-how .jp-steps { grid-column: 1 / span 5; grid-template-columns: minmax(0, 1fr); }
+  .sw .jp-how-visual { grid-column: 6 / -1; justify-self: end; width: min(100%, 440px); top: calc(50vh - min(15vw, 220px)); }
+  .sw .jp-how .jp-steps li { padding-top: 22px; }
+  .sw .jp-how .jp-steps h3 { font-size: var(--fs-sub); line-height: 1.06; letter-spacing: -0.03em; }
+  .sw .jp-how .jp-steps p { font-size: var(--fs-body); max-width: 24em; }
+}
+.sw .jp-reward { padding: 20px 0 0; border-top: 1px solid var(--rule); border-radius: 0; background: none; grid-template-columns: minmax(0, 120px) 1fr; align-items: start; }
+.sw .jp-reward h3 { margin-top: 10px; }
+.sw .jp-reward .kicker, .sw .jp-foot .kicker { font-size: var(--fs-cap); line-height: 1.3; }
+.sw .jp-members .doors dd { font-size: var(--fs-sm); }
+@media (max-width: 480px) {
+  .sw .jp-reward { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .sw .jp-reward img, .sw .jp-members .venn { width: 88px; }
+}
+.sw .jp-cta-row { margin: 0; }
+
+/* ── 07 questions: rules between the rows ── */
+.sw .jp-faq { margin: 0; max-width: none; border-bottom: 1px solid var(--rule); }
+.sw .jp-faq details { border-top: 1px solid var(--rule); }
+.sw .jp-faq summary { min-height: 72px; padding: 20px 0; font-size: var(--fs-lead); font-weight: 500; line-height: 1.15; letter-spacing: -0.02em; }
+.sw .jp-faq details p { max-width: 36em; margin: -4px 0 28px; }
+
+/* ── 08 what it takes ── */
+.sw .jp-commit .jp-col { padding: 18px 0 30px; gap: 12px; }
+
+/* ── the closing call: back on the outer axis, at display size ── */
+.sw .jp-join .sw-grid { row-gap: 0; }
+.sw .jp-join h2 { max-width: none; font-size: var(--fs-d2); line-height: 0.9; letter-spacing: -0.045em; }
+.sw .jp-join .lede { margin-top: clamp(24px, 3vw, 40px); max-width: 24em; font-size: var(--fs-lead); }
+.sw .jp-join .row { margin-top: clamp(28px, 3vw, 44px); }
+
+/* ── footer: the logo in the rail, the small print on the content axis ── */
+.sw .jp-foot .sw-grid { padding-block: 40px 48px; row-gap: 28px; }
+.sw .jp-foot .col { max-width: none; }
+.sw .jp-foot p { font-size: var(--fs-sm); }
+@media (min-width: 1024px) {
+  .sw .sw-foot-main { grid-column: 4 / span 5; }
+  .sw .sw-foot-end { grid-column: 10 / -1; }
+}
