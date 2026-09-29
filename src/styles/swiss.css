@@ -64,6 +64,10 @@
 }
 
 /* ── header: on wide screens the links start on the content axis ── */
+.sw .jp-links .navlink { white-space: nowrap; }
+@media (min-width: 681px) and (max-width: 1199px) {
+  .sw .jp-brand span { display: none; } /* room for the links on one line */
+}
 @media (min-width: 1280px) {
   .sw .jp-head nav { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); }
   .sw .jp-brand { grid-column: 1 / span 3; }
@@ -71,29 +75,38 @@
   .sw .jp-end { grid-column: 9 / -1; }
 }
 
-/* ── hero: the title hangs on the outer axis, the button to its right ── */
-.sw .jp-hero { display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; justify-items: start; text-align: left; min-height: 100svh; }
+/* ── hero: a Swiss poster. The title is set to the full width of the grid,
+   flush left (its size is worked out from the width: "AMBASSADOR" in Geologica
+   Bold at -0.05em is 6.83 times as wide as its size, and 100cqw is the hero's
+   content width, inside the gutters), fading as it falls, with
+   the button breaking through it off-centre, on the right half of the grid.
+   The small print sits in a band along the bottom, on a rule, like a poster's
+   information strip: the status in the rail, the lede on the content axis,
+   the buttons on the last third. ── */
+.sw .jp-hero { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; text-align: left; min-height: 100svh;
+  padding: calc(var(--head) + clamp(40px, 7vh, 72px)) var(--g) clamp(28px, 5vh, 48px); }
 .sw .jp-hero .stage { display: contents; }
-.sw .jp-hero h1 { font-size: var(--fs-d2); font-weight: 700; line-height: 0.88; letter-spacing: -0.045em; text-transform: none;
-  background: none; -webkit-background-clip: border-box; background-clip: border-box; color: var(--t1); }
-.sw .jp-pin { width: min(84vw, 42svh); margin: clamp(20px, 3vh, 32px) 0 0; }
-.sw .jp-hero .lede-hero { width: auto; max-width: 20em; margin: clamp(20px, 3vh, 32px) 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: pretty; }
-.sw .jp-hero .ctas { margin-top: clamp(24px, 3vh, 36px); justify-content: flex-start; }
-.sw .jp-hero .status { margin-top: clamp(20px, 3vh, 28px); }
-@media (max-width: 1023px) {
-  .sw .jp-pin { order: -1; margin: 0 0 clamp(16px, 3vh, 28px); }
-}
+.sw .jp-hero h1 { order: 1; position: relative; z-index: 1; font-size: calc(100cqw / 6.86); line-height: 0.82; letter-spacing: -0.05em; }
+.sw .jp-pin { order: 2; position: relative; z-index: 2; justify-self: center; width: min(96vw, 46svh); margin: calc(-0.2 * min(96vw, 46svh)) 0 0; }
+.sw .jp-hero::after { content: ""; order: 3; align-self: start; width: 100%; margin-top: clamp(8px, 2vh, 20px); border-top: 1px solid var(--rule); }
+.sw .jp-hero .status { order: 4; margin: 18px 0 0; }
+.sw .jp-hero .lede-hero { order: 5; width: auto; max-width: 20em; margin: 14px 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: pretty; }
+.sw .jp-hero .ctas { order: 6; margin-top: 24px; justify-content: flex-start; align-items: center; gap: 8px 20px; }
+.sw .jp-hero .ghost { min-height: 44px; padding: 0; border: 0; color: var(--t2); }
+.sw .jp-hero .ghost:hover { color: var(--t1); }
+.sw .jp-head .btn, .sw .jp-end, .sw .jp-hero .btn { white-space: nowrap; }
 @media (max-width: 680px) {
   .sw .jp-hero .ctas { align-items: flex-start; }
   .sw .jp-hero .ghost { padding-left: 0; }
 }
 @media (min-width: 1024px) {
-  .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); padding-top: calc(var(--head) + clamp(24px, 4vh, 56px)); }
-  .sw .jp-hero h1 { grid-column: 1 / span 8; grid-row: 1; align-self: end; position: relative; z-index: 1; }
-  .sw .jp-pin { grid-column: 7 / -1; grid-row: 1 / span 4; justify-self: end; align-self: center; width: min(100%, 72vh, 700px); margin: 0; }
-  .sw .jp-hero .lede-hero { grid-column: 1 / span 6; grid-row: 2; }
-  .sw .jp-hero .ctas { grid-column: 1 / span 6; grid-row: 3; }
-  .sw .jp-hero .status { grid-column: 1 / span 6; grid-row: 4; }
+  .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto minmax(24px, 1fr) auto; column-gap: var(--gut); align-items: start; }
+  .sw .jp-hero h1 { grid-column: 1 / -1; grid-row: 1; }
+  .sw .jp-pin { grid-column: 7 / -1; grid-row: 1 / 3; justify-self: end; align-self: center; width: min(100%, 66vh, 660px); margin: 0 calc(-0.04 * min(100%, 66vh, 660px)) 0 0; }
+  .sw .jp-hero::after { grid-column: 1 / -1; grid-row: 3; margin: 0; }
+  .sw .jp-hero .status { grid-column: 1 / span 3; grid-row: 3; margin: 0; padding-top: 24px; }
+  .sw .jp-hero .lede-hero { grid-column: 4 / span 5; grid-row: 3; margin: 0; padding-top: 18px; }
+  .sw .jp-hero .ctas { grid-column: 9 / -1; grid-row: 3; margin: 0; padding-top: 18px; }
 }
 
 /* ── chapter covers: the tagline sits bottom left, like a poster ── */
