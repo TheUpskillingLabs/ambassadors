@@ -4,10 +4,19 @@
   "slug": "poderator",
   "role": "Poderator",
   "description": "Keep a Pod of Upskillers together and moving, from the first meeting to Demo Day.",
-  "nav": { "why": "Why", "how": "How it works", "roles": "Roles", "cta": "Become a Poderator", "ctaShort": "Join" },
+  "nav": {
+    "why": "Why",
+    "how": "How it works",
+    "roles": "Roles",
+    "cta": "Become a Poderator",
+    "ctaShort": "Join"
+  },
   "hero": {
     "eyebrow": "Poderator",
-    "title": ["Keep the Pod", "moving."],
+    "title": [
+      "Keep the Pod",
+      "moving."
+    ],
     "alt": "The Poderator button: the orb mark on ink, ringed by THE UPSKILLING LABS and PODERATOR"
   },
   "intro": {
@@ -15,36 +24,79 @@
     "strong": "Free.",
     "terms": "One Pod, one Build Cycle: about three months. [PLACEHOLDER] hours a week.",
     "cta": "Become a Poderator",
-    "href": "#join",
+    "href": "https://theupskillinglabs.org/login?intent=join&path=poderator",
     "status": "[PLACEHOLDER] Poderators are seated before each Build Cycle"
   },
   "moments": {
     "kicker": "What you'll do",
     "title": "Gather. Unstick. Launch.",
     "items": [
-      { "step": "First", "title": "Gather the Pod.", "body": "Run the check-ins and the in-person events, and help everyone find their footing." },
-      { "step": "Then", "title": "Keep it moving.", "body": "When a team stalls, ask the question that gets it going, or bring in a Mentor." },
-      { "step": "One day", "title": "Get them to Demo Day.", "body": "Watch your Pod show what it built." }
+      {
+        "step": "First",
+        "title": "Gather the Pod.",
+        "body": "Run the check-ins and the in-person events, and help everyone find their footing."
+      },
+      {
+        "step": "Then",
+        "title": "Keep it moving.",
+        "body": "When a team stalls, ask the question that gets it going, or bring in a Mentor."
+      },
+      {
+        "step": "One day",
+        "title": "Get them to Demo Day.",
+        "body": "Watch your Pod show what it built."
+      }
     ]
   },
   "simple": {
     "kicker": "In short",
     "title": "Simple, on purpose.",
     "items": [
-      { "icon": "people", "title": "One Pod at a time.", "body": "A small group, for one Build Cycle." },
-      { "icon": "learn", "title": "Trained first.", "body": "You're seated once you've done the Poderator training." },
-      { "icon": "talk", "title": "Questions over answers.", "body": "You keep the Pod moving. Mentors bring the know-how." },
-      { "icon": "free", "title": "Free, always.", "body": "Nothing to pay, and nothing to sell." }
+      {
+        "icon": "people",
+        "title": "One Pod at a time.",
+        "body": "A small group, for one Build Cycle."
+      },
+      {
+        "icon": "learn",
+        "title": "Trained first.",
+        "body": "You're seated once you've done the Poderator training."
+      },
+      {
+        "icon": "talk",
+        "title": "Questions over answers.",
+        "body": "You keep the Pod moving. Mentors bring the know-how."
+      },
+      {
+        "icon": "free",
+        "title": "Free, always.",
+        "body": "Nothing to pay, and nothing to sell."
+      }
     ]
   },
   "path": {
     "kicker": "How it works",
     "title": "You hold the room. The Pod does the rest.",
     "steps": [
-      { "title": "Raise your hand.", "body": "Tell us you'd like to run a Pod." },
-      { "title": "Get trained.", "body": "[PLACEHOLDER] The Poderator training: what it covers and how long it takes." },
-      { "title": "Take your seat.", "body": "You're seated for a Build Cycle and get your Poderator button.", "mark": "button" },
-      { "title": "Do it again.", "body": "Run Pods in practice, and your button gets a brass rim.", "mark": "rim" }
+      {
+        "title": "Create your account.",
+        "body": "Your free Upskilling account: sign in with Google, and tell us you'd like to run a Pod.",
+        "mark": "account"
+      },
+      {
+        "title": "Get trained.",
+        "body": "[PLACEHOLDER] The Poderator training: what it covers and how long it takes."
+      },
+      {
+        "title": "Take your seat.",
+        "body": "You're seated for a Build Cycle and get your Poderator button.",
+        "mark": "button"
+      },
+      {
+        "title": "Do it again.",
+        "body": "Run Pods in practice, and your button gets a brass rim.",
+        "mark": "rim"
+      }
     ]
   },
   "button": {
@@ -57,15 +109,27 @@
     "kicker": "Questions",
     "title": "Questions you might have.",
     "items": [
-      { "q": "Do I need to be an expert?", "a": "No. You keep the Pod together and moving. Mentors bring the expertise." },
-      { "q": "How much time does it take?", "a": "One Build Cycle: about three months, with six in-person events. [PLACEHOLDER] hours a week." },
-      { "q": "Is there training?", "a": "Yes. You're seated once you've done the Poderator training." },
-      { "q": "Does it cost anything?", "a": "No. Being a Poderator is free." }
+      {
+        "q": "Do I need to be an expert?",
+        "a": "No. You keep the Pod together and moving. Mentors bring the expertise."
+      },
+      {
+        "q": "How much time does it take?",
+        "a": "One Build Cycle: about three months, with six in-person events. [PLACEHOLDER] hours a week."
+      },
+      {
+        "q": "Is there training?",
+        "a": "Yes. You're seated once you've done the Poderator training."
+      },
+      {
+        "q": "Does it cost anything?",
+        "a": "No. Being a Poderator is free."
+      }
     ]
   },
   "join": {
     "title": "Run a Pod with us.",
-    "lede": "[PLACEHOLDER] How to raise your hand: the link isn't set yet.",
+    "lede": "It starts with your free Upskilling account. Then tell us you'd like to run a Pod.",
     "cta": "Become a Poderator"
   }
 }

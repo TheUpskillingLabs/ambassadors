@@ -34,10 +34,22 @@
 .rp-step .no { margin-right: 14px; color: var(--t2); font-variant-numeric: tabular-nums; }
 .rp-body { margin: 0; max-width: 34ch; font-size: var(--fs-body); line-height: 1.55; color: var(--t2); text-wrap: pretty; }
 
-/* The header's scrim and blur are for what scrolls under it; at the top of the
-   page they'd only dim the hero, so they fade in once the page moves. */
-.rp .jp-head::before, .rp .jp-head::after { opacity: 0; transition: opacity 0.4s ease; }
-html[data-scrolled="true"] .rp .jp-head::before, html[data-scrolled="true"] .rp .jp-head::after { opacity: 1; }
+/* The logo always sits on ink, as on the program page: the header's pool of
+   ink around the logo (join.css's ::before) stays. The band of ink across the
+   top and the blur are for what scrolls under the header, so they wait until
+   the page moves; at the top they'd only dim the hero. Here the band is its
+   own layer (the nav's ::before) so it can fade in. */
+.rp .jp-head::before { background: radial-gradient(ellipse 470px 170px at calc(var(--g) + 70px) 38px, rgba(0, 20, 27, 0.97) 0%, rgba(0, 20, 27, 0.93) 30%, rgba(0, 20, 27, 0.8) 48%, rgba(0, 20, 27, 0.58) 62%, rgba(0, 20, 27, 0.33) 75%, rgba(0, 20, 27, 0.14) 86%, rgba(0, 20, 27, 0.04) 94%, rgba(0, 20, 27, 0) 100%); }
+.rp .jp-head nav { position: relative; }
+.rp .jp-head nav::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 300px; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 0.4s ease;
+  background: linear-gradient(180deg, rgba(0, 20, 27, 0.62) 0%, rgba(0, 20, 27, 0.52) 12%, rgba(0, 20, 27, 0.36) 26%, rgba(0, 20, 27, 0.2) 40%, rgba(0, 20, 27, 0.09) 52%, rgba(0, 20, 27, 0.03) 62%, rgba(0, 20, 27, 0) 72%); }
+.rp .jp-head::after { opacity: 0; transition: opacity 0.4s ease; }
+html[data-scrolled="true"] .rp .jp-head nav::before, html[data-scrolled="true"] .rp .jp-head::after { opacity: 1; }
+@media (max-width: 680px) {
+  /* A smaller pool for the phone's smaller logo, so it never reaches the centred title. */
+  .rp .jp-head::before { height: 200px; background: radial-gradient(ellipse 300px 124px at calc(var(--g) + 50px) 32px, rgba(0, 20, 27, 0.97) 0%, rgba(0, 20, 27, 0.93) 30%, rgba(0, 20, 27, 0.8) 48%, rgba(0, 20, 27, 0.58) 62%, rgba(0, 20, 27, 0.33) 75%, rgba(0, 20, 27, 0.14) 86%, rgba(0, 20, 27, 0.04) 94%, rgba(0, 20, 27, 0) 100%); }
+  .rp .jp-head nav::before { height: 200px; }
+}
 
 /* A brass rim, drawn: the ring a practised role adds around its button. */
 .rp .rim { display: inline-block; flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--brass-ring);
@@ -87,6 +99,11 @@ html[data-scrolled="true"] .rp .jp-head::before, html[data-scrolled="true"] .rp 
 .rp-terms { margin: 26px auto 0; max-width: 40em; font-size: var(--fs-body); line-height: 1.5; color: var(--t2); }
 .rp-terms b { font-weight: 600; color: var(--t1); }
 .rp-cta { margin-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+/* Every path starts with the same free account; the line under each button says so. */
+.rp-account { margin: 0; font-size: var(--fs-sm); line-height: 1.45; color: var(--t2); }
+.rp-join .rp-account { margin-top: 16px; }
+.rp-steps .is-account .dot { background: var(--t1); border-color: var(--t1); box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.12); }
+.rp-mark .acct { flex: none; color: var(--t1); }
 .rp-draft { margin: 44px auto 0; max-width: 36em; font-size: var(--fs-sm); line-height: 1.5; color: var(--t2); }
 .rp-draft b { font-weight: 600; color: var(--teal); }
 

@@ -4,10 +4,18 @@
   "slug": "upskiller",
   "role": "Upskiller",
   "description": "Learn by building a real project with a small team, free, in person, near you.",
-  "nav": { "why": "Why", "how": "How it works", "roles": "Roles", "cta": "Join The Labs", "ctaShort": "Join" },
+  "nav": {
+    "why": "Why",
+    "how": "How it works",
+    "roles": "Roles",
+    "cta": "Join The Labs",
+    "ctaShort": "Join"
+  },
   "hero": {
     "eyebrow": "Upskiller",
-    "title": ["Learn by building."],
+    "title": [
+      "Learn by building."
+    ],
     "alt": "The Upskiller button: the orb mark on ink, ringed by THE UPSKILLING LABS and UPSKILLER"
   },
   "intro": {
@@ -15,36 +23,83 @@
     "strong": "Free.",
     "terms": "About three months: six in-person events and a short check-in each week.",
     "cta": "Join The Labs",
-    "href": "https://theupskillinglabs.org",
+    "href": "https://theupskillinglabs.org/login?intent=join&path=upskiller",
     "status": "[PLACEHOLDER] Next Build Cycle: dates to be set"
   },
   "moments": {
     "kicker": "What you'll do",
     "title": "Three months. One real thing.",
     "items": [
-      { "step": "First", "title": "Join a Pod.", "body": "A small group, a Poderator to keep it moving, and a real problem from your community." },
-      { "step": "Then", "title": "Build it.", "body": "Around week eight you form a Project Team: three to five people who build one thing." },
-      { "step": "One day", "title": "Show it at Demo Day.", "body": "Show your work in public, to the people whose problem it was." }
+      {
+        "step": "First",
+        "title": "Join a Pod.",
+        "body": "A small group, a Poderator to keep it moving, and a real problem from your community."
+      },
+      {
+        "step": "Then",
+        "title": "Build it.",
+        "body": "Around week eight you form a Project Team: three to five people who build one thing."
+      },
+      {
+        "step": "One day",
+        "title": "Show it at Demo Day.",
+        "body": "Show your work in public, to the people whose problem it was."
+      }
     ]
   },
   "simple": {
     "kicker": "In short",
     "title": "Simple, on purpose.",
     "items": [
-      { "icon": "free", "title": "Free, always.", "body": "Workshops and Build Cycles cost nothing." },
-      { "icon": "place", "title": "In person, near you.", "body": "Six events at a local Lab, and the rest on your own time with your team." },
-      { "icon": "people", "title": "Beginners welcome.", "body": "Beginners and experts work side by side." },
-      { "icon": "time", "title": "Five minutes a week.", "body": "A short check-in keeps everyone moving." }
+      {
+        "icon": "free",
+        "title": "Free, always.",
+        "body": "Workshops and Build Cycles cost nothing."
+      },
+      {
+        "icon": "place",
+        "title": "In person, near you.",
+        "body": "Six events at a local Lab, and the rest on your own time with your team."
+      },
+      {
+        "icon": "people",
+        "title": "Beginners welcome.",
+        "body": "Beginners and experts work side by side."
+      },
+      {
+        "icon": "time",
+        "title": "Five minutes a week.",
+        "body": "A short check-in keeps everyone moving."
+      }
     ]
   },
   "path": {
     "kicker": "How it works",
     "title": "Start with a workshop. Finish with something real.",
     "steps": [
-      { "title": "Come to a workshop.", "body": "Free and hands-on. Most people start here." },
-      { "title": "Join a Build Cycle.", "body": "You get your Upskiller button on day one.", "mark": "button" },
-      { "title": "Build with your team.", "body": "Your Pod meets, your Project Team forms, and a Mentor is there when you're stuck." },
-      { "title": "Demo Day.", "body": "Show what you built. A confirmed contribution adds a brass rim to your button: you're a Builder.", "mark": "rim" }
+      {
+        "title": "Create your account.",
+        "body": "Your free Upskilling account: sign in with Google, and you'll hear about every workshop and Build Cycle.",
+        "mark": "account"
+      },
+      {
+        "title": "Come to a workshop.",
+        "body": "Free and hands-on. Most people start here."
+      },
+      {
+        "title": "Join a Build Cycle.",
+        "body": "You get your Upskiller button on day one.",
+        "mark": "button"
+      },
+      {
+        "title": "Build with your team.",
+        "body": "Your Pod meets, your Project Team forms, and a Mentor is there when you're stuck."
+      },
+      {
+        "title": "Demo Day.",
+        "body": "Show what you built. A confirmed contribution adds a brass rim to your button: you're a Builder.",
+        "mark": "rim"
+      }
     ]
   },
   "button": {
@@ -57,10 +112,22 @@
     "kicker": "Questions",
     "title": "Questions you might have.",
     "items": [
-      { "q": "Does it cost anything?", "a": "No. Workshops and Build Cycles are free." },
-      { "q": "How much time does a Build Cycle take?", "a": "About three months: six in-person events, a five-minute check-in each week, and the rest on your own time with your team." },
-      { "q": "Do I need to be technical?", "a": "No. Beginners and experts work side by side, and you learn by doing." },
-      { "q": "Where do I start?", "a": "At a free workshop. Join The Labs at theupskillinglabs.org to hear about the next one." }
+      {
+        "q": "Does it cost anything?",
+        "a": "No. Workshops and Build Cycles are free."
+      },
+      {
+        "q": "How much time does a Build Cycle take?",
+        "a": "About three months: six in-person events, a five-minute check-in each week, and the rest on your own time with your team."
+      },
+      {
+        "q": "Do I need to be technical?",
+        "a": "No. Beginners and experts work side by side, and you learn by doing."
+      },
+      {
+        "q": "Where do I start?",
+        "a": "At a free workshop. Join The Labs at theupskillinglabs.org to hear about the next one."
+      }
     ]
   },
   "join": {

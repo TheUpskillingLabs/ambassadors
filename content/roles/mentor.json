@@ -4,10 +4,19 @@
   "slug": "mentor",
   "role": "Mentor",
   "description": "Help a Pod when it gets stuck: a single workshop or a whole Build Cycle. You choose.",
-  "nav": { "why": "Why", "how": "How it works", "roles": "Roles", "cta": "Become a Mentor", "ctaShort": "Join" },
+  "nav": {
+    "why": "Why",
+    "how": "How it works",
+    "roles": "Roles",
+    "cta": "Become a Mentor",
+    "ctaShort": "Join"
+  },
   "hero": {
     "eyebrow": "Mentor",
-    "title": ["Know something?", "Pass it on."],
+    "title": [
+      "Know something?",
+      "Pass it on."
+    ],
     "alt": "The Mentor button: the orb mark on ink, ringed by THE UPSKILLING LABS and MENTOR"
   },
   "intro": {
@@ -15,36 +24,79 @@
     "strong": "Free.",
     "terms": "A single workshop, or a whole cycle. You choose.",
     "cta": "Become a Mentor",
-    "href": "#join",
+    "href": "https://theupskillinglabs.org/login?intent=join&path=mentor",
     "status": "[PLACEHOLDER] Mentors are seated before each Build Cycle"
   },
   "moments": {
     "kicker": "What you'll do",
     "title": "Drop in. Unblock. Cheer.",
     "items": [
-      { "step": "First", "title": "Drop in.", "body": "Sit with a Pod when it's stuck, and ask what they've tried." },
-      { "step": "Then", "title": "Unblock.", "body": "Share what you know from doing the work: a shortcut, a pattern, a person to ask." },
-      { "step": "One day", "title": "Watch them ship.", "body": "Be there at Demo Day when they show what they built." }
+      {
+        "step": "First",
+        "title": "Drop in.",
+        "body": "Sit with a Pod when it's stuck, and ask what they've tried."
+      },
+      {
+        "step": "Then",
+        "title": "Unblock.",
+        "body": "Share what you know from doing the work: a shortcut, a pattern, a person to ask."
+      },
+      {
+        "step": "One day",
+        "title": "Watch them ship.",
+        "body": "Be there at Demo Day when they show what they built."
+      }
     ]
   },
   "simple": {
     "kicker": "In short",
     "title": "Simple, on purpose.",
     "items": [
-      { "icon": "time", "title": "You choose the time.", "body": "A single workshop, or a whole cycle." },
-      { "icon": "talk", "title": "Nothing to prepare.", "body": "You're there when a Pod gets stuck, not at the front of a room." },
-      { "icon": "people", "title": "Side by side.", "body": "Beginners and experts, working on the same real problem." },
-      { "icon": "free", "title": "Free, always.", "body": "Nothing to pay, and nothing to sell." }
+      {
+        "icon": "time",
+        "title": "You choose the time.",
+        "body": "A single workshop, or a whole cycle."
+      },
+      {
+        "icon": "talk",
+        "title": "Nothing to prepare.",
+        "body": "You're there when a Pod gets stuck, not at the front of a room."
+      },
+      {
+        "icon": "people",
+        "title": "Side by side.",
+        "body": "Beginners and experts, working on the same real problem."
+      },
+      {
+        "icon": "free",
+        "title": "Free, always.",
+        "body": "Nothing to pay, and nothing to sell."
+      }
     ]
   },
   "path": {
     "kicker": "How it works",
     "title": "Bring what you know. Leave with a Pod that shipped.",
     "steps": [
-      { "title": "Raise your hand.", "body": "Tell us what you know, and how much time you have." },
-      { "title": "Get trained.", "body": "[PLACEHOLDER] The Mentor training: what it covers and how long it takes." },
-      { "title": "Take your seat.", "body": "You're matched with Pods and get your Mentor button.", "mark": "button" },
-      { "title": "Keep showing up.", "body": "Mentor in practice, and your button gets a brass rim.", "mark": "rim" }
+      {
+        "title": "Create your account.",
+        "body": "Your free Upskilling account: sign in with Google, and tell us what you know and how much time you have.",
+        "mark": "account"
+      },
+      {
+        "title": "Get trained.",
+        "body": "[PLACEHOLDER] The Mentor training: what it covers and how long it takes."
+      },
+      {
+        "title": "Take your seat.",
+        "body": "You're matched with Pods and get your Mentor button.",
+        "mark": "button"
+      },
+      {
+        "title": "Keep showing up.",
+        "body": "Mentor in practice, and your button gets a brass rim.",
+        "mark": "rim"
+      }
     ]
   },
   "button": {
@@ -57,15 +109,27 @@
     "kicker": "Questions",
     "title": "Questions you might have.",
     "items": [
-      { "q": "Do I have to teach?", "a": "No. Mentors are around when a Pod gets stuck. There's nothing to prepare." },
-      { "q": "How much time does it take?", "a": "A single workshop, or a whole cycle. You choose." },
-      { "q": "Who can mentor?", "a": "People who do the work. [PLACEHOLDER] Any requirements beyond the training." },
-      { "q": "Does it cost anything?", "a": "No. Mentoring is free." }
+      {
+        "q": "Do I have to teach?",
+        "a": "No. Mentors are around when a Pod gets stuck. There's nothing to prepare."
+      },
+      {
+        "q": "How much time does it take?",
+        "a": "A single workshop, or a whole cycle. You choose."
+      },
+      {
+        "q": "Who can mentor?",
+        "a": "People who do the work. [PLACEHOLDER] Any requirements beyond the training."
+      },
+      {
+        "q": "Does it cost anything?",
+        "a": "No. Mentoring is free."
+      }
     ]
   },
   "join": {
     "title": "Pass it on.",
-    "lede": "[PLACEHOLDER] How to raise your hand: the link isn't set yet.",
+    "lede": "It starts with your free Upskilling account. Then tell us what you know, and how much time you have.",
     "cta": "Become a Mentor"
   }
 }

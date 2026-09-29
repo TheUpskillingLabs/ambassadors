@@ -23,7 +23,7 @@
     "strong": "Free.",
     "terms": "A few conversations and one talk.",
     "cta": "Become an ambassador",
-    "href": "/apply/",
+    "href": "https://theupskillinglabs.org/login?intent=join&path=ambassador",
     "status": "Now welcoming our first ambassadors"
   },
   "moments": {
@@ -81,8 +81,9 @@
     "title": "You start by listening. You end up leading.",
     "steps": [
       {
-        "title": "Raise your hand.",
-        "body": "Let us know you're interested. That's the whole first step."
+        "title": "Create your account.",
+        "body": "Your free Upskilling account: sign in with Google, and tell us you'd like to be an ambassador. That's the whole first step.",
+        "mark": "account"
       },
       {
         "title": "Join in.",

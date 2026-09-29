@@ -65,6 +65,7 @@ const href = u(r.intro.href);
 const pageTitle = `${r.role} · The Upskilling Labs`;
 const sizes = "(min-width: 1024px) min(75vh, 848px), min(128vw, 69svh)";
 const ph = (s: string) => s.includes("[PLACEHOLDER]") || s.includes("[N]");
+const ACCT = '<svg class="acct" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="10" r="3.2"/><path d="M6.2 18.4c1.3-2.2 3.4-3.4 5.8-3.4s4.5 1.2 5.8 3.4"/></svg>';
 const nos = ["01", "02", "03", "04", "05", "06"];
 // The brass moment pins are centred in their renders; each hangs flush left by its own inset (its left edge as a share of the image's width).
 const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake: 0.079 };
@@ -141,6 +142,7 @@ const icons: Record<string, string> = {
         <p class="rp-terms reveal"><b>{r.intro.strong}</b> <span class:list={{ ph: ph(r.intro.terms) }}>{r.intro.terms}</span></p>
         <div class="rp-cta reveal">
           <a class="btn" href={href} data-hero-cta>{r.intro.cta}</a>
+          <p class="rp-account">{list.account}</p>
           <p class:list={["status", { ph: ph(r.intro.status) }]}><i aria-hidden="true"></i>{r.intro.status}</p>
         </div>
         {r.placeholder && <p class="rp-draft reveal"><b>Draft.</b> {list.draft}</p>}
@@ -199,6 +201,7 @@ const icons: Record<string, string> = {
                 <p class="rp-step"><span class="no">{nos[i]}</span></p>
                 <h3>{s.title}</h3>
                 <p class:list={["rp-body", { ph: ph(s.body) }]}>{s.body}</p>
+                {s.mark === "account" && <p class="rp-mark"><Fragment set:html={ACCT} />{list.markAccount}</p>}
                 {s.mark === "button" && <p class="rp-mark"><img src={small(slug)} alt="" width="40" height="40" loading="lazy" />Your button</p>}
                 {s.mark === "rim" && <p class="rp-mark"><span class="rim" aria-hidden="true"></span>Brass rim</p>}
               </li>
@@ -269,7 +272,7 @@ const icons: Record<string, string> = {
             <h2 class="rp-h2">{r.faq.title}</h2>
           </div>
           <div class="jp-faq reveal">
-            {r.faq.items.map((f) => (
+            {[...r.faq.items, list.accountFaq].map((f) => (
               <details>
                 <summary><span>{f.q}</span><i aria-hidden="true"></i></summary>
                 <p class:list={{ ph: ph(f.a) }}>{f.a}</p>
@@ -286,6 +289,7 @@ const icons: Record<string, string> = {
           <h2>{r.join.title}</h2>
           <p class:list={["rp-lede-sm", { ph: ph(r.join.lede) }]}>{r.join.lede}</p>
           <a class="btn" href={href}>{r.join.cta}</a>
+          <p class="rp-account">{list.account}</p>
         </div>
       </section>
     </main>
