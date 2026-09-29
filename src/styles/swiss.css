@@ -97,9 +97,10 @@ html[data-scrolled="true"] .sw .jp-head::before, html[data-scrolled="true"] .sw 
    Phones and tablets: a column read top to bottom, picture above words: the
    button first, large and flush right, its caption under it; then, after the
    empty space (the 1fr row), the words together at the foot, flush left: the
-   title, the lede, and the one button where a thumb reaches. The button spans
-   five of six columns, capped by the screen's height so the whole poster fits
-   the first screen (470px is everything else in it).
+   title, the lede, and the one button where a thumb reaches. On phones the
+   button takes the full width between the margins; on tablets it spans five of
+   six columns, capped by the screen's height so the poster fits the first
+   screen (470px is everything else in it).
    Desktop: the foot holds two things on one line: the lede and the one button
    at the bottom left, and the Ambassador button at the bottom right, its bottom
    level with the lede's and its caption on the same baseline as the label of
@@ -119,6 +120,9 @@ html[data-scrolled="true"] .sw .jp-head::before, html[data-scrolled="true"] .sw 
 .sw .jp-hero .lede-hero { grid-row: 5; width: auto; max-width: 17em; margin: clamp(16px, 2.4svh, 24px) 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: balance; }
 .sw .jp-hero .ctas { grid-row: 6; margin-top: 20px; justify-content: flex-start; }
 .sw .jp-head .btn, .sw .jp-end, .sw .jp-hero .btn { white-space: nowrap; }
+@media (max-width: 680px) {
+  .sw .jp-hero { --v: 100cqw; }
+}
 @media (min-width: 1024px) {
   .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto minmax(40px, 1fr) auto auto; column-gap: var(--gut);
     padding: calc(var(--head) + clamp(40px, 7vh, 72px)) var(--g) clamp(32px, 6vh, 64px); }
