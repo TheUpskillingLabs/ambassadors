@@ -1,5 +1,5 @@
 {
-  "$comment": "Supporting Members pay light dues and get a button; dues never buy a vote, a rank or a pin, and the button never gets a rim (design/research/recognition-system.md, Membership and dues). Placeholders: the amount, the sliding scale and waiver, what Members get, and how to join.",
+  "$comment": "Supporting Members pay light dues and get a button; dues never buy a vote, a rank or a pin (design/research/recognition-system.md, Membership and dues). Placeholders: the amount, the sliding scale and waiver, what Members get, and how to join.",
   "placeholder": true,
   "slug": "supporting-member",
   "role": "Supporting Member",
@@ -101,8 +101,7 @@
   "button": {
     "kicker": "The button",
     "title": "Giving, made visible.",
-    "body": "It spells out SUPPORTING MEMBER all the way round, so it never reads as a role. It never gets a rim: money doesn't earn practice.",
-    "rim": ""
+    "body": "It spells out SUPPORTING MEMBER all the way round, so giving is visible and never reads as a role."
   },
   "faq": {
     "kicker": "Questions",

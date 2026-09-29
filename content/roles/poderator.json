@@ -1,5 +1,5 @@
 {
-  "$comment": "Poderators run a Pod through a Build Cycle (the app calls them shepherds; the name isn't settled). The button is given once trained and seated; running Pods well adds a brass rim. Placeholders: hours a week, the training, and the sign-up link.",
+  "$comment": "Poderators run a Pod through a Build Cycle (the app calls them shepherds; the name isn't settled). The button is given once trained and seated. Placeholders: hours a week, the training, and the sign-up link.",
   "placeholder": true,
   "slug": "poderator",
   "role": "Poderator",
@@ -94,16 +94,14 @@
       },
       {
         "title": "Do it again.",
-        "body": "Run Pods in practice, and your button gets a brass rim.",
-        "mark": "rim"
+        "body": "Run another Pod next cycle, and help train the next Poderators."
       }
     ]
   },
   "button": {
     "kicker": "The button",
     "title": "The one to find.",
-    "body": "Worn at every Pod meeting and library event, so Upskillers know who to ask. It marks a role, not a certification.",
-    "rim": "Run Pods in practice, and a brass rim goes around it: Poderator, practised."
+    "body": "Worn at every Pod meeting and library event, so Upskillers know who to ask. It marks a role, not a certification."
   },
   "faq": {
     "kicker": "Questions",

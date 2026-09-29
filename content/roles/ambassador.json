@@ -96,16 +96,14 @@
       },
       {
         "title": "Then lead.",
-        "body": "Give your talk, and welcome the next ambassador. Finish the path, and your button gets a brass rim.",
-        "mark": "rim"
+        "body": "Give your talk, and welcome the next ambassador. By then, you'll be ready."
       }
     ]
   },
   "button": {
     "kicker": "The button",
     "title": "How ambassadors know each other.",
-    "body": "Given to you in person by your coordinator when you join. Wear it to the events you bring people to.",
-    "rim": "Finish the path, and a brass rim goes around it: Ambassador, practised."
+    "body": "Given to you in person by your coordinator when you join. Wear it to the events you bring people to."
   },
   "faq": {
     "kicker": "Questions",

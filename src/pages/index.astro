@@ -142,7 +142,6 @@ const pageTitle = h.title;
                 <p class="rp-body">{s.body}</p>
                 {s.mark === "account" && <p class="rp-mark"><Fragment set:html={ACCT} />{h.how.markAccount}</p>}
                 {s.mark === "button" && <p class="rp-mark"><img src={small("upskiller")} alt="" width="40" height="40" loading="lazy" />{h.how.markButton}</p>}
-                {s.mark === "rim" && <p class="rp-mark"><span class="rim" aria-hidden="true"></span>{h.how.markRim}</p>}
               </li>
             ))}
           </ol>

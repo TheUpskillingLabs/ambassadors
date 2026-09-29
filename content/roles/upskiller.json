@@ -1,5 +1,5 @@
 {
-  "$comment": "Upskillers: participants in a Build Cycle. The button is given on joining a cycle; a confirmed contribution at Demo Day adds a brass rim (Builder). Facts from content/site/ladder.json, content/faq/time.json and design/research/recognition-system.md. Placeholders: the next cycle's dates, and who confirms a Builder.",
+  "$comment": "Upskillers: participants in a Build Cycle. The button is given on joining a cycle. Facts from content/site/ladder.json, content/faq/time.json and design/research/recognition-system.md. Placeholders: the next cycle's dates, and who confirms a Builder.",
   "placeholder": true,
   "slug": "upskiller",
   "role": "Upskiller",
@@ -97,16 +97,14 @@
       },
       {
         "title": "Demo Day.",
-        "body": "Show what you built. A confirmed contribution adds a brass rim to your button: you're a Builder.",
-        "mark": "rim"
+        "body": "Show what you built, in public, to the people whose problem it was."
       }
     ]
   },
   "button": {
     "kicker": "The button",
     "title": "Proof you're building.",
-    "body": "Given to you when you join a Build Cycle. Wear it to your Pod, and to Demo Day.",
-    "rim": "Contribute something that holds up, and a brass rim goes around it: Builder."
+    "body": "Given to you when you join a Build Cycle. Wear it to your Pod, and to Demo Day."
   },
   "faq": {
     "kicker": "Questions",

@@ -94,12 +94,10 @@
       },
       {
         "title": "Give back.",
-        "body": "Mentor, run a Pod, or bring the next person in.",
-        "mark": "rim"
+        "body": "Mentor, run a Pod, or bring the next person in."
       }
     ],
     "markButton": "Your Upskiller button",
-    "markRim": "A brass rim, for building",
     "markAccount": "Your Upskilling account"
   },
   "cycle": {

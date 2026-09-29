@@ -15,8 +15,8 @@
    - what you'll do: three moments as rows, label, line and a sentence (Oryzo's
      kicker, headline and caption);
    - in short: four facts with small icons (AirTag's "Beautifully simple.");
-   - how it works: the steps, marking where the button is given and where the
-     brass rim is earned;
+   - how it works: the steps, marking where the account starts and where the
+     button is given;
    - the button, drawn face on from its print file with construction lines and
      callouts (Oryzo's blueprint, AirTag's tech specs);
    - which role is right for you: every role's button side by side (Apple's
@@ -43,7 +43,7 @@ interface Role {
   moments: { kicker: string; title: string; items: { step: string; title: string; body: string; icon?: string }[] };
   simple: { kicker: string; title: string; items: { icon: string; title: string; body: string }[] };
   path: { kicker: string; title: string; steps: Step[] };
-  button: { kicker: string; title: string; body: string; rim: string };
+  button: { kicker: string; title: string; body: string };
   faq: { kicker: string; title: string; items: { q: string; a: string }[] };
   join: { title: string; lede: string; cta: string };
 }
@@ -187,7 +187,7 @@ const icons: Record<string, string> = {
         </div>
       </section>
 
-      <!-- How it works: the steps, marking where the button is given and the rim earned. -->
+      <!-- How it works: the steps, marking where the account starts and the button is given. -->
       <section id="path" class="rp-sec rp-path">
         <div class="rp-wrap">
           <div class="rp-head reveal">
@@ -203,7 +203,6 @@ const icons: Record<string, string> = {
                 <p class:list={["rp-body", { ph: ph(s.body) }]}>{s.body}</p>
                 {s.mark === "account" && <p class="rp-mark"><Fragment set:html={ACCT} />{list.markAccount}</p>}
                 {s.mark === "button" && <p class="rp-mark"><img src={small(slug)} alt="" width="40" height="40" loading="lazy" />Your button</p>}
-                {s.mark === "rim" && <p class="rp-mark"><span class="rim" aria-hidden="true"></span>Brass rim</p>}
               </li>
             ))}
           </ol>
@@ -217,7 +216,6 @@ const icons: Record<string, string> = {
             <p class="kicker">{r.button.kicker}</p>
             <h2 class="rp-h2">{r.button.title}</h2>
             <p class="rp-lede-sm">{r.button.body}</p>
-            {r.button.rim && <p class="rp-rimline"><span class="rim" aria-hidden="true"></span>{r.button.rim}</p>}
           </div>
           <figure class="rp-drawing reveal">
             <div class="face"><img src={art} alt={r.hero.alt} width="1200" height="1200" loading="lazy" decoding="async" /></div>

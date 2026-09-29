@@ -1,5 +1,5 @@
 {
-  "$comment": "Mentors: people who do the work, around when a Pod gets stuck (content/scenarios/mentor-time.json). The button is given once trained and seated; mentoring in practice adds a brass rim. Placeholders: the training and the sign-up link.",
+  "$comment": "Mentors: people who do the work, around when a Pod gets stuck (content/scenarios/mentor-time.json). The button is given once trained and seated. Placeholders: the training and the sign-up link.",
   "placeholder": true,
   "slug": "mentor",
   "role": "Mentor",
@@ -94,16 +94,14 @@
       },
       {
         "title": "Keep showing up.",
-        "body": "Mentor in practice, and your button gets a brass rim.",
-        "mark": "rim"
+        "body": "Come back for the next Pod, or the next cycle. It gets easier every time."
       }
     ]
   },
   "button": {
     "kicker": "The button",
     "title": "The one who's done it.",
-    "body": "Worn when you're with a Pod, so people know who to ask. It marks a role, not a certification.",
-    "rim": "Mentor in practice, and a brass rim goes around it: Mentor, practised."
+    "body": "Worn when you're with a Pod, so people know who to ask. It marks a role, not a certification."
   },
   "faq": {
     "kicker": "Questions",
