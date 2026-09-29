@@ -77,39 +77,64 @@
 @media (min-width: 681px) and (max-width: 1199px) {
   .sw .jp-brand span { display: none; } /* room for the links on one line */
 }
+/* The header's scrim and blur are there for what scrolls under it. At the top
+   of the page nothing does, and on phones they would dim and soften the title,
+   which starts just below the header; so they fade in once the page moves. */
+.sw .jp-head::before, .sw .jp-head::after { opacity: 0; transition: opacity 0.4s ease; }
+html[data-scrolled="true"] .sw .jp-head::before, html[data-scrolled="true"] .sw .jp-head::after { opacity: 1; }
 
 /* ── hero: a Swiss poster, with ma (間): the space left empty is part of the
    composition. The title is set to the full width of the grid across the top,
    flush left, in sentence case (sized from the width: "Ambassador" in Geologica
    Bold at -0.045em is 5.86 times as wide as its size, and 100cqw is the hero's
    content width, inside the gutters; on short, wide screens the height caps
-   it), fading as it falls. "Program" then ends where column 9 begins, so the
-   button nests beside it. The foot of the poster holds two
-   things on one line: the lede and the one button at the bottom left, and the
-   Ambassador button at the bottom right with the status set under it like a
-   caption. Between them and the title, nothing.
-   The button's render has transparent room around it (19% left, 20% right,
-   18% top, 17.5% bottom of its width); negative margins cancel that, so the
-   button's visible edge sits exactly on columns 9–12 and the caption hangs
-   flush under it. --v is the button's visible width. ── */
-.sw .jp-hero { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto minmax(32px, 1fr) auto auto;
+   it), fading as it falls.
+   The Ambassador button is round, so its caption (the status) is centred under
+   it: a circle's visual axis is its centre, not its edge. The button's render
+   has transparent room around it (19% left, 20% right, 18% top, 17.5% bottom of
+   its width); negative margins cancel that, so its visible edge sits on the
+   grid. --v is the button's visible width, and the caption takes the same width.
+   Phones and tablets: a column read top to bottom, like the desktop poster
+   folded: the title across the top; the button large and flush right, taking
+   the middle, its caption under it; the lede and the one button at the foot,
+   flush left, where a thumb reaches. The two 1fr rows share out what's left.
+   The button spans five of six columns, capped by the screen's height so the
+   whole poster fits the first screen (470px is everything else in it).
+   Desktop: the foot holds two things on one line: the lede and the one button
+   at the bottom left, and the Ambassador button at the bottom right, its bottom
+   level with the lede's and its caption on the same baseline as the label of
+   the button at the left. "Program" ends where column 9 begins, so the badge
+   nests beside it. Between the foot and the title, nothing. ── */
+.sw .jp-hero { --v: max(160px, min(calc(100cqw * 5 / 6 - var(--gut) / 6), 36svh, calc(100svh - 470px)));
+  container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(16px, 1fr) auto auto minmax(24px, 1fr) auto auto;
   justify-items: start; text-align: left; min-height: 100svh;
-  padding: calc(var(--head) + clamp(40px, 7vh, 72px)) var(--g) clamp(32px, 6vh, 64px); }
+  padding: calc(var(--head) + clamp(20px, 4svh, 56px)) var(--g) clamp(24px, 5svh, 56px); }
 .sw .jp-hero .stage { display: contents; }
 .sw .jp-hero h1 { grid-row: 1; position: relative; z-index: 1; font-size: min(calc(100cqw / 5.9), 32vh); line-height: 0.86; letter-spacing: -0.045em; text-transform: none; }
-.sw .jp-hero .lede-hero { grid-row: 2; width: auto; max-width: 17em; margin: clamp(20px, 3vh, 32px) 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: balance; }
-.sw .jp-hero .ctas { grid-row: 3; margin-top: 22px; justify-content: flex-start; }
-.sw .jp-pin { --v: min(58vw, 30svh); grid-row: 5; justify-self: end; width: calc(var(--v) / 0.613); pointer-events: none;
+.sw .jp-pin { grid-row: 3; justify-self: end; width: calc(var(--v) / 0.613); pointer-events: none;
   margin: calc(-0.2904 * var(--v)) calc(-0.3197 * var(--v)) calc(-0.2855 * var(--v)) calc(-0.3116 * var(--v)); }
-.sw .jp-hero .status { grid-row: 6; justify-self: end; width: min(58vw, 30svh); margin: 16px 0 0; }
+.sw .jp-hero .status { grid-row: 4; justify-self: end; width: var(--v); margin: 14px 0 0; display: block; text-align: center; line-height: 1.5; text-wrap: balance; }
+.sw .jp-hero .status i { display: inline-block; vertical-align: calc(0.36em - 3.5px); margin-right: 10px; }
+.sw .jp-hero .lede-hero { grid-row: 6; width: auto; max-width: 17em; margin: 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: balance; }
+.sw .jp-hero .ctas { grid-row: 7; margin-top: 20px; justify-content: flex-start; }
 .sw .jp-head .btn, .sw .jp-end, .sw .jp-hero .btn { white-space: nowrap; }
 @media (min-width: 1024px) {
-  .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto minmax(40px, 1fr) auto auto; column-gap: var(--gut); }
+  .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto minmax(40px, 1fr) auto auto; column-gap: var(--gut);
+    padding: calc(var(--head) + clamp(40px, 7vh, 72px)) var(--g) clamp(32px, 6vh, 64px); }
   .sw .jp-hero h1 { grid-column: 1 / -1; grid-row: 1; }
-  .sw .jp-hero .lede-hero { grid-column: 1 / span 6; grid-row: 3; align-self: end; margin: 0; }
-  .sw .jp-hero .ctas { grid-column: 1 / span 6; grid-row: 4; margin: 26px 0 0; }
+  .sw .jp-hero .lede-hero { grid-column: 1 / span 6; grid-row: 3; align-self: end; }
+  .sw .jp-hero .ctas { grid-column: 1 / span 6; grid-row: 4; align-self: baseline; margin: 26px 0 0; }
   .sw .jp-pin { --v: min(100%, 36vh); grid-column: 9 / -1; grid-row: 1 / 4; align-self: end; justify-self: start; }
-  .sw .jp-hero .status { grid-column: 9 / -1; grid-row: 4; justify-self: start; align-self: start; width: auto; margin: 26px 0 0; padding-top: 2px; }
+  .sw .jp-hero .status { grid-column: 9 / -1; grid-row: 4; justify-self: start; align-self: baseline; width: min(100%, 36vh); margin: 26px 0 0; }
+}
+
+/* Phones: one rhythm between sections. Every section opens the same distance
+   below the last one's words (its top padding, then the rule); the room some
+   sections keep at their foot on desktop, for their glow, only doubled that
+   gap into a screen of nothing on a phone. */
+@media (max-width: 680px) {
+  .sw .jp-you, .sw .jp-labs, .sw .jp-moments-sec { padding-bottom: 0; }
 }
 
 /* ── chapter covers: the tagline sits bottom left, like a poster ── */
@@ -183,9 +208,14 @@
 .sw .jp-reward h3 { margin-top: 10px; }
 .sw .jp-reward .kicker, .sw .jp-foot .kicker { font-size: var(--fs-cap); line-height: 1.3; }
 .sw .jp-members .doors dd { font-size: var(--fs-sm); }
+.sw .jp-reward img { height: auto; } /* the width and height attributes otherwise make it a tall box, the button floating mid-way down it */
 @media (max-width: 480px) {
   .sw .jp-reward { grid-template-columns: minmax(0, 1fr); gap: 14px; }
-  .sw .jp-reward img, .sw .jp-members .venn { width: 88px; }
+  .sw .jp-members .venn { width: 88px; }
+  /* The render has transparent room around the button (about a fifth of its
+     width on each side); negative margins cancel it, so the button sits flush
+     left and reads the size of the two doors in the next card. */
+  .sw #button img { width: 120px; margin: -18px 0 -18px -25px; }
 }
 .sw .jp-cta-row { margin: 0; }
 
