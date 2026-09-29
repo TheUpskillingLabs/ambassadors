@@ -63,51 +63,51 @@
   .sw .sw-rail:has(+ .sw-main .h2) { padding-top: calc(var(--fs-h2) * 0.14); }
 }
 
-/* ── header: on wide screens the links start on the content axis ── */
+/* ── header: the brand on the left, every link and the button set right ── */
 .sw .jp-links .navlink { white-space: nowrap; }
+/* While the header's button steps aside (the hero's own is on screen, or the
+   join section), it folds away rather than leaving a gap, so the links sit
+   flush right; they slide over as it returns. */
+.sw .jp-head .btn { max-width: 18em; overflow: hidden; transition: opacity 0.25s, visibility 0.25s, max-width 0.4s cubic-bezier(.2, .7, .2, 1), padding 0.4s cubic-bezier(.2, .7, .2, 1), margin 0.4s cubic-bezier(.2, .7, .2, 1); }
+.sw .jp-head.cta-off .btn { max-width: 0; padding-inline: 0; margin-left: -28px; }
+@media (min-width: 681px) {
+  .sw .jp-head nav { display: flex; align-items: center; column-gap: clamp(20px, 2.4vw, 32px); }
+  .sw .jp-brand { margin-right: auto; }
+}
 @media (min-width: 681px) and (max-width: 1199px) {
   .sw .jp-brand span { display: none; } /* room for the links on one line */
 }
-@media (min-width: 1280px) {
-  .sw .jp-head nav { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); }
-  .sw .jp-brand { grid-column: 1 / span 3; }
-  .sw .jp-links { grid-column: 4 / span 5; }
-  .sw .jp-end { grid-column: 9 / -1; }
-}
 
 /* ── hero: a Swiss poster, with ma (間): the space left empty is part of the
-   composition. Three things only, on a diagonal: the title set to the full width
-   of the grid across the top, flush left (sized from the width: "AMBASSADOR" in
-   Geologica Bold at -0.05em is 6.83 times as wide as its size, and 100cqw is
-   the hero's content width, inside the gutters), fading as it falls; the
-   button, large, breaking through its end on the right half; and one small
-   block at the foot of the first columns (the status, the lede, one button),
-   under a short rule. The lower middle stays empty. The header's own button
-   steps aside while this one is on screen (index.astro). ── */
-.sw .jp-hero { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; text-align: left; min-height: 100svh;
+   composition. The title is set to the full width of the grid across the top,
+   flush left (sized from the width: "AMBASSADOR" in Geologica Bold at -0.05em
+   is 6.83 times as wide as its size, and 100cqw is the hero's content width,
+   inside the gutters), fading as it falls. The foot of the poster holds two
+   things on one line: the lede and the one button at the bottom left, and the
+   Ambassador button at the bottom right with the status set under it like a
+   caption. Between them and the title, nothing.
+   The button's render has transparent room around it (19% left, 20% right,
+   18% top, 17.5% bottom of its width); negative margins cancel that, so the
+   button's visible edge sits exactly on columns 9–12 and the caption hangs
+   flush under it. --v is the button's visible width. ── */
+.sw .jp-hero { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto minmax(32px, 1fr) auto auto;
+  justify-items: start; text-align: left; min-height: 100svh;
   padding: calc(var(--head) + clamp(40px, 7vh, 72px)) var(--g) clamp(32px, 6vh, 64px); }
 .sw .jp-hero .stage { display: contents; }
-.sw .jp-hero h1 { order: 1; position: relative; z-index: 1; font-size: calc(100cqw / 6.86); line-height: 0.82; letter-spacing: -0.05em; }
-.sw .jp-pin { order: 2; position: relative; z-index: 2; justify-self: end; width: min(100vw, 50svh); margin: calc(-0.2 * min(100vw, 50svh)) calc(-0.06 * min(100vw, 50svh)) 0 0; }
-.sw .jp-hero::after { content: ""; order: 3; align-self: start; width: min(100%, 14rem); margin-top: clamp(12px, 3vh, 28px); border-top: 1px solid var(--rule); }
-.sw .jp-hero .status { order: 4; margin: 16px 0 0; }
-.sw .jp-hero .lede-hero { order: 5; width: auto; max-width: 17em; margin: 12px 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: pretty; }
-.sw .jp-hero .ctas { order: 6; margin-top: 22px; justify-content: flex-start; }
+.sw .jp-hero h1 { grid-row: 1; position: relative; z-index: 1; font-size: calc(100cqw / 6.86); line-height: 0.82; letter-spacing: -0.05em; }
+.sw .jp-hero .lede-hero { grid-row: 2; width: auto; max-width: 17em; margin: clamp(20px, 3vh, 32px) 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: balance; }
+.sw .jp-hero .ctas { grid-row: 3; margin-top: 22px; justify-content: flex-start; }
+.sw .jp-pin { --v: min(58vw, 30svh); grid-row: 5; justify-self: end; width: calc(var(--v) / 0.613); pointer-events: none;
+  margin: calc(-0.2904 * var(--v)) calc(-0.3197 * var(--v)) calc(-0.2855 * var(--v)) calc(-0.3116 * var(--v)); }
+.sw .jp-hero .status { grid-row: 6; justify-self: end; width: min(58vw, 30svh); margin: 16px 0 0; }
 .sw .jp-head .btn, .sw .jp-end, .sw .jp-hero .btn { white-space: nowrap; }
 @media (min-width: 1024px) {
-  .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto minmax(48px, 1fr) auto auto auto; column-gap: var(--gut); align-items: start; }
+  .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto minmax(40px, 1fr) auto auto; column-gap: var(--gut); }
   .sw .jp-hero h1 { grid-column: 1 / -1; grid-row: 1; }
-  /* The button outgrows its columns: it's placed on its own, over the right
-     half (the render has room around the button, which crosses the lower title
-     and reaches down beside the block), so it never stretches the rows. The
-     pointer passes through it, so it never covers a link; its offset uses
-     translate, which the entrance animation's transform leaves alone. */
-  .sw .jp-hero { position: relative; }
-  .sw .jp-pin { --pin: min(64vw, 100vh, 940px); position: absolute; top: 56%; right: calc(var(--g) - 0.07 * var(--pin)); translate: 0 -50%; width: var(--pin); margin: 0; pointer-events: none; }
-  .sw .jp-hero::after { grid-column: 1 / span 4; grid-row: 3; width: 100%; margin: 0; }
-  .sw .jp-hero .status { grid-column: 1 / span 4; grid-row: 3; margin: 0; padding-top: 20px; }
-  .sw .jp-hero .lede-hero { grid-column: 1 / span 4; grid-row: 4; margin: 14px 0 0; }
-  .sw .jp-hero .ctas { grid-column: 1 / span 4; grid-row: 5; margin: 26px 0 0; }
+  .sw .jp-hero .lede-hero { grid-column: 1 / span 6; grid-row: 3; align-self: end; margin: 0; }
+  .sw .jp-hero .ctas { grid-column: 1 / span 6; grid-row: 4; margin: 26px 0 0; }
+  .sw .jp-pin { --v: min(100%, 36vh); grid-column: 9 / -1; grid-row: 2 / 4; align-self: end; justify-self: start; }
+  .sw .jp-hero .status { grid-column: 9 / -1; grid-row: 4; justify-self: start; align-self: start; width: auto; margin: 26px 0 0; padding-top: 2px; }
 }
 
 /* ── chapter covers: the tagline sits bottom left, like a poster ── */
