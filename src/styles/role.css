@@ -67,7 +67,11 @@ html[data-scrolled="true"] .rp .jp-head nav::before, html[data-scrolled="true"] 
 .rp-eyebrow { position: relative; z-index: 1; margin: 0; font-size: var(--fs-lead); font-weight: 600; letter-spacing: -0.015em; color: var(--t1); }
 .rp-title { position: relative; z-index: 1; margin: 8px 0 0; max-width: 14ch; font-size: min(clamp(48px, 7.2vw, 104px), 11.5vh); font-weight: 700; line-height: 0.94; letter-spacing: -0.045em; text-wrap: balance;
   background: linear-gradient(180deg, #F4F8F9 0%, rgba(244, 248, 249, 0.92) 55%, rgba(244, 248, 249, 0.5) 100%);
-  -webkit-background-clip: text; background-clip: text; color: transparent; }
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  /* The gradient only paints inside the box, and at this line height the last
+     line's descenders (y, g, p) hang below it: pad the box down past them and
+     take the space back, so the letters are whole and the layout doesn't move. */
+  padding-bottom: 0.2em; margin-bottom: -0.2em; }
 .rp-stage { position: relative; width: calc(var(--v) / 0.613); aspect-ratio: 1; flex: none;
   margin: calc(-0.178 * var(--v) / 0.613 + clamp(20px, 3.4vh, 40px)) 0 calc(-0.175 * var(--v) / 0.613); }
 .rp .rp-pin { position: absolute; inset: 0; width: auto; margin: 0; }

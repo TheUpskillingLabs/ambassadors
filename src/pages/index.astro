@@ -8,8 +8,9 @@
    It's built on the role pages' system (src/styles/role.css, with home.css for
    what only this page has): ink, the teal and red glows with the grain only in
    them, Geologica, hairline rules, teal labels. The hero follows Apple's AirTag
-   page: the name, one line, and one object centred, here the orb at the centre
-   of its orbiting network (public/join/orbits.*).
+   page: the name, one line, and one object centred: the orb, live, at the hub
+   of its network (src/scripts/orbnet.ts), which shows how The Labs grows: hub
+   and spoke, from national to regional to neighbourhood Labs.
 
    The sessions, cities and member count are a snapshot in
    content/site/home.json; in OLOS they come from its own data. Links point at
@@ -20,7 +21,6 @@ import "../styles/join.css";
 import "../styles/role.css";
 import "../styles/home.css";
 import { u } from "../lib/url";
-import JoinCover from "../components/JoinCover.astro";
 import h from "../../content/site/home.json";
 import list from "../../content/roles/roles.json";
 import j from "../../content/site/join.json";
@@ -50,10 +50,10 @@ const pageTitle = h.title;
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={h.description} />
-    <meta property="og:image" content={new URL(orbit("orbits.jpg"), Astro.site)} />
+    <meta property="og:image" content={new URL(orbit("hub-share.jpg"), Astro.site)} />
     <script is:inline>document.documentElement.dataset.menu = "";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
-    <link rel="preload" as="image" href={orbit("orbits.jpg")} fetchpriority="high" />
+    <link rel="preload" as="image" href={orbit("hub-poster.webp")} fetchpriority="high" />
   </head>
   <body class="jp rp hm">
     <a class="skip" href="#main">Skip to content</a>
@@ -81,21 +81,20 @@ const pageTitle = h.title;
       <!-- The hero: the name, one line, and the orb at the centre of its network. -->
       <section id="top" class="rp-hero hm-hero">
         <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
-        <p class="rp-eyebrow rise">{h.hero.eyebrow}</p>
+        <p class="status hm-eyebrow rise"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
         <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
-        <div class="hm-orbit pinin">
-          <video data-loop poster={orbit("orbits.jpg")} muted loop playsinline preload="metadata" aria-label={h.hero.videoLabel}>
-            <source src={orbit("orbits-600.webm")} type="video/webm" media="(max-width: 680px)" />
-            <source src={orbit("orbits-600.mp4")} type="video/mp4" media="(max-width: 680px)" />
-            <source src={orbit("orbits.webm")} type="video/webm" />
-            <source src={orbit("orbits.mp4")} type="video/mp4" />
-          </video>
-        </div>
+        <div class="hm-orbit pinin" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
       </section>
 
       <!-- The intro: what this is, what it costs, the one action. -->
       <section id="intro" class="rp-intro">
         <p class="rp-lede reveal">{h.intro.lede}</p>
+        <div class="hm-people reveal">
+          <ul class="hm-faces" aria-hidden="true">
+            {[1, 2, 3, 4, 5, 6, 7].map((n) => <li><img src={u(`/home/face-${n}.webp`)} alt="" width="192" height="192" loading="lazy" decoding="async" /></li>)}
+          </ul>
+          <p>{h.intro.people}</p>
+        </div>
         <p class="rp-terms reveal"><b>{h.intro.strong}</b> {h.intro.terms}</p>
         <div class="rp-cta reveal">
           <div class="hm-actions">
@@ -103,7 +102,6 @@ const pageTitle = h.title;
             <a class="textlink" href={L.login}>{h.intro.login}</a>
           </div>
           <p class="rp-account">{h.intro.note}</p>
-          <p class="status"><i aria-hidden="true"></i>{h.intro.status}</p>
         </div>
       </section>
 
@@ -190,7 +188,14 @@ const pageTitle = h.title;
         </div>
       </section>
 
-      <JoinCover n={1} id="ch-community" />
+      <!-- The room: where it happens, and who's in it. -->
+      <section class="hm-room" aria-labelledby="room-t">
+        <img src={u("/home/room-1800.webp")} srcset={`${u("/home/room-900.webp")} 900w, ${u("/home/room-1800.webp")} 1800w`} sizes="100vw" alt={h.room.alt} width="1800" height="1350" loading="lazy" decoding="async" />
+        <div class="rp-wrap hm-room-text reveal">
+          <h2 class="rp-h2" id="room-t">{h.room.title}</h2>
+          <p class="rp-lede-sm">{h.room.body}</p>
+        </div>
+      </section>
 
       <!-- Roles: every way to take part, each with its button. -->
       <section id="roles" class="rp-sec rp-compare">
@@ -224,6 +229,7 @@ const pageTitle = h.title;
           <div class="hm-quote-row">
             {h.spotlights.items.map((q) => (
               <figure class="reveal">
+                <img class="hm-portrait" src={u(`/home/${q.photo}.webp`)} alt={q.name} width="560" height="560" loading="lazy" decoding="async" />
                 <blockquote>“{q.quote}”</blockquote>
                 <figcaption><b>{q.name}</b> {q.role}</figcaption>
               </figure>
@@ -320,6 +326,7 @@ const pageTitle = h.title;
     <script>
       import { openCovers } from "../scripts/covers";
       import { initMenu } from "../scripts/navmenu";
+      import { mountOrbNet } from "../scripts/orbnet";
 
       // The header's button steps aside while the hero or the intro's button is
       // on screen, and again at the join section, so the page never shows two.
@@ -336,17 +343,12 @@ const pageTitle = h.title;
       initMenu();
       openCovers();
 
-      // The orbit: a muted loop that plays while it's on screen. Reduced motion
-      // or data saving keep the still.
+      // The orb: live, at the hub of its network. Reduced motion gets one still
+      // frame; without WebGL 2 the poster stays.
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const saveData = Boolean((navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData);
-      if (!reduce && !saveData) {
-        const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-          const v = e.target as HTMLVideoElement;
-          if (e.isIntersecting) v.play().catch(() => {}); else v.pause();
-        }));
-        document.querySelectorAll<HTMLVideoElement>("video[data-loop]").forEach((v) => { v.muted = true; io.observe(v); });
-      }
+      const orbEl = document.querySelector<HTMLElement>("[data-orbnet]");
+      const orbMode = new URLSearchParams(location.search).get("orb");
+      if (orbEl) mountOrbNet(orbEl, { still: reduce || orbMode === "still", poster: orbMode === "poster" });
     </script>
   </body>
 </html>
