@@ -1,0 +1,71 @@
+{
+  "$comment": "The Ambassador page on the role template. Its copy comes from the program page (content/site/join.json); keep the two in step.",
+  "placeholder": true,
+  "slug": "ambassador",
+  "role": "Ambassador",
+  "description": "Help the right people find The Upskilling Labs, one conversation at a time. Free, and yours to shape.",
+  "nav": { "why": "Why", "how": "How it works", "roles": "Roles", "cta": "Become an ambassador", "ctaShort": "Join us" },
+  "hero": {
+    "eyebrow": "Ambassador",
+    "title": ["Share a good thing."],
+    "alt": "The Ambassador button: the orb mark on ink, ringed by THE UPSKILLING LABS and AMBASSADOR"
+  },
+  "intro": {
+    "lede": "Work is changing faster than anyone can keep up alone. The Upskilling Labs is a community where we learn and adapt together. As ambassadors, we help folks who'd love it discover it, one conversation at a time.",
+    "strong": "Free.",
+    "terms": "A few conversations and one talk.",
+    "cta": "Become an ambassador",
+    "href": "/apply/",
+    "status": "Now welcoming our first ambassadors"
+  },
+  "moments": {
+    "kicker": "What you'll do",
+    "title": "Coffee. A mic. A welcome.",
+    "items": [
+      { "step": "First", "title": "Start a conversation.", "body": "Ask someone what they're curious about, and really listen. Over time, bring [N] people to their first workshop." },
+      { "step": "Then", "title": "Take the mic.", "body": "Give one short talk to a group you're part of. We'll help you practice first." },
+      { "step": "One day", "title": "Welcome the next ambassador.", "body": "Help someone new find their way in, the way someone once did for you." }
+    ]
+  },
+  "simple": {
+    "kicker": "In short",
+    "title": "Simple, on purpose.",
+    "items": [
+      { "icon": "time", "title": "Ten minutes to join.", "body": "Then half an hour with the guide before your first conversation." },
+      { "icon": "talk", "title": "No pitch. No script.", "body": "Your own story, and a question about theirs." },
+      { "icon": "people", "title": "Never on your own.", "body": "Your coordinator, a local volunteer lead, is with you the whole way." },
+      { "icon": "free", "title": "Free, always.", "body": "Being an ambassador costs nothing, and neither does anything at The Labs." }
+    ]
+  },
+  "path": {
+    "kicker": "How it works",
+    "title": "You start by listening. You end up leading.",
+    "steps": [
+      { "title": "Raise your hand.", "body": "Let us know you're interested. That's the whole first step." },
+      { "title": "Join in.", "body": "About ten minutes on your phone. Your coordinator gives you your Ambassador button.", "mark": "button" },
+      { "title": "Listen first.", "body": "Half an hour with the guide, then your first conversations. Ask, listen, and bring back what you hear." },
+      { "title": "Then lead.", "body": "Give your talk, and welcome the next ambassador. Finish the path, and your button gets a brass rim.", "mark": "rim" }
+    ]
+  },
+  "button": {
+    "kicker": "The button",
+    "title": "How ambassadors know each other.",
+    "body": "Given to you in person by your coordinator when you join. Wear it to the events you bring people to.",
+    "rim": "Finish the path, and a brass rim goes around it: Ambassador, practised."
+  },
+  "faq": {
+    "kicker": "Questions",
+    "title": "Questions you might have.",
+    "items": [
+      { "q": "Does it cost anything?", "a": "No. Being an ambassador is free, and so is every program at The Labs. Supporting membership is the only thing with dues, and it's optional." },
+      { "q": "How much time does it take?", "a": "About ten minutes to join and half an hour to get ready. After that, it's mostly conversations you'd have anyway, plus one talk." },
+      { "q": "Do I have to sell anything?", "a": "Not at all. There's nothing for sale. Just share your story and point people to theupskillinglabs.org." },
+      { "q": "Can I stop?", "a": "Yes, any time. You're always welcome back." }
+    ]
+  },
+  "join": {
+    "title": "Come be an ambassador.",
+    "lede": "Think of who might be next. It takes about ten minutes to join, and we'll figure out the rest together.",
+    "cta": "Become an ambassador"
+  }
+}
