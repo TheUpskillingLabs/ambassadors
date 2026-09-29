@@ -85,8 +85,10 @@ const SHOTS: Shot[] = [
   { at: 0.25, target: "dc", halfW: 1.7, elev: 40, roll: 14, oElev: 28, oRoll: 16, yaw: -14, sx: 0.16, sy: 0.05, px: 0, py: 0.16 }, // inside a Lab
   { at: 0.47, target: "between", halfW: 3.6, elev: 58, roll: 10, oElev: 38, oRoll: 12, yaw: 8, sx: 0.14, sy: 0.04, px: 0, py: 0.18 }, // gravity
   { at: 0.69, target: "orb", halfW: 3.9, elev: 30, roll: 24, oElev: 18, oRoll: 21, yaw: -6, sx: 0.12, sy: 0.05, px: 0, py: 0.18 }, // an idea travels
-  { at: 0.92, target: "orb", halfW: 5.3, elev: 64, roll: 12, oElev: 40, oRoll: 16, yaw: 0, sx: 0.12, sy: 0.02, px: 0, py: 0.18 }, // you
+  { at: 0.92, target: "orb", halfW: 5.3, elev: 64, roll: 12, oElev: 40, oRoll: 16, yaw: 0, sx: 0.12, sy: 0.02, px: 0, py: 0.44 }, // you (on phones, high: the choice fills the lower half)
 ];
+/** Where each shot sits in the story's progress, for the page's chapter rail. */
+export const SHOT_AT = SHOTS.map((s) => s.at);
 /** How much each beat is on screen at story progress p (0 hero … 4 you). */
 export function beatWeights(p: number): number[] {
   const c = [0, 0.25, 0.47, 0.69, 0.92];
@@ -108,7 +110,7 @@ const LABS: [number, number, number][] = [[2.95, 28, 360], [3.4, 122, 140], [2.6
 const COMMONS = { n: 150, r0: 1.32, r1: 2.05 };
 
 interface Arrive { from: V3; t0: number; dur: number; spin: number; intro: boolean }
-interface Actor { c: number; type: number; r: number; th: number; y: number; deg: number; flash: number; seen: number; born: number; p: V3; anchor?: number; arrive?: Arrive; you?: boolean }
+interface Actor { c: number; type: number; r: number; th: number; y: number; deg: number; flash: number; seen: number; born: number; p: V3; anchor?: number; arrive?: Arrive; you?: boolean; face?: number }
 interface Tie { a: number; b: number; w: number; flash: number; bridge: boolean } // b = -1: the orb
 interface Lab { R: number; th: number; mass: number; nodes: number[]; c: V3; lit: boolean; size: number; cap: number; rot: M3; tilt: [number, number] }
 interface Pulse { e: number; from: number; to: number; t0: number; dur: number; kind: number; hop: number; inv: number }
@@ -178,6 +180,10 @@ class Model {
       }
     });
     this.labs.forEach((L) => { L.cap = L.mass * 1.35; });
+    // Some of DC's people are real: the first cohort's faces, spread round its outer orbits.
+    const dcPeople = this.labs[0].nodes.filter((i) => this.nodes[i].type === HUMAN).sort((a, b) => this.nodes[b].r - this.nodes[a].r).slice(0, 60);
+    dcPeople.sort((a, b) => this.nodes[a].th - this.nodes[b].th);
+    for (let f = 0; f < 8 && dcPeople.length; f++) this.nodes[dcPeople[Math.floor((f / 8) * dcPeople.length)]].face = f;
     this.startN = this.nodes.length;
     this.positions(0, 0);
     // The opening: everything gathers into its orbit from further out.
@@ -411,13 +417,14 @@ bool culled(vec3 p) { return (uM * p).z * uSide < 0.0; }`;
 const GLSL_STATE = `
 uniform highp sampler2D uPos; uniform highp sampler2D uSt; uniform highp sampler2D uOrb;
 ivec2 texAt(int i) { return ivec2(i % ${TEXW}, i / ${TEXW}); }
-const vec3 COL[5] = vec3[5](vec3(1.0, 0.86, 0.74), vec3(0.14, 0.84, 0.86), vec3(1.0, 0.36, 0.28), vec3(0.62, 1.0, 0.96), vec3(1.0, 0.78, 0.5));`;
+const vec3 COL[5] = vec3[5](vec3(1.0, 0.86, 0.74), vec3(0.14, 0.84, 0.86), vec3(1.0, 0.36, 0.28), vec3(0.62, 1.0, 0.96), vec3(1.0, 0.78, 0.5));
+vec3 colOf(float kind) { int k = int(kind + 0.5); return k >= 10 ? vec3(1.0, 0.9, 0.8) : COL[min(k, 4)]; }`;
 
 const ACTOR_VS = `#version 300 es
 precision highp float;
 ${GLSL_CAM}
 ${GLSL_STATE}
-uniform float uPx; uniform int uFirst; uniform float uFocus; uniform float uFocusAmt;
+uniform float uPx; uniform int uFirst; uniform float uFocus; uniform float uFocusAmt; uniform float uZoom;
 out vec4 vC; out float vShape; out float vFlash; out float vNear;
 void main() {
   int id = gl_VertexID + uFirst;
@@ -428,10 +435,9 @@ void main() {
   float depth = clamp((v.z + uD) / 6.0, -1.0, 1.0);
   float g = S.w;
   float f = g < -0.5 ? 1.0 - 0.4 * uFocusAmt : (abs(g - uFocus) < 0.5 ? 1.0 + 0.8 * uFocusAmt : 1.0 - 0.6 * uFocusAmt);
-  int k = int(S.z + 0.5);
-  vC = vec4(COL[k], P.w * f * (1.0 + 0.12 * depth));
+  vC = vec4(colOf(S.z), P.w * f * (1.0 + 0.12 * depth));
   vShape = S.z; vFlash = S.x; vNear = max(depth, 0.0);
-  gl_PointSize = S.y * uPx * (uD / -v.z) * (1.0 + 0.12 * max(depth, 0.0) - 0.1 * max(-depth, 0.0)) * (1.0 + 0.6 * S.x);
+  gl_PointSize = S.y * uPx * uZoom * (uD / -v.z) * (1.0 + 0.12 * max(depth, 0.0) - 0.1 * max(-depth, 0.0)) * (1.0 + (S.z > 9.5 ? 0.15 : 0.6) * S.x);
 }`;
 
 // Sparks and stars: points the CPU places (S: size, shape, flash, alpha; C: rgb, and for a star its depth).
@@ -458,12 +464,24 @@ void main() {
 const POINT_FS = `#version 300 es
 precision highp float;
 in vec4 vC; in float vShape; in float vFlash; in float vNear;
+uniform sampler2D uFaces; uniform float uFacesReady;
 out vec4 o;
 ${GLSL_HASH}
 void main() {
   vec2 c = gl_PointCoord * 2.0 - 1.0;
   float r = length(c);
   if (r > 1.0) discard;
+  if (vShape > 9.5) { // a real person: their portrait in a circle, with a warm ring, lit when they take up an idea
+    float f = floor(vShape - 10.0 + 0.5);
+    vec2 cell = vec2(mod(f, 3.0), floor(f / 3.0));
+    vec3 face = texture(uFaces, (cell + (c / 0.62 * 0.5 + 0.5)) / 3.0).rgb;
+    float inside = smoothstep(0.64, 0.6, r), ring = smoothstep(0.6, 0.64, r) * smoothstep(0.74, 0.68, r);
+    vec3 col = mix(vec3(1.0, 0.86, 0.74), face * 1.05, uFacesReady) * inside + vec3(1.0, 0.85, 0.7) * ring * (0.8 + vFlash);
+    float glow = exp(-r * r * 2.5) * vFlash * 0.6 * (1.0 - inside);
+    float a = (inside + ring + glow) * vC.a;
+    o = vec4((col + vec3(1.0, 0.9, 0.8) * glow) * vC.a, a);
+    return;
+  }
   // The mark sits in the middle half of the sprite; the rest is its glow when it lights up.
   vec2 q = c / 0.5; float aa = 0.2;
   float m;
@@ -557,8 +575,7 @@ void main() {
   vec3 A = k == 0 ? P.xyz : orbitAt(O, t0), B = orbitAt(O, t1);
   if (culled((A + B) * 0.5)) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
   float f = 1.0 - float(k) / float(SEG);
-  int kind = int(S.z + 0.5);
-  quad(A, B, aCorner.x, aCorner.y, (0.4 + 1.3 * f) * uPx, vec4(COL[kind], P.w * 0.24 * f * f));
+  quad(A, B, aCorner.x, aCorner.y, (0.4 + 1.3 * f) * uPx, vec4(colOf(S.z), P.w * 0.24 * f * f));
 }`;
 
 const LINE_FS = `#version 300 es
@@ -806,7 +823,7 @@ function compile(gl: WebGL2RenderingContext, vs: string, fs: string) {
 }
 
 export interface FrameState { p: number; beats: number[]; legend: ({ x: number; y: number } | null)[]; you: { x: number; y: number } | null; orb: { x: number; y: number; r: number }; paused: boolean }
-export interface OrbNetOptions { still?: boolean; poster?: boolean; story?: HTMLElement; stage?: HTMLElement; onFrame?: (s: FrameState) => void }
+export interface OrbNetOptions { still?: boolean; poster?: boolean; story?: HTMLElement; stage?: HTMLElement; faces?: string[]; onFrame?: (s: FrameState) => void }
 export interface OrbNet { setPaused(v: boolean): void; paused(): boolean; setOrbHover(v: boolean): void }
 
 /** Start the live model in `wrap` (it gets `is-live` once it draws). Returns null without WebGL 2. */
@@ -902,6 +919,27 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 101, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, ramp);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+  // The faces' atlas: up to nine portraits in a 3×3 grid, drawn as they load.
+  const facesTex = gl.createTexture(); let facesReady = 0;
+  gl.bindTexture(gl.TEXTURE_2D, facesTex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255, 220, 190, 255]));
+  if (opts.faces?.length) {
+    const atlas = document.createElement("canvas"); atlas.width = atlas.height = 384;
+    const ctx = atlas.getContext("2d")!;
+    Promise.all(opts.faces.slice(0, 9).map((src, i) => new Promise<void>((res) => {
+      const im = new Image(); im.decoding = "async";
+      im.onload = () => { ctx.drawImage(im, (i % 3) * 128, Math.floor(i / 3) * 128, 128, 128); res(); };
+      im.onerror = () => res(); im.src = src;
+    }))).then(() => {
+      gl.bindTexture(gl.TEXTURE_2D, facesTex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE, atlas);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      facesReady = 1;
+      if (still || pausedFlag) draw(performance.now());
+    });
+  }
 
   /* render targets: the scene, and the bloom's chain */
   interface RT { tex: WebGLTexture; fbo: WebGLFramebuffer; w: number; h: number }
@@ -1007,7 +1045,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
 
   /* the frame */
   const t0 = performance.now();
-  let last = t0, simT = 0, frame = 0, introT = 0;
+  let last = t0, lastReal = t0, simT = 0, frame = 0, introT = 0;
   let legendPick: number[] = [];
   const fps = { acc: 0, n: 0 };
   if (still) { for (let i = 0; i < 600; i++) { simT += 1 / 60; model.step(1 / 60, simT, i > 320, false); } }
@@ -1017,12 +1055,15 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // Adapt: if frames run slow, draw fewer pixels; if there's room again, more.
     if (!still && !pausedFlag && last !== now) { fps.acc += (now - last); fps.n++; if (fps.n >= 90) { const avg = fps.acc / fps.n; fps.acc = 0; fps.n = 0; const q0 = quality; if (avg > 24 && quality > 0.5) quality = Math.max(0.5, quality - 0.15); else if (avg < 13 && quality < 1) quality = Math.min(1, quality + 0.1); if (q0 !== quality) resize(); } }
     last = now;
-    scrollE = lerp(scrollE, scrollP, still ? 1 : 0.1);
+    // Easing by time, not by frame, so the camera keeps up at any frame rate (and while paused).
+    const rdt = Math.min(0.1, Math.max(0, (now - lastReal) / 1000)); lastReal = now;
+    const ease60 = (k: number) => 1 - Math.pow(1 - k, rdt * 60);
+    scrollE = still ? scrollP : lerp(scrollE, scrollP, ease60(0.1));
     const p = scrollE, beats = beatWeights(p);
     if (!still && !pausedFlag) { simT += dt; introT += dt; model.step(dt, simT, simT > 3.2, beats[3] > 0.5); }
     const t = simT, grow = still ? 1 : clamp(introT / 3.4, 0, 1), g = 1 - Math.pow(1 - grow, 3);
-    ptr.x = lerp(ptr.x, ptr.tx, 0.06); ptr.y = lerp(ptr.y, ptr.ty, 0.06);
-    orbHover = lerp(orbHover, orbHoverT, 0.12);
+    ptr.x = lerp(ptr.x, ptr.tx, ease60(0.06)); ptr.y = lerp(ptr.y, ptr.ty, ease60(0.06));
+    orbHover = lerp(orbHover, orbHoverT, ease60(0.12));
     camera(p, t);
     const { M, T, tanX, tanY } = cam;
 
@@ -1036,7 +1077,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       model.labs.forEach((L, i) => { const s = project(L.c); const d2 = (s.x - ptr.cx) ** 2 + (s.y - ptr.cy) ** 2; if (d2 < best) { best = d2; hit = i; } });
     }
     if (hit >= 0) { focus = hit; lastFocus = hit; }
-    focusAmt = lerp(focusAmt, hit >= 0 ? 1 : 0, 0.08);
+    focusAmt = lerp(focusAmt, hit >= 0 ? 1 : 0, ease60(0.08));
     if (hit < 0 && focusAmt < 0.01) focus = -1;
 
     // Actors → textures.
@@ -1048,8 +1089,9 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       // The value hierarchy: people stay low, the other actors a little brighter; light is for sparks.
       const base = a.type === HUMAN ? 0.62 : a.type === YOU ? 1 : 0.9;
       posArr[o] = a.p[0]; posArr[o + 1] = a.p[1]; posArr[o + 2] = a.p[2]; posArr[o + 3] = base * lit * born * (a.arrive && !a.arrive.intro ? 0.7 : 1);
-      const size = a.type === YOU ? 12 : (a.type === HUMAN ? 7 : a.type === PLACE ? 9.5 : 10) * (1 + 0.08 * Math.sqrt(a.deg));
-      stArr[o] = a.type === YOU ? Math.max(a.flash, 0.5) : a.flash; stArr[o + 1] = size; stArr[o + 2] = a.type; stArr[o + 3] = a.c;
+      const size = a.face !== undefined ? 19 : a.type === YOU ? 12 : (a.type === HUMAN ? 7 : a.type === PLACE ? 9.5 : 10) * (1 + 0.08 * Math.sqrt(a.deg));
+      if (a.face !== undefined) posArr[o + 3] = lit * born;
+      stArr[o] = a.type === YOU ? Math.max(a.flash, 0.5) : a.flash; stArr[o + 1] = size; stArr[o + 2] = a.face !== undefined ? 10 + a.face : a.type; stArr[o + 3] = a.c;
       const trail = a.anchor !== undefined || a.arrive ? 0 : a.c < 0 ? 1 : a.c + 2;
       orbArr[o] = a.r; orbArr[o + 1] = a.th; orbArr[o + 2] = a.y; orbArr[o + 3] = trail;
     }
@@ -1122,6 +1164,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       gl!.activeTexture(gl!.TEXTURE3); gl!.bindTexture(gl!.TEXTURE_2D, orbTex); gl!.uniform1i(U.uOrb, 3);
     };
     const focusU = (U: Record<string, WebGLUniformLocation | null>) => { gl!.uniform1f(U.uFocus, focus >= 0 ? focus : lastFocus); gl!.uniform1f(U.uFocusAmt, focus >= 0 ? focusAmt : 0); };
+    gl!.useProgram(P.sprite.prog); gl!.activeTexture(gl!.TEXTURE5); gl!.bindTexture(gl!.TEXTURE_2D, facesTex); gl!.uniform1i(P.sprite.U.uFaces, 5);
     const drawStars = () => { add(); gl!.useProgram(P.sprite.prog); gl!.bindVertexArray(ST.v); camU(P.sprite.U, -1); gl!.uniform1f(P.sprite.U.uPx, px); gl!.uniform2f(P.sprite.U.uPar, ptr.x, -ptr.y); gl!.drawArrays(gl!.POINTS, 0, stars.length / 11); };
     const drawDisc = () => { add(); gl!.useProgram(P.disc.prog); gl!.bindVertexArray(QD); camU(P.disc.U, 1); gl!.uniform1f(P.disc.U.uR, 5.9); gl!.uniform1f(P.disc.U.uAmt, 0.11 * g); gl!.uniform4fv(P.disc.U.uLab, labU); gl!.drawArrays(gl!.TRIANGLE_STRIP, 0, 4); };
     const drawFabric = (side: number) => {
@@ -1143,7 +1186,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     };
     const drawActors = (side: number) => {
       add(); gl!.useProgram(P.actor.prog); gl!.bindVertexArray(EMPTY); camU(P.actor.U, side); stateU(P.actor.U); focusU(P.actor.U);
-      gl!.uniform1f(P.actor.U.uPx, px); gl!.uniform1i(P.actor.U.uFirst, 0);
+      gl!.uniform1f(P.actor.U.uPx, px); gl!.uniform1i(P.actor.U.uFirst, 0); gl!.uniform1f(P.actor.U.uZoom, Math.pow(clamp(4.7 / cam.halfW, 1, 2.8), 0.7));
+      gl!.activeTexture(gl!.TEXTURE5); gl!.bindTexture(gl!.TEXTURE_2D, facesTex); gl!.uniform1i(P.actor.U.uFaces, 5); gl!.uniform1f(P.actor.U.uFacesReady, facesReady);
       gl!.drawArrays(gl!.POINTS, 0, N);
       if (model.cursor) { gl!.uniform1i(P.actor.U.uFirst, CURSOR); gl!.drawArrays(gl!.POINTS, 0, 1); }
     };
@@ -1222,8 +1266,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
             let best = -1, bs = -1e9;
             for (const i of model.labs[0].nodes) {
               const a = model.nodes[i]; if (a.type !== type || a.arrive) continue;
-              const s = project(a.p); if (s.x < cssW * 0.3 || s.x > cssW * 0.85 || s.y < cssH * 0.3 || s.y > cssH * 0.8) continue;
-              const score = s.z - Math.abs(s.x - cssW * 0.58) * 0.002;
+              const s = project(a.p); if (s.x < cssW * 0.28 || s.x > cssW * 0.88 || s.y < cssH * 0.22 || s.y > cssH * 0.84) continue;
+              const score = s.z - Math.abs(s.x - cssW * 0.58) * 0.002 + (a.face !== undefined ? 50 : 0);
               if (score > bs) { bs = score; best = i; }
             }
             return best;
@@ -1245,7 +1289,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
 
   let on = false, raf = 0, visible = false;
   const loop = (now: number) => { draw(now); raf = on ? requestAnimationFrame(loop) : 0; };
-  const setOn = (v: boolean) => { if (v === on) return; on = v; if (on && !raf) { readScroll(); last = performance.now(); raf = requestAnimationFrame(loop); } };
+  const setOn = (v: boolean) => { if (v === on) return; on = v; if (on && !raf) { readScroll(); last = lastReal = performance.now(); raf = requestAnimationFrame(loop); } };
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; setOn(visible && !document.hidden); }).observe(wrap);
   document.addEventListener("visibilitychange", () => setOn(visible && !document.hidden));
   return {

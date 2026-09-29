@@ -35,8 +35,16 @@
 .hm-beat .rp-step { display: flex; gap: 10px; }
 .hm-beat .no { color: var(--t2); }
 .hm-beat-line { margin: 12px 0 0; font-size: var(--fs-sub); font-weight: 600; line-height: 1.12; letter-spacing: -0.025em; color: var(--t1); text-wrap: balance; text-shadow: 0 2px 24px rgba(0, 20, 27, 0.8); }
-.hm-beat-cta { margin-top: 26px; }
-.hm-beat-cta .btn { margin: 0; }
+.hm-beat-cta { margin-top: 24px; }
+/* The last shot ends in a choice: every path is a way in, and each starts with the account. */
+.hm-paths-ask { margin: 0 0 10px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
+.hm-paths { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.rp .hm-path { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 12px 16px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 12px; background: rgba(0, 20, 27, 0.55);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-size: 17px; font-weight: 600; color: var(--t1); text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+.hm-path span { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
+.rp .hm-path:hover, .rp .hm-path:focus-visible { border-color: var(--teal); background: rgba(0, 148, 160, 0.16); }
+.hm-path:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+.hm-curious { display: inline-block; margin-top: 14px; font-size: var(--fs-sm); font-weight: 600; }
 .hm-beat-hint { margin: 14px 0 0; font-size: var(--fs-sm); color: var(--t2); }
 .hm-beat-hint .coarse { display: none; }
 @media (hover: none) { .hm-beat-hint .fine { display: none; } .hm-beat-hint .coarse { display: inline; } }
@@ -52,6 +60,20 @@
 .mk-3 { border-radius: 50%; border: 2px solid #9EFFF7; }
 .mk-you { border-radius: 50%; background: #FFC880; box-shadow: 0 0 10px 2px rgba(255, 200, 128, 0.7); }
 .hm-you { translate: 16px -50%; color: #FFE3C2; }
+
+/* The chapter rail: a mark for each shot, the current one lit, and a way past the story. */
+.hm-rail { position: absolute; z-index: 3; right: var(--g); top: 50%; translate: 0 -50%; display: flex; flex-direction: column; align-items: flex-end; gap: 18px; }
+.hm-rail ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.hm-rail a[data-go] { display: flex; align-items: center; gap: 12px; padding: 6px 0; color: var(--t2); text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+.hm-rail a[data-go] span { opacity: 0; translate: 6px 0; transition: opacity 0.2s, translate 0.2s; white-space: nowrap; }
+.hm-rail a[data-go] i { width: 18px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, 0.3); transition: width 0.25s, background 0.25s; }
+.hm-rail a[data-go][aria-current] { color: var(--t1); }
+.hm-rail a[data-go][aria-current] i { width: 34px; background: var(--teal); }
+.hm-rail:hover a[data-go] span, .hm-rail a[data-go]:focus-visible span, .hm-rail a[data-go][aria-current] span { opacity: 1; translate: 0 0; }
+.hm-rail a:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; border-radius: 4px; }
+.hm-skip { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t2); text-decoration: none; }
+.hm-skip:hover { color: var(--t1); }
+.is-still .hm-rail { display: none; }
 
 .hm-cue { position: absolute; z-index: 3; left: 50%; bottom: 22px; margin: 0; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t2); pointer-events: none; }
 .hm-cue i { width: 1px; height: 36px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)); animation: hm-cue 2.2s ease-in-out infinite; transform-origin: top; }
@@ -183,6 +205,20 @@
   .hm-city-list .detail { grid-column: 1 / -1; }
 }
 @media (max-width: 680px) {
+  .hm-beats { bottom: clamp(60px, 10svh, 100px); width: calc(100% - 2 * var(--g) - 28px); }
+  .hm-beat-line { font-size: 24px; }
+  .is-still .hm-beats { grid-template-columns: minmax(0, 1fr); width: auto; }
+  .hm-pause { bottom: 14px; }
+  .hm-cue { display: none; }
+  .hm-rail { top: auto; bottom: 64px; translate: none; gap: 10px; }
+  .hm-rail a[data-go] { padding: 4px 0; }
+  .hm-rail a[data-go] span, .hm-rail:hover a[data-go] span { display: none; }
+  .hm-rail a[data-go] i { width: 12px; }
+  .hm-rail a[data-go][aria-current] i { width: 22px; }
+  .hm-skip { display: none; }
+  .rp .hm-path { padding: 9px 14px; font-size: 16px; }
+  .hm-paths { gap: 6px; }
+  .hm-beat-cta { margin-top: 16px; }
   .hm-people { align-items: flex-start; }
   .hm-faces li { width: 46px; height: 46px; margin-left: -10px; }
   .hm-portrait { width: 104px; height: 104px; }

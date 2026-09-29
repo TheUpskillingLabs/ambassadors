@@ -46,6 +46,17 @@
     "cue": "Scroll",
     "pause": "Pause",
     "play": "Play",
+    "paths": {
+      "ask": "I want to",
+      "items": [
+        { "slug": "upskiller", "label": "Learn by building" },
+        { "slug": "mentor", "label": "Share what I know" },
+        { "slug": "ambassador", "label": "Spread the word" },
+        { "slug": "poderator", "label": "Keep a Pod together" }
+      ],
+      "curious": "Just curious? Drop into a session"
+    },
+    "rail": { "label": "The story", "items": ["Find your people", "Actors", "Gravity", "Ideas", "You"], "skip": "Skip the story" },
     "orb": "Become an Upskiller",
     "orbLabel": "Become an Upskiller: create your free Upskilling account",
     "pauseLabel": "Pause the animation",

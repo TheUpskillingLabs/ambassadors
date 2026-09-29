@@ -25,6 +25,9 @@ import h from "../../content/site/home.json";
 import list from "../../content/roles/roles.json";
 import j from "../../content/site/join.json";
 import upskiller from "../../content/roles/upskiller.json";
+import mentor from "../../content/roles/mentor.json";
+import ambassador from "../../content/roles/ambassador.json";
+import poderator from "../../content/roles/poderator.json";
 
 const L = h.links;
 const orbit = (f: string) => u(`/join/${f}`);
@@ -38,6 +41,10 @@ const icons: Record<string, string> = {
   keep: '<path d="M8.5 7.5 4 12l4.5 4.5M15.5 7.5 20 12l-4.5 4.5M13.5 5l-3 14"/>',
 };
 const pageTitle = h.title;
+// Each path in the last shot goes straight to the account, with the path it came from.
+const roleJoin: Record<string, string> = { upskiller: upskiller.intro.href, mentor: mentor.intro.href, ambassador: ambassador.intro.href, poderator: poderator.intro.href };
+const roleName: Record<string, string> = Object.fromEntries(list.roles.map((r) => [r.slug, r.name]));
+const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat(u("/home/suzie.webp"));
 ---
 <!doctype html>
 <html lang="en">
@@ -82,7 +89,7 @@ const pageTitle = h.title;
       <!-- The hero: the title over a live model of The Labs, then its story, one shot per scroll. -->
       <section id="top" class="hm-model" data-story>
         <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
-        <div class="hm-stage" data-stage>
+        <div class="hm-stage" data-stage data-faces={JSON.stringify(faces)}>
           <div class="hm-hero-copy" data-hero-copy>
             <p class="status hm-eyebrow rise"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
             <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
@@ -96,13 +103,21 @@ const pageTitle = h.title;
                 <p class="hm-beat-line">{b.line}</p>
                 {i === h.model.beats.length - 1 && (
                   <div class="hm-beat-cta">
-                    <a class="btn" href={L.join}>{h.intro.cta}</a>
+                    <p class="hm-paths-ask">{h.model.paths.ask}</p>
+                    <ul class="hm-paths">
+                      {h.model.paths.items.map((pth) => <li><a class="hm-path" href={roleJoin[pth.slug]}>{pth.label}<span>{roleName[pth.slug]}</span></a></li>)}
+                    </ul>
+                    <a class="textlink hm-curious" href={L.events}>{h.model.paths.curious} →</a>
                     <p class="hm-beat-hint"><span class="fine">{h.model.click}</span><span class="coarse">{h.model.tap}</span></p>
                   </div>
                 )}
               </li>
             ))}
           </ol>
+          <nav class="hm-rail" aria-label={h.model.rail.label}>
+            <ol>{h.model.rail.items.map((t, i) => <li><a href="#top" data-go={i}><span>{t}</span><i aria-hidden="true"></i></a></li>)}</ol>
+            <a class="hm-skip" href="#intro">{h.model.rail.skip} <b aria-hidden="true">↓</b></a>
+          </nav>
           <ul class="hm-legend" aria-hidden="true">
             {h.model.legend.map((l, i) => <li class="hm-tag" data-tag={i}><i class={`mk mk-${i}`}></i>{l}</li>)}
           </ul>
@@ -355,7 +370,7 @@ const pageTitle = h.title;
     <script>
       import { openCovers } from "../scripts/covers";
       import { initMenu } from "../scripts/navmenu";
-      import { mountOrbNet } from "../scripts/orbnet";
+      import { mountOrbNet, SHOT_AT } from "../scripts/orbnet";
 
       // The header's button steps aside while the hero or the intro's button is
       // on screen, and again at the join section, so the page never shows two.
@@ -386,9 +401,17 @@ const pageTitle = h.title;
       const cue = stage.querySelector<HTMLElement>("[data-cue]")!;
       const pause = stage.querySelector<HTMLButtonElement>("[data-pause]")!;
       const orbLink = stage.querySelector<HTMLAnchorElement>("[data-orb-link]")!;
+      const rail = [...stage.querySelectorAll<HTMLAnchorElement>("[data-go]")];
+      const facesData = JSON.parse(stage.dataset.faces ?? "[]") as string[];
+      // The chapter rail: each mark scrolls to its shot.
+      rail.forEach((a, i) => a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const top = story.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: top + (story.offsetHeight - window.innerHeight) * SHOT_AT[i] + 1, behavior: reduce ? "auto" : "smooth" });
+      }));
       if (still) story.classList.add("is-still");
       const net = mountOrbNet(stage.querySelector<HTMLElement>("[data-orbnet]")!, {
-        still, poster: orbMode === "poster", story, stage,
+        still, poster: orbMode === "poster", story, stage, faces: facesData,
         onFrame: (f) => {
           copy.style.opacity = String(f.beats[0]);
           copy.style.transform = `translateY(${(-(1 - f.beats[0]) * 48).toFixed(1)}px)`;
@@ -399,7 +422,9 @@ const pageTitle = h.title;
           // The orb is the button: a link laid over it, its label shown on hover and in the last shot.
           orbLink.style.transform = `translate(${(f.orb.x - f.orb.r).toFixed(1)}px, ${(f.orb.y - f.orb.r).toFixed(1)}px)`;
           orbLink.style.width = orbLink.style.height = `${(f.orb.r * 2).toFixed(1)}px`;
-          orbLink.style.setProperty("--show", String(f.beats[4]));
+          orbLink.style.setProperty("--show", String(Math.max(f.beats[0], f.beats[4])));
+          const on = f.beats.indexOf(Math.max(...f.beats));
+          rail.forEach((a, i) => { if (i === on) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
         },
       });
       if (!net || still) pause.hidden = true;
