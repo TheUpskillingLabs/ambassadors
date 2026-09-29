@@ -74,13 +74,50 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   html[data-scrolled="true"] .jp-head nav { min-height: 56px; }
   .jp-brand img { height: 40px; }
   html[data-scrolled="true"] .jp-brand img { height: 34px; }
-  .jp-links { display: flex; grid-column: 1 / -1; grid-row: 2; gap: 20px; font-size: 14px; overflow-x: auto; scrollbar-width: none; margin: -8px calc(-1 * var(--g)) 0; padding: 0 var(--g) 2px;
-    max-height: 0; opacity: 0; transform: translateY(-4px); pointer-events: none; transition: max-height 0.25s, opacity 0.2s, transform 0.25s; }
-  .jp-links .navlink { min-height: 36px; }
-  html[data-scrolled="true"] .jp-links { max-height: 40px; opacity: 1; transform: none; pointer-events: auto; }
   .jp-head::before { height: 200px; }
   .jp-head::after { height: calc(var(--head) + 56px); }
-  html:has(.jp) { scroll-padding-top: 100px; }
+}
+
+/* The menu (src/scripts/navmenu.ts): at 1080 px and narrower the header is one
+   row (logo, the button, the menu button) and the section links drop down as
+   a panel. Only when the script has run (html[data-menu]); otherwise the links
+   stay inline. The icon's three bars turn into an X; transform and opacity only. */
+.jp-menu-btn, .jp-head .menu-only { display: none; }
+.jp-menu-btn { position: relative; width: 44px; height: 44px; margin: 0; padding: 0; border: 0; border-radius: 14px; background: rgba(255, 255, 255, 0.08); color: var(--t1); cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.jp-menu-btn:hover { background: rgba(255, 255, 255, 0.14); }
+.jp-menu-btn span { position: absolute; left: 12px; top: 21px; width: 20px; height: 2px; border-radius: 1px; background: currentColor;
+  transition: transform 0.26s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.2s ease; }
+.jp-menu-btn span:nth-child(1) { transform: translateY(-6px); }
+.jp-menu-btn span:nth-child(3) { transform: translateY(6px); }
+.jp-menu-btn[aria-expanded="true"] span:nth-child(1) { transform: rotate(45deg); }
+.jp-menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0.2); }
+.jp-menu-btn[aria-expanded="true"] span:nth-child(3) { transform: rotate(-45deg); }
+@media (max-width: 1080px) {
+  html[data-menu] .jp-head nav { position: relative; grid-template-columns: 1fr auto; }
+  html[data-menu] .jp-end { gap: 10px; }
+  html[data-menu] .jp-end > .navlink { display: none; }
+  html[data-menu] .jp-menu-btn { display: block; }
+  html[data-menu] .jp-head .menu-only { display: list-item; }
+  html[data-menu] .jp-links { position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; padding: 4px var(--g) 28px;
+    background: rgba(0, 20, 27, 0.94); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    opacity: 0; visibility: hidden; transform: translateY(-8px);
+    transition: opacity 0.16s ease, transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s linear 0.2s; }
+  html[data-menu] .jp-head[data-menu-open] .jp-links { opacity: 1; visibility: visible; transform: none;
+    transition: opacity 0.24s ease, transform 0.32s cubic-bezier(0.23, 1, 0.32, 1), visibility 0s; }
+  html[data-menu] .jp-links li { opacity: 0; transform: translateY(-6px); transition: opacity 0.12s ease, transform 0.12s ease; }
+  html[data-menu] .jp-head[data-menu-open] .jp-links li { opacity: 1; transform: none; transition: opacity 0.28s ease, transform 0.36s cubic-bezier(0.23, 1, 0.32, 1); }
+  html[data-menu] .jp-head[data-menu-open] .jp-links li:nth-child(2) { transition-delay: 0.03s; }
+  html[data-menu] .jp-head[data-menu-open] .jp-links li:nth-child(3) { transition-delay: 0.06s; }
+  html[data-menu] .jp-head[data-menu-open] .jp-links li:nth-child(4) { transition-delay: 0.09s; }
+  html[data-menu] .jp-links .navlink { min-height: 56px; font-size: 24px; font-weight: 600; letter-spacing: -0.01em; }
+  html[data-menu] .jp-links .menu-only .navlink { font-size: 17px; font-weight: 500; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .jp-menu-btn span, html[data-menu] .jp-links, html[data-menu] .jp-links li { transition: none !important; transform: none; }
+  .jp-menu-btn span:nth-child(1) { transform: translateY(-6px); }
+  .jp-menu-btn span:nth-child(3) { transform: translateY(6px); }
+  .jp-menu-btn[aria-expanded="true"] span:nth-child(1) { transform: rotate(45deg); }
+  .jp-menu-btn[aria-expanded="true"] span:nth-child(3) { transform: rotate(-45deg); }
 }
 
 /* hero */

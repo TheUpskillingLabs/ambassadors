@@ -49,6 +49,8 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={c.description} />
     <meta property="og:image" content={new URL(media("og.jpg"), Astro.site)} />
+    <!-- The narrow-screen menu (src/scripts/navmenu.ts) collapses the nav from the first paint, so nothing shifts when it loads. -->
+    <script is:inline>document.documentElement.dataset.menu = "";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={heroStill} imagesrcset={heroSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" />
   </head>
@@ -60,14 +62,16 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
           <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
           <span class="wide-only">{c.nav.brand}</span>
         </a>
-        <ul class="jp-links">
+        <ul class="jp-links" id="jp-menu">
           <li><a class="navlink" href="#start" data-spy="why ch-together start">{c.nav.start}</a></li>
           <li><a class="navlink" href="#rings" data-spy="ch-levelup rings">{c.nav.rings}</a></li>
           <li><a class="navlink" href="#given" data-spy="ch-leader given status decides">{c.nav.given}</a></li>
+          <li class="menu-only"><a class="navlink" href={home}>{c.nav.program}</a></li>
         </ul>
         <div class="jp-end">
           <a class="navlink wide-only" href={home}>{c.nav.program}</a>
           <a class="btn" href={apply} data-head-cta><span class="wide-only">{c.nav.cta}</span><span class="narrow-only">{c.nav.ctaShort}</span></a>
+          <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={c.nav.menu} data-menu-btn data-label-open={c.nav.menu} data-label-close={c.nav.menuClose}><span></span><span></span><span></span></button>
         </div>
       </nav>
     </header>
@@ -245,6 +249,7 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
     <script>
       import { mountView, gpuOk, kick, type RankPin } from "../../scripts/rankpin";
       import { openCovers } from "../../scripts/covers";
+      import { initMenu } from "../../scripts/navmenu";
 
       const root = document.documentElement;
       const pin3d = document.querySelector<HTMLElement>("[data-pin3d]")!.dataset.pin3d!;
@@ -275,6 +280,9 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
 
       // Chapter covers: opened as they come into view where scroll timelines aren't supported.
       openCovers();
+
+      // Narrow screens: the section links sit behind the menu button.
+      initMenu();
 
       /* ── the way up: one level at a time ──
          Wide screens with motion: the stage holds still while you scroll, and the
