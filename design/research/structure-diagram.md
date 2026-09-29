@@ -7,7 +7,7 @@
 Four things, in a way a person can see rather than read:
 
 1. **The ways in.** Anyone can start. Make something, take a role, teach what you know, or back it as a Supporting Member. The doors are different, and one of them (dues) never leads to a pin.
-2. **The workstreams.** Five major ones (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform, Operations & Governance. Plus the smaller ones: events, communications, research. Roles live inside workstreams.
+2. **The workstreams.** Five major ones (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform, Operations & Governance. Plus the smaller ones: events, communications, research. A workstream is much bigger than a role (Brendan, Sep 29, 2026). A role is a door into one: Ambassador opens onto comms overall, and once you're in, everything in that wedge is yours to work on.
 3. **The levels.** Contributing Member, Reviewer, Approver, Maintainer. Each level is *breadth*: how many workstreams you've had your hands on. One part, two major, every major, everything. Two people who wear the pin vouch for you. The pin is trust, in your region first.
 4. **The network.** HQ at the core holds the commons and the standard. Metro regions around it run the programs, each with its own board, director and brass pins. Inside a region, field teams run the workstreams out at neighborhood Labs and on Main Street. New regions are founded one at a time by a network builder carrying the launch kit. Ideas travel the other way: piloted in a neighborhood, adopted by the region, sent upstream to the standard.
 
@@ -35,9 +35,10 @@ Three acts, one continuous camera, scrubbed by scroll like the levels on `/contr
 ```
 
 - **Five major wedges**, wide. **Minor wedges**, narrow, between them (events, communications, research). Every wedge has the same depth from the outer edge to the pin.
-- **Depth is practice.** Each wedge has two bands: the outer band is *trained* (you hold the role's button), the inner band is *practiced* (the metal rim on the button). A wedge counts as hands-on once its inner band is lit.
+- **A wedge is a room, not a role.** Each wedge holds everything that kind of work involves. Community & Outreach holds the ambassador corps, partners, events, the newsletter, the story of The Labs. Build Cycle holds pods, Poderators, Mentors, Demo Day. The role you enter by is drawn as a doorway at the rim; the rest of the wedge is open floor, with a few small markers for the other kinds of work in it, so it's clear the room is bigger than the door.
+- **Depth is practice.** Each wedge has two bands: the outer band is *trained* (you hold the role's button), the inner band is *practiced* (the metal rim on the button, or hands-on work anywhere in the wedge). A wedge counts as hands-on once its inner band is lit. Practice can come through the role's door or through any other work in the room: an Ambassador who ends up running the newsletter has practiced comms.
 - **The doors** are on the outer rim of the disc, one per way in, marked with the object you get:
-  - **Take a role.** A button-shaped door at the mouth of the wedge the role lives in. Ambassador on Community & Outreach. Upskiller, Poderator and Mentor on Build Cycle (Mentor also opens onto Learning Pathways). Poderator's door sits one band in, behind Upskiller, because it opens after a Build Cycle.
+  - **Take a role.** A button-shaped door at the mouth of the wedge the role opens into. Ambassador on Community & Outreach: the way into comms overall. Upskiller, Poderator and Mentor on Build Cycle (Mentor also opens onto Learning Pathways). Poderator's door sits one band in, behind Upskiller, because it opens after a Build Cycle.
   - **Make something.** A door that isn't tied to one wedge: a small marker that can land on any wedge (a guide, a flyer, a bit of code go where the work is).
   - **Teach what you know.** The Mentor door, plus a marker on Learning Pathways.
   - **Supporting Member.** A button on the *outside* of the rim, beside the disc, not on it. It's a real door, but it never lights a wedge. That's the visual statement of "dues buy the button, never a pin."
@@ -49,7 +50,7 @@ Three acts, one continuous camera, scrubbed by scroll like the levels on `/contr
   - Each ring appears the way the existing `rankpin.ts` builds it (a band sliding out from behind the one before, with the sunray face), so the diagram and the real pins match exactly.
 - **Active or emeritus.** After the rings, the disc gets a *seat*: a small chair-shaped marker on the wedge where the person holds their seat. Toggle it off and the pin stays, the rings stay, the seat dims. That's the "yours forever, the seat takes showing up" beat, and it's the only thing that ever dims.
 
-**The one journey to animate.** One person walks in through the Ambassador door. Their wedge's outer band lights (trained, the button). Then the inner band (practiced, the rim). Then a marker lands on Learning Pathways (they gave a workshop). The pin lights, the register plate appears: Contributing Member. A second wedge goes hands-on, two vouchers light: ring 1. And so on, to three rings. Then they step back: the seat dims, nothing else does. One story, told by the disc, with the level picker jumping to any beat.
+**The one journey to animate.** One person walks in through the Ambassador door. Their wedge's outer band lights (trained, the button). Then the inner band (practiced, the rim), and as it lights, the markers deeper in the same wedge light too: they've moved from conversations to the newsletter to partners. The door was Ambassador; the room was comms. Then a marker lands on Learning Pathways (they gave a workshop). The pin lights, the register plate appears: Contributing Member. A second wedge goes hands-on, two vouchers light: ring 1. And so on, to three rings. Then they step back: the seat dims, nothing else does. One story, told by the disc, with the level picker jumping to any beat.
 
 **What's deliberately not in Act 1:** coins (they carry no status and would muddy the disc), office pins (a committee seat is a different shape; it belongs in Act 2 if anywhere), and the tier names "Trained" and "Practitioner" (the two bands show it without the words).
 
@@ -126,8 +127,8 @@ Scroll-scrubbed, one section, with a picker for the beats (the same pattern as t
 
 ## Decisions needed before building
 
-- **Is a workstream the same as a role, or bigger?** The disc assumes bigger: Build Cycle holds Upskiller, Poderator and Mentor. If a workstream is a role, the disc has more, thinner wedges. (Open question in `recognition-system.md`.)
-- **Where does Ambassador sit?** The plan puts it on Community & Outreach. Confirm.
+- **Settled (Brendan, Sep 29, 2026):** a workstream is much bigger than a role, and Ambassador is the entry point into comms overall. The disc draws roles as doors and workstreams as rooms.
+- **Is communications its own minor wedge, or part of Community & Outreach?** The draft lists it as a smaller workstream. If Ambassador opens onto comms overall, the two may be one wedge, and the disc should draw it that way.
 - **Learning Pathways has no role button yet.** The disc needs a door there. Facilitator, Workshop Lead, or something else.
 - **What does "Main Street" name?** Problem owners and local businesses at the region's edge, a corridor-level unit under a neighborhood, or a field team of its own. The edge of the disc draws whichever it is.
 - **How many regions to show.** Three brass discs around the core reads as a network without looking like a promise. More would.
