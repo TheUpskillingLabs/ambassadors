@@ -95,12 +95,13 @@ html[data-scrolled="true"] .sw .jp-head::before, html[data-scrolled="true"] .sw 
    its width); negative margins cancel that, so its visible edge sits on the
    grid. --v is the button's visible width, and the caption takes the same width.
    Phones and tablets: a column read top to bottom, picture above words: the
-   button first, large and flush right, its caption under it; then, after the
-   empty space (the 1fr row), the words together at the foot, flush left: the
-   title, the lede, and the one button where a thumb reaches. On phones the
-   button takes the full width between the margins; on tablets it spans five of
-   six columns, capped by the screen's height so the poster fits the first
-   screen (470px is everything else in it).
+   button first, flush right, its caption under it; then the words together at
+   the foot, flush left: the title, the lede, and the one button where a thumb
+   reaches. The button floats in the space above the words, set a little above
+   its centre (1fr over it, 1.25fr under it), where a centred thing looks
+   centred. On phones it spans three of four columns; on tablets five of six;
+   either way capped by the screen's height so the poster fits the first screen
+   (440px and 470px are everything else in it).
    Desktop: the foot holds two things on one line: the lede and the one button
    at the bottom left, and the Ambassador button at the bottom right, its bottom
    level with the lede's and its caption on the same baseline as the label of
@@ -108,20 +109,20 @@ html[data-scrolled="true"] .sw .jp-head::before, html[data-scrolled="true"] .sw 
    nests beside it. Between the foot and the title, nothing. ── */
 .sw .jp-hero { --v: max(160px, min(calc(100cqw * 5 / 6 - var(--gut) / 6), 36svh, calc(100svh - 470px)));
   container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto auto minmax(28px, 1fr) auto auto auto;
+  grid-template-rows: minmax(12px, 1fr) auto auto minmax(24px, 1.25fr) auto auto auto;
   justify-items: start; text-align: left; min-height: 100svh;
-  padding: calc(var(--head) + clamp(16px, 3svh, 40px)) var(--g) clamp(24px, 5svh, 56px); }
+  padding: calc(var(--head) + 12px) var(--g) clamp(24px, 5svh, 56px); }
 .sw .jp-hero .stage { display: contents; }
-.sw .jp-hero h1 { grid-row: 4; position: relative; z-index: 1; font-size: min(calc(100cqw / 5.9), 32vh); line-height: 0.86; letter-spacing: -0.045em; text-transform: none; }
-.sw .jp-pin { grid-row: 1; justify-self: end; width: calc(var(--v) / 0.613); pointer-events: none;
+.sw .jp-hero h1 { grid-row: 5; position: relative; z-index: 1; font-size: min(calc(100cqw / 5.9), 32vh); line-height: 0.86; letter-spacing: -0.045em; text-transform: none; }
+.sw .jp-pin { grid-row: 2; justify-self: end; width: calc(var(--v) / 0.613); pointer-events: none;
   margin: calc(-0.2904 * var(--v)) calc(-0.3197 * var(--v)) calc(-0.2855 * var(--v)) calc(-0.3116 * var(--v)); }
-.sw .jp-hero .status { grid-row: 2; justify-self: end; width: var(--v); margin: 14px 0 0; display: block; text-align: center; line-height: 1.5; text-wrap: balance; }
+.sw .jp-hero .status { grid-row: 3; justify-self: end; width: var(--v); margin: 14px 0 0; display: block; text-align: center; line-height: 1.5; text-wrap: balance; }
 .sw .jp-hero .status i { display: inline-block; vertical-align: calc(0.36em - 3.5px); margin-right: 10px; }
-.sw .jp-hero .lede-hero { grid-row: 5; width: auto; max-width: 17em; margin: clamp(16px, 2.4svh, 24px) 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: balance; }
-.sw .jp-hero .ctas { grid-row: 6; margin-top: 20px; justify-content: flex-start; }
+.sw .jp-hero .lede-hero { grid-row: 6; width: auto; max-width: 17em; margin: clamp(16px, 2.4svh, 24px) 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: balance; }
+.sw .jp-hero .ctas { grid-row: 7; margin-top: 20px; justify-content: flex-start; }
 .sw .jp-head .btn, .sw .jp-end, .sw .jp-hero .btn { white-space: nowrap; }
 @media (max-width: 680px) {
-  .sw .jp-hero { --v: 100cqw; }
+  .sw .jp-hero { --v: max(180px, min(calc((100cqw - 3 * var(--gut)) * 3 / 4 + 2 * var(--gut)), calc(100svh - 440px))); }
 }
 @media (min-width: 1024px) {
   .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto minmax(40px, 1fr) auto auto; column-gap: var(--gut);
