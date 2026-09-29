@@ -10,7 +10,9 @@
     "given": "The pin",
     "program": "Ambassador program",
     "cta": "Become an ambassador",
-    "ctaShort": "Join us"
+    "ctaShort": "Join us",
+    "menu": "Menu",
+    "menuClose": "Close menu"
   },
   "draft": "A working draft. The board hasn't approved the levels or the workstreams yet, and the pins are still being made.",
   "hero": {
