@@ -24,12 +24,12 @@
     "ctaShort": "Join"
   },
   "hero": {
-    "eyebrow": "The Upskilling Labs",
+    "eyebrow": "Fall 2026 registration open",
     "title": [
       "Find your people.",
       "Build your edge."
     ],
-    "videoLabel": "The Labs orb as a planet, teal glowing from its upper left and red from its lower right, at the centre of rings made of networks that orbit it."
+    "orbLabel": "The Labs orb as a planet at the hub of a network: spokes run out to smaller orbs, the regional Labs, and from each of those to its neighbourhood Labs and the people around them. One region is lit; the rest are still to come."
   },
   "intro": {
     "lede": "AI is rewriting how we work, and it's easier to learn together than alone. The Upskilling Labs is a free community where you find people near you, build something real, and grow more confident together.",
@@ -37,8 +37,9 @@
     "terms": "One Upskilling account, whichever path you take.",
     "cta": "Join The Labs",
     "login": "Log in",
-    "status": "Fall 2026 Build Cycle: registration open",
-    "note": "Creates your free Upskilling account, with Google."
+    "note": "Creates your free Upskilling account, with Google.",
+    "people": "185 people in DC so far.",
+    "$people": "The faces are the Inaugural AI Cohort's portraits (OLOS public/assets/cohort-grid-sample.png); the count is the DC Lab's on Sep 29, 2026. In OLOS, both from its members."
   },
   "facts": {
     "kicker": "What this is",
@@ -152,6 +153,12 @@
       }
     ]
   },
+  "room": {
+    "$comment": "Meet the Pods at the library (OLOS public/assets/img_9531.jpg).",
+    "title": "Pull up a chair.",
+    "body": "It happens in person, at your library, with people figuring it out alongside you.",
+    "alt": "A Labs evening at the library: people talking in small groups around the tables."
+  },
   "roles": {
     "kicker": "Get involved",
     "title": "Find your role.",
@@ -164,12 +171,14 @@
       {
         "quote": "The program gave me purpose again—connecting me with mission-driven public servants to tackle real problems.",
         "name": "Hector Perla",
-        "role": "Inaugural AI Cohort"
+        "role": "Inaugural AI Cohort",
+        "photo": "hector"
       },
       {
         "quote": "I left realizing my gap is exactly where my strength lies—translating between tools, teams, and user needs.",
         "name": "Suzie Zhang",
-        "role": "Inaugural AI Cohort"
+        "role": "Inaugural AI Cohort",
+        "photo": "suzie"
       }
     ],
     "share": "Share your story"

@@ -1,12 +1,25 @@
 /* ════ The Upskilling Labs home page (src/pages/index.astro): what only it has,
    on top of the role pages' system (role.css). Scoped to body.jp.rp.hm. ════ */
 
-/* ── hero: the orb at the centre of its orbiting network, centred under the
-   title like the product on AirTag's page, feathered into the ink. ── */
+/* ── hero: the orb, live, at the hub of its network (src/scripts/orbnet.ts),
+   centred under the title like the product on AirTag's page, feathered into
+   the ink. The poster shows until it draws, or instead of it without WebGL. ── */
 .hm-hero { --v: min(46vh, 520px); }
+/* The eyebrow is the news (the logo already names The Labs): the cycle that's open, with its live dot. */
+.rp .hm-eyebrow { position: relative; z-index: 1; width: fit-content; max-width: 100%; font-size: var(--fs-cap); letter-spacing: 0.1em; white-space: nowrap; }
 .hm-orbit { position: relative; z-index: 0; width: min(96vw, 1180px, calc((100svh - 300px) * 1.6)); aspect-ratio: 8 / 5; margin-top: clamp(-40px, -3vh, -16px);
   -webkit-mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 52%, transparent 100%); mask-image: radial-gradient(ellipse closest-side at 50% 50%, #000 52%, transparent 100%); }
-.hm-orbit video { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); }
+.hm-orbit { background: var(--poster) center / cover no-repeat; }
+.hm-orbit.is-live { background: none; }
+.hm-orbit canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+
+/* ── the people: the cohort's faces, overlapping, under the lede. ── */
+.hm-people { margin-top: 36px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.hm-faces { list-style: none; margin: 0; padding: 0; display: flex; }
+.hm-faces li { width: 56px; height: 56px; margin-left: -12px; border-radius: 50%; border: 2px solid var(--ink); overflow: hidden; background: var(--ink); }
+.hm-faces li:first-child { margin-left: 0; }
+.hm-faces img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hm-people p { margin: 0; font-size: var(--fs-sm); font-weight: 600; color: var(--t2); }
 
 .hm-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 28px; }
 .hm-actions .textlink { font-size: 17px; font-weight: 600; }
@@ -39,9 +52,19 @@
 .hm-learn h3 { margin: 0; font-size: var(--fs-lead); font-weight: 600; letter-spacing: -0.02em; color: var(--t1); }
 .hm-learn p { margin: 12px 0 0; max-width: 32ch; font-size: var(--fs-body); line-height: 1.55; color: var(--t2); }
 
+/* ── the room: a real evening at the library, full bleed, fading into the ink. ── */
+.hm-room { position: relative; isolation: isolate; margin-top: clamp(96px, 14vh, 160px); min-height: clamp(460px, 78vh, 820px); display: flex; align-items: flex-end; overflow: hidden; }
+.hm-room img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.hm-room::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, var(--ink) 0%, rgba(0, 20, 27, 0) 22%, rgba(0, 20, 27, 0) 45%, rgba(0, 20, 27, 0.78) 80%, var(--ink) 100%); }
+.hm-room-text { width: 100%; padding-bottom: clamp(48px, 8vh, 96px); }
+.hm-room-text .rp-h2 { margin: 0; font-size: var(--fs-d1); line-height: 0.96; letter-spacing: -0.045em; }
+.hm-room-text .rp-lede-sm { max-width: 30ch; }
+
 /* ── spotlights: two Upskillers, their words set large. ── */
 .hm-quote-row { margin-top: clamp(40px, 5vw, 72px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 96px); row-gap: 48px; }
-.hm-quote-row figure { margin: 0; padding-top: 28px; border-top: 1px solid var(--rule); }
+.hm-quote-row figure { margin: 0; padding-top: 32px; border-top: 1px solid var(--rule); }
+.hm-portrait { display: block; width: 132px; height: 132px; margin-bottom: 28px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16), 0 0 0 7px rgba(var(--tl), 0.1), 0 18px 60px -12px rgba(var(--tl), 0.45); }
 .hm-quote-row blockquote { margin: 0; font-size: var(--fs-sub); font-weight: 500; line-height: 1.18; letter-spacing: -0.025em; color: var(--t1); text-wrap: pretty; text-indent: -0.4em; }
 .hm-quote-row figcaption { margin-top: 24px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
 .hm-quote-row figcaption b { margin-right: 12px; color: var(--t1); }
@@ -105,5 +128,8 @@
 }
 @media (max-width: 680px) {
   .hm-orbit { width: 120vw; margin-top: -8px; }
+  .hm-people { align-items: flex-start; }
+  .hm-faces li { width: 46px; height: 46px; margin-left: -10px; }
+  .hm-portrait { width: 104px; height: 104px; }
   .rp.hm .rp-cta .hm-actions { justify-content: flex-start; }
 }
