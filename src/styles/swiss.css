@@ -75,38 +75,39 @@
   .sw .jp-end { grid-column: 9 / -1; }
 }
 
-/* ── hero: a Swiss poster. The title is set to the full width of the grid,
-   flush left (its size is worked out from the width: "AMBASSADOR" in Geologica
-   Bold at -0.05em is 6.83 times as wide as its size, and 100cqw is the hero's
-   content width, inside the gutters), fading as it falls, with
-   the button breaking through it off-centre, on the right half of the grid.
-   The small print sits in a band along the bottom, on a rule, like a poster's
-   information strip: the status in the rail, the lede on the content axis,
-   the buttons on the last third. ── */
+/* ── hero: a Swiss poster, with ma (間): the space left empty is part of the
+   composition. Three things only, on a diagonal: the title set to the full width
+   of the grid across the top, flush left (sized from the width: "AMBASSADOR" in
+   Geologica Bold at -0.05em is 6.83 times as wide as its size, and 100cqw is
+   the hero's content width, inside the gutters), fading as it falls; the
+   button, large, breaking through its end on the right half; and one small
+   block at the foot of the first columns (the status, the lede, one button),
+   under a short rule. The lower middle stays empty. The header's own button
+   steps aside while this one is on screen (index.astro). ── */
 .sw .jp-hero { container-type: inline-size; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: start; text-align: left; min-height: 100svh;
-  padding: calc(var(--head) + clamp(40px, 7vh, 72px)) var(--g) clamp(28px, 5vh, 48px); }
+  padding: calc(var(--head) + clamp(40px, 7vh, 72px)) var(--g) clamp(32px, 6vh, 64px); }
 .sw .jp-hero .stage { display: contents; }
 .sw .jp-hero h1 { order: 1; position: relative; z-index: 1; font-size: calc(100cqw / 6.86); line-height: 0.82; letter-spacing: -0.05em; }
-.sw .jp-pin { order: 2; position: relative; z-index: 2; justify-self: center; width: min(96vw, 46svh); margin: calc(-0.2 * min(96vw, 46svh)) 0 0; }
-.sw .jp-hero::after { content: ""; order: 3; align-self: start; width: 100%; margin-top: clamp(8px, 2vh, 20px); border-top: 1px solid var(--rule); }
-.sw .jp-hero .status { order: 4; margin: 18px 0 0; }
-.sw .jp-hero .lede-hero { order: 5; width: auto; max-width: 20em; margin: 14px 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: pretty; }
-.sw .jp-hero .ctas { order: 6; margin-top: 24px; justify-content: flex-start; align-items: center; gap: 8px 20px; }
-.sw .jp-hero .ghost { min-height: 44px; padding: 0; border: 0; color: var(--t2); }
-.sw .jp-hero .ghost:hover { color: var(--t1); }
+.sw .jp-pin { order: 2; position: relative; z-index: 2; justify-self: end; width: min(100vw, 50svh); margin: calc(-0.2 * min(100vw, 50svh)) calc(-0.06 * min(100vw, 50svh)) 0 0; }
+.sw .jp-hero::after { content: ""; order: 3; align-self: start; width: min(100%, 14rem); margin-top: clamp(12px, 3vh, 28px); border-top: 1px solid var(--rule); }
+.sw .jp-hero .status { order: 4; margin: 16px 0 0; }
+.sw .jp-hero .lede-hero { order: 5; width: auto; max-width: 17em; margin: 12px 0 0; font-size: var(--fs-lead); font-weight: 450; line-height: 1.24; letter-spacing: -0.016em; text-wrap: pretty; }
+.sw .jp-hero .ctas { order: 6; margin-top: 22px; justify-content: flex-start; }
 .sw .jp-head .btn, .sw .jp-end, .sw .jp-hero .btn { white-space: nowrap; }
-@media (max-width: 680px) {
-  .sw .jp-hero .ctas { align-items: flex-start; }
-  .sw .jp-hero .ghost { padding-left: 0; }
-}
 @media (min-width: 1024px) {
-  .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto minmax(24px, 1fr) auto; column-gap: var(--gut); align-items: start; }
+  .sw .jp-hero { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto minmax(48px, 1fr) auto auto auto; column-gap: var(--gut); align-items: start; }
   .sw .jp-hero h1 { grid-column: 1 / -1; grid-row: 1; }
-  .sw .jp-pin { grid-column: 7 / -1; grid-row: 1 / 3; justify-self: end; align-self: center; width: min(100%, 66vh, 660px); margin: 0 calc(-0.04 * min(100%, 66vh, 660px)) 0 0; }
-  .sw .jp-hero::after { grid-column: 1 / -1; grid-row: 3; margin: 0; }
-  .sw .jp-hero .status { grid-column: 1 / span 3; grid-row: 3; margin: 0; padding-top: 24px; }
-  .sw .jp-hero .lede-hero { grid-column: 4 / span 5; grid-row: 3; margin: 0; padding-top: 18px; }
-  .sw .jp-hero .ctas { grid-column: 9 / -1; grid-row: 3; margin: 0; padding-top: 18px; }
+  /* The button outgrows its columns: it's placed on its own, over the right
+     half (the render has room around the button, which crosses the lower title
+     and reaches down beside the block), so it never stretches the rows. The
+     pointer passes through it, so it never covers a link; its offset uses
+     translate, which the entrance animation's transform leaves alone. */
+  .sw .jp-hero { position: relative; }
+  .sw .jp-pin { --pin: min(64vw, 100vh, 940px); position: absolute; top: 56%; right: calc(var(--g) - 0.07 * var(--pin)); translate: 0 -50%; width: var(--pin); margin: 0; pointer-events: none; }
+  .sw .jp-hero::after { grid-column: 1 / span 4; grid-row: 3; width: 100%; margin: 0; }
+  .sw .jp-hero .status { grid-column: 1 / span 4; grid-row: 3; margin: 0; padding-top: 20px; }
+  .sw .jp-hero .lede-hero { grid-column: 1 / span 4; grid-row: 4; margin: 14px 0 0; }
+  .sw .jp-hero .ctas { grid-column: 1 / span 4; grid-row: 5; margin: 26px 0 0; }
 }
 
 /* ── chapter covers: the tagline sits bottom left, like a poster ── */

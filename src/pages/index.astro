@@ -53,7 +53,7 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
   </head>
   <body class="jp sw">
     <a class="skip" href="#main">Skip to content</a>
-    <header class="jp-head" data-head>
+    <header class="jp-head cta-off" data-head>
       <nav aria-label="Ambassador program">
         <a class="jp-brand" href="#top">
           <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
@@ -83,12 +83,11 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
             </div>
           </div>
         </div>
+        <p class="status rise d1"><i aria-hidden="true"></i>{j.hero.status}</p>
         <p class="lede-hero rise d1">{j.hero.lede}</p>
         <div class="ctas rise d2">
-          <a class="btn" href={apply}>{j.hero.cta}</a>
-          <a class="ghost" href="#you">{j.hero.secondary}<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v11M2.5 8 7 12.5 11.5 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+          <a class="btn" href={apply} data-hero-cta>{j.hero.cta}</a>
         </div>
-        <p class="status rise d3"><i aria-hidden="true"></i>{j.hero.status}</p>
       </section>
 
       <section id="you" class="jp-sec jp-you">
@@ -301,16 +300,24 @@ const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake:
       import { openCovers } from "../scripts/covers";
 
       // Nav: transparent over the hero, solid once you scroll; the link for the
-      // section in view is marked; the header button steps aside at the join section.
+      // section in view is marked. The header's button never doubles the page's
+      // own: it steps aside while the hero's button is on screen (so it starts
+      // hidden, in the markup) and again at the join section.
       const root = document.documentElement;
       const head = document.querySelector<HTMLElement>("[data-head]")!;
       new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
         .observe(document.querySelector("[data-top-sentinel]")!);
       const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
-      new IntersectionObserver(([e]) => {
-        head.classList.toggle("cta-off", e.isIntersecting);
-        cta.tabIndex = e.isIntersecting ? -1 : 0;
-      }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+      let heroCtaIn = true, joinIn = false;
+      const syncCta = () => {
+        const off = heroCtaIn || joinIn;
+        head.classList.toggle("cta-off", off);
+        cta.tabIndex = off ? -1 : 0;
+      };
+      new IntersectionObserver(([e]) => { heroCtaIn = e.isIntersecting; syncCta(); })
+        .observe(document.querySelector("[data-hero-cta]")!);
+      new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 })
+        .observe(document.getElementById("join")!);
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
       const order = ["you", "labs", "team", "ripple", "goal", "path", "faq", "commit", "join"].map((id) => document.getElementById(id)!);
       let queued = false;
