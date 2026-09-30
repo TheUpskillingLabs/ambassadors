@@ -67,8 +67,11 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     <a class="skip" href="#main">Skip to content</a>
     <header class="jp-head cta-off" data-head>
       <nav aria-label="The Upskilling Labs">
-        <a class="jp-brand" href="#top">
-          <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
+        <!-- One orb at a time: while the hero's orb is on screen it is the logo, so the header carries the
+             wordmark alone; as the stage scrolls away the orb docks into the header as the mark. -->
+        <a class="jp-brand hm-brand" href="#top" data-brand>
+          <img class="hm-mark" src={u("/home/mark.png")} alt="" width="159" height="144" />
+          <img class="hm-word" src={u("/home/wordmark.png")} alt="The Upskilling Labs" width="233" height="144" />
         </a>
         <ul class="jp-links" id="jp-menu">
           <li><a class="navlink" href="#how">{h.nav.how}</a></li>
@@ -400,6 +403,18 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       const orbLink = stage.querySelector<HTMLAnchorElement>("[data-orb-link]")!;
       const rail = [...stage.querySelectorAll<HTMLAnchorElement>("[data-go]")];
       const facesData = JSON.parse(stage.dataset.faces ?? "[]") as string[];
+      // The header's mark: hidden while the stage holds the orb, docking as the stage scrolls away and the
+      // orb rises to the header (from wherever the last frame left it; the poster's place without one).
+      const brand = document.querySelector<HTMLElement>("[data-brand]")!;
+      let orbY = window.innerHeight * 0.62;
+      const dock = () => {
+        const top = stage.getBoundingClientRect().top, hy = 40;
+        const m = Math.min(1, Math.max(0, -top / Math.max(orbY - hy, 60)));
+        brand.style.setProperty("--m", m.toFixed(3));
+      };
+      window.addEventListener("scroll", dock, { passive: true });
+      window.addEventListener("resize", dock);
+      dock();
       // The chapter rail: each mark scrolls to its shot.
       rail.forEach((a, i) => a.addEventListener("click", (e) => {
         e.preventDefault();
@@ -419,6 +434,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           orbLink.style.transform = `translate(${(f.orb.x - f.orb.r).toFixed(1)}px, ${(f.orb.y - f.orb.r).toFixed(1)}px)`;
           orbLink.style.width = orbLink.style.height = `${(f.orb.r * 2).toFixed(1)}px`;
           orbLink.style.setProperty("--show", String(Math.max(f.beats[0], f.beats[4])));
+          if (f.orb.r > 0) { orbY = f.orb.y; dock(); }
           const on = f.beats.indexOf(Math.max(...f.beats));
           rail.forEach((a, i) => { if (i === on) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
         },

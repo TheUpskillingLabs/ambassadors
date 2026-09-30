@@ -286,7 +286,7 @@ class Model {
       } else n.p = target;
       n.flash = Math.max(0, n.flash - dt * 1.3);
     }
-    for (const e of this.ties) { e.flash = Math.max(0, e.flash - dt * 2.2); e.w += (1 - e.w) * dt * 0.035; }
+    for (const e of this.ties) { e.flash = Math.max(0, e.flash - dt * 2.8); e.w += (1 - e.w) * dt * 0.035; }
     this.orbFlash = Math.max(0, this.orbFlash - dt * 1.1);
     this.kick = Math.max(0, this.kick - dt * 2.4);
     this.ripples = this.ripples.filter((r) => t - r.t0 < 1.6);
@@ -323,7 +323,7 @@ class Model {
   send(e: number, from: number, to: number, kind: number, hop: number, idea: Idea, t: number, delay = 0) {
     if (this.pulses.length >= MAX_PULSES) return 0;
     const L = dist(this.end(from, to), this.end(to, from));
-    const dur = clamp(L / (kind === 0 ? 1.1 : 1.5), 0.12, 1.8);
+    const dur = clamp(L / (kind === 0 ? 0.8 : 1.15), 0.25, 2.4);
     this.pulses.push({ e, from, to, t0: t + delay, dur, kind, hop, inv: idea.id });
     return dur;
   }
@@ -374,7 +374,7 @@ class Model {
   reach(i: number, idea: Idea, kind: number, hop: number, t: number) {
     if (i === -1) {
       if (idea.down) return;
-      idea.down = true; this.orbFlash = 1; this.kick = 1; this.ripples.push({ t0: t, s: 1 });
+      idea.down = true; this.orbFlash = 1; this.kick = 1; this.ripples.push({ t0: t, s: 0.55 });
       const cm = this.nodes.filter((n) => n.c === -1).length;
       if (cm < 190 && this.nodes.length < MAX_NODES - 30) { // what reaches the orb becomes knowledge in the commons
         const o = this.nodes[idea.origin].p;
@@ -383,7 +383,11 @@ class Model {
         const bridge = this.nodes.findIndex((n) => n.anchor === this.nodes[idea.origin].c);
         if (bridge >= 0) this.link(k, bridge, true);
       }
-      for (const e of this.orbTies) this.send(e, -1, this.ties[e].a, 2, 0, idea, t, 0.25 + this.rnd() * 0.45);
+      // Back out: one spark to each Lab, by a contributor who bridges it, and a few into the commons.
+      const out = new Map<number, number>(); const commons: number[] = [];
+      for (const e of this.orbTies) { const n = this.nodes[this.ties[e].a]; if (n.anchor !== undefined) { if (!out.has(n.anchor)) out.set(n.anchor, e); } else commons.push(e); }
+      for (let k = 0; k < 3 && commons.length; k++) out.set(-10 - k, commons.splice(Math.floor(this.rnd() * commons.length), 1)[0]);
+      for (const e of out.values()) this.send(e, -1, this.ties[e].a, 2, 0, idea, t, 0.3 + this.rnd() * 0.5);
       return;
     }
     const n = this.nodes[i];
@@ -399,24 +403,25 @@ class Model {
       if (kind === 0) {
         if (O.c === -1) { if (!idea.upSent && this.rnd() < 0.8) { idea.upSent = true; this.send(ei, i, o, 1, hop + 1, idea, t); } continue; }
         if (O.c !== n.c) continue;
-        if (hop < 4 && this.rnd() < 0.75 * Math.pow(0.62, hop)) this.send(ei, i, o, 0, hop + 1, idea, t);
+        if (hop < 3 && this.rnd() < 0.6 * Math.pow(0.55, hop)) this.send(ei, i, o, 0, hop + 1, idea, t);
       } else if (kind === 1) {
-        if (O.c === -1 && hop < 4 && this.rnd() < 0.7) this.send(ei, i, o, 1, hop + 1, idea, t);
+        if (O.c === -1 && hop < 3 && this.rnd() < 0.35) this.send(ei, i, o, 1, hop + 1, idea, t);
       } else if (O.c >= 0) this.send(ei, i, o, 0, 2, idea, t);
     }
   }
 
   step(dt: number, t: number, live: boolean, dcOnly: boolean, dcBuild = false, podFocus = false) {
     if (live) {
-      // A heartbeat: a big idea every few seconds, small local ones between (in DC while we're looking at it).
-      if (t > this.nextMajor) { this.innovate(t, { lab: dcOnly ? 0 : undefined, major: true }); this.nextMajor = t + (dcOnly ? 3.4 : 4.6); this.nextMinor = t + 1.5; }
+      // A slow heartbeat, so each idea can be followed: a big one every several seconds, a small local one
+      // between (in DC while we're looking at it).
+      if (t > this.nextMajor) { this.innovate(t, { lab: dcOnly ? 0 : undefined, major: true }); this.nextMajor = t + (dcOnly ? 6.5 : 8.5); this.nextMinor = t + 3; }
       if (t > this.nextMinor) {
         // Looking at a Pod: its ideas pass round the team.
         const pd = podFocus ? this.pods[0] : undefined;
         this.innovate(t, pd ? { from: this.pick([pd.project, ...pd.members]), major: false } : { lab: dcBuild ? 0 : undefined, major: false });
-        this.nextMinor = t + (pd ? 1.3 : dcBuild ? 1.1 : 1.5);
+        this.nextMinor = t + (pd ? 2.2 : dcBuild ? 2.4 : 3.2);
       }
-      if (t > this.nextSpawn) { this.spawn(t); this.nextSpawn = t + 0.8 + this.rnd() * 1.1; }
+      if (t > this.nextSpawn) { this.spawn(t); this.nextSpawn = t + 1.8 + this.rnd() * 2; }
     }
     this.positions(dt, t);
     const landed: Pulse[] = [];
@@ -475,7 +480,7 @@ void main() {
   vC = vec4(colOf(S.z), P.w * f * (1.0 + 0.12 * depth));
   float fl = S.z > 9.5 ? 1.0 : 0.4 + 0.6 * uDense; // where the network is packed tight on screen, a flash is smaller
   vShape = S.z; vFlash = S.x * fl; vNear = max(depth, 0.0);
-  gl_PointSize = S.y * uPx * uZoom * (uD / -v.z) * (1.0 + 0.12 * max(depth, 0.0) - 0.1 * max(-depth, 0.0)) * (1.0 + (S.z > 9.5 ? 0.15 : 0.6 * fl) * S.x);
+  gl_PointSize = S.y * uPx * uZoom * (uD / -v.z) * (1.0 + 0.12 * max(depth, 0.0) - 0.1 * max(-depth, 0.0)) * (1.0 + (S.z > 9.5 ? 0.15 : 0.3 * fl) * S.x);
 }`;
 
 // Sparks and stars: points the CPU places (S: size, shape, flash, alpha; C: rgb, and for a star its depth).
@@ -582,12 +587,12 @@ void main() {
   float foc = uFocusAmt > 0.0 ? ((abs(aKind.y - uFocus) < 0.5 || abs(aKind.z - uFocus) < 0.5) ? 1.0 + 1.2 * uFocusAmt : 1.0 - 0.55 * uFocusAmt) : 1.0;
   float front = ib < 0 && (uM * M).z > 0.0 ? 0.35 : 1.0;
   float base = (bridge || ib < 0 ? 0.3 : 0.16) * st.x * foc * vis * front;
-  vec3 col = mix(bridge || ib < 0 ? vec3(0.24, 0.9, 0.88) : vec3(0.5, 0.78, 0.8), vec3(1.0, 0.98, 0.94) * 1.25, st.y);
+  vec3 col = mix(bridge || ib < 0 ? vec3(0.24, 0.9, 0.88) : vec3(0.5, 0.78, 0.8), vec3(0.92, 0.97, 0.95), st.y * 0.75);
   if (aKind.w > 0.5) { col = vec3(1.0, 0.8, 0.55); base = 0.35 * vis; }
-  if (pod) { col = mix(col, mix(vec3(1.0, 0.82, 0.62), vec3(1.0, 0.97, 0.9) * 1.25, st.y), uPod); base += 0.4 * uPod * vis; }
+  if (pod) { col = mix(col, mix(vec3(1.0, 0.82, 0.62), vec3(1.0, 0.97, 0.9) * 1.05, st.y), uPod); base += 0.4 * uPod * vis; }
   else base *= (1.0 - 0.55 * uPod) * (0.6 + 0.4 * uDense);
-  float width = ((bridge ? 1.3 : 0.85) + 0.45 * (st.x - 1.0) + 0.7 * st.y + (pod ? 0.8 * uPod : 0.0)) * uPx;
-  quad(A, B, aCorner.x, aCorner.y, width, vec4(col, base + st.y * 0.4 * front));
+  float width = ((bridge ? 1.3 : 0.85) + 0.45 * (st.x - 1.0) + 0.3 * st.y + (pod ? 0.8 * uPod : 0.0)) * uPx;
+  quad(A, B, aCorner.x, aCorner.y, width, vec4(col, base + st.y * 0.2 * front));
 }`;
 
 const TRAIL_VS = `#version 300 es
@@ -1056,7 +1061,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const k = ease(clamp((p - a.at) / (b.at - a.at), 0, 1));
     const L = (x: keyof Shot) => lerp(a[x] as number, b[x] as number, k);
     const T = lerp3(shotTarget(a), shotTarget(b), k);
-    const shake = model.kick * model.kick;
+    const shake = 0;
     const yaw = (L("yaw") + ptr.x * 9 + (still ? 0 : Math.sin(t * 0.13) * 2.5) + Math.sin(t * 47) * shake * 0.5) * DEG, pitch = ptr.y * 6 * DEG;
     const par = mul(ry(yaw), rx(pitch));
     const M = mul(par, mul(rz(L("roll") * DEG), rx(L("elev") * DEG)));
@@ -1106,7 +1111,10 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     scrollE = still ? scrollP : lerp(scrollE, scrollP, ease60(0.1));
     const p = scrollE, beats = beatWeights(p);
     if (!still && !pausedFlag) { simT += dt; introT += dt; model.step(dt, simT, simT > 3.2, beats[3] > 0.5, beats[1] + beats[2] > 0.5, beats[2] > 0.5); }
-    const t = simT, grow = still ? 1 : clamp(introT / 3.4, 0, 1), g = 1 - Math.pow(1 - grow, 3);
+    // The opening runs on the clock, not on simulated time: on a slow device (frames capped at 50 ms) the
+    // orb would otherwise sit half painted for seconds.
+    const openT = Math.max(introT, (now - t0) / 1000 - 0.2);
+    const t = simT, grow = still ? 1 : clamp(openT / 3.4, 0, 1), g = 1 - Math.pow(1 - grow, 3);
     ptr.x = lerp(ptr.x, ptr.tx, ease60(0.06)); ptr.y = lerp(ptr.y, ptr.ty, ease60(0.06));
     orbHover = lerp(orbHover, orbHoverT, ease60(0.12));
     camera(p, t);
@@ -1127,6 +1135,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
 
     // Actors → textures.
     const N = model.nodes.length;
+    // Faces are for the close shots; seen whole, a Pod is just a few warm points, not a clump of rings.
+    const faceSize = 10 + 9 * clamp((4.7 / cam.zoomW - 1) / 1.5, 0, 1);
     for (let i = 0; i < N; i++) {
       const a = model.nodes[i], o = i * 4;
       const born = still ? 1 : clamp((t - a.born) / 0.6, 0, 1);
@@ -1134,7 +1144,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       // The value hierarchy: people stay low, the other actors a little brighter; light is for sparks.
       const base = a.type === HUMAN ? 0.62 : a.type === YOU ? 1 : 0.9;
       posArr[o] = a.p[0]; posArr[o + 1] = a.p[1]; posArr[o + 2] = a.p[2]; posArr[o + 3] = base * lit * born * (a.arrive && !a.arrive.intro ? 0.7 : 1);
-      const size = a.face !== undefined ? 19 : a.type === YOU ? 12 : (a.type === HUMAN ? 7 : a.type === PLACE ? 9.5 : 10) * (1 + 0.08 * Math.sqrt(a.deg));
+      const size = a.face !== undefined ? faceSize : a.type === YOU ? 12 : (a.type === HUMAN ? 7 : a.type === PLACE ? 9.5 : 10) * (1 + 0.08 * Math.sqrt(a.deg));
       if (a.face !== undefined) posArr[o + 3] = lit * born;
       stArr[o] = a.type === YOU ? Math.max(a.flash, 0.5) : a.face !== undefined ? Math.max(a.flash, 0.55 * beats[2]) : a.flash; stArr[o + 1] = size; stArr[o + 2] = a.face !== undefined ? 10 + a.face : a.type; stArr[o + 3] = a.c;
       const trail = a.anchor !== undefined || a.arrive ? 0 : a.c < 0 ? 1 : a.c + 2;
@@ -1179,7 +1189,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       const u = clamp((t - pu.t0) / pu.dur, 0, 1);
       const A = model.end(pu.from, pu.to), B = model.end(pu.to, pu.from);
       const c: V3 = pu.kind === 1 ? [1, 0.3, 0.2] : pu.kind === 2 ? [0.25, 1, 0.92] : [1, 0.97, 0.88];
-      for (let k = 0; k < TAIL; k++) { const uu = u - k * 0.03; if (uu < 0) break; putS(lerp3(A, B, uu), k ? 11 - k * 1.2 : 20, (k ? 0.7 - k * 0.09 : 1) * (1 - 0.25 * u), c); }
+      for (let k = 0; k < 5; k++) { const uu = u - k * 0.028; if (uu < 0) break; putS(lerp3(A, B, uu), k ? 8 - k * 1.1 : 13, (k ? 0.5 - k * 0.08 : 0.85) * (1 - 0.25 * u), c); }
     }
     gl!.bindBuffer(gl!.ARRAY_BUFFER, SP.buf); gl!.bufferSubData(gl!.ARRAY_BUFFER, 0, sparkArr, 0, sn * 11);
 
@@ -1262,12 +1272,12 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       return { v: orbView(L.c), r: r * (0.5 + 0.5 * g), bright: (L.lit ? 1.05 : 0.8) * (focus === i ? 1 + 0.4 * focusAmt : 1) * g };
     }).filter((b) => b.r > 0.02).sort((a, b) => a.v[2] - b.v[2]);
     const orbC = orbView([0, 0, 0]);
-    const reveal = still ? 1 : clamp(introT / 1.3, 0, 1);
+    const reveal = still ? 1 : clamp(openT / 1.3, 0, 1);
 
     drawStars(); drawDisc();
     drawFabric(-1); drawTrails(-1); drawTies(-1); drawActors(-1); drawSparks(-1);
     bodies.filter((b) => b.v[2] < orbC[2]).forEach((b) => drawOrb(b.v, b.r, b.bright, 1.1 * b.bright, 0, 1));
-    drawOrb(orbC, 1 + 0.025 * orbHover, 1 + 1.1 * model.orbFlash + 0.18 * orbHover, 1 + 1.6 * model.orbFlash + 0.8 * orbHover, still ? 0.6 : 1 + 1.5 * orbHover, reveal);
+    drawOrb(orbC, 1 + 0.025 * orbHover, 1 + 0.45 * model.orbFlash + 0.18 * orbHover, 1 + 0.7 * model.orbFlash + 0.8 * orbHover, still ? 0.6 : 1 + 1.5 * orbHover, reveal);
     drawFabric(1); drawTrails(1); drawTies(1);
     bodies.filter((b) => b.v[2] >= orbC[2]).forEach((b) => drawOrb(b.v, b.r, b.bright, 1.1 * b.bright, 0, 1));
     drawActors(1); drawSparks(1);
@@ -1294,12 +1304,12 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     gl!.useProgram(P.comp.prog); gl!.bindVertexArray(EMPTY);
     gl!.activeTexture(gl!.TEXTURE0); gl!.bindTexture(gl!.TEXTURE_2D, scene!.tex); gl!.uniform1i(P.comp.U.uScene, 0);
     gl!.activeTexture(gl!.TEXTURE1); gl!.bindTexture(gl!.TEXTURE_2D, mips[0].tex); gl!.uniform1i(P.comp.U.uBloom, 1);
-    gl!.uniform1f(P.comp.U.uBloomAmt, 0.42 + 0.9 * model.orbFlash + 0.25 * orbHover); gl!.uniform2f(P.comp.U.uRes, W, H); gl!.uniform1f(P.comp.U.uFrame, Math.floor(t * 24) % 97);
+    gl!.uniform1f(P.comp.U.uBloomAmt, 0.42 + 0.25 * model.orbFlash + 0.25 * orbHover); gl!.uniform2f(P.comp.U.uRes, W, H); gl!.uniform1f(P.comp.U.uFrame, Math.floor(t * 24) % 97);
     gl!.uniform1f(P.comp.U.uAspect, W / H);
     const sc = { x: (orbC[0] / (-orbC[2] * tanX) + cam.sh[0]) * 0.5 + 0.5, y: (orbC[1] / (-orbC[2] * tanY) + cam.sh[1]) * 0.5 + 0.5 };
     const shock = model.ripples.length ? model.ripples[model.ripples.length - 1] : null;
     const age = shock ? t - shock.t0 : 9;
-    gl!.uniform4f(P.comp.U.uShock, sc.x, sc.y, 0.05 + age * 0.55, shock ? Math.max(0, 1 - age / 1.5) : 0);
+    gl!.uniform4f(P.comp.U.uShock, sc.x, sc.y, 0.05 + age * 0.55, shock ? 0.35 * Math.max(0, 1 - age / 1.5) : 0);
     gl!.drawArrays(gl!.TRIANGLES, 0, 3);
     frame++;
 
