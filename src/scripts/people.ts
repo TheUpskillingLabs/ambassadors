@@ -14,9 +14,9 @@
      3  bigger: the team seen small, its idea going up to the orb and out to other Labs
      4  you: the orbits again, and the empty seat is yours; the orb is the way in (Join The Labs)
 
-   Behind them, quietly: faint rings round the orb, a few dozen people too far off to see drifting along
-   them, and, when the story widens, other Labs as small orbs of their own: the sense of something bigger,
-   at a fraction of the density of the model this replaced.
+   Behind them, quietly: faint rings round the orb, a hundred and some people too far off to see drifting
+   along them, and seven other Labs, small orbs of their own, on the outer rings: the sense of something
+   bigger, at a fraction of the density of the model this replaced.
 
    Everything moves on springs, so it has weight: a new shot is a new target, and people ease into it.
    Plain canvas 2D, a handful of shapes a frame; it draws only while on screen. Reduced motion gets the
@@ -41,7 +41,12 @@ const ease = (t: number) => t * t * (3 - 2 * t);
 const TAU = Math.PI * 2, DEG = Math.PI / 180;
 
 /* ── who's who ── */
-const F = 7, ORB = 7, SEAT = 8, CROWD = 9, NCL = 5, N = CROWD + NCL; // CROWD…: other Labs, small orbs of their own
+const F = 7, ORB = 7, SEAT = 8, CROWD = 9, NCL = 7, N = CROWD + NCL; // CROWD…: other Labs, small orbs of their own
+// The rings round the orb (the faces' circle is 1). The outer ones flatten as they widen, so they stay under the title.
+const RINGS = [0.55, 1, 1.38, 1.8, 2.3, 2.9, 3.6];
+const ringY = (ry: number, f: number) => ry * Math.pow(f, 0.55);
+// The other Labs: which ring each drifts on, where it starts, and its size (a Lab is as big as its people).
+const LAB_RING = [1.38, 1.8, 2.3, 1.8, 2.3, 1.38, 2.9], LAB_PH = [0.4, 1.9, 3.1, 4.4, 5.6, 2.8, 0.9], LAB_D = [1, 0.85, 1.1, 0.8, 0.95, 0.75, 0.9];
 const MENTOR = 1;
 const TEAM_A = [0, 2, 4], TEAM_B = [1, 3, 5, 6];
 const ROUND = [SEAT, 0, 4, 2, 6, 1, 5, 3]; // the order round the circle: the seat, then the seven
@@ -63,14 +68,21 @@ function geometry(W: number, H: number, clearTop: number) {
     ids.forEach((f, j) => { const th = (a0 + (j * 360) / ids.length) * DEG; T[f] = at(cx + r * Math.cos(th), cy + r * Math.sin(th), d, a); });
   const ring = (ids: number[], w: number, m = new Map<number, number>()) => { ids.forEach((f, j) => m.set(key(f, ids[(j + 1) % ids.length]), w)); return m; };
 
-  // Other Labs: small orbs of their own, a few people circling each, seen from far off (shot 3); elsewhere
-  // they fade where they are.
+  // Other Labs: small orbs of their own, people circling each. Close in on the idea going out (shot 3) they
+  // stand where it reaches them; the rest of the story, they drift on the outer rings, farther off.
   const clusters: [number, number][] = portrait
-    ? [[0.84, 0.15], [0.88, 0.43], [0.72, 0.57], [0.32, 0.16], [0.12, 0.31]]
-    : [[0.86, 0.24], [0.9, 0.62], [0.74, 0.86], [0.47, 0.17], [0.24, 0.33]];
-  const crowd = (T: Target[], a: number) => clusters.forEach(([fx, fy], c) => {
-    T[CROWD + c] = at(fx * W, fy * H, S * (portrait ? 0.07 : 0.034) * (c % 2 ? 0.85 : 1), a, 0.5);
-  });
+    ? [[0.84, 0.15], [0.88, 0.43], [0.72, 0.57], [0.32, 0.16], [0.12, 0.31], [0.58, 0.12], [0.5, 0.62]]
+    : [[0.86, 0.24], [0.9, 0.62], [0.74, 0.86], [0.47, 0.17], [0.24, 0.33], [0.68, 0.13], [0.56, 0.9]];
+  const labD = S * (portrait ? 0.07 : 0.034);
+  const crowd = (T: Target[], s: number, t: number) => {
+    if (s === 3) { clusters.forEach(([fx, fy], c) => { T[CROWD + c] = at(fx * W, fy * H, labD * LAB_D[c], 1, 0.5); }); return; }
+    const o = orbitsFor(s), a = [0.6, 0.45, 0.25, 1, 0.6][s], ct = Math.cos(o.tilt), st = Math.sin(o.tilt);
+    for (let c = 0; c < NCL; c++) {
+      const f = LAB_RING[c], th = LAB_PH[c] + (0.06 / Math.pow(f, 1.5)) * t, sn = Math.sin(th), depth = (sn + 1) / 2;
+      const ex = o.rx * f * Math.cos(th), ey = ringY(o.ry, f) * sn;
+      T[CROWD + c] = at(T[ORB].x + ex * ct - ey * st, T[ORB].y + ex * st + ey * ct, labD * LAB_D[c] * (0.7 + 0.3 * depth), a * (0.55 + 0.45 * depth), sn);
+    }
+  };
   // The rings round the orb, in each shot: the hero's and the last shot's hold the faces' circle; the teams'
   // sweep across from the orb in the corner.
   const orbitsFor = (s: number): Orbits => {
@@ -118,7 +130,7 @@ function geometry(W: number, H: number, clearTop: number) {
       // The hero turns, slowly; the last shot holds still, with the seat front and left, beside the words.
       const c = s === 0 ? hero : last;
       circle(T, c.cx, c.cy, c.orbD, c.rx, c.ry, c.base, s === 0 ? 205 * DEG : 150 * DEG, s === 0 && !still ? t / 160 : 0, s === 4 ? 1 : 0);
-      crowd(T, 0);
+      crowd(T, s, still ? 0 : t);
       return { T, ties, near: s === 4 ? [0, 1, 2, 3, 4, 5, 6, SEAT] : [0, 1, 2, 3, 4, 5, 6], orbits: orbitsFor(s) };
     }
     if (s === 1) {
@@ -146,7 +158,7 @@ function geometry(W: number, H: number, clearTop: number) {
       ties.set(key(up(T), ORB), 0.8);
       for (let c = 0; c < NCL; c++) ties.set(key(ORB, CROWD + c), 0.5);
     }
-    crowd(T, s === 3 ? 1 : 0);
+    crowd(T, s, still ? 0 : t);
     T[SEAT] = { ...T[ORB], d: S * 0.06, a: 0, z: 1 }; // the seat waits at the orb until it's yours
     return { T, ties, orbits: orbitsFor(s) };
   };
@@ -273,8 +285,8 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
   /* the model */
   const B: Body[] = Array.from({ length: N }, () => ({ x: 0, y: 0, vx: 0, vy: 0, d: 0, a: 0, z: 0, flash: 0 }));
   // The wider community: people too far off to see, drifting along the rings round the orb, each with a short
-  // trail; the nearer rings turn faster. A few dozen, not thousands.
-  const RINGS = [0.55, 1, 1.38, 1.8, 2.3], PER_RING = [9, 14, 15, 15, 13];
+  // trail; the nearer rings turn faster. A hundred and some, not thousands.
+  const PER_RING = [12, 22, 26, 28, 28, 26, 22];
   const folk: { k: number; ph: number; warm: boolean }[] = [];
   { let sd = 11; const r = () => { sd = (sd * 16807) % 2147483647; return sd / 2147483647; };
     PER_RING.forEach((n, k) => { for (let j = 0; j < n; j++) folk.push({ k, ph: ((j + r() * 0.7) / n) * TAU, warm: r() < 0.72 }); }); }
@@ -386,6 +398,11 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
         send(from, ORB, 0, 1.0, () => { for (let c = 0; c < NCL; c++) send(ORB, CROWD + c, c * 0.06, 1.2); });
       }
       nextSpark = t + 5.2;
+    } else if ((s === 0 || s === 4) && round % 4 === 0) {
+      // Now and then, out from The Labs to another Lab on screen: what's made here travels.
+      const labs = Array.from({ length: NCL }, (_, c) => CROWD + c).filter((n) => B[n].a > 0.3 && B[n].x > 0 && B[n].x < W && B[n].y > 0 && B[n].y < H);
+      if (labs.length) send(ORB, labs[round % labs.length], 0, 1.6);
+      nextSpark = t + 2.6;
     } else {
       // Anywhere along a tie between two people.
       const list = [...tiesNow.entries()].filter(([kk, v]) => { const [a, b] = ends(kk); return v > 0.5 && a < F && (b < F || b === SEAT) && B[a].a > 0.4 && B[b].a > 0.4; });
@@ -443,21 +460,30 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
     g.restore();
   };
   // Other Labs: a small orb each, softly lit (brighter as an idea arrives), a few people circling it.
+  // Where the story's words are (bottom left; on a phone, the lower part, higher for the last shot's choice),
+  // the distant things step back, so they never sit behind a line you're reading.
+  let beatsNow = [1, 0, 0, 0, 0];
+  const hush = (x: number, y: number) => {
+    const q = 1 - beatsNow[0]; if (q <= 0) return 1;
+    const portrait = W < H * 0.9;
+    const k = portrait ? clamp((H * lerp(0.74, 0.47, beatsNow[4]) - y) / (H * 0.1), 0.15, 1) : clamp((x - W * 0.27) / (W * 0.1), 0.15, 1);
+    return 1 - q * (1 - k);
+  };
   const drawLabs = () => {
     if (!orbImg) return;
     const sc = Math.min(W, H) / 800;
     for (let n = CROWD; n < N; n++) {
       const b = B[n]; if (b.a < 0.01) continue;
       const r = b.d / 2, R = r * 2.8;
-      g.save(); g.globalAlpha = b.a;
+      g.save(); g.globalAlpha = b.a * hush(b.x, b.y);
       const q = g.createRadialGradient(b.x, b.y, r * 0.5, b.x, b.y, R);
       q.addColorStop(0, `rgba(0,170,180,${(0.2 + 0.45 * b.flash).toFixed(3)})`); q.addColorStop(1, "rgba(0,170,180,0)");
       g.fillStyle = q; g.fillRect(b.x - R, b.y - R, R * 2, R * 2);
       const ct = Math.cos(-12 * DEG), st = Math.sin(-12 * DEG);
       const people = (front: boolean) => {
-        for (let j = 0; j < 5; j++) {
-          const th = (j / 5) * TAU + t * 0.45 + n, s = Math.sin(th); if (front !== s >= 0) continue;
-          const ex = r * 1.9 * Math.cos(th), ey = r * 0.6 * s;
+        for (let j = 0; j < 9; j++) {
+          const rr = j % 3 === 2 ? 2.6 : 1.9, th = (j / 9) * TAU * (rr > 2 ? -1 : 1) + t * (rr > 2 ? 0.3 : 0.45) + n, s = Math.sin(th); if (front !== s >= 0) continue;
+          const ex = r * rr * Math.cos(th), ey = r * rr * 0.32 * s;
           g.beginPath(); g.arc(b.x + ex * ct - ey * st, b.y + ex * st + ey * ct, 1.5 * sc, 0, TAU);
           g.fillStyle = `rgba(255,228,204,${(0.45 + 0.35 * (s + 1) / 2).toFixed(3)})`; g.fill();
         }
@@ -472,8 +498,7 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
     if (fade < 0.01 || o.a < 0.01) return;
     const sc = Math.min(W, H) / 800;
     g.save(); g.setLineDash([1, 5]); g.lineCap = "round"; g.lineWidth = 1;
-    // The outer rings flatten as they widen, so they stay under the title.
-    const fy = (f: number) => ry * Math.pow(f, 0.55);
+    const fy = (f: number) => ringY(ry, f);
     RINGS.forEach((f) => {
       g.strokeStyle = `rgba(170,232,228,${((front ? 0.2 : 0.11) * fade).toFixed(3)})`;
       g.beginPath(); g.ellipse(o.x, o.y, rx * f, fy(f), tilt, front ? 0 : Math.PI, front ? Math.PI : TAU); g.stroke();
@@ -485,7 +510,7 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
       if (front !== s >= 0) continue;
       const ex = rx * f * Math.cos(th), ey = fy(f) * s, x = o.x + ex * ct - ey * st, y = o.y + ex * st + ey * ct;
       if (x < -30 || x > W + 30 || y < -30 || y > H + 30) continue;
-      const depth = (s + 1) / 2, al = (0.26 + 0.44 * depth) * fade, r = (1 + 0.9 * depth) * sc;
+      const depth = (s + 1) / 2, al = (0.26 + 0.44 * depth) * fade * hush(x, y), r = (1 + 0.9 * depth) * sc;
       const col = q.warm ? "255,228,204" : "120,235,228", span = 22 / (rx * f);
       // a short trail behind it, along its ring, fading
       g.lineWidth = r * 1.3;
@@ -502,7 +527,7 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
     t += simDt; if (!still) introT += rdt;
     scrollE = still ? 0 : lerp(scrollE, scrollP, 1 - Math.pow(0.9, rdt * 60));
     orbHover = lerp(orbHover, orbHoverT, Math.min(1, rdt * 8));
-    const p = scrollE, beats = beatWeights(p);
+    const p = scrollE, beats = beatWeights(p); beatsNow = beats;
     step(still ? 0 : rdt, p, simDt);
 
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
