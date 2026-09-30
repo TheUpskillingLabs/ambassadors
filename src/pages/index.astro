@@ -107,6 +107,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
                     <ul class="hm-paths">
                       {h.model.paths.items.map((pth) => <li><a class="hm-path" href={roleJoin[pth.slug]}>{pth.label}<span>{roleName[pth.slug]}</span></a></li>)}
                     </ul>
+                    <p class="hm-both">{h.model.paths.both}</p>
                     <a class="textlink hm-curious" href={L.events}>{h.model.paths.curious} →</a>
                     <p class="hm-beat-hint"><span class="fine">{h.model.click}</span><span class="coarse">{h.model.tap}</span></p>
                   </div>
@@ -118,9 +119,6 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <ol>{h.model.rail.items.map((t, i) => <li><a href="#top" data-go={i}><span>{t}</span><i aria-hidden="true"></i></a></li>)}</ol>
             <a class="hm-skip" href="#intro">{h.model.rail.skip} <b aria-hidden="true">↓</b></a>
           </nav>
-          <ul class="hm-legend" aria-hidden="true">
-            {h.model.legend.map((l, i) => <li class="hm-tag" data-tag={i}><i class={`mk mk-${i}`}></i>{l}</li>)}
-          </ul>
           <p class="hm-tag hm-you" data-you aria-hidden="true"><i class="mk mk-you"></i>{h.model.you}</p>
           <p class="hm-cue" data-cue aria-hidden="true"><span>{h.model.cue}</span><i></i></p>
           <button class="hm-pause" type="button" aria-pressed="false" aria-label={h.model.pauseLabel} data-pause data-pause-label={h.model.pauseLabel} data-play-label={h.model.playLabel} data-pause-text={h.model.pause} data-play-text={h.model.play}>
@@ -241,7 +239,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <!-- Roles: every way to take part, each with its button. -->
+      <!-- Roles: the two ways in we're recruiting for, each with its button. (The rest are in the footer.) -->
       <section id="roles" class="rp-sec rp-compare">
         <div class="rp-wrap">
           <div class="rp-head center reveal">
@@ -249,8 +247,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <h2 class="rp-h2">{h.roles.title}</h2>
             <p class="rp-lede-sm">{h.roles.lede}</p>
           </div>
-          <ul class="rp-cards">
-            {list.roles.map((c) => (
+          <ul class="rp-cards hm-two">
+            {list.roles.filter((c) => h.roles.show.includes(c.slug)).map((c) => (
               <li class="reveal">
                 <img src={small(c.slug)} alt="" width="400" height="400" loading="lazy" decoding="async" />
                 <h3>{c.name}</h3>
@@ -396,7 +394,6 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       const stage = document.querySelector<HTMLElement>("[data-stage]")!;
       const copy = stage.querySelector<HTMLElement>("[data-hero-copy]")!;
       const beatsEl = [...stage.querySelectorAll<HTMLElement>("[data-beat]")];
-      const tags = [...stage.querySelectorAll<HTMLElement>("[data-tag]")];
       const you = stage.querySelector<HTMLElement>("[data-you]")!;
       const cue = stage.querySelector<HTMLElement>("[data-cue]")!;
       const pause = stage.querySelector<HTMLButtonElement>("[data-pause]")!;
@@ -416,7 +413,6 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           copy.style.opacity = String(f.beats[0]);
           copy.style.transform = `translateY(${(-(1 - f.beats[0]) * 48).toFixed(1)}px)`;
           beatsEl.forEach((el, i) => { const w = f.beats[i + 1]; el.style.opacity = String(w); el.style.transform = `translateY(${((1 - w) * 18).toFixed(1)}px)`; el.classList.toggle("on", w > 0.5); });
-          tags.forEach((el, i) => { const q = f.legend[i]; el.style.opacity = q ? String(f.beats[1]) : "0"; if (q) el.style.transform = `translate(${q.x.toFixed(1)}px, ${q.y.toFixed(1)}px)`; });
           you.style.opacity = f.you ? "1" : "0"; if (f.you) you.style.transform = `translate(${f.you.x.toFixed(1)}px, ${f.you.y.toFixed(1)}px)`;
           cue.style.opacity = String(Math.max(0, 1 - f.p * 40));
           // The orb is the button: a link laid over it, its label shown on hover and in the last shot.

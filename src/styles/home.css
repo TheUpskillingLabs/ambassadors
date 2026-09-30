@@ -44,20 +44,16 @@
 .hm-path span { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
 .rp .hm-path:hover, .rp .hm-path:focus-visible { border-color: var(--teal); background: rgba(0, 148, 160, 0.16); }
 .hm-path:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
-.hm-curious { display: inline-block; margin-top: 14px; font-size: var(--fs-sm); font-weight: 600; }
+.hm-both { margin: 12px 0 0; font-size: var(--fs-sm); color: var(--t2); }
+.hm-curious { display: inline-block; margin-top: 10px; font-size: var(--fs-sm); font-weight: 600; }
 .hm-beat-hint { margin: 14px 0 0; font-size: var(--fs-sm); color: var(--t2); }
 .hm-beat-hint .coarse { display: none; }
 @media (hover: none) { .hm-beat-hint .fine { display: none; } .hm-beat-hint .coarse { display: inline; } }
 
-/* The legend: the four kinds of actor, each pinned to a real one in the DC Lab. */
-.hm-legend { margin: 0; padding: 0; list-style: none; }
+/* "You": a tag that follows your cursor, a newcomer in the system. */
 .hm-tag { position: absolute; z-index: 3; left: 0; top: 0; margin: 0; display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px 5px 8px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 999px; background: rgba(0, 20, 27, 0.62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t1); white-space: nowrap; opacity: 0; pointer-events: none; translate: 14px -50%; transition: opacity 0.2s; will-change: transform, opacity; }
 .mk { display: block; width: 9px; height: 9px; flex: none; }
-.mk-0 { border-radius: 50%; background: #FFDBBD; }
-.mk-1 { border-radius: 1px; background: #24D6DB; }
-.mk-2 { width: 8px; height: 8px; rotate: 45deg; background: #FF5C47; }
-.mk-3 { border-radius: 50%; border: 2px solid #9EFFF7; }
 .mk-you { border-radius: 50%; background: #FFC880; box-shadow: 0 0 10px 2px rgba(255, 200, 128, 0.7); }
 .hm-you { translate: 16px -50%; color: #FFE3C2; }
 
@@ -97,11 +93,19 @@
 .is-still .hm-beat-hint { display: none; }
 .is-still .hm-beat { position: static; opacity: 1 !important; transform: none !important; }
 .is-still .hm-beat-line { font-size: var(--fs-lead); }
-.is-still .hm-cue, .is-still .hm-legend, .is-still .hm-you { display: none; }
+.is-still .hm-cue, .is-still .hm-you { display: none; }
 
 .hm-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 28px; }
 .hm-actions .textlink { font-size: 17px; font-weight: 600; }
 .rp .ghost.small { min-height: 44px; padding: 0 18px; font-size: 15px; }
+
+/* ── intro: the cohort's faces, overlapping, over how many people are in so far. ── */
+.hm-people { margin-top: 36px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.hm-faces { list-style: none; margin: 0; padding: 0; display: flex; }
+.hm-faces li { width: 56px; height: 56px; margin-left: -12px; border-radius: 50%; border: 2px solid var(--ink); overflow: hidden; background: var(--ink); }
+.hm-faces li:first-child { margin-left: 0; }
+.hm-faces img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hm-people p { margin: 0; font-size: var(--fs-sm); font-weight: 600; color: var(--t2); }
 
 /* ── the next Build Cycle: a band lit by the glows, with the Upskiller button. ── */
 .hm-cycle { position: relative; isolation: isolate; margin-top: clamp(112px, 16vh, 164px); padding: clamp(72px, 10vh, 120px) 0; overflow-x: clip; }
@@ -129,6 +133,10 @@
 .hm-learn { list-style: none; margin: clamp(56px, 7vw, 96px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gut); }
 .hm-learn h3 { margin: 0; font-size: var(--fs-lead); font-weight: 600; letter-spacing: -0.02em; color: var(--t1); }
 .hm-learn p { margin: 12px 0 0; max-width: 32ch; font-size: var(--fs-body); line-height: 1.55; color: var(--t2); }
+
+/* ── roles: the two ways in, side by side. ── */
+.rp .rp-cards.hm-two { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row; max-width: 820px; margin-inline: auto; overflow: visible; }
+@media (max-width: 680px) { .rp .rp-cards.hm-two { grid-template-columns: minmax(0, 1fr); } }
 
 /* ── the room: a real evening at the library, full bleed, fading into the ink. ── */
 .hm-room { position: relative; isolation: isolate; margin-top: clamp(96px, 14vh, 160px); min-height: clamp(460px, 78vh, 820px); display: flex; align-items: flex-end; overflow: hidden; }

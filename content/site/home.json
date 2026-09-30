@@ -29,17 +29,28 @@
       "Find your people.",
       "Build your edge."
     ],
-    "orbLabel": "A living model of The Labs: local Labs orbit the orb, each a network of people, places, projects and knowledge tied together, with a commons of contributors circling the centre. The denser a Lab's ties, the stronger its pull; the densest have formed small orbs of their own. Sparks of new ideas run along the ties, up to the centre and back out to every Lab."
+    "orbLabel": "The Labs orb at the centre of a living network: local Labs full of people and their projects, orbiting it, with sparks of new ideas travelling between them."
   },
   "model": {
-    "$comment": "The hero's story: the live model (src/scripts/orbnet.ts) and one line for each of its four shots after the title. The legend names the four kinds of actor, pinned to real ones in the DC Lab.",
+    "$comment": "The hero's story, for the people we're recruiting (Upskillers and Mentors): the core benefits, and the feeling of joining something bigger, over the live model (src/scripts/orbnet.ts). One line for each of its four shots after the title.",
     "beats": [
-      { "kicker": "Actors", "line": "Every Lab is its people, places, projects and knowledge, and the ties between them." },
-      { "kicker": "Gravity", "line": "The denser the ties, the stronger the pull." },
-      { "kicker": "Ideas", "line": "A new idea travels up to the centre, then out to every Lab." },
-      { "kicker": "You", "line": "There's a place in it for you." }
+      {
+        "kicker": "Build",
+        "line": "Learn by building something real, on a team."
+      },
+      {
+        "kicker": "Together",
+        "line": "Free, in person, beside people who've been where you are."
+      },
+      {
+        "kicker": "Bigger",
+        "line": "What you build travels further than you."
+      },
+      {
+        "kicker": "You",
+        "line": "Be part of something bigger."
+      }
     ],
-    "legend": ["People", "Places", "Projects", "Knowledge"],
     "you": "You",
     "click": "Or click anywhere in the system to join a Lab.",
     "tap": "Or tap anywhere in the system to join a Lab.",
@@ -49,21 +60,36 @@
     "paths": {
       "ask": "I want to",
       "items": [
-        { "slug": "upskiller", "label": "Learn by building" },
-        { "slug": "mentor", "label": "Share what I know" },
-        { "slug": "ambassador", "label": "Spread the word" },
-        { "slug": "poderator", "label": "Keep a Pod together" }
+        {
+          "slug": "upskiller",
+          "label": "Learn by building"
+        },
+        {
+          "slug": "mentor",
+          "label": "Pass on what I know"
+        }
       ],
+      "both": "Most people end up doing both.",
       "curious": "Just curious? Drop into a session"
     },
-    "rail": { "label": "The story", "items": ["Find your people", "Actors", "Gravity", "Ideas", "You"], "skip": "Skip the story" },
+    "rail": {
+      "label": "The story",
+      "items": [
+        "Find your people",
+        "Build",
+        "Together",
+        "Bigger",
+        "You"
+      ],
+      "skip": "Skip the story"
+    },
     "orb": "Become an Upskiller",
     "orbLabel": "Become an Upskiller: create your free Upskilling account",
     "pauseLabel": "Pause the animation",
     "playLabel": "Play the animation"
   },
   "intro": {
-    "lede": "AI is rewriting how we work, and it's easier to learn together than alone. The Upskilling Labs is a free community where you find people near you, build something real, and grow more confident together.",
+    "lede": "The way we work is changing, with AI in its foundations, and it's easier to learn together than alone. The Upskilling Labs is a free community where you find people near you, build something real, and grow more confident together.",
     "strong": "Free.",
     "terms": "One Upskilling account, whichever path you take.",
     "cta": "Join The Labs",
@@ -191,9 +217,13 @@
     "alt": "A Labs evening at the library: people talking in small groups around the tables."
   },
   "roles": {
-    "kicker": "Get involved",
-    "title": "Find your role.",
-    "lede": "Every path starts with your free Upskilling account. Then take a role, or several; each has its own button."
+    "kicker": "Two ways in",
+    "title": "Learn it. Then pass it on.",
+    "lede": "Upskillers learn by building. Mentors help a Pod past where it's stuck, and grow by doing it. Most people end up doing both: each cycle's Upskillers help the next one along. Both start with your free Upskilling account.",
+    "show": [
+      "upskiller",
+      "mentor"
+    ]
   },
   "spotlights": {
     "kicker": "Upskiller spotlights",
