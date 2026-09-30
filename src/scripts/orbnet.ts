@@ -1132,6 +1132,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
 
     // Actors → textures.
     const N = model.nodes.length;
+    // Faces are for the close shots; seen whole, a Pod is just a few warm points, not a clump of rings.
+    const faceSize = 10 + 9 * clamp((4.7 / cam.zoomW - 1) / 1.5, 0, 1);
     for (let i = 0; i < N; i++) {
       const a = model.nodes[i], o = i * 4;
       const born = still ? 1 : clamp((t - a.born) / 0.6, 0, 1);
@@ -1139,7 +1141,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       // The value hierarchy: people stay low, the other actors a little brighter; light is for sparks.
       const base = a.type === HUMAN ? 0.62 : a.type === YOU ? 1 : 0.9;
       posArr[o] = a.p[0]; posArr[o + 1] = a.p[1]; posArr[o + 2] = a.p[2]; posArr[o + 3] = base * lit * born * (a.arrive && !a.arrive.intro ? 0.7 : 1);
-      const size = a.face !== undefined ? 19 : a.type === YOU ? 12 : (a.type === HUMAN ? 7 : a.type === PLACE ? 9.5 : 10) * (1 + 0.08 * Math.sqrt(a.deg));
+      const size = a.face !== undefined ? faceSize : a.type === YOU ? 12 : (a.type === HUMAN ? 7 : a.type === PLACE ? 9.5 : 10) * (1 + 0.08 * Math.sqrt(a.deg));
       if (a.face !== undefined) posArr[o + 3] = lit * born;
       stArr[o] = a.type === YOU ? Math.max(a.flash, 0.5) : a.face !== undefined ? Math.max(a.flash, 0.55 * beats[2]) : a.flash; stArr[o + 1] = size; stArr[o + 2] = a.face !== undefined ? 10 + a.face : a.type; stArr[o + 3] = a.c;
       const trail = a.anchor !== undefined || a.arrive ? 0 : a.c < 0 ? 1 : a.c + 2;
