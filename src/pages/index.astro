@@ -44,10 +44,16 @@ const pageTitle = h.title;
 // Each path in the last shot goes straight to the account, with the path it came from.
 const roleJoin: Record<string, string> = { upskiller: upskiller.intro.href, mentor: mentor.intro.href, ambassador: ambassador.intro.href, poderator: poderator.intro.href };
 const roleName: Record<string, string> = Object.fromEntries(list.roles.map((r) => [r.slug, r.name]));
+// The cycle's state, switched by date: open until it closes, then underway. The page sets it again as it
+// loads, so a static build never shows a stale "applications open".
+const closesAt = `${h.cycle.closes}T00:00:00-04:00`;
+const cycleState = Date.now() < Date.parse(closesAt) ? "open" : "closed";
+const ph = (s: string) => s.includes("[PLACEHOLDER]");
+const unph = (s: string) => s.replace("[PLACEHOLDER] ", "");
 const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat(u("/home/suzie.webp"));
 ---
 <!doctype html>
-<html lang="en">
+<html lang="en" data-cycle={cycleState}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -60,6 +66,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     <meta property="og:description" content={h.description} />
     <meta property="og:image" content={new URL(orbit("hub-share.jpg"), Astro.site)} />
     <script is:inline>document.documentElement.dataset.menu = "";</script>
+    <script is:inline define:vars={{ closesAt }}>document.documentElement.dataset.cycle = Date.now() < Date.parse(closesAt) ? "open" : "closed";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={orbit("hub-poster.webp")} fetchpriority="high" />
   </head>
@@ -94,8 +101,12 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
         <div class="hm-stage" data-stage data-faces={JSON.stringify(faces)}>
           <div class="hm-hero-copy" data-hero-copy>
-            <p class="status hm-eyebrow rise"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
+            <p class="status hm-eyebrow rise" data-when="open"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
+            <p class="status hm-eyebrow rise" data-when="closed"><i aria-hidden="true"></i>{h.hero.eyebrowClosed}</p>
             <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
+            {(["open", "closed"] as const).map((st) => (
+              <ul class="hm-spec rise" data-when={st}>{h.hero.spec[st].map((f) => <li>{f}</li>)}</ul>
+            ))}
           </div>
           <div class="hm-orbit" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
           <a class="hm-orb-link" href={upskiller.intro.href} aria-label={h.model.orbLabel} data-orb-link><span class="hm-orb-label">{h.model.orb} <b aria-hidden="true">→</b></span></a>
@@ -108,7 +119,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
                   <div class="hm-beat-cta">
                     <p class="hm-paths-ask">{h.model.paths.ask}</p>
                     <ul class="hm-paths">
-                      {h.model.paths.items.map((pth) => <li><a class="hm-path" href={roleJoin[pth.slug]}>{pth.label}<span>{roleName[pth.slug]}</span></a></li>)}
+                      {h.model.paths.items.map((pth) => <li><a class="hm-path" href={roleJoin[pth.slug]}><em>{pth.label}<small data-when="open">{pth.next.open}</small><small data-when="closed">{pth.next.closed}</small></em><span>{roleName[pth.slug]}</span></a></li>)}
                     </ul>
                     <p class="hm-both">{h.model.paths.both}</p>
                     <a class="textlink hm-curious" href={L.events}>{h.model.paths.curious} →</a>
@@ -191,14 +202,49 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <!-- The next Build Cycle, with the button every Upskiller gets. -->
+      <!-- Before you apply: what it is and isn't, then what happens next, dated. The facts come before the Apply
+           button, so the people it isn't for can tell, and the rest know what they're saying yes to. -->
+      <section id="before" class="rp-sec hm-honest">
+        <div class="rp-wrap">
+          <div class="rp-head reveal">
+            <p class="kicker">{h.honest.kicker}</p>
+            <h2 class="rp-h2">{h.honest.title}</h2>
+          </div>
+          <div class="hm-honest-grid">
+            <ul class="hm-isnt">
+              {h.honest.items.map((it) => <li class="reveal"><h3>{it.title}</h3><p>{it.body}</p></li>)}
+            </ul>
+            <aside class="hm-next reveal" aria-labelledby="next-t">
+              <h3 id="next-t">{h.honest.next.title}</h3>
+              <ol>
+                {h.honest.next.steps.map((st) => <li><b class:list={{ ph: ph(st.when) }}>{unph(st.when)}</b><span>{st.what}</span></li>)}
+              </ol>
+              <p class="ph">{h.honest.next.questions}</p>
+              <p class="ph">{h.honest.next.contact}</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- The next Build Cycle, with the button every Upskiller gets. Open until it closes, then underway. -->
       <section id="cycle" class="hm-cycle">
         <div class="rp-wrap hm-cycle-in reveal">
-          <div class="hm-cycle-text">
+          <div class="hm-cycle-text" data-when="open">
             <p class="status"><i aria-hidden="true"></i>{h.cycle.kicker}</p>
             <h2 class="rp-h2">{h.cycle.title}</h2>
             <p class="rp-lede-sm">{h.cycle.body}</p>
+            <p class:list={["hm-apply", { ph: ph(h.cycle.apply) }]}>{h.cycle.apply}</p>
             <a class="btn" href={L.join}>{h.cycle.cta}</a>
+          </div>
+          <div class="hm-cycle-text" data-when="closed">
+            <p class="status"><i aria-hidden="true"></i>{h.cycle.closed.kicker}</p>
+            <h2 class="rp-h2">{h.cycle.closed.title}</h2>
+            <p class="rp-lede-sm">{h.cycle.closed.body}</p>
+            <ul class="hm-ways">
+              {h.cycle.closed.ways.map((w) => <li><a class="textlink" href={w.to === "mentor" ? u("/mentor/") : L.events}>{w.label} →</a></li>)}
+            </ul>
+            <a class="btn" href={L.join}>{h.cycle.closed.cta}</a>
+            <p class:list={["hm-apply", { ph: ph(h.cycle.closed.note) }]}>{h.cycle.closed.note}</p>
           </div>
           <a class="hm-cycle-button" href={u("/upskiller/")} aria-label="The Upskiller button: what Upskillers do">
             <img src={u("/roles/upskiller/hero-760.webp")} alt="" width="760" height="760" loading="lazy" decoding="async" />

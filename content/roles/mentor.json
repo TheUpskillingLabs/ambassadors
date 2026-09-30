@@ -1,5 +1,5 @@
 {
-  "$comment": "Mentors: people who do the work, around when a Pod gets stuck (content/scenarios/mentor-time.json). The button is given once trained and seated. Placeholders: the training and the sign-up link.",
+  "$comment": "Mentors: people who do the work, around when a Pod gets stuck (content/scenarios/mentor-time.json). From Brendan's journey interview (Sep 29, 2026): account first, then help at a workshop; mentoring Pods in a cycle comes from there. Buttons are new this cycle. Placeholders: any requirements.",
   "placeholder": true,
   "slug": "mentor",
   "role": "Mentor",
@@ -25,7 +25,7 @@
     "terms": "A single workshop, or a whole cycle. You choose.",
     "cta": "Become a Mentor",
     "href": "https://theupskillinglabs.org/login?intent=join&path=mentor",
-    "status": "[PLACEHOLDER] Mentors are seated before each Build Cycle"
+    "status": "Start by helping at a workshop."
   },
   "moments": {
     "kicker": "What you'll do",
@@ -44,7 +44,7 @@
       {
         "step": "One day",
         "title": "Watch them ship.",
-        "body": "Be there at Demo Day when they show what they built."
+        "body": "Be there at the Showcase when they show what they built."
       }
     ]
   },
@@ -80,16 +80,16 @@
     "steps": [
       {
         "title": "Create your account.",
-        "body": "Your free Upskilling account: sign in with Google, and tell us what you know and how much time you have.",
+        "body": "Your free Upskilling account: sign in with Google, and tell us what you know.",
         "mark": "account"
       },
       {
-        "title": "Get trained.",
-        "body": "[PLACEHOLDER] The Mentor training: what it covers and how long it takes."
+        "title": "Help at a workshop.",
+        "body": "Pick one to lead or help at. It's how most Mentors start."
       },
       {
-        "title": "Take your seat.",
-        "body": "You're matched with Pods and get your Mentor button.",
+        "title": "Mentor Pods in a cycle.",
+        "body": "When a Pod gets stuck, you're the person who's done it before. New this cycle: your Mentor button.",
         "mark": "button"
       },
       {
@@ -117,7 +117,7 @@
       },
       {
         "q": "Who can mentor?",
-        "a": "People who do the work. [PLACEHOLDER] Any requirements beyond the training."
+        "a": "People who do the work, in any field. [PLACEHOLDER] Any requirements."
       },
       {
         "q": "Does it cost anything?",
@@ -127,7 +127,7 @@
   },
   "join": {
     "title": "Pass it on.",
-    "lede": "It starts with your free Upskilling account. Then tell us what you know, and how much time you have.",
+    "lede": "It starts with your free Upskilling account. Then pick a workshop to help at.",
     "cta": "Become a Mentor"
   }
 }
