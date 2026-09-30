@@ -1111,7 +1111,10 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     scrollE = still ? scrollP : lerp(scrollE, scrollP, ease60(0.1));
     const p = scrollE, beats = beatWeights(p);
     if (!still && !pausedFlag) { simT += dt; introT += dt; model.step(dt, simT, simT > 3.2, beats[3] > 0.5, beats[1] + beats[2] > 0.5, beats[2] > 0.5); }
-    const t = simT, grow = still ? 1 : clamp(introT / 3.4, 0, 1), g = 1 - Math.pow(1 - grow, 3);
+    // The opening runs on the clock, not on simulated time: on a slow device (frames capped at 50 ms) the
+    // orb would otherwise sit half painted for seconds.
+    const openT = Math.max(introT, (now - t0) / 1000 - 0.2);
+    const t = simT, grow = still ? 1 : clamp(openT / 3.4, 0, 1), g = 1 - Math.pow(1 - grow, 3);
     ptr.x = lerp(ptr.x, ptr.tx, ease60(0.06)); ptr.y = lerp(ptr.y, ptr.ty, ease60(0.06));
     orbHover = lerp(orbHover, orbHoverT, ease60(0.12));
     camera(p, t);
@@ -1269,7 +1272,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       return { v: orbView(L.c), r: r * (0.5 + 0.5 * g), bright: (L.lit ? 1.05 : 0.8) * (focus === i ? 1 + 0.4 * focusAmt : 1) * g };
     }).filter((b) => b.r > 0.02).sort((a, b) => a.v[2] - b.v[2]);
     const orbC = orbView([0, 0, 0]);
-    const reveal = still ? 1 : clamp(introT / 1.3, 0, 1);
+    const reveal = still ? 1 : clamp(openT / 1.3, 0, 1);
 
     drawStars(); drawDisc();
     drawFabric(-1); drawTrails(-1); drawTies(-1); drawActors(-1); drawSparks(-1);
