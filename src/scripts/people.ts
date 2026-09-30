@@ -14,9 +14,14 @@
      3  bigger: the team seen small, its idea going up to the orb and out to other Labs
      4  you: the orbits again, and the empty seat is yours; the orb is the way in (Join The Labs)
 
-   Behind them, quietly: faint rings round the orb, a hundred and some people too far off to see drifting
-   along them, and seven other Labs, small orbs of their own, on the outer rings: the sense of something
-   bigger, at a fraction of the density of the model this replaced.
+   Round them, the system The Labs is, at a fraction of the density of the model this replaced:
+     orbits        faint rings round the orb, a hundred and some people too far off to see drifting on them
+                   (the nearer rings faster); the faces' circle turns; each Lab's people circle it
+     hub & spoke   The Labs to three regional Labs on the outer rings, each regional to the neighbourhood
+                   Labs that circle it, a fine spoke at each step; ideas cascade down them
+     adaptive      newcomers drift in from the edges and the strongest pull near them (a Lab's pull is its
+                   people) draws them into its orbit; a full Lab lets one go, to find another; a tie an idea
+                   has just crossed stays brighter for a while; the faces' ties re-form as they move
 
    Everything moves on springs, so it has weight: a new shot is a new target, and people ease into it.
    Plain canvas 2D, a handful of shapes a frame; it draws only while on screen. Reduced motion gets the
@@ -41,12 +46,16 @@ const ease = (t: number) => t * t * (3 - 2 * t);
 const TAU = Math.PI * 2, DEG = Math.PI / 180;
 
 /* ── who's who ── */
-const F = 7, ORB = 7, SEAT = 8, CROWD = 9, NCL = 7, N = CROWD + NCL; // CROWD…: other Labs, small orbs of their own
+const F = 7, ORB = 7, SEAT = 8, CROWD = 9, NCL = 8, N = CROWD + NCL; // CROWD…: other Labs, small orbs of their own
 // The rings round the orb (the faces' circle is 1). The outer ones flatten as they widen, so they stay under the title.
 const RINGS = [0.55, 1, 1.38, 1.8, 2.3, 2.9, 3.6];
 const ringY = (ry: number, f: number) => ry * Math.pow(f, 0.55);
-// The other Labs: which ring each drifts on, where it starts, and its size (a Lab is as big as its people).
-const LAB_RING = [1.38, 1.8, 2.3, 1.8, 2.3, 1.38, 2.9], LAB_PH = [0.4, 1.9, 3.1, 4.4, 5.6, 2.8, 0.9], LAB_D = [1, 0.85, 1.1, 0.8, 0.95, 0.75, 0.9];
+// The other Labs, hub and spoke: three regional Labs (0–2) orbit the orb, and neighbourhood Labs (3–7) orbit
+// them. PARENT: whose spoke each hangs from (−1: the orb's). The regionals' rings and where they start; where
+// each neighbourhood starts round its regional.
+const PARENT = [-1, -1, -1, 0, 0, 1, 2, 2];
+const LAB_RING = [1.8, 2.3, 1.8], LAB_PH = [0.5, 2.7, 4.5], NB_PH = [0.3, 3.4, 1.6, 0.9, 4.1];
+const isRegion = (c: number) => PARENT[c] < 0;
 const MENTOR = 1;
 const TEAM_A = [0, 2, 4], TEAM_B = [1, 3, 5, 6];
 const ROUND = [SEAT, 0, 4, 2, 6, 1, 5, 3]; // the order round the circle: the seat, then the seven
@@ -68,20 +77,30 @@ function geometry(W: number, H: number, clearTop: number) {
     ids.forEach((f, j) => { const th = (a0 + (j * 360) / ids.length) * DEG; T[f] = at(cx + r * Math.cos(th), cy + r * Math.sin(th), d, a); });
   const ring = (ids: number[], w: number, m = new Map<number, number>()) => { ids.forEach((f, j) => m.set(key(f, ids[(j + 1) % ids.length]), w)); return m; };
 
-  // Other Labs: small orbs of their own, people circling each. Close in on the idea going out (shot 3) they
-  // stand where it reaches them; the rest of the story, they drift on the outer rings, farther off.
-  const clusters: [number, number][] = portrait
-    ? [[0.84, 0.15], [0.88, 0.43], [0.72, 0.57], [0.32, 0.16], [0.12, 0.31], [0.58, 0.12], [0.5, 0.62]]
-    : [[0.86, 0.24], [0.9, 0.62], [0.74, 0.86], [0.47, 0.17], [0.24, 0.33], [0.68, 0.13], [0.56, 0.9]];
+  // Other Labs: small orbs of their own, people circling each; hub and spoke, orbits within orbits. The
+  // regionals drift on the outer rings round the orb, farther off, and each neighbourhood Lab circles its
+  // regional. Close in on the idea going out (shot 3), the regionals stand where it reaches them.
+  const regionAt: [number, number][] = portrait ? [[0.72, 0.15], [0.78, 0.52], [0.24, 0.22]] : [[0.84, 0.25], [0.86, 0.68], [0.46, 0.2]];
   const labD = S * (portrait ? 0.07 : 0.034);
+  const sizeOf = (c: number) => labD * (isRegion(c) ? 1.2 : 0.72);
   const crowd = (T: Target[], s: number, t: number) => {
-    if (s === 3) { clusters.forEach(([fx, fy], c) => { T[CROWD + c] = at(fx * W, fy * H, labD * LAB_D[c], 1, 0.5); }); return; }
-    const o = orbitsFor(s), a = [0.6, 0.45, 0.25, 1, 0.6][s], ct = Math.cos(o.tilt), st = Math.sin(o.tilt);
-    for (let c = 0; c < NCL; c++) {
+    const a0 = [0.6, 0.45, 0.25, 1, 0.6][s], o = orbitsFor(s), ct = Math.cos(o.tilt), st = Math.sin(o.tilt);
+    for (let c = 0; c < 3; c++) {
+      if (s === 3) { T[CROWD + c] = at(regionAt[c][0] * W, regionAt[c][1] * H, sizeOf(c), 1, 0.5); continue; }
       const f = LAB_RING[c], th = LAB_PH[c] + (0.06 / Math.pow(f, 1.5)) * t, sn = Math.sin(th), depth = (sn + 1) / 2;
       const ex = o.rx * f * Math.cos(th), ey = ringY(o.ry, f) * sn;
-      T[CROWD + c] = at(T[ORB].x + ex * ct - ey * st, T[ORB].y + ex * st + ey * ct, labD * LAB_D[c] * (0.7 + 0.3 * depth), a * (0.55 + 0.45 * depth), sn);
+      T[CROWD + c] = at(T[ORB].x + ex * ct - ey * st, T[ORB].y + ex * st + ey * ct, sizeOf(c) * (0.7 + 0.3 * depth), a0 * (0.55 + 0.45 * depth), sn);
     }
+    const nc = Math.cos(-12 * DEG), ns = Math.sin(-12 * DEG);
+    for (let c = 3; c < NCL; c++) {
+      const P = T[CROWD + PARENT[c]], k = P.d / sizeOf(PARENT[c]), R = sizeOf(PARENT[c]) * (portrait ? 2.4 : 3) * k;
+      const th = NB_PH[c - 3] + t * 0.12, ex = R * Math.cos(th), ey = R * 0.45 * Math.sin(th);
+      T[CROWD + c] = at(P.x + ex * nc - ey * ns, P.y + ex * ns + ey * nc, sizeOf(c) * k, P.a, P.z);
+    }
+  };
+  // The spokes: The Labs to each regional Lab, each regional to its neighbourhoods.
+  const spokes = (ties: Map<number, number>, w: number) => {
+    for (let c = 0; c < NCL; c++) ties.set(key(isRegion(c) ? ORB : CROWD + PARENT[c], CROWD + c), (isRegion(c) ? 0.55 : 0.42) * w);
   };
   // The rings round the orb, in each shot: the hero's and the last shot's hold the faces' circle; the teams'
   // sweep across from the orb in the corner.
@@ -129,8 +148,8 @@ function geometry(W: number, H: number, clearTop: number) {
     if (s === 0 || s === 4) {
       // The hero turns, slowly; the last shot holds still, with the seat front and left, beside the words.
       const c = s === 0 ? hero : last;
-      circle(T, c.cx, c.cy, c.orbD, c.rx, c.ry, c.base, s === 0 ? 205 * DEG : 150 * DEG, s === 0 && !still ? t / 160 : 0, s === 4 ? 1 : 0);
-      crowd(T, s, still ? 0 : t);
+      circle(T, c.cx, c.cy, c.orbD, c.rx, c.ry, c.base, s === 0 ? 205 * DEG : 150 * DEG, s === 0 && !still ? t / 110 : 0, s === 4 ? 1 : 0);
+      crowd(T, s, still ? 0 : t); spokes(ties, 1);
       return { T, ties, near: s === 4 ? [0, 1, 2, 3, 4, 5, 6, SEAT] : [0, 1, 2, 3, 4, 5, 6], orbits: orbitsFor(s) };
     }
     if (s === 1) {
@@ -156,9 +175,8 @@ function geometry(W: number, H: number, clearTop: number) {
       team(T, [0, 1, 2, 3, 4, 5, 6], cx, cy, S * (portrait ? 0.12 : 0.075), -90, S * (portrait ? 0.085 : 0.05));
       ring([0, 1, 2, 3, 4, 5, 6], 0.8, ties);
       ties.set(key(up(T), ORB), 0.8);
-      for (let c = 0; c < NCL; c++) ties.set(key(ORB, CROWD + c), 0.5);
     }
-    crowd(T, s, still ? 0 : t);
+    crowd(T, s, still ? 0 : t); spokes(ties, s === 3 ? 1.4 : 1);
     T[SEAT] = { ...T[ORB], d: S * 0.06, a: 0, z: 1 }; // the seat waits at the orb until it's yours
     return { T, ties, orbits: orbitsFor(s) };
   };
@@ -240,12 +258,12 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
   });
 
   /* sizing */
-  let W = 1, H = 1, dpr = 1, lay = geometry(1, 1, 0), orbImg: HTMLCanvasElement | null = null, orbPx = 0;
+  let W = 1, H = 1, dpr = 1, clearTop = 0, lay = geometry(1, 1, 0), orbImg: HTMLCanvasElement | null = null, orbPx = 0;
   const resize = () => {
     W = wrap.clientWidth; H = wrap.clientHeight; dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-    const clear = opts.clear ? opts.clear.offsetTop + opts.clear.offsetHeight : 0;
-    lay = geometry(W, H, clear);
+    clearTop = opts.clear ? opts.clear.offsetTop + opts.clear.offsetHeight : 0;
+    lay = geometry(W, H, clearTop);
     // The orb's sprite, big enough for its largest shot.
     const want = Math.min(1024, Math.ceil((0.42 * Math.min(W, H) * dpr) / 64) * 64);
     if (want > orbPx) { orbPx = want; orbImg = orbSprite(orbPx); }
@@ -291,6 +309,30 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
   { let sd = 11; const r = () => { sd = (sd * 16807) % 2147483647; return sd / 2147483647; };
     PER_RING.forEach((n, k) => { for (let j = 0; j < n; j++) folk.push({ k, ph: ((j + r() * 0.7) / n) * TAU, warm: r() < 0.72 }); }); }
   let orbits: Orbits = { rx: 1, ry: 1, tilt: 0, w: 0 };
+  // The system behaves as a complex adaptive one. Each other Lab's people circle it, and a Lab's pull is its
+  // people: newcomers drift in from the edges and the strongest pull near them draws them into its orbit
+  // (re-decided as they go); a full Lab lets one go, to find another. Ideas cascade down the spokes, and a
+  // tie an idea has just crossed stays brighter for a while.
+  let seed = 29; const rng = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  interface Member { ph: number; rr: number; sp: number }
+  const member = (ph = rng() * TAU): Member => ({ ph, rr: 1.7 + rng() * 1.1, sp: (0.22 + rng() * 0.3) * (rng() < 0.25 ? -1 : 1) });
+  const CAP = Array.from({ length: NCL }, (_, c) => (isRegion(c) ? 14 : 8));
+  const crews: Member[][] = Array.from({ length: NCL }, (_, c) => Array.from({ length: (isRegion(c) ? 7 : 3) + Math.floor(rng() * 3) }, () => member()));
+  interface Comer { x: number; y: number; vx: number; vy: number; to: number; age: number; trail: number[] }
+  const comers: Comer[] = [];
+  let nextComer = 3.5;
+  const pull = (c: number, x: number, y: number) => {
+    const b = B[CROWD + c]; if (b.a < 0.2) return 0;
+    return ((crews[c].length + 4) * (crews[c].length < CAP[c] ? 1 : 0.35)) / Math.max(80, Math.hypot(b.x - x, b.y - y));
+  };
+  const strongest = (x: number, y: number, not = -1) => { let best = -1, bp = 0; for (let c = 0; c < NCL; c++) { if (c === not) continue; const q = pull(c, x, y); if (q > bp) { bp = q; best = c; } } return best; };
+  const arrive = () => {
+    // From the sides or below, never through the title.
+    const e = rng() * (W + H), side = e < W ? 0 : e < W + H / 2 ? 1 : 2;
+    const x = side === 0 ? e : side === 1 ? -12 : W + 12, y = side === 0 ? H + 12 : H * (0.45 + rng() * 0.55);
+    const to = strongest(x, y); if (to >= 0) comers.push({ x, y, vx: 0, vy: 0, to, age: 0, trail: [] });
+  };
+  const boost = new Map<number, number>();
   const near = [new Map<number, number>(), new Map<number, number>()]; // the hero's and the last shot's ties, found by distance, eased in and out
   const sparks: Spark[] = [];
   const ripples: number[] = [];
@@ -372,17 +414,47 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
     born = true;
     orbFlash *= Math.exp(-simDt * 1.8);
 
+    // Newcomers, drawn in.
+    if (simDt > 0 && introT > 3) {
+      if (t >= nextComer) { if (comers.length < 6) arrive(); nextComer = t + [3.2, 4, 7, 2.2, 3.2][shotNow] * (0.7 + rng() * 0.6); }
+      for (let j = comers.length - 1; j >= 0; j--) {
+        const q = comers[j]; q.age += simDt;
+        if (Math.floor(q.age * 2) !== Math.floor((q.age - simDt) * 2)) { const nt = strongest(q.x, q.y); if (nt >= 0) q.to = nt; }
+        const b = B[CROWD + q.to], dx = b.x - q.x, dy = b.y - q.y, d = Math.hypot(dx, dy) || 1, r = b.d / 2;
+        // Straight in from afar, swinging round into orbit as it nears.
+        const sp = clamp(d * 0.7, 40, 120) * S1(), sw = clamp(1 - d / (r * 9), 0, 1);
+        const wx = (dx / d) * sp * (1 - 0.6 * sw) - (dy / d) * sp * 0.9 * sw, wy = (dy / d) * sp * (1 - 0.6 * sw) + (dx / d) * sp * 0.9 * sw;
+        q.vx += (wx - q.vx) * Math.min(1, simDt * 1.6); q.vy += (wy - q.vy) * Math.min(1, simDt * 1.6);
+        q.x += q.vx * simDt; q.y += q.vy * simDt;
+        q.trail.push(q.x, q.y); if (q.trail.length > 36) q.trail.splice(0, 2);
+        if (d < r * 2.4) {
+          const c = q.to;
+          crews[c].push(member(Math.atan2(-dy / 0.34, -dx)));
+          B[CROWD + c].flash = Math.max(B[CROWD + c].flash, 0.45);
+          comers.splice(j, 1);
+          if (crews[c].length > CAP[c]) {
+            crews[c].shift();
+            const to = strongest(b.x, b.y, c);
+            if (to >= 0) comers.push({ x: b.x, y: b.y, vx: (rng() - 0.5) * 90, vy: (rng() - 0.5) * 90, to, age: 0, trail: [] });
+          }
+        } else if (q.age > 18) comers.splice(j, 1);
+      }
+    }
+    boost.forEach((v, kk) => { const nv = v * Math.exp(-simDt / 3.5); if (nv < 0.02) boost.delete(kk); else boost.set(kk, nv); });
+
     // Ideas, one at a time: each shot passes them its own way.
     if (simDt > 0 && introT > 2.4) {
       if (shotNow !== lastBeat) { lastBeat = shotNow; nextSpark = t + 0.6; }
       if (t >= nextSpark && sparks.length < 6) spawn(shotNow);
     }
-    sparks.forEach((s) => { if (t >= s.t0 + s.dur) { B[s.b].flash = 1; if (s.b === ORB) orbFlash = Math.max(orbFlash, 0.6); s.then?.(); } });
+    sparks.forEach((s) => { if (t >= s.t0 + s.dur) { B[s.b].flash = 1; boost.set(key(s.a, s.b), 1); if (s.b === ORB) orbFlash = Math.max(orbFlash, 0.6); s.then?.(); } });
     for (let j = sparks.length - 1; j >= 0; j--) if (t >= sparks[j].t0 + sparks[j].dur) sparks.splice(j, 1);
   };
   const S1 = () => Math.min(W, H) / 800;
   const lit = (a: number, b: number) => (tiesNow.get(key(a, b)) ?? 0) > 0.5 && B[a].a > 0.4 && B[b].a > 0.4;
   const send = (a: number, b: number, delay = 0, dur = 1.1, then?: () => void) => { sparks.push({ a, b, t0: t + delay, dur, then }); };
+  // An idea down the spokes: The Labs to a regional Lab, then on to each of its neighbourhoods.
+  const cascade = (c: number, delay: number) => send(ORB, CROWD + c, delay, 1.3, () => { for (let n = 3; n < NCL; n++) if (PARENT[n] === c) send(CROWD + c, CROWD + n, 0, 0.9); });
   const spawn = (s: number) => {
     round++;
     if (s === 2) {
@@ -395,13 +467,13 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
       const f = [...tiesNow.keys()].map(ends).find(([x, y]) => (x === ORB || y === ORB) && (x < F || y < F));
       if (f) {
         const from = f[0] === ORB ? f[1] : f[0];
-        send(from, ORB, 0, 1.0, () => { for (let c = 0; c < NCL; c++) send(ORB, CROWD + c, c * 0.06, 1.2); });
+        send(from, ORB, 0, 1.0, () => { for (let c = 0; c < 3; c++) cascade(c, c * 0.08); });
       }
-      nextSpark = t + 5.2;
-    } else if ((s === 0 || s === 4) && round % 4 === 0) {
-      // Now and then, out from The Labs to another Lab on screen: what's made here travels.
-      const labs = Array.from({ length: NCL }, (_, c) => CROWD + c).filter((n) => B[n].a > 0.3 && B[n].x > 0 && B[n].x < W && B[n].y > 0 && B[n].y < H);
-      if (labs.length) send(ORB, labs[round % labs.length], 0, 1.6);
+      nextSpark = t + 5.6;
+    } else if ((s === 0 || s === 4) && round % 3 === 0) {
+      // Now and then, out from The Labs down a spoke to a regional Lab on screen, and on to its neighbourhoods.
+      const on = [0, 1, 2].filter((c) => { const b = B[CROWD + c]; return b.a > 0.3 && b.x > 0 && b.x < W && b.y > 0 && b.y < H; });
+      if (on.length) cascade(on[round % on.length], 0);
       nextSpark = t + 2.6;
     } else {
       // Anywhere along a tie between two people.
@@ -462,28 +534,37 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
   // Other Labs: a small orb each, softly lit (brighter as an idea arrives), a few people circling it.
   // Where the story's words are (bottom left; on a phone, the lower part, higher for the last shot's choice),
   // the distant things step back, so they never sit behind a line you're reading.
+  // Under the title, the same: nothing drifts up against its facts.
   let beatsNow = [1, 0, 0, 0, 0];
   const hush = (x: number, y: number) => {
-    const q = 1 - beatsNow[0]; if (q <= 0) return 1;
+    const h0 = beatsNow[0] > 0 ? 1 - beatsNow[0] * (1 - clamp((y - clearTop - 6) / 44, 0.1, 1)) : 1;
+    const q = 1 - beatsNow[0]; if (q <= 0) return h0;
     const portrait = W < H * 0.9;
     const k = portrait ? clamp((H * lerp(0.74, 0.47, beatsNow[4]) - y) / (H * 0.1), 0.15, 1) : clamp((x - W * 0.27) / (W * 0.1), 0.15, 1);
-    return 1 - q * (1 - k);
+    return h0 * (1 - q * (1 - k));
+  };
+  // And a Lab never sits behind one of the seven: it steps back as a face passes in front of it.
+  const clearOf = (x: number, y: number, r: number) => {
+    let k = 1;
+    for (let f = 0; f < F; f++) { const b = B[f]; if (b.a < 0.3) continue; k = Math.min(k, clamp((Math.hypot(b.x - x, b.y - y) - b.d / 2 - r) / (r * 2 + 12), 0.15, 1)); }
+    return k;
   };
   const drawLabs = () => {
     if (!orbImg) return;
     const sc = Math.min(W, H) / 800;
     for (let n = CROWD; n < N; n++) {
       const b = B[n]; if (b.a < 0.01) continue;
-      const r = b.d / 2, R = r * 2.8;
-      g.save(); g.globalAlpha = b.a * hush(b.x, b.y);
+      // A Lab is as big and as bright as its people.
+      const crew = crews[n - CROWD], m = crew.length, r = (b.d / 2) * (0.82 + 0.025 * m), R = r * 2.8;
+      g.save(); g.globalAlpha = b.a * hush(b.x, b.y) * clearOf(b.x, b.y, r * 2.2);
       const q = g.createRadialGradient(b.x, b.y, r * 0.5, b.x, b.y, R);
-      q.addColorStop(0, `rgba(0,170,180,${(0.2 + 0.45 * b.flash).toFixed(3)})`); q.addColorStop(1, "rgba(0,170,180,0)");
+      q.addColorStop(0, `rgba(0,170,180,${(0.1 + 0.018 * m + 0.45 * b.flash).toFixed(3)})`); q.addColorStop(1, "rgba(0,170,180,0)");
       g.fillStyle = q; g.fillRect(b.x - R, b.y - R, R * 2, R * 2);
       const ct = Math.cos(-12 * DEG), st = Math.sin(-12 * DEG);
       const people = (front: boolean) => {
-        for (let j = 0; j < 9; j++) {
-          const rr = j % 3 === 2 ? 2.6 : 1.9, th = (j / 9) * TAU * (rr > 2 ? -1 : 1) + t * (rr > 2 ? 0.3 : 0.45) + n, s = Math.sin(th); if (front !== s >= 0) continue;
-          const ex = r * rr * Math.cos(th), ey = r * rr * 0.32 * s;
+        for (const p of crew) {
+          const th = p.ph + p.sp * t, s = Math.sin(th); if (front !== s >= 0) continue;
+          const ex = r * p.rr * Math.cos(th), ey = r * p.rr * 0.34 * s;
           g.beginPath(); g.arc(b.x + ex * ct - ey * st, b.y + ex * st + ey * ct, 1.5 * sc, 0, TAU);
           g.fillStyle = `rgba(255,228,204,${(0.45 + 0.35 * (s + 1) / 2).toFixed(3)})`; g.fill();
         }
@@ -537,12 +618,23 @@ export function mountPeople(wrap: HTMLElement, opts: PeopleOptions = {}): People
     g.lineWidth = 1; g.lineCap = "round";
     tiesNow.forEach((v, kk) => {
       const [a, b] = ends(kk); const A = B[a], Bb = B[b];
-      const al = v * Math.min(A.a, Bb.a); if (al < 0.01) return;
+      const lab = a >= CROWD || b >= CROWD, bo = boost.get(kk) ?? 0;
+      const al = Math.min(1, v + 0.8 * bo) * Math.min(A.a, Bb.a) * (lab ? Math.min(hush(A.x, A.y), hush(Bb.x, Bb.y)) * (a >= CROWD ? clearOf(A.x, A.y, A.d) : 1) * (b >= CROWD ? clearOf(Bb.x, Bb.y, Bb.d) : 1) : 1); if (al < 0.01) return;
       const e = edge(A, Bb); if (!e) return;
-      g.strokeStyle = `rgba(170,232,228,${(0.34 * al).toFixed(3)})`;
+      g.strokeStyle = `rgba(170,232,228,${((lab ? 0.38 : 0.34) * al + 0.2 * bo * Math.min(A.a, Bb.a)).toFixed(3)})`;
       g.beginPath(); g.moveTo(e.x0, e.y0); g.lineTo(e.x1, e.y1); g.stroke();
     });
     drawLabs();
+    // Newcomers: a point with its path behind it, fading.
+    for (const q of comers) {
+      const h = hush(q.x, q.y) * clamp(q.age / 0.6, 0, 1), sc = Math.min(W, H) / 800, L = q.trail.length / 2;
+      for (let j = 1; j < L; j++) {
+        g.strokeStyle = `rgba(255,228,204,${(0.35 * (j / L) * h).toFixed(3)})`; g.lineWidth = 1.2 * sc;
+        g.beginPath(); g.moveTo(q.trail[(j - 1) * 2], q.trail[(j - 1) * 2 + 1]); g.lineTo(q.trail[j * 2], q.trail[j * 2 + 1]); g.stroke();
+      }
+      g.beginPath(); g.arc(q.x, q.y, 2 * sc, 0, TAU); g.fillStyle = `rgba(255,236,214,${(0.85 * h).toFixed(3)})`; g.fill();
+    }
+    g.lineWidth = 1;
     const faces = [0, 1, 2, 3, 4, 5, 6].sort((x, y) => B[x].z - B[y].z);
     faces.filter((f) => B[f].z < 0).forEach(drawFace);
     if (B[SEAT].z < 0) drawSeat();
