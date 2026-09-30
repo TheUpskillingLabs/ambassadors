@@ -58,34 +58,29 @@
 .hm-path small { font-size: 13px; font-weight: 400; letter-spacing: 0; color: var(--t2); }
 .hm-both { margin: 12px 0 0; font-size: var(--fs-sm); color: var(--t2); }
 .hm-curious { display: inline-block; margin-top: 10px; font-size: var(--fs-sm); font-weight: 600; }
-.hm-beat-hint { margin: 14px 0 0; font-size: var(--fs-sm); color: var(--t2); }
-.hm-beat-hint .coarse { display: none; }
-@media (hover: none) { .hm-beat-hint .fine { display: none; } .hm-beat-hint .coarse { display: inline; } }
 
-/* "You": a tag that follows your cursor, a newcomer in the system. */
-.hm-tag { position: absolute; z-index: 3; left: 0; top: 0; margin: 0; display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px 5px 8px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 999px; background: rgba(0, 20, 27, 0.62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-  font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t1); white-space: nowrap; opacity: 0; pointer-events: none; translate: 14px -50%; transition: opacity 0.2s; will-change: transform, opacity; }
+/* What you're pointing at (or tapped): a small card beside it, set by the page's script. */
+.hm-card { position: absolute; z-index: 4; left: 0; top: 0; max-width: 260px; padding: 9px 13px 10px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 10px; background: rgba(0, 20, 27, 0.8);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.15s; pointer-events: none; will-change: transform, opacity; }
+.hm-card.on { opacity: 1; }
+.hm-card p { margin: 0; }
+.hm-card-k { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
+.hm-card-t { margin-top: 5px !important; font-size: 15px; font-weight: 600; line-height: 1.25; color: var(--t1); }
+.hm-card-d { margin-top: 2px !important; font-size: 13px; line-height: 1.4; color: var(--t2); }
+/* The marks, as the model draws them: people warm dots, places teal squares, projects red diamonds, knowledge
+   pale rings; a Lab, a small orb. */
 .mk { display: block; width: 9px; height: 9px; flex: none; }
-.mk-you { border-radius: 50%; background: #FFC880; box-shadow: 0 0 10px 2px rgba(255, 200, 128, 0.7); }
-.hm-you { translate: 16px -50%; color: #FFE3C2; }
+.mk-person, .mk-contributor { border-radius: 50%; background: #FFDBBD; }
+.mk-place { width: 8px; height: 8px; background: #24D6DB; }
+.mk-project { width: 8px; height: 8px; background: #FF5C47; transform: rotate(45deg) scale(0.9); }
+.mk-knowledge { border-radius: 50%; border: 1.5px solid #9EFFF5; }
+.mk-lab { border-radius: 50%; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); }
+/* No chapter marks, key or cue: the story is to feel, not to read. A way past it for the keyboard only. */
+.hm-skip { position: absolute; z-index: 5; left: var(--g); top: calc(var(--head) + 12px); padding: 8px 14px; border-radius: 999px; background: var(--ink); border: 1px solid var(--teal);
+  font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t1); text-decoration: none; opacity: 0; pointer-events: none; }
+.hm-skip:focus-visible { opacity: 1; pointer-events: auto; outline: none; }
+.is-still .hm-skip { display: none; }
 
-/* The chapter rail: a mark for each shot, the current one lit, and a way past the story. */
-.hm-rail { position: absolute; z-index: 3; right: var(--g); top: 50%; translate: 0 -50%; display: flex; flex-direction: column; align-items: flex-end; gap: 18px; }
-.hm-rail ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-.hm-rail a[data-go] { display: flex; align-items: center; gap: 12px; padding: 6px 0; color: var(--t2); text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-.hm-rail a[data-go] span { opacity: 0; translate: 6px 0; transition: opacity 0.2s, translate 0.2s; white-space: nowrap; }
-.hm-rail a[data-go] i { width: 18px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, 0.3); transition: width 0.25s, background 0.25s; }
-.hm-rail a[data-go][aria-current] { color: var(--t1); }
-.hm-rail a[data-go][aria-current] i { width: 34px; background: var(--teal); }
-.hm-rail:hover a[data-go] span, .hm-rail a[data-go]:focus-visible span, .hm-rail a[data-go][aria-current] span { opacity: 1; translate: 0 0; }
-.hm-rail a:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; border-radius: 4px; }
-.hm-skip { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t2); text-decoration: none; }
-.hm-skip:hover { color: var(--t1); }
-.is-still .hm-rail { display: none; }
-
-.hm-cue { position: absolute; z-index: 3; left: 50%; bottom: 22px; margin: 0; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t2); pointer-events: none; }
-.hm-cue i { width: 1px; height: 36px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)); animation: hm-cue 2.2s ease-in-out infinite; transform-origin: top; }
-@keyframes hm-cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
 .hm-pause { position: absolute; z-index: 3; right: var(--g); bottom: 20px; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px; background: rgba(0, 20, 27, 0.5);
   font: inherit; font-size: 13px; font-weight: 600; color: var(--t1); cursor: pointer; }
 .hm-pause[hidden] { display: none; }
@@ -102,10 +97,9 @@
 .is-still .hm-orbit { bottom: auto; height: 100svh; }
 .is-still .hm-hero-copy { opacity: 1 !important; transform: none !important; }
 .is-still .hm-beats { position: relative; left: auto; bottom: auto; width: auto; margin-top: calc(100svh + 24px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gut); padding: 0 var(--g) clamp(40px, 8vh, 80px); }
-.is-still .hm-beat-hint { display: none; }
 .is-still .hm-beat { position: static; opacity: 1 !important; transform: none !important; }
 .is-still .hm-beat-line { font-size: var(--fs-lead); }
-.is-still .hm-cue, .is-still .hm-you { display: none; }
+.is-still .hm-card { display: none; }
 
 .hm-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 28px; }
 .hm-actions .textlink { font-size: 17px; font-weight: 600; }
@@ -263,13 +257,6 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   .hm-beat-line { font-size: 24px; }
   .is-still .hm-beats { grid-template-columns: minmax(0, 1fr); width: auto; }
   .hm-pause { bottom: 14px; }
-  .hm-cue { display: none; }
-  .hm-rail { top: auto; bottom: 64px; translate: none; gap: 10px; }
-  .hm-rail a[data-go] { padding: 4px 0; }
-  .hm-rail a[data-go] span, .hm-rail:hover a[data-go] span { display: none; }
-  .hm-rail a[data-go] i { width: 12px; }
-  .hm-rail a[data-go][aria-current] i { width: 22px; }
-  .hm-skip { display: none; }
   .rp .hm-path { padding: 9px 14px; font-size: 16px; }
   .hm-paths { gap: 6px; }
   .hm-beat-cta { margin-top: 16px; }

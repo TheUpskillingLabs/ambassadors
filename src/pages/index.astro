@@ -99,7 +99,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       <!-- The hero: the title over a live model of The Labs, then its story, one shot per scroll. -->
       <section id="top" class="hm-model" data-story>
         <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
-        <div class="hm-stage" data-stage data-faces={JSON.stringify(faces)}>
+        <div class="hm-stage" data-stage data-faces={JSON.stringify(faces)} data-words={JSON.stringify(h.model.hover)}>
           <div class="hm-hero-copy" data-hero-copy>
             <p class="status hm-eyebrow rise" data-when="open" data-quiet><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
             <p class="status hm-eyebrow rise" data-when="closed" data-quiet><i aria-hidden="true"></i>{h.hero.eyebrowClosed}</p>
@@ -123,18 +123,16 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
                     </ul>
                     <p class="hm-both">{h.model.paths.both}</p>
                     <a class="textlink hm-curious" href={L.events}>{h.model.paths.curious} →</a>
-                    <p class="hm-beat-hint"><span class="fine">{h.model.click}</span><span class="coarse">{h.model.tap}</span></p>
                   </div>
                 )}
               </li>
             ))}
           </ol>
-          <nav class="hm-rail" aria-label={h.model.rail.label} data-quiet>
-            <ol>{h.model.rail.items.map((t, i) => <li><a href="#top" data-go={i}><span>{t}</span><i aria-hidden="true"></i></a></li>)}</ol>
-            <a class="hm-skip" href="#intro">{h.model.rail.skip} <b aria-hidden="true">↓</b></a>
-          </nav>
-          <p class="hm-tag hm-you" data-you aria-hidden="true"><i class="mk mk-you"></i>{h.model.you}</p>
-          <p class="hm-cue" data-cue aria-hidden="true"><span>{h.model.cue}</span><i></i></p>
+          <!-- The story is to feel, not to read: no chapter marks, no key, no cue. A way past it for the keyboard only,
+               shown when it has focus. -->
+          <a class="hm-skip" href="#intro">{h.model.skip}</a>
+          <!-- What you're pointing at (or tapped): a card beside it, from the model. -->
+          <div class="hm-card" data-card aria-hidden="true"><p class="hm-card-k"><i data-card-mk></i><span data-card-kind></span></p><p class="hm-card-t" data-card-title></p><p class="hm-card-d" data-card-detail></p></div>
           <button class="hm-pause" type="button" data-quiet aria-pressed="false" aria-label={h.model.pauseLabel} data-pause data-pause-label={h.model.pauseLabel} data-play-label={h.model.playLabel} data-pause-text={h.model.pause} data-play-text={h.model.play}>
             <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M3 2h2v8H3zM7 2h2v8H7z" /><path class="i-play" d="M3 2l7 4-7 4z" /></svg>
             <span>{h.model.pause}</span>
@@ -417,7 +415,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     <script>
       import { openCovers } from "../scripts/covers";
       import { initMenu } from "../scripts/navmenu";
-      import { mountOrbNet, SHOT_AT } from "../scripts/orbnet";
+      import { mountOrbNet } from "../scripts/orbnet";
 
       // The header's button steps aside while the hero or the intro's button is
       // on screen, and again at the join section, so the page never shows two.
@@ -443,11 +441,12 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       const stage = document.querySelector<HTMLElement>("[data-stage]")!;
       const copy = stage.querySelector<HTMLElement>("[data-hero-copy]")!;
       const beatsEl = [...stage.querySelectorAll<HTMLElement>("[data-beat]")];
-      const you = stage.querySelector<HTMLElement>("[data-you]")!;
-      const cue = stage.querySelector<HTMLElement>("[data-cue]")!;
+      const card = stage.querySelector<HTMLElement>("[data-card]")!;
+      const cardMk = card.querySelector<HTMLElement>("[data-card-mk]")!, cardKind = card.querySelector<HTMLElement>("[data-card-kind]")!;
+      const cardTitle = card.querySelector<HTMLElement>("[data-card-title]")!, cardDetail = card.querySelector<HTMLElement>("[data-card-detail]")!;
+      let cardWas = "";
       const pause = stage.querySelector<HTMLButtonElement>("[data-pause]")!;
       const orbLink = stage.querySelector<HTMLAnchorElement>("[data-orb-link]")!;
-      const rail = [...stage.querySelectorAll<HTMLAnchorElement>("[data-go]")];
       const facesData = JSON.parse(stage.dataset.faces ?? "[]") as string[];
       // The header's mark: hidden while the stage holds the orb, docking as the stage scrolls away and the
       // orb rises to the header (from wherever the last frame left it; the poster's place without one).
@@ -461,28 +460,27 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       window.addEventListener("scroll", dock, { passive: true });
       window.addEventListener("resize", dock);
       dock();
-      // The chapter rail: each mark scrolls to its shot.
-      rail.forEach((a, i) => a.addEventListener("click", (e) => {
-        e.preventDefault();
-        const top = story.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top: top + (story.offsetHeight - window.innerHeight) * SHOT_AT[i] + 1, behavior: reduce ? "auto" : "smooth" });
-      }));
       if (still) story.classList.add("is-still");
       const net = mountOrbNet(stage.querySelector<HTMLElement>("[data-orbnet]")!, {
-        still, poster: orbMode === "poster", story, stage, faces: facesData,
+        still, poster: orbMode === "poster", story, stage, faces: facesData, words: JSON.parse(stage.dataset.words ?? "{}"),
         onFrame: (f) => {
           copy.style.opacity = String(f.beats[0]);
           copy.style.transform = `translateY(${(-(1 - f.beats[0]) * 48).toFixed(1)}px)`;
           beatsEl.forEach((el, i) => { const w = f.beats[i + 1]; el.style.opacity = String(w); el.style.transform = `translateY(${((1 - w) * 18).toFixed(1)}px)`; el.classList.toggle("on", w > 0.5); });
-          you.style.opacity = f.you ? "1" : "0"; if (f.you) you.style.transform = `translate(${f.you.x.toFixed(1)}px, ${f.you.y.toFixed(1)}px)`;
-          cue.style.opacity = String(Math.max(0, 1 - f.p * 40));
+          // The card: beside what you're pointing at, flipped to its left near the right edge.
+          const hv = f.hover;
+          card.classList.toggle("on", !!hv);
+          if (hv) {
+            const was = hv.type + hv.title + hv.detail;
+            if (was !== cardWas) { cardWas = was; cardMk.className = `mk mk-${hv.type}`; cardKind.textContent = hv.kind; cardTitle.textContent = hv.title; cardDetail.textContent = hv.detail; }
+            const flip = hv.x > stage.clientWidth - 300;
+            card.style.transform = `translate(${(flip ? hv.x - hv.r - 14 : hv.x + hv.r + 14).toFixed(1)}px, ${hv.y.toFixed(1)}px) translate(${flip ? "-100%" : "0"}, -50%)`;
+          }
           // The orb is the button: a link laid over it, its label shown on hover and in the last shot.
           orbLink.style.transform = `translate(${(f.orb.x - f.orb.r).toFixed(1)}px, ${(f.orb.y - f.orb.r).toFixed(1)}px)`;
           orbLink.style.width = orbLink.style.height = `${(f.orb.r * 2).toFixed(1)}px`;
           orbLink.style.setProperty("--show", String(Math.max(f.beats[0], f.beats[4])));
           if (f.orb.r > 0) { orbY = f.orb.y; dock(); }
-          const on = f.beats.indexOf(Math.max(...f.beats));
-          rail.forEach((a, i) => { if (i === on) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
         },
       });
       if (!net || still) pause.hidden = true;

@@ -66,10 +66,6 @@
         "line": "Be part of something bigger."
       }
     ],
-    "you": "You",
-    "click": "Or click anywhere in the system to join a Lab.",
-    "tap": "Or tap anywhere in the system to join a Lab.",
-    "cue": "Scroll",
     "pause": "Pause",
     "play": "Play",
     "paths": {
@@ -95,21 +91,85 @@
       "both": "Most people end up doing both.",
       "curious": "Not sure yet? Drop into a workshop"
     },
-    "rail": {
-      "label": "The story",
-      "items": [
-        "Find your people",
-        "Build",
-        "Together",
-        "Bigger",
-        "You"
-      ],
-      "skip": "Skip the story"
-    },
+    "skip": "Skip the story",
     "orb": "Join The Labs",
     "orbLabel": "Join The Labs: create your free Upskilling account",
     "pauseLabel": "Pause the animation",
-    "playLabel": "Play the animation"
+    "playLabel": "Play the animation",
+    "hover": {
+      "$comment": "What pointing at (or tapping) part of the model says: the kind of actor, and what it's doing here. Pairs are [one, many]; {n} is a count from the model. The model's people are illustrative, except the faces: the first cohort's portraits.",
+      "person": {
+        "kind": "Person",
+        "dc": "Someone in the DC Lab",
+        "lab": "Someone in another Lab",
+        "projects": [
+          "on 1 project",
+          "on {n} projects"
+        ],
+        "people": [
+          "knows 1 person here",
+          "knows {n} people here"
+        ],
+        "none": "Just getting to know people",
+        "meetsDc": "meets at DC Public Library",
+        "meets": "meets at a library nearby"
+      },
+      "face": {
+        "kind": "Person",
+        "title": "From the first cohort",
+        "detail": "Building a project with their team, in the DC Lab"
+      },
+      "newcomer": {
+        "kind": "Newcomer",
+        "title": "Just arriving",
+        "detail": "Drawn to the Lab with the strongest pull"
+      },
+      "contributor": {
+        "kind": "Contributor",
+        "title": "Looks after the commons",
+        "detail": "What every Lab shares"
+      },
+      "bridge": {
+        "kind": "Contributor",
+        "title": "Links a Lab to the commons",
+        "detail": "Carries ideas up to The Labs, and back"
+      },
+      "place": {
+        "kind": "Place",
+        "dc": "DC Public Library",
+        "dcDetail": "Where the DC Lab meets",
+        "title": "Where a Lab meets",
+        "detail": "A library or a community space"
+      },
+      "project": {
+        "kind": "Project",
+        "people": [
+          "Built by 1 person",
+          "Built by {n} people"
+        ],
+        "dc": "In the DC Lab",
+        "lab": "In another Lab",
+        "team": "A team from the first cohort, in the DC Lab"
+      },
+      "knowledge": {
+        "kind": "Knowledge",
+        "title": "A playbook, a dataset or some code",
+        "projects": [
+          "Used by 1 project",
+          "Used by {n} projects"
+        ],
+        "detail": "Made while building",
+        "commons": "In the commons",
+        "commonsDetail": "Open for every Lab to reuse"
+      },
+      "lab": {
+        "kind": "Lab",
+        "dc": "The DC Lab",
+        "dcDetail": "Meets at DC Public Library",
+        "title": "A local Lab",
+        "detail": "Its own people, places and projects"
+      }
+    }
   },
   "intro": {
     "lede": "The way we work is changing, with AI in its foundations, and it's easier to learn together than alone. The Upskilling Labs is a free community where you find people near you, build something real, and grow more confident together.",
