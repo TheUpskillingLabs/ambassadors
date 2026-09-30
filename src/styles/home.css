@@ -18,13 +18,15 @@
 /* The eyebrow is the news (the logo already names The Labs): the cycle that's open, with its live dot. */
 .rp .hm-eyebrow { position: relative; z-index: 1; width: fit-content; max-width: 100%; font-size: var(--fs-cap); letter-spacing: 0.1em; white-space: nowrap; }
 
-/* The orb is the button: a round link over it; its label appears on hover, on focus, and in the last shot. */
-.hm-orb-link { --show: 0; position: absolute; z-index: 3; left: 0; top: 0; border-radius: 50%; text-decoration: none; will-change: transform; }
+/* The orb is the button: a round link laid exactly over it, its label set on the orb's own face, across the
+   dark middle band, not in a pill beneath. It shows in the opening and the last shot, and whenever you point at
+   it or focus it; the orb itself brightens and swells a little under the pointer. */
+.hm-orb-link { --show: 0; position: absolute; z-index: 3; left: 0; top: 0; display: grid; place-items: center; border-radius: 50%; text-decoration: none; container-type: inline-size; will-change: transform; }
 .hm-orb-link:focus-visible { outline: 2px solid var(--teal); outline-offset: 10px; }
-.hm-orb-label { position: absolute; left: 50%; top: calc(100% + 18px); translate: -50% 0; padding: 9px 16px; border-radius: 999px; background: var(--teal); color: #fff;
-  font-size: 15px; font-weight: 600; white-space: nowrap; box-shadow: 0 10px 40px -10px rgba(var(--tl), 0.9);
-  opacity: var(--show); transform: translateY(calc((1 - var(--show)) * 8px)); transition: opacity 0.25s, transform 0.25s; pointer-events: none; }
-.hm-orb-link:hover .hm-orb-label, .hm-orb-link:focus-visible .hm-orb-label { opacity: 1; transform: none; }
+.hm-orb-label { font-size: clamp(14px, 10.5cqw, 26px); font-weight: 600; letter-spacing: -0.01em; line-height: 1; color: #fff; white-space: nowrap;
+  text-shadow: 0 1px 22px rgba(0, 20, 27, 0.9), 0 0 3px rgba(0, 20, 27, 0.7);
+  opacity: var(--show); transition: opacity 0.3s, letter-spacing 0.3s; pointer-events: none; }
+.hm-orb-link:hover .hm-orb-label, .hm-orb-link:focus-visible .hm-orb-label { opacity: 1; letter-spacing: 0.01em; }
 .hm-orb-label b { font-weight: 600; }
 .is-still .hm-orb-link { display: none; }
 
