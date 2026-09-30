@@ -99,6 +99,19 @@
 .hm-actions .textlink { font-size: 17px; font-weight: 600; }
 .rp .ghost.small { min-height: 44px; padding: 0 18px; font-size: 15px; }
 
+/* ── the header's mark: one orb at a time. While the hero's orb holds the stage the header shows the
+   wordmark alone (shifted into the mark's place); as the stage scrolls away the mark rolls in and the
+   wordmark makes room. --m (0–1) is set by the page's script; without it the lockup stays whole. ── */
+.hm-brand { --m: 1; --bh: 48px; gap: 0; transform: translateX(calc((var(--m) - 1) * var(--bh) * 1.104)); transition: transform 0.3s; }
+html[data-menu] .hm-brand { --m: 0; }
+.jp-brand.hm-brand img { height: var(--bh); }
+html[data-scrolled="true"] .hm-brand { --bh: 38px; }
+.hm-mark { opacity: var(--m); transform: scale(calc(0.5 + 0.5 * var(--m))) rotate(calc((1 - var(--m)) * -50deg)); transform-origin: 62% 50%; transition: opacity 0.3s, transform 0.3s; }
+@media (max-width: 680px) {
+  .hm-brand { --bh: 40px; }
+  html[data-scrolled="true"] .hm-brand { --bh: 34px; }
+}
+
 /* ── intro: the cohort's faces, overlapping, over how many people are in so far. ── */
 .hm-people { margin-top: 36px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .hm-faces { list-style: none; margin: 0; padding: 0; display: flex; }
