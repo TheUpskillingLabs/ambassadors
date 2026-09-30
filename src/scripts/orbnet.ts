@@ -32,10 +32,11 @@
    The page's scroll moves the camera through five shots, and each shot brings
    forward the kind of actor it's about:
      0  the logo's view: the orb and the system round it, under the title
-     1  build: inside the DC Lab, projects sparking as people build (projects)
-     2  together: close on DC's people, the first cohort's faces lit (people)
-     3  bigger: a spark from DC up to the orb and back out to every Lab
-        (knowledge, which the commons keeps)
+     1  together: inside the DC Lab, its people and the library (people, places)
+     2  build: close on a team round its project, the first cohort's faces lit
+        (projects)
+     3  further: a spark from DC up to the orb and back out to every Lab
+        (knowledge, which the commons keeps: what goes into every Lab next)
      4  you: the whole system from above, and the orb is the way in
 
    To make it legible, anything in it can be asked what it is: point at an
@@ -1122,7 +1123,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   };
   // What each shot is about, by kind of actor (people, places, projects, knowledge): it steps forward, the
   // rest back a little.
-  const EMPH = [[1, 1, 1, 1], [0.75, 0.85, 1.5, 0.85], [1.15, 0.7, 0.75, 0.7], [0.85, 0.85, 0.9, 1.45], [1, 1, 1, 1]];
+  const EMPH = [[1, 1, 1, 1], [1.2, 1.3, 0.8, 0.8], [1.1, 0.7, 1.4, 0.7], [0.85, 0.85, 0.9, 1.45], [1, 1, 1, 1]];
 
   /* the frame */
   const t0 = performance.now();

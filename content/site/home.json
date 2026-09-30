@@ -2,7 +2,7 @@
   "$comment": "The Upskilling Labs home page (/), a prototype of the pre-login experience for OLOS, the app behind theupskillinglabs.org, to adopt. Facts come from the live home page (Sep 29, 2026) and content/site/ladder.json. The sessions, cities and member count are a snapshot: in OLOS they come from its own data (events, Labs, members), and the links below point at the live site until then. Built on the role pages' system (src/styles/role.css). Every path starts with one free Upskilling account (OLOS manages everything centrally): Join The Labs creates it.",
   "placeholder": true,
   "title": "The Upskilling Labs",
-  "description": "A free community where people learn by building real things together, in person and near you. Find your people. Build your edge.",
+  "description": "A free community: workshops twice a week at the library, twelve-week Build Cycles, and contributors making it better for every Lab that comes next. Find your people. Build your edge.",
   "links": {
     "join": "https://theupskillinglabs.org/login?intent=join",
     "login": "https://theupskillinglabs.org/login",
@@ -15,9 +15,9 @@
     "github": "https://github.com/TheUpskillingLabs/OLOS"
   },
   "nav": {
-    "how": "How it works",
-    "sessions": "Sessions",
-    "roles": "Roles",
+    "ways": "Take part",
+    "how": "Build Cycles",
+    "sessions": "Workshops",
     "story": "Our story",
     "login": "Log in",
     "cta": "Join The Labs",
@@ -32,34 +32,33 @@
     "orbLabel": "The Labs orb at the centre of a living network: local Labs full of people and their projects, orbiting it, with sparks of new ideas travelling between them.",
     "eyebrowClosed": "Fall 2026 is underway",
     "spec": {
-      "$comment": "The facts, on the first screen, before the story: what it is, where, how long, when. Switches with the cycle's state (cycle.closes).",
+      "$comment": "The facts, on the first screen, before the story: what it costs, the always-on way in, and the next Build Cycle. Switches with the cycle's state (cycle.closes).",
       "open": [
         "Free",
-        "In person at DC Public Library",
-        "12 weeks",
-        "Starts Oct 13"
+        "Workshops twice a week at DC Public Library",
+        "Next Build Cycle: 12 weeks from Oct 13"
       ],
       "closed": [
         "Free",
-        "In person at DC Public Library",
-        "Workshops every week"
+        "Workshops twice a week at DC Public Library",
+        "Next Build Cycle: dates to come"
       ]
     }
   },
   "model": {
-    "$comment": "The hero's story, for the people we're recruiting (Upskillers and Mentors): the core benefits, and the feeling of joining something bigger, over the live model (src/scripts/orbnet.ts). One line for each of its four shots after the title.",
+    "$comment": "The hero's story: what it feels like to join, build and contribute, over the live model (src/scripts/orbnet.ts), one line for each of its four shots after the title. The shots follow the title: find your people (the whole DC Lab), build your edge (a team round its project), then further (an idea going into every Lab that comes next), then you.",
     "beats": [
+      {
+        "kicker": "Together",
+        "line": "In person, twice a week, beside people who've been where you are."
+      },
       {
         "kicker": "Build",
         "line": "Learn by building something real, on a team."
       },
       {
-        "kicker": "Together",
-        "line": "Free, in person, beside people who've been where you are."
-      },
-      {
-        "kicker": "Bigger",
-        "line": "What you build travels further than you."
+        "kicker": "Further",
+        "line": "What we figure out here goes into every Lab that comes next."
       },
       {
         "kicker": "You",
@@ -69,27 +68,39 @@
     "pause": "Pause",
     "play": "Play",
     "paths": {
+      "$comment": "The last shot's choice: the three ways in, each straight to the free account with its path (?path=, proposed for OLOS), and what happens after it.",
       "ask": "I want to",
       "items": [
         {
-          "slug": "upskiller",
+          "tag": "Join",
+          "label": "Find my people",
+          "path": "workshops",
+          "next": {
+            "open": "Then drop into a workshop, twice a week.",
+            "closed": "Then drop into a workshop, twice a week."
+          }
+        },
+        {
+          "tag": "Build",
           "label": "Learn by building",
+          "path": "upskiller",
           "next": {
             "open": "Then apply for Fall 2026.",
             "closed": "Then a workshop, and the next cycle."
           }
         },
         {
-          "slug": "mentor",
-          "label": "Pass on what I know",
+          "tag": "Contribute",
+          "label": "Share what I know",
+          "path": "contributor",
           "next": {
-            "open": "Then help at a workshop.",
-            "closed": "Then help at a workshop."
+            "open": "Mentor, or help make The Labs better.",
+            "closed": "Mentor, or help make The Labs better."
           }
         }
       ],
-      "both": "Most people end up doing both.",
-      "curious": "Not sure yet? Drop into a workshop"
+      "both": "Most people end up doing more than one.",
+      "curious": "Not sure yet? See this week's workshops"
     },
     "skip": "Skip the story",
     "orb": "Join The Labs",
@@ -101,7 +112,7 @@
       "person": {
         "kind": "Person",
         "dc": "Someone in the DC Lab",
-        "lab": "Someone in another Lab",
+        "lab": "Someone in another city",
         "projects": [
           "on 1 project",
           "on {n} projects"
@@ -126,13 +137,13 @@
       },
       "contributor": {
         "kind": "Contributor",
-        "title": "Looks after the commons",
-        "detail": "What every Lab shares"
+        "title": "Improves how The Labs works",
+        "detail": "The workshops, the Build Cycle and the tools, in the open"
       },
       "bridge": {
         "kind": "Contributor",
-        "title": "Links a Lab to the commons",
-        "detail": "Carries ideas up to The Labs, and back"
+        "title": "Brings what a Lab learns back to everyone",
+        "detail": "So it goes into every Lab that comes next"
       },
       "place": {
         "kind": "Place",
@@ -148,7 +159,7 @@
           "Built by {n} people"
         ],
         "dc": "In the DC Lab",
-        "lab": "In another Lab",
+        "lab": "In another city",
         "team": "A team from the first cohort, in the DC Lab"
       },
       "knowledge": {
@@ -159,20 +170,20 @@
           "Used by {n} projects"
         ],
         "detail": "Made while building",
-        "commons": "In the commons",
-        "commonsDetail": "Open for every Lab to reuse"
+        "commons": "Open source",
+        "commonsDetail": "A playbook or a tool, shared with every Lab"
       },
       "lab": {
         "kind": "Lab",
         "dc": "The DC Lab",
         "dcDetail": "Meets at DC Public Library",
-        "title": "A local Lab",
-        "detail": "Its own people, places and projects"
+        "title": "A Lab to come",
+        "detail": "As The Labs grows, city by city"
       }
     }
   },
   "intro": {
-    "lede": "The way we work is changing, with AI in its foundations, and it's easier to learn together than alone. The Upskilling Labs is a free community where you find people near you, build something real, and grow more confident together.",
+    "lede": "The way we work is changing, with AI in its foundations, and it's easier to learn together than alone. The Upskilling Labs is a free community where you join people near you, build something real together, and contribute what you learn back to everyone.",
     "strong": "Free.",
     "terms": "One Upskilling account, whichever path you take.",
     "cta": "Join The Labs",
@@ -188,12 +199,12 @@
       {
         "icon": "free",
         "title": "Free, always.",
-        "body": "Workshops and Build Cycles cost nothing."
+        "body": "Workshops, Build Cycles and everything we make cost nothing."
       },
       {
         "icon": "place",
-        "title": "Rooted in your library.",
-        "body": "In person at your local Lab, with sessions online too."
+        "title": "Twice a week, at the library.",
+        "body": "Drop-in workshops in person at DC Public Library, with some online."
       },
       {
         "icon": "people",
@@ -202,14 +213,14 @@
       },
       {
         "icon": "keep",
-        "title": "Built in the open.",
-        "body": "Everything we make is open source, free for anyone to use and build on."
+        "title": "Built by the people who learn here.",
+        "body": "Contributors improve the workshops, the Build Cycle and the tools, in the open, for every Lab that comes next."
       }
     ]
   },
   "how": {
-    "kicker": "How it works",
-    "title": "One account. Then build something, and pass it on.",
+    "kicker": "How a Build Cycle works",
+    "title": "From a workshop to the Showcase.",
     "steps": [
       {
         "title": "Create your account.",
@@ -218,7 +229,7 @@
       },
       {
         "title": "Drop into a workshop.",
-        "body": "Weekly at the library, some online. Anyone can come; most people start here."
+        "body": "Twice a week at the library, some online. Anyone can come; most people start here."
       },
       {
         "title": "Apply for a Build Cycle.",
@@ -323,7 +334,7 @@
   },
   "sessions": {
     "kicker": "Workshops and sessions",
-    "title": "Drop into a session.",
+    "title": "Twice a week, drop in.",
     "all": "All events",
     "$comment": "A snapshot of the next sessions on Sep 29, 2026. In OLOS, the next few from its events.",
     "items": [
@@ -370,17 +381,8 @@
   "room": {
     "$comment": "Meet the Pods at the library (OLOS public/assets/img_9531.jpg).",
     "title": "Pull up a chair.",
-    "body": "It happens in person, at your library, with people figuring it out alongside you.",
+    "body": "It happens in person, at the library, with people figuring it out alongside you.",
     "alt": "A Labs evening at the library: people talking in small groups around the tables."
-  },
-  "roles": {
-    "kicker": "Two ways in",
-    "title": "Learn it. Then pass it on.",
-    "lede": "Upskillers learn by building. Mentors help a Pod past where it's stuck, and grow by doing it. Most people end up doing both: each cycle's Upskillers help the next one along. Both start with your free Upskilling account.",
-    "show": [
-      "upskiller",
-      "mentor"
-    ]
   },
   "spotlights": {
     "kicker": "Upskiller spotlights",
@@ -389,13 +391,13 @@
       {
         "quote": "The program gave me purpose again—connecting me with mission-driven public servants to tackle real problems.",
         "name": "Hector Perla",
-        "role": "Inaugural AI Cohort",
+        "role": "Inaugural AI Cohort, fall 2025",
         "photo": "hector"
       },
       {
         "quote": "I left realizing my gap is exactly where my strength lies—translating between tools, teams, and user needs.",
         "name": "Suzie Zhang",
-        "role": "Inaugural AI Cohort",
+        "role": "Inaugural AI Cohort, fall 2025",
         "photo": "suzie"
       }
     ],
@@ -439,8 +441,8 @@
         "body": "A pilot at the DC Public Library in the fall of 2025: a small group of 50 former federal workers, navigating career change and new technologies together. Now it's open to every professional."
       },
       {
-        "title": "Built to scale.",
-        "body": "We run the Build Cycle on ourselves and turn what works into an operating system and playbooks, so a new Lab can start anywhere without reinventing it."
+        "title": "Built by the people who learn here.",
+        "body": "We run the Build Cycle on ourselves, and contributors turn what works into playbooks and an open-source platform, so a new Lab can start anywhere without reinventing it."
       },
       {
         "title": "Expanding nationally.",
@@ -450,7 +452,7 @@
   },
   "join": {
     "title": "Find your people.",
-    "lede": "The systems we've relied on are breaking. Here, you're invited to turn that disruption into resilience, rooted in your local library and powered by you and your neighbors.",
+    "lede": "Drop in this week. Build something this fall. Make it better for the next person.",
     "cta": "Join The Labs",
     "donate": "Support The Labs",
     "note": "Creates your free Upskilling account, with Google."
@@ -472,5 +474,37 @@
     "privacy": "How we handle your data",
     "license": "MIT code · CC BY 4.0 content · Built in the open",
     "rights": "© 2026 The Upskilling Labs, Inc."
+  },
+  "ways": {
+    "$comment": "The three ways to take part, in the order most people go: join (the account, the workshops, the community), build (a Build Cycle), contribute (mentoring, and improving how The Labs works). No levels, pins, membership or dues here.",
+    "kicker": "Take part",
+    "title": "Join. Build. Contribute.",
+    "lede": "Start anywhere. Every way in begins with your free Upskilling account, and most people end up doing more than one.",
+    "items": [
+      {
+        "verb": "Join",
+        "title": "Find your people.",
+        "when": "Twice a week, drop in",
+        "body": "Workshops in person at DC Public Library, some online: skills for the way work is changing, and people to learn them with. Anyone can come.",
+        "link": "This week's workshops",
+        "to": "events"
+      },
+      {
+        "verb": "Build",
+        "title": "Build something real.",
+        "when": "Twelve weeks, by application",
+        "body": "A Build Cycle: find your Pod around a problem situation, form a team, build it together, and show it at the Showcase.",
+        "link": "How a Build Cycle works",
+        "to": "how"
+      },
+      {
+        "verb": "Contribute",
+        "title": "Make it better.",
+        "when": "As much as you like",
+        "body": "Mentor at workshops and help Pods past where they're stuck. Or help improve how The Labs works: the workshops, the Build Cycle, the playbooks and the open-source platform.",
+        "link": "Mentoring",
+        "to": "mentor"
+      }
+    ]
   }
 }
