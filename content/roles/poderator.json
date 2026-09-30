@@ -3,7 +3,7 @@
   "placeholder": true,
   "slug": "poderator",
   "role": "Poderator",
-  "description": "Keep a Pod of Upskillers together and moving, from the first meeting to Demo Day.",
+  "description": "Keep a Pod of Upskillers together and moving, from the first meeting to the Showcase.",
   "nav": {
     "why": "Why",
     "how": "How it works",
@@ -20,7 +20,7 @@
     "alt": "The Poderator button: the orb mark on ink, ringed by THE UPSKILLING LABS and PODERATOR"
   },
   "intro": {
-    "lede": "Every Pod in a Build Cycle has a Poderator: the person who keeps a small group of Upskillers together and moving, from the first meeting to Demo Day. You don't have to be the expert. You make sure everyone gets there.",
+    "lede": "Every Pod in a Build Cycle has a Poderator: the person who keeps a Pod of Upskillers together and moving, from the first meeting to the Showcase. You don't have to be the expert. You make sure everyone gets there.",
     "strong": "Free.",
     "terms": "One Pod, one Build Cycle: about three months. [PLACEHOLDER] hours a week.",
     "cta": "Become a Poderator",
@@ -43,7 +43,7 @@
       },
       {
         "step": "One day",
-        "title": "Get them to Demo Day.",
+        "title": "Get them to the Showcase.",
         "body": "Watch your Pod show what it built."
       }
     ]
@@ -55,7 +55,7 @@
       {
         "icon": "people",
         "title": "One Pod at a time.",
-        "body": "A small group, for one Build Cycle."
+        "body": "One Pod, for one Build Cycle."
       },
       {
         "icon": "learn",
@@ -113,7 +113,7 @@
       },
       {
         "q": "How much time does it take?",
-        "a": "One Build Cycle: about three months, with six in-person events. [PLACEHOLDER] hours a week."
+        "a": "One Build Cycle: twelve weeks. [PLACEHOLDER] hours a week."
       },
       {
         "q": "Is there training?",

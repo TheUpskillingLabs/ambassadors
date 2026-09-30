@@ -24,12 +24,27 @@
     "ctaShort": "Join"
   },
   "hero": {
-    "eyebrow": "Fall 2026 registration open",
+    "eyebrow": "Fall 2026 applications open",
     "title": [
       "Find your people.",
       "Build your edge."
     ],
-    "orbLabel": "The Labs orb at the centre of a living network: local Labs full of people and their projects, orbiting it, with sparks of new ideas travelling between them."
+    "orbLabel": "The Labs orb at the centre of a living network: local Labs full of people and their projects, orbiting it, with sparks of new ideas travelling between them.",
+    "eyebrowClosed": "Fall 2026 is underway",
+    "spec": {
+      "$comment": "The facts, on the first screen, before the story: what it is, where, how long, when. Switches with the cycle's state (cycle.closes).",
+      "open": [
+        "Free",
+        "In person at DC Public Library",
+        "12 weeks",
+        "Starts Oct 13"
+      ],
+      "closed": [
+        "Free",
+        "In person at DC Public Library",
+        "Workshops every week"
+      ]
+    }
   },
   "model": {
     "$comment": "The hero's story, for the people we're recruiting (Upskillers and Mentors): the core benefits, and the feeling of joining something bigger, over the live model (src/scripts/orbnet.ts). One line for each of its four shots after the title.",
@@ -62,15 +77,23 @@
       "items": [
         {
           "slug": "upskiller",
-          "label": "Learn by building"
+          "label": "Learn by building",
+          "next": {
+            "open": "Then apply for Fall 2026.",
+            "closed": "Then a workshop, and the next cycle."
+          }
         },
         {
           "slug": "mentor",
-          "label": "Pass on what I know"
+          "label": "Pass on what I know",
+          "next": {
+            "open": "Then help at a workshop.",
+            "closed": "Then help at a workshop."
+          }
         }
       ],
       "both": "Most people end up doing both.",
-      "curious": "Just curious? Drop into a session"
+      "curious": "Not sure yet? Drop into a workshop"
     },
     "rail": {
       "label": "The story",
@@ -94,7 +117,7 @@
     "terms": "One Upskilling account, whichever path you take.",
     "cta": "Join The Labs",
     "login": "Log in",
-    "note": "Creates your free Upskilling account, with Google.",
+    "note": "Creates your free Upskilling account, with Google: Slack, events, and you can apply.",
     "people": "185 people in DC so far.",
     "$people": "The faces are the Inaugural AI Cohort's portraits (OLOS public/assets/cohort-grid-sample.png); the count is the DC Lab's on Sep 29, 2026. In OLOS, both from its members."
   },
@@ -130,39 +153,113 @@
     "steps": [
       {
         "title": "Create your account.",
-        "body": "One free Upskilling account for everything: sign in with Google.",
+        "body": "Free, with Google. You get Slack, events and a profile, and you can apply.",
         "mark": "account"
       },
       {
         "title": "Drop into a workshop.",
-        "body": "Free, hands-on and weekly. Most people start here."
+        "body": "Weekly at the library, some online. Anyone can come; most people start here."
       },
       {
-        "title": "Join a Build Cycle.",
-        "body": "Twelve weeks. Month one: find a problem worth solving, and form a Pod around it.",
+        "title": "Apply for a Build Cycle.",
+        "body": "Places are limited. Twelve weeks: heaviest at the start and the end, steady in between."
+      },
+      {
+        "title": "Find your Pod.",
+        "body": "Month one: Pods of nine or more form around a problem situation. Everyone lands in one.",
         "mark": "button"
       },
       {
-        "title": "Experiment.",
-        "body": "Month two: prototype and test your ideas, with peers and Mentors beside you."
+        "title": "Build with your team.",
+        "body": "Teams of three to five form around the projects you propose, with Mentors beside you."
       },
       {
-        "title": "Show it.",
-        "body": "Month three: a working prototype and a public showcase. It can keep going as open source."
-      },
-      {
-        "title": "Give back.",
-        "body": "Mentor, run a Pod, or bring the next person in."
+        "title": "Show it. Pass it on.",
+        "body": "Show what you built at the Showcase, in public and open source. Then mentor, run a Pod, or bring the next person in."
       }
     ],
-    "markButton": "Your Upskiller button",
+    "markButton": "Your Upskiller button, new this cycle",
     "markAccount": "Your Upskilling account"
   },
+  "honest": {
+    "$comment": "Before the Apply button: what it is and isn't (a realistic preview; some people deciding it isn't for them is the point), then what happens next, dated. The dates, the application's questions and the contact are placeholders until they're set.",
+    "kicker": "Before you apply",
+    "title": "What it is, and what it isn't.",
+    "items": [
+      {
+        "title": "No lectures.",
+        "body": "Workshops teach skills, your Pod is where you practise, Mentors help when you're stuck, and you teach what you learn."
+      },
+      {
+        "title": "Not job placement.",
+        "body": "You leave with credited open-source work, an audience at the Showcase, and people who've built with you."
+      },
+      {
+        "title": "In person.",
+        "body": "Evenings at the library in DC, with some sessions online. Being in the room is most of it."
+      },
+      {
+        "title": "A real commitment.",
+        "body": "Twelve weeks. Month one, while Pods form, and the run-up to the Showcase are the heaviest; the middle is steady. Most people feel unsure while Pods form, and everyone lands in one."
+      }
+    ],
+    "next": {
+      "title": "What happens next",
+      "steps": [
+        {
+          "when": "[PLACEHOLDER] Date",
+          "what": "Applications close."
+        },
+        {
+          "when": "[PLACEHOLDER] Date",
+          "what": "You hear back: a place, or the waitlist."
+        },
+        {
+          "when": "[PLACEHOLDER] Date",
+          "what": "Orientation, and you join the Slack."
+        },
+        {
+          "when": "Oct 13",
+          "what": "Kickoff at the Upskilling Summit."
+        },
+        {
+          "when": "[PLACEHOLDER] Date",
+          "what": "The Showcase."
+        }
+      ],
+      "questions": "[PLACEHOLDER] The application's questions, shown here before you sign in.",
+      "contact": "[PLACEHOLDER] Questions first? A named person to ask, and how."
+    }
+  },
   "cycle": {
-    "kicker": "Registration open",
+    "$comment": "Two states, switched by date on the page itself so it never goes stale: open until `closes`, then underway. `closes` is the kickoff date until the deadline is set. In OLOS, from the cycle's own dates.",
+    "closes": "2026-10-13",
+    "kicker": "Applications open",
     "title": "Fall 2026 starts October 13.",
-    "body": "Twelve weeks, a group of curious peers, and a problem worth solving. It's an open cycle: the projects are open source, free for anyone to use and build on.",
-    "cta": "Join The Labs"
+    "body": "Twelve weeks, a Pod of curious peers, and a problem worth solving. Places are limited. It's an open cycle: the projects are open source, free for anyone to use and build on.",
+    "apply": "[PLACEHOLDER] Apply by the deadline, once it's set.",
+    "cta": "Join The Labs",
+    "closed": {
+      "kicker": "Fall 2026 is underway",
+      "title": "The next cycle is coming.",
+      "body": "Applications for Fall 2026 have closed. You don't have to wait to get involved.",
+      "ways": [
+        {
+          "label": "Drop into a workshop",
+          "to": "events"
+        },
+        {
+          "label": "Come to the Showcase",
+          "to": "events"
+        },
+        {
+          "label": "Help as a Mentor",
+          "to": "mentor"
+        }
+      ],
+      "cta": "Hear when the next cycle opens",
+      "note": "[PLACEHOLDER] Next cycle: dates to be set."
+    }
   },
   "sessions": {
     "kicker": "Workshops and sessions",

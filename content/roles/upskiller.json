@@ -1,5 +1,5 @@
 {
-  "$comment": "Upskillers: participants in a Build Cycle. The button is given on joining a cycle. Facts from content/site/ladder.json, content/faq/time.json and design/research/recognition-system.md. Placeholders: the next cycle's dates, and who confirms a Builder.",
+  "$comment": "Upskillers: participants in a Build Cycle. Facts from Brendan's journey interview (Sep 29, 2026; the project's user-journey notes): account → workshop → apply (places are limited) → Pods of nine or more form in month one → teams of three to five → the Showcase. Effort is described by its shape (heavy, steady, heavy) until hours are measured. Buttons are new this cycle. Placeholders: the application deadline.",
   "placeholder": true,
   "slug": "upskiller",
   "role": "Upskiller",
@@ -19,12 +19,12 @@
     "alt": "The Upskiller button: the orb mark on ink, ringed by THE UPSKILLING LABS and UPSKILLER"
   },
   "intro": {
-    "lede": "The Upskilling Labs is a free community where people learn by building real projects together. As an Upskiller, you join a Pod for a Build Cycle and work on a real problem in your community, beside people who've been where you are.",
+    "lede": "The Upskilling Labs is a free community where people learn by building real projects together. As an Upskiller, you join a Pod for a Build Cycle, find a problem worth solving, and build something with a small team, beside people who've been where you are.",
     "strong": "Free.",
-    "terms": "About three months: six in-person events and a short check-in each week.",
+    "terms": "Twelve weeks, in person: heaviest in month one and before the Showcase, steady in between.",
     "cta": "Join The Labs",
     "href": "https://theupskillinglabs.org/login?intent=join&path=upskiller",
-    "status": "[PLACEHOLDER] Next Build Cycle: dates to be set"
+    "status": "Fall 2026 starts Oct 13. [PLACEHOLDER] Apply by the deadline, once it's set."
   },
   "moments": {
     "kicker": "What you'll do",
@@ -32,18 +32,18 @@
     "items": [
       {
         "step": "First",
-        "title": "Join a Pod.",
-        "body": "A small group, a Poderator to keep it moving, and a real problem from your community."
+        "title": "Find your Pod.",
+        "body": "In month one, Pods of nine or more form around a problem situation. Everyone lands in one."
       },
       {
         "step": "Then",
         "title": "Build it.",
-        "body": "Around week eight you form a Project Team: three to five people who build one thing."
+        "body": "As you reframe the problem and propose projects, teams of three to five form. Your team builds one thing."
       },
       {
         "step": "One day",
-        "title": "Show it at Demo Day.",
-        "body": "Show your work in public, to the people whose problem it was."
+        "title": "Show it at the Showcase.",
+        "body": "Show your work in public, and keep it going as open source."
       }
     ]
   },
@@ -59,27 +59,27 @@
       {
         "icon": "place",
         "title": "In person, near you.",
-        "body": "Six events at a local Lab, and the rest on your own time with your team."
+        "body": "Evenings at the library in DC, with some sessions online."
       },
       {
         "icon": "people",
-        "title": "Beginners welcome.",
-        "body": "Beginners and experts work side by side."
+        "title": "No lectures.",
+        "body": "You learn by building, beside beginners and experts."
       },
       {
         "icon": "time",
-        "title": "Five minutes a week.",
-        "body": "A short check-in keeps everyone moving."
+        "title": "Heavy, steady, heavy.",
+        "body": "Month one and the run-up to the Showcase are the busiest; the middle is steady."
       }
     ]
   },
   "path": {
     "kicker": "How it works",
-    "title": "Start with a workshop. Finish with something real.",
+    "title": "Start small. Finish with something real.",
     "steps": [
       {
         "title": "Create your account.",
-        "body": "Your free Upskilling account: sign in with Google, and you'll hear about every workshop and Build Cycle.",
+        "body": "Your free Upskilling account: sign in with Google. You get Slack and events, and you can apply.",
         "mark": "account"
       },
       {
@@ -87,24 +87,24 @@
         "body": "Free and hands-on. Most people start here."
       },
       {
-        "title": "Join a Build Cycle.",
-        "body": "You get your Upskiller button on day one.",
+        "title": "Apply for a Build Cycle.",
+        "body": "Places are limited. New this cycle: your Upskiller button when you start.",
         "mark": "button"
       },
       {
-        "title": "Build with your team.",
-        "body": "Your Pod meets, your Project Team forms, and a Mentor is there when you're stuck."
+        "title": "Find your Pod, then your team.",
+        "body": "Pods of nine or more form around a problem; teams of three to five form around the projects you propose. Mentors help when you're stuck."
       },
       {
-        "title": "Demo Day.",
-        "body": "Show what you built, in public, to the people whose problem it was."
+        "title": "The Showcase.",
+        "body": "Show what you built, in public."
       }
     ]
   },
   "button": {
     "kicker": "The button",
     "title": "Proof you're building.",
-    "body": "Given to you when you join a Build Cycle. Wear it to your Pod, and to Demo Day."
+    "body": "New this cycle: given to you when you start a Build Cycle. Wear it to your Pod, and to the Showcase."
   },
   "faq": {
     "kicker": "Questions",
@@ -116,7 +116,19 @@
       },
       {
         "q": "How much time does a Build Cycle take?",
-        "a": "About three months: six in-person events, a five-minute check-in each week, and the rest on your own time with your team."
+        "a": "Twelve weeks. It's heaviest in month one, while Pods form, and again before the Showcase, and steady in between."
+      },
+      {
+        "q": "Is it taught?",
+        "a": "Not the way you might expect. There are no lectures or grades: workshops teach skills, your Pod is where you practise, Mentors help when you're stuck, and you teach what you learn."
+      },
+      {
+        "q": "Will it get me a job?",
+        "a": "It's not job placement. You leave with credited open-source work, an audience at the Showcase, and people who've built with you."
+      },
+      {
+        "q": "What if I don't find a team?",
+        "a": "Everyone lands in a Pod. Month one feels uncertain for most people; that's how Pods and teams form."
       },
       {
         "q": "Do I need to be technical?",
@@ -124,13 +136,13 @@
       },
       {
         "q": "Where do I start?",
-        "a": "At a free workshop. Join The Labs at theupskillinglabs.org to hear about the next one."
+        "a": "Create your free account, then drop into a workshop. When applications are open, you apply from your account."
       }
     ]
   },
   "join": {
     "title": "Come build with us.",
-    "lede": "Start with a free workshop. The next Build Cycle takes it from there.",
+    "lede": "Start with your free account and a workshop. Then apply for the next Build Cycle.",
     "cta": "Join The Labs"
   }
 }
