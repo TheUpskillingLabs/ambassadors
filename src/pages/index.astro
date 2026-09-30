@@ -72,7 +72,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
   </head>
   <body class="jp rp hm">
     <a class="skip" href="#main">Skip to content</a>
-    <header class="jp-head cta-off" data-head>
+    <header class="jp-head cta-off" data-head data-quiet>
       <nav aria-label="The Upskilling Labs">
         <!-- One orb at a time: while the hero's orb is on screen it is the logo, so the header carries the
              wordmark alone; as the stage scrolls away the orb docks into the header as the mark. -->
@@ -101,18 +101,18 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
         <div class="hm-stage" data-stage data-faces={JSON.stringify(faces)}>
           <div class="hm-hero-copy" data-hero-copy>
-            <p class="status hm-eyebrow rise" data-when="open"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
-            <p class="status hm-eyebrow rise" data-when="closed"><i aria-hidden="true"></i>{h.hero.eyebrowClosed}</p>
-            <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
+            <p class="status hm-eyebrow rise" data-when="open" data-quiet><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
+            <p class="status hm-eyebrow rise" data-when="closed" data-quiet><i aria-hidden="true"></i>{h.hero.eyebrowClosed}</p>
+            <h1 class="rp-title wordin" data-quiet>{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
             {(["open", "closed"] as const).map((st) => (
-              <ul class="hm-spec rise" data-when={st}>{h.hero.spec[st].map((f) => <li>{f}</li>)}</ul>
+              <ul class="hm-spec rise" data-when={st} data-quiet>{h.hero.spec[st].map((f) => <li>{f}</li>)}</ul>
             ))}
           </div>
           <div class="hm-orbit" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
-          <a class="hm-orb-link" href={upskiller.intro.href} aria-label={h.model.orbLabel} data-orb-link><span class="hm-orb-label">{h.model.orb} <b aria-hidden="true">→</b></span></a>
+          <a class="hm-orb-link" href={L.join} aria-label={h.model.orbLabel} data-orb-link><span class="hm-orb-label">{h.model.orb} <b aria-hidden="true">→</b></span></a>
           <ol class="hm-beats">
             {h.model.beats.map((b, i) => (
-              <li class="hm-beat" data-beat={i + 1}>
+              <li class="hm-beat" data-beat={i + 1} data-quiet>
                 <p class="rp-step"><span class="no">{nos[i]}</span> {b.kicker}</p>
                 <p class="hm-beat-line">{b.line}</p>
                 {i === h.model.beats.length - 1 && (
@@ -129,13 +129,13 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
               </li>
             ))}
           </ol>
-          <nav class="hm-rail" aria-label={h.model.rail.label}>
+          <nav class="hm-rail" aria-label={h.model.rail.label} data-quiet>
             <ol>{h.model.rail.items.map((t, i) => <li><a href="#top" data-go={i}><span>{t}</span><i aria-hidden="true"></i></a></li>)}</ol>
             <a class="hm-skip" href="#intro">{h.model.rail.skip} <b aria-hidden="true">↓</b></a>
           </nav>
           <p class="hm-tag hm-you" data-you aria-hidden="true"><i class="mk mk-you"></i>{h.model.you}</p>
           <p class="hm-cue" data-cue aria-hidden="true"><span>{h.model.cue}</span><i></i></p>
-          <button class="hm-pause" type="button" aria-pressed="false" aria-label={h.model.pauseLabel} data-pause data-pause-label={h.model.pauseLabel} data-play-label={h.model.playLabel} data-pause-text={h.model.pause} data-play-text={h.model.play}>
+          <button class="hm-pause" type="button" data-quiet aria-pressed="false" aria-label={h.model.pauseLabel} data-pause data-pause-label={h.model.pauseLabel} data-play-label={h.model.playLabel} data-pause-text={h.model.pause} data-play-text={h.model.play}>
             <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M3 2h2v8H3zM7 2h2v8H7z" /><path class="i-play" d="M3 2l7 4-7 4z" /></svg>
             <span>{h.model.pause}</span>
           </button>
@@ -487,6 +487,15 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       });
       if (!net || still) pause.hidden = true;
       if (net) {
+        // The orb is Join The Labs: pressing it sets off the one big pulse (the orb flares, a wave crosses the
+        // orbits, sparks go out to every Lab), then the account opens. A new-tab click, reduced motion or a paused
+        // model skip straight to the link.
+        orbLink.addEventListener("click", (e) => {
+          if (reduce || net.paused() || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+          e.preventDefault();
+          net.join();
+          window.setTimeout(() => { window.location.href = orbLink.href; }, 1100);
+        });
         const hov = (v: boolean) => () => net.setOrbHover(v);
         orbLink.addEventListener("pointerenter", hov(true)); orbLink.addEventListener("pointerleave", hov(false));
         orbLink.addEventListener("focus", hov(true)); orbLink.addEventListener("blur", hov(false));

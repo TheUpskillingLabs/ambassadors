@@ -112,7 +112,7 @@ const LABS: [number, number, number][] = [[2.95, 28, 360], [3.4, 122, 140], [2.6
 const COMMONS = { n: 150, r0: 1.32, r1: 2.05 };
 
 interface Arrive { from: V3; t0: number; dur: number; spin: number; intro: boolean }
-interface Actor { c: number; type: number; r: number; th: number; y: number; deg: number; flash: number; seen: number; born: number; p: V3; anchor?: number; arrive?: Arrive; you?: boolean; face?: number }
+interface Actor { c: number; type: number; r: number; th: number; y: number; deg: number; flash: number; seen: number; born: number; p: V3; anchor?: number; arrive?: Arrive; you?: boolean; face?: number; o?: V3; v?: V3 } // o, v: the lean toward your cursor, on a spring
 interface Tie { a: number; b: number; w: number; flash: number; bridge: boolean } // b = -1: the orb
 interface Lab { R: number; th: number; mass: number; nodes: number[]; c: V3; lit: boolean; size: number; cap: number; rot: M3; tilt: [number, number] }
 interface Pulse { e: number; from: number; to: number; t0: number; dur: number; kind: number; hop: number; inv: number }
@@ -123,7 +123,7 @@ class Model {
   nodes: Actor[] = []; ties: Tie[] = []; adj: number[][] = []; orbTies: number[] = [];
   labs: Lab[] = []; pulses: Pulse[] = []; ideas: Idea[] = []; ripples: { t0: number; s: number }[] = [];
   orbFlash = 0; kick = 0; ideaId = 0; nextMinor = 3.4; nextMajor = 4.2; nextSpawn = 4; startN = 0; tiesDirty = true;
-  cursor: V3 | null = null;
+  cursor: V3 | null = null; cursorT: V3 | null = null; cursorAmt = 0; cv: V3 = [0, 0, 0]; // where your cursor is (it moves with some weight), where it's headed, how present it is
   pods: { project: number; members: number[] }[] = [];
   podOf = new Map<number, number>();
 
@@ -254,7 +254,15 @@ class Model {
   /** Move everything along its orbit. A Lab's actors orbit it as fast as its mass (its ties) pulls. */
   positions(dt: number, t: number) {
     this.labs.forEach((L) => { L.th += dt * 0.03 * Math.pow(2.5 / L.R, 1.5); L.c = [Math.cos(L.th) * L.R, 0, Math.sin(L.th) * L.R]; });
-    const cur = this.cursor;
+    // Your cursor is a newcomer with some weight: it follows the pointer on a spring, and fades in and out.
+    const want = this.cursorT;
+    this.cursorAmt += ((want ? 1 : 0) - this.cursorAmt) * Math.min(1, dt * 3);
+    if (want) {
+      if (!this.cursor) { this.cursor = [want[0], want[1], want[2]]; this.cv = [0, 0, 0]; }
+      const K = 45, C = 2 * 0.8 * Math.sqrt(K);
+      for (let k = 0; k < 3; k++) { this.cv[k] += ((want[k] - this.cursor[k]) * K - this.cv[k] * C) * dt; this.cursor[k] += this.cv[k] * dt; }
+    } else if (this.cursorAmt < 0.01) this.cursor = null;
+    const cur = this.cursor, amt = this.cursorAmt;
     for (let i = 0; i < this.nodes.length; i++) {
       const n = this.nodes[i];
       if (n.anchor !== undefined && !n.arrive) {
@@ -270,10 +278,24 @@ class Model {
       } else w = 0.07;
       if (n.anchor === undefined) n.th += w * dt;
       let target = n.anchor !== undefined ? [Math.cos(this.labs[n.anchor].th + n.th) * n.r, n.y, Math.sin(this.labs[n.anchor].th + n.th) * n.r] as V3 : this.orbitAt(n, n.th);
-      // Your cursor has a little pull of its own: the actors nearest it lean toward it.
-      if (cur) {
-        const d = dist(target, cur);
-        if (d < 0.9) { const k = 0.07 * (1 - d / 0.9) / Math.max(d, 0.05); target = [target[0] + (cur[0] - target[0]) * k, target[1] + (cur[1] - target[1]) * k, target[2] + (cur[2] - target[2]) * k]; }
+      // The actors near your cursor lean toward it, on springs: each has mass (more for places, projects and
+      // knowledge, and more with every tie), so they lag, sway a little and settle, the busiest slowest.
+      {
+        const m = (n.type === HUMAN || n.type === YOU ? 1 : 1.7) * (1 + 0.12 * n.deg);
+        let dx = 0, dy = 0, dz = 0;
+        if (cur && amt > 0.001) {
+          const px = cur[0] - target[0], py = cur[1] - target[1], pz = cur[2] - target[2], d = Math.hypot(px, py, pz);
+          if (d < 1) { const f = amt * 0.34 * (1 - d) * (1 - d) / m; dx = px * f; dy = py * f; dz = pz * f; }
+        }
+        const o = n.o, v = n.v;
+        if (dx || dy || dz || o) {
+          const oo = o ?? (n.o = [0, 0, 0]), vv = v ?? (n.v = [0, 0, 0]);
+          const K = 22, C = 1.3 * Math.sqrt(K * m);
+          vv[0] += ((dx - oo[0]) * K - vv[0] * C) / m * dt; vv[1] += ((dy - oo[1]) * K - vv[1] * C) / m * dt; vv[2] += ((dz - oo[2]) * K - vv[2] * C) / m * dt;
+          oo[0] += vv[0] * dt; oo[1] += vv[1] * dt; oo[2] += vv[2] * dt;
+          if (!dx && !dy && !dz && Math.abs(oo[0]) + Math.abs(oo[1]) + Math.abs(oo[2]) + Math.abs(vv[0]) + Math.abs(vv[1]) + Math.abs(vv[2]) < 1e-5) { n.o = undefined; n.v = undefined; }
+          target = [target[0] + oo[0], target[1] + oo[1], target[2] + oo[2]];
+        }
       }
       if (n.arrive) {
         const k = (t - n.arrive.t0) / n.arrive.dur;
@@ -290,6 +312,14 @@ class Model {
     this.orbFlash = Math.max(0, this.orbFlash - dt * 1.1);
     this.kick = Math.max(0, this.kick - dt * 2.4);
     this.ripples = this.ripples.filter((r) => t - r.t0 < 1.6);
+  }
+
+  /** You pressed the orb: it flares, a wave crosses the orbits, and sparks go out down every tie to the Labs. */
+  join(t: number) {
+    this.orbFlash = 1.6; this.ripples.push({ t0: t, s: 1.4 });
+    const idea: Idea = { id: ++this.ideaId, t0: t, upSent: true, orbSent: true, down: true, origin: 0, adopters: new Map(), done: false };
+    this.ideas.push(idea);
+    for (const e of this.orbTies) this.send(e, -1, this.ties[e].a, 2, 0, idea, t, 0.05 + this.rnd() * 0.35);
   }
 
   /** A newcomer has arrived: it takes a tie or two in its Lab (and if it's you, sets off a spark). */
@@ -588,7 +618,7 @@ void main() {
   float front = ib < 0 && (uM * M).z > 0.0 ? 0.35 : 1.0;
   float base = (bridge || ib < 0 ? 0.3 : 0.16) * st.x * foc * vis * front;
   vec3 col = mix(bridge || ib < 0 ? vec3(0.24, 0.9, 0.88) : vec3(0.5, 0.78, 0.8), vec3(0.92, 0.97, 0.95), st.y * 0.75);
-  if (aKind.w > 0.5) { col = vec3(1.0, 0.8, 0.55); base = 0.35 * vis; }
+  if (aKind.w > 0.5) { col = vec3(1.0, 0.8, 0.55); base = 0.16 * vis; }
   if (pod) { col = mix(col, mix(vec3(1.0, 0.82, 0.62), vec3(1.0, 0.97, 0.9) * 1.05, st.y), uPod); base += 0.4 * uPod * vis; }
   else base *= (1.0 - 0.55 * uPod) * (0.6 + 0.4 * uDense);
   float width = ((bridge ? 1.3 : 0.85) + 0.45 * (st.x - 1.0) + 0.3 * st.y + (pod ? 0.8 * uPod : 0.0)) * uPx;
@@ -871,7 +901,7 @@ function compile(gl: WebGL2RenderingContext, vs: string, fs: string) {
 
 export interface FrameState { p: number; beats: number[]; you: { x: number; y: number } | null; orb: { x: number; y: number; r: number }; paused: boolean }
 export interface OrbNetOptions { still?: boolean; poster?: boolean; story?: HTMLElement; stage?: HTMLElement; faces?: string[]; onFrame?: (s: FrameState) => void }
-export interface OrbNet { setPaused(v: boolean): void; paused(): boolean; setOrbHover(v: boolean): void }
+export interface OrbNet { setPaused(v: boolean): void; paused(): boolean; setOrbHover(v: boolean): void; join(): void }
 
 /** Start the live model in `wrap` (it gets `is-live` once it draws). Returns null without WebGL 2. */
 export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet | null {
@@ -1019,17 +1049,31 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   };
 
   /* inputs */
-  const ptr = { x: 0, y: 0, tx: 0, ty: 0, cx: -1e4, cy: -1e4, inside: false };
+  const ptr = { x: 0, y: 0, tx: 0, ty: 0, cx: -1e4, cy: -1e4, inside: false, quiet: false, armed: false, youAt: -1e9 };
   let scrollP = 0, scrollE = 0, heroScroll = 0, focus = -1, focusAmt = 0, lastFocus = 0, pausedFlag = false, orbHoverT = 0, orbHover = 0;
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
   const host = opts.stage ?? wrap;
   if (!still) {
+    // Over the page's own words and buttons (anything marked data-quiet, while it's showing) the model steps
+    // back: your cursor fades out of the network and the view stops following you, so it never competes.
+    let quietEls: HTMLElement[] | null = null;
+    const shown = (el: HTMLElement) => { let op = 1; for (let x: HTMLElement | null = el; x && x !== document.body; x = x.parentElement) if (x.style.opacity) op = Math.min(op, parseFloat(x.style.opacity)); return op > 0.2; };
+    const inQuiet = (x: number, y: number) => (quietEls ??= [...document.querySelectorAll<HTMLElement>("[data-quiet]")]).some((el) => {
+      if (!shown(el)) return false;
+      const q = el.getBoundingClientRect();
+      return q.width > 0 && x > q.left - 24 && x < q.right + 24 && y > q.top - 14 && y < q.bottom + 14;
+    });
     const move = (e: PointerEvent) => {
       const r = wrap.getBoundingClientRect();
-      ptr.tx = clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1);
-      ptr.ty = clamp(((e.clientY - r.top) / r.height) * 2 - 1, -1, 1);
       ptr.cx = e.clientX - r.left; ptr.cy = e.clientY - r.top;
-      ptr.inside = ptr.cx >= 0 && ptr.cy >= 0 && ptr.cx <= r.width && ptr.cy <= r.height;
+      const inside = ptr.cx >= 0 && ptr.cy >= 0 && ptr.cx <= r.width && ptr.cy <= r.height;
+      if (inside && !ptr.inside) ptr.armed = true; // arriving: the "You" tag shows once your cursor has joined
+      ptr.inside = inside;
+      ptr.quiet = inQuiet(e.clientX, e.clientY);
+      if (!ptr.quiet) {
+        ptr.tx = clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1);
+        ptr.ty = clamp(((e.clientY - r.top) / r.height) * 2 - 1, -1, 1);
+      }
     };
     if (fine) window.addEventListener("pointermove", move, { passive: true });
     host.addEventListener("pointerleave", () => { ptr.inside = false; });
@@ -1062,7 +1106,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const L = (x: keyof Shot) => lerp(a[x] as number, b[x] as number, k);
     const T = lerp3(shotTarget(a), shotTarget(b), k);
     const shake = 0;
-    const yaw = (L("yaw") + ptr.x * 9 + (still ? 0 : Math.sin(t * 0.13) * 2.5) + Math.sin(t * 47) * shake * 0.5) * DEG, pitch = ptr.y * 6 * DEG;
+    const yaw = (L("yaw") + ptr.x * 4.5 + (still ? 0 : Math.sin(t * 0.13) * 2.5) + Math.sin(t * 47) * shake * 0.5) * DEG, pitch = ptr.y * 3 * DEG;
     const par = mul(ry(yaw), rx(pitch));
     const M = mul(par, mul(rz(L("roll") * DEG), rx(L("elev") * DEG)));
     const orbV = mul(par, mul(rz(L("oRoll") * DEG), rx(L("oElev") * DEG)));
@@ -1115,13 +1159,13 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // orb would otherwise sit half painted for seconds.
     const openT = Math.max(introT, (now - t0) / 1000 - 0.2);
     const t = simT, grow = still ? 1 : clamp(openT / 3.4, 0, 1), g = 1 - Math.pow(1 - grow, 3);
-    ptr.x = lerp(ptr.x, ptr.tx, ease60(0.06)); ptr.y = lerp(ptr.y, ptr.ty, ease60(0.06));
+    ptr.x = lerp(ptr.x, ptr.tx, ease60(0.03)); ptr.y = lerp(ptr.y, ptr.ty, ease60(0.03));
     orbHover = lerp(orbHover, orbHoverT, ease60(0.12));
     camera(p, t);
     const { M, T, tanX, tanY } = cam;
 
     // Your cursor, in the plane: a newcomer the actors near it notice.
-    model.cursor = ptr.inside && fine && !still && orbHoverT < 0.5 ? pickPlane(ptr.cx, ptr.cy) : null;
+    model.cursorT = ptr.inside && !ptr.quiet && fine && !still && orbHoverT < 0.5 ? pickPlane(ptr.cx, ptr.cy) : null;
 
     // Which Lab the pointer is over.
     let hit = -1;
@@ -1152,8 +1196,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     }
     { // the cursor's slot
       const o = CURSOR * 4, c = model.cursor;
-      posArr[o] = c ? c[0] : 0; posArr[o + 1] = 0; posArr[o + 2] = c ? c[2] : 0; posArr[o + 3] = c ? 1 : 0;
-      stArr[o] = 0.55 + 0.25 * Math.sin(t * 3); stArr[o + 1] = 11; stArr[o + 2] = YOU; stArr[o + 3] = -1; orbArr[o + 3] = 0;
+      posArr[o] = c ? c[0] : 0; posArr[o + 1] = 0; posArr[o + 2] = c ? c[2] : 0; posArr[o + 3] = c ? 0.8 * model.cursorAmt : 0;
+      stArr[o] = 0.35 + 0.1 * Math.sin(t * 1.6); stArr[o + 1] = 8; stArr[o + 2] = YOU; stArr[o + 3] = -1; orbArr[o + 3] = 0;
     }
     const rows = Math.ceil(N / TEXW);
     const up = (tex: WebGLTexture, arr: Float32Array) => { gl!.bindTexture(gl!.TEXTURE_2D, tex); gl!.texSubImage2D(gl!.TEXTURE_2D, 0, 0, 0, TEXW, rows, gl!.RGBA, gl!.FLOAT, arr, 0); gl!.texSubImage2D(gl!.TEXTURE_2D, 0, 0, ROWS - 1, TEXW, 1, gl!.RGBA, gl!.FLOAT, arr, (ROWS - 1) * TEXW * 4); };
@@ -1173,8 +1217,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     tieCount = tieFixed;
     if (model.cursor) {
       const c = model.cursor; const near: [number, number][] = [];
-      for (let i = 0; i < N; i++) { const a = model.nodes[i]; if (a.arrive) continue; const d = dist(a.p, c); if (d < 0.75) near.push([d, i]); }
-      near.sort((x, y) => x[0] - y[0]).slice(0, 7).forEach(([, i]) => { const o = tieCount * 8; tieInst.set([i, CURSOR, -1, 0, 0, model.nodes[i].c, -1, 1], o); tieCount++; });
+      for (let i = 0; i < N; i++) { const a = model.nodes[i]; if (a.arrive) continue; const d = dist(a.p, c); if (d < 0.6) near.push([d, i]); }
+      near.sort((x, y) => x[0] - y[0]).slice(0, 4).forEach(([, i]) => { const o = tieCount * 8; tieInst.set([i, CURSOR, -1, 0, 0, model.nodes[i].c, -1, 1], o); tieCount++; });
     }
     gl!.bindBuffer(gl!.ARRAY_BUFFER, TI.buf); gl!.bufferSubData(gl!.ARRAY_BUFFER, 0, tieInst, 0, tieCount * 8);
     model.ties.forEach((e, i) => { tieArr[i * 4] = e.w; tieArr[i * 4 + 1] = e.flash; });
@@ -1309,7 +1353,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const sc = { x: (orbC[0] / (-orbC[2] * tanX) + cam.sh[0]) * 0.5 + 0.5, y: (orbC[1] / (-orbC[2] * tanY) + cam.sh[1]) * 0.5 + 0.5 };
     const shock = model.ripples.length ? model.ripples[model.ripples.length - 1] : null;
     const age = shock ? t - shock.t0 : 9;
-    gl!.uniform4f(P.comp.U.uShock, sc.x, sc.y, 0.05 + age * 0.55, shock ? 0.35 * Math.max(0, 1 - age / 1.5) : 0);
+    gl!.uniform4f(P.comp.U.uShock, sc.x, sc.y, 0.05 + age * 0.55, shock ? Math.min(1, 0.6 * shock.s) * Math.max(0, 1 - age / 1.5) : 0);
     gl!.drawArrays(gl!.TRIANGLES, 0, 3);
     frame++;
 
@@ -1319,7 +1363,11 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     if (opts.onFrame) {
       opts.onFrame({
         p, beats, paused: pausedFlag,
-        you: model.cursor ? (() => { const s = project(model.cursor!); return { x: s.x, y: s.y }; })() : null,
+        you: (() => {
+          const present = !!model.cursor && model.cursorAmt > 0.5;
+          if (present && ptr.armed) { ptr.armed = false; ptr.youAt = now; }
+          return present && (beats[4] > 0.5 || now - ptr.youAt < 2600) ? (() => { const s = project(model.cursor!); return { x: s.x, y: s.y }; })() : null;
+        })(),
         orb: (() => { const s = project([0, 0, 0]); return { x: s.x, y: s.y, r: (1 / (-s.z * cam.tanX)) * 0.5 * cssW }; })(),
       });
     }
@@ -1327,7 +1375,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
 
   new ResizeObserver(() => resize()).observe(wrap);
   resize();
-  if (still) { draw(performance.now()); return { setPaused() {}, paused: () => true, setOrbHover() {} }; }
+  if (still) { draw(performance.now()); return { setPaused() {}, paused: () => true, setOrbHover() {}, join() {} }; }
 
   let on = false, raf = 0, visible = false;
   const loop = (now: number) => { draw(now); raf = on ? requestAnimationFrame(loop) : 0; };
@@ -1338,5 +1386,6 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     setPaused(v: boolean) { pausedFlag = v; },
     paused: () => pausedFlag,
     setOrbHover(v: boolean) { orbHoverT = v ? 1 : 0; },
+    join() { model.join(simT); },
   };
 }
