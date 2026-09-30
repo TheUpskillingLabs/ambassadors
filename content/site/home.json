@@ -29,7 +29,7 @@
       "Find your people.",
       "Build your edge."
     ],
-    "orbLabel": "The Labs orb at the centre of a living network: local Labs full of people and their projects, orbiting it, with sparks of new ideas travelling between them.",
+    "orbLabel": "The Labs orb, with the first cohort's people on slow orbits round it, joined by fine lines, ideas passing between them, and one seat still empty.",
     "eyebrowClosed": "Fall 2026 is underway",
     "spec": {
       "$comment": "The facts, on the first screen, before the story: what it is, where, how long, when. Switches with the cycle's state (cycle.closes).",
@@ -47,7 +47,7 @@
     }
   },
   "model": {
-    "$comment": "The hero's story, for the people we're recruiting (Upskillers and Mentors): the core benefits, and the feeling of joining something bigger, over the live model (src/scripts/orbnet.ts). One line for each of its four shots after the title.",
+    "$comment": "The hero's story, for the people we're recruiting (Upskillers and Mentors): the core benefits, and the feeling of joining something bigger, over the first cohort's people round the orb (src/scripts/people.ts). One line for each of its four shots after the title.",
     "beats": [
       {
         "kicker": "Build",
@@ -67,8 +67,6 @@
       }
     ],
     "you": "You",
-    "click": "Or click anywhere in the system to join a Lab.",
-    "tap": "Or tap anywhere in the system to join a Lab.",
     "cue": "Scroll",
     "pause": "Pause",
     "play": "Play",
@@ -95,17 +93,7 @@
       "both": "Most people end up doing both.",
       "curious": "Not sure yet? Drop into a workshop"
     },
-    "rail": {
-      "label": "The story",
-      "items": [
-        "Find your people",
-        "Build",
-        "Together",
-        "Bigger",
-        "You"
-      ],
-      "skip": "Skip the story"
-    },
+    "skip": "Skip the story",
     "orb": "Join The Labs",
     "orbLabel": "Join The Labs: create your free Upskilling account",
     "pauseLabel": "Pause the animation",

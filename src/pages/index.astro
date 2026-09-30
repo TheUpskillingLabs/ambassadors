@@ -8,9 +8,9 @@
    It's built on the role pages' system (src/styles/role.css, with home.css for
    what only this page has): ink, the teal and red glows with the grain only in
    them, Geologica, hairline rules, teal labels. The hero follows Apple's AirTag
-   page: the name, one line, and one object centred: the orb, live, at the hub
-   of its network (src/scripts/orbnet.ts), which shows how The Labs grows: hub
-   and spoke, from national to regional to neighbourhood Labs.
+   page: the name, one line, and one object centred: the orb, with the first
+   cohort's people round it (src/scripts/people.ts), joined by fine lines, ideas
+   passing between them, and a seat for you.
 
    The sessions, cities and member count are a snapshot in
    content/site/home.json; in OLOS they come from its own data. Links point at
@@ -30,7 +30,6 @@ import ambassador from "../../content/roles/ambassador.json";
 import poderator from "../../content/roles/poderator.json";
 
 const L = h.links;
-const orbit = (f: string) => u(`/join/${f}`);
 const small = (s: string) => u(`/roles/${s}/button-400.webp`);
 const ACCT = '<svg class="acct" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="10" r="3.2"/><path d="M6.2 18.4c1.3-2.2 3.4-3.4 5.8-3.4s4.5 1.2 5.8 3.4"/></svg>';
 const nos = ["01", "02", "03", "04", "05", "06"];
@@ -50,7 +49,7 @@ const closesAt = `${h.cycle.closes}T00:00:00-04:00`;
 const cycleState = Date.now() < Date.parse(closesAt) ? "open" : "closed";
 const ph = (s: string) => s.includes("[PLACEHOLDER]");
 const unph = (s: string) => s.replace("[PLACEHOLDER] ", "");
-const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat(u("/home/suzie.webp"));
+const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/person-${n}.webp`));
 ---
 <!doctype html>
 <html lang="en" data-cycle={cycleState}>
@@ -64,11 +63,10 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={h.description} />
-    <meta property="og:image" content={new URL(orbit("hub-share.jpg"), Astro.site)} />
+    <meta property="og:image" content={new URL(u("/home/people-share.jpg"), Astro.site)} />
     <script is:inline>document.documentElement.dataset.menu = "";</script>
     <script is:inline define:vars={{ closesAt }}>document.documentElement.dataset.cycle = Date.now() < Date.parse(closesAt) ? "open" : "closed";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
-    <link rel="preload" as="image" href={orbit("hub-poster.webp")} fetchpriority="high" />
   </head>
   <body class="jp rp hm">
     <a class="skip" href="#main">Skip to content</a>
@@ -108,7 +106,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
               <ul class="hm-spec rise" data-when={st} data-quiet>{h.hero.spec[st].map((f) => <li>{f}</li>)}</ul>
             ))}
           </div>
-          <div class="hm-orbit" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
+          <div class="hm-orbit" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${u("/home/people-poster.webp")})`}></div>
           <a class="hm-orb-link" href={L.join} aria-label={h.model.orbLabel} data-orb-link><span class="hm-orb-label">{h.model.orb} <b aria-hidden="true">→</b></span></a>
           <ol class="hm-beats">
             {h.model.beats.map((b, i) => (
@@ -123,22 +121,20 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
                     </ul>
                     <p class="hm-both">{h.model.paths.both}</p>
                     <a class="textlink hm-curious" href={L.events}>{h.model.paths.curious} →</a>
-                    <p class="hm-beat-hint"><span class="fine">{h.model.click}</span><span class="coarse">{h.model.tap}</span></p>
                   </div>
                 )}
               </li>
             ))}
           </ol>
-          <nav class="hm-rail" aria-label={h.model.rail.label} data-quiet>
-            <ol>{h.model.rail.items.map((t, i) => <li><a href="#top" data-go={i}><span>{t}</span><i aria-hidden="true"></i></a></li>)}</ol>
-            <a class="hm-skip" href="#intro">{h.model.rail.skip} <b aria-hidden="true">↓</b></a>
-          </nav>
           <p class="hm-tag hm-you" data-you aria-hidden="true"><i class="mk mk-you"></i>{h.model.you}</p>
           <p class="hm-cue" data-cue aria-hidden="true"><span>{h.model.cue}</span><i></i></p>
+          <div class="hm-ctl">
+          <a class="hm-skip" href="#intro" data-quiet>{h.model.skip} <b aria-hidden="true">↓</b></a>
           <button class="hm-pause" type="button" data-quiet aria-pressed="false" aria-label={h.model.pauseLabel} data-pause data-pause-label={h.model.pauseLabel} data-play-label={h.model.playLabel} data-pause-text={h.model.pause} data-play-text={h.model.play}>
             <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M3 2h2v8H3zM7 2h2v8H7z" /><path class="i-play" d="M3 2l7 4-7 4z" /></svg>
             <span>{h.model.pause}</span>
           </button>
+          </div>
         </div>
       </section>
 
@@ -417,7 +413,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     <script>
       import { openCovers } from "../scripts/covers";
       import { initMenu } from "../scripts/navmenu";
-      import { mountOrbNet, SHOT_AT } from "../scripts/orbnet";
+      import { mountPeople } from "../scripts/people";
 
       // The header's button steps aside while the hero or the intro's button is
       // on screen, and again at the join section, so the page never shows two.
@@ -434,8 +430,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       initMenu();
       openCovers();
 
-      // The hero: the live model, and its story told by scrolling. Reduced motion gets a still frame and
-      // the four lines as a list; without WebGL 2 the poster stays.
+      // The hero: the people round the orb, and their story told by scrolling. Reduced motion gets a still
+      // frame and the four lines as a list; without scripts the poster stays.
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const orbMode = new URLSearchParams(location.search).get("orb");
       const still = reduce || orbMode === "still" || orbMode === "poster";
@@ -447,7 +443,6 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       const cue = stage.querySelector<HTMLElement>("[data-cue]")!;
       const pause = stage.querySelector<HTMLButtonElement>("[data-pause]")!;
       const orbLink = stage.querySelector<HTMLAnchorElement>("[data-orb-link]")!;
-      const rail = [...stage.querySelectorAll<HTMLAnchorElement>("[data-go]")];
       const facesData = JSON.parse(stage.dataset.faces ?? "[]") as string[];
       // The header's mark: hidden while the stage holds the orb, docking as the stage scrolls away and the
       // orb rises to the header (from wherever the last frame left it; the poster's place without one).
@@ -461,34 +456,26 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       window.addEventListener("scroll", dock, { passive: true });
       window.addEventListener("resize", dock);
       dock();
-      // The chapter rail: each mark scrolls to its shot.
-      rail.forEach((a, i) => a.addEventListener("click", (e) => {
-        e.preventDefault();
-        const top = story.getBoundingClientRect().top + window.scrollY;
-        window.scrollTo({ top: top + (story.offsetHeight - window.innerHeight) * SHOT_AT[i] + 1, behavior: reduce ? "auto" : "smooth" });
-      }));
       if (still) story.classList.add("is-still");
-      const net = mountOrbNet(stage.querySelector<HTMLElement>("[data-orbnet]")!, {
-        still, poster: orbMode === "poster", story, stage, faces: facesData,
+      const net = mountPeople(stage.querySelector<HTMLElement>("[data-orbnet]")!, {
+        still, story, stage, clear: copy, faces: facesData,
         onFrame: (f) => {
           copy.style.opacity = String(f.beats[0]);
           copy.style.transform = `translateY(${(-(1 - f.beats[0]) * 48).toFixed(1)}px)`;
           beatsEl.forEach((el, i) => { const w = f.beats[i + 1]; el.style.opacity = String(w); el.style.transform = `translateY(${((1 - w) * 18).toFixed(1)}px)`; el.classList.toggle("on", w > 0.5); });
-          you.style.opacity = f.you ? "1" : "0"; if (f.you) you.style.transform = `translate(${f.you.x.toFixed(1)}px, ${f.you.y.toFixed(1)}px)`;
+          you.style.opacity = f.you ? "1" : "0"; if (f.you) { you.style.transform = `translate(${f.you.x.toFixed(1)}px, ${f.you.y.toFixed(1)}px)`; you.style.setProperty("--r", `${f.you.r.toFixed(1)}px`); }
           cue.style.opacity = String(Math.max(0, 1 - f.p * 40));
           // The orb is the button: a link laid over it, its label shown on hover and in the last shot.
           orbLink.style.transform = `translate(${(f.orb.x - f.orb.r).toFixed(1)}px, ${(f.orb.y - f.orb.r).toFixed(1)}px)`;
           orbLink.style.width = orbLink.style.height = `${(f.orb.r * 2).toFixed(1)}px`;
           orbLink.style.setProperty("--show", String(Math.max(f.beats[0], f.beats[4])));
           if (f.orb.r > 0) { orbY = f.orb.y; dock(); }
-          const on = f.beats.indexOf(Math.max(...f.beats));
-          rail.forEach((a, i) => { if (i === on) a.setAttribute("aria-current", "step"); else a.removeAttribute("aria-current"); });
         },
       });
       if (!net || still) pause.hidden = true;
       if (net) {
-        // The orb is Join The Labs: pressing it sets off the one big pulse (the orb flares, a wave crosses the
-        // orbits, sparks go out to every Lab), then the account opens. A new-tab click, reduced motion or a paused
+        // The orb is Join The Labs: pressing it sets off the one big pulse (the orb flares, a ring goes out, and
+        // it reaches every one of the people at once), then the account opens. A new-tab click, reduced motion or a paused
         // model skip straight to the link.
         orbLink.addEventListener("click", (e) => {
           if (reduce || net.paused() || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;

@@ -1,10 +1,9 @@
 /* ════ The Upskilling Labs home page (src/pages/index.astro): what only it has,
    on top of the role pages' system (role.css). Scoped to body.jp.rp.hm. ════ */
 
-/* ── hero: the title over a live model of The Labs (src/scripts/orbnet.ts), and its story. The section is
-   tall; the stage stays pinned while the scroll moves the camera through four shots, each with one line.
-   The model is composited with screen blending over the stage's glows, so the title sits inside its light;
-   the lines, the legend and the controls sit above it. ── */
+/* ── hero: the title over the first cohort's people round the orb (src/scripts/people.ts), and its story.
+   The section is tall; the stage stays pinned while the scroll regroups the people through four shots, each
+   with one line. The lines and the controls sit above them. ── */
 .hm-model { position: relative; height: 470svh; }
 .hm-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; isolation: isolate;
   background: radial-gradient(55% 45% at 0% 0%, rgba(var(--tl), 0.3), rgba(var(--tl), 0) 100%), radial-gradient(50% 40% at 100% 62%, rgba(0, 95, 104, 0.42), rgba(0, 95, 104, 0) 100%), var(--ink); }
@@ -12,8 +11,8 @@
   -webkit-mask-image: radial-gradient(55% 45% at 0% 0%, #000, transparent), radial-gradient(50% 40% at 100% 62%, #000, transparent);
   mask-image: radial-gradient(55% 45% at 0% 0%, #000, transparent), radial-gradient(50% 40% at 100% 62%, #000, transparent); }
 .hm-hero-copy { position: absolute; z-index: 1; left: 0; right: 0; top: calc(var(--head) + clamp(20px, 5vh, 60px)); display: flex; flex-direction: column; align-items: center; padding: 0 var(--g); text-align: center; pointer-events: none; will-change: opacity, transform; }
-.hm-orbit { position: absolute; inset: 0; z-index: 2; mix-blend-mode: screen; pointer-events: none; background: var(--poster) center 62% / cover no-repeat; }
-.hm-orbit.is-live { background: none; }
+.hm-orbit { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+html:not([data-menu]) .hm-orbit { background: var(--poster) center bottom / cover no-repeat; } /* without scripts, a still */
 .hm-orbit canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 /* The eyebrow is the news (the logo already names The Labs): the cycle that's open, with its live dot. */
 .rp .hm-eyebrow { position: relative; z-index: 1; width: fit-content; max-width: 100%; font-size: var(--fs-cap); letter-spacing: 0.1em; white-space: nowrap; }
@@ -58,35 +57,26 @@
 .hm-path small { font-size: 13px; font-weight: 400; letter-spacing: 0; color: var(--t2); }
 .hm-both { margin: 12px 0 0; font-size: var(--fs-sm); color: var(--t2); }
 .hm-curious { display: inline-block; margin-top: 10px; font-size: var(--fs-sm); font-weight: 600; }
-.hm-beat-hint { margin: 14px 0 0; font-size: var(--fs-sm); color: var(--t2); }
-.hm-beat-hint .coarse { display: none; }
-@media (hover: none) { .hm-beat-hint .fine { display: none; } .hm-beat-hint .coarse { display: inline; } }
 
-/* "You": a tag that follows your cursor, a newcomer in the system. */
+/* "You": the empty seat's tag, in the last shot. */
 .hm-tag { position: absolute; z-index: 3; left: 0; top: 0; margin: 0; display: inline-flex; align-items: center; gap: 8px; padding: 5px 10px 5px 8px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 999px; background: rgba(0, 20, 27, 0.62); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t1); white-space: nowrap; opacity: 0; pointer-events: none; translate: 14px -50%; transition: opacity 0.2s; will-change: transform, opacity; }
 .mk { display: block; width: 9px; height: 9px; flex: none; }
-.mk-you { border-radius: 50%; background: #FFC880; box-shadow: 0 0 10px 2px rgba(255, 200, 128, 0.7); }
-.hm-you { translate: 16px -50%; color: #FFE3C2; }
+.mk-you { border-radius: 50%; border: 1.5px dashed rgba(255, 255, 255, 0.8); }
+.hm-you { translate: calc(var(--r, 0px) + 12px) -50%; } /* beside the seat; on phones, under it */
+@media (max-width: 680px) { .hm-you { translate: -50% calc(var(--r, 0px) + 8px); } }
 
-/* The chapter rail: a mark for each shot, the current one lit, and a way past the story. */
-.hm-rail { position: absolute; z-index: 3; right: var(--g); top: 50%; translate: 0 -50%; display: flex; flex-direction: column; align-items: flex-end; gap: 18px; }
-.hm-rail ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-.hm-rail a[data-go] { display: flex; align-items: center; gap: 12px; padding: 6px 0; color: var(--t2); text-decoration: none; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
-.hm-rail a[data-go] span { opacity: 0; translate: 6px 0; transition: opacity 0.2s, translate 0.2s; white-space: nowrap; }
-.hm-rail a[data-go] i { width: 18px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, 0.3); transition: width 0.25s, background 0.25s; }
-.hm-rail a[data-go][aria-current] { color: var(--t1); }
-.hm-rail a[data-go][aria-current] i { width: 34px; background: var(--teal); }
-.hm-rail:hover a[data-go] span, .hm-rail a[data-go]:focus-visible span, .hm-rail a[data-go][aria-current] span { opacity: 1; translate: 0 0; }
-.hm-rail a:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; border-radius: 4px; }
+/* The controls, bottom right: a way past the story, and a pause. */
+.hm-ctl { position: absolute; z-index: 3; right: var(--g); bottom: 20px; display: flex; align-items: center; gap: 20px; }
 .hm-skip { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t2); text-decoration: none; }
 .hm-skip:hover { color: var(--t1); }
-.is-still .hm-rail { display: none; }
+.hm-skip:focus-visible { outline: 2px solid var(--teal); outline-offset: 4px; border-radius: 4px; }
+.is-still .hm-skip { display: none; }
 
 .hm-cue { position: absolute; z-index: 3; left: 50%; bottom: 22px; margin: 0; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 10px; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--t2); pointer-events: none; }
 .hm-cue i { width: 1px; height: 36px; background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)); animation: hm-cue 2.2s ease-in-out infinite; transform-origin: top; }
 @keyframes hm-cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
-.hm-pause { position: absolute; z-index: 3; right: var(--g); bottom: 20px; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px; background: rgba(0, 20, 27, 0.5);
+.hm-pause { display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px; background: rgba(0, 20, 27, 0.5);
   font: inherit; font-size: 13px; font-weight: 600; color: var(--t1); cursor: pointer; }
 .hm-pause[hidden] { display: none; }
 .hm-pause:hover { border-color: rgba(255, 255, 255, 0.4); }
@@ -102,7 +92,6 @@
 .is-still .hm-orbit { bottom: auto; height: 100svh; }
 .is-still .hm-hero-copy { opacity: 1 !important; transform: none !important; }
 .is-still .hm-beats { position: relative; left: auto; bottom: auto; width: auto; margin-top: calc(100svh + 24px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gut); padding: 0 var(--g) clamp(40px, 8vh, 80px); }
-.is-still .hm-beat-hint { display: none; }
 .is-still .hm-beat { position: static; opacity: 1 !important; transform: none !important; }
 .is-still .hm-beat-line { font-size: var(--fs-lead); }
 .is-still .hm-cue, .is-still .hm-you { display: none; }
@@ -262,14 +251,8 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   .hm-beats { bottom: clamp(60px, 10svh, 100px); width: calc(100% - 2 * var(--g) - 28px); }
   .hm-beat-line { font-size: 24px; }
   .is-still .hm-beats { grid-template-columns: minmax(0, 1fr); width: auto; }
-  .hm-pause { bottom: 14px; }
+  .hm-ctl { bottom: 14px; gap: 16px; }
   .hm-cue { display: none; }
-  .hm-rail { top: auto; bottom: 64px; translate: none; gap: 10px; }
-  .hm-rail a[data-go] { padding: 4px 0; }
-  .hm-rail a[data-go] span, .hm-rail:hover a[data-go] span { display: none; }
-  .hm-rail a[data-go] i { width: 12px; }
-  .hm-rail a[data-go][aria-current] i { width: 22px; }
-  .hm-skip { display: none; }
   .rp .hm-path { padding: 9px 14px; font-size: 16px; }
   .hm-paths { gap: 6px; }
   .hm-beat-cta { margin-top: 16px; }
