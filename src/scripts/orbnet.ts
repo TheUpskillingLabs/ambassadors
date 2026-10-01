@@ -1194,6 +1194,9 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
 
   /* inputs */
   const ptr = { x: 0, y: 0, tx: 0, ty: 0, cx: -1e4, cy: -1e4, inside: false, quiet: false, pinned: -1, pinnedLab: -1, pinUntil: 0 };
+  // The scroll, read (scrollP) and followed (scrollE, and on a touch screen its speed, scrollV).
+  const touch = matchMedia("(pointer: coarse)").matches, SPRING = 11;
+  let scrollV = 0;
   let scrollP = 0, scrollE = 0, focus = -1, focusAmt = 0, lastFocus = 0, pausedFlag = false, orbHoverT = 0, orbHover = 0;
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
   const host = opts.stage ?? wrap;
@@ -1256,7 +1259,12 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   };
   if (opts.anchors) {
     const again = () => { measureAnchors(); readScroll(); };
-    measureAnchors(); new ResizeObserver(again).observe(document.body); window.addEventListener("load", again); window.addEventListener("resize", again);
+    // (A phone's toolbars coming and going as you scroll change the window's height, but every height here is
+    // in svh or lvh, which don't move with them: re-measuring then would only lay the page out mid-scroll.
+    // Real changes in size show up in the page's own size, which the observer catches.)
+    let lastW = window.innerWidth;
+    measureAnchors(); new ResizeObserver(again).observe(document.body); window.addEventListener("load", again);
+    window.addEventListener("resize", () => { if (window.innerWidth === lastW) return; lastW = window.innerWidth; again(); });
   }
   if (!still) window.addEventListener("scroll", readScroll, { passive: true });
   readScroll();
@@ -1451,7 +1459,18 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // Easing by time, not by frame, so the camera keeps up at any frame rate (and while paused).
     const rdt = Math.min(0.1, Math.max(0, (now - lastReal) / 1000)); lastReal = now;
     const ease60 = (k: number) => 1 - Math.pow(1 - k, rdt * 60);
-    scrollE = still ? scrollP : lerp(scrollE, scrollP, ease60(0.1));
+    if (still) scrollE = scrollP;
+    else if (touch) {
+      // On a touch screen the scroll position reaches the page in uneven steps (a phone scrolls on its own
+      // thread and reports back when it can), and easing toward each step makes the camera's speed jump with
+      // it. A critically damped spring keeps the speed itself continuous, so uneven reports still give an even
+      // glide (and it never overshoots). In small steps, so a slow frame can't upset it.
+      for (let h = rdt; h > 1e-4; h -= 1 / 120) {
+        const st = Math.min(h, 1 / 120);
+        scrollV += (SPRING * SPRING * (scrollP - scrollE) - 2 * SPRING * scrollV) * st;
+        scrollE += scrollV * st;
+      }
+    } else scrollE = lerp(scrollE, scrollP, ease60(0.1));
     const p = scrollE, sCur = p * (SHOTS.length - 1), w = shotWeights(p);
     // The model's own logic reads five beats: the whole, learn, build, share, and the close. (In the
     // threads' scenes the system is out of frame, so its beats there matter little.)

@@ -423,7 +423,11 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       const placeSoon = () => { if (!placing) placing = requestAnimationFrame(() => { placing = 0; place(); }); };
       const remeasure = () => { measure(); place(); };
       window.addEventListener("scroll", placeSoon, { passive: true });
-      window.addEventListener("resize", remeasure);
+      // Only when the width changes: a phone's toolbars coming and going as you scroll change the height alone,
+      // and the scenes are sized in svh, which doesn't move with them (re-measuring then lays the page out
+      // mid-scroll). Real changes in size reach the observer below through the page's own size.
+      let lastW = window.innerWidth;
+      window.addEventListener("resize", () => { if (window.innerWidth === lastW) return; lastW = window.innerWidth; remeasure(); });
       window.addEventListener("load", remeasure);
       new ResizeObserver(remeasure).observe(document.body);
       remeasure();
