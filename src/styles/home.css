@@ -33,6 +33,23 @@
 .hm-scene-in { position: fixed; z-index: 1; left: 0; right: 0; top: 100svh; transform: translateY(-100%); display: flex; flex-direction: column;
   padding: 0 0 clamp(40px, 10vh, 112px); opacity: 0; pointer-events: none; will-change: opacity; }
 .hm-hero-in { top: 0; transform: none; padding: 0; opacity: 1; pointer-events: auto; }
+/* Every bit of scroll shows: while a scene's words are held, they drift up a little with the page, so even a
+   small scroll visibly moves something (the world moves too: see PAUSE in orbnet.ts). It's a scroll-linked
+   animation the browser runs itself, so it keeps pace with the finger, as no script can; where that isn't
+   supported, the words simply hold. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* (Longhands, and the timelines in rules of their own: the minifier would otherwise fold the timeline into
+       the animation shorthand, which browsers don't accept.) */
+    .hm-scene { view-timeline: --hm-scene block; }
+    .hm-scene-in { animation-name: hm-drift; animation-timing-function: linear; animation-fill-mode: both; }
+    .hm-hero-in { animation-name: hm-lift; }
+    .hm-scenes .hm-scene-in { animation-timeline: --hm-scene; }
+    .hm-scenes .hm-hero-in { animation-timeline: scroll(root); animation-range: 0px 100vh; }
+  }
+}
+@keyframes hm-drift { from { translate: 0 7vh; } to { translate: 0 -7vh; } }
+@keyframes hm-lift { to { translate: 0 -9vh; } }
 .hm-hero-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: calc(var(--head) + clamp(20px, 5vh, 60px)) var(--g) 0; text-align: center; pointer-events: none; }
 .hm-scene-in > .rp-wrap { width: 100%; }
 .hm-side { width: min(34rem, 40vw); }

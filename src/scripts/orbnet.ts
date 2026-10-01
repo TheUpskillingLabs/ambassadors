@@ -94,7 +94,9 @@ function mulberry(seed: number) {
 
 interface Shot { at: number; target: "orb" | "dc" | "between" | "pod" | "new"; ty?: number; halfW: number; elev: number; roll: number; oElev: number; oRoll: number; yaw: number; sx: number; sy: number; px: number; py: number; pz?: number } // pz: how much closer a portrait screen frames it (0.6)
 /* One world for the whole journey: each shot is a scene the page anchors (OrbNetOptions.anchors, in order),
-   and the camera travels between them as you scroll, holding on each while its scene is on screen. The
+   and the camera travels through them as you scroll, never stopping: every bit of scroll moves the world, so
+   you can feel yourself going forward. It only slows (never quite stops) at the few moments that matter most
+   (PAUSE), and comes to rest at the very end, on the logo. The
    motif changes shape as it goes: the system, the weave, each thread, the weave, the system. Where the weave
    or a thread holds the screen, the camera looks along the orbits' plane with the orb high (the weave hangs
    from it), then lower still, so the system rises out of frame and the thread is the picture. On wide screens
@@ -120,7 +122,22 @@ const SHOTS: Shot[] = [
   { at: 0, target: "orb", halfW: 4.8, elev: 30, roll: 10, ...SYS, yaw: 0, sx: -0.36, sy: 0.04, px: -0.56, py: 0.1, pz: 0.656 }, // 18 the very end: the logo, the wordmark beside it
 ];
 /** Which scenes are which, by index: the system's, the weave's, and each path's (for the motif and the story). */
-const SCENE = { system: [0, 1, 2, 16, 17, 18], weave: [3, 15], learn: [4, 5, 6], build: [7, 8, 9, 10, 11, 12], share: [13, 14], workshops: 5, pod: 8, teams: 9, stuck: 10, showcase: 11, rising: 13, centre: 14, born: 16, end: 18 };
+const SCENE = { system: [0, 1, 2, 16, 17, 18], weave: [3, 15], learn: [4, 5, 6], build: [7, 8, 9, 10, 11, 12], share: [13, 14], workshops: 5, pod: 8, teams: 9, stuck: 10, showcase: 11, rising: 13, centre: 14, born: 16, close: 17, end: 18 };
+/** The pauses, for emphasis, and only these: how much the camera slows as it passes each (1 would stop it).
+   The triad, the centre (the official version going out to every Lab) and the close; then the logo, where it
+   comes to rest. */
+const PAUSE: Record<number, number> = { 3: 0.65, [SCENE.centre]: 0.65, [SCENE.close]: 0.6, [SCENE.end]: 1 };
+/** Scroll within one stretch between two scenes (f, 0 … 1) to the way along it: steady, but easing off into a
+   pause and out of one (s0, s1: how fast it's going at each end, 1 = steady). Never backwards, never still. */
+const glide = (f: number, s0: number, s1: number) => { const f2 = f * f, f3 = f2 * f; return 3 * f2 - 2 * f3 + s0 * (f3 - 2 * f2 + f) + s1 * (f3 - f2); };
+/** A camera value through four shots in a row (b at k = 0, c at k = 1): a smooth curve through every shot
+   (no stop-and-start at each, as easing from one to the next would give), that never overshoots: a value only
+   comes to rest where it turns back. `first`: a is the first shot, so the curve leaves it already moving. */
+const through = (a: number, b: number, c: number, d: number, k: number, first: boolean) => {
+  const m = (p: number, q: number, r: number) => { const d0 = q - p, d1 = r - q; return d0 * d1 <= 0 ? 0 : (2 * d0 * d1) / (d0 + d1); };
+  const mb = first ? c - b : m(a, b, c), mc = m(b, c, d), k2 = k * k, k3 = k2 * k;
+  return (2 * k3 - 3 * k2 + 1) * b + (k3 - 2 * k2 + k) * mb + (3 * k2 - 2 * k3) * c + (k3 - k2) * mc;
+};
 SHOTS.forEach((s, i) => { s.at = i / (SHOTS.length - 1); });
 /** How much each shot is on screen at page progress p (0 … 1). */
 export function shotWeights(p: number): number[] {
@@ -1186,12 +1203,18 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   const measureAnchors = () => { viewH = document.documentElement.clientHeight || window.innerHeight; anchorY = (opts.anchors ?? []).map((el) => { const r = el.getBoundingClientRect(); return r.top + window.scrollY + r.height / 2; }); };
   const readScroll = () => {
     if (anchorY.length > 1) {
-      // The middle of the screen against the scenes' middles: hold on a scene while it's on screen, and travel
-      // to the next in the middle stretch between them.
+      // The middle of the screen against the scenes' middles, and the camera always on its way from one to the
+      // next: steadily, slowing only into and out of the pauses (PAUSE, glide()). The first scene's anchor is
+      // the top of the page, so the very first touch of the scroll moves the world.
       const c = window.scrollY + viewH / 2, n = anchorY.length;
+      const A = (k: number) => (k === 0 ? Math.min(anchorY[0], viewH / 2) : anchorY[k]);
       let sh = 0;
       if (c >= anchorY[n - 1]) sh = n - 1;
-      else if (c > anchorY[0]) { let k = 0; while (c > anchorY[k + 1]) k++; const f = (c - anchorY[k]) / Math.max(1, anchorY[k + 1] - anchorY[k]); sh = k + ease(clamp((f - 0.22) / 0.56, 0, 1)); }
+      else if (c > A(0)) {
+        let k = 0; while (c > A(k + 1)) k++;
+        const f = clamp((c - A(k)) / Math.max(1, A(k + 1) - A(k)), 0, 1);
+        sh = k + glide(f, 1 - (PAUSE[k] ?? 0), 1 - (PAUSE[k + 1] ?? 0));
+      }
       scrollP = sh / (SHOTS.length - 1);
     } else if (opts.story) {
       const r = opts.story.getBoundingClientRect();
@@ -1210,11 +1233,12 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   const D = 30;
   const shotTarget = (s: Shot): V3 => s.target === "new" ? model.newLab() : s.target === "pod" ? model.podCenter() : s.target === "dc" ? model.labs[0].c : s.target === "between" ? [model.labs[0].c[0] * 0.45, 0, model.labs[0].c[2] * 0.45] : [0, 0, 0];
   const camera = (p: number, t: number) => {
-    let i = 0; while (i < SHOTS.length - 2 && p > SHOTS[i + 1].at) i++;
-    const a = SHOTS[i], b = SHOTS[i + 1];
-    const k = ease(clamp((p - a.at) / (b.at - a.at), 0, 1));
-    const L = (x: keyof Shot) => lerp(a[x] as number, b[x] as number, k);
-    const T = lerp3(shotTarget(a), shotTarget(b), k); T[1] += lerp(a.ty ?? 0, b.ty ?? 0, k); // ty: down the weave's axis
+    const nS = SHOTS.length, s = clamp(p * (nS - 1), 0, nS - 1), i = Math.min(nS - 2, Math.floor(s)), k = s - i;
+    const a = SHOTS[i], b = SHOTS[i + 1], a0 = SHOTS[Math.max(0, i - 1)], b1 = SHOTS[Math.min(nS - 1, i + 2)];
+    // Through the shots on a smooth curve, so the camera keeps moving as you scroll (see through()).
+    const Lv = (get: (q: Shot) => number) => through(get(a0), get(a), get(b), get(b1), k, i === 0);
+    const L = (x: keyof Shot) => Lv((q) => q[x] as number);
+    const ta = shotTarget(a), tb = shotTarget(b), T = lerp3(ta, tb, ease(k)); T[1] += Lv((q) => q.ty ?? 0); // ty: down the weave's axis
     const shake = 0;
     const yaw = (L("yaw") + ptr.x * 4.5 + (still ? 0 : Math.sin(t * 0.13) * 2.5) + Math.sin(t * 47) * shake * 0.5) * DEG, pitch = ptr.y * 3 * DEG;
     const par = mul(ry(yaw), rx(pitch));
@@ -1222,7 +1246,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const orbV = mul(par, mul(rz(L("oRoll") * DEG), rx(L("oElev") * DEG)));
     // Portrait screens frame closer (the system runs off the sides), and keep the lower third for the lines.
     const portrait = cssW < cssH;
-    const halfW = L("halfW") * (portrait ? lerp(a.pz ?? 0.6, b.pz ?? 0.6, k) : cssW < 900 ? 0.85 : 1) * (1 - 0.018 * shake);
+    const halfW = L("halfW") * (portrait ? Lv((q) => q.pz ?? 0.6) : cssW < 900 ? 0.85 : 1) * (1 - 0.018 * shake);
     const tanX = halfW / D, tanY = tanX / (W / H);
     const sh: [number, number] = portrait ? [L("px"), L("py")] : [L("sx"), L("sy")];
     // Actors grow as the shot closes in, by the shot's own framing: a narrow screen's closer crop
