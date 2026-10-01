@@ -46,62 +46,9 @@
     }
   },
   "model": {
-    "$comment": "The hero's story, over the live model (src/scripts/orbnet.ts): one line for each of its four shots after the title. The first three are the three paths joining opens, in the page's order: learn (the whole DC Lab, its people and places), build (a team round its project), pass it on (an idea going into every Lab that comes next); the last is you, and where to start.",
-    "beats": [
-      {
-        "kicker": "Learn",
-        "line": "In person, twice a week, beside people who've been where you are."
-      },
-      {
-        "kicker": "Build",
-        "line": "Make something real, on a team."
-      },
-      {
-        "kicker": "Pass it on",
-        "line": "What we figure out here goes into every Lab that comes next."
-      },
-      {
-        "kicker": "You",
-        "line": "Be part of something bigger."
-      }
-    ],
+    "$comment": "The world behind the whole page (src/scripts/orbnet.ts): the camera travels its scenes as you scroll, from the whole system to the three paths, the DC Lab (learn), a team (build), the orb and every Lab (pass it on), and a new Lab at the close; the thread of the three paths runs through it (src/scripts/weave.ts). Its words: the orb's button, the pause, and what pointing at anything says.",
     "pause": "Pause",
     "play": "Play",
-    "paths": {
-      "$comment": "The last shot's choice: the three paths joining opens, each straight to the free account with its path (?path=, proposed for OLOS), and what comes after it.",
-      "ask": "I want to",
-      "items": [
-        {
-          "tag": "Learn",
-          "label": "Learn what's next",
-          "path": "learn",
-          "next": {
-            "open": "Then drop into a workshop.",
-            "closed": "Then drop into a workshop."
-          }
-        },
-        {
-          "tag": "Build",
-          "label": "Build something real",
-          "path": "build",
-          "next": {
-            "open": "Then apply for Fall 2026.",
-            "closed": "Then a workshop, and the next cycle."
-          }
-        },
-        {
-          "tag": "Pass it on",
-          "label": "Share what I know",
-          "path": "contribute",
-          "next": {
-            "open": "Mentor, or make The Labs better.",
-            "closed": "Mentor, or make The Labs better."
-          }
-        }
-      ],
-      "both": "One account opens all three. Most people weave between them.",
-      "curious": "Not sure yet? See this week's workshops"
-    },
     "skip": "Skip the story",
     "orb": "Join The Labs",
     "orbLabel": "Join The Labs: create your free Upskilling account",

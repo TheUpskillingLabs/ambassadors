@@ -1,20 +1,32 @@
 /* ════ The Upskilling Labs home page (src/pages/index.astro): what only it has,
    on top of the role pages' system (role.css). Scoped to body.jp.rp.hm. ════ */
 
-/* ── hero: the title over a live model of The Labs (src/scripts/orbnet.ts), and its story. The section is
-   tall; the stage stays pinned while the scroll moves the camera through four shots, each with one line.
-   The model is composited with screen blending over the stage's glows, so the title sits inside its light;
-   the lines, the legend and the controls sit above it. ── */
-.hm-model { position: relative; height: 470svh; }
-.hm-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; isolation: isolate;
+/* ── the world: one live model of The Labs behind the whole page (src/scripts/orbnet.ts), with the thread of the
+   three paths running through it (src/scripts/weave.ts), over the stage's glows. It's fixed, and the page scrolls
+   over it: the camera travels its scenes as you go. Between scenes, where there's detail to read, it dims
+   (--dim, set by the page's script). The model is composited with screen blending over the glows, so the
+   title sits inside its light. ── */
+.hm-world { position: fixed; inset: 0; z-index: 0; pointer-events: none; isolation: isolate; opacity: calc(1 - 0.74 * var(--dim, 0)); transition: opacity 0.3s;
   background: radial-gradient(55% 45% at 0% 0%, rgba(var(--tl), 0.3), rgba(var(--tl), 0) 100%), radial-gradient(50% 40% at 100% 62%, rgba(0, 95, 104, 0.42), rgba(0, 95, 104, 0) 100%), var(--ink); }
-.hm-stage::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: var(--grain); mix-blend-mode: overlay; opacity: 0.55;
+.hm-world::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: var(--grain); mix-blend-mode: overlay; opacity: 0.55;
   -webkit-mask-image: radial-gradient(55% 45% at 0% 0%, #000, transparent), radial-gradient(50% 40% at 100% 62%, #000, transparent);
   mask-image: radial-gradient(55% 45% at 0% 0%, #000, transparent), radial-gradient(50% 40% at 100% 62%, #000, transparent); }
-.hm-hero-copy { position: absolute; z-index: 1; left: 0; right: 0; top: calc(var(--head) + clamp(20px, 5vh, 60px)); display: flex; flex-direction: column; align-items: center; padding: 0 var(--g); text-align: center; pointer-events: none; will-change: opacity, transform; }
-.hm-orbit { position: absolute; inset: 0; z-index: 2; mix-blend-mode: screen; pointer-events: none; background: var(--poster) center 62% / cover no-repeat; }
+.hm-orbit { position: absolute; inset: 0; z-index: 1; mix-blend-mode: screen; pointer-events: none; background: var(--poster) center 62% / cover no-repeat; }
 .hm-orbit.is-live { background: none; }
 .hm-orbit canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.hm-thread { position: absolute; inset: 0; z-index: 2; display: block; width: 100%; height: 100%; }
+.hm main, .hm .hm-foot { position: relative; z-index: 1; }
+
+/* ── the scenes: the hero, the three paths, the three chapters and the close. Each is tall, and its words stay
+   pinned while the world above is the picture: the words support it, at the foot of the screen, over a soft
+   fall of ink. ── */
+.hm-hero { position: relative; height: 100svh; }
+.hm-hero-copy { position: absolute; z-index: 1; left: 0; right: 0; top: calc(var(--head) + clamp(20px, 5vh, 60px)); display: flex; flex-direction: column; align-items: center; padding: 0 var(--g); text-align: center; pointer-events: none; }
+.hm-scene { position: relative; height: 210svh; }
+.hm-scene-in { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: clamp(36px, 8vh, 92px); }
+.hm-scene-in::before { content: ""; position: absolute; inset: auto 0 0; height: 55%; z-index: -1; pointer-events: none; background: linear-gradient(to top, rgba(0, 20, 27, 0.92), rgba(0, 20, 27, 0.66) 48%, rgba(0, 20, 27, 0)); }
+@media (max-width: 680px) { .hm-scene { height: 185svh; } .hm-scene-in::before { height: 62%; } }
+
 /* The eyebrow is the news (the logo already names The Labs): the cycle that's open, with its live dot. */
 .rp .hm-eyebrow { position: relative; z-index: 1; width: fit-content; max-width: 100%; font-size: var(--fs-cap); letter-spacing: 0.1em; white-space: nowrap; }
 
@@ -22,7 +34,7 @@
    dark middle band, not in a pill beneath. With a mouse the label is revealed as you point at the orb (or focus
    it), while the orb brightens and swells a little; on touch screens, which can't hover, it shows in the opening
    and the last shot. */
-.hm-orb-link { --show: 0; position: absolute; z-index: 3; left: 0; top: 0; display: grid; place-items: center; border-radius: 50%; text-decoration: none; container-type: inline-size; will-change: transform; }
+.hm-orb-link { --show: 0; position: fixed; z-index: 3; left: 0; top: 0; display: grid; place-items: center; border-radius: 50%; text-decoration: none; container-type: inline-size; will-change: transform; }
 .hm-orb-link:focus-visible { outline: 2px solid var(--teal); outline-offset: 10px; }
 .hm-orb-label { font-size: clamp(14px, 10.5cqw, 26px); font-weight: 600; letter-spacing: 0.04em; line-height: 1; color: #fff; white-space: nowrap;
   text-shadow: 0 1px 22px rgba(0, 20, 27, 0.9), 0 0 3px rgba(0, 20, 27, 0.7);
@@ -30,22 +42,10 @@
 .hm-orb-link:hover .hm-orb-label, .hm-orb-link:focus-visible .hm-orb-label { opacity: 1; transform: none; letter-spacing: 0.01em; }
 @media (hover: none) { .hm-orb-label { opacity: var(--show); transform: none; letter-spacing: 0.01em; } }
 .hm-orb-label b { font-weight: 600; }
-.is-still .hm-orb-link { display: none; }
 
-/* The story's lines: one at a time, bottom left, over the model. */
-.hm-beats { position: absolute; z-index: 3; left: var(--g); bottom: clamp(56px, 11vh, 120px); width: min(30ch, calc(100% - 2 * var(--g))); margin: 0; padding: 0; list-style: none; pointer-events: none; }
-.hm-beat { position: absolute; left: 0; bottom: 0; width: 100%; opacity: 0; will-change: opacity, transform; }
-.hm-beat.on { pointer-events: auto; }
-.hm-beat .rp-step { display: flex; gap: 10px; }
-.hm-beat .no { color: var(--t2); }
-.hm-beat-line { margin: 12px 0 0; font-size: var(--fs-sub); font-weight: 600; line-height: 1.12; letter-spacing: -0.025em; color: var(--t1); text-wrap: balance; text-shadow: 0 2px 24px rgba(0, 20, 27, 0.8); }
-.hm-beat-cta { margin-top: 24px; }
-/* The last shot ends in a choice: every path is a way in, and each starts with the account. */
-.hm-paths-ask { margin: 0 0 10px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
-.hm-paths { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+/* A path's way in: the free account with the path it came from. */
 .rp .hm-path { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 12px 16px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 12px; background: rgba(0, 20, 27, 0.55);
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-size: 17px; font-weight: 600; color: var(--t1); text-decoration: none; transition: border-color 0.2s, background 0.2s; }
-.hm-beat .rp-step .gem { width: 9px; height: 9px; margin: 0 9px 0 2px; }
 .hm-path span .gem { width: 9px; height: 9px; margin-right: 8px; vertical-align: 0; }
 .hm-path span { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
 .rp .hm-path:hover, .rp .hm-path:focus-visible { border-color: var(--teal); background: rgba(0, 148, 160, 0.16); }
@@ -58,8 +58,6 @@
 .rp .hm-path { align-items: center; }
 .hm-path em { display: grid; gap: 2px; font-style: normal; }
 .hm-path small { font-size: 13px; font-weight: 400; letter-spacing: 0; color: var(--t2); }
-.hm-both { margin: 12px 0 0; font-size: var(--fs-sm); color: var(--t2); }
-.hm-curious { display: inline-block; margin-top: 10px; font-size: var(--fs-sm); font-weight: 600; }
 
 /* What you're pointing at (or tapped): a small card beside it, set by the page's script. */
 .hm-card { position: absolute; z-index: 4; left: 0; top: 0; max-width: 260px; padding: 9px 13px 10px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 10px; background: rgba(0, 20, 27, 0.8);
@@ -75,25 +73,17 @@
 .hm-skip:focus-visible { opacity: 1; pointer-events: auto; outline: none; }
 .is-still .hm-skip { display: none; }
 
-.hm-pause { position: absolute; z-index: 3; right: var(--g); bottom: 20px; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px; background: rgba(0, 20, 27, 0.5);
+.hm-pause { position: fixed; z-index: 3; right: var(--g); bottom: 20px; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px; border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 999px; background: rgba(0, 20, 27, 0.5);
   font: inherit; font-size: 13px; font-weight: 600; color: var(--t1); cursor: pointer; }
 .hm-pause[hidden] { display: none; }
+html:not(.in-scene) .hm-pause { opacity: 0; pointer-events: none; }
+.hm-pause { transition: opacity 0.3s; }
 .hm-pause:hover { border-color: rgba(255, 255, 255, 0.4); }
 .hm-pause:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
 .hm-pause svg { fill: currentColor; }
 .hm-pause .i-play { display: none; }
 .hm-pause[aria-pressed="true"] .i-play { display: inline; }
 .hm-pause[aria-pressed="true"] .i-pause { display: none; }
-
-/* Reduced motion: no pinning; the stage is one still frame with the four lines under the title. */
-.hm-model.is-still { height: auto; }
-.is-still .hm-stage { position: relative; height: auto; display: block; }
-.is-still .hm-orbit { bottom: auto; height: 100svh; }
-.is-still .hm-hero-copy { opacity: 1 !important; transform: none !important; }
-.is-still .hm-beats { position: relative; left: auto; bottom: auto; width: auto; margin-top: calc(100svh + 24px); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--gut); padding: 0 var(--g) clamp(40px, 8vh, 80px); }
-.is-still .hm-beat { position: static; opacity: 1 !important; transform: none !important; }
-.is-still .hm-beat-line { font-size: var(--fs-lead); }
-.is-still .hm-card { display: none; }
 
 .hm-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 28px; }
 .hm-actions .textlink { font-size: 17px; font-weight: 600; }
@@ -210,8 +200,7 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 }
 
 /* ── a chapter: one path. The threads with its strand lit, its name set large, then what it is. ── */
-.hm-ch { position: relative; padding-top: clamp(150px, 22vh, 240px); }
-.hm-ch-in { margin-top: clamp(36px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--gut); row-gap: 28px; align-items: end; }
+.hm-ch-in { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--gut); row-gap: 28px; align-items: end; }
 .hm-ch-k { margin: 0; display: flex; align-items: center; gap: 12px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; color: var(--t2); }
 
 .hm-ch-verb { margin: 16px 0 0; font-size: var(--fs-d2); font-weight: 700; line-height: 0.9; letter-spacing: -0.055em; color: var(--t1); text-wrap: balance; }
@@ -312,32 +301,14 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   .hm-city-list .detail { grid-column: 1 / -1; }
 }
 @media (max-width: 680px) {
-  .hm-beats { bottom: clamp(60px, 10svh, 100px); width: calc(100% - 2 * var(--g) - 28px); }
-  .hm-beat-line { font-size: 24px; }
-  .is-still .hm-beats { grid-template-columns: minmax(0, 1fr); width: auto; }
   .hm-pause { bottom: 14px; }
   .rp .hm-path { padding: 9px 14px; font-size: 16px; }
-  .hm-paths { gap: 6px; }
-  .hm-beat-cta { margin-top: 16px; }
   .hm-people { align-items: flex-start; }
   .hm-faces li { width: 46px; height: 46px; margin-left: -10px; }
   .hm-portrait { width: 104px; height: 104px; }
   .rp.hm .rp-cta .hm-actions { justify-content: flex-start; }
 }
 
-/* ── the weave (src/scripts/weave.ts): one thread, the three paths braided, from the hero's orb to a new orb
-   at the close. A fixed canvas over the page that takes no pointer events; the layout leaves it a gutter
-   (the spine), a band to fan out in above the three paths' labels (whose gems become beads on the strands),
-   room to sweep into the spine after the hero, and a place for the new orb. Without WebGL none of it shows. ── */
-.hm-thread { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
-html.has-weave { --spine-room: clamp(30px, 4.2vw, 64px); }
-html.has-weave .hm main > section:not(.hm-model):not(.rp-intro) { padding-left: var(--spine-room); }
-html.has-weave .hm .rp-intro { padding-left: calc(var(--g) + var(--spine-room)); padding-top: calc(clamp(64px, 11vh, 132px) + clamp(110px, 22vh, 240px)); }
-html.has-weave .hm .hm-join { padding-top: calc(clamp(96px, 14vh, 160px) + clamp(80px, 12vh, 140px)); }
-.hm-fan { height: clamp(150px, 19vw, 280px); }
-.hm-knot { width: clamp(100px, 11vw, 150px); aspect-ratio: 1; margin: 0 auto clamp(16px, 3vw, 36px); }
-html:not(.has-weave) .hm-fan, html:not(.has-weave) .hm-knot { display: none; }
-.hm-strands .gem { position: relative; z-index: 3; }
 
 /* The facts and the cities in the system's glyphs: each fact its actor, each city a Lab (a small orb, lit
    where it's active, an outline where there's a waitlist). */
@@ -345,3 +316,12 @@ html:not(.has-weave) .hm-fan, html:not(.has-weave) .hm-knot { display: none; }
 @media (max-width: 680px) { .hm .rp-facts .mk { grid-row: 1 / span 2; margin: 5px 0 0 6px; } }
 .hm-city-list .state i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--t2); }
 .hm-city-list .active .state i { border: 0; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); box-shadow: 0 0 10px rgba(11, 210, 208, 0.45); animation: none; }
+
+/* The three paths' scene: the claim at the top, the three labels at the foot, the orb and the thread between. */
+.hm-paths-in { height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding-top: calc(var(--head) + clamp(16px, 5vh, 56px)); }
+.hm-paths3 .hm-scene-in::after { content: ""; position: absolute; inset: 0 0 auto; height: 46%; z-index: -1; pointer-events: none; background: linear-gradient(to bottom, rgba(0, 20, 27, 0.9), rgba(0, 20, 27, 0.6) 55%, rgba(0, 20, 27, 0)); }
+.hm-paths3 .hm-strands { margin-top: 0; }
+/* The close: the new Lab is born in the world above; the one action at the foot. */
+.hm-close { height: 170svh; }
+.hm-close .rp-join { margin-top: 0; padding: 0; background: none; overflow: visible; }
+.hm-close .rp-join::after { display: none; }
