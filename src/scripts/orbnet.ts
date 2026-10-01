@@ -9,12 +9,15 @@
    scale, only actors and their ties. People, places (the libraries), projects and
    knowledge (playbooks, code) are all actors, each its own mark:
      people     a pearl dot         places     a teal square
-     projects   a red diamond       knowledge  a silver ring
+     projects   a red diamond       knowledge  a gold ring
    These are the page's glyphs too, in the pins' materials: the three paths
-   joining opens wear the same colours (learn teal, build red, share
-   silver), so the model, the emblem, the weave and the gems are one visual
-   language. The metal is silver because this is national (regional would be
-   brass); the orbits are silver dust.
+   joining opens wear the same colours (learn teal, build red, share gold), so
+   the model, the emblem, the weave and the gems are one visual language. The
+   metal is gold, the norm: everyone comes in through their own Lab, and gold is
+   the regional metal; the Labs' orbits are gold dust. Silver belongs to the
+   national org alone, so it shows only at the centre: the commons round the orb
+   (its dust, its knowledge, the ties into it), the orb's wave, and what the orb
+   sends out to every Lab. Its meaning is there to be discovered later.
    A Lab is nothing but its ties, and the whole behaves like a complex adaptive
    system: newcomers drift in and are pulled into the Lab with the strongest pull
    near them, new ties form as ideas spread, and it never stops rearranging.
@@ -29,7 +32,8 @@
    the three paths in order. A project makes something new and a spark runs
    out along its ties (red: build); the big ones find their way up through a
    contributor to the orb (teal: what was learned). The orb flares, a silver wave
-   crosses the orbits, and the idea comes back down (silver: passed on) to every
+   crosses the orbits, and the idea comes back down (silver: the national org's
+   official version) to every
    Lab tied to the commons, where it spreads again. Sparks strengthen the ties they
    cross, adopters form new ties, and what reaches the orb leaves new knowledge
    in the commons. Everything leaves a fading trail along its orbit.
@@ -504,8 +508,13 @@ bool culled(vec3 p) { return (uM * p).z * uSide < 0.0; }`;
 const GLSL_STATE = `
 uniform highp sampler2D uPos; uniform highp sampler2D uSt; uniform highp sampler2D uOrb;
 ivec2 texAt(int i) { return ivec2(i % ${TEXW}, i / ${TEXW}); }
-const vec3 COL[5] = vec3[5](vec3(1.0, 0.86, 0.74), vec3(0.14, 0.84, 0.86), vec3(1.0, 0.36, 0.28), vec3(0.84, 0.89, 0.95), vec3(1.0, 0.9, 0.8)); // pearl, teal, red, silver; you
-vec3 colOf(float kind) { int k = int(kind + 0.5); return k >= 10 ? vec3(1.0, 0.9, 0.8) : COL[min(k, 4)]; }`;
+// The metal is gold: everyone comes in through their own Lab, so gold is the norm. Silver is the national
+// org's alone (the commons round the orb, its wave, what it sends out), there to be discovered later.
+const vec3 COL[5] = vec3[5](vec3(1.0, 0.86, 0.74), vec3(0.14, 0.84, 0.86), vec3(1.0, 0.36, 0.28), vec3(1.0, 0.79, 0.44), vec3(1.0, 0.9, 0.8)); // pearl, teal, red, gold; you
+const vec3 NATIONAL = vec3(0.84, 0.89, 0.95); // silver
+vec3 colOf(float kind) { int k = int(kind + 0.5); return k >= 10 ? vec3(1.0, 0.9, 0.8) : COL[min(k, 4)]; }
+// By kind and Lab: knowledge in the commons (no Lab) is the national corpus, so silver.
+vec3 colAt(float kind, float lab) { return int(kind + 0.5) == 3 && lab < -0.5 ? NATIONAL : colOf(kind); }`;
 
 const ACTOR_VS = `#version 300 es
 precision highp float;
@@ -523,7 +532,7 @@ void main() {
   float g = S.w;
   float f = g < -0.5 ? 1.0 - 0.4 * uFocusAmt : (abs(g - uFocus) < 0.5 ? 1.0 + 0.8 * uFocusAmt : 1.0 - 0.6 * uFocusAmt);
   float k = S.z > 9.5 ? 0.0 : S.z, em = k < 0.5 ? uEmph.x : k < 1.5 ? uEmph.y : k < 2.5 ? uEmph.z : k < 3.5 ? uEmph.w : 1.0; // what the shot is about
-  vC = vec4(colOf(S.z), P.w * f * em * (1.0 + 0.12 * depth));
+  vC = vec4(colAt(S.z, S.w), P.w * f * em * (1.0 + 0.12 * depth));
   float fl = S.z > 9.5 ? 1.0 : 0.4 + 0.6 * uDense; // where the network is packed tight on screen, a flash is smaller
   vShape = S.z; vFlash = S.x * fl; vNear = max(depth, 0.0);
   gl_PointSize = S.y * uPx * uZoom * (uD / -v.z) * (1.0 + 0.12 * max(depth, 0.0) - 0.1 * max(-depth, 0.0)) * (1.0 + (S.z > 9.5 ? 0.15 : 0.3 * fl) * S.x);
@@ -633,7 +642,7 @@ void main() {
   float foc = uFocusAmt > 0.0 ? ((abs(aKind.y - uFocus) < 0.5 || abs(aKind.z - uFocus) < 0.5) ? 1.0 + 1.2 * uFocusAmt : 1.0 - 0.55 * uFocusAmt) : 1.0;
   float front = ib < 0 && (uM * M).z > 0.0 ? 0.35 : 1.0;
   float base = (bridge || ib < 0 ? 0.3 : 0.16) * st.x * foc * vis * front;
-  vec3 col = mix(bridge || ib < 0 ? vec3(0.74, 0.8, 0.87) : vec3(0.5, 0.78, 0.8), bridge || ib < 0 ? vec3(0.95, 0.98, 1.0) : vec3(0.92, 0.97, 0.95), st.y * 0.75); // contributors' ties are silver
+  vec3 col = mix(bridge || ib < 0 ? vec3(0.74, 0.8, 0.87) : vec3(0.5, 0.78, 0.8), bridge || ib < 0 ? vec3(0.95, 0.98, 1.0) : vec3(0.92, 0.97, 0.95), st.y * 0.75); // ties into the commons are the national org's: silver
   if (pod) { col = mix(col, mix(vec3(1.0, 0.82, 0.62), vec3(1.0, 0.97, 0.9) * 1.05, st.y), uPod); base += 0.4 * uPod * vis; }
   else base *= (1.0 - 0.55 * uPod) * (0.6 + 0.4 * uDense);
   float width = ((bridge ? 1.3 : 0.85) + 0.45 * (st.x - 1.0) + 0.3 * st.y + (pod ? 0.8 * uPod : 0.0)) * uPx;
@@ -667,7 +676,7 @@ void main() {
   vec3 A = k == 0 ? P.xyz : orbitAt(O, t0), B = orbitAt(O, t1);
   if (culled((A + B) * 0.5)) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
   float f = 1.0 - float(k) / float(SEG);
-  quad(A, B, aCorner.x, aCorner.y, (0.4 + 1.3 * f) * uPx, vec4(colOf(S.z), P.w * 0.24 * f * f));
+  quad(A, B, aCorner.x, aCorner.y, (0.4 + 1.3 * f) * uPx, vec4(colAt(S.z, S.w), P.w * 0.24 * f * f));
 }`;
 
 const LINE_FS = `#version 300 es
@@ -688,7 +697,7 @@ ${GLSL_CAM}
 in vec4 aG; // orbit radius, angle, seed, brightness
 uniform float uPx; uniform float uGrow; uniform float uTime; uniform float uBoost;
 uniform vec4 uMass[10]; uniform vec4 uRip[4];
-out float vA; out float vWell; out float vRip;
+out float vA; out float vWell; out float vRip; out float vCore;
 void main() {
   float R = aG.x, th = aG.y + uTime * 0.03 * pow(2.5 / R, 1.5), k = aG.z;
   float rr = R + 0.05 * sin(3.0 * th + k * 6.3) + 0.03 * sin(5.0 * th - k * 11.0) + 0.02 * sin(9.0 * th + k * 3.0);
@@ -704,7 +713,7 @@ void main() {
   vec3 v = toView(w);
   gl_Position = toClip(v);
   float r = length(p);
-  vWell = clamp(well - 0.25, 0.0, 1.5); vRip = rip;
+  vWell = clamp(well - 0.25, 0.0, 1.5); vRip = rip; vCore = smoothstep(2.45, 1.85, r); // the commons round the orb
   float arcs = 1.0 + floor(k * 2.0), len = 0.25 + 0.45 * fract(k * 7.13);
   float sft = fract((k * 6.28 - aG.y) / 6.2832 * arcs);
   float clump = sft < len ? pow(1.0 - sft / len, 1.7) : 0.0;
@@ -714,13 +723,15 @@ void main() {
 
 const FABRIC_FS = `#version 300 es
 precision highp float;
-in float vA; in float vWell; in float vRip; out vec4 o;
+in float vA; in float vWell; in float vRip; in float vCore; out vec4 o;
 ${GLSL_HASH}
 void main() {
   vec2 c = gl_PointCoord * 2.0 - 1.0; float r = dot(c, c); if (r > 1.0) discard;
   float a = vA * smoothstep(1.0, 0.1, r) * (0.6 + 0.8 * hash(gl_FragCoord.xy));
-  vec3 col = mix(vec3(0.36, 0.4, 0.45), vec3(0.86, 0.91, 0.97), clamp(vWell * 0.5, 0.0, 1.0)); // silver dust: the national metal
-  col = mix(col, vec3(0.94, 0.97, 1.0), clamp(vRip * 1.4, 0.0, 1.0));                         // the wave from the orb: silver, what's passed on going out
+  float wl = clamp(vWell * 0.5, 0.0, 1.0);
+  vec3 col = mix(mix(vec3(0.5, 0.37, 0.17), vec3(1.0, 0.86, 0.56), wl),                      // gold dust: the Labs' orbits, the norm
+                 mix(vec3(0.36, 0.4, 0.45), vec3(0.86, 0.91, 0.97), wl), vCore);            // silver round the centre: the national commons
+  col = mix(col, vec3(0.94, 0.97, 1.0), clamp(vRip * 1.4, 0.0, 1.0));                         // the wave from the orb: silver, the national org sending out
   o = vec4(col * a, a);
 }`;
 
@@ -742,8 +753,8 @@ uniform vec3 uFocus; uniform float uFocusSum; uniform float uCamY; uniform float
 uniform vec2 uKnot; // a knot in Build's thread: how tangled, and where
 uniform float uLogo; uniform vec4 uOrbN; uniform highp sampler2D uSwoosh; uniform float uLogoA; // the mark forming: how far, the orb on screen (centre, radius), the swoosh's points, their light
 out vec3 vCol; out float vA;
-const vec3 CANDY[3] = vec3[3](vec3(0.1, 0.84, 0.88), vec3(1.0, 0.3, 0.22), vec3(0.84, 0.89, 0.95)); // teal, red, silver
-const vec3 DUST = vec3(0.62, 0.68, 0.74);
+const vec3 CANDY[3] = vec3[3](vec3(0.1, 0.84, 0.88), vec3(1.0, 0.3, 0.22), vec3(1.0, 0.78, 0.42)); // teal, red, gold
+const vec3 DUST = vec3(0.8, 0.66, 0.42); // gold dust, as every Lab's orbit
 const float TURNS = 20.0, LEN = 53.0, RB = 0.5, Y0 = -0.62, U0 = 0.021;
 void main() {
   int k = int(aS.x + 0.5); float s1 = aS.z, s2 = aS.w, h = fract(s1 * 91.7 + s2 * 13.3);
@@ -779,7 +790,7 @@ void main() {
   float below = mix(1.0, smoothstep(-0.04, 0.2, ndcY), uPortrait * drawn);
   vA = mix(a0, a1, drawn) * (0.55 + 0.9 * h) * smoothstep(1.0, 0.9, u) * below;
   vec3 col = CANDY[k];
-  if (k == 2) col = mix(col, mix(CANDY[0], CANDY[2], smoothstep(uCamY + 3.5, uCamY - 3.5, p.y)), f); // shared: what was learned (teal), going out (silver)
+  if (k == 2) col = mix(col, mix(CANDY[0], CANDY[2], smoothstep(uCamY + 3.5, uCamY - 3.5, p.y)), f); // shared: what was learned (teal), given (gold)
   vCol = mix(mix(DUST, col, mix(0.3, 0.85, uGlow)), col, drawn) * (1.0 + 0.6 * pulse);
   gl_PointSize = (mix(2.0, 1.7 + 0.6 * (0.5 + 0.5 * d) + 0.5 * f, drawn) + 1.4 * pulse) * uPx * (uD / -v.z);
   if (lm > 0.0) {
@@ -964,7 +975,7 @@ void main() {
   vec2 fr = (uv - 0.5) * 0.0012;
   vec3 c = vec3(texture(uScene, uv + fr).r, texture(uScene, uv).g, texture(uScene, uv - fr).b);
   c += texture(uBloom, uv).rgb * uBloomAmt;
-  c += vec3(0.86, 0.91, 0.97) * ring * 0.08;
+  c += vec3(0.86, 0.91, 0.97) * ring * 0.08; // the orb's wave: the national org's, silver
   c = shoulder(c);
   // The brand's grain, only where there's light.
   float l = max(c.r, max(c.g, c.b));
@@ -1305,7 +1316,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     }
     if (a.type === PLACE) return as("place", "place", say("place", dc ? "dc" : "title"), say("place", dc ? "dcDetail" : "detail"));
     if (a.type === PROJECT) return as("project", "project", sayN("project", "people", Math.max(1, count(i, HUMAN))), model.podOf.has(i) ? say("project", "team") : say("project", dc ? "dc" : "lab"));
-    if (a.c < 0) return as("knowledge", "knowledge", say("knowledge", "commons"), say("knowledge", "commonsDetail"));
+    if (a.c < 0) return as("commons", "knowledge", say("knowledge", "commons"), say("knowledge", "commonsDetail")); // the national corpus: its glyph is silver
     const pj = count(i, PROJECT);
     return as("knowledge", "knowledge", say("knowledge", "title"), pj ? sayN("knowledge", "projects", pj) : say("knowledge", "detail"));
   };
@@ -1434,7 +1445,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       if (t < pu.t0) continue;
       const u = clamp((t - pu.t0) / pu.dur, 0, 1);
       const A = model.end(pu.from, pu.to), B = model.end(pu.to, pu.from);
-      const c: V3 = pu.kind === 1 ? [0.25, 1, 0.92] : pu.kind === 2 ? [0.86, 0.92, 1] : [1, 0.42, 0.3]; // build red; then what was learned rises teal, and comes back out silver, passed on
+      const c: V3 = pu.kind === 1 ? [0.25, 1, 0.92] : pu.kind === 2 ? [0.86, 0.92, 1] : [1, 0.42, 0.3]; // build red; then what was learned rises teal, and comes back out silver: the national org's official version
       for (let k = 0; k < 5; k++) { const uu = u - k * 0.028; if (uu < 0) break; putS(lerp3(A, B, uu), k ? 8 - k * 1.1 : 13, (k ? 0.5 - k * 0.08 : 0.85) * (1 - 0.25 * u), c); }
     }
     // The small stories on the paths' threads, told with the model's own glyphs, round the camera's place on
@@ -1455,9 +1466,9 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     };
     const onStrand = (k: number, y: number, r: number): V3 => { const th = uAt(y) * HX.TURNS * Math.PI * 2 + k * 2.0944 + twist; return [Math.cos(th) * r, y, Math.sin(th) * r]; };
     const cy = T[1];
-    const PEARL: V3 = [1, 0.86, 0.74], SILVER: V3 = [0.86, 0.91, 0.97], RED: V3 = [1, 0.36, 0.28], TEAL: V3 = [0.14, 0.84, 0.86];
+    const PEARL: V3 = [1, 0.86, 0.74], GOLD: V3 = [1, 0.8, 0.45], RED: V3 = [1, 0.36, 0.28], TEAL: V3 = [0.14, 0.84, 0.86];
     const wt = (i: number) => w[i] ?? 0;
-    // Learn: open workshops (silver rings) come down its thread into a room of people, who light up as each
+    // Learn: open workshops (gold rings) come down its thread into a room of people, who light up as each
     // passes; below them the rings carry on brighter, improved by the room.
     if (wt(SCENE.workshops) > 0.01) {
       const v = wt(SCENE.workshops);
@@ -1465,7 +1476,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       for (let i = 0; i < 3; i++) {
         const ph = (t * 0.07 + i / 3) % 1, y = cy + 4.8 - ph * 9.6;
         lit = Math.max(lit, Math.exp(-(((y - cy) / 0.55) ** 2)));
-        putG(onStrand(0, y, 0.16), 30, 3, y < cy ? 0.7 : 0.1, v * Math.sin(Math.PI * ph), SILVER);
+        putG(onStrand(0, y, 0.16), 30, 3, y < cy ? 0.7 : 0.1, v * Math.sin(Math.PI * ph), GOLD);
       }
       for (let i = 0; i < 8; i++) { const a = (i / 8) * Math.PI * 2 + 0.3; putG([Math.cos(a) * 1.35, cy + Math.sin(a) * 1.05, 0.1 * Math.sin(a * 2)], 17, 0, 0.15 + 0.75 * lit, v, PEARL); }
     }
@@ -1498,7 +1509,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
         }
       });
       const mentors: V3[] = [[-0.1, cy + 1.35, 0], [1.85, cy - 0.75, 0]];
-      mentors.forEach((m) => { putG(m, 17, 0, 0.3, vb * fTeam, PEARL); putG(m, 34, 3, 0.2, vb * fTeam * 0.9, SILVER); });
+      mentors.forEach((m) => { putG(m, 17, 0, 0.3, vb * fTeam, PEARL); putG(m, 34, 3, 0.2, vb * fTeam * 0.9, GOLD); });
       putG([0, cy, 0], 48, 5, 0, wt(SCENE.pod) * (1 - fTeam) * 0.55, RED); // the problem situation the Pod forms round
       // The knot, on a loop while its scene holds: it tangles, a workshop comes from a Mentor and frees it,
       // then rises up the thread.
@@ -1509,14 +1520,14 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
         let rq: V3 | null = null, ra = 0;
         if (ph > 0.2 && ph < 0.62) { const k = ease(clamp((ph - 0.22) / 0.23, 0, 1)); rq = lerp3(mentors[0], [0, cy + 0.05, 0], k); ra = 1; }
         else if (ph >= 0.62) { const k = ease(clamp((ph - 0.62) / 0.33, 0, 1)); rq = onStrand(1, cy + k * 5.5, 0.16); ra = 1 - k * 0.6; }
-        if (rq) putG(rq, 32, 3, 0.6, vs * ra, SILVER);
+        if (rq) putG(rq, 32, 3, 0.6, vs * ra, GOLD);
       }
     }
-    // Share: contributions (a workshop teal, a method red, code silver) rise up its thread to the centre,
+    // Share: contributions (a workshop teal, a method red, code gold) rise up its thread to the centre,
     // where the camera follows them; there they go into the orb.
     const vr = wt(SCENE.rising) + wt(SCENE.centre);
     if (vr > 0.01) {
-      const cols: V3[] = [TEAL, RED, SILVER];
+      const cols: V3[] = [TEAL, RED, GOLD];
       for (let i = 0; i < 6; i++) {
         const ph = (t * 0.06 + i / 6) % 1;
         for (let tl = 0; tl < 4; tl++) {

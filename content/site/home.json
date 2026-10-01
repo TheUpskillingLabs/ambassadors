@@ -135,7 +135,7 @@
     "terms": "No tech background needed. Join once, and three paths open up.",
     "cta": "Join The Labs",
     "login": "Log in",
-    "note": "Creates your free Upskilling account, with Google. Everything after that, from workshops to applying for a Build Cycle, happens inside it.",
+    "note": "Creates your free Upskilling account, with Google, and connects you with your local Lab. Everything after that, from workshops to applying for a Build Cycle, happens inside it.",
     "people": "185 people in DC so far.",
     "label": "What this is"
   },
@@ -144,7 +144,7 @@
     "kicker": "One account, three paths",
     "title": "Learn it. Build it. Share it.",
     "lede": "It's the work: real projects, start to finish, with people you meet here. Learn what it takes, build it together, and share what works.",
-    "alt": "Three of the orb's orbits drawn down into one triple helix: teal, red and silver.",
+    "alt": "Three of the orb's orbits drawn down into one triple helix: teal, red and gold.",
     "items": [
       {
         "id": "learn",
@@ -414,7 +414,7 @@
     "lede": "Learn something this week. Build something this fall. Share what you know, for good.",
     "cta": "Join The Labs",
     "donate": "Support The Labs",
-    "note": "Creates your free Upskilling account, with Google."
+    "note": "Creates your free Upskilling account, with Google, and connects you with your local Lab."
   },
   "end": {
     "$comment": "The very end of the journey has no words: the world becomes the logo, settling into the brand's own lockup (public/home/logo-mark.webp and logo-wordmark.webp, cut from the brand kit's logo-lockup-light.png). The lockup is decorative there (the header and the footer name The Labs)."

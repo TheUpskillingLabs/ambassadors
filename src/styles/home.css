@@ -167,14 +167,17 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 
 /* ── one visual language (see "The visual language" in the README): the model's actors and the three paths
    joining opens share their marks, colours and materials. The pins' materials: candy enamel with a gloss and a
-   polished metal rim, and the metal itself. The metal is silver, because this is national (regional pages
-   would be brass, as the pieces are).
+   polished metal rim, and the metal itself. The metal is gold, the norm: everyone comes in through their own
+   Lab, and gold is the regional metal, as the pieces are. Silver (--national) belongs to the national org alone,
+   and only where an explainer shows it (the commons round the orb, what it sends out); people discover what it
+   means later.
      people     a pearl dot
      places     a teal square    learn         teal candy enamel
      projects   a red diamond    build         red candy enamel
-     knowledge  a silver ring    share         silver
+     knowledge  a gold ring      share         gold
    The same glyphs mark the actors in the world's card and the paths everywhere else (.gem[data-gem]). ── */
-.hm { --pearl: #FFDBBD; --candy-teal: #00A8B8; --candy-red: #ED1920; --metal: #C9CED3; --metal-hi: #F4F7FA; --metal-lo: #6F7882;
+.hm { --pearl: #FFDBBD; --candy-teal: #00A8B8; --candy-red: #ED1920; --metal: #CFAB67; --metal-hi: #F4DFA8; --metal-lo: #8C6B2E;
+  --national: #C9CED3; --national-hi: #F4F7FA; --national-lo: #6F7882;
   --gloss: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0 10%, rgba(255, 255, 255, 0) 36%); }
 .gem, .mk { display: inline-block; flex: none; width: 12px; height: 12px; }
 .mk { width: 10px; height: 10px; }
@@ -183,7 +186,10 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 .gem[data-gem="share"], .mk-knowledge { border-radius: 50%; border: 2.5px solid transparent;
   background: linear-gradient(var(--ink), var(--ink)) padding-box, linear-gradient(135deg, var(--metal-hi), var(--metal) 45%, var(--metal-lo)) border-box; box-shadow: 0 0 12px -3px var(--metal); }
 .mk-person, .mk-contributor { border-radius: 50%; background: var(--gloss), var(--pearl); }
-.mk-contributor { box-shadow: 0 0 0 1.5px var(--metal); }
+/* The national org's own, in the world's card: the commons' knowledge, and the contributors who keep it. */
+.mk-commons { border-radius: 50%; border: 2.5px solid transparent;
+  background: linear-gradient(var(--ink), var(--ink)) padding-box, linear-gradient(135deg, var(--national-hi), var(--national) 45%, var(--national-lo)) border-box; box-shadow: 0 0 12px -3px var(--national); }
+.mk-contributor { box-shadow: 0 0 0 1.5px var(--national); }
 .mk-lab { border-radius: 50%; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); }
 .hm-ch[data-ch="learn"] { --chc: var(--candy-teal); }
 .hm-ch[data-ch="build"] { --chc: var(--candy-red); }
