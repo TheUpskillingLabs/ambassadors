@@ -36,7 +36,9 @@
    doesn't explain the structure, it shows what you get and what you join.
    The page's scroll moves the camera through five shots, and each shot brings
    forward the kind of actor it's about:
-     0  the logo's view: the orb and the system round it, under the title
+     0  the whole system first, under the title: every Lab in its orbit, the
+        networks and the commons round the logo's orb, so the story is grounded
+        in the whole before it moves in
      1  learn: inside the DC Lab, its people and the library (people, places:
         pearl dots and teal squares)
      2  build: close on a team round its project, the first cohort's faces lit
@@ -96,7 +98,7 @@ function mulberry(seed: number) {
 
 interface Shot { at: number; target: "orb" | "dc" | "between" | "pod"; halfW: number; elev: number; roll: number; oElev: number; oRoll: number; yaw: number; sx: number; sy: number; px: number; py: number; pz?: number } // pz: how much closer a portrait screen frames it (0.6)
 const SHOTS: Shot[] = [
-  { at: 0.0, target: "orb", halfW: 4.7, elev: 27, roll: 28, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0, sy: -0.3, px: 0, py: -0.14 }, // the logo's view, under the title
+  { at: 0.0, target: "orb", halfW: 7.1, elev: 38, roll: 24, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0, sy: -0.27, px: 0, py: -0.2, pz: 0.74 }, // the whole system first: every Lab in its orbit, under the title
   { at: 0.25, target: "dc", halfW: 1.9, elev: 40, roll: 14, oElev: 28, oRoll: 16, yaw: -14, sx: 0.16, sy: 0.05, px: 0, py: 0.16 }, // build: inside a Lab
   { at: 0.47, target: "pod", halfW: 0.62, elev: 30, roll: 6, oElev: 18, oRoll: 10, yaw: 20, sx: 0.2, sy: 0.02, px: 0, py: 0.22, pz: 0.45 }, // together: close on a Pod
   { at: 0.69, target: "between", halfW: 3.9, elev: 30, roll: 24, oElev: 18, oRoll: 21, yaw: -6, sx: 0.12, sy: 0.05, px: 0, py: 0.18 }, // bigger: what you build travels

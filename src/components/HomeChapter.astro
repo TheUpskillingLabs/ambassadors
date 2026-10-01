@@ -1,10 +1,9 @@
 ---
-/* A chapter of the home page: one of the three paths joining opens (Learn, Build, Pass it on). The braid runs
-   across its top with this path's strand lit, then its name set large, marked with its gem (teal candy, red
+/* A chapter of the home page: one of the three paths joining opens (Learn, Build, Pass it on). The weave runs
+   down the page beside it with this path's strand lit (src/scripts/weave.ts); here, its name set large, marked with its gem (teal candy, red
    candy or gold, the strand's own material), then what it is, how often, and in a line or two what happens.
    The sections that follow it on the page are the chapter's; the next chapter's head ends it. Styles in
    src/styles/home.css (.hm-ch). */
-import Braid from "./Braid.astro";
 interface Props {
   id: "learn" | "build" | "give";
   c: { no: string; verb: string; title: string; when: string; lede: string };
@@ -13,7 +12,6 @@ const { id, c } = Astro.props;
 ---
 <section id={id} class="hm-ch" data-ch={id} aria-labelledby={`${id}-t`}>
   <div class="rp-wrap">
-    <Braid on={id} />
     <div class="hm-ch-in">
       <div class="hm-ch-name reveal">
         <p class="hm-ch-k"><i class="gem" data-gem={id} aria-hidden="true"></i>{c.no}</p>
