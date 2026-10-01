@@ -174,27 +174,24 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 @media (max-width: 900px) { .hm-honest-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 680px) { .hm-isnt { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
 
-/* ── the threads: three strands twisting round each other, one per path joining opens, in the model's colours
-   (people, projects, knowledge). Short segments sorted back to front, each over a halo of ink, so they weave.
-   With data-on, that path's strand is lit and the others step back. ── */
-.thr-box { overflow: hidden; }
-.thr { display: block; width: max(100%, 860px); height: 56px; }
-.thr line { vector-effect: non-scaling-stroke; fill: none; }
-.thr .h { stroke: var(--ink); stroke-width: 8; }
-.thr .l { stroke-width: 2; stroke-linecap: round; }
-.thr .l[data-s="learn"] { stroke: #FFDBBD; }
-.thr .l[data-s="build"] { stroke: #FF5C47; }
-.thr .l[data-s="give"] { stroke: #9EFFF5; }
-.thr:not([data-on="all"]) .l { opacity: 0.2; }
-.thr[data-on="learn"] .l[data-s="learn"], .thr[data-on="build"] .l[data-s="build"], .thr[data-on="give"] .l[data-s="give"] { opacity: 1; stroke-width: 2.6; }
+/* ── the pins' language for the three paths: gems in each path's material (teal candy enamel, red candy enamel,
+   gold) with a gold rim, and the braid (src/components/Braid.astro), rendered in LabsPin.blend. ── */
+.gem { --gem: #00A8B8; --rim: #CFAB67; display: inline-block; width: 12px; height: 12px; flex: none; border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.8) 0 12%, rgba(255, 255, 255, 0) 34%), var(--gem);
+  box-shadow: 0 0 0 1.5px var(--rim), 0 0 12px -2px var(--gem); }
+.gem[data-gem="build"] { --gem: #ED1920; }
+.gem[data-gem="give"] { --gem: #CFAB67; --rim: #8C6B2E; }
+.braid { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.braid img { display: block; width: max(100%, 860px); height: auto; }
 
 /* ── one account, three paths: the triad set large, the threads under it, each strand named at its end. ── */
 .hm-triad span { display: inline-block; }
 .hm-triad { max-width: 13em; font-size: var(--fs-d1); line-height: 0.96; letter-spacing: -0.045em; }
-.hm-weave { margin-top: clamp(48px, 6vw, 88px); }
+.hm-weave { margin-top: clamp(32px, 4vw, 56px); }
+.hm-orbits { display: block; width: min(620px, 92%); height: auto; margin: 0 auto; }
 .hm-strands { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gut); row-gap: 8px; }
 .hm-strands a { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 12px; row-gap: 4px; padding: 14px 0; color: var(--t1); text-decoration: none; }
-.hm-strands .mk { width: 11px; height: 11px; }
+.hm-strands .gem { width: 11px; height: 11px; }
 .hm-strands b { font-size: var(--fs-sub); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
 .hm-strands span { grid-column: 2; font-size: var(--fs-sm); color: var(--t2); }
 .hm-strands a:hover b, .hm-strands a:focus-visible b { color: var(--teal); }
@@ -207,12 +204,12 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 
 /* ── a chapter: one path. The threads with its strand lit, its name set large, then what it is. ── */
 .hm-ch { position: relative; padding-top: clamp(150px, 22vh, 240px); }
-.hm-ch[data-ch="learn"] { --chc: #FFDBBD; }
-.hm-ch[data-ch="build"] { --chc: #FF5C47; }
-.hm-ch[data-ch="give"] { --chc: #9EFFF5; }
+.hm-ch[data-ch="learn"] { --chc: #00A8B8; }
+.hm-ch[data-ch="build"] { --chc: #ED1920; }
+.hm-ch[data-ch="give"] { --chc: #CFAB67; }
 .hm-ch-in { margin-top: clamp(36px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--gut); row-gap: 28px; align-items: end; }
 .hm-ch-k { margin: 0; display: flex; align-items: center; gap: 12px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; color: var(--t2); }
-.hm-ch-k .mk { width: 12px; height: 12px; }
+
 .hm-ch-verb { margin: 16px 0 0; font-size: var(--fs-d2); font-weight: 700; line-height: 0.9; letter-spacing: -0.055em; color: var(--t1); text-wrap: balance; }
 .hm-ch-verb .dot { color: var(--chc); }
 .hm-ch-say { padding-bottom: 0.6em; }
@@ -272,6 +269,7 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 /* ── join ── */
 .hm-join h2 { max-width: 12em; }
 .hm-join .hm-actions { margin-top: 34px; }
+.hm-join .braid { max-width: 760px; margin: 0 auto clamp(48px, 6vw, 72px); }
 .hm-join .btn, .hm-join .ghost { min-height: 56px; padding: 0 30px; font-size: 18px; }
 .hm-join .btn { margin-top: 0; }
 

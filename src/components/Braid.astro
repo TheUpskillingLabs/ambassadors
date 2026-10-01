@@ -1,0 +1,14 @@
+---
+/* The braid: three strands woven over and under each other, one for each path joining opens: teal candy enamel
+   (learn), red candy enamel (build) and polished gold (pass it on). Rendered in LabsPin.blend's "Home Braid"
+   scene with the pins' own materials (Pin Soft Enamel Teal and Red, gold), on a transparent ground. With `on`,
+   that path's strand is lit and the other two drop back to dark bronze; "all" lights all three. On a narrow
+   screen it keeps its size and shows only its left end. Styles in src/styles/home.css (.braid). */
+import { u } from "../lib/url";
+interface Props { on?: "all" | "learn" | "build" | "give" }
+const { on = "all" } = Astro.props;
+const src = (w: number) => u(`/home/braid-${on}-${w}.webp`);
+---
+<div class="braid" data-on={on} aria-hidden="true">
+  <img src={src(1500)} srcset={`${src(1500)} 1500w, ${src(3000)} 3000w`} sizes="(max-width: 680px) 860px, 100vw" alt="" width="3000" height="136" loading="lazy" decoding="async" />
+</div>

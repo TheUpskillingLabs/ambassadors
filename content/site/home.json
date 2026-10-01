@@ -219,10 +219,11 @@
     ]
   },
   "threads": {
-    "$comment": "Joining is the one action; it opens three paths that weave together (drawn as three strands, src/components/Threads.astro, in the model's colours: people, projects, knowledge). They aren't steps: most people do all three, in their own order.",
+    "$comment": "Joining is the one action; it opens three paths that weave together. Drawn in the pins' language, from LabsPin.blend: here, the orb with three gold orbits crossing over and under each other, a swoosh flying each one in its path's material (teal candy enamel, red candy enamel, gold); at each chapter, the braid (src/components/Braid.astro) with that path's strand lit. They aren't steps: most people do all three, in their own order.",
     "kicker": "One account, three paths",
     "title": "Learn it. Build it. Pass it on.",
     "lede": "They aren't steps. They're threads: what you learn goes into what you build, and what you build goes back to everyone.",
+    "alt": "The Labs orb with three gold orbits crossing over and under each other, and a swoosh flying each one: teal, red and gold.",
     "items": [
       {
         "id": "learn",
@@ -242,11 +243,10 @@
     ]
   },
   "chapters": {
-    "$comment": "The three paths, one chapter each, in the hero's order. Each opens with its name set large over the threads (its own strand lit) and ends with its way in: the free account, with its path (the same three as the hero's last shot). No levels, pins, membership or dues here.",
+    "$comment": "The three paths, one chapter each, in the hero's order. Each opens with the braid, its own strand lit, and its name set large with its gem, and ends with its way in: the free account, with its path (the same three as the hero's last shot). No levels, pins, membership or dues here.",
     "learn": {
       "no": "01",
       "verb": "Learn",
-      "mark": "person",
       "title": "Get sharp, in good company.",
       "when": "Twice a week, drop in",
       "lede": "Workshops in person at DC Public Library, some online, on the skills work runs on now. No application, no prerequisites. Anyone can come."
@@ -254,7 +254,6 @@
     "build": {
       "no": "02",
       "verb": "Build",
-      "mark": "project",
       "title": "Make something real.",
       "when": "Twelve weeks, on a team",
       "lede": "A Build Cycle: find your Pod around a problem situation, form a team of three to five, and build it together, with Mentors beside you, all the way to the Showcase."
@@ -262,7 +261,6 @@
     "give": {
       "no": "03",
       "verb": "Pass it on",
-      "mark": "knowledge",
       "title": "Make it better for the next person.",
       "when": "As much as you like",
       "lede": "The workshops and the Build Cycle are how a group builds expertise that keeps up with change, and turns it into new ideas. Contributors make them better, in the open, so every Lab that comes next starts ahead.",

@@ -27,7 +27,7 @@ import "../styles/home.css";
 import { u } from "../lib/url";
 import h from "../../content/site/home.json";
 import HomeChapter from "../components/HomeChapter.astro";
-import Threads from "../components/Threads.astro";
+import Braid from "../components/Braid.astro";
 import list from "../../content/roles/roles.json";
 import j from "../../content/site/join.json";
 
@@ -182,7 +182,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <!-- Joining is the one action, and it opens three paths that weave together. Not steps: threads. -->
+      <!-- Joining is the one action, and it opens three paths that weave together: the orb with three gold orbits
+           crossing over and under each other, a swoosh flying each. Not steps: threads. -->
       <section id="paths" class="rp-sec hm-paths3">
         <div class="rp-wrap">
           <div class="rp-head center reveal">
@@ -191,9 +192,9 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <p class="rp-lede-sm">{h.threads.lede}</p>
           </div>
           <div class="hm-weave reveal">
-            <Threads />
+            <img class="hm-orbits" src={u("/home/orbits-700.webp")} srcset={`${u("/home/orbits-700.webp")} 700w, ${u("/home/orbits-1324.webp")} 1324w`} sizes="(max-width: 680px) 92vw, 620px" alt={h.threads.alt} width="1324" height="1028" loading="lazy" decoding="async" />
             <ol class="hm-strands">
-              {h.threads.items.map((t) => <li><a href={`#${t.id}`}><i class={`mk mk-${ch[t.id as "learn" | "build" | "give"].mark}`} aria-hidden="true"></i><b>{t.name}</b><span>{t.when}</span></a></li>)}
+              {h.threads.items.map((t) => <li><a href={`#${t.id}`}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.when}</span></a></li>)}
             </ol>
           </div>
         </div>
@@ -397,6 +398,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       <!-- Start: the one action, again, for whichever way you came. -->
       <section id="start" class="rp-join hm-join">
         <div class="rp-wrap reveal">
+          <Braid on="all" />
           <h2>{h.join.title}</h2>
           <p class="rp-lede-sm">{h.join.lede}</p>
           <div class="hm-actions center">
