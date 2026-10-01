@@ -15,6 +15,9 @@
   mask-image: radial-gradient(55% 45% at 0% 0%, #000, transparent), radial-gradient(50% 40% at 100% 62%, #000, transparent); }
 .hm-orbit { position: absolute; inset: 0; z-index: 1; mix-blend-mode: screen; pointer-events: none; background: var(--poster) center 62% / cover no-repeat; }
 .hm-orbit.is-live { background: none; }
+/* The opening on the logo: until it's played, no poster (the system isn't there yet) and no title. */
+html[data-intro] .hm-orbit:not(.is-live) { background: none; }
+html[data-intro] .hm-hero-copy { opacity: 0; }
 .hm-orbit.is-baked { mix-blend-mode: normal; }
 .hm-world:has(.is-baked) { isolation: auto; }
 .hm-world:has(.is-baked)::after { content: none; }

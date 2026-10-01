@@ -798,7 +798,11 @@ void main() {
     vec4 sp = texelFetch(uSwoosh, ivec2(si % 64, si / 64), 0);
     float ja = h * 6.2832, jr = 0.004 * fract(s2 * 37.1);
     vec2 tgt = uOrbN.xy + (sp.xy + vec2(cos(ja), sin(ja)) * jr) * uOrbN.zw;
-    gl_Position = vec4(mix(gl_Position.xy / gl_Position.w, tgt, lm), 0.0, 1.0);
+    // On the way between the paths' rings and the swoosh, the grains atomize into a halo round the orb (a curve
+    // through it): the opening's swoosh breaks up into it, and at the end the paths gather through it.
+    float ha = h * 6.2832 + s1 * 0.9 + uTime * 0.12, hr = 1.18 + 0.6 * fract(s2 * 13.7);
+    vec2 halo = uOrbN.xy + vec2(cos(ha), sin(ha)) * hr * uOrbN.zw, from = gl_Position.xy / gl_Position.w;
+    gl_Position = vec4((1.0 - lm) * (1.0 - lm) * from + 2.0 * lm * (1.0 - lm) * halo + lm * lm * tgt, 0.0, 1.0);
     vCol = mix(vCol, mix(vec3(0.0, 0.36, 0.38), vec3(0.07, 0.74, 0.74), sp.z), lm); // the mark's teal, brighter at the head
     vA = mix(vA, uLogoA * (0.55 + 0.9 * h) * sp.z, lm);
     gl_PointSize = mix(gl_PointSize, 2.4 * uPx, lm);
@@ -1009,8 +1013,11 @@ export interface FrameState {
   sys: number; width: number; height: number;
   /** How far the logo has formed, at the very end (0 … 1), and how far it has settled into the brand's own artwork. */
   logo: number; settle: number;
+  /** The wordmark's light (at the opening, and as the logo forms at the end), and how far the opening is done
+   (0 … 1: the page's own words wait for it). */
+  word: number; intro: number;
 }
-export interface OrbNetOptions { still?: boolean; poster?: boolean; story?: HTMLElement; anchors?: HTMLElement[]; stage?: HTMLElement; faces?: string[]; words?: HoverWords; inspectable?: () => boolean; onFrame?: (s: FrameState) => void }
+export interface OrbNetOptions { intro?: boolean; introReady?: () => boolean; still?: boolean; poster?: boolean; story?: HTMLElement; anchors?: HTMLElement[]; stage?: HTMLElement; faces?: string[]; words?: HoverWords; inspectable?: () => boolean; onFrame?: (s: FrameState) => void }
 export interface OrbNet { setPaused(v: boolean): void; paused(): boolean; setOrbHover(v: boolean): void; join(): void }
 
 /** Start the live model in `wrap` (it gets `is-live` once it draws). Returns null without WebGL 2. */
@@ -1243,11 +1250,13 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   let cam = { M: [1, 0, 0, 0, 1, 0, 0, 0, 1] as M3, O: [1, 0, 0, 0, 1, 0, 0, 0, 1] as M3, T: [0, 0, 0] as V3, halfW: 4.7, zoomW: 4.7, dense: 1, tanX: 0.15, tanY: 0.1, sh: [0, 0] as [number, number] };
   const D = 30;
   const shotTarget = (s: Shot): V3 => s.target === "new" ? model.newLab() : s.target === "pod" ? model.podCenter() : s.target === "dc" ? model.labs[0].c : s.target === "between" ? [model.labs[0].c[0] * 0.45, 0, model.labs[0].c[2] * 0.45] : [0, 0, 0];
-  const camera = (p: number, t: number) => {
+  const camera = (p: number, t: number, ic = 0) => {
     const nS = SHOTS.length, s = clamp(p * (nS - 1), 0, nS - 1), i = Math.min(nS - 2, Math.floor(s)), k = s - i;
     const a = SHOTS[i], b = SHOTS[i + 1], a0 = SHOTS[Math.max(0, i - 1)], b1 = SHOTS[Math.min(nS - 1, i + 2)];
-    // Through the shots on a smooth curve, so the camera keeps moving as you scroll (see through()).
-    const Lv = (get: (q: Shot) => number) => through(get(a0), get(a), get(b), get(b1), k, i === 0);
+    // Through the shots on a smooth curve, so the camera keeps moving as you scroll (see through()). At the
+    // opening (ic), it starts from the logo's own framing (the last shot's), and comes round to the page's.
+    const E = SHOTS[SCENE.end];
+    const Lv = (get: (q: Shot) => number) => { const v = through(get(a0), get(a), get(b), get(b1), k, i === 0); return ic > 0 ? lerp(v, get(E), ic) : v; };
     const L = (x: keyof Shot) => Lv((q) => q[x] as number);
     const ta = shotTarget(a), tb = shotTarget(b), T = lerp3(ta, tb, ease(k)); T[1] += Lv((q) => q.ty ?? 0); // ty: down the weave's axis
     const shake = 0;
@@ -1328,6 +1337,13 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   // The Build story's people: a fixed scatter for each, so they always drift in from the same places.
   const mulberryAt = (() => { const r = mulberry(31), cache: [number, number, number][] = []; for (let i = 0; i < 16; i++) cache.push([r(), r(), r()]); return (i: number) => cache[i % 16]; })();
   let knot = 0, settle = 0;
+  // The opening: the page opens on the logo, as it ends. The wordmark lets go, the mark hands over to its dust,
+  // and the swoosh atomizes into a halo round the orb that settles into the three paths' rings; then the whole
+  // system forms round them, and the page's words come in. On a clock of its own (seconds), which waits for
+  // the lockup's artwork to arrive (introReady, up to 1.8 s) and runs fast if you start scrolling. Not for a
+  // still, the poster, or a page opened partway down (the page decides: opts.intro).
+  const introOn = Boolean(opts.intro) && !still && !opts.poster, INTRO_END = 6.5;
+  let introClock = 0;
   const pulsed: Record<number, boolean> = {};
   const massU = new Float32Array(40), labU = new Float32Array(40), labC = new Float32Array(30), labTilt = new Float32Array(20), ripU = new Float32Array(16);
   const t0 = performance.now();
@@ -1363,19 +1379,29 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // What the motif is: the system (its scenes' weight), else the weave, and how much each path's own thread leads.
     const sysW = clamp(sum(SCENE.system), 0, 1), focus3: V3 = [learnW, buildW, shareW], focusSum = clamp(learnW + buildW + shareW, 0, 1);
     // The very end: the system gives way to the logo. Everything but the orb fades, and the paths become the swoosh.
-    const logoK = ease(clamp((sCur - (SCENE.end - 0.8)) / 0.75, 0, 1)), keep = 1 - logoK;
+    // The opening's beats (see introOn): the wordmark lets go (iWord), the artwork hands over to the dust
+    // (iSettle), the dust atomizes and settles into the paths' rings (iLogo), lit in their colours (iGlow),
+    // while the camera comes round from the logo's framing to the page's (iCam); then the system forms.
+    if (introOn && introClock < INTRO_END && (!opts.introReady || opts.introReady() || now - t0 > 1800)) introClock += rdt * (scrollP > 0.003 ? 5 : 1);
+    const IT = introOn ? introClock : INTRO_END, at = (a: number, d: number) => ease(clamp((IT - a) / d, 0, 1));
+    const iWord = introOn ? 1 - at(0.9, 0.6) : 0, iSettle = introOn ? 1 - at(1.1, 0.6) : 0, iLogo = introOn ? 1 - at(1.5, 1.6) : 0;
+    const iCam = introOn ? 1 - at(2.0, 2.4) : 0, iGlow = introOn ? at(1.6, 0.6) * (1 - at(3.8, 2.2)) : 0, iRing = introOn ? at(1.5, 0.8) : 0;
+    const introDone = introOn ? at(3.2, 1.4) : 1;
+    // The very end: the system gives way to the logo. Everything but the orb fades, and the paths become the swoosh.
+    const endLogo = ease(clamp((sCur - (SCENE.end - 0.8)) / 0.75, 0, 1)), logoK = Math.max(endLogo, iLogo), keep = 1 - logoK;
     // Once the paths have arrived, the world hands over to the exact logo (the page lays the brand's own artwork
     // over the orb): the swoosh's dust and the orb's halo let go, so what's left is the mark itself.
-    const settleTo = logoK > 0.97 ? 1 : 0;
+    const settleTo = endLogo > 0.97 ? 1 : 0;
     settle = still ? settleTo : lerp(settle, settleTo, ease60(0.05));
-    if (!still && !pausedFlag) { simT += dt; introT += dt; model.step(dt, simT, simT > 3.2, beats[3] > 0.5, beats[1] + beats[2] > 0.5, beats[2] > 0.5); }
-    // The opening runs on the clock, not on simulated time: on a slow device (frames capped at 50 ms) the
-    // orb would otherwise sit half painted for seconds.
-    const openT = Math.max(introT, (now - t0) / 1000 - 0.2);
+    const settleAll = Math.max(settle, iSettle), word = Math.max(iWord, clamp((endLogo - 0.35) / 0.65, 0, 1));
+    if (!still && !pausedFlag && IT > 2.5) { simT += dt; introT += dt; model.step(dt, simT, simT > 3.2, beats[3] > 0.5, beats[1] + beats[2] > 0.5, beats[2] > 0.5); }
+    // The system's own opening runs on the clock, not on simulated time: on a slow device (frames capped at
+    // 50 ms) the orb would otherwise sit half painted for seconds. After the logo's opening, if there is one.
+    const openT = introOn ? Math.max(introT, IT - 2.7) : Math.max(introT, (now - t0) / 1000 - 0.2);
     const t = simT, grow = still ? 1 : clamp(openT / 3.4, 0, 1), g = 1 - Math.pow(1 - grow, 3);
     ptr.x = lerp(ptr.x, ptr.tx, ease60(0.03)); ptr.y = lerp(ptr.y, ptr.ty, ease60(0.03));
     orbHover = lerp(orbHover, orbHoverT, ease60(0.12));
-    camera(p, t);
+    camera(p, t, iCam);
     const { M, T, tanX, tanY } = cam;
 
     // What you're pointing at (or tapped, on a touch screen): an actor, lit with its ties and whoever they
@@ -1604,14 +1630,14 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const drawStrands = (side: number) => {
       add(); gl!.useProgram(P.strand.prog); gl!.bindVertexArray(ST.v); camU(P.strand.U, side);
       const U = P.strand.U;
-      gl!.uniform1f(U.uPx, px); gl!.uniform1f(U.uTime, t); gl!.uniform1f(U.uStretch, ease(1 - sysW)); gl!.uniform1f(U.uRing, g); gl!.uniform1f(U.uGlow, w[1]);
+      gl!.uniform1f(U.uPx, px); gl!.uniform1f(U.uTime, t); gl!.uniform1f(U.uStretch, ease(1 - sysW)); gl!.uniform1f(U.uRing, Math.max(g, iRing)); gl!.uniform1f(U.uGlow, Math.max(w[1], iGlow));
       gl!.uniform1f(U.uTwist, (still ? 0 : t * 0.05) + sCur * 1.6);
       gl!.uniform3f(U.uFocus, focus3[0], focus3[1], focus3[2]); gl!.uniform1f(U.uFocusSum, focusSum);
       gl!.uniform1f(U.uCamY, T[1]); gl!.uniform1f(U.uPortrait, cssW < cssH ? 1 : 0);
       gl!.uniform2f(U.uKnot, knot, T[1] + 0.05);
       const ov = orbView([0, 0, 0]), oz = -ov[2], rxN = 1 / (oz * tanX), ryN = 1 / (oz * tanY);
       gl!.uniform1f(U.uLogo, logoK); gl!.uniform4f(U.uOrbN, ov[0] / (oz * tanX) + cam.sh[0], ov[1] / (oz * tanY) + cam.sh[1], rxN, ryN);
-      const rCss = rxN * 0.5 * cssW; gl!.uniform1f(U.uLogoA, clamp((1.7 * 0.365 * rCss * rCss) / strandN, 0.02, 0.4) * (1 - settle));
+      const rCss = rxN * 0.5 * cssW; gl!.uniform1f(U.uLogoA, clamp((1.7 * 0.365 * rCss * rCss) / strandN, 0.02, 0.4) * (1 - settleAll));
       gl!.activeTexture(gl!.TEXTURE6); gl!.bindTexture(gl!.TEXTURE_2D, swooshTex); gl!.uniform1i(U.uSwoosh, 6);
       gl!.drawArrays(gl!.POINTS, 0, strandN);
     };
@@ -1642,13 +1668,13 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     bodies.forEach((b) => { b.r *= keep; b.bright *= keep; });
     bodies.sort((a, b) => a.v[2] - b.v[2]);
     const orbC = orbView([0, 0, 0]);
-    const reveal = still ? 1 : clamp(openT / 1.3, 0, 1);
+    const reveal = still || introOn ? 1 : clamp(openT / 1.3, 0, 1); // (opening on the logo, the orb is whole from the start)
 
     drawDisc();
     drawFabric(-1); drawTrails(-1); drawTies(-1); drawActors(-1); drawSparks(-1); drawStrands(-1);
     bodies.filter((b) => b.v[2] < orbC[2]).forEach((b) => drawOrb(b.v, b.r, b.bright, 1.1 * b.bright, 0, 1));
     // (Settled, the brand's artwork covers the orb, so it draws a touch smaller and dimmer underneath: no rim shows.)
-    drawOrb(orbC, (1 + 0.025 * orbHover) * (1 - 0.03 * settle), (1 + 0.45 * model.orbFlash + 0.18 * orbHover) * (1 - 0.6 * settle), (1 + 0.7 * model.orbFlash + 0.8 * orbHover) * (1 - settle), (still ? 0.6 : 1 + 1.5 * orbHover) * (1 - settle), reveal);
+    drawOrb(orbC, (1 + 0.025 * orbHover) * (1 - 0.03 * settleAll), (1 + 0.45 * model.orbFlash + 0.18 * orbHover) * (1 - 0.6 * settleAll), (1 + 0.7 * model.orbFlash + 0.8 * orbHover) * (1 - settleAll), (still ? 0.6 : 1 + 1.5 * orbHover) * (1 - settleAll), reveal);
     drawFabric(1); drawTrails(1); drawTies(1);
     bodies.filter((b) => b.v[2] >= orbC[2]).forEach((b) => drawOrb(b.v, b.r, b.bright, 1.1 * b.bright, 0, 1));
     drawActors(1); drawSparks(1); drawStrands(1);
@@ -1686,7 +1712,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // pointing at.
     if (opts.onFrame) {
       opts.onFrame({
-        p, s: sCur, w, beats, paused: pausedFlag, t: simT, width: cssW, height: cssH, sys: sysW, logo: logoK, settle,
+        p, s: sCur, w, beats, paused: pausedFlag, t: simT, width: cssW, height: cssH, sys: sysW, logo: logoK, settle: settleAll, word, intro: introDone,
         hover: hov >= 0 ? (() => { const a = model.nodes[hov], q = project(a.p); return { x: q.x, y: q.y, r: markR(a, q.z), ...describe(hov) }; })()
           : hovLab >= 0 ? (() => { const q = project(model.labs[hovLab].c); return { x: q.x, y: q.y, r: 24, type: "lab", kind: say("lab", "kind"), title: say("lab", hovLab === 0 ? "dc" : "title"), detail: say("lab", hovLab === 0 ? "dcDetail" : "detail") }; })()
           : null,

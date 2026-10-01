@@ -69,6 +69,9 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     <meta property="og:description" content={h.description} />
     <meta property="og:image" content={new URL(orbit("hub-share.jpg"), Astro.site)} />
     <script is:inline>document.documentElement.dataset.menu = "";</script>
+    <!-- The page opens on the logo (see the opening in src/scripts/orbnet.ts): until it's played, no poster and
+         no title, so nothing shows before it. Not with reduced motion, a still, or a page opened partway down. -->
+    <script is:inline>if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !/orb=(still|poster)/.test(location.search) && (!location.hash || location.hash === "#top")) { document.documentElement.dataset.intro = ""; setTimeout(() => { delete document.documentElement.dataset.intro; }, 9000); }</script>
     <script is:inline define:vars={{ closesAt }}>document.documentElement.dataset.cycle = Date.now() < Date.parse(closesAt) ? "open" : "closed";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={orbit("hub-poster.webp")} fetchpriority="high" />
@@ -450,7 +453,13 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       };
       let orbR0 = 0;
       const SCENES_LOGO_LOAD = scenes.length - 5; // load the lockup a few scenes ahead of the end
+      // The opening on the logo: only from the top of the page. It waits for the lockup's artwork, and the
+      // page's own words come in as it finishes.
+      const playIntro = root.hasAttribute("data-intro") && !still && window.scrollY < 40;
+      if (playIntro) loadLogo(); else delete root.dataset.intro;
+      const heroCopy = document.querySelector<HTMLElement>(".hm-hero-copy")!;
       const net = mountOrbNet(world.querySelector<HTMLElement>("[data-orbnet]")!, {
+        intro: playIntro, introReady: () => logoParts.every(([el]) => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0),
         still, poster: orbMode === "poster", anchors: scenes, stage: document.body,
         faces: JSON.parse(world.dataset.faces ?? "[]"), words: JSON.parse(world.dataset.words ?? "{}"),
         // Anything in the system can be asked what it is, while the system is the picture.
@@ -468,7 +477,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           }
           // The orb is the button while the whole system holds the screen under the title: a link laid over it
           // (sized once, then moved and scaled with the orb).
-          const show = ons[0] * Math.max(0, 1 - f.s * 4);
+          const show = ons[0] * Math.max(0, 1 - f.s * 4) * f.intro;
           put(orbLink, "--show", show.toFixed(3));
           put(orbLink, "visibility", show > 0.05 ? "visible" : "hidden");
           if (show > 0.05) {
@@ -482,12 +491,16 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           // settles in beside the orb as in the lockup.
           put(brand, "opacity", (1 - f.logo).toFixed(3));
           if (f.s > SCENES_LOGO_LOAD) loadLogo();
-          if (f.logo > 0.01) placeLogo(f.orb.x, f.orb.y, f.orb.r);
-          put(logoWord, "opacity", Math.max(0, (f.logo - 0.35) / 0.65).toFixed(3));
+          if (f.logo > 0.01 || f.word > 0.01 || f.settle > 0.01) placeLogo(f.orb.x, f.orb.y, f.orb.r);
+          put(logoWord, "opacity", f.word.toFixed(3));
           put(logoMark, "opacity", f.settle.toFixed(3));
+          // The page's own words come in as the opening finishes.
+          put(heroCopy, "opacity", f.intro.toFixed(3));
+          if (f.intro >= 1 && root.hasAttribute("data-intro")) delete root.dataset.intro;
         },
       });
       if (!net) {
+        delete root.dataset.intro;
         brand.style.setProperty("--m", "1"); orbLink.hidden = true;
         // Without the world, the end is the lockup itself, centred, shown with the last scene.
         loadLogo();
