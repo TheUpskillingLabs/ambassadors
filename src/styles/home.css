@@ -82,8 +82,6 @@ html[data-intro] .hm-hero-copy { opacity: 0; }
   .hm-side .hm-actions { margin-top: 16px; }
 }
 
-/* The eyebrow is the news (the logo already names The Labs): the cycle that's open, with its live dot. */
-.rp .hm-eyebrow { position: relative; z-index: 1; width: fit-content; max-width: 100%; font-size: var(--fs-cap); letter-spacing: 0.1em; white-space: nowrap; }
 
 /* The orb is the button: a round link laid exactly over it, its label set on the orb's own face, across the
    dark middle band, not in a pill beneath. With a mouse the label is revealed as you point at the orb (or focus
@@ -106,9 +104,9 @@ html[data-intro] .hm-hero-copy { opacity: 0; }
 .rp .hm-path:hover, .rp .hm-path:focus-visible { border-color: var(--teal); background: rgba(0, 148, 160, 0.16); }
 .hm-path:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 /* The facts, on the first screen: what it is, where, how long, when. */
-.hm-spec { list-style: none; margin: clamp(14px, 2vh, 22px) 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; font-size: var(--fs-sm); font-weight: 600; color: var(--t1); }
-.hm-spec li { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
-.hm-spec li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--teal); }
+/* The hero's one plain sentence: what this is. */
+.hm-hero-sub { position: relative; z-index: 1; max-width: 36ch; margin: clamp(14px, 2vh, 22px) auto 0; font-size: var(--fs-lead); font-weight: 500; line-height: 1.38; letter-spacing: -0.01em; color: var(--t1); text-wrap: balance; }
+.hm-early { margin: 14px 0 0; font-size: var(--fs-body); font-weight: 600; color: var(--t1); }
 /* Each path says what happens after the account. */
 .rp .hm-path { align-items: center; }
 .hm-path em { display: grid; gap: 2px; font-style: normal; }
@@ -321,6 +319,11 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   .hm-mini { margin-top: 12px; }
   .hm-mini li { grid-template-columns: minmax(0, 1fr); padding: 7px 0; }
   .hm-mini-links span { display: none; }
+  .hm-mini-open span { display: block; }
+  /* "What this is" carries the most words: on a phone its headline is a size down and the faces wait for the
+     wider screen, so the words stay below the picture. */
+  #intro .hm-side-h { font-size: clamp(28px, 7.6vw, 40px); }
+  #intro .hm-people { display: none; } /* the workshops' topics keep their line: it's what they are */
   .hm-rows { margin-top: 12px; }
   .hm-rows li { grid-template-columns: 6.4em minmax(0, 1fr); padding: 7px 0; font-size: 14px; }
   .hm-rows .where { display: none; }

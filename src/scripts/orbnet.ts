@@ -113,7 +113,7 @@ const down = (ty: number, yaw = 0): Shot => ({ at: 0, target: "orb", ty, halfW: 
 const weave: Shot = { at: 0, target: "orb", ty: -3.2, halfW: 9, elev: 7, roll: 2, ...SYS, yaw: 0, sx: 0.36, sy: 0.05, px: 0, py: 0.35, pz: 0.55 };
 const SHOTS: Shot[] = [
   { at: 0, target: "orb", halfW: 7.1, elev: 38, roll: 24, ...SYS, yaw: 0, sx: 0, sy: -0.27, px: 0, py: -0.2, pz: 0.74 },     // 0  the whole system, under the title
-  { at: 0, target: "orb", halfW: 8.6, elev: 30, roll: 18, ...SYS, yaw: -10, sx: 0.42, sy: 0.04, px: 0, py: 0.4, pz: 0.66 },  // 1  the system, beside what this is
+  { at: 0, target: "orb", halfW: 8.6, elev: 30, roll: 18, ...SYS, yaw: -10, sx: 0.42, sy: 0.04, px: 0, py: 0.56, pz: 0.8 },  // 1  the system, beside what this is (on a phone, high and a little smaller: this scene has the most words)
   { at: 0, target: "orb", halfW: 5.4, elev: 22, roll: 12, ...SYS, yaw: -4, sx: 0.4, sy: 0.02, px: 0, py: 0.42, pz: 0.72 },   // 2  close on the centre: one open project
   { ...weave },                                                                                                    // 3  the weave, drawn down out of the orbits
   down(-8, 4), down(-11, 2), down(-14, 0),                                                                         // 4–6  learn: its thread; open workshops; this week

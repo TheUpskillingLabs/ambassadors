@@ -134,26 +134,25 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
             <div class="hm-scene-in hm-hero-in" data-scene-in>
               <div class="hm-hero-copy" data-quiet>
-                <p class="status hm-eyebrow rise" data-when="open"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
-                <p class="status hm-eyebrow rise" data-when="closed"><i aria-hidden="true"></i>{h.hero.eyebrowClosed}</p>
                 <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
-                {(["open", "closed"] as const).map((st) => (
-                  <ul class="hm-spec rise" data-when={st}>{h.hero.spec[st].map((f) => <li>{f}</li>)}</ul>
-                ))}
+                <p class="hm-hero-sub rise">{h.hero.sub}</p>
               </div>
             </div>
           </section>
 
-          <!-- The system, beside what this is: the one action. Its three path orbits glow. -->
-          <HomeScene id="intro" label={h.intro.label}>
+          <!-- The system, beside what this is: you're in the right place, and the one action. Its three path
+               orbits glow. -->
+          <HomeScene id="intro" labelledby="intro-t">
             <p class="hm-side-lede">{h.intro.lede}</p>
+            <h2 class="hm-side-h" id="intro-t">{h.intro.title}</h2>
+            <p class="hm-side-p">{h.intro.who}</p>
             <div class="hm-people">
               <ul class="hm-faces" aria-hidden="true">
                 {[1, 2, 3, 4, 5, 6, 7].map((n) => <li><img src={u(`/home/face-${n}.webp`)} alt="" width="192" height="192" loading="lazy" decoding="async" /></li>)}
               </ul>
               <p>{h.intro.people}</p>
             </div>
-            <p class="rp-terms"><b>{h.intro.strong}</b> {h.intro.terms}</p>
+            <p class="rp-terms">{h.intro.terms}</p>
             <div class="hm-actions">
               <a class="btn" href={L.join} data-hero-cta>{h.intro.cta}</a>
               <a class="textlink" href={L.login}>{h.intro.login}</a>
@@ -161,13 +160,12 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <p class="rp-account">{h.intro.note}</p>
           </HomeScene>
 
-          <!-- One open project: close on the orb and the commons, a contribution rising to the centre and going
-               back out to every Lab. -->
+          <!-- Where it started, and what we believe: close on the orb, which flares. -->
           <HomeScene id="open" labelledby="open-t">
             <p class="kicker">{J.open.kicker}</p>
             <h2 class="hm-side-h" id="open-t">{J.open.title}</h2>
             <p class="hm-side-p">{J.open.lede}</p>
-            <p class="hm-side-note">{J.open.story}</p>
+            <p class="hm-side-p">{J.open.belief}</p>
           </HomeScene>
 
           <!-- The weave: three of the system's orbits drawn down into a vortex beneath the orb, one triple helix. -->
@@ -189,10 +187,10 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <HomeScene id="workshops" path="learn" labelledby="workshops-t">
             <p class="kicker hm-k"><i class="gem" data-gem="learn" aria-hidden="true"></i>{J.workshops.kicker}</p>
             <h2 class="hm-side-h" id="workshops-t">{J.workshops.title}</h2>
-            <p class="hm-side-p">{J.workshops.lede}</p>
-            <ul class="hm-mini">
+            <ul class="hm-mini hm-mini-open">
               {J.workshops.topics.map((t) => <li><b>{t.title}</b><span>{t.body}</span></li>)}
             </ul>
+            <p class="hm-side-p">{J.workshops.note}</p>
           </HomeScene>
           <HomeScene id="week" path="learn" labelledby="week-t">
             <figure class="hm-photo">
@@ -263,10 +261,10 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <HomeScene id="share" path="share" labelledby="share-t" opener={ch.share}>
             <p class="hm-ch-title">{ch.share.title}</p>
             <p class="hm-ch-when">{ch.share.when}</p>
-            <p class="hm-ch-lede">{ch.share.lede}</p>
             <ul class="hm-mini hm-mini-links">
               {ch.share.ways.map((w) => <li><b>{w.title}</b><span>{w.body}{w.to && <> <a class="textlink" href={giveTo[w.to]}>{w.link} →</a></>}</span></li>)}
             </ul>
+            <p class="hm-ch-lede">{ch.share.lede}</p>
             <a class="hm-more textlink" href={community}>{ch.share.more} →</a>
           </HomeScene>
           <HomeScene id="centre" path="share" labelledby="centre-t">
@@ -278,7 +276,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
 
           <!-- The weave again: the loop. -->
           <HomeScene id="together" labelledby="together-t">
-            <p class="kicker">{J.together.kicker}</p>
+            {J.together.kicker && <p class="kicker">{J.together.kicker}</p>}
             <h2 class="hm-side-h" id="together-t">{J.together.title}</h2>
             <p class="hm-side-p">{J.together.lede}</p>
           </HomeScene>
@@ -298,6 +296,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <HomeScene id="start" labelledby="start-t">
             <h2 class="hm-side-h" id="start-t">{h.join.title}</h2>
             <p class="hm-side-p">{h.join.lede}</p>
+            <p class="hm-early">{h.join.early}</p>
             <ul class="hm-ways-in">
               {h.threads.items.map((t) => <li><a href={pathJoin(t.path)}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.then}</span><em aria-hidden="true">→</em></a></li>)}
             </ul>
