@@ -1177,6 +1177,9 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   /* sizing and quality */
   const QMAX = small ? 0.7 : 1, QMIN = small ? 0.5 : 0.5;
   let W = 1, H = 1, cssW = 1, cssH = 1, dpr = 1, quality = QMAX, frameMs = 1000 / 60;
+  // A phone's frame pacing (see draw()): the last step down and what it was for, whether a frame cap (not the
+  // load) is holding it back, and when it last settled for an even 30.
+  let lastDrop: { q: number; med: number } | null = null, capped = false, lockedAt = 0;
   const resize = () => {
     cssW = wrap.clientWidth; cssH = wrap.clientHeight;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1446,12 +1449,21 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       fps.push(now - last);
       if (fps.length >= 90) {
         fps.sort((a, b) => a - b); const med = fps[45]; fps.length = 0; const q0 = quality;
-        // (A phone is held to 60 frames a second, so its typical frame can't show room to spare: it only steps
-        // down, as soon as it starts missing frames, since uneven frames are what reads as jitter.)
-        if (med > (small ? 18.5 : 22) && quality > QMIN) quality = Math.max(QMIN, quality - (small ? 0.08 : 0.15));
-        // A phone that still misses frames at its lightest gets an even 30 instead: steady beats fast.
-        else if (small && med > 18.5 && quality <= QMIN) frameMs = 1000 / 30;
-        else if (!small && med < 12 && quality < QMAX) quality = Math.min(QMAX, quality + 0.1);
+        if (small) {
+          // A phone is held to 60 frames a second, so its typical frame can't show room to spare: it steps down
+          // as soon as it starts missing frames, since uneven frames are what reads as jitter. But not every slow
+          // frame is the GPU's: Safari holds a page framed in another site (a preview) to 30 until it's tapped,
+          // and Low Power Mode holds every page to 30. If stepping down didn't help, it's one of those caps, not
+          // the load, so the step is undone and the world waits for the cap to lift instead of drawing blurrier.
+          if (capped) { if (med < 18.5) capped = false; }
+          else if (med > 18.5) {
+            if (lastDrop && med >= lastDrop.med * 0.93) { quality = lastDrop.q; capped = true; lastDrop = null; }
+            else if (quality > QMIN) { lastDrop = { q: quality, med }; quality = Math.max(QMIN, quality - 0.08); }
+            // Still missing frames at its lightest: an even 30 instead (steady beats fast), tried again now and then.
+            else { frameMs = 1000 / 30; lockedAt = now; }
+          } else lastDrop = null;
+        } else if (med > 22 && quality > QMIN) quality = Math.max(QMIN, quality - 0.15);
+        else if (med < 12 && quality < QMAX) quality = Math.min(QMAX, quality + 0.1);
         if (q0 !== quality) resize();
       }
     }
@@ -1888,6 +1900,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   // page is held still while it scrolls, so nothing needs more.)
   let drawn = 0;
   const loop = (now: number) => {
+    if (frameMs > 20 && now - lockedAt > 30000) frameMs = 1000 / 60; // (every so often, try 60 again)
     if (!small || now - drawn > frameMs - 3) { drawn = now; draw(now); }
     raf = on ? requestAnimationFrame(loop) : 0;
   };
