@@ -46,7 +46,7 @@
     }
   },
   "model": {
-    "$comment": "The world (src/scripts/orbnet.ts), held on screen through the journey: the camera travels its scenes as you scroll, and the motif changes shape with them: the whole system, the system beside what this is, the weave hanging from the orb, each path's own thread (learn, build, pass it on), the weave again, and the system again with a new Lab born. Its words: the orb's button, the pause, and what pointing at anything says.",
+    "$comment": "The world (src/scripts/orbnet.ts), held on screen through the journey: the camera travels its scenes as you scroll, and the motif changes shape with them: the whole system, the system beside what this is, the weave drawn down out of the orbits beneath the orb, each path's own thread (learn, build, pass it on), the weave again, and the system again with a new Lab born. Its words: the orb's button, the pause, and what pointing at anything says.",
     "pause": "Pause",
     "play": "Play",
     "skip": "Skip the story",
@@ -167,11 +167,11 @@
     ]
   },
   "threads": {
-    "$comment": "Joining is the one action; it opens three paths that weave together. In the world (src/scripts/orbnet.ts) the paths are three of the orb's orbits, in the same dust, which unwind into one braid hanging from the orb; each chapter draws its own strand in to a single thread; then the braid again, then the orbits. They aren't steps: most people do all three, in their own order. `then` is what each path's way in says at the close.",
+    "$comment": "Joining is the one action; it opens three paths that weave together. In the world (src/scripts/orbnet.ts) the paths are three of the system's own orbits; an orbit carried on through time is a helix, so they're drawn down into a vortex beneath the orb and wound into one triple helix; each chapter travels down to its own strand as a single thread; then back up, and the helix retracts into orbits. They aren't steps: most people do all three, in their own order. `then` is what each path's way in says at the close.",
     "kicker": "One account, three paths",
     "title": "Learn it. Build it. Pass it on.",
     "lede": "They aren't steps. They're threads: what you learn goes into what you build, and what you build goes back to everyone.",
-    "alt": "Three of the orb's orbits unwinding into one braid of three strands: teal, red and silver.",
+    "alt": "Three of the orb's orbits drawn down into one triple helix: teal, red and silver.",
     "items": [
       {
         "id": "learn",

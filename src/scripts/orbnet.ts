@@ -34,10 +34,10 @@
    cross, adopters form new ties, and what reaches the orb leaves new knowledge
    in the commons. Everything leaves a fading trail along its orbit.
 
-   The three paths are three of the orb's own orbits (STRAND_VS): in the system they cross over and under
-   one another round it, as in the emblem; as the journey moves on they unwind into a braid hanging from the
-   orb, then each draws in to its own thread, then the braid again, then orbits. The camera follows the
-   journey's scenes (SHOTS), the system rising out of frame while a thread holds the screen.
+   The three paths are three of the system's own orbits (STRAND_VS). An orbit carried on through time is a
+   helix: as the journey moves on they're drawn down out of the plane into a vortex beneath the orb that
+   narrows into one triple helix; the camera travels down it, each path's own thread in turn; then back up,
+   and the helix retracts into orbits (SHOTS).
 
    To make it legible, anything in it can be asked what it is: point at an
    actor (or tap it) and a card says what it is and what it's doing here, while
@@ -88,7 +88,7 @@ function mulberry(seed: number) {
 
 /* ── the story's shots: where the camera is at each beat ── */
 
-interface Shot { at: number; target: "orb" | "dc" | "between" | "pod" | "new"; halfW: number; elev: number; roll: number; oElev: number; oRoll: number; yaw: number; sx: number; sy: number; px: number; py: number; pz?: number } // pz: how much closer a portrait screen frames it (0.6)
+interface Shot { at: number; target: "orb" | "dc" | "between" | "pod" | "new"; ty?: number; halfW: number; elev: number; roll: number; oElev: number; oRoll: number; yaw: number; sx: number; sy: number; px: number; py: number; pz?: number } // pz: how much closer a portrait screen frames it (0.6)
 /* One world for the whole journey: each shot is a scene the page anchors (OrbNetOptions.anchors, in order),
    and the camera travels between them as you scroll, holding on each while its scene is on screen. The
    motif changes shape as it goes: the system, the weave, each thread, the weave, the system. Where the weave
@@ -99,11 +99,11 @@ interface Shot { at: number; target: "orb" | "dc" | "between" | "pod" | "new"; h
 const SHOTS: Shot[] = [
   { at: 0, target: "orb", halfW: 7.1, elev: 38, roll: 24, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0, sy: -0.27, px: 0, py: -0.2, pz: 0.74 },     // the whole system, under the title
   { at: 0, target: "orb", halfW: 8.6, elev: 30, roll: 18, oElev: 15.4, oRoll: 22.5, yaw: -10, sx: 0.42, sy: 0.04, px: 0, py: 0.4, pz: 0.66 },   // the system, beside what this is
-  { at: 0, target: "orb", halfW: 9, elev: 9, roll: 3, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0.6, px: 0, py: 0.66, pz: 0.6 },         // the weave, hanging from the orb
-  { at: 0, target: "orb", halfW: 9, elev: 7, roll: 2, oElev: 15.4, oRoll: 22.5, yaw: 8, sx: 0.36, sy: 1.75, px: 0, py: 1.8, pz: 0.6 },         // learn: its thread alone
-  { at: 0, target: "orb", halfW: 9, elev: 7, roll: 2, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 1.75, px: 0, py: 1.8, pz: 0.6 },         // build
-  { at: 0, target: "orb", halfW: 9, elev: 7, roll: 2, oElev: 15.4, oRoll: 22.5, yaw: -8, sx: 0.36, sy: 1.75, px: 0, py: 1.8, pz: 0.6 },        // pass it on
-  { at: 0, target: "orb", halfW: 9, elev: 9, roll: 3, oElev: 15.4, oRoll: 22.5, yaw: -4, sx: 0.36, sy: 0.6, px: 0, py: 0.66, pz: 0.6 },        // the weave again
+  { at: 0, target: "orb", ty: -3.2, halfW: 9, elev: 7, roll: 2, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0.05, px: 0, py: 0.35, pz: 0.55 },     // the weave, drawn down out of the orbits
+  { at: 0, target: "orb", ty: -9, halfW: 7.5, elev: 2, roll: 1, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0, px: 0, py: 0.45, pz: 0.5 },          // learn: down to its thread
+  { at: 0, target: "orb", ty: -15, halfW: 7.5, elev: 2, roll: 1, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0, px: 0, py: 0.45, pz: 0.5 },         // build
+  { at: 0, target: "orb", ty: -21, halfW: 7.5, elev: 2, roll: 1, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0, px: 0, py: 0.45, pz: 0.5 },         // pass it on
+  { at: 0, target: "orb", ty: -3.2, halfW: 9, elev: 7, roll: 2, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0.05, px: 0, py: 0.35, pz: 0.55 },     // back up: the weave again
   { at: 0, target: "orb", halfW: 8.6, elev: 34, roll: 14, oElev: 15.4, oRoll: 22.5, yaw: 8, sx: 0.42, sy: 0.06, px: 0, py: 0.62, pz: 0.7 },    // the system again, a new Lab born
 ];
 SHOTS.forEach((s, i) => { s.at = i / (SHOTS.length - 1); });
@@ -693,58 +693,55 @@ void main() {
   o = vec4(col * a, a);
 }`;
 
-// The weave: the three paths, made of the same dust as the orbits, so the motif changes shape rather than
-// being swapped for another. In the system each path is an orbit of the orb, in its own tilted plane, so
-// the three cross over and under one another (the emblem's three orbits). As the page moves on they unwind,
-// the start of each first, into a braid hanging from the orb down the screen: three strands round one
-// another, the front one brighter. In a path's own chapter its strand draws in to a single thread, a gentle
-// wave, while the other two widen into faint loose turns round it. Then the braid again, then back into
-// orbits. The dust drifts along its path all the while; now and then a pulse of light runs down a lit strand.
-// The braid is laid out on screen (uBraid, in clip space) so it reads the same at any zoom.
+// The weave: the three paths are three of the system's own orbits, neighbours round the orb in its plane, in
+// the same dust as every other orbit. An orbit carried on through time is a helix, so that's how the weave is
+// made: as the journey moves on, each path is drawn down out of the plane, its turns pulling apart (tight at
+// the top, where it leaves its orbit, longer below) and its radius narrowing, so the three drain from the
+// system into a vortex beneath the orb and then wind round one another as one triple helix, turning as orbits
+// turn. The camera travels down it, one path's scene at a time; there that path's strand draws in to a single
+// thread near the axis while the other two widen into faint loose turns round it. Then back up, and the helix
+// retracts into orbits. All in the world, through its camera: the same grain, bloom and glow as everything
+// else. On a portrait screen the drawn-out helix fades below the middle, where the words are.
 const STRAND_VS = `#version 300 es
 precision highp float;
 ${GLSL_CAM}
 in vec4 aS; // path (0 learn, 1 build, 2 pass it on), place along it, two seeds
-uniform float uPx; uniform float uTime; uniform float uMorph; uniform float uRing; uniform vec3 uFocus; uniform float uFocusSum;
-uniform vec4 uBraid; // centre x, top y, bottom y (clip space), twist
-uniform vec3 uSize;  // the braid's reach, a strand's radius, one turn's length (pixels)
-uniform vec2 uRes;
+uniform float uPx; uniform float uTime; uniform float uStretch; uniform float uRing; uniform float uGlow; uniform float uTwist;
+uniform vec3 uFocus; uniform float uFocusSum; uniform float uCamY; uniform float uPortrait;
 out vec3 vCol; out float vA;
 const vec3 CANDY[3] = vec3[3](vec3(0.1, 0.84, 0.88), vec3(1.0, 0.3, 0.22), vec3(0.84, 0.89, 0.95)); // teal, red, silver
 const vec3 DUST = vec3(0.62, 0.68, 0.74);
-vec3 ringAt(int k, float th, float s1, float s2) {
-  float R = 1.34 + 0.14 * float(k) + (s1 - 0.5) * 0.05;
-  vec3 p = vec3(cos(th) * R, (s2 - 0.5) * 0.04, sin(th) * R);
-  float a = k == 0 ? 0.44 : k == 1 ? -0.38 : 0.52, b = float(k) * 2.094;
-  p = vec3(p.x, cos(a) * p.y - sin(a) * p.z, sin(a) * p.y + cos(a) * p.z);
-  return vec3(cos(b) * p.x + sin(b) * p.z, p.y, -sin(b) * p.x + cos(b) * p.z);
-}
+const float TURNS = 12.0, LEN = 32.0, RB = 0.5, Y0 = -0.62, U0 = 0.035;
 void main() {
   int k = int(aS.x + 0.5); float s1 = aS.z, s2 = aS.w, h = fract(s1 * 91.7 + s2 * 13.3);
   float f = uFocus[k], away = clamp(uFocusSum - f, 0.0, 1.0);
-  float u = fract(aS.y + uTime * 0.008);
-  vec3 rp = ringAt(k, u * 6.2832 + float(k) * 1.9 + uTime * 0.05, s1, s2);
-  float m = clamp(uMorph * 1.7 - u * 0.7, 0.0, 1.0); m = m * m * (3.0 - 2.0 * m);
-  bool front = m > 0.5 || (uM * rp).z >= 0.0;
-  if (front != (uSide > 0.0)) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); gl_PointSize = 0.0; return; }
-  vec4 c0 = toClip(toView(rp));
-  vec2 n0 = c0.xy / c0.w;
-  float len = (uBraid.y - uBraid.z) * 0.5 * uRes.y;
-  float ph = u * len / uSize.z * 6.2832 + float(k) * 2.0944 + uBraid.w;
-  float reach = uSize.x * (mix(1.0, 0.42, f) + 2.6 * away);
-  float ca = s1 * 6.2832, rr = uSize.y * sqrt(s2) * (1.0 + 1.5 * f);
-  float d = cos(ph);
-  vec2 n1 = vec2(uBraid.x + (reach * sin(ph) + rr * cos(ca)) / (0.5 * uRes.x), mix(uBraid.y, uBraid.z, u) + rr * sin(ca) * 0.5 / (0.5 * uRes.y));
-  gl_Position = vec4(mix(n0, n1, m), 0.0, 1.0);
+  float u = fract(aS.y + uTime * 0.0035);                      // the dust drifts along its path
+  float dep = uStretch * LEN * (u - U0 * (1.0 - exp(-u / U0))); // how far below its orbit: tight turns as it leaves, then even
+  float down = smoothstep(0.0, 3.2, dep);
+  float r = mix(1.42 + 0.16 * float(k), RB, down);              // its orbit, narrowing into the helix
+  r = mix(r, mix(r, 0.16, f) * (1.0 + 2.6 * away), smoothstep(1.0, 3.0, dep));
+  float th = u * TURNS * 6.2832 + float(k) * 2.0944 + uTwist;
+  float ca = s1 * 6.2832, rr = (0.05 + 0.05 * f) * sqrt(s2) * (0.6 + 0.4 * down);
+  vec3 p = vec3(cos(th) * r + cos(ca) * rr, Y0 - dep + (s2 - 0.5) * 0.03 + sin(ca) * rr * 0.6, sin(th) * r + sin(ca) * rr);
+  if (culled(p)) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); gl_PointSize = 0.0; return; }
+  vec3 v = toView(p);
+  gl_Position = toClip(v);
+  vec3 ax = toView(vec3(0.0, p.y, 0.0));
+  float d = clamp((v.z - ax.z) / max(r, 0.12), -1.0, 1.0);      // in front of its axis, or behind
   float lit = 1.0 - away;
-  float pulse = exp(-pow((u - fract(uTime * 0.04 + float(k) * 0.37)) / 0.02, 2.0)) * lit;
-  float ends = smoothstep(0.0, 0.08, u) * smoothstep(1.0, 0.85, u);
-  float a1 = (0.17 + 0.36 * f) * (0.3 + 0.7 * mix(0.5 + 0.5 * d, 1.0, f)) * ends * (1.0 - 0.82 * away) * (1.0 + 2.4 * pulse);
-  vA = mix(0.12 * uRing, a1, m) * (0.55 + 0.9 * h);
+  float pulse = exp(-pow((u - fract(uTime * 0.03 + float(k) * 0.37)) / 0.01, 2.0)) * lit * down;
+  float drawn = smoothstep(0.0, 1.6, dep);
+  // In the system each path is one faint orbit (all its turns lie on one circle, so each grain is dim), lit a
+  // little in its colour beside "three paths open up"; drawn out, each grain carries its own light.
+  float a0 = uRing * mix(0.011, 0.03, uGlow);
+  float a1 = (0.28 + 0.32 * f) * (0.3 + 0.7 * mix(0.5 + 0.5 * d, 1.0, f)) * (1.0 - 0.78 * away) * (1.0 + 2.4 * pulse);
+  float ndcY = gl_Position.y / gl_Position.w;
+  float below = mix(1.0, smoothstep(-0.04, 0.2, ndcY), uPortrait * drawn);
+  vA = mix(a0, a1, drawn) * (0.55 + 0.9 * h) * smoothstep(1.0, 0.9, u) * below;
   vec3 col = CANDY[k];
-  if (k == 2) col = mix(col, mix(CANDY[0], CANDY[2], smoothstep(0.1, 0.9, u)), f); // passed on: what was learned (teal), going out (silver)
-  vCol = mix(mix(DUST, col, 0.35), col, m) * (1.0 + 0.6 * pulse);
-  gl_PointSize = mix(2.0 * uD / c0.w, 1.7 + 0.7 * (0.5 + 0.5 * d) + 0.5 * f + 1.4 * pulse, m) * uPx;
+  if (k == 2) col = mix(col, mix(CANDY[0], CANDY[2], smoothstep(uCamY + 3.5, uCamY - 3.5, p.y)), f); // passed on: what was learned (teal), going out (silver)
+  vCol = mix(mix(DUST, col, mix(0.3, 0.85, uGlow)), col, drawn) * (1.0 + 0.6 * pulse);
+  gl_PointSize = (mix(2.0, 1.7 + 0.6 * (0.5 + 0.5 * d) + 0.5 * f, drawn) + 1.4 * pulse) * uPx * (uD / -v.z);
 }`;
 
 const STRAND_FS = `#version 300 es
@@ -998,7 +995,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   const FB = vao([[P.fab.prog, "aG", 4]], new Float32Array(grid), gl.STATIC_DRAW);
   const gridN = grid.length / 4;
   // The weave's dust: each path's points, spread evenly along it, with two seeds for where in the strand.
-  const perStrand = small ? 4200 : 7600, strandArr: number[] = [];
+  const perStrand = small ? 5200 : 10000, strandArr: number[] = [];
   for (let k = 0; k < 3; k++) for (let i = 0; i < perStrand; i++) strandArr.push(k, (i + rnd()) / perStrand, rnd(), rnd());
   const ST = vao([[P.strand.prog, "aS", 4]], new Float32Array(strandArr), gl.STATIC_DRAW);
   const strandN = strandArr.length / 4;
@@ -1145,7 +1142,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const a = SHOTS[i], b = SHOTS[i + 1];
     const k = ease(clamp((p - a.at) / (b.at - a.at), 0, 1));
     const L = (x: keyof Shot) => lerp(a[x] as number, b[x] as number, k);
-    const T = lerp3(shotTarget(a), shotTarget(b), k);
+    const T = lerp3(shotTarget(a), shotTarget(b), k); T[1] += lerp(a.ty ?? 0, b.ty ?? 0, k); // ty: down the weave's axis
     const shake = 0;
     const yaw = (L("yaw") + ptr.x * 4.5 + (still ? 0 : Math.sin(t * 0.13) * 2.5) + Math.sin(t * 47) * shake * 0.5) * DEG, pitch = ptr.y * 3 * DEG;
     const par = mul(ry(yaw), rx(pitch));
@@ -1373,20 +1370,13 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       gl!.drawArrays(gl!.POINTS, 0, N);
     };
     const drawSparks = (side: number) => { add(); gl!.useProgram(P.sprite.prog); gl!.bindVertexArray(SP.v); camU(P.sprite.U, side); gl!.uniform1f(P.sprite.U.uPx, px); gl!.uniform2f(P.sprite.U.uPar, 0, 0); gl!.drawArrays(gl!.POINTS, 0, sn); };
-    // The weave: anchored under the orb (or the top of the screen, once the orb has risen out of it), at the
-    // orb's x; on a portrait screen it ends a little past halfway, above the words.
-    const portraitNow = cssW < cssH;
-    const ov = (() => { const v = apply(M, [-T[0], -T[1], -T[2]]); v[2] -= D; return v; })();
-    const ocx = ov[0] / (-ov[2] * tanX) + cam.sh[0], ocy = ov[1] / (-ov[2] * tanY) + cam.sh[1], orY = 1 / (-ov[2] * tanY);
-    const braidTop = Math.min(1.25, ocy - orY * 0.9), braidBot = portraitNow ? 0.04 : -1.25;
-    const reach = clamp(Math.min(W, H) * 0.034, 12 * dpr * quality, 40 * dpr * quality);
     const drawStrands = (side: number) => {
       add(); gl!.useProgram(P.strand.prog); gl!.bindVertexArray(ST.v); camU(P.strand.U, side);
       const U = P.strand.U;
-      gl!.uniform1f(U.uPx, px); gl!.uniform1f(U.uTime, t); gl!.uniform1f(U.uMorph, 1 - sysW); gl!.uniform1f(U.uRing, g);
+      gl!.uniform1f(U.uPx, px); gl!.uniform1f(U.uTime, t); gl!.uniform1f(U.uStretch, ease(1 - sysW)); gl!.uniform1f(U.uRing, g); gl!.uniform1f(U.uGlow, w[1]);
+      gl!.uniform1f(U.uTwist, (still ? 0 : t * 0.05) + sCur * 1.6);
       gl!.uniform3f(U.uFocus, focus3[0], focus3[1], focus3[2]); gl!.uniform1f(U.uFocusSum, focusSum);
-      gl!.uniform4f(U.uBraid, ocx, braidTop, braidBot, (still ? 0 : t * 0.3) + sCur * 2.4);
-      gl!.uniform3f(U.uSize, reach, reach * 0.2, H * (portraitNow ? 0.2 : 0.34)); gl!.uniform2f(U.uRes, W, H);
+      gl!.uniform1f(U.uCamY, T[1]); gl!.uniform1f(U.uPortrait, cssW < cssH ? 1 : 0);
       gl!.drawArrays(gl!.POINTS, 0, strandN);
     };
     const pole = apply(cam.O, [0, 1, 0]);
