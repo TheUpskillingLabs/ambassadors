@@ -1,0 +1,30 @@
+---
+/* A chapter of the home page, and a scene in the world: one of the three paths joining opens (Learn, Build,
+   Pass it on). The section is tall and its words stay pinned at the foot of the screen, so the world above
+   (the camera on this path's place, the thread lit in this path's strand) is the picture, and the words
+   support it: its name set large with its gem, then what it is, how often, and in a line or two what happens.
+   The detail that follows on the page is the chapter's; the next chapter's scene ends it. Styles in
+   src/styles/home.css (.hm-ch, .hm-scene). */
+interface Props {
+  id: "learn" | "build" | "give";
+  c: { no: string; verb: string; title: string; when: string; lede: string };
+}
+const { id, c } = Astro.props;
+---
+<section id={id} class="hm-ch hm-scene" data-ch={id} data-scene aria-labelledby={`${id}-t`}>
+  <div class="hm-scene-in">
+    <div class="rp-wrap">
+      <div class="hm-ch-in">
+        <div class="hm-ch-name reveal">
+          <p class="hm-ch-k"><i class="gem" data-gem={id} aria-hidden="true"></i>{c.no}</p>
+          <h2 class="hm-ch-verb" id={`${id}-t`}>{c.verb}<span class="dot">.</span></h2>
+        </div>
+        <div class="hm-ch-say reveal">
+          <p class="hm-ch-title">{c.title}</p>
+          <p class="hm-ch-when">{c.when}</p>
+          <p class="hm-ch-lede">{c.lede}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
