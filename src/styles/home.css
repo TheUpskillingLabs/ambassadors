@@ -17,7 +17,20 @@
 .hm-orbit.is-live { background: none; }
 /* The opening on the logo: until it's played, no poster (the system isn't there yet) and no title. */
 html[data-intro] .hm-orbit:not(.is-live) { background: none; }
-html[data-intro] .hm-hero-copy { opacity: 0; }
+html[data-intro] .hm-hero-copy { --in: 0; --l2: 0; }
+/* The headline a line at a time (the page sets --in and --l2 as the world plays): the first line with the
+   opening, the second when the people gathered under it make something, then the sentence. Without the
+   world, both are 1. */
+/* Each line paints its own share of the title's gradient (a line with its own opacity or transform would
+   otherwise fall outside the title's text clip and vanish), padded past its descenders like the title. */
+.hm-hero-copy .rp-title { background: none; }
+.hm-hero-copy .hm-l { display: block; padding-bottom: 0.2em; margin-bottom: -0.2em; color: transparent;
+  background: linear-gradient(180deg, #F4F8F9 0%, rgba(244, 248, 249, 0.92) 55%, rgba(244, 248, 249, 0.5) 100%) 0 0 / 100% 200%;
+  -webkit-background-clip: text; background-clip: text; }
+.hm-hero-copy .hm-l2 { background-position: 0 100%; }
+.hm-hero-copy .hm-l1 { opacity: var(--in, 1); }
+.hm-hero-copy .hm-l2 { opacity: min(var(--in, 1), var(--l2, 1)); transform: translateY(calc((1 - var(--l2, 1)) * 12px)); }
+.hm-hero-copy .hm-sub-in { opacity: min(var(--in, 1), clamp(0, calc((var(--l2, 1) - 0.35) / 0.65), 1)); }
 .hm-orbit.is-baked { mix-blend-mode: normal; }
 .hm-world:has(.is-baked) { isolation: auto; }
 .hm-world:has(.is-baked)::after { content: none; }

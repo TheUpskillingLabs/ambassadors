@@ -113,7 +113,7 @@ const down = (ty: number, yaw = 0): Shot => ({ at: 0, target: "orb", ty, halfW: 
 const weave: Shot = { at: 0, target: "orb", ty: -3.2, halfW: 9, elev: 7, roll: 2, ...SYS, yaw: 0, sx: 0.36, sy: 0.05, px: 0, py: 0.35, pz: 0.55 };
 const SHOTS: Shot[] = [
   { at: 0, target: "orb", halfW: 7.1, elev: 38, roll: 24, ...SYS, yaw: 0, sx: 0, sy: -0.27, px: 0, py: -0.2, pz: 0.74 },     // 0  the whole system, under the title
-  { at: 0, target: "orb", halfW: 8.6, elev: 30, roll: 18, ...SYS, yaw: -10, sx: 0.42, sy: 0.04, px: 0, py: 0.56, pz: 0.8 },  // 1  the system, beside what this is (on a phone, high and a little smaller: this scene has the most words)
+  { at: 0, target: "orb", halfW: 7.8, elev: 21, roll: 12, ...SYS, yaw: -24, sx: 0.42, sy: 0.04, px: 0, py: 0.56, pz: 0.8 },  // 1  the system, beside what this is: the first scroll swings low and round (on a phone, high and a little smaller: this scene has the most words)
   { at: 0, target: "orb", halfW: 5.4, elev: 22, roll: 12, ...SYS, yaw: -4, sx: 0.4, sy: 0.02, px: 0, py: 0.42, pz: 0.72 },   // 2  close on the centre: one open project
   { ...weave },                                                                                                    // 3  the weave, drawn down out of the orbits
   down(-8, 4), down(-11, 2), down(-14, 0),                                                                         // 4–6  learn: its thread; open workshops; this week
@@ -1017,6 +1017,9 @@ export interface FrameState {
   /** The wordmark's light (at the opening, and as the logo forms at the end), and how far the opening is done
    (0 … 1: the page's own words wait for it). */
   word: number; intro: number;
+  /** The headline's second line (0 … 1): it comes in as the hero acts out the first ("Find your people."),
+   when the people it gathered make something together. */
+  title2: number;
 }
 export interface OrbNetOptions { intro?: boolean; introReady?: () => boolean; still?: boolean; poster?: boolean; story?: HTMLElement; anchors?: HTMLElement[]; stage?: HTMLElement; faces?: string[]; words?: HoverWords; inspectable?: () => boolean; onFrame?: (s: FrameState) => void }
 export interface OrbNet { setPaused(v: boolean): void; paused(): boolean; setOrbHover(v: boolean): void; join(): void }
@@ -1270,17 +1273,20 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const L = (x: keyof Shot) => Lv((q) => q[x] as number);
     const ta = shotTarget(a), tb = shotTarget(b), T = lerp3(ta, tb, ease(k)); T[1] += Lv((q) => q.ty ?? 0); // ty: down the weave's axis
     const shake = 0;
-    const yaw = (L("yaw") + ptr.x * 4.5 + (still ? 0 : Math.sin(t * 0.13) * 2.5) + Math.sin(t * 47) * shake * 0.5) * DEG, pitch = ptr.y * 3 * DEG;
+    // Held under the title, the camera drifts: a slow turn, a little rise and fall, a breath in and out, so the
+    // whole picture moves in depth while you read (near things faster than far). It hands over to the scroll.
+    const hw = still ? 0 : ease(clamp(1 - s * 1.5, 0, 1)) * (1 - ic);
+    const yaw = (L("yaw") + ptr.x * 4.5 + (still ? 0 : Math.sin(t * 0.13) * 2.5) + hw * 7 * Math.sin(t * 0.26) + Math.sin(t * 47) * shake * 0.5) * DEG, pitch = ptr.y * 3 * DEG;
     const par = mul(ry(yaw), rx(pitch));
     // Starting a Lab: the new Lab orbits like the rest, so where it is depends on how long you've been here. Closing
     // in on it, the system turns to bring it round to the front (only as far as it needs to), then turns back.
     const fW = Lv((q) => (q.target === "new" ? 1 : 0));
     const spin = fW > 0.001 ? fW * turnTo(model.newTh) : 0;
-    const M = mul(par, mul(rz(L("roll") * DEG), mul(rx(L("elev") * DEG), ry(spin))));
+    const M = mul(par, mul(rz(L("roll") * DEG), mul(rx((L("elev") + hw * 3.5 * Math.sin(t * 0.19 + 1)) * DEG), ry(spin))));
     const orbV = mul(par, mul(rz(L("oRoll") * DEG), rx(L("oElev") * DEG)));
     // Portrait screens frame closer (the system runs off the sides), and keep the lower third for the lines.
     const portrait = cssW < cssH;
-    const halfW = L("halfW") * (portrait ? Lv((q) => q.pz ?? 0.6) : cssW < 900 ? 0.85 : 1) * (1 - 0.018 * shake);
+    const halfW = L("halfW") * (portrait ? Lv((q) => q.pz ?? 0.6) : cssW < 900 ? 0.85 : 1) * (1 - 0.018 * shake) * (1 + hw * 0.04 * Math.sin(t * 0.33));
     const tanX = halfW / D, tanY = tanX / (W / H);
     const sh: [number, number] = portrait ? [L("px"), L("py")] : [L("sx"), L("sy")];
     // Actors grow as the shot closes in, by the shot's own framing: a narrow screen's closer crop
@@ -1359,11 +1365,58 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   const introOn = Boolean(opts.intro) && !still && !opts.poster, INTRO_END = 6.5;
   let introClock = 0;
   const pulsed: Record<number, boolean> = {};
+  // The hero's heartbeat (see heroBeats): what's next and when, the act playing now, and when the headline's
+  // second line comes in.
+  let heroNext = 0, heroBeat = 0, title2At = -1, introDoneAt = -1;
+  let act: { t0: number; P: V3; from: V3[] } | null = null;
   const massU = new Float32Array(40), labU = new Float32Array(40), labC = new Float32Array(30), labTilt = new Float32Array(20), ripU = new Float32Array(16);
   const t0 = performance.now();
   let last = t0, lastReal = t0, simT = 0, frame = 0, introT = 0;
   const fps: number[] = [];
   if (still) { for (let i = 0; i < 720; i++) { simT += 1 / 60; model.step(1 / 60, simT, i > 320 && i < 570, false); } } // a still: the last sparks settling, not mid-burst
+
+  /* The hero's heartbeat. While the title holds the screen, something you can follow happens every few
+     seconds, in turn: a few people find each other and make something (the headline, acted out), then an
+     idea goes up from a Lab to the orb, which flares and sends it back out to every Lab. The first act
+     brings in the headline's second line. And the first scroll gets an answer: the orb's big pulse. */
+  const startAct = () => {
+    // In front of the orb and to one side, in the orbits' plane, alternating sides: below the words.
+    const side = heroBeat % 4 === 0 ? 0.8 : -0.8, face = Math.atan2(cam.M[8], cam.M[6]) + side, R = 2.3;
+    const P: V3 = [Math.cos(face) * R, 0, Math.sin(face) * R];
+    const from: V3[] = [];
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2 + Math.random() * 0.8, d = 0.9 + Math.random() * 0.6;
+      from.push([P[0] + Math.cos(a) * d, (Math.random() - 0.5) * 0.5, P[2] + Math.sin(a) * d]);
+    }
+    act = { t0: simT, P, from };
+    if (title2At === -1) title2At = simT + 1.9;
+  };
+  const ideaUp = () => {
+    // From a Lab that's in front and on screen, nearest first; one whose idea can find its way up.
+    const labs = model.labs.map((L, i) => ({ i, q: project(L.c) }))
+      .filter(({ q }) => q.x > cssW * 0.08 && q.x < cssW * 0.92 && q.y > cssH * 0.3 && q.y < cssH * 0.96)
+      .sort((a, b) => b.q.z - a.q.z);
+    for (const { i } of labs.slice(0, 4)) {
+      model.innovate(simT, { lab: i, major: true });
+      const idea = model.ideas[model.ideas.length - 1];
+      if (idea && model.pulses.some((pu) => pu.inv === idea.id && pu.kind === 1)) { model.nextMajor = simT + 6; return; }
+    }
+  };
+  const heroBeats = (heroW: number, introDone: number, sCur: number, now: number) => {
+    if (introDone >= 1 && introDoneAt < 0) introDoneAt = now;
+    if (still || pausedFlag) return;
+    if (heroW > 0.6 && introDone > 0.25 && simT > 1 && simT >= heroNext) {
+      if (heroBeat % 2 === 0) startAct(); else ideaUp();
+      heroBeat++; heroNext = simT + (heroBeat % 2 === 1 ? 6.8 : 5.6);
+    }
+    if (introDone > 0.9 && sCur > 0.18 && !pulsed[-1]) { pulsed[-1] = true; model.join(simT); }
+    if (sCur < 0.04) pulsed[-1] = false;
+  };
+  // The headline's second line: with the first act's project; at once if there's no act to wait for.
+  const title2Now = () => {
+    if (title2At === -1 && (still || pausedFlag || scrollE > 0.03 || (introDoneAt > 0 && performance.now() - introDoneAt > 2500))) title2At = -2;
+    return title2At === -2 ? 1 : title2At < 0 ? 0 : clamp((simT - title2At) / 0.6, 0, 1);
+  };
 
   function draw(now: number) {
     const dt = still || pausedFlag ? 0 : Math.min(0.05, (now - last) / 1000);
@@ -1414,6 +1467,9 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // The system's own opening runs on the clock, not on simulated time: on a slow device (frames capped at
     // 50 ms) the orb would otherwise sit half painted for seconds. After the logo's opening, if there is one.
     const openT = introOn ? Math.max(introT, IT - 2.7) : Math.max(introT, (now - t0) / 1000 - 0.2);
+    // How much the title holds the screen; then the heartbeat that plays under it.
+    const heroW = still ? 0 : ease(clamp(1 - sCur * 1.5, 0, 1));
+    heroBeats(heroW, introDone, sCur, now);
     const t = simT, grow = still ? 1 : clamp(openT / 3.4, 0, 1), g = 1 - Math.pow(1 - grow, 3);
     ptr.x = lerp(ptr.x, ptr.tx, ease60(0.03)); ptr.y = lerp(ptr.y, ptr.ty, ease60(0.03));
     orbHover = lerp(orbHover, orbHoverT, ease60(0.12));
@@ -1488,7 +1544,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       const u = clamp((t - pu.t0) / pu.dur, 0, 1);
       const A = model.end(pu.from, pu.to), B = model.end(pu.to, pu.from);
       const c: V3 = pu.kind === 1 ? [0.25, 1, 0.92] : pu.kind === 2 ? [0.86, 0.92, 1] : [1, 0.42, 0.3]; // build red; then what was learned rises teal, and comes back out silver: the national org's official version
-      for (let k = 0; k < 5; k++) { const uu = u - k * 0.028; if (uu < 0) break; putS(lerp3(A, B, uu), k ? 8 - k * 1.1 : 13, (k ? 0.5 - k * 0.08 : 0.85) * (1 - 0.25 * u), c); }
+      for (let k = 0; k < 5; k++) { const uu = u - k * 0.028; if (uu < 0) break; putS(lerp3(A, B, uu), (k ? 8 - k * 1.1 : 13) * (1 + 0.6 * heroW), Math.min(1, (k ? 0.5 - k * 0.08 : 0.85) * (1 - 0.25 * u) * (1 + 0.3 * heroW)), c); }
     }
     // The small stories on the paths' threads, told with the model's own glyphs, round the camera's place on
     // the helix (T[1]). The helix's geometry is the strand shader's, so a glyph set on a strand sits on it.
@@ -1607,6 +1663,27 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
         }
       }
     }
+    // The hero, acted out: a few people find each other (the headline's first line), ties form between them,
+    // then they make something together (its second line): a project at the middle. Then it lets go.
+    if (act && heroW > 0.01) {
+      const k = simT - act.t0, P = act.P;
+      if (k > 8) act = null;
+      else {
+        const fade = (1 - ease(clamp((k - 6.2) / 1.6, 0, 1))) * heroW;
+        const made = ease(clamp((k - 2.1) / 0.8, 0, 1)), n = act.from.length, ring: V3[] = [];
+        for (let i = 0; i < n; i++) {
+          const a = (i / n) * Math.PI * 2 + k * 0.3;
+          const to: V3 = [P[0] + Math.cos(a) * 0.26, P[1] + 0.03 * Math.sin(a * 2), P[2] + Math.sin(a) * 0.26];
+          const ki = ease(clamp((k - i * 0.12) / 2.0, 0, 1)), q = lerp3(act.from[i], to, ki);
+          ring.push(q);
+          const lit = 0.2 + 0.45 * ki + 0.7 * Math.sin(Math.PI * clamp((k - 2.1 - i * 0.07) / 0.7, 0, 1));
+          putG(q, 17 * sS, 0, lit, fade * (0.3 + 0.7 * ki), PEARL);
+        }
+        const tie = ease(clamp((k - 1.3) / 0.8, 0, 1)) * fade;
+        if (tie > 0.01) for (let i = 0; i < n; i++) { const A = ring[i], B = ring[(i + 1) % n]; for (let d = 1; d < 4; d++) putS(lerp3(A, B, d / 4), 4.5, 0.6 * tie, GOLD); }
+        if (made > 0.01) putG(P, 30 * sS * (0.6 + 0.4 * made), 2, 0.35 + 0.9 * (1 - made), fade * made, RED);
+      }
+    }
     // The centre (and the open-project scene): the orb flares as the official version goes out to every Lab.
     for (const sc of [2, SCENE.centre]) {
       const v = wt(sc);
@@ -1624,7 +1701,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       labU.set([L.c[0], L.c[2], (0.1 + 0.55 * k) * (L.lit ? 1.1 : 0.8) * (focus === i ? 1 + focusAmt : 1) * (1 + beats[2] * 0.8), L.size * 1.1], i * 4);
       labC.set(L.c, i * 3); labTilt.set(L.tilt, i * 2);
     });
-    model.ripples.slice(-4).forEach((r, i) => { const age = t - r.t0; ripU.set([0, 0, 1.1 + age * 2.6, r.s * Math.max(0, 1 - age / 1.6)], i * 4); });
+    model.ripples.slice(-4).forEach((r, i) => { const age = t - r.t0; ripU.set([0, 0, 1.1 + age * 2.6, r.s * Math.max(0, 1 - age / 1.6) * (1 + 0.7 * heroW)], i * 4); });
 
     /* draw the scene */
     gl!.bindFramebuffer(gl!.FRAMEBUFFER, scene!.fbo);
@@ -1754,7 +1831,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // pointing at.
     if (opts.onFrame) {
       opts.onFrame({
-        p, s: sCur, w, beats, paused: pausedFlag, t: simT, width: cssW, height: cssH, sys: sysW, logo: logoK, settle: settleAll, word, intro: introDone,
+        p, s: sCur, w, beats, paused: pausedFlag, t: simT, width: cssW, height: cssH, sys: sysW, logo: logoK, settle: settleAll, word, intro: introDone, title2: title2Now(),
         hover: hov >= 0 ? (() => { const a = model.nodes[hov], q = project(a.p); return { x: q.x, y: q.y, r: markR(a, q.z), ...describe(hov) }; })()
           : hovLab >= 0 ? (() => { const q = project(model.labs[hovLab].c); return { x: q.x, y: q.y, r: 24, type: "lab", kind: say("lab", "kind"), title: say("lab", hovLab === 0 ? "dc" : "title"), detail: say("lab", hovLab === 0 ? "dcDetail" : "detail") }; })()
           : null,

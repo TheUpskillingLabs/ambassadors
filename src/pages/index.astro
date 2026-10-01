@@ -135,8 +135,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
             <div class="hm-scene-in hm-hero-in" data-scene-in>
               <div class="hm-hero-copy" data-quiet>
-                <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
-                <p class="hm-hero-sub rise">{h.hero.sub}</p>
+                <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <span class={`hm-l hm-l${i + 1}`}>{l}</span>)}</h1>
+                <p class="hm-hero-sub rise"><span class="hm-sub-in">{h.hero.sub}</span></p>
               </div>
             </div>
           </section>
@@ -508,8 +508,10 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           if (f.logo > 0.01 || f.word > 0.01 || f.settle > 0.01) placeLogo(f.orb.x, f.orb.y, f.orb.r);
           put(logoWord, "opacity", f.word.toFixed(3));
           put(logoMark, "opacity", f.settle.toFixed(3));
-          // The page's own words come in as the opening finishes.
-          put(heroCopy, "opacity", f.intro.toFixed(3));
+          // The page's own words come in as the opening finishes: the first line, then the second as the world
+          // acts it out (f.title2), then the sentence under them.
+          put(heroCopy, "--in", f.intro.toFixed(3));
+          put(heroCopy, "--l2", f.title2.toFixed(3));
           if (f.intro >= 1 && root.hasAttribute("data-intro")) delete root.dataset.intro;
         },
       });
