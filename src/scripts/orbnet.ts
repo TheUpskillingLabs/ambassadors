@@ -698,9 +698,10 @@ ${GLSL_CAM}
 in vec4 aG; // orbit radius, angle, seed, brightness
 uniform float uPx; uniform float uGrow; uniform float uTime; uniform float uBoost;
 uniform vec4 uMass[10]; uniform vec4 uRip[4];
-out float vA; out float vWell; out float vRip; out float vCore;
+out float vA; out float vWell; out float vRip; out float vCore; out float vG;
 void main() {
   float R = aG.x, th = aG.y + uTime * 0.03 * pow(2.5 / R, 1.5), k = aG.z;
+  vG = fract(k * 91.7 + aG.y * 13.37); // this grain's own brightness
   float rr = R + 0.05 * sin(3.0 * th + k * 6.3) + 0.03 * sin(5.0 * th - k * 11.0) + 0.02 * sin(9.0 * th + k * 3.0);
   vec2 p = vec2(cos(th), sin(th)) * rr;
   float well = 0.0; vec2 pull = vec2(0.0);
@@ -724,11 +725,11 @@ void main() {
 
 const FABRIC_FS = `#version 300 es
 precision highp float;
-in float vA; in float vWell; in float vRip; in float vCore; out vec4 o;
-${GLSL_HASH}
+in float vA; in float vWell; in float vRip; in float vCore; in float vG; out vec4 o;
 void main() {
   vec2 c = gl_PointCoord * 2.0 - 1.0; float r = dot(c, c); if (r > 1.0) discard;
-  float a = vA * smoothstep(1.0, 0.1, r) * (0.6 + 0.8 * hash(gl_FragCoord.xy));
+  // Each grain keeps its own brightness as it moves (by the screen's pixels, moving dust would twinkle).
+  float a = vA * smoothstep(1.0, 0.1, r) * (0.6 + 0.8 * vG);
   float wl = clamp(vWell * 0.5, 0.0, 1.0);
   vec3 col = mix(mix(vec3(0.5, 0.37, 0.17), vec3(1.0, 0.86, 0.56), wl),                      // gold dust: the Labs' orbits, the norm
                  mix(vec3(0.36, 0.4, 0.45), vec3(0.86, 0.91, 0.97), wl), vCore);            // silver round the centre: the national commons
@@ -753,12 +754,13 @@ uniform float uPx; uniform float uTime; uniform float uStretch; uniform float uR
 uniform vec3 uFocus; uniform float uFocusSum; uniform float uCamY; uniform float uPortrait;
 uniform vec2 uKnot; // a knot in Build's thread: how tangled, and where
 uniform float uLogo; uniform vec4 uOrbN; uniform highp sampler2D uSwoosh; uniform float uLogoA; // the mark forming: how far, the orb on screen (centre, radius), the swoosh's points, their light
-out vec3 vCol; out float vA;
+out vec3 vCol; out float vA; out float vG;
 const vec3 CANDY[3] = vec3[3](vec3(0.1, 0.84, 0.88), vec3(1.0, 0.3, 0.22), vec3(1.0, 0.78, 0.42)); // teal, red, gold
 const vec3 DUST = vec3(0.8, 0.66, 0.42); // gold dust, as every Lab's orbit
 const float TURNS = 20.0, LEN = 53.0, RB = 0.5, Y0 = -0.62, U0 = 0.021;
 void main() {
   int k = int(aS.x + 0.5); float s1 = aS.z, s2 = aS.w, h = fract(s1 * 91.7 + s2 * 13.3);
+  vG = fract(s2 * 57.3 + s1 * 7.1);
   float f = uFocus[k], away = clamp(uFocusSum - f, 0.0, 1.0);
   float u = fract(aS.y + uTime * 0.0035);                      // the dust drifts along its path
   float dep = uStretch * LEN * (u - U0 * (1.0 - exp(-u / U0))); // how far below its orbit: tight turns as it leaves, then even
@@ -812,11 +814,10 @@ void main() {
 
 const STRAND_FS = `#version 300 es
 precision highp float;
-in vec3 vCol; in float vA; out vec4 o;
-${GLSL_HASH}
+in vec3 vCol; in float vA; in float vG; out vec4 o;
 void main() {
   vec2 c = gl_PointCoord * 2.0 - 1.0; float r = dot(c, c); if (r > 1.0) discard;
-  float a = vA * smoothstep(1.0, 0.1, r) * (0.6 + 0.8 * hash(gl_FragCoord.xy));
+  float a = vA * smoothstep(1.0, 0.1, r) * (0.6 + 0.8 * vG);
   o = vec4(vCol * a, a);
 }`;
 
@@ -860,6 +861,9 @@ ${GLSL_HASH}
 void main() {
   vec2 ndc = gl_FragCoord.xy / uRes * 2.0 - 1.0 - uShift;
   vec3 dir = normalize(vec3(ndc.x * uTan.x, ndc.y * uTan.y, -1.0));
+  // The grain is pinned to the orb (by whole pixels from its centre), so it travels with the orb as it moves.
+  vec2 cPx = (vec2(uCenter.x / (-uCenter.z * uTan.x), uCenter.y / (-uCenter.z * uTan.y)) + uShift) * 0.5 * uRes + 0.5 * uRes;
+  vec2 g = floor(gl_FragCoord.xy - cPx);
   float b = dot(dir, uCenter);
   vec3 off = dir * b - uCenter;
   float dist = length(off);
@@ -871,7 +875,7 @@ void main() {
     vec3 n = normalize(dir * t - uCenter);
     float d = dot(n, uPole);
     // The mark's grain: the latitude dithered per pixel, so the band edges break up like the logo's.
-    float dj = d + (hash(gl_FragCoord.xy) - 0.5) * 0.13;
+    float dj = d + (hash(g) - 0.5) * 0.13;
     vec3 c = texture(uRamp, vec2((clamp(dj, -1.0, 1.0) * 0.5 + 0.5) * (100.0 / 101.0) + 0.5 / 101.0, 0.5)).rgb;
     float tealW = smoothstep(0.3, 0.8, d), redW = smoothstep(-0.05, -0.45, d);
     float lit = dot(n, uLight);
@@ -897,7 +901,7 @@ void main() {
   float side = dot(off / max(dist, 1e-5), uPole);
   vec3 hc = mix(vec3(0.84, 0.17, 0.2), vec3(0.0, 0.58, 0.63), smoothstep(-0.6, 0.6, side));
   float hw = mix(0.95, 0.55, smoothstep(-0.6, 0.6, side));
-  float hl = uReveal * (exp(-outside / 0.08) * 0.7 + exp(-outside / 0.3) * 0.22) * hw * uHalo * (1.0 - cover) * (0.65 + 0.7 * hash(gl_FragCoord.yx + 3.0));
+  float hl = uReveal * (exp(-outside / 0.08) * 0.7 + exp(-outside / 0.3) * 0.22) * hw * uHalo * (1.0 - cover) * (0.65 + 0.7 * hash(g.yx + 3.0));
   col += hc * hl * 0.55; alpha += hl * 0.22;
   o = vec4(col, min(alpha, 1.0));
 }`;
@@ -950,7 +954,7 @@ void main() {
 const COMPOSITE_FS = `#version 300 es
 precision highp float;
 in vec2 vUv; uniform sampler2D uScene; uniform sampler2D uBloom;
-uniform float uBloomAmt; uniform vec2 uRes; uniform float uFrame; uniform vec4 uShock; uniform float uAspect; uniform float uBg;
+uniform float uBloomAmt; uniform vec2 uRes; uniform vec4 uShock; uniform float uAspect; uniform float uBg;
 out vec4 o;
 ${GLSL_HASH}
 vec3 shoulder(vec3 c) { vec3 k = vec3(0.88); return mix(c, k + (1.0 - k) * (1.0 - exp(-(c - k) / (1.0 - k))), step(k, c)); }
@@ -984,7 +988,7 @@ void main() {
   c = shoulder(c);
   // The brand's grain, only where there's light.
   float l = max(c.r, max(c.g, c.b));
-  c += (hash(gl_FragCoord.xy + uFrame * 17.0) - 0.5) * 0.05 * smoothstep(0.02, 0.35, l);
+  c += (hash(gl_FragCoord.xy) - 0.5) * 0.05 * smoothstep(0.02, 0.35, l); // (held still: animated, it flickered)
   c = clamp(c, 0.0, 1.0);
   // Screened over the stage (as the page would, with mix-blend-mode: screen).
   if (uBg > 0.5) c = 1.0 - (1.0 - stage(vUv)) * (1.0 - c);
@@ -1032,7 +1036,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   if (!gl) return null;
   const hdr = Boolean(gl.getExtension("EXT_color_buffer_float"));
   // Phones (and small machines) get a lighter world, so it keeps an even 60 frames a second: fewer pixels
-  // (about 1.25 per CSS pixel), a bloom built from a quarter-size picture, shorter orbit trails, and a little
+  // (about 1.4 per CSS pixel), a bloom built from a quarter-size picture, shorter orbit trails, and a little
   // less dust. The look is the same; the GPU does about half the work.
   const small = !opts.poster && (matchMedia("(max-width: 700px)").matches || (navigator.hardwareConcurrency || 8) <= 4);
   const TSEG = small ? 3 : 5;
@@ -1171,8 +1175,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   let scene: RT | null = null; let mips: RT[] = [];
 
   /* sizing and quality */
-  const QMAX = small ? 0.62 : 1, QMIN = small ? 0.45 : 0.5;
-  let W = 1, H = 1, cssW = 1, cssH = 1, dpr = 1, quality = QMAX;
+  const QMAX = small ? 0.7 : 1, QMIN = small ? 0.5 : 0.5;
+  let W = 1, H = 1, cssW = 1, cssH = 1, dpr = 1, quality = QMAX, frameMs = 1000 / 60;
   const resize = () => {
     cssW = wrap.clientWidth; cssH = wrap.clientHeight;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1437,6 +1441,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
         // (A phone is held to 60 frames a second, so its typical frame can't show room to spare: it only steps
         // down, as soon as it starts missing frames, since uneven frames are what reads as jitter.)
         if (med > (small ? 18.5 : 22) && quality > QMIN) quality = Math.max(QMIN, quality - (small ? 0.08 : 0.15));
+        // A phone that still misses frames at its lightest gets an even 30 instead: steady beats fast.
+        else if (small && med > 18.5 && quality <= QMIN) frameMs = 1000 / 30;
         else if (!small && med < 12 && quality < QMAX) quality = Math.min(QMAX, quality + 0.1);
         if (q0 !== quality) resize();
       }
@@ -1825,7 +1831,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     gl!.useProgram(P.comp.prog); gl!.bindVertexArray(EMPTY);
     gl!.activeTexture(gl!.TEXTURE0); gl!.bindTexture(gl!.TEXTURE_2D, scene!.tex); gl!.uniform1i(P.comp.U.uScene, 0);
     gl!.activeTexture(gl!.TEXTURE1); gl!.bindTexture(gl!.TEXTURE_2D, mips[0].tex); gl!.uniform1i(P.comp.U.uBloom, 1);
-    gl!.uniform1f(P.comp.U.uBloomAmt, 0.42 + 0.25 * model.orbFlash + 0.25 * orbHover); gl!.uniform2f(P.comp.U.uRes, W, H); gl!.uniform1f(P.comp.U.uFrame, Math.floor(t * 24) % 97);
+    gl!.uniform1f(P.comp.U.uBloomAmt, 0.42 + 0.25 * model.orbFlash + 0.25 * orbHover); gl!.uniform2f(P.comp.U.uRes, W, H);
     gl!.uniform1f(P.comp.U.uAspect, W / H); gl!.uniform1f(P.comp.U.uBg, bake ? 1 : 0);
     const sc = { x: (orbC[0] / (-orbC[2] * tanX) + cam.sh[0]) * 0.5 + 0.5, y: (orbC[1] / (-orbC[2] * tanY) + cam.sh[1]) * 0.5 + 0.5 };
     const shock = model.ripples.length ? model.ripples[model.ripples.length - 1] : null;
@@ -1863,7 +1869,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   // page is held still while it scrolls, so nothing needs more.)
   let drawn = 0;
   const loop = (now: number) => {
-    if (!small || now - drawn > 1000 / 60 - 3) { drawn = now; draw(now); }
+    if (!small || now - drawn > frameMs - 3) { drawn = now; draw(now); }
     raf = on ? requestAnimationFrame(loop) : 0;
   };
   const setOn = (v: boolean) => { if (v === on) return; on = v; if (on && !raf) { readScroll(); last = lastReal = performance.now(); raf = requestAnimationFrame(loop); } };
