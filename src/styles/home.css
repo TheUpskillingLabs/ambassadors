@@ -300,8 +300,8 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   .hm-cityline li { padding: 7px 0; }
 }
 
-/* ── the very end: the logo forms in the world (the orb, the paths become its swoosh), and the wordmark, set
-   in Geologica like the lockup's, settles in beside the orb, placed and sized from it by the page's script. ── */
+/* ── the very end: the logo forms in the world (the paths become its swoosh over the orb) and settles into the
+   brand's own lockup, its two parts placed and sized from the world's orb by the page's script. ── */
 .hm-end { position: relative; height: 170svh; }
 .hm-end .hm-scene-in { display: block; padding: 0; }
-.hm-wordmark { position: absolute; left: 0; top: 0; margin: 0; font-size: 80px; font-weight: 700; line-height: 0.95; letter-spacing: -0.035em; color: #fff; opacity: 0; white-space: nowrap; pointer-events: none; will-change: transform, opacity; }
+.hm-logo-part { position: absolute; left: 0; top: 0; display: block; height: auto; max-width: none; opacity: 0; pointer-events: none; will-change: transform, opacity; }

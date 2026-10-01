@@ -38,7 +38,8 @@
    helix: as the journey moves on they're drawn down out of the plane into a vortex beneath the orb that
    narrows into one triple helix; the camera travels down it, each path's own thread in turn; then back up,
    and the helix retracts into orbits (SHOTS). At the very end the system gives way to the logo: everything
-   but the orb fades, and the three paths fly together into its swoosh (src/scripts/swoosh.ts).
+   but the orb fades, and the three paths fly together into its swoosh (src/scripts/swoosh.ts); then the
+   world lets go (settle) as the page lays the brand's own lockup exactly over the orb.
 
    To make it legible, anything in it can be asked what it is: point at an
    actor (or tap it) and a card says what it is and what it's doing here, while
@@ -960,8 +961,8 @@ export interface FrameState {
   p: number; s: number; w: number[]; beats: number[]; hover: Hover | null; orb: { x: number; y: number; r: number }; paused: boolean; t: number;
   /** How much the system holds the screen (the rest of the time it's the weave, or a thread). */
   sys: number; width: number; height: number;
-  /** How far the logo has formed, at the very end (0 … 1). */
-  logo: number;
+  /** How far the logo has formed, at the very end (0 … 1), and how far it has settled into the brand's own artwork. */
+  logo: number; settle: number;
 }
 export interface OrbNetOptions { still?: boolean; poster?: boolean; story?: HTMLElement; anchors?: HTMLElement[]; stage?: HTMLElement; faces?: string[]; words?: HoverWords; inspectable?: () => boolean; onFrame?: (s: FrameState) => void }
 export interface OrbNet { setPaused(v: boolean): void; paused(): boolean; setOrbHover(v: boolean): void; join(): void }
@@ -1265,7 +1266,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   /* the frame */
   // The Build story's people: a fixed scatter for each, so they always drift in from the same places.
   const mulberryAt = (() => { const r = mulberry(31), cache: [number, number, number][] = []; for (let i = 0; i < 16; i++) cache.push([r(), r(), r()]); return (i: number) => cache[i % 16]; })();
-  let knot = 0;
+  let knot = 0, settle = 0;
   const pulsed: Record<number, boolean> = {};
   const t0 = performance.now();
   let last = t0, lastReal = t0, simT = 0, frame = 0, introT = 0;
@@ -1291,6 +1292,10 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const sysW = clamp(sum(SCENE.system), 0, 1), focus3: V3 = [learnW, buildW, shareW], focusSum = clamp(learnW + buildW + shareW, 0, 1);
     // The very end: the system gives way to the logo. Everything but the orb fades, and the paths become the swoosh.
     const logoK = ease(clamp((sCur - (SCENE.end - 0.8)) / 0.75, 0, 1)), keep = 1 - logoK;
+    // Once the paths have arrived, the world hands over to the exact logo (the page lays the brand's own artwork
+    // over the orb): the swoosh's dust and the orb's halo let go, so what's left is the mark itself.
+    const settleTo = logoK > 0.97 ? 1 : 0;
+    settle = still ? settleTo : lerp(settle, settleTo, ease60(0.05));
     if (!still && !pausedFlag) { simT += dt; introT += dt; model.step(dt, simT, simT > 3.2, beats[3] > 0.5, beats[1] + beats[2] > 0.5, beats[2] > 0.5); }
     // The opening runs on the clock, not on simulated time: on a slow device (frames capped at 50 ms) the
     // orb would otherwise sit half painted for seconds.
@@ -1530,7 +1535,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       gl!.uniform2f(U.uKnot, knot, T[1] + 0.05);
       const ov = orbView([0, 0, 0]), oz = -ov[2], rxN = 1 / (oz * tanX), ryN = 1 / (oz * tanY);
       gl!.uniform1f(U.uLogo, logoK); gl!.uniform4f(U.uOrbN, ov[0] / (oz * tanX) + cam.sh[0], ov[1] / (oz * tanY) + cam.sh[1], rxN, ryN);
-      const rCss = rxN * 0.5 * cssW; gl!.uniform1f(U.uLogoA, clamp((1.7 * 0.365 * rCss * rCss) / strandN, 0.02, 0.4));
+      const rCss = rxN * 0.5 * cssW; gl!.uniform1f(U.uLogoA, clamp((1.7 * 0.365 * rCss * rCss) / strandN, 0.02, 0.4) * (1 - settle));
       gl!.activeTexture(gl!.TEXTURE6); gl!.bindTexture(gl!.TEXTURE_2D, swooshTex); gl!.uniform1i(U.uSwoosh, 6);
       gl!.drawArrays(gl!.POINTS, 0, strandN);
     };
@@ -1566,7 +1571,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     drawDisc();
     drawFabric(-1); drawTrails(-1); drawTies(-1); drawActors(-1); drawSparks(-1); drawStrands(-1);
     bodies.filter((b) => b.v[2] < orbC[2]).forEach((b) => drawOrb(b.v, b.r, b.bright, 1.1 * b.bright, 0, 1));
-    drawOrb(orbC, 1 + 0.025 * orbHover, 1 + 0.45 * model.orbFlash + 0.18 * orbHover, 1 + 0.7 * model.orbFlash + 0.8 * orbHover, still ? 0.6 : 1 + 1.5 * orbHover, reveal);
+    // (Settled, the brand's artwork covers the orb, so it draws a touch smaller and dimmer underneath: no rim shows.)
+    drawOrb(orbC, (1 + 0.025 * orbHover) * (1 - 0.03 * settle), (1 + 0.45 * model.orbFlash + 0.18 * orbHover) * (1 - 0.6 * settle), (1 + 0.7 * model.orbFlash + 0.8 * orbHover) * (1 - settle), (still ? 0.6 : 1 + 1.5 * orbHover) * (1 - settle), reveal);
     drawFabric(1); drawTrails(1); drawTies(1);
     bodies.filter((b) => b.v[2] >= orbC[2]).forEach((b) => drawOrb(b.v, b.r, b.bright, 1.1 * b.bright, 0, 1));
     drawActors(1); drawSparks(1); drawStrands(1);
@@ -1604,7 +1610,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // pointing at.
     if (opts.onFrame) {
       opts.onFrame({
-        p, s: sCur, w, beats, paused: pausedFlag, t: simT, width: cssW, height: cssH, sys: sysW, logo: logoK,
+        p, s: sCur, w, beats, paused: pausedFlag, t: simT, width: cssW, height: cssH, sys: sysW, logo: logoK, settle,
         hover: hov >= 0 ? (() => { const a = model.nodes[hov], q = project(a.p); return { x: q.x, y: q.y, r: markR(a, q.z), ...describe(hov) }; })()
           : hovLab >= 0 ? (() => { const q = project(model.labs[hovLab].c); return { x: q.x, y: q.y, r: 24, type: "lab", kind: say("lab", "kind"), title: say("lab", hovLab === 0 ? "dc" : "title"), detail: say("lab", hovLab === 0 ? "dcDetail" : "detail") }; })()
           : null,

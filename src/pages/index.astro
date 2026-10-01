@@ -22,8 +22,8 @@
    cycle on Build's; contributions rising up Share's to the centre, which sends
    the official version out; the weave again; the system again, every Lab on one
    network and a new one born; the close, with the three ways in; and at the very end the logo forms,
-   the paths flying together into its swoosh over the orb and the wordmark
-   settling in beside it. Then the footer.
+   the paths flying together into its swoosh over the orb, then settling into
+   the brand's own lockup. Then the footer.
 
    It's built on the role pages' system (src/styles/role.css, with home.css for
    what only this page has): ink, the teal and red glows with the grain only in
@@ -297,7 +297,10 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
                and the wordmark settles in beside it, where the page's script sets it. -->
           <section id="end" class="hm-scene hm-end" data-scene aria-label={h.end.label}>
             <div class="hm-scene-in" data-scene-in>
-              <p class="hm-wordmark" data-wordmark aria-hidden="true">{h.end.wordmark.map((l, i) => <>{i > 0 && <br />}{l}</>)}</p>
+              <!-- The brand's own lockup (brandkit logo-lockup-light.png), cut in two at the gap between mark and
+                   wordmark, placed from the world's orb so the artwork's orb sits exactly on it. -->
+              <img class="hm-logo-part" data-logo-word src={u("/home/logo-wordmark.webp")} alt="The Upskilling Labs" width="1111" height="732" loading="lazy" decoding="async" />
+              <img class="hm-logo-part" data-logo-mark src={u("/home/logo-mark.webp")} alt="" width="786" height="732" loading="lazy" decoding="async" />
             </div>
           </section>
         </div>
@@ -404,7 +407,17 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       // leaves (the weave's threads, or the detail), the mark comes back.
       const brand = document.querySelector<HTMLElement>("[data-brand]")!;
       let dockM = 0;
-      const wordmark = document.querySelector<HTMLElement>("[data-wordmark]")!;
+      // The lockup's two parts, placed so the artwork's orb (centre 511.1, 484.3, radius 348.2 in the 2061-wide
+      // source) lands exactly on the world's: the mark cut from x 140, the wordmark from x 950, both from y 120.
+      const logoWord = document.querySelector<HTMLElement>("[data-logo-word]")!, logoMark = document.querySelector<HTMLElement>("[data-logo-mark]")!;
+      const LOGO = { cx: 511.1, cy: 484.3, r: 348.2, top: 120, mark: [140, 786], word: [950, 1111] };
+      const placeLogo = (x: number, y: number, r: number) => {
+        const k = r / LOGO.r, top = y + (LOGO.top - LOGO.cy) * k;
+        for (const [el, [x0, w]] of [[logoMark, LOGO.mark], [logoWord, LOGO.word]] as const) {
+          el.style.width = `${(w * k).toFixed(2)}px`;
+          el.style.transform = `translate(${(x + (x0 - LOGO.cx) * k).toFixed(2)}px, ${top.toFixed(2)}px)`;
+        }
+      };
       const net = mountOrbNet(world.querySelector<HTMLElement>("[data-orbnet]")!, {
         still, poster: orbMode === "poster", anchors: scenes, stage: document.body,
         faces: JSON.parse(world.dataset.faces ?? "[]"), words: JSON.parse(world.dataset.words ?? "{}"),
@@ -433,15 +446,17 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           // The very end: the logo forms round the world's orb, so the header's steps aside, and the wordmark
           // settles in beside the orb as in the lockup.
           brand.style.opacity = (1 - f.logo).toFixed(3);
-          if (f.logo > 0.01) {
-            const r = f.orb.r;
-            wordmark.style.fontSize = `${(r * 0.6).toFixed(1)}px`;
-            wordmark.style.transform = `translate(${(f.orb.x + r * 1.3).toFixed(1)}px, ${(f.orb.y - r * 0.86).toFixed(1)}px) translateY(${((1 - f.logo) * 14).toFixed(1)}px)`;
-          }
-          wordmark.style.opacity = Math.max(0, (f.logo - 0.35) / 0.65).toFixed(3);
+          if (f.logo > 0.01) placeLogo(f.orb.x, f.orb.y, f.orb.r);
+          logoWord.style.opacity = Math.max(0, (f.logo - 0.35) / 0.65).toFixed(3);
+          logoMark.style.opacity = f.settle.toFixed(3);
         },
       });
-      if (!net) { brand.style.setProperty("--m", "1"); orbLink.hidden = true; }
+      if (!net) {
+        brand.style.setProperty("--m", "1"); orbLink.hidden = true;
+        // Without the world, the end is the lockup itself, centred.
+        const r = Math.min(window.innerWidth / 5.47 * 0.85, window.innerHeight * 0.22) / 1, x = (window.innerWidth - 5.47 * r) / 2 + (511.1 - 156) / 348.2 * r;
+        placeLogo(x, window.innerHeight / 2, r); logoWord.style.opacity = logoMark.style.opacity = "1";
+      }
       if (!net || still) pause.hidden = true;
       if (net) {
         // The orb is Join The Labs: pressing it sets off the one big pulse (the orb flares, a wave crosses the
