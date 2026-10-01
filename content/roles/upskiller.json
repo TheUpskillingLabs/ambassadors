@@ -1,5 +1,5 @@
 {
-  "$comment": "Upskillers: participants in a Build Cycle. Facts from Brendan's journey interview (Sep 29, 2026; the project's user-journey notes): account → workshop → apply (places are limited) → Pods of nine or more form in month one → teams of three to five → the Showcase. Effort is described by its shape (heavy, steady, heavy) until hours are measured. Buttons are new this cycle. Placeholders: the application deadline.",
+  "$comment": "Upskillers: participants in a Build Cycle. Facts from Brendan's journey interview (Sep 29, 2026; the project's user-journey notes): account → workshop → apply (places are limited) → Pods of nine or more form in month one → teams of three to five → the Showcase. Effort is described by its shape (heavy, steady, heavy) until hours are measured. Buttons are new this cycle. The application, its deadline and its questions live inside the account, not on this page.",
   "placeholder": true,
   "slug": "upskiller",
   "role": "Upskiller",
@@ -24,7 +24,7 @@
     "terms": "Twelve weeks, in person: heaviest in month one and before the Showcase, steady in between.",
     "cta": "Join The Labs",
     "href": "https://theupskillinglabs.org/login?intent=join&path=upskiller",
-    "status": "Fall 2026 starts Oct 13. [PLACEHOLDER] Apply by the deadline, once it's set."
+    "status": "Fall 2026 starts Oct 13. Apply from your account."
   },
   "moments": {
     "kicker": "What you'll do",

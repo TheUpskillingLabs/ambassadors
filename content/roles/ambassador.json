@@ -1,5 +1,5 @@
 {
-  "$comment": "The Ambassador program page (/ambassador/), one role page among five. Every \"Become an ambassador\" goes to /apply/. The moments carry the brass soft enamel pins (public/join/moment-*.webp) that the program page had.",
+  "$comment": "The Ambassador program page (/ambassador/), one role page among five. Every \"Become an ambassador\" goes to account creation, like every role; the orientation (/apply/) is a prototype of a step inside the account. The moments carry the brass soft enamel pins (public/join/moment-*.webp) that the program page had.",
   "placeholder": true,
   "slug": "ambassador",
   "role": "Ambassador",
