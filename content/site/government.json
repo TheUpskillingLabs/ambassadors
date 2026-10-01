@@ -1,0 +1,200 @@
+{
+  "$comment": "For government (/government/): what a government can do with or through The Labs. Unlisted draft (noindex), linked from the home page's footer. Written for the people who decide (workforce boards, economic development, agencies, library systems), a line at a time. The frame is work, wages, wealth in The Labs' own meaning: work in Arendt's sense (making something that lasts, as against labor that's used up), wages make it a job, wealth makes the labor of a job mean something. The model: free workshops (the competencies people need as work changes; digital and AI skills are one part), the open cycle anyone can join as a contributor at any time (with set windows for problem situations and proposals), and sector cohorts, by application, inside it. Sector cohorts are the main thing a government sponsors. Against RAISE US (see the project doc competition-raise-us.md), the page is the ground layer: where residents actually show up, radically open to contributions, curated by what works in practice, with delivery earned against a common standard (in design) and results published each cycle (placeholders until the fall numbers). 'Digital opportunity' is how the page speaks to digital-equity programs and funders. Don't use 'lighthouse sectors' (Governor Moore's term). The one action is a conversation, not the account: procurement staff don't make accounts. Research behind it: the project doc government-options-research.md.",
+  "placeholder": true,
+  "title": "For government",
+  "description": "Free workshops and team projects where people learn by working on your region's real problems. Everything they make is open source, free for residents, communities, businesses, institutions and the city itself to use.",
+  "nav": {
+    "brand": "For government",
+    "frame": "What it adds up to",
+    "how": "How it works",
+    "options": "Ways to work with us",
+    "start": "How to start",
+    "home": "The Labs",
+    "cta": "Start a conversation",
+    "ctaShort": "Talk to us",
+    "menu": "Menu",
+    "menuClose": "Close menu",
+    "better": "How it gets better"
+  },
+  "hero": {
+    "kicker": "For government",
+    "title": "Upskilling that adds up.",
+    "lede": "Free workshops and team projects where people learn by working on your region's real problems. Everything they make is open source, free for residents, communities, businesses, institutions and the city itself to use.",
+    "cta": "Start a conversation",
+    "more": "How it works",
+    "alt": "The Labs as a living network: an orb at the centre, with local Labs full of people and their projects orbiting it."
+  },
+  "frame": {
+    "kicker": "What it adds up to",
+    "title": "Work, wages, wealth.",
+    "items": [
+      {
+        "word": "Work",
+        "body": "Making something that lasts and that others can use: a tool, a playbook, a better way to run a service. It outlives the hours that went into it."
+      },
+      {
+        "word": "Wages",
+        "body": "What makes work a job."
+      },
+      {
+        "word": "Wealth",
+        "body": "What makes the labor of a job mean something. It keeps working for households and communities on its own."
+      }
+    ]
+  },
+  "where": {
+    "kicker": "Where it happens",
+    "title": "In your communities, run by your residents.",
+    "lede": "State programs and funds set the direction. The Labs is where people show up: free workshops and team projects close to home, run by volunteers who live there. It's the part of a workforce strategy residents can walk into this week.",
+    "items": [
+      {
+        "label": "Close to home",
+        "body": "In public libraries and community spaces."
+      },
+      {
+        "label": "Run by residents",
+        "body": "Volunteers who live there lead the workshops and keep the teams moving."
+      },
+      {
+        "label": "Open to anyone",
+        "body": "Workshops are free, and there's nothing to apply for."
+      }
+    ]
+  },
+  "how": {
+    "kicker": "How it works",
+    "title": "From a first workshop to a sector cohort.",
+    "inside": "Inside the open cycle",
+    "items": [
+      {
+        "title": "Workshops",
+        "when": "Free, and open to anyone",
+        "body": "We're working out, in the open, which competencies people need to stay productive as work and the economy change. Each workshop builds one: framing a problem, telling a story, working in a team, using digital and AI tools well.",
+        "more": "That makes them a natural next step for digital opportunity programs: once someone's connected, a navigator can send them to us."
+      },
+      {
+        "title": "The open cycle",
+        "when": "Every twelve weeks, join any time",
+        "body": "A Build Cycle runs in the open, and anyone can join as a contributor at any time. In set windows, the community proposes problem situations and ways to tackle them. Teams of three to five form around the ones people want to build, and every cycle ends at a public Showcase."
+      },
+      {
+        "title": "Sector cohorts",
+        "when": "Twelve weeks, by application",
+        "body": "Inside the open cycle, a cohort of people who applied takes on one sector's problem situations, with Mentors from that sector: health care, cybersecurity, public service, manufacturing, or whichever a sponsor chooses. What they make goes back into the open cycle, and on to every Lab."
+      }
+    ]
+  },
+  "better": {
+    "kicker": "How it gets better",
+    "title": "Open to every contribution. Kept by what works.",
+    "lede": "Anyone can add a workshop, a playbook, a tool or a proposal. There are no formal requirements. What we keep, share and build on is decided by how it performs: what people make with it, and what happens for them next. The best of every Lab rises and spreads to the others. What doesn't work stays where it is.",
+    "delivery": {
+      "title": "Delivery is earned.",
+      "body": "We're introducing a common standard for the people who run our workshops and Pods: they train for the role, then earn it by doing it well, signed off by people who already have. So every Lab delivers the same method, whoever's in the room."
+    }
+  },
+  "options": {
+    "kicker": "Ways to work with us",
+    "title": "Five ways to work with us.",
+    "items": [
+      {
+        "title": "Sponsor a sector cohort",
+        "body": "Bring the sector, its problem situations, and two or three employers or agency teams who own them. We recruit and run the cohort inside the next cycle, through to the Showcase. You keep the solutions and the playbooks, and you meet the people who made them."
+      },
+      {
+        "title": "Host a Lab",
+        "body": "Your public libraries and community spaces provide the rooms, a staff liaison, and a line to your navigators and job centres. We bring the workshops, the open cycle, and the volunteers who run them."
+      },
+      {
+        "title": "Adopt the playbooks",
+        "body": "Run our workshops and the Build Cycle in your own programs, free. We can train your staff to run them."
+      },
+      {
+        "title": "Refer people",
+        "body": "Workforce boards, job centres, navigators and agencies can send people to workshops and cohorts, including workers whose jobs are changing or have ended."
+      },
+      {
+        "title": "Fund Mentors",
+        "body": "Mentors turn every obstacle a team hits into a workshop for the next team. Stipends, service-year positions or loaned staff time keep them in the room."
+      }
+    ]
+  },
+  "started": {
+    "kicker": "Where it started",
+    "title": "Built by the people it was for.",
+    "body": "In fall 2025, fifty former federal workers met at DC Public Library to work out their next move together. From that group came The Labs, so anyone could do the same.",
+    "projectsLabel": "What the first cohort made",
+    "projects": [
+      {
+        "name": "[Project]",
+        "body": "[One line on what it does and who it's for.]"
+      },
+      {
+        "name": "[Project]",
+        "body": "[One line on what it does and who it's for.]"
+      }
+    ],
+    "results": {
+      "title": "Our results are public, like our code.",
+      "body": "The numbers that decide what we keep are published every cycle: who took part, what they made, and where they went next.",
+      "stats": [
+        {
+          "n": "[N]",
+          "label": "people took part"
+        },
+        {
+          "n": "[N]",
+          "label": "projects shown at the Showcase"
+        },
+        {
+          "n": "[N]",
+          "label": "went on to new work or better pay"
+        }
+      ],
+      "note": "Placeholder figures: the first published numbers come with the fall cycle."
+    },
+    "press": "In the press: Technical.ly, February 2026.",
+    "pressHref": "https://technical.ly/civics/dc-public-library-chelsea-kirkland-how-i-got-here/"
+  },
+  "start": {
+    "kicker": "How to start",
+    "title": "Three steps to the next cycle.",
+    "steps": [
+      {
+        "title": "Tell us what you're working on",
+        "body": "A sector, a problem, the people you serve."
+      },
+      {
+        "title": "Shape it together",
+        "body": "Which option, which cycle, and who owns which problem."
+      },
+      {
+        "title": "Start at the next proposal window",
+        "body": "Your problem situations go to the community, and the cycle begins."
+      }
+    ],
+    "note": "It takes about an hour a week from one person on your side."
+  },
+  "procure": {
+    "kicker": "For procurement and grants",
+    "title": "The details.",
+    "items": [
+      "The Upskilling Labs is a fiscally sponsored project of Superbloom Design, a 501(c)(3).",
+      "A common standard for the people who deliver our programs is being introduced this year.",
+      "Taking part is free for residents. Using the playbooks is free, and needs no contract.",
+      "Code is MIT-licensed, and everything else is CC BY 4.0.",
+      "We partner on library, workforce and digital opportunity grants.",
+      "On request: a capability statement, a sample agreement, and our data and Mentor policies."
+    ]
+  },
+  "join": {
+    "title": "Bring us your region's problems.",
+    "lede": "Tell us your sector, your problem and who you serve. We'll shape the rest with you.",
+    "cta": "Start a conversation",
+    "residents": "Here for yourself? Join The Labs: it's free."
+  },
+  "footer": {
+    "home": "The Upskilling Labs",
+    "draft": "Draft for review: the commitments on this page (the sponsor report, the time asked of you, the documents on request) are still to be confirmed."
+  }
+}

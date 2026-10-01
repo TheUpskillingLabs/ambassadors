@@ -47,6 +47,8 @@ const pageTitle = h.title;
 const pathJoin = (slug: string) => `${L.join}&path=${slug}`;
 const ch = h.chapters, J = h.journey, go = ch.go;
 const giveTo: Record<string, string> = { mentor: u("/mentor/"), github: L.github };
+// Share's way leads to the Contributor Community page, which explains how contributing works and where to start.
+const community = u("/contributing/");
 // The cycle's state, switched by date: open until it closes, then underway. The page sets it again as it
 // loads, so a static build never shows a stale "applications open".
 const closesAt = `${J.cycle.closes}T00:00:00-04:00`;
@@ -67,6 +69,9 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     <meta property="og:description" content={h.description} />
     <meta property="og:image" content={new URL(orbit("hub-share.jpg"), Astro.site)} />
     <script is:inline>document.documentElement.dataset.menu = "";</script>
+    <!-- The page opens on the logo (see the opening in src/scripts/orbnet.ts): until it's played, no poster and
+         no title, so nothing shows before it. Not with reduced motion, a still, or a page opened partway down. -->
+    <script is:inline>if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !/orb=(still|poster)/.test(location.search) && (!location.hash || location.hash === "#top")) { document.documentElement.dataset.intro = ""; setTimeout(() => { delete document.documentElement.dataset.intro; }, 9000); }</script>
     <script is:inline define:vars={{ closesAt }}>document.documentElement.dataset.cycle = Date.now() < Date.parse(closesAt) ? "open" : "closed";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={orbit("hub-poster.webp")} fetchpriority="high" />
@@ -88,9 +93,12 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <li><a class="navlink" href="#build">{h.nav.build}</a></li>
           <li><a class="navlink" href="#share">{h.nav.share}</a></li>
           <li><a class="navlink" href="#open">{h.nav.story}</a></li>
+          <li><a class="navlink" href="#found">{h.nav.found}</a></li>
+          <li class="menu-only"><a class="navlink" href={u("/government/")}>{h.nav.gov}</a></li>
           <li class="menu-only"><a class="navlink" href={L.login}>{h.nav.login}</a></li>
         </ul>
         <div class="jp-end">
+          <a class="navlink wide-only hm-gov" href={u("/government/")}>{h.nav.gov}</a>
           <a class="navlink wide-only" href={L.login}>{h.nav.login}</a>
           <a class="btn" href={L.join} data-head-cta><span class="wide-only">{h.nav.cta}</span><span class="narrow-only">{h.nav.ctaShort}</span></a>
           <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={j.nav.menu} data-menu-btn data-label-open={j.nav.menu} data-label-close={j.nav.menuClose}><span></span><span></span><span></span></button>
@@ -129,26 +137,25 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
             <div class="hm-scene-in hm-hero-in" data-scene-in>
               <div class="hm-hero-copy" data-quiet>
-                <p class="status hm-eyebrow rise" data-when="open"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
-                <p class="status hm-eyebrow rise" data-when="closed"><i aria-hidden="true"></i>{h.hero.eyebrowClosed}</p>
-                <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
-                {(["open", "closed"] as const).map((st) => (
-                  <ul class="hm-spec rise" data-when={st}>{h.hero.spec[st].map((f) => <li>{f}</li>)}</ul>
-                ))}
+                <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <span class={`hm-l hm-l${i + 1}`}>{l}</span>)}</h1>
+                <p class="hm-hero-sub rise"><span class="hm-sub-in">{h.hero.sub}</span></p>
               </div>
             </div>
           </section>
 
-          <!-- The system, beside what this is: the one action. Its three path orbits glow. -->
-          <HomeScene id="intro" label={h.intro.label}>
+          <!-- The system, beside what this is: you're in the right place, and the one action. Its three path
+               orbits glow. -->
+          <HomeScene id="intro" labelledby="intro-t">
             <p class="hm-side-lede">{h.intro.lede}</p>
+            <h2 class="hm-side-h" id="intro-t">{h.intro.title}</h2>
+            <p class="hm-side-p">{h.intro.who}</p>
             <div class="hm-people">
               <ul class="hm-faces" aria-hidden="true">
                 {[1, 2, 3, 4, 5, 6, 7].map((n) => <li><img src={u(`/home/face-${n}.webp`)} alt="" width="192" height="192" loading="lazy" decoding="async" /></li>)}
               </ul>
               <p>{h.intro.people}</p>
             </div>
-            <p class="rp-terms"><b>{h.intro.strong}</b> {h.intro.terms}</p>
+            <p class="rp-terms">{h.intro.terms}</p>
             <div class="hm-actions">
               <a class="btn" href={L.join} data-hero-cta>{h.intro.cta}</a>
               <a class="textlink" href={L.login}>{h.intro.login}</a>
@@ -156,13 +163,12 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <p class="rp-account">{h.intro.note}</p>
           </HomeScene>
 
-          <!-- One open project: close on the orb and the commons, a contribution rising to the centre and going
-               back out to every Lab. -->
+          <!-- Where it started, and what we believe: close on the orb, which flares. -->
           <HomeScene id="open" labelledby="open-t">
             <p class="kicker">{J.open.kicker}</p>
             <h2 class="hm-side-h" id="open-t">{J.open.title}</h2>
             <p class="hm-side-p">{J.open.lede}</p>
-            <p class="hm-side-note">{J.open.story}</p>
+            <p class="hm-side-p">{J.open.belief}</p>
           </HomeScene>
 
           <!-- The weave: three of the system's orbits drawn down into a vortex beneath the orb, one triple helix. -->
@@ -184,10 +190,10 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <HomeScene id="workshops" path="learn" labelledby="workshops-t">
             <p class="kicker hm-k"><i class="gem" data-gem="learn" aria-hidden="true"></i>{J.workshops.kicker}</p>
             <h2 class="hm-side-h" id="workshops-t">{J.workshops.title}</h2>
-            <p class="hm-side-p">{J.workshops.lede}</p>
-            <ul class="hm-mini">
+            <ul class="hm-mini hm-mini-open">
               {J.workshops.topics.map((t) => <li><b>{t.title}</b><span>{t.body}</span></li>)}
             </ul>
+            <p class="hm-side-p">{J.workshops.note}</p>
           </HomeScene>
           <HomeScene id="week" path="learn" labelledby="week-t">
             <figure class="hm-photo">
@@ -258,21 +264,22 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <HomeScene id="share" path="share" labelledby="share-t" opener={ch.share}>
             <p class="hm-ch-title">{ch.share.title}</p>
             <p class="hm-ch-when">{ch.share.when}</p>
-            <p class="hm-ch-lede">{ch.share.lede}</p>
             <ul class="hm-mini hm-mini-links">
               {ch.share.ways.map((w) => <li><b>{w.title}</b><span>{w.body}{w.to && <> <a class="textlink" href={giveTo[w.to]}>{w.link} →</a></>}</span></li>)}
             </ul>
+            <p class="hm-ch-lede">{ch.share.lede}</p>
+            <a class="hm-more textlink" href={community}>{ch.share.more} →</a>
           </HomeScene>
           <HomeScene id="centre" path="share" labelledby="centre-t">
             <p class="kicker hm-k"><i class="gem" data-gem="share" aria-hidden="true"></i>{J.centre.kicker}</p>
             <h2 class="hm-side-h" id="centre-t">{J.centre.title}</h2>
             <p class="hm-side-p">{J.centre.lede}</p>
-            <div class="hm-go"><a class="hm-path" href={pathJoin(go.share.path)}><em>{go.share.label}<small>{go.share.note}</small></em><span aria-hidden="true">→</span></a></div>
+            <div class="hm-go"><a class="hm-path" href={community}><em>{go.share.label}<small>{go.share.note}</small></em><span aria-hidden="true">→</span></a></div>
           </HomeScene>
 
           <!-- The weave again: the loop. -->
           <HomeScene id="together" labelledby="together-t">
-            <p class="kicker">{J.together.kicker}</p>
+            {J.together.kicker && <p class="kicker">{J.together.kicker}</p>}
             <h2 class="hm-side-h" id="together-t">{J.together.title}</h2>
             <p class="hm-side-p">{J.together.lede}</p>
           </HomeScene>
@@ -288,10 +295,25 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <p class="rp-account">{J.labs.note}</p>
           </HomeScene>
 
+          <!-- Start a Lab: close on the newborn Lab, where its first people gather and The Labs' kit reaches it from
+               the centre (silver). For anyone who'd start one where they live; founding goes on in the account. -->
+          <HomeScene id="found" labelledby="found-t">
+            <p class="kicker">{J.found.kicker}</p>
+            <h2 class="hm-side-h" id="found-t">{J.found.title}</h2>
+            <p class="hm-side-p">{J.found.lede}</p>
+            <p class="hm-side-p">{J.found.offer}</p>
+            <p class="hm-early">{J.found.early}</p>
+            <div class="hm-actions">
+              <a class="btn" href={pathJoin("start-a-lab")}>{J.found.cta}</a>
+            </div>
+            <p class="rp-account">{J.found.note}</p>
+          </HomeScene>
+
           <!-- The close: the one action, and the three ways in. -->
           <HomeScene id="start" labelledby="start-t">
             <h2 class="hm-side-h" id="start-t">{h.join.title}</h2>
             <p class="hm-side-p">{h.join.lede}</p>
+            <p class="hm-early">{h.join.early}</p>
             <ul class="hm-ways-in">
               {h.threads.items.map((t) => <li><a href={pathJoin(t.path)}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.then}</span><em aria-hidden="true">→</em></a></li>)}
             </ul>
@@ -318,9 +340,9 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <a class="ghost small" href={L.donate}>{h.join.donate}</a>
           </div>
           <nav class="hm-foot-cols" aria-label="Footer">
-            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#labs">{J.labs.kicker}</a></div>
-            <div><p class="kicker">{h.footer.roles}</p>{list.roles.map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
-            <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={L.contact}>{h.footer.contact}</a><a href={L.join}>{h.footer.member}</a></div>
+            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#labs">{J.labs.kicker}</a><a href="#found">{h.footer.found}</a></div>
+            <div><p class="kicker">{h.footer.roles}</p>{list.roles.filter((c) => c.listed !== false).map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
+            <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={community}>{h.footer.contributors}</a><a href={u("/government/")}>{h.footer.government}</a><a href={L.contact}>{h.footer.contact}</a></div>
             <div><p class="kicker">{h.footer.open}</p><a href={L.github}>{h.footer.built}</a><a href={L.join}>{h.nav.cta}</a></div>
           </nav>
         </div>
@@ -391,7 +413,11 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           if (top >= vh || bottom <= 0) op = 0;
           ons[i] = op;
           const inner = inners[i];
-          if (inner) { put(inner, "opacity", op.toFixed(3)); put(inner, "pointerEvents", op < 0.5 ? "none" : "auto"); }
+          // A scene's words far from the screen are hidden outright, so the phone keeps no layer for them (twenty
+          // full-width layers would otherwise sit in its GPU memory). They're shown a screen early, so they're
+          // ready before they fade in, and nothing has to be drawn mid-fade.
+          const near = top < vh * 2 && bottom > -vh;
+          if (inner) { put(inner, "opacity", op.toFixed(3)); put(inner, "pointerEvents", op < 0.5 ? "none" : "auto"); put(inner, "visibility", near ? "visible" : "hidden"); }
         });
         syncCta(); onPlace?.();
       };
@@ -399,7 +425,11 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       const placeSoon = () => { if (!placing) placing = requestAnimationFrame(() => { placing = 0; place(); }); };
       const remeasure = () => { measure(); place(); };
       window.addEventListener("scroll", placeSoon, { passive: true });
-      window.addEventListener("resize", remeasure);
+      // Only when the width changes: a phone's toolbars coming and going as you scroll change the height alone,
+      // and the scenes are sized in svh, which doesn't move with them (re-measuring then lays the page out
+      // mid-scroll). Real changes in size reach the observer below through the page's own size.
+      let lastW = window.innerWidth;
+      window.addEventListener("resize", () => { if (window.innerWidth === lastW) return; lastW = window.innerWidth; remeasure(); });
       window.addEventListener("load", remeasure);
       new ResizeObserver(remeasure).observe(document.body);
       remeasure();
@@ -447,7 +477,13 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       };
       let orbR0 = 0;
       const SCENES_LOGO_LOAD = scenes.length - 5; // load the lockup a few scenes ahead of the end
+      // The opening on the logo: only from the top of the page. It waits for the lockup's artwork, and the
+      // page's own words come in as it finishes.
+      const playIntro = root.hasAttribute("data-intro") && !still && window.scrollY < 40;
+      if (playIntro) loadLogo(); else delete root.dataset.intro;
+      const heroCopy = document.querySelector<HTMLElement>(".hm-hero-copy")!;
       const net = mountOrbNet(world.querySelector<HTMLElement>("[data-orbnet]")!, {
+        intro: playIntro, introReady: () => logoParts.every(([el]) => (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth > 0),
         still, poster: orbMode === "poster", anchors: scenes, stage: document.body,
         faces: JSON.parse(world.dataset.faces ?? "[]"), words: JSON.parse(world.dataset.words ?? "{}"),
         // Anything in the system can be asked what it is, while the system is the picture.
@@ -465,7 +501,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           }
           // The orb is the button while the whole system holds the screen under the title: a link laid over it
           // (sized once, then moved and scaled with the orb).
-          const show = ons[0] * Math.max(0, 1 - f.s * 4);
+          const show = ons[0] * Math.max(0, 1 - f.s * 4) * f.intro;
           put(orbLink, "--show", show.toFixed(3));
           put(orbLink, "visibility", show > 0.05 ? "visible" : "hidden");
           if (show > 0.05) {
@@ -479,12 +515,18 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           // settles in beside the orb as in the lockup.
           put(brand, "opacity", (1 - f.logo).toFixed(3));
           if (f.s > SCENES_LOGO_LOAD) loadLogo();
-          if (f.logo > 0.01) placeLogo(f.orb.x, f.orb.y, f.orb.r);
-          put(logoWord, "opacity", Math.max(0, (f.logo - 0.35) / 0.65).toFixed(3));
+          if (f.logo > 0.01 || f.word > 0.01 || f.settle > 0.01) placeLogo(f.orb.x, f.orb.y, f.orb.r);
+          put(logoWord, "opacity", f.word.toFixed(3));
           put(logoMark, "opacity", f.settle.toFixed(3));
+          // The page's own words come in as the opening finishes: the first line, then the second as the world
+          // acts it out (f.title2), then the sentence under them.
+          put(heroCopy, "--in", f.intro.toFixed(3));
+          put(heroCopy, "--l2", f.title2.toFixed(3));
+          if (f.intro >= 1 && root.hasAttribute("data-intro")) delete root.dataset.intro;
         },
       });
       if (!net) {
+        delete root.dataset.intro;
         brand.style.setProperty("--m", "1"); orbLink.hidden = true;
         // Without the world, the end is the lockup itself, centred, shown with the last scene.
         loadLogo();

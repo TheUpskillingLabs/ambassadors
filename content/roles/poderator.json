@@ -22,10 +22,10 @@
   "intro": {
     "lede": "Every Pod in a Build Cycle has a Poderator: the person who keeps a Pod of Upskillers together and moving, from the first meeting to the Showcase. You don't have to be the expert. You make sure everyone gets there.",
     "strong": "Free.",
-    "terms": "One Pod, one Build Cycle: about three months. [PLACEHOLDER] hours a week.",
+    "terms": "One Pod, one Build Cycle: about three months, busiest at the start and the end.",
     "cta": "Become a Poderator",
     "href": "https://theupskillinglabs.org/login?intent=join&path=poderator",
-    "status": "[PLACEHOLDER] Poderators are seated before each Build Cycle"
+    "status": "Poderators are chosen before each Build Cycle begins"
   },
   "moments": {
     "kicker": "What you'll do",
@@ -85,7 +85,7 @@
       },
       {
         "title": "Get trained.",
-        "body": "[PLACEHOLDER] The Poderator training: what it covers and how long it takes."
+        "body": "There's nothing to qualify for before you start. You train for the role and run your first Pod alongside someone who's done it."
       },
       {
         "title": "Take your seat.",
@@ -113,11 +113,11 @@
       },
       {
         "q": "How much time does it take?",
-        "a": "One Build Cycle: twelve weeks. [PLACEHOLDER] hours a week."
+        "a": "One Build Cycle: twelve weeks, busiest at the start and the end."
       },
       {
         "q": "Is there training?",
-        "a": "Yes. You're seated once you've done the Poderator training."
+        "a": "Yes. There's nothing to qualify for before you start: you train for the role, run your first Pod alongside someone who's done it, and earn your way to running Pods on your own by doing it well."
       },
       {
         "q": "Does it cost anything?",

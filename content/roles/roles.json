@@ -1,5 +1,5 @@
 {
-  "$comment": "The role recruitment pages, one per role button, in this order (the comparison section on every page, and the home page's roles, list them all). Each page's copy is in content/roles/<slug>.json. Unlisted drafts (noindex) until the board approves the roles; see design/research/recognition-system.md. /ambassador/ is the Ambassador program page. Every path starts with the same free Upskilling account (OLOS manages everything centrally), so every role's button goes to account creation, with the role as ?path=<slug> for OLOS to pick up after sign-in (proposed; OLOS doesn't read it yet).",
+  "$comment": "The role recruitment pages, one per role button, in this order (the comparison section on every page, and the home page's roles, list them all, except any marked listed: false: Supporting Member stays unlisted until its dues are set, since linked pages carry no dues or placeholders). Each page's copy is in content/roles/<slug>.json. Unlisted drafts (noindex) until the board approves the roles; see design/research/recognition-system.md. /ambassador/ is the Ambassador program page. Every path starts with the same free Upskilling account (OLOS manages everything centrally), so every role's button goes to account creation, with the role as ?path=<slug> for OLOS to pick up after sign-in (proposed; OLOS doesn't read it yet).",
   "placeholder": true,
   "kicker": "Other roles",
   "title": "Which role is right for you?",
@@ -35,6 +35,7 @@
     {
       "slug": "supporting-member",
       "name": "Supporting Member",
+      "listed": false,
       "line": "Back The Labs, and wear it.",
       "time": "Light dues, once a year"
     }

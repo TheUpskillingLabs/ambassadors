@@ -15,6 +15,22 @@
   mask-image: radial-gradient(55% 45% at 0% 0%, #000, transparent), radial-gradient(50% 40% at 100% 62%, #000, transparent); }
 .hm-orbit { position: absolute; inset: 0; z-index: 1; mix-blend-mode: screen; pointer-events: none; background: var(--poster) center 62% / cover no-repeat; }
 .hm-orbit.is-live { background: none; }
+/* The opening on the logo: until it's played, no poster (the system isn't there yet) and no title. */
+html[data-intro] .hm-orbit:not(.is-live) { background: none; }
+html[data-intro] .hm-hero-copy { --in: 0; --l2: 0; }
+/* The headline a line at a time (the page sets --in and --l2 as the world plays): the first line with the
+   opening, the second when the people gathered under it make something, then the sentence. Without the
+   world, both are 1. */
+/* Each line paints its own share of the title's gradient (a line with its own opacity or transform would
+   otherwise fall outside the title's text clip and vanish), padded past its descenders like the title. */
+.hm-hero-copy .rp-title { background: none; }
+.hm-hero-copy .hm-l { display: block; padding-bottom: 0.2em; margin-bottom: -0.2em; color: transparent;
+  background: linear-gradient(180deg, #F4F8F9 0%, rgba(244, 248, 249, 0.92) 55%, rgba(244, 248, 249, 0.5) 100%) 0 0 / 100% 200%;
+  -webkit-background-clip: text; background-clip: text; }
+.hm-hero-copy .hm-l2 { background-position: 0 100%; }
+.hm-hero-copy .hm-l1 { opacity: var(--in, 1); }
+.hm-hero-copy .hm-l2 { opacity: min(var(--in, 1), var(--l2, 1)); transform: translateY(calc((1 - var(--l2, 1)) * 12px)); }
+.hm-hero-copy .hm-sub-in { opacity: min(var(--in, 1), clamp(0, calc((var(--l2, 1) - 0.35) / 0.65), 1)); }
 .hm-orbit.is-baked { mix-blend-mode: normal; }
 .hm-world:has(.is-baked) { isolation: auto; }
 .hm-world:has(.is-baked)::after { content: none; }
@@ -79,8 +95,6 @@
   .hm-side .hm-actions { margin-top: 16px; }
 }
 
-/* The eyebrow is the news (the logo already names The Labs): the cycle that's open, with its live dot. */
-.rp .hm-eyebrow { position: relative; z-index: 1; width: fit-content; max-width: 100%; font-size: var(--fs-cap); letter-spacing: 0.1em; white-space: nowrap; }
 
 /* The orb is the button: a round link laid exactly over it, its label set on the orb's own face, across the
    dark middle band, not in a pill beneath. With a mouse the label is revealed as you point at the orb (or focus
@@ -103,9 +117,9 @@
 .rp .hm-path:hover, .rp .hm-path:focus-visible { border-color: var(--teal); background: rgba(0, 148, 160, 0.16); }
 .hm-path:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 /* The facts, on the first screen: what it is, where, how long, when. */
-.hm-spec { list-style: none; margin: clamp(14px, 2vh, 22px) 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 18px; font-size: var(--fs-sm); font-weight: 600; color: var(--t1); }
-.hm-spec li { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
-.hm-spec li::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--teal); }
+/* The hero's one plain sentence: what this is. */
+.hm-hero-sub { position: relative; z-index: 1; max-width: 36ch; margin: clamp(14px, 2vh, 22px) auto 0; font-size: var(--fs-lead); font-weight: 500; line-height: 1.38; letter-spacing: -0.01em; color: var(--t1); text-wrap: balance; }
+.hm-early { margin: 14px 0 0; font-size: var(--fs-body); font-weight: 600; color: var(--t1); }
 /* Each path says what happens after the account. */
 .rp .hm-path { align-items: center; }
 .hm-path em { display: grid; gap: 2px; font-style: normal; }
@@ -167,14 +181,17 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 
 /* ── one visual language (see "The visual language" in the README): the model's actors and the three paths
    joining opens share their marks, colours and materials. The pins' materials: candy enamel with a gloss and a
-   polished metal rim, and the metal itself. The metal is silver, because this is national (regional pages
-   would be brass, as the pieces are).
+   polished metal rim, and the metal itself. The metal is gold, the norm: everyone comes in through their own
+   Lab, and gold is the regional metal, as the pieces are. Silver (--national) belongs to the national org alone,
+   and only where an explainer shows it (the commons round the orb, what it sends out); people discover what it
+   means later.
      people     a pearl dot
      places     a teal square    learn         teal candy enamel
      projects   a red diamond    build         red candy enamel
-     knowledge  a silver ring    share         silver
+     knowledge  a gold ring      share         gold
    The same glyphs mark the actors in the world's card and the paths everywhere else (.gem[data-gem]). ── */
-.hm { --pearl: #FFDBBD; --candy-teal: #00A8B8; --candy-red: #ED1920; --metal: #C9CED3; --metal-hi: #F4F7FA; --metal-lo: #6F7882;
+.hm { --pearl: #FFDBBD; --candy-teal: #00A8B8; --candy-red: #ED1920; --metal: #CFAB67; --metal-hi: #F4DFA8; --metal-lo: #8C6B2E;
+  --national: #C9CED3; --national-hi: #F4F7FA; --national-lo: #6F7882;
   --gloss: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0 10%, rgba(255, 255, 255, 0) 36%); }
 .gem, .mk { display: inline-block; flex: none; width: 12px; height: 12px; }
 .mk { width: 10px; height: 10px; }
@@ -183,7 +200,10 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 .gem[data-gem="share"], .mk-knowledge { border-radius: 50%; border: 2.5px solid transparent;
   background: linear-gradient(var(--ink), var(--ink)) padding-box, linear-gradient(135deg, var(--metal-hi), var(--metal) 45%, var(--metal-lo)) border-box; box-shadow: 0 0 12px -3px var(--metal); }
 .mk-person, .mk-contributor { border-radius: 50%; background: var(--gloss), var(--pearl); }
-.mk-contributor { box-shadow: 0 0 0 1.5px var(--metal); }
+/* The national org's own, in the world's card: the commons' knowledge, and the contributors who keep it. */
+.mk-commons { border-radius: 50%; border: 2.5px solid transparent;
+  background: linear-gradient(var(--ink), var(--ink)) padding-box, linear-gradient(135deg, var(--national-hi), var(--national) 45%, var(--national-lo)) border-box; box-shadow: 0 0 12px -3px var(--national); }
+.mk-contributor { box-shadow: 0 0 0 1.5px var(--national); }
 .mk-lab { border-radius: 50%; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); }
 .hm-ch[data-ch="learn"] { --chc: var(--candy-teal); }
 .hm-ch[data-ch="build"] { --chc: var(--candy-red); }
@@ -312,6 +332,11 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   .hm-mini { margin-top: 12px; }
   .hm-mini li { grid-template-columns: minmax(0, 1fr); padding: 7px 0; }
   .hm-mini-links span { display: none; }
+  .hm-mini-open span { display: block; }
+  /* "What this is" carries the most words: on a phone its headline is a size down and the faces wait for the
+     wider screen, so the words stay below the picture. */
+  #intro .hm-side-h { font-size: clamp(28px, 7.6vw, 40px); }
+  #intro .hm-people { display: none; } /* the workshops' topics keep their line: it's what they are */
   .hm-rows { margin-top: 12px; }
   .hm-rows li { grid-template-columns: 6.4em minmax(0, 1fr); padding: 7px 0; font-size: 14px; }
   .hm-rows .where { display: none; }
@@ -339,3 +364,9 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   .rp .hm-path { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(0, 20, 27, 0.74); }
   .hm-card { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(0, 20, 27, 0.92); }
 }
+
+/* The header's quiet link for partners: on screens wide enough to hold it on one line beside Log in (it's in
+   the narrow menu and the footer otherwise). No link in the header wraps. */
+.hm .jp-end .navlink, .hm .jp-head .btn { white-space: nowrap; }
+.hm .jp-end .hm-gov { display: none; }
+@media (min-width: 1360px) { .hm .jp-end .hm-gov { display: inline-flex; } }

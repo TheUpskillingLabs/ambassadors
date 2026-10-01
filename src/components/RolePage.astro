@@ -247,7 +247,7 @@ const icons: Record<string, string> = {
             <p class="rp-lede-sm">{list.lede}</p>
           </div>
           <ul class="rp-cards">
-            {list.roles.map((c) => (
+            {list.roles.filter((c) => c.listed !== false).map((c) => (
               <li class:list={["reveal", { here: c.slug === slug }]}>
                 <img src={small(c.slug)} alt="" width="400" height="400" loading="lazy" decoding="async" />
                 <h3>{c.name}</h3>

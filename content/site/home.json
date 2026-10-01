@@ -1,8 +1,8 @@
 {
-  "$comment": "The Upskilling Labs home page (src/pages/index.astro): one journey of eighteen scenes over a live world, the words beside the picture. The idea it shows: The Labs is one big open project. Everyone in it builds three things together (open workshops and playbooks, the method and kits that turn strangers into teams doing real work, and the platform every Lab runs on), and a small team at the centre curates the official versions every Lab gets. The Build Cycle is the engine: real work, start to finish; when cohorts hit obstacles, Mentors build the next workshops around them; what works is shared back. Everything after the account happens inside it. No levels, pins, membership or dues here.",
+  "$comment": "The Upskilling Labs home page (src/pages/index.astro): one journey of twenty scenes over a live world, the words beside the picture. The idea it shows: The Labs is one big open project. Everyone in it builds three things together (open workshops and playbooks, the method and kits that turn strangers into teams doing real work, and the platform every Lab runs on), and a small team at the centre curates the official versions every Lab gets. The Build Cycle is the engine: real work, start to finish; when cohorts hit obstacles, Mentors build the next workshops around them; what works is shared back. Everything after the account happens inside it. No levels, pins, membership or dues here.",
   "placeholder": true,
   "title": "The Upskilling Labs",
-  "description": "Work is changing too fast to figure out alone. The Upskilling Labs is a free, open community where you learn it, build it and share it, with people near you.",
+  "description": "Work is changing too fast to figure out alone. The Upskilling Labs is free workshops and team projects at your local public library, made by volunteers and open to anyone.",
   "links": {
     "join": "https://theupskillinglabs.org/login?intent=join",
     "login": "https://theupskillinglabs.org/login",
@@ -19,34 +19,23 @@
     "build": "Build Cycles",
     "share": "Contribute",
     "story": "Our story",
+    "found": "Start a Lab",
+    "gov": "For government",
     "login": "Log in",
     "cta": "Join The Labs",
     "ctaShort": "Join"
   },
   "hero": {
-    "eyebrow": "Fall 2026 applications open",
     "title": [
       "Find your people.",
       "Build your edge."
     ],
     "orbLabel": "The Labs orb at the centre of a living network: local Labs full of people and their projects, orbiting it, with sparks of new ideas travelling between them.",
-    "eyebrowClosed": "Fall 2026 is underway",
-    "spec": {
-      "$comment": "The facts, on the first screen, before the story: what it costs, the always-on way in, and the next Build Cycle. Switches with the cycle's state (cycle.closes).",
-      "open": [
-        "Free",
-        "Workshops twice a week at DC Public Library",
-        "Next Build Cycle: 12 weeks from Oct 13"
-      ],
-      "closed": [
-        "Free",
-        "Workshops twice a week at DC Public Library",
-        "Next Build Cycle: dates to come"
-      ]
-    }
+    "sub": "Free workshops and team projects at your local public library, made by volunteers and open to anyone.",
+    "$comment": "The first screen, after the logo's opening: the hook, then one plain sentence saying what this is. The cycle's dates wait for the scene that explains a Build Cycle. Delivery is local: the programs are most at home at your local public library (DC Public Library is where it started, and the DC Lab's home, not how we deliver everywhere)."
   },
   "model": {
-    "$comment": "The world (src/scripts/orbnet.ts), held on screen through the journey: the camera travels its eighteen scenes as you scroll, and the motif changes shape with them: the system; three of its orbits drawn down into a vortex beneath the orb and wound into one triple helix (the weave); down the helix to each path's own thread, where small scenes play out on it (workshops coming down Learn's thread; strangers becoming a Pod, then teams, a knot freed by a workshop, the Showcase on Build's; contributions rising up Share's to the centre, which sends the official version out to every Lab); the weave again; and the system again, a new Lab born. Its words: the orb's button, the pause, and what pointing at anything says.",
+    "$comment": "The world (src/scripts/orbnet.ts), held on screen through the journey: the camera travels its nineteen scenes as you scroll, and the motif changes shape with them: the system; three of its orbits drawn down into a vortex beneath the orb and wound into one triple helix (the weave); down the helix to each path's own thread, where small scenes play out on it (workshops coming down Learn's thread; strangers becoming a Pod, then teams, a knot freed by a workshop, the Showcase on Build's; contributions rising up Share's to the centre, which sends the official version out to every Lab); the weave again; and the system again, a new Lab born; then close on it, as its first people gather and The Labs' kit reaches it from the centre. Its words: the orb's button, the pause, and what pointing at anything says.",
     "pause": "Pause",
     "play": "Play",
     "skip": "Skip the story",
@@ -130,21 +119,23 @@
     }
   },
   "intro": {
-    "lede": "Work is changing too fast to figure out alone. So we don't. The Upskilling Labs is a free community of people near you, figuring it out together, in person.",
-    "strong": "Free.",
-    "terms": "No tech background needed. Join once, and three paths open up.",
+    "$comment": "Written for one person reading it a line at a time, in their order: why this exists, that they're in the right place, who's here, that we'll help (and it grows with what they put in), what it doesn't ask, then the one action.",
+    "label": "What this is",
+    "lede": "Work is changing too fast to figure out alone. So we don't.",
+    "title": "Whoever you are, you're in the right place.",
+    "who": "Changing careers, just starting out, or decades in and ready to pass it on. We'll help you find your footing, and what you get out of it grows with what you put in.",
+    "terms": "No tech background needed, and nothing to buy.",
+    "people": "185 people have joined so far.",
     "cta": "Join The Labs",
     "login": "Log in",
-    "note": "Creates your free Upskilling account, with Google. Everything after that, from workshops to applying for a Build Cycle, happens inside it.",
-    "people": "185 people in DC so far.",
-    "label": "What this is"
+    "note": "It's free, and you sign in with Google. Then you'll see what's on near you."
   },
   "threads": {
-    "$comment": "Joining is the one action; it opens three paths that weave together. \"It\" is the work: real projects, start to finish. In the world (src/scripts/orbnet.ts) the paths are three of the system's own orbits drawn down into one triple helix. `then` is what each path's way in says at the close.",
-    "kicker": "One account, three paths",
-    "title": "Learn it. Build it. Share it.",
-    "lede": "It's the work: real projects, start to finish, with people you meet here. Learn what it takes, build it together, and share what works.",
-    "alt": "Three of the orb's orbits drawn down into one triple helix: teal, red and silver.",
+    "$comment": "The three ways in, said plainly (no 'it' to explain). In the world (src/scripts/orbnet.ts) the paths are three of the system's own orbits drawn down into one triple helix. `then` is what each way in says at the close.",
+    "kicker": "Three ways in",
+    "title": "Learn. Build. Share.",
+    "lede": "Come to a free workshop. Team up on a twelve-week project. Teach what you know. Start with whichever fits. Most people end up doing all three.",
+    "alt": "Three of the orb's orbits drawn down into one triple helix: teal, red and gold.",
     "items": [
       {
         "id": "learn",
@@ -163,9 +154,9 @@
       {
         "id": "share",
         "name": "Share",
-        "when": "As much as you like",
+        "when": "Whenever you can",
         "path": "contribute",
-        "then": "Your account, then a place to start."
+        "then": "Your account, then a place to help."
       }
     ]
   },
@@ -176,42 +167,43 @@
       "verb": "Learn",
       "title": "Get sharp, in good company.",
       "when": "Twice a week, drop in",
-      "lede": "Workshops in person at DC Public Library, some online, on the skills work runs on now. No application, no prerequisites. Anyone can come."
+      "lede": "Free workshops at your local public library, and some online, on the skills that matter at work right now. No application, no experience needed. Anyone can come."
     },
     "build": {
       "no": "02",
       "verb": "Build",
       "title": "Make something real.",
       "when": "Twelve weeks, on a team",
-      "lede": "A Build Cycle is the whole of the work, start to finish: framing a problem, forming a team, making something that lasts, and delivering it."
+      "lede": "A Build Cycle is twelve weeks where strangers pick a problem worth solving, team up, and make something that helps."
     },
     "go": {
       "share": {
-        "label": "Share what I know",
-        "note": "Your free account, then a place to start.",
-        "path": "contribute"
+        "$comment": "Where Share's way leads: the Contributor Community page (/contributing/), which explains how contributing works and where to start.",
+        "label": "The Contributor Community",
+        "note": "How contributing works, and where to start."
       }
     },
     "share": {
       "no": "03",
       "verb": "Share",
-      "title": "Add to what everyone learns from.",
-      "when": "As much as you like",
-      "lede": "Everything here is open. Help at a workshop or write one, refine how a cycle runs, or build the platform.",
+      "title": "Share what you know.",
+      "when": "Whenever you can",
+      "lede": "Whatever you add has your name on it.",
+      "more": "How contributing works",
       "ways": [
         {
-          "title": "Open workshops and playbooks",
-          "body": "Training and mentoring that spread what works.",
+          "title": "Lead a workshop",
+          "body": "Or help at one, with whatever you know."
+        },
+        {
+          "title": "Mentor a team",
+          "body": "During a Build Cycle.",
           "link": "Mentoring",
           "to": "mentor"
         },
         {
-          "title": "The method",
-          "body": "Programs and kits that turn strangers into teams doing real work."
-        },
-        {
-          "title": "The platform",
-          "body": "What every Lab runs on, on its own and together.",
+          "title": "Improve the guides and tools",
+          "body": "Everyone here uses them.",
           "link": "Built in the open",
           "to": "github"
         }
@@ -221,29 +213,26 @@
   "journey": {
     "$comment": "The journey's scenes between the intro and the close, in order. Each is one idea, shown by the world and said beside it in a line or two.",
     "open": {
-      "kicker": "How The Labs works",
-      "title": "One big open project.",
-      "lede": "Everything here is made in the open by the people in it: the workshops, the way a Build Cycle runs, and the platform it all runs on. A small team at the centre curates the official versions, and every Lab gets them.",
-      "story": "It began inside a library: a pilot at DC Public Library in fall 2025, fifty former federal workers navigating career change together. Now it's open to every professional, city by city."
+      "$comment": "Where it started, then what we believe and why being early matters. (The open project itself is told at the centre, once the reader has seen what it's made of.)",
+      "kicker": "Where it started",
+      "title": "It started at the library.",
+      "lede": "In fall 2025, fifty former federal workers met at DC Public Library to work out their next move together. What they started is now open to everyone.",
+      "belief": "We believe what comes next should be shaped by many people, not a few, and that this can become part of how that happens for decades to come. It's early, and the people here now get to decide what it becomes."
     },
     "workshops": {
-      "kicker": "Open workshops",
-      "title": "Every workshop starts with a real obstacle.",
-      "lede": "Mentors build each one around something a team ran into in a Build Cycle, write it down, and improve it every time it runs. Then it's open for any Lab to use.",
+      "kicker": "Workshops",
+      "title": "Hands-on, with people at every level.",
       "topics": [
         {
-          "title": "Durable skills",
-          "body": "The human skills the future of work runs on: communication, storytelling, and framing problems well."
+          "title": "Skills that last",
+          "body": "Communicating, telling a story, framing a problem well."
         },
         {
-          "title": "AI skills",
-          "body": "Working with AI: understanding LLMs, prompting, vibe coding, building agents."
-        },
-        {
-          "title": "In step with the cycle",
-          "body": "Drop in whenever. Sessions track the Build Cycle, so each one gives your Pod what it needs next."
+          "title": "Using AI well",
+          "body": "What the tools can and can't do, getting good answers, and building simple apps and agents."
         }
-      ]
+      ],
+      "note": "Come once, or every week."
     },
     "week": {
       "kicker": "Coming up",
@@ -282,24 +271,24 @@
       }
     },
     "pod": {
-      "kicker": "Month one",
+      "kicker": "The first month",
       "title": "Strangers become a Pod.",
-      "lede": "Pods of nine or more form around a problem situation. Most people feel unsure while Pods form, and everyone lands in one."
+      "lede": "Everyone joins a group of nine or more, called a Pod, around a problem situation you choose together: a real, messy problem people face. It can feel uncertain at first. That's normal, and everyone finds a Pod."
     },
     "teams": {
       "kicker": "Teams",
-      "title": "Teams form around what you propose.",
-      "lede": "Three to five people each, with Mentors beside you. The work is heaviest at the start and the end, steady in between."
+      "title": "Then you find your team.",
+      "lede": "As ideas take shape, teams of three to five form around the ones people want to make. Mentors, experienced volunteers who've done this before, are there to help. The busiest weeks are at the start and the end."
     },
     "stuck": {
       "kicker": "When you get stuck",
       "title": "Every obstacle becomes a workshop.",
-      "lede": "Mentors turn what teams run up against into the next workshop, so each cycle leaves the next one better equipped."
+      "lede": "When your team hits a wall, a Mentor helps you over it. Then they turn it into a workshop, so the next team doesn't hit the same one."
     },
     "showcase": {
       "kicker": "The Showcase",
-      "title": "Show what you built.",
-      "lede": "In public, and open source: real work that lasts, credited to the people who made it.",
+      "title": "Show what you made.",
+      "lede": "At the end, every team shows its project in public, at the Showcase. Anyone can use what you made, and your name stays on it.",
       "quotes": [
         {
           "quote": "The program gave me purpose again—connecting me with mission-driven public servants to tackle real problems.",
@@ -320,8 +309,8 @@
       "closes": "2026-10-13",
       "kicker": "Applications open",
       "title": "Fall 2026 starts October 13.",
-      "body": "Twelve weeks, a Pod of curious peers, and a problem worth solving. Places are limited. It's an open cycle: the projects are open source, free for anyone to use and build on.",
-      "apply": "Create your account, then apply from inside it.",
+      "body": "It's free, and places are limited.",
+      "apply": "Make your free account, then apply from there.",
       "cta": "Join The Labs",
       "closed": {
         "kicker": "Fall 2026 is underway",
@@ -353,35 +342,35 @@
           },
           {
             "title": "Not job placement.",
-            "body": "You leave with credited open-source work and people who've built with you."
+            "body": "You leave with something you made, with your name on it, and people who've built with you."
           },
           {
             "title": "In person.",
-            "body": "Evenings at the library in DC, with some sessions online."
+            "body": "Evenings at your local public library, with some sessions online."
           },
           {
             "title": "A real commitment.",
-            "body": "Twelve weeks: heaviest at the start and the end."
+            "body": "Twelve weeks, busiest at the start and the end."
           }
         ]
       },
       "upskiller": "What Upskillers do"
     },
     "centre": {
-      "kicker": "At the centre",
-      "title": "A small team curates the official versions.",
-      "lede": "What the community makes comes together at the centre, gets tested and versioned, and goes back out to every Lab, which makes it its own."
+      "kicker": "What you make goes further",
+      "title": "One big open project.",
+      "lede": "The workshops, the guides, the way a Build Cycle runs, the tools: volunteers make all of it, in the open, and it's free for anyone. Anyone can add to it. What works best in practice is what we keep and share with Labs in other cities, with your name still on it."
     },
     "together": {
       "$comment": "The weave again, after the three threads: the loop, then the system.",
-      "kicker": "Woven together",
-      "title": "Each one makes the others stronger.",
-      "lede": "Teams hit obstacles. Mentors turn them into workshops. Workshops join what everyone shares, and the next team starts ahead."
+      "kicker": "",
+      "title": "It keeps getting better.",
+      "lede": "Every workshop helps a team. Every team's trouble becomes a workshop. Each cycle starts a little further ahead than the last."
     },
     "labs": {
-      "kicker": "Local Labs, one network",
-      "title": "Every Lab runs on its own, and together.",
-      "lede": "Each Lab is run by the people in it, on a shared platform, with the official workshops, kits and tools.",
+      "kicker": "Your city",
+      "title": "It starts in your city.",
+      "lede": "Each city has its own Lab, run by the people in it and at home in its public library. DC is up and running, and we're opening in more cities now.",
       "$comment": "A snapshot from the live site on Sep 29, 2026. In OLOS, from its Labs and waitlists.",
       "items": [
         {
@@ -406,15 +395,26 @@
           "detail": "Be the first on the list"
         }
       ],
-      "note": "Don't see yours? Join The Labs and tell us where you are."
+      "note": "Join, and you'll hear the moment yours opens."
+    },
+    "found": {
+      "$comment": "For people who'd start a Lab where they live, wherever that is (on the list of cities or not). The world closes in on the newborn Lab: a few people gather at it, then The Labs' own kit reaches it from the centre, in silver (the national org). Said a line at a time: you could do this; you don't need experience; what you bring and what we bring; why now; then the account (path=start-a-lab), where founding goes on.",
+      "kicker": "Start a Lab",
+      "title": "The next Lab could be yours.",
+      "lede": "Every Lab starts with a few people who want one where they live. You don't need to have done this before.",
+      "offer": "You bring the people. We'll bring the workshops, the Build Cycle and the tools, and help you find it a home at your public library.",
+      "early": "The first people in a city decide what its Lab becomes.",
+      "cta": "Start a Lab",
+      "note": "Make your free account and tell us where you are. We'll talk it through with you."
     }
   },
   "join": {
-    "title": "Join once. Start anywhere.",
-    "lede": "Learn something this week. Build something this fall. Share what you know, for good.",
+    "title": "Start this week.",
+    "lede": "Come to a workshop, apply for the fall, or tell us what you could teach. Bring what you've got, and we'll help with the rest.",
     "cta": "Join The Labs",
     "donate": "Support The Labs",
-    "note": "Creates your free Upskilling account, with Google."
+    "note": "It's free, and you sign in with Google. We'll show you what's on near you.",
+    "early": "You'd be one of the first."
   },
   "end": {
     "$comment": "The very end of the journey has no words: the world becomes the logo, settling into the brand's own lockup (public/home/logo-mark.webp and logo-wordmark.webp, cut from the brand kit's logo-lockup-light.png). The lockup is decorative there (the header and the footer name The Labs)."
@@ -428,7 +428,9 @@
     "about": "About",
     "board": "Our board",
     "contact": "Contact",
-    "member": "Become a member",
+        "contributors": "Contributor Community",
+    "government": "For government",
+    "found": "Start a Lab",
     "built": "Built in the open",
     "partners": "In partnership with",
     "legal": "The Upskilling Labs, Inc. is a fiscally sponsored project of Superbloom Design, a 501(c)(3). Donations are tax-deductible to the extent permitted by law.",
