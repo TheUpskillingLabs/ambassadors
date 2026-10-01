@@ -1,5 +1,5 @@
 {
-  "$comment": "The Upskilling Labs home page (src/pages/index.astro): one journey of nineteen scenes over a live world, the words beside the picture. The idea it shows: The Labs is one big open project. Everyone in it builds three things together (open workshops and playbooks, the method and kits that turn strangers into teams doing real work, and the platform every Lab runs on), and a small team at the centre curates the official versions every Lab gets. The Build Cycle is the engine: real work, start to finish; when cohorts hit obstacles, Mentors build the next workshops around them; what works is shared back. Everything after the account happens inside it. No levels, pins, membership or dues here.",
+  "$comment": "The Upskilling Labs home page (src/pages/index.astro): one journey of twenty scenes over a live world, the words beside the picture. The idea it shows: The Labs is one big open project. Everyone in it builds three things together (open workshops and playbooks, the method and kits that turn strangers into teams doing real work, and the platform every Lab runs on), and a small team at the centre curates the official versions every Lab gets. The Build Cycle is the engine: real work, start to finish; when cohorts hit obstacles, Mentors build the next workshops around them; what works is shared back. Everything after the account happens inside it. No levels, pins, membership or dues here.",
   "placeholder": true,
   "title": "The Upskilling Labs",
   "description": "Work is changing too fast to figure out alone. The Upskilling Labs is free workshops and team projects at your local public library, made by volunteers and open to anyone.",
@@ -19,6 +19,7 @@
     "build": "Build Cycles",
     "share": "Contribute",
     "story": "Our story",
+    "found": "Start a Lab",
     "login": "Log in",
     "cta": "Join The Labs",
     "ctaShort": "Join"
@@ -33,7 +34,7 @@
     "$comment": "The first screen, after the logo's opening: the hook, then one plain sentence saying what this is. The cycle's dates wait for the scene that explains a Build Cycle. Delivery is local: the programs are most at home at your local public library (DC Public Library is where it started, and the DC Lab's home, not how we deliver everywhere)."
   },
   "model": {
-    "$comment": "The world (src/scripts/orbnet.ts), held on screen through the journey: the camera travels its eighteen scenes as you scroll, and the motif changes shape with them: the system; three of its orbits drawn down into a vortex beneath the orb and wound into one triple helix (the weave); down the helix to each path's own thread, where small scenes play out on it (workshops coming down Learn's thread; strangers becoming a Pod, then teams, a knot freed by a workshop, the Showcase on Build's; contributions rising up Share's to the centre, which sends the official version out to every Lab); the weave again; and the system again, a new Lab born. Its words: the orb's button, the pause, and what pointing at anything says.",
+    "$comment": "The world (src/scripts/orbnet.ts), held on screen through the journey: the camera travels its nineteen scenes as you scroll, and the motif changes shape with them: the system; three of its orbits drawn down into a vortex beneath the orb and wound into one triple helix (the weave); down the helix to each path's own thread, where small scenes play out on it (workshops coming down Learn's thread; strangers becoming a Pod, then teams, a knot freed by a workshop, the Showcase on Build's; contributions rising up Share's to the centre, which sends the official version out to every Lab); the weave again; and the system again, a new Lab born; then close on it, as its first people gather and The Labs' kit reaches it from the centre. Its words: the orb's button, the pause, and what pointing at anything says.",
     "pause": "Pause",
     "play": "Play",
     "skip": "Skip the story",
@@ -393,7 +394,17 @@
           "detail": "Be the first on the list"
         }
       ],
-      "note": "Don't see yours? Join and tell us where you are. That's how a new Lab starts."
+      "note": "Join, and you'll hear the moment yours opens."
+    },
+    "found": {
+      "$comment": "For people who'd start a Lab where they live, wherever that is (on the list of cities or not). The world closes in on the newborn Lab: a few people gather at it, then The Labs' own kit reaches it from the centre, in silver (the national org). Said a line at a time: you could do this; you don't need experience; what you bring and what we bring; why now; then the account (path=start-a-lab), where founding goes on.",
+      "kicker": "Start a Lab",
+      "title": "The next Lab could be yours.",
+      "lede": "Every Lab starts with a few people who want one where they live. You don't need to have done this before.",
+      "offer": "You bring the people. We'll bring the workshops, the Build Cycle and the tools, and help you find it a home at your public library.",
+      "early": "The first people in a city decide what its Lab becomes.",
+      "cta": "Start a Lab",
+      "note": "Make your free account and tell us where you are. We'll talk it through with you."
     }
   },
   "join": {
@@ -418,6 +429,7 @@
     "contact": "Contact",
     "member": "Become a member",
     "contributors": "Contributor Community",
+    "found": "Start a Lab",
     "built": "Built in the open",
     "partners": "In partnership with",
     "legal": "The Upskilling Labs, Inc. is a fiscally sponsored project of Superbloom Design, a 501(c)(3). Donations are tax-deductible to the extent permitted by law.",

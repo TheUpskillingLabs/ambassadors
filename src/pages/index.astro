@@ -93,6 +93,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <li><a class="navlink" href="#build">{h.nav.build}</a></li>
           <li><a class="navlink" href="#share">{h.nav.share}</a></li>
           <li><a class="navlink" href="#open">{h.nav.story}</a></li>
+          <li><a class="navlink" href="#found">{h.nav.found}</a></li>
           <li class="menu-only"><a class="navlink" href={L.login}>{h.nav.login}</a></li>
         </ul>
         <div class="jp-end">
@@ -292,6 +293,20 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <p class="rp-account">{J.labs.note}</p>
           </HomeScene>
 
+          <!-- Start a Lab: close on the newborn Lab, where its first people gather and The Labs' kit reaches it from
+               the centre (silver). For anyone who'd start one where they live; founding goes on in the account. -->
+          <HomeScene id="found" labelledby="found-t">
+            <p class="kicker">{J.found.kicker}</p>
+            <h2 class="hm-side-h" id="found-t">{J.found.title}</h2>
+            <p class="hm-side-p">{J.found.lede}</p>
+            <p class="hm-side-p">{J.found.offer}</p>
+            <p class="hm-early">{J.found.early}</p>
+            <div class="hm-actions">
+              <a class="btn" href={pathJoin("start-a-lab")}>{J.found.cta}</a>
+            </div>
+            <p class="rp-account">{J.found.note}</p>
+          </HomeScene>
+
           <!-- The close: the one action, and the three ways in. -->
           <HomeScene id="start" labelledby="start-t">
             <h2 class="hm-side-h" id="start-t">{h.join.title}</h2>
@@ -323,7 +338,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <a class="ghost small" href={L.donate}>{h.join.donate}</a>
           </div>
           <nav class="hm-foot-cols" aria-label="Footer">
-            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#labs">{J.labs.kicker}</a></div>
+            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#labs">{J.labs.kicker}</a><a href="#found">{h.footer.found}</a></div>
             <div><p class="kicker">{h.footer.roles}</p>{list.roles.map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
             <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={community}>{h.footer.contributors}</a><a href={L.contact}>{h.footer.contact}</a><a href={L.join}>{h.footer.member}</a></div>
             <div><p class="kicker">{h.footer.open}</p><a href={L.github}>{h.footer.built}</a><a href={L.join}>{h.nav.cta}</a></div>

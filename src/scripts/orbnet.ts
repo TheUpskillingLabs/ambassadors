@@ -122,11 +122,12 @@ const SHOTS: Shot[] = [
   { at: 0, target: "orb", ty: -1.4, halfW: 6.6, elev: 14, roll: 4, ...SYS, yaw: 0, sx: 0.4, sy: 0.08, px: 0, py: 0.5, pz: 0.6 }, // 14 the centre: curated, sent out to every Lab
   { ...weave, yaw: -6 },                                                                                           // 15 the weave again
   { at: 0, target: "orb", halfW: 8.6, elev: 34, roll: 14, ...SYS, yaw: 8, sx: 0.42, sy: 0.06, px: 0, py: 0.62, pz: 0.7 },    // 16 the system: every Lab, one network, a new one born
-  { at: 0, target: "orb", halfW: 7.6, elev: 40, roll: 18, ...SYS, yaw: 16, sx: 0.42, sy: 0.06, px: 0, py: 0.62, pz: 0.7 },   // 17 the close
-  { at: 0, target: "orb", halfW: 4.8, elev: 30, roll: 10, ...SYS, yaw: 0, sx: -0.36, sy: 0.04, px: -0.56, py: 0.1, pz: 0.656 }, // 18 the very end: the logo, the wordmark beside it
+  { at: 0, target: "new", halfW: 3.6, elev: 26, roll: 10, ...SYS, yaw: 14, sx: 0.4, sy: 0.04, px: 0, py: 0.5, pz: 0.8 },     // 17 close on the new Lab: its first people gather, the kit reaches it
+  { at: 0, target: "orb", halfW: 7.6, elev: 40, roll: 18, ...SYS, yaw: 16, sx: 0.42, sy: 0.06, px: 0, py: 0.62, pz: 0.7 },   // 18 the close
+  { at: 0, target: "orb", halfW: 4.8, elev: 30, roll: 10, ...SYS, yaw: 0, sx: -0.36, sy: 0.04, px: -0.56, py: 0.1, pz: 0.656 }, // 19 the very end: the logo, the wordmark beside it
 ];
 /** Which scenes are which, by index: the system's, the weave's, and each path's (for the motif and the story). */
-const SCENE = { system: [0, 1, 2, 16, 17, 18], weave: [3, 15], learn: [4, 5, 6], build: [7, 8, 9, 10, 11, 12], share: [13, 14], workshops: 5, pod: 8, teams: 9, stuck: 10, showcase: 11, rising: 13, centre: 14, born: 16, close: 17, end: 18 };
+const SCENE = { system: [0, 1, 2, 16, 17, 18, 19], weave: [3, 15], learn: [4, 5, 6], build: [7, 8, 9, 10, 11, 12], share: [13, 14], workshops: 5, pod: 8, teams: 9, stuck: 10, showcase: 11, rising: 13, centre: 14, born: 16, found: 17, close: 18, end: 19 };
 /** The pauses, for emphasis, and only these: how much the camera slows as it passes each (1 would stop it).
    The triad, the centre (the official version going out to every Lab) and the close; then the logo, where it
    comes to rest. */
@@ -1250,6 +1251,15 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   let cam = { M: [1, 0, 0, 0, 1, 0, 0, 0, 1] as M3, O: [1, 0, 0, 0, 1, 0, 0, 0, 1] as M3, T: [0, 0, 0] as V3, halfW: 4.7, zoomW: 4.7, dense: 1, tanX: 0.15, tanY: 0.1, sh: [0, 0] as [number, number] };
   const D = 30;
   const shotTarget = (s: Shot): V3 => s.target === "new" ? model.newLab() : s.target === "pod" ? model.podCenter() : s.target === "dc" ? model.labs[0].c : s.target === "between" ? [model.labs[0].c[0] * 0.45, 0, model.labs[0].c[2] * 0.45] : [0, 0, 0];
+  // How far to turn the system so the new Lab sits within the front arc (FRONT, as an angle round the orbits):
+  // its people and the centre behind it both in view, and the orb never in front of it or under the words.
+  const FRONT = [95, 135].map((d) => d * DEG);
+  const wrapA = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
+  const turnTo = (th: number) => {
+    const lo = wrapA(th - FRONT[0]), hi = wrapA(th - FRONT[1]); // (ry(a) moves an angle round by −a)
+    if (lo >= 0 && hi <= 0) return 0;
+    return Math.abs(lo) < Math.abs(hi) ? lo : hi;
+  };
   const camera = (p: number, t: number, ic = 0) => {
     const nS = SHOTS.length, s = clamp(p * (nS - 1), 0, nS - 1), i = Math.min(nS - 2, Math.floor(s)), k = s - i;
     const a = SHOTS[i], b = SHOTS[i + 1], a0 = SHOTS[Math.max(0, i - 1)], b1 = SHOTS[Math.min(nS - 1, i + 2)];
@@ -1262,7 +1272,11 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const shake = 0;
     const yaw = (L("yaw") + ptr.x * 4.5 + (still ? 0 : Math.sin(t * 0.13) * 2.5) + Math.sin(t * 47) * shake * 0.5) * DEG, pitch = ptr.y * 3 * DEG;
     const par = mul(ry(yaw), rx(pitch));
-    const M = mul(par, mul(rz(L("roll") * DEG), rx(L("elev") * DEG)));
+    // Starting a Lab: the new Lab orbits like the rest, so where it is depends on how long you've been here. Closing
+    // in on it, the system turns to bring it round to the front (only as far as it needs to), then turns back.
+    const fW = Lv((q) => (q.target === "new" ? 1 : 0));
+    const spin = fW > 0.001 ? fW * turnTo(model.newTh) : 0;
+    const M = mul(par, mul(rz(L("roll") * DEG), mul(rx(L("elev") * DEG), ry(spin))));
     const orbV = mul(par, mul(rz(L("oRoll") * DEG), rx(L("oElev") * DEG)));
     // Portrait screens frame closer (the system runs off the sides), and keep the lower third for the lines.
     const portrait = cssW < cssH;
@@ -1375,7 +1389,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // threads' scenes the system is out of frame, so its beats there matter little.)
     const sum = (ix: number[]) => ix.reduce((acc, i) => acc + (w[i] ?? 0), 0);
     const learnW = sum(SCENE.learn), buildW = sum(SCENE.build), shareW = sum(SCENE.share);
-    const beats = [sum([...SCENE.system.slice(0, 3), ...SCENE.weave, SCENE.born]), learnW, buildW, shareW, (w[17] ?? 0) + (w[SCENE.end] ?? 0)];
+    const beats = [sum([...SCENE.system.slice(0, 3), ...SCENE.weave, SCENE.born, SCENE.found]), learnW, buildW, shareW, (w[SCENE.close] ?? 0) + (w[SCENE.end] ?? 0)];
     // What the motif is: the system (its scenes' weight), else the weave, and how much each path's own thread leads.
     const sysW = clamp(sum(SCENE.system), 0, 1), focus3: V3 = [learnW, buildW, shareW], focusSum = clamp(learnW + buildW + shareW, 0, 1);
     // The very end: the system gives way to the logo. Everything but the orb fades, and the paths become the swoosh.
@@ -1389,6 +1403,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const introDone = introOn ? at(3.2, 1.4) : 1;
     // The very end: the system gives way to the logo. Everything but the orb fades, and the paths become the swoosh.
     const endLogo = ease(clamp((sCur - (SCENE.end - 0.8)) / 0.75, 0, 1)), logoK = Math.max(endLogo, iLogo), keep = 1 - logoK;
+    // Starting a Lab: how far its first people have come in, by scroll (so every bit of scroll there shows).
+    const founded = clamp((sCur - (SCENE.found - 0.8)) / 0.8, 0, 1);
     // Once the paths have arrived, the world hands over to the exact logo (the page lays the brand's own artwork
     // over the orb): the swoosh's dust and the orb's halo let go, so what's left is the mark itself.
     const settleTo = endLogo > 0.97 ? 1 : 0;
@@ -1492,7 +1508,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     };
     const onStrand = (k: number, y: number, r: number): V3 => { const th = uAt(y) * HX.TURNS * Math.PI * 2 + k * 2.0944 + twist; return [Math.cos(th) * r, y, Math.sin(th) * r]; };
     const cy = T[1];
-    const PEARL: V3 = [1, 0.86, 0.74], GOLD: V3 = [1, 0.8, 0.45], RED: V3 = [1, 0.36, 0.28], TEAL: V3 = [0.14, 0.84, 0.86];
+    const PEARL: V3 = [1, 0.86, 0.74], GOLD: V3 = [1, 0.8, 0.45], RED: V3 = [1, 0.36, 0.28], TEAL: V3 = [0.14, 0.84, 0.86], SILVER: V3 = [0.86, 0.92, 1];
     const wt = (i: number) => w[i] ?? 0;
     // Learn: open workshops (gold rings) come down its thread into a room of people, who light up as each
     // passes; below them the rings carry on brighter, improved by the room.
@@ -1562,6 +1578,32 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
           if (y > HX.Y0 - 0.6) { const k = clamp((y - (HX.Y0 - 0.6)) / 0.9, 0, 1); q = lerp3(onStrand(2, Math.min(y, HX.Y0 - 0.1), 1.0), [0, 0, 0], k); }
           else { const dep = HX.Y0 - y; q = onStrand(2, y, dep < 3 ? lerp(1.42 + 0.32, 0.16, ease(clamp(dep / 3, 0, 1))) : 0.16); }
           putG(q, tl ? 15 - tl * 2.5 : 24, 5, 0, vr * Math.sin(Math.PI * ph) * (tl ? 0.6 - tl * 0.12 : 1), cols[i % 3]);
+        }
+      }
+    }
+    // Start a Lab: close on the new Lab. A few people come in from round it on the network and gather there (and
+    // stay, once it's started); then The Labs' kit (the workshops, the Build Cycle, the tools) comes out to it
+    // from the centre, silver: the national org's.
+    const vf = wt(SCENE.found), vPeople = Math.max(vf, 0.75 * founded * sysW) * keep;
+    if (vPeople > 0.01) {
+      const NL = model.newLab(), th0 = Math.atan2(NL[2], NL[0]), nl = Math.hypot(NL[0], NL[2]) || 1;
+      for (let i = 0; i < 7; i++) {
+        const k = ease(clamp((founded - i * 0.06) / 0.55, 0, 1));
+        const a0 = th0 + (i / 7) * Math.PI * 2 + 0.4, a1 = (i / 7) * Math.PI * 2 + t * 0.2;
+        const from: V3 = [NL[0] + Math.cos(a0) * 1.9, NL[1] + 0.3 * Math.sin(i * 2.1), NL[2] + Math.sin(a0) * 1.9];
+        const to: V3 = [NL[0] + Math.cos(a1) * 0.42, NL[1] + 0.07 * Math.sin(a1 * 2), NL[2] + Math.sin(a1) * 0.42];
+        putG(lerp3(from, to, k), 15, 0, 0.15 + 0.65 * k, vPeople * (0.3 + 0.7 * k), PEARL);
+      }
+      const kit = vf * ease(clamp((founded - 0.45) / 0.35, 0, 1));
+      if (kit > 0.01) {
+        const A: V3 = [(NL[0] / nl) * 1.1, 0, (NL[2] / nl) * 1.1], B: V3 = [NL[0] - (NL[0] / nl) * 0.3, NL[1], NL[2] - (NL[2] / nl) * 0.3];
+        for (let i = 0; i < 3; i++) {
+          const ph = (t * 0.2 + i / 3) % 1;
+          for (let tl = 0; tl < 5; tl++) {
+            const u = ph - tl * 0.03; if (u < 0) break;
+            const q = lerp3(A, B, u); q[1] += Math.sin(Math.PI * u) * 0.3; // a low arc, out from the orb
+            putS(q, tl ? 8 - tl * 1.1 : 13, kit * Math.sin(Math.PI * ph) * (tl ? 0.5 - tl * 0.08 : 0.85), SILVER);
+          }
         }
       }
     }
@@ -1664,7 +1706,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       return { v: orbView(L.c), r: r * (0.5 + 0.5 * g), bright: (L.lit ? 1.05 : 0.8) * (focus === i ? 1 + 0.4 * focusAmt : 1) * g };
     }).filter((b) => b.r > 0.02);
     const born = ease(clamp(sCur - (SCENE.born - 1), 0, 1));
-    if (born > 0.01) bodies.push({ v: orbView(model.newLab()), r: 0.17 * born, bright: 1.15 * born });
+    if (born > 0.01) bodies.push({ v: orbView(model.newLab()), r: 0.17 * born * (1 + 0.22 * founded), bright: 1.15 * born * (1 + 0.2 * founded) }); // (it grows a little as its first people arrive)
     bodies.forEach((b) => { b.r *= keep; b.bright *= keep; });
     bodies.sort((a, b) => a.v[2] - b.v[2]);
     const orbC = orbView([0, 0, 0]);
