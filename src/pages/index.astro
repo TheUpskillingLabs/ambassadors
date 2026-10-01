@@ -117,13 +117,13 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <ol class="hm-beats">
             {h.model.beats.map((b, i) => (
               <li class="hm-beat" data-beat={i + 1} data-quiet>
-                <p class="rp-step"><span class="no">{nos[i]}</span> {b.kicker}</p>
+                <p class="rp-step"><span class="no">{nos[i]}</span> {i < 3 && <i class="gem" data-gem={["learn", "build", "give"][i]} aria-hidden="true"></i>}{b.kicker}</p>
                 <p class="hm-beat-line">{b.line}</p>
                 {i === h.model.beats.length - 1 && (
                   <div class="hm-beat-cta">
                     <p class="hm-paths-ask">{h.model.paths.ask}</p>
                     <ul class="hm-paths">
-                      {h.model.paths.items.map((pth) => <li><a class="hm-path" href={pathJoin(pth.path)}><em>{pth.label}<small data-when="open">{pth.next.open}</small><small data-when="closed">{pth.next.closed}</small></em><span>{pth.tag}</span></a></li>)}
+                      {h.model.paths.items.map((pth) => <li><a class="hm-path" href={pathJoin(pth.path)}><em>{pth.label}<small data-when="open">{pth.next.open}</small><small data-when="closed">{pth.next.closed}</small></em><span><i class="gem" data-gem={pth.path === "contribute" ? "give" : pth.path} aria-hidden="true"></i>{pth.tag}</span></a></li>)}
                     </ul>
                     <p class="hm-both">{h.model.paths.both}</p>
                     <a class="textlink hm-curious" href={L.events}>{h.model.paths.curious} →</a>

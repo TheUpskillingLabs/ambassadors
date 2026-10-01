@@ -45,6 +45,8 @@
 .hm-paths { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
 .rp .hm-path { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 12px 16px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 12px; background: rgba(0, 20, 27, 0.55);
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); font-size: 17px; font-weight: 600; color: var(--t1); text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+.hm-beat .rp-step .gem { width: 9px; height: 9px; margin: 0 9px 0 2px; }
+.hm-path span .gem { width: 9px; height: 9px; margin-right: 8px; vertical-align: 0; }
 .hm-path span { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
 .rp .hm-path:hover, .rp .hm-path:focus-visible { border-color: var(--teal); background: rgba(0, 148, 160, 0.16); }
 .hm-path:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
@@ -67,14 +69,6 @@
 .hm-card-k { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
 .hm-card-t { margin-top: 5px !important; font-size: 15px; font-weight: 600; line-height: 1.25; color: var(--t1); }
 .hm-card-d { margin-top: 2px !important; font-size: 13px; line-height: 1.4; color: var(--t2); }
-/* The marks, as the model draws them: people warm dots, places teal squares, projects red diamonds, knowledge
-   pale rings; a Lab, a small orb. */
-.mk { display: block; width: 9px; height: 9px; flex: none; }
-.mk-person, .mk-contributor { border-radius: 50%; background: #FFDBBD; }
-.mk-place { width: 8px; height: 8px; background: #24D6DB; }
-.mk-project { width: 8px; height: 8px; background: #FF5C47; transform: rotate(45deg) scale(0.9); }
-.mk-knowledge { border-radius: 50%; border: 1.5px solid #9EFFF5; }
-.mk-lab { border-radius: 50%; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); }
 /* No chapter marks, key or cue: the story is to feel, not to read. A way past it for the keyboard only. */
 .hm-skip { position: absolute; z-index: 5; left: var(--g); top: calc(var(--head) + 12px); padding: 8px 14px; border-radius: 999px; background: var(--ink); border: 1px solid var(--teal);
   font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t1); text-decoration: none; opacity: 0; pointer-events: none; }
@@ -174,13 +168,29 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 @media (max-width: 900px) { .hm-honest-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 680px) { .hm-isnt { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
 
-/* ── the pins' language for the three paths: gems in each path's material (teal candy enamel, red candy enamel,
-   gold) with a gold rim, and the braid (src/components/Braid.astro), rendered in LabsPin.blend. ── */
-.gem { --gem: #00A8B8; --rim: #CFAB67; display: inline-block; width: 12px; height: 12px; flex: none; border-radius: 50%;
-  background: radial-gradient(circle at 34% 30%, rgba(255, 255, 255, 0.8) 0 12%, rgba(255, 255, 255, 0) 34%), var(--gem);
-  box-shadow: 0 0 0 1.5px var(--rim), 0 0 12px -2px var(--gem); }
-.gem[data-gem="build"] { --gem: #ED1920; }
-.gem[data-gem="give"] { --gem: #CFAB67; --rim: #8C6B2E; }
+/* ── one visual language (see "The visual language" in the README): the model's actors and the three paths
+   joining opens share their marks, colours and materials. The pins' materials: candy enamel with a gloss and a
+   polished gold rim, and gold itself.
+     people     a pearl dot
+     places     a teal square    learn         teal candy enamel
+     projects   a red diamond    build         red candy enamel
+     knowledge  a gold ring      pass it on    gold
+   The same glyphs mark the actors in the hero's card and the paths everywhere else (.gem[data-gem]). ── */
+.hm { --pearl: #FFDBBD; --candy-teal: #00A8B8; --candy-red: #ED1920; --gold: #CFAB67; --gold-hi: #F4DFA8; --gold-lo: #8C6B2E;
+  --gloss: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0 10%, rgba(255, 255, 255, 0) 36%); }
+.gem, .mk { display: inline-block; flex: none; width: 12px; height: 12px; }
+.mk { width: 10px; height: 10px; }
+.gem[data-gem="learn"], .mk-place { border-radius: 2px; background: var(--gloss), var(--candy-teal); box-shadow: 0 0 0 1.5px var(--gold), 0 0 12px -2px var(--candy-teal); }
+.gem[data-gem="build"], .mk-project { border-radius: 1.5px; background: var(--gloss), var(--candy-red); box-shadow: 0 0 0 1.5px var(--gold), 0 0 12px -2px var(--candy-red); transform: rotate(45deg) scale(0.84); }
+.gem[data-gem="give"], .mk-knowledge { border-radius: 50%; border: 2.5px solid transparent;
+  background: linear-gradient(var(--ink), var(--ink)) padding-box, linear-gradient(135deg, var(--gold-hi), var(--gold) 45%, var(--gold-lo)) border-box; box-shadow: 0 0 12px -3px var(--gold); }
+.mk-person, .mk-contributor { border-radius: 50%; background: var(--gloss), var(--pearl); }
+.mk-contributor { box-shadow: 0 0 0 1.5px var(--gold); }
+.mk-lab { border-radius: 50%; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); }
+.hm-ch[data-ch="learn"] { --chc: var(--candy-teal); }
+.hm-ch[data-ch="build"] { --chc: var(--candy-red); }
+.hm-ch[data-ch="give"] { --chc: var(--gold); }
+
 .braid { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
 .braid img { display: block; width: max(100%, 860px); height: auto; }
 
@@ -204,9 +214,6 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 
 /* ── a chapter: one path. The threads with its strand lit, its name set large, then what it is. ── */
 .hm-ch { position: relative; padding-top: clamp(150px, 22vh, 240px); }
-.hm-ch[data-ch="learn"] { --chc: #00A8B8; }
-.hm-ch[data-ch="build"] { --chc: #ED1920; }
-.hm-ch[data-ch="give"] { --chc: #CFAB67; }
 .hm-ch-in { margin-top: clamp(36px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--gut); row-gap: 28px; align-items: end; }
 .hm-ch-k { margin: 0; display: flex; align-items: center; gap: 12px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; color: var(--t2); }
 

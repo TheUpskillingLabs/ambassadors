@@ -7,8 +7,12 @@
    centre. It's drawn the way actor-network theory sees an organisation: no given
    scale, only actors and their ties. People, places (the libraries), projects and
    knowledge (playbooks, code) are all actors, each its own mark:
-     people     a warm dot          places     a teal square
-     projects   a red diamond       knowledge  a pale ring
+     people     a pearl dot         places     a teal square
+     projects   a red diamond       knowledge  a gold ring
+   These are the page's glyphs too, in the pins' materials: the three paths
+   joining opens wear the same colours (learn teal, build red, pass it on
+   gold), so the model, the orbit emblem, the braid and the gems are one
+   visual language. The orbits are gold dust, as the emblem's orbits are gold.
    A Lab is nothing but its ties, and the whole behaves like a complex adaptive
    system: newcomers drift in and are pulled into the Lab with the strongest pull
    near them, new ties form as ideas spread, and it never stops rearranging.
@@ -19,10 +23,11 @@
    Dense enough, a Lab closes into a small orb of its own: a network so held
    together it reads as one thing. The Labs' orb, the logo's, is the deepest well.
 
-   Innovation arrives as jolts of energy, on a heartbeat. A project makes
-   something new and a spark runs out along its ties (white); the big ones find
-   their way up through a contributor to the orb (red). The orb flares, a
-   shockwave crosses the view, and the idea comes back down (teal) to every Lab
+   Innovation arrives as jolts of energy, on a heartbeat, and its colours tell
+   the three paths in order. A project makes something new and a spark runs
+   out along its ties (red: build); the big ones find their way up through a
+   contributor to the orb (gold: pass it on). The orb flares, a teal wave
+   crosses the orbits, and the idea comes back down (teal: learn) to every Lab
    tied to the commons, where it spreads again. Sparks strengthen the ties they
    cross, adopters form new ties, and what reaches the orb leaves new knowledge
    in the commons. Everything leaves a fading trail along its orbit.
@@ -32,11 +37,12 @@
    The page's scroll moves the camera through five shots, and each shot brings
    forward the kind of actor it's about:
      0  the logo's view: the orb and the system round it, under the title
-     1  together: inside the DC Lab, its people and the library (people, places)
+     1  learn: inside the DC Lab, its people and the library (people, places:
+        pearl dots and teal squares)
      2  build: close on a team round its project, the first cohort's faces lit
-        (projects)
-     3  further: a spark from DC up to the orb and back out to every Lab
-        (knowledge, which the commons keeps: what goes into every Lab next)
+        (projects: red diamonds)
+     3  pass it on: a spark from DC up to the orb and back out to every Lab
+        (knowledge, gold rings, which the commons keeps for every Lab next)
      4  you: the whole system from above, and the orb is the way in
 
    To make it legible, anything in it can be asked what it is: point at an
@@ -464,7 +470,7 @@ bool culled(vec3 p) { return (uM * p).z * uSide < 0.0; }`;
 const GLSL_STATE = `
 uniform highp sampler2D uPos; uniform highp sampler2D uSt; uniform highp sampler2D uOrb;
 ivec2 texAt(int i) { return ivec2(i % ${TEXW}, i / ${TEXW}); }
-const vec3 COL[5] = vec3[5](vec3(1.0, 0.86, 0.74), vec3(0.14, 0.84, 0.86), vec3(1.0, 0.36, 0.28), vec3(0.62, 1.0, 0.96), vec3(1.0, 0.78, 0.5));
+const vec3 COL[5] = vec3[5](vec3(1.0, 0.86, 0.74), vec3(0.14, 0.84, 0.86), vec3(1.0, 0.36, 0.28), vec3(1.0, 0.79, 0.44), vec3(1.0, 0.78, 0.5)); // pearl, teal, red, gold
 vec3 colOf(float kind) { int k = int(kind + 0.5); return k >= 10 ? vec3(1.0, 0.9, 0.8) : COL[min(k, 4)]; }`;
 
 const ACTOR_VS = `#version 300 es
@@ -593,7 +599,7 @@ void main() {
   float foc = uFocusAmt > 0.0 ? ((abs(aKind.y - uFocus) < 0.5 || abs(aKind.z - uFocus) < 0.5) ? 1.0 + 1.2 * uFocusAmt : 1.0 - 0.55 * uFocusAmt) : 1.0;
   float front = ib < 0 && (uM * M).z > 0.0 ? 0.35 : 1.0;
   float base = (bridge || ib < 0 ? 0.3 : 0.16) * st.x * foc * vis * front;
-  vec3 col = mix(bridge || ib < 0 ? vec3(0.24, 0.9, 0.88) : vec3(0.5, 0.78, 0.8), vec3(0.92, 0.97, 0.95), st.y * 0.75);
+  vec3 col = mix(bridge || ib < 0 ? vec3(0.95, 0.73, 0.38) : vec3(0.5, 0.78, 0.8), bridge || ib < 0 ? vec3(1.0, 0.95, 0.82) : vec3(0.92, 0.97, 0.95), st.y * 0.75); // contributors' ties are gold
   if (pod) { col = mix(col, mix(vec3(1.0, 0.82, 0.62), vec3(1.0, 0.97, 0.9) * 1.05, st.y), uPod); base += 0.4 * uPod * vis; }
   else base *= (1.0 - 0.55 * uPod) * (0.6 + 0.4 * uDense);
   float width = ((bridge ? 1.3 : 0.85) + 0.45 * (st.x - 1.0) + 0.3 * st.y + (pod ? 0.8 * uPod : 0.0)) * uPx;
@@ -679,7 +685,8 @@ ${GLSL_HASH}
 void main() {
   vec2 c = gl_PointCoord * 2.0 - 1.0; float r = dot(c, c); if (r > 1.0) discard;
   float a = vA * smoothstep(1.0, 0.1, r) * (0.6 + 0.8 * hash(gl_FragCoord.xy));
-  vec3 col = mix(vec3(0.12, 0.6, 0.64), vec3(0.5, 1.0, 0.96), clamp(vWell * 0.5 + vRip, 0.0, 1.0));
+  vec3 col = mix(vec3(0.5, 0.37, 0.17), vec3(1.0, 0.86, 0.56), clamp(vWell * 0.5, 0.0, 1.0)); // gold dust, as the emblem's orbits
+  col = mix(col, vec3(0.35, 1.0, 0.95), clamp(vRip * 1.4, 0.0, 1.0));                         // the wave from the orb: teal, learning going out
   o = vec4(col * a, a);
 }`;
 
@@ -1213,7 +1220,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       if (t < pu.t0) continue;
       const u = clamp((t - pu.t0) / pu.dur, 0, 1);
       const A = model.end(pu.from, pu.to), B = model.end(pu.to, pu.from);
-      const c: V3 = pu.kind === 1 ? [1, 0.3, 0.2] : pu.kind === 2 ? [0.25, 1, 0.92] : [1, 0.97, 0.88];
+      const c: V3 = pu.kind === 1 ? [1, 0.8, 0.42] : pu.kind === 2 ? [0.25, 1, 0.92] : [1, 0.42, 0.3]; // build red, pass it on gold, learn teal
       for (let k = 0; k < 5; k++) { const uu = u - k * 0.028; if (uu < 0) break; putS(lerp3(A, B, uu), k ? 8 - k * 1.1 : 13, (k ? 0.5 - k * 0.08 : 0.85) * (1 - 0.25 * u), c); }
     }
     gl!.bindBuffer(gl!.ARRAY_BUFFER, SP.buf); gl!.bufferSubData(gl!.ARRAY_BUFFER, 0, sparkArr, 0, sn * 11);
