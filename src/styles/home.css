@@ -43,9 +43,9 @@
   .hm-side { width: 100%; max-width: 34rem; }
   .hm-scene-in { padding-bottom: 66px; }
   .hm-side .hm-faces li { width: 40px; height: 40px; margin-left: -9px; }
-  .hm-close .hm-actions { gap: 12px; }
-  .hm-close .hm-actions .ghost { display: none; }
-  .hm-close .hm-actions .btn, .hm-close .hm-actions .ghost { min-height: 48px; padding: 0 18px; font-size: 16px; }
+  #start .hm-actions { gap: 12px; }
+  #start .hm-actions .ghost { display: none; }
+  #start .hm-actions .btn { min-height: 48px; padding: 0 18px; font-size: 16px; }
   .hm-side-lede { font-size: 19px; }
   .hm-side-h { font-size: clamp(32px, 9vw, 52px); }
   .hm-side-p { margin-top: 12px; font-size: 16px; }
@@ -137,45 +137,8 @@ html[data-scrolled="true"] .hm-brand { --bh: 38px; }
 .hm-faces img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .hm-people p { margin: 0; font-size: var(--fs-sm); font-weight: 600; color: var(--t2); }
 
-/* ── the next Build Cycle: a band lit by the glows, with the Upskiller button. ── */
-.hm-cycle { position: relative; isolation: isolate; margin-top: clamp(112px, 16vh, 164px); padding: clamp(72px, 10vh, 120px) 0; overflow-x: clip; }
-.hm-cycle::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background:
-  radial-gradient(ellipse 40% 42% at 72% 50%, rgba(var(--tl), 0.3) 0%, rgba(var(--tl), 0.1) 45%, rgba(var(--tl), 0) 100%),
-  radial-gradient(ellipse 30% 36% at 88% 76%, rgba(var(--red), 0.2) 0%, rgba(var(--red), 0) 100%); }
-.hm-cycle::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background-image: var(--grain); mix-blend-mode: overlay; opacity: 0.6;
-  -webkit-mask-image: radial-gradient(ellipse 40% 42% at 72% 50%, #000, transparent); mask-image: radial-gradient(ellipse 40% 42% at 72% 50%, #000, transparent); }
-.hm-cycle-in { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); align-items: center; }
-.hm-cycle-text { grid-column: 1 / span 6; }
-.hm-cycle-text .rp-h2 { margin-top: 18px; font-size: var(--fs-d1); line-height: 0.96; letter-spacing: -0.045em; }
-.hm-cycle-text .btn { margin-top: 32px; }
-.hm-cycle-button { grid-column: 8 / -1; justify-self: center; width: min(100%, 560px); }
-.hm-cycle-button img { width: 100%; height: auto; }
-
-/* ── sessions: the next few, as rows of when, what and where; then what they teach. ── */
-.hm-head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; }
-.hm-head-row .textlink { font-size: var(--fs-body); font-weight: 600; }
-.hm-events { list-style: none; margin: clamp(40px, 5vw, 72px) 0 0; padding: 0; border-bottom: 1px solid var(--rule); }
-.hm-events li { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); align-items: baseline; padding: 26px 0; border-top: 1px solid var(--rule); }
-.hm-events .when { grid-column: 1 / span 3; margin: 0; font-size: var(--fs-body); color: var(--t2); font-variant-numeric: tabular-nums; }
-.hm-events .when b { margin-right: 10px; font-weight: 600; color: var(--t1); }
-.hm-events h3 { grid-column: 4 / span 6; margin: 0; font-size: var(--fs-lead); font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; color: var(--t1); }
-.hm-events .where { grid-column: 10 / -1; margin: 0; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); text-align: right; }
-.hm-learn { list-style: none; margin: clamp(56px, 7vw, 96px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gut); }
-.hm-learn h3 { margin: 0; font-size: var(--fs-lead); font-weight: 600; letter-spacing: -0.02em; color: var(--t1); }
-.hm-learn p { margin: 12px 0 0; max-width: 32ch; font-size: var(--fs-body); line-height: 1.55; color: var(--t2); }
-
 /* ── the cycle's state: open until it closes, then underway (set on <html> before paint). ── */
 html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-when="open"] { display: none !important; }
-
-/* ── good to know: what it is and isn't, before anyone commits. ── */
-.hm-isnt { list-style: none; margin: clamp(40px, 5vw, 72px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px var(--gut); }
-.hm-isnt li { padding-top: 18px; border-top: 1px solid var(--rule); }
-.hm-isnt h3 { margin: 0; font-size: var(--fs-lead); font-weight: 600; line-height: 1.12; letter-spacing: -0.02em; color: var(--t1); }
-.hm-isnt p { margin: 12px 0 0; max-width: 36ch; font-size: var(--fs-body); line-height: 1.55; color: var(--t2); }
-.hm-apply { margin: 16px 0 0; font-size: var(--fs-sm); color: var(--t2); }
-.hm-ways { list-style: none; margin: 18px 0 22px; padding: 0; display: flex; flex-wrap: wrap; gap: 10px 24px; font-size: var(--fs-body); font-weight: 600; }
-@media (max-width: 1080px) { .hm-isnt { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 680px) { .hm-isnt { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
 
 /* ── one visual language (see "The visual language" in the README): the model's actors and the three paths
    joining opens share their marks, colours and materials. The pins' materials: candy enamel with a gloss and a
@@ -184,7 +147,7 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
      people     a pearl dot
      places     a teal square    learn         teal candy enamel
      projects   a red diamond    build         red candy enamel
-     knowledge  a silver ring    pass it on    silver
+     knowledge  a silver ring    share         silver
    The same glyphs mark the actors in the world's card and the paths everywhere else (.gem[data-gem]). ── */
 .hm { --pearl: #FFDBBD; --candy-teal: #00A8B8; --candy-red: #ED1920; --metal: #C9CED3; --metal-hi: #F4F7FA; --metal-lo: #6F7882;
   --gloss: radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0 10%, rgba(255, 255, 255, 0) 36%); }
@@ -192,14 +155,14 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 .mk { width: 10px; height: 10px; }
 .gem[data-gem="learn"], .mk-place { border-radius: 2px; background: var(--gloss), var(--candy-teal); box-shadow: 0 0 0 1.5px var(--metal), 0 0 12px -2px var(--candy-teal); }
 .gem[data-gem="build"], .mk-project { border-radius: 1.5px; background: var(--gloss), var(--candy-red); box-shadow: 0 0 0 1.5px var(--metal), 0 0 12px -2px var(--candy-red); transform: rotate(45deg) scale(0.84); }
-.gem[data-gem="give"], .mk-knowledge { border-radius: 50%; border: 2.5px solid transparent;
+.gem[data-gem="share"], .mk-knowledge { border-radius: 50%; border: 2.5px solid transparent;
   background: linear-gradient(var(--ink), var(--ink)) padding-box, linear-gradient(135deg, var(--metal-hi), var(--metal) 45%, var(--metal-lo)) border-box; box-shadow: 0 0 12px -3px var(--metal); }
 .mk-person, .mk-contributor { border-radius: 50%; background: var(--gloss), var(--pearl); }
 .mk-contributor { box-shadow: 0 0 0 1.5px var(--metal); }
 .mk-lab { border-radius: 50%; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); }
 .hm-ch[data-ch="learn"] { --chc: var(--candy-teal); }
 .hm-ch[data-ch="build"] { --chc: var(--candy-red); }
-.hm-ch[data-ch="give"] { --chc: var(--metal); }
+.hm-ch[data-ch="share"] { --chc: var(--metal); }
 .rp .hm-k { display: flex; align-items: center; gap: 12px; }
 .hm-k .gem { width: 10px; height: 10px; }
 
@@ -235,58 +198,13 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 .hm-ways-in span { font-size: var(--fs-sm); color: var(--t2); }
 .hm-ways-in em { font-style: normal; color: var(--teal); }
 .hm-ways-in a:hover b, .hm-ways-in a:focus-visible b { color: var(--teal); }
-.hm-close .hm-actions .btn, .hm-close .hm-actions .ghost { min-height: 52px; padding: 0 26px; font-size: 17px; }
+#start .hm-actions .btn, #start .hm-actions .ghost { min-height: 52px; padding: 0 26px; font-size: 17px; }
 @media (max-aspect-ratio: 1/1) { .hm-strands b, .hm-ways-in b { font-size: 19px; } .hm-strands a, .hm-ways-in a { padding: 9px 0; } }
-
-/* ── after the journey: the detail, on the plain ground. ── */
-.hm-after { padding-top: clamp(96px, 14vh, 160px); }
-
-/* ── pass it on: three ways, side by side under hairlines, each with a way on. ── */
-.hm-three { list-style: none; margin: clamp(40px, 5vw, 72px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gut); row-gap: 48px; }
-.hm-three li { padding-top: 22px; border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: flex-start; }
-.hm-three h3 { margin: 0; font-size: var(--fs-sub); font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; color: var(--t1); }
-.hm-three .rp-body { margin-top: 12px; }
-.hm-three .textlink { margin-top: auto; padding-top: 18px; font-size: var(--fs-body); font-weight: 600; }
-@media (max-width: 860px) { .hm-three { grid-template-columns: minmax(0, 1fr); } }
 
 /* ── a path's way in, at the end of its chapter: the hero's path button, again. ── */
 .hm-go { margin-top: clamp(40px, 5vw, 64px); max-width: 420px; }
-.hm-room-text .hm-go { margin-top: 28px; }
 .rp .hm-go .hm-path { padding: 16px 20px; font-size: 18px; font-weight: 600; }
 .hm-go .hm-path > span { font-size: 20px; letter-spacing: 0; }
-
-/* ── the room: a real evening at the library, full bleed, fading into the ink. ── */
-.hm-room { position: relative; isolation: isolate; margin-top: clamp(96px, 14vh, 160px); min-height: clamp(460px, 78vh, 820px); display: flex; align-items: flex-end; overflow: hidden; }
-.hm-room img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
-.hm-room::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(180deg, var(--ink) 0%, rgba(0, 20, 27, 0) 22%, rgba(0, 20, 27, 0) 45%, rgba(0, 20, 27, 0.78) 80%, var(--ink) 100%); }
-.hm-room-text { width: 100%; padding-bottom: clamp(48px, 8vh, 96px); }
-.hm-room-text .rp-h2 { margin: 0; font-size: var(--fs-d1); line-height: 0.96; letter-spacing: -0.045em; }
-.hm-room-text .rp-lede-sm { max-width: 30ch; }
-
-/* ── spotlights: two Upskillers, their words set large. ── */
-.hm-quote-row { margin-top: clamp(40px, 5vw, 72px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(32px, 5vw, 96px); row-gap: 48px; }
-.hm-quote-row figure { margin: 0; padding-top: 32px; border-top: 1px solid var(--rule); }
-.hm-portrait { display: block; width: 132px; height: 132px; margin-bottom: 28px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16), 0 0 0 7px rgba(var(--tl), 0.1), 0 18px 60px -12px rgba(var(--tl), 0.45); }
-.hm-quote-row blockquote { margin: 0; font-size: var(--fs-sub); font-weight: 500; line-height: 1.18; letter-spacing: -0.025em; color: var(--t1); text-wrap: pretty; text-indent: -0.4em; }
-.hm-quote-row figcaption { margin-top: 24px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
-.hm-quote-row figcaption b { margin-right: 12px; color: var(--t1); }
-
-/* ── cities: a list, the live one lit. ── */
-.hm-cities .rp-split { align-items: start; }
-.hm-cities .rp-head { grid-column: 1 / span 5; }
-.hm-city-list { grid-column: 6 / -1; list-style: none; margin: 0; padding: 0; border-bottom: 1px solid var(--rule); }
-.hm-city-list li { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1.3fr); column-gap: var(--gut); align-items: baseline; padding: 24px 0; border-top: 1px solid var(--rule); }
-.hm-city-list h3 { margin: 0; font-size: var(--fs-lead); font-weight: 600; letter-spacing: -0.02em; color: var(--t2); }
-.hm-city-list .active h3 { color: var(--t1); }
-.hm-city-list .state { margin: 0; display: inline-flex; align-items: center; gap: 10px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t2); }
-.hm-city-list .state i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--t2); }
-.hm-city-list .active .state { color: var(--teal); }
-.hm-city-list .active .state i { background: var(--teal); border-color: var(--teal); animation: jp-live 2s ease-out infinite; }
-.hm-city-list .detail { margin: 0; font-size: var(--fs-body); color: var(--t2); }
-
-/* ── story: the program page's rows, without the glow's red. ── */
-.hm-story::before { background: radial-gradient(ellipse 36% 26% at 10% 55%, rgba(var(--tl), 0.22) 0%, rgba(var(--tl), 0) 100%); }
 
 /* ── join ── */
 .hm-join h2 { max-width: 12em; }
@@ -318,30 +236,66 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   .hm-foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 860px) {
-  .hm-cycle-in { grid-template-columns: minmax(0, 1fr); row-gap: 24px; }
-  .hm-cycle-text, .hm-cycle-button { grid-column: auto; }
-  .hm-cycle-button { order: -1; width: min(82vw, 420px); margin-bottom: -40px; }
-  .hm-events li { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
-  .hm-events .when, .hm-events h3, .hm-events .where { grid-column: auto; text-align: left; }
-  .hm-learn { grid-template-columns: minmax(0, 1fr); row-gap: 32px; }
-  .hm-quote-row { grid-template-columns: minmax(0, 1fr); }
-  .hm-cities .rp-head, .hm-city-list { grid-column: auto; }
-  .hm-city-list li { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
-  .hm-city-list .detail { grid-column: 1 / -1; }
 }
 @media (max-width: 680px) {
   .hm-pause { bottom: 14px; }
   .rp .hm-path { padding: 9px 14px; font-size: 16px; }
   .hm-people { align-items: flex-start; }
   .hm-faces li { width: 46px; height: 46px; margin-left: -10px; }
-  .hm-portrait { width: 104px; height: 104px; }
   .rp.hm .rp-cta .hm-actions { justify-content: flex-start; }
 }
 
-
-/* The facts and the cities in the system's glyphs: each fact its actor, each city a Lab (a small orb, lit
-   where it's active, an outline where there's a waitlist). */
-.hm .rp-facts .mk { display: block; width: 18px; height: 18px; margin: 4px auto 22px; }
-@media (max-width: 680px) { .hm .rp-facts .mk { grid-row: 1 / span 2; margin: 5px 0 0 6px; } }
-.hm-city-list .state i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--t2); }
-.hm-city-list .active .state i { border: 0; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); box-shadow: 0 0 10px rgba(11, 210, 208, 0.45); animation: none; }
+/* ── the journey's scenes' smaller parts: a note, short lists, the room, this week's sessions, two Upskillers'
+   words, what it is and isn't, and the cities. Small and supporting, in the column beside the picture. ── */
+.hm-side-note { margin: 18px 0 0; padding-top: 14px; border-top: 1px solid var(--rule); max-width: 46ch; font-size: var(--fs-sm); line-height: 1.55; color: var(--t2); }
+.hm-mini { list-style: none; margin: 20px 0 0; padding: 0; border-bottom: 1px solid var(--rule); }
+.hm-mini li { display: grid; grid-template-columns: minmax(0, 11em) minmax(0, 1fr); column-gap: 18px; padding: 10px 0; border-top: 1px solid var(--rule); font-size: var(--fs-sm); line-height: 1.45; }
+.hm-mini b { font-weight: 600; color: var(--t1); }
+.hm-mini span { color: var(--t2); }
+.hm-mini .textlink { white-space: nowrap; font-weight: 600; }
+.hm-photo { margin: 0 0 22px; }
+.hm-photo img { display: block; width: 100%; max-width: 360px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 12%; border-radius: 12px; }
+.hm-photo figcaption { margin-top: 10px; max-width: 360px; font-size: 13px; line-height: 1.45; color: var(--t2); }
+.hm-rows { list-style: none; margin: 18px 0 0; padding: 0; border-bottom: 1px solid var(--rule); }
+.hm-rows li { display: grid; grid-template-columns: 7em minmax(0, 1fr) auto; column-gap: 14px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--rule); font-size: var(--fs-sm); line-height: 1.35; }
+.hm-rows .when { color: var(--t2); font-variant-numeric: tabular-nums; }
+.hm-rows .when b { font-weight: 600; color: var(--t1); }
+.hm-rows .what { font-weight: 600; color: var(--t1); }
+.hm-rows .where { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
+.hm-says { margin-top: 20px; display: grid; gap: 16px; }
+.hm-says figure { margin: 0; display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 14px; align-items: start; padding-top: 14px; border-top: 1px solid var(--rule); }
+.hm-says img { grid-row: 1 / span 2; width: 44px; height: 44px; border-radius: 50%; object-fit: cover; }
+.hm-says blockquote { margin: 0; font-size: var(--fs-body); line-height: 1.4; color: var(--t1); text-wrap: pretty; text-indent: -0.4em; }
+.hm-says figcaption { margin-top: 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
+.hm-says figcaption b { margin-right: 8px; color: var(--t1); }
+.hm-know { list-style: none; margin: 20px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 22px; }
+.hm-know li { padding-top: 10px; border-top: 1px solid var(--rule); font-size: 13px; line-height: 1.4; }
+.hm-know b { display: block; font-size: var(--fs-sm); font-weight: 600; color: var(--t1); }
+.hm-know span { color: var(--t2); }
+.hm-side .status { margin: 0; }
+.hm-side .status + .hm-side-h { margin-top: 14px; }
+.hm-cityline { list-style: none; margin: 20px 0 0; padding: 0; border-bottom: 1px solid var(--rule); }
+.hm-cityline li { display: grid; grid-template-columns: 12px auto minmax(0, 1fr); column-gap: 12px; align-items: baseline; padding: 9px 0; border-top: 1px solid var(--rule); font-size: var(--fs-sm); }
+.hm-cityline i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--t2); align-self: center; }
+.hm-cityline .active i { border: 0; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); box-shadow: 0 0 10px rgba(11, 210, 208, 0.45); }
+.hm-cityline b { font-weight: 600; color: var(--t2); }
+.hm-cityline .active b { color: var(--t1); }
+.hm-cityline span { justify-self: end; color: var(--t2); font-size: 13px; }
+.hm-side .hm-go { margin-top: 22px; }
+@media (max-aspect-ratio: 1/1) {
+  .hm-side-note, .hm-photo, .hm-mini span { display: none; }
+  .hm-mini { margin-top: 12px; }
+  .hm-mini li { grid-template-columns: minmax(0, 1fr); padding: 7px 0; }
+  .hm-mini-links span { display: none; }
+  .hm-rows { margin-top: 12px; }
+  .hm-rows li { grid-template-columns: 6.4em minmax(0, 1fr); padding: 7px 0; font-size: 14px; }
+  .hm-rows .where { display: none; }
+  .hm-says { margin-top: 12px; gap: 10px; }
+  .hm-says figure { padding-top: 10px; grid-template-columns: 34px minmax(0, 1fr); }
+  .hm-says img { width: 34px; height: 34px; }
+  .hm-says blockquote { font-size: 14px; }
+  .hm-know { margin-top: 12px; gap: 8px 14px; }
+  .hm-know span { display: none; }
+  .hm-cityline { margin-top: 12px; }
+  .hm-cityline li { padding: 7px 0; }
+}

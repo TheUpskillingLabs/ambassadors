@@ -11,7 +11,7 @@
      people     a pearl dot         places     a teal square
      projects   a red diamond       knowledge  a silver ring
    These are the page's glyphs too, in the pins' materials: the three paths
-   joining opens wear the same colours (learn teal, build red, pass it on
+   joining opens wear the same colours (learn teal, build red, share
    silver), so the model, the emblem, the weave and the gems are one visual
    language. The metal is silver because this is national (regional would be
    brass); the orbits are silver dust.
@@ -96,18 +96,27 @@ interface Shot { at: number; target: "orb" | "dc" | "between" | "pod" | "new"; t
    from it), then lower still, so the system rises out of frame and the thread is the picture. On wide screens
    the picture sits right of centre and the words beside it on the left; on portrait screens it sits high and
    the words below. Nothing is ever laid over it. */
+const SYS = { oElev: 15.4, oRoll: 22.5 };
+// Down the weave: each of a path's scenes sits a little further down the helix's axis (ty), so the camera
+// travels down its thread as the page goes on, and the system rises out of frame.
+const down = (ty: number, yaw = 0): Shot => ({ at: 0, target: "orb", ty, halfW: 7.5, elev: 2, roll: 1, ...SYS, yaw, sx: 0.36, sy: 0, px: 0, py: 0.45, pz: 0.5 });
+const weave: Shot = { at: 0, target: "orb", ty: -3.2, halfW: 9, elev: 7, roll: 2, ...SYS, yaw: 0, sx: 0.36, sy: 0.05, px: 0, py: 0.35, pz: 0.55 };
 const SHOTS: Shot[] = [
-  { at: 0, target: "orb", halfW: 7.1, elev: 38, roll: 24, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0, sy: -0.27, px: 0, py: -0.2, pz: 0.74 },     // the whole system, under the title
-  { at: 0, target: "orb", halfW: 8.6, elev: 30, roll: 18, oElev: 15.4, oRoll: 22.5, yaw: -10, sx: 0.42, sy: 0.04, px: 0, py: 0.4, pz: 0.66 },   // the system, beside what this is
-  { at: 0, target: "orb", ty: -3.2, halfW: 9, elev: 7, roll: 2, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0.05, px: 0, py: 0.35, pz: 0.55 },     // the weave, drawn down out of the orbits
-  { at: 0, target: "orb", ty: -9, halfW: 7.5, elev: 2, roll: 1, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0, px: 0, py: 0.45, pz: 0.5 },          // learn: down to its thread
-  { at: 0, target: "orb", ty: -15, halfW: 7.5, elev: 2, roll: 1, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0, px: 0, py: 0.45, pz: 0.5 },         // build
-  { at: 0, target: "orb", ty: -21, halfW: 7.5, elev: 2, roll: 1, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0, px: 0, py: 0.45, pz: 0.5 },         // pass it on
-  { at: 0, target: "orb", ty: -3.2, halfW: 9, elev: 7, roll: 2, oElev: 15.4, oRoll: 22.5, yaw: 0, sx: 0.36, sy: 0.05, px: 0, py: 0.35, pz: 0.55 },     // back up: the weave again
-  { at: 0, target: "orb", halfW: 8.6, elev: 34, roll: 14, oElev: 15.4, oRoll: 22.5, yaw: 8, sx: 0.42, sy: 0.06, px: 0, py: 0.62, pz: 0.7 },    // the system again, a new Lab born
+  { at: 0, target: "orb", halfW: 7.1, elev: 38, roll: 24, ...SYS, yaw: 0, sx: 0, sy: -0.27, px: 0, py: -0.2, pz: 0.74 },     // 0  the whole system, under the title
+  { at: 0, target: "orb", halfW: 8.6, elev: 30, roll: 18, ...SYS, yaw: -10, sx: 0.42, sy: 0.04, px: 0, py: 0.4, pz: 0.66 },  // 1  the system, beside what this is
+  { at: 0, target: "orb", halfW: 5.4, elev: 22, roll: 12, ...SYS, yaw: -4, sx: 0.4, sy: 0.02, px: 0, py: 0.42, pz: 0.72 },   // 2  close on the centre: one open project
+  { ...weave },                                                                                                    // 3  the weave, drawn down out of the orbits
+  down(-8, 4), down(-11, 2), down(-14, 0),                                                                         // 4–6  learn: its thread; open workshops; this week
+  down(-18, 0), down(-21, -2), down(-24, -2), down(-27, 0), down(-30, 2), down(-33, 2),                            // 7–12 build: its thread; a Pod; teams; a knot; the Showcase; the next cycle
+  down(-37, 0),                                                                                                    // 13 share: contributions rising up its thread
+  { at: 0, target: "orb", ty: -1.4, halfW: 6.6, elev: 14, roll: 4, ...SYS, yaw: 0, sx: 0.4, sy: 0.08, px: 0, py: 0.5, pz: 0.6 }, // 14 the centre: curated, sent out to every Lab
+  { ...weave, yaw: -6 },                                                                                           // 15 the weave again
+  { at: 0, target: "orb", halfW: 8.6, elev: 34, roll: 14, ...SYS, yaw: 8, sx: 0.42, sy: 0.06, px: 0, py: 0.62, pz: 0.7 },    // 16 the system: every Lab, one network, a new one born
+  { at: 0, target: "orb", halfW: 7.6, elev: 40, roll: 18, ...SYS, yaw: 16, sx: 0.42, sy: 0.06, px: 0, py: 0.62, pz: 0.7 },   // 17 the close
 ];
+/** Which scenes are which, by index: the system's, the weave's, and each path's (for the motif and the story). */
+const SCENE = { system: [0, 1, 2, 16, 17], weave: [3, 15], learn: [4, 5, 6], build: [7, 8, 9, 10, 11, 12], share: [13, 14], workshops: 5, pod: 8, teams: 9, stuck: 10, showcase: 11, rising: 13, centre: 14, born: 16 };
 SHOTS.forEach((s, i) => { s.at = i / (SHOTS.length - 1); });
-// The motif in each: the system (0, 1, 7), the weave (2, 6), a path's own thread (3 learn, 4 build, 5 pass it on).
 /** How much each shot is on screen at page progress p (0 … 1). */
 export function shotWeights(p: number): number[] {
   const s = p * (SHOTS.length - 1);
@@ -705,13 +714,14 @@ void main() {
 const STRAND_VS = `#version 300 es
 precision highp float;
 ${GLSL_CAM}
-in vec4 aS; // path (0 learn, 1 build, 2 pass it on), place along it, two seeds
+in vec4 aS; // path (0 learn, 1 build, 2 share), place along it, two seeds
 uniform float uPx; uniform float uTime; uniform float uStretch; uniform float uRing; uniform float uGlow; uniform float uTwist;
 uniform vec3 uFocus; uniform float uFocusSum; uniform float uCamY; uniform float uPortrait;
+uniform vec2 uKnot; // a knot in Build's thread: how tangled, and where
 out vec3 vCol; out float vA;
 const vec3 CANDY[3] = vec3[3](vec3(0.1, 0.84, 0.88), vec3(1.0, 0.3, 0.22), vec3(0.84, 0.89, 0.95)); // teal, red, silver
 const vec3 DUST = vec3(0.62, 0.68, 0.74);
-const float TURNS = 12.0, LEN = 32.0, RB = 0.5, Y0 = -0.62, U0 = 0.035;
+const float TURNS = 20.0, LEN = 53.0, RB = 0.5, Y0 = -0.62, U0 = 0.021;
 void main() {
   int k = int(aS.x + 0.5); float s1 = aS.z, s2 = aS.w, h = fract(s1 * 91.7 + s2 * 13.3);
   float f = uFocus[k], away = clamp(uFocusSum - f, 0.0, 1.0);
@@ -723,6 +733,10 @@ void main() {
   float th = u * TURNS * 6.2832 + float(k) * 2.0944 + uTwist;
   float ca = s1 * 6.2832, rr = (0.05 + 0.05 * f) * sqrt(s2) * (0.6 + 0.4 * down);
   vec3 p = vec3(cos(th) * r + cos(ca) * rr, Y0 - dep + (s2 - 0.5) * 0.03 + sin(ca) * rr * 0.6, sin(th) * r + sin(ca) * rr);
+  if (k == 1 && uKnot.x > 0.001) { // where a team gets stuck, Build's thread tangles on itself
+    float kw = uKnot.x * exp(-pow((p.y - uKnot.y) / 0.55, 2.0));
+    p += vec3(sin(u * 900.0 + th * 2.0), sin(u * 1300.0) * 0.55, cos(u * 700.0 + th * 3.0)) * 0.34 * kw;
+  }
   if (culled(p)) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); gl_PointSize = 0.0; return; }
   vec3 v = toView(p);
   gl_Position = toClip(v);
@@ -739,7 +753,7 @@ void main() {
   float below = mix(1.0, smoothstep(-0.04, 0.2, ndcY), uPortrait * drawn);
   vA = mix(a0, a1, drawn) * (0.55 + 0.9 * h) * smoothstep(1.0, 0.9, u) * below;
   vec3 col = CANDY[k];
-  if (k == 2) col = mix(col, mix(CANDY[0], CANDY[2], smoothstep(uCamY + 3.5, uCamY - 3.5, p.y)), f); // passed on: what was learned (teal), going out (silver)
+  if (k == 2) col = mix(col, mix(CANDY[0], CANDY[2], smoothstep(uCamY + 3.5, uCamY - 3.5, p.y)), f); // shared: what was learned (teal), going out (silver)
   vCol = mix(mix(DUST, col, mix(0.3, 0.85, uGlow)), col, drawn) * (1.0 + 0.6 * pulse);
   gl_PointSize = (mix(2.0, 1.7 + 0.6 * (0.5 + 0.5 * d) + 0.5 * f, drawn) + 1.4 * pulse) * uPx * (uD / -v.z);
 }`;
@@ -995,7 +1009,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   const FB = vao([[P.fab.prog, "aG", 4]], new Float32Array(grid), gl.STATIC_DRAW);
   const gridN = grid.length / 4;
   // The weave's dust: each path's points, spread evenly along it, with two seeds for where in the strand.
-  const perStrand = small ? 5200 : 10000, strandArr: number[] = [];
+  const perStrand = small ? 7000 : 14000, strandArr: number[] = [];
   for (let k = 0; k < 3; k++) for (let i = 0; i < perStrand; i++) strandArr.push(k, (i + rnd()) / perStrand, rnd(), rnd());
   const ST = vao([[P.strand.prog, "aS", 4]], new Float32Array(strandArr), gl.STATIC_DRAW);
   const strandN = strandArr.length / 4;
@@ -1218,6 +1232,10 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   const EMPH = [[1, 1, 1, 1], [1.2, 1.3, 0.8, 0.8], [1.1, 0.7, 1.4, 0.7], [0.85, 0.85, 0.9, 1.45], [1, 1, 1, 1]];
 
   /* the frame */
+  // The Build story's people: a fixed scatter for each, so they always drift in from the same places.
+  const mulberryAt = (() => { const r = mulberry(31), cache: [number, number, number][] = []; for (let i = 0; i < 16; i++) cache.push([r(), r(), r()]); return (i: number) => cache[i % 16]; })();
+  let knot = 0;
+  const pulsed: Record<number, boolean> = {};
   const t0 = performance.now();
   let last = t0, lastReal = t0, simT = 0, frame = 0, introT = 0;
   const fps = { acc: 0, n: 0 };
@@ -1233,11 +1251,13 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const ease60 = (k: number) => 1 - Math.pow(1 - k, rdt * 60);
     scrollE = still ? scrollP : lerp(scrollE, scrollP, ease60(0.1));
     const p = scrollE, sCur = p * (SHOTS.length - 1), w = shotWeights(p);
-    // The model's own logic reads five beats: the whole, learn, build, pass it on, and the close. (In the
+    // The model's own logic reads five beats: the whole, learn, build, share, and the close. (In the
     // threads' scenes the system is out of frame, so its beats there matter little.)
-    const beats = [w[0] + w[1] + w[2] + w[6], w[3], w[4], w[5], w[7]];
+    const sum = (ix: number[]) => ix.reduce((acc, i) => acc + (w[i] ?? 0), 0);
+    const learnW = sum(SCENE.learn), buildW = sum(SCENE.build), shareW = sum(SCENE.share);
+    const beats = [sum([...SCENE.system.slice(0, 3), ...SCENE.weave, SCENE.born]), learnW, buildW, shareW, w[SHOTS.length - 1]];
     // What the motif is: the system (its scenes' weight), else the weave, and how much each path's own thread leads.
-    const sysW = clamp(w[0] + w[1] + w[7], 0, 1), focus3: V3 = [w[3], w[4], w[5]], focusSum = clamp(w[3] + w[4] + w[5], 0, 1);
+    const sysW = clamp(sum(SCENE.system), 0, 1), focus3: V3 = [learnW, buildW, shareW], focusSum = clamp(learnW + buildW + shareW, 0, 1);
     if (!still && !pausedFlag) { simT += dt; introT += dt; model.step(dt, simT, simT > 3.2, beats[3] > 0.5, beats[1] + beats[2] > 0.5, beats[2] > 0.5); }
     // The opening runs on the clock, not on simulated time: on a slow device (frames capped at 50 ms) the
     // orb would otherwise sit half painted for seconds.
@@ -1313,6 +1333,103 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       const c: V3 = pu.kind === 1 ? [0.25, 1, 0.92] : pu.kind === 2 ? [0.86, 0.92, 1] : [1, 0.42, 0.3]; // build red; then what was learned rises teal, and comes back out silver, passed on
       for (let k = 0; k < 5; k++) { const uu = u - k * 0.028; if (uu < 0) break; putS(lerp3(A, B, uu), k ? 8 - k * 1.1 : 13, (k ? 0.5 - k * 0.08 : 0.85) * (1 - 0.25 * u), c); }
     }
+    // The small stories on the paths' threads, told with the model's own glyphs, round the camera's place on
+    // the helix (T[1]). The helix's geometry is the strand shader's, so a glyph set on a strand sits on it.
+    const putG = (q: V3, size: number, shape: number, flash: number, alpha: number, c: V3) => {
+      if (alpha < 0.01 || sn >= MAX_PULSES * TAIL) return;
+      sparkArr.set([q[0], q[1], q[2], size, shape, flash, alpha, c[0], c[1], c[2], -1], sn * 11); sn++;
+    };
+    const stretch = ease(1 - clamp(SCENE.system.reduce((acc, i) => acc + (w[i] ?? 0), 0), 0, 1));
+    const twist = (still ? 0 : t * 0.05) + sCur * 1.6;
+    const HX = { TURNS: 20, LEN: 53, Y0: -0.62, U0: 0.021 }; // the strand shader's helix
+    // Where along the helix a depth falls (Newton on the shader's depth curve), and a point on strand k there.
+    const uAt = (y: number) => {
+      const dep = HX.Y0 - y, L = Math.max(HX.LEN * stretch, 1e-3);
+      let u = clamp(dep / L + HX.U0, 0, 1);
+      for (let i = 0; i < 4; i++) { const f = L * (u - HX.U0 * (1 - Math.exp(-u / HX.U0))) - dep, d = L * (1 - Math.exp(-u / HX.U0)); u = clamp(u - f / Math.max(d, 1e-3), 0, 1); }
+      return u;
+    };
+    const onStrand = (k: number, y: number, r: number): V3 => { const th = uAt(y) * HX.TURNS * Math.PI * 2 + k * 2.0944 + twist; return [Math.cos(th) * r, y, Math.sin(th) * r]; };
+    const cy = T[1];
+    const PEARL: V3 = [1, 0.86, 0.74], SILVER: V3 = [0.86, 0.91, 0.97], RED: V3 = [1, 0.36, 0.28], TEAL: V3 = [0.14, 0.84, 0.86];
+    const wt = (i: number) => w[i] ?? 0;
+    // Learn: open workshops (silver rings) come down its thread into a room of people, who light up as each
+    // passes; below them the rings carry on brighter, improved by the room.
+    if (wt(SCENE.workshops) > 0.01) {
+      const v = wt(SCENE.workshops);
+      let lit = 0;
+      for (let i = 0; i < 3; i++) {
+        const ph = (t * 0.07 + i / 3) % 1, y = cy + 4.8 - ph * 9.6;
+        lit = Math.max(lit, Math.exp(-(((y - cy) / 0.55) ** 2)));
+        putG(onStrand(0, y, 0.16), 30, 3, y < cy ? 0.7 : 0.1, v * Math.sin(Math.PI * ph), SILVER);
+      }
+      for (let i = 0; i < 8; i++) { const a = (i / 8) * Math.PI * 2 + 0.3; putG([Math.cos(a) * 1.35, cy + Math.sin(a) * 1.05, 0.1 * Math.sin(a * 2)], 17, 0, 0.15 + 0.75 * lit, v, PEARL); }
+    }
+    // Build: strangers drift in and become a Pod round a problem situation on the thread; the Pod becomes
+    // teams round what they propose, with Mentors beside them; one team's thread knots, a workshop comes to
+    // it and frees it, then rises up the thread into what everyone shares; at the Showcase the projects light.
+    const vb = wt(SCENE.pod) + wt(SCENE.teams) + wt(SCENE.stuck) + wt(SCENE.showcase) + 0.45 * wt(SCENE.showcase + 1) + 0.6 * wt(SCENE.pod - 1) * clamp(sCur - (SCENE.pod - 1), 0, 1);
+    knot = 0;
+    if (vb > 0.01) {
+      const fPod = ease(clamp((sCur - (SCENE.pod - 0.75)) / 0.7, 0, 1)), fTeam = ease(clamp((sCur - (SCENE.teams - 0.75)) / 0.7, 0, 1));
+      const teams: [number, number][] = [[-1.25, 0.45], [1.25, 0.45], [0, -1.15]];
+      const sizes = [3, 4, 3];
+      let n = 0;
+      const show = wt(SCENE.showcase);
+      teams.forEach(([tx, ty], ti) => {
+        for (let j = 0; j < sizes[ti]; j++, n++) {
+          const sr = mulberryAt(n), sa = (n / 10) * Math.PI * 2 + 0.4;
+          const scatter: V3 = [(sr[0] < 0.5 ? -1 : 1) * (2.6 + sr[1] * 2.2), cy + (sr[2] - 0.5) * 6, (sr[0] - 0.5) * 2];
+          const pod: V3 = [Math.cos(sa) * 1.35, cy + Math.sin(sa) * 1.1, 0];
+          const ja = (j / sizes[ti]) * Math.PI * 2 + ti;
+          const team: V3 = [tx + Math.cos(ja) * 0.46, cy + ty + Math.sin(ja) * 0.4, 0];
+          const q = lerp3(lerp3(scatter, pod, fPod), team, fTeam);
+          putG(q, 17, 0, 0.1 + 0.6 * show * (0.6 + 0.4 * Math.sin(t * 3 + n)), vb * (0.25 + 0.75 * fPod), PEARL);
+        }
+        const dq: V3 = [tx, cy + ty, 0];
+        putG(dq, 28 + 8 * show, 2, 0.2 + 0.7 * show * (0.7 + 0.3 * Math.sin(t * 2.4 + ti)), vb * fTeam, RED);
+        if (show > 0.01) for (let j = 0; j < 6; j++) {
+          const ph = (t * 0.5 + j / 6 + ti * 0.13) % 1, a = (j / 6) * Math.PI * 2 + ti;
+          putG([tx + Math.cos(a) * ph * 1.0, cy + ty + Math.sin(a) * ph * 0.9, 0], 10, 5, 0, show * (1 - ph) * 0.8, ph < 0.4 ? [1, 0.9, 0.8] : RED);
+        }
+      });
+      const mentors: V3[] = [[-0.1, cy + 1.35, 0], [1.85, cy - 0.75, 0]];
+      mentors.forEach((m) => { putG(m, 17, 0, 0.3, vb * fTeam, PEARL); putG(m, 34, 3, 0.2, vb * fTeam * 0.9, SILVER); });
+      putG([0, cy, 0], 48, 5, 0, wt(SCENE.pod) * (1 - fTeam) * 0.55, RED); // the problem situation the Pod forms round
+      // The knot, on a loop while its scene holds: it tangles, a workshop comes from a Mentor and frees it,
+      // then rises up the thread.
+      const vs = wt(SCENE.stuck);
+      if (vs > 0.01) {
+        const ph = (t % 7) / 7;
+        knot = vs * ease(clamp((ph - 0.05) / 0.15, 0, 1)) * (1 - ease(clamp((ph - 0.55) / 0.17, 0, 1)));
+        let rq: V3 | null = null, ra = 0;
+        if (ph > 0.2 && ph < 0.62) { const k = ease(clamp((ph - 0.22) / 0.23, 0, 1)); rq = lerp3(mentors[0], [0, cy + 0.05, 0], k); ra = 1; }
+        else if (ph >= 0.62) { const k = ease(clamp((ph - 0.62) / 0.33, 0, 1)); rq = onStrand(1, cy + k * 5.5, 0.16); ra = 1 - k * 0.6; }
+        if (rq) putG(rq, 32, 3, 0.6, vs * ra, SILVER);
+      }
+    }
+    // Share: contributions (a workshop teal, a method red, code silver) rise up its thread to the centre,
+    // where the camera follows them; there they go into the orb.
+    const vr = wt(SCENE.rising) + wt(SCENE.centre);
+    if (vr > 0.01) {
+      const cols: V3[] = [TEAL, RED, SILVER];
+      for (let i = 0; i < 6; i++) {
+        const ph = (t * 0.06 + i / 6) % 1;
+        for (let tl = 0; tl < 4; tl++) {
+          const y = cy - 5 + (ph - tl * 0.012) * 10;
+          let q: V3;
+          if (y > HX.Y0 - 0.6) { const k = clamp((y - (HX.Y0 - 0.6)) / 0.9, 0, 1); q = lerp3(onStrand(2, Math.min(y, HX.Y0 - 0.1), 1.0), [0, 0, 0], k); }
+          else { const dep = HX.Y0 - y; q = onStrand(2, y, dep < 3 ? lerp(1.42 + 0.32, 0.16, ease(clamp(dep / 3, 0, 1))) : 0.16); }
+          putG(q, tl ? 15 - tl * 2.5 : 24, 5, 0, vr * Math.sin(Math.PI * ph) * (tl ? 0.6 - tl * 0.12 : 1), cols[i % 3]);
+        }
+      }
+    }
+    // The centre (and the open-project scene): the orb flares as the official version goes out to every Lab.
+    for (const sc of [2, SCENE.centre]) {
+      const v = wt(sc);
+      if (!still && v > 0.65 && !pulsed[sc]) { pulsed[sc] = true; model.join(simT); }
+      if (v < 0.3) pulsed[sc] = false;
+    }
     gl!.bindBuffer(gl!.ARRAY_BUFFER, SP.buf); gl!.bufferSubData(gl!.ARRAY_BUFFER, 0, sparkArr, 0, sn * 11);
 
     // Masses for the orbits' wells and the glows.
@@ -1377,6 +1494,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       gl!.uniform1f(U.uTwist, (still ? 0 : t * 0.05) + sCur * 1.6);
       gl!.uniform3f(U.uFocus, focus3[0], focus3[1], focus3[2]); gl!.uniform1f(U.uFocusSum, focusSum);
       gl!.uniform1f(U.uCamY, T[1]); gl!.uniform1f(U.uPortrait, cssW < cssH ? 1 : 0);
+      gl!.uniform2f(U.uKnot, knot, T[1] + 0.05);
       gl!.drawArrays(gl!.POINTS, 0, strandN);
     };
     const pole = apply(cam.O, [0, 1, 0]);
@@ -1401,7 +1519,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       const r = clamp((L.mass - 150) / 700, 0, 0.21);
       return { v: orbView(L.c), r: r * (0.5 + 0.5 * g), bright: (L.lit ? 1.05 : 0.8) * (focus === i ? 1 + 0.4 * focusAmt : 1) * g };
     }).filter((b) => b.r > 0.02);
-    const born = ease(clamp(sCur - (SHOTS.length - 2), 0, 1));
+    const born = ease(clamp(sCur - (SCENE.born - 1), 0, 1));
     if (born > 0.01) bodies.push({ v: orbView(model.newLab()), r: 0.17 * born, bright: 1.15 * born });
     bodies.sort((a, b) => a.v[2] - b.v[2]);
     const orbC = orbView([0, 0, 0]);

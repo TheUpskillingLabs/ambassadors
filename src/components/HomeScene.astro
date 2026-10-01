@@ -1,0 +1,29 @@
+---
+/* One scene of the home page's journey: a tall section the world plays out behind, its words held in a
+   column beside the picture (never over it) and cross-faded with the next scene's by the page's script.
+   `path` colours a path's scenes (learn, build, share); `opener` sets the path's name large, with its gem
+   and number. Everything else is the slot. Styles in src/styles/home.css (.hm-scene, .hm-side). */
+interface Props {
+  id: string;
+  path?: "learn" | "build" | "share";
+  label?: string;
+  labelledby?: string;
+  opener?: { no: string; verb: string };
+}
+const { id, path, label, labelledby, opener } = Astro.props;
+---
+<section id={id} class:list={["hm-scene", path && "hm-ch"]} data-ch={path} data-scene aria-label={label} aria-labelledby={labelledby}>
+  <div class="hm-scene-in" data-scene-in>
+    <div class="rp-wrap">
+      <div class="hm-side" data-quiet>
+        {opener && (
+          <>
+            <p class="hm-ch-k"><i class="gem" data-gem={path} aria-hidden="true"></i>{opener.no}</p>
+            <h2 class="hm-ch-verb" id={`${id}-t`}>{opener.verb}<span class="dot">.</span></h2>
+          </>
+        )}
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>

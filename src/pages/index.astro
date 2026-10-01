@@ -4,17 +4,25 @@
    free account (Join The Labs); everything after it (workshops, applying,
    contributing) happens inside the account, not here.
 
-   It opens with a journey, after Lusion's Oryzo: one live world held on screen
-   (src/scripts/orbnet.ts) while eight scenes go by, the words small and beside
-   the picture, never over it. The motif changes shape as you go: the whole
-   system under the title; the system beside what this is; its three path
-   orbits drawn down through time into a triple helix beneath the orb (one
-   account, three paths); each path's own thread (Learn, Build, Pass it on); the braid again;
-   the system again, a new Lab born in it, with the three ways in. Then the
-   world scrolls away and the detail follows on the plain ground: the short
-   version, the workshops and the room (Learn), a Build Cycle, what it is and
-   isn't, two Upskillers and the next cycle (Build), the ways to pass it on,
-   how it began, and the cities.
+   What it shows: The Labs is one big open project. Everyone in it builds three
+   things together (open workshops and playbooks, the method and kits that turn
+   strangers into teams doing real work, the platform every Lab runs on), and a
+   small team at the centre curates the official versions every Lab gets. The
+   Build Cycle is the engine: when teams hit obstacles, Mentors build the next
+   workshops around them, and what works is shared back.
+
+   It's one journey, after Lusion's Oryzo: a live world held on screen
+   (src/scripts/orbnet.ts) while eighteen scenes go by, each one idea, the words
+   small and beside the picture, never over it (src/components/HomeScene.astro).
+   The motif changes shape: the system under the title; beside what this is;
+   close on the centre (one open project); its three path orbits drawn down into
+   a triple helix (Learn it. Build it. Share it.); down the helix to each path's
+   thread, where small scenes play out: open workshops coming down Learn's; a
+   Pod forming, teams, a knot freed by a workshop, the Showcase and the next
+   cycle on Build's; contributions rising up Share's to the centre, which sends
+   the official version out; the weave again; the system again, every Lab on one
+   network and a new one born; the close, with the three ways in. Then the
+   footer.
 
    It's built on the role pages' system (src/styles/role.css, with home.css for
    what only this page has): ink, the teal and red glows with the grain only in
@@ -27,27 +35,20 @@ import "../styles/role.css";
 import "../styles/home.css";
 import { u } from "../lib/url";
 import h from "../../content/site/home.json";
-import HomeChapter from "../components/HomeChapter.astro";
+import HomeScene from "../components/HomeScene.astro";
 import list from "../../content/roles/roles.json";
 import j from "../../content/site/join.json";
 
 const L = h.links;
 const orbit = (f: string) => u(`/join/${f}`);
-const small = (s: string) => u(`/roles/${s}/button-400.webp`);
-const ACCT = '<svg class="acct" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="10" r="3.2"/><path d="M6.2 18.4c1.3-2.2 3.4-3.4 5.8-3.4s4.5 1.2 5.8 3.4"/></svg>';
-const nos = ["01", "02", "03", "04", "05", "06"];
 const pageTitle = h.title;
-// The four facts wear the system's glyphs: The Labs (a small orb), a place (the library), people, and
-// knowledge passed on (built by the people who learn here).
-const glyph: Record<string, string> = { free: "lab", place: "place", people: "person", keep: "knowledge" };
-// Each path in the last shot goes straight to the account, with the path it came from (?path=, proposed for OLOS).
+// Each way in goes straight to the account, with the path it came from (?path=, proposed for OLOS).
 const pathJoin = (slug: string) => `${L.join}&path=${slug}`;
-// The chapters, and where Contribute's ways link on.
-const ch = h.chapters, go = ch.go;
+const ch = h.chapters, J = h.journey, go = ch.go;
 const giveTo: Record<string, string> = { mentor: u("/mentor/"), github: L.github };
 // The cycle's state, switched by date: open until it closes, then underway. The page sets it again as it
 // loads, so a static build never shows a stale "applications open".
-const closesAt = `${h.cycle.closes}T00:00:00-04:00`;
+const closesAt = `${J.cycle.closes}T00:00:00-04:00`;
 const cycleState = Date.now() < Date.parse(closesAt) ? "open" : "closed";
 const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat(u("/home/suzie.webp"));
 ---
@@ -82,8 +83,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         <ul class="jp-links" id="jp-menu">
           <li><a class="navlink" href="#learn">{h.nav.learn}</a></li>
           <li><a class="navlink" href="#build">{h.nav.build}</a></li>
-          <li><a class="navlink" href="#give">{h.nav.give}</a></li>
-          <li><a class="navlink" href="#story">{h.nav.story}</a></li>
+          <li><a class="navlink" href="#share">{h.nav.share}</a></li>
+          <li><a class="navlink" href="#open">{h.nav.story}</a></li>
           <li class="menu-only"><a class="navlink" href={L.login}>{h.nav.login}</a></li>
         </ul>
         <div class="jp-end">
@@ -101,10 +102,10 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     </button>
 
     <main id="main">
-      <!-- The journey: one live world (src/scripts/orbnet.ts), held on screen while its scenes go by, each a tall
-           section whose words sit beside the picture, never over it, and cross-fade in place. The motif changes
-           shape as you go: the system, the weave, each path's thread, the weave, the system. Then the world scrolls
-           away, and the detail follows on the plain ground. -->
+      <!-- The journey: one live world (src/scripts/orbnet.ts), held on screen while its eighteen scenes go by,
+           each a tall section whose words sit beside the picture, never over it, and cross-fade in place. The
+           motif changes shape as you go: the system; the weave, drawn down out of its orbits; each path's own
+           thread, where small scenes play out; the weave again; the system again. Then the footer. -->
       <div class="hm-journey" data-journey>
         <div class="hm-world" data-world data-faces={JSON.stringify(faces)} data-words={JSON.stringify(h.model.hover)}>
           <div class="hm-orbit" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
@@ -113,7 +114,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
 
         <div class="hm-scenes">
-          <!-- 1. The system: the title over the whole of it. -->
+          <!-- The system: the title over the whole of it. -->
           <section id="top" class="hm-hero" data-scene>
             <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
             <div class="hm-scene-in hm-hero-in" data-scene-in>
@@ -128,274 +129,170 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             </div>
           </section>
 
-          <!-- 2. The system, beside what this is: the one action. -->
-          <section id="intro" class="hm-scene" data-scene aria-label={h.intro.label}>
-            <div class="hm-scene-in" data-scene-in>
-              <div class="rp-wrap"><div class="hm-side" data-quiet>
-                <p class="hm-side-lede">{h.intro.lede}</p>
-                <div class="hm-people">
-                  <ul class="hm-faces" aria-hidden="true">
-                    {[1, 2, 3, 4, 5, 6, 7].map((n) => <li><img src={u(`/home/face-${n}.webp`)} alt="" width="192" height="192" loading="lazy" decoding="async" /></li>)}
-                  </ul>
-                  <p>{h.intro.people}</p>
-                </div>
-                <p class="rp-terms"><b>{h.intro.strong}</b> {h.intro.terms}</p>
-                <div class="hm-actions">
-                  <a class="btn" href={L.join} data-hero-cta>{h.intro.cta}</a>
-                  <a class="textlink" href={L.login}>{h.intro.login}</a>
-                </div>
-                <p class="rp-account">{h.intro.note}</p>
-              </div></div>
+          <!-- The system, beside what this is: the one action. Its three path orbits glow. -->
+          <HomeScene id="intro" label={h.intro.label}>
+            <p class="hm-side-lede">{h.intro.lede}</p>
+            <div class="hm-people">
+              <ul class="hm-faces" aria-hidden="true">
+                {[1, 2, 3, 4, 5, 6, 7].map((n) => <li><img src={u(`/home/face-${n}.webp`)} alt="" width="192" height="192" loading="lazy" decoding="async" /></li>)}
+              </ul>
+              <p>{h.intro.people}</p>
             </div>
-          </section>
-
-          <!-- 3. The weave: three of the system's orbits drawn down into a vortex beneath the orb, one triple helix. -->
-          <section id="paths" class="hm-scene" data-scene aria-labelledby="paths-t">
-            <div class="hm-scene-in" data-scene-in>
-              <div class="rp-wrap"><div class="hm-side" data-quiet>
-                <p class="kicker">{h.threads.kicker}</p>
-                <h2 class="hm-side-h hm-triad" id="paths-t">{h.threads.title.split(/(?<=\.) /).map((t, i) => <>{i > 0 && " "}<span>{t}</span></>)}</h2>
-                <p class="hm-side-p">{h.threads.lede}</p>
-                <ol class="hm-strands">
-                  {h.threads.items.map((t) => <li><a href={`#${t.id}`}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.when}</span></a></li>)}
-                </ol>
-              </div></div>
+            <p class="rp-terms"><b>{h.intro.strong}</b> {h.intro.terms}</p>
+            <div class="hm-actions">
+              <a class="btn" href={L.join} data-hero-cta>{h.intro.cta}</a>
+              <a class="textlink" href={L.login}>{h.intro.login}</a>
             </div>
-          </section>
+            <p class="rp-account">{h.intro.note}</p>
+          </HomeScene>
 
-          <!-- 4–6. Each path's own thread (src/components/HomeChapter.astro). -->
-          <HomeChapter id="learn" c={ch.learn} />
-          <HomeChapter id="build" c={ch.build} />
-          <HomeChapter id="give" c={ch.give} />
+          <!-- One open project: close on the orb and the commons, a contribution rising to the centre and going
+               back out to every Lab. -->
+          <HomeScene id="open" labelledby="open-t">
+            <p class="kicker">{J.open.kicker}</p>
+            <h2 class="hm-side-h" id="open-t">{J.open.title}</h2>
+            <p class="hm-side-p">{J.open.lede}</p>
+            <p class="hm-side-note">{J.open.story}</p>
+          </HomeScene>
 
-          <!-- 7. The weave again: the three back together. -->
-          <section id="together" class="hm-scene" data-scene aria-labelledby="together-t">
-            <div class="hm-scene-in" data-scene-in>
-              <div class="rp-wrap"><div class="hm-side" data-quiet>
-                <p class="kicker">{h.together.kicker}</p>
-                <h2 class="hm-side-h" id="together-t">{h.together.title}</h2>
-                <p class="hm-side-p">{h.together.lede}</p>
-              </div></div>
+          <!-- The weave: three of the system's orbits drawn down into a vortex beneath the orb, one triple helix. -->
+          <HomeScene id="paths" labelledby="paths-t">
+            <p class="kicker">{h.threads.kicker}</p>
+            <h2 class="hm-side-h hm-triad" id="paths-t">{h.threads.title.split(/(?<=\.) /).map((t, i) => <>{i > 0 && " "}<span>{t}</span></>)}</h2>
+            <p class="hm-side-p">{h.threads.lede}</p>
+            <ol class="hm-strands">
+              {h.threads.items.map((t) => <li><a href={`#${t.id}`}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.when}</span></a></li>)}
+            </ol>
+          </HomeScene>
+
+          <!-- Learn: its thread; open workshops coming down it into a room of people; this week's. -->
+          <HomeScene id="learn" path="learn" labelledby="learn-t" opener={ch.learn}>
+            <p class="hm-ch-title">{ch.learn.title}</p>
+            <p class="hm-ch-when">{ch.learn.when}</p>
+            <p class="hm-ch-lede">{ch.learn.lede}</p>
+          </HomeScene>
+          <HomeScene id="workshops" path="learn" labelledby="workshops-t">
+            <p class="kicker hm-k"><i class="gem" data-gem="learn" aria-hidden="true"></i>{J.workshops.kicker}</p>
+            <h2 class="hm-side-h" id="workshops-t">{J.workshops.title}</h2>
+            <p class="hm-side-p">{J.workshops.lede}</p>
+            <ul class="hm-mini">
+              {J.workshops.topics.map((t) => <li><b>{t.title}</b><span>{t.body}</span></li>)}
+            </ul>
+          </HomeScene>
+          <HomeScene id="week" path="learn" labelledby="week-t">
+            <figure class="hm-photo">
+              <img src={u("/home/room-900.webp")} alt={J.week.photo.alt} width="900" height="675" loading="lazy" decoding="async" />
+              <figcaption>{J.week.photo.caption}</figcaption>
+            </figure>
+            <p class="kicker hm-k"><i class="gem" data-gem="learn" aria-hidden="true"></i>{J.week.kicker}</p>
+            <h2 class="hm-side-h" id="week-t">{J.week.title}</h2>
+            <ol class="hm-rows">
+              {J.week.items.map((e) => <li><span class="when"><b>{e.date}</b> {e.time}</span><span class="what">{e.title}</span><span class="where">{e.where}</span></li>)}
+            </ol>
+            <a class="textlink hm-more" href={L.events}>{J.week.all} →</a>
+          </HomeScene>
+
+          <!-- Build: its thread; strangers becoming a Pod; teams round what they propose; a knot freed by a
+               workshop; the Showcase; the next cycle. -->
+          <HomeScene id="build" path="build" labelledby="build-t" opener={ch.build}>
+            <p class="hm-ch-title">{ch.build.title}</p>
+            <p class="hm-ch-when">{ch.build.when}</p>
+            <p class="hm-ch-lede">{ch.build.lede}</p>
+          </HomeScene>
+          {(["pod", "teams", "stuck"] as const).map((id) => (
+            <HomeScene id={id} path="build" labelledby={`${id}-t`}>
+              <p class="kicker hm-k"><i class="gem" data-gem="build" aria-hidden="true"></i>{J[id].kicker}</p>
+              <h2 class="hm-side-h" id={`${id}-t`}>{J[id].title}</h2>
+              <p class="hm-side-p">{J[id].lede}</p>
+            </HomeScene>
+          ))}
+          <HomeScene id="showcase" path="build" labelledby="showcase-t">
+            <p class="kicker hm-k"><i class="gem" data-gem="build" aria-hidden="true"></i>{J.showcase.kicker}</p>
+            <h2 class="hm-side-h" id="showcase-t">{J.showcase.title}</h2>
+            <p class="hm-side-p">{J.showcase.lede}</p>
+            <div class="hm-says">
+              {J.showcase.quotes.map((q) => (
+                <figure>
+                  <img src={u(`/home/${q.photo}.webp`)} alt="" width="560" height="560" loading="lazy" decoding="async" />
+                  <blockquote>“{q.quote}”</blockquote>
+                  <figcaption><b>{q.name}</b> {q.role}</figcaption>
+                </figure>
+              ))}
             </div>
-          </section>
-
-          <!-- 8. The system again, with a new Lab born in it: the one action, and the three ways in. -->
-          <section id="start" class="hm-scene hm-close" data-scene aria-labelledby="start-t">
-            <div class="hm-scene-in" data-scene-in>
-              <div class="rp-wrap"><div class="hm-side" data-quiet>
-                <h2 class="hm-side-h" id="start-t">{h.join.title}</h2>
-                <p class="hm-side-p">{h.join.lede}</p>
-                <ul class="hm-ways-in">
-                  {h.threads.items.map((t) => <li><a href={pathJoin(t.path)}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.then}</span><em aria-hidden="true">→</em></a></li>)}
-                </ul>
-                <div class="hm-actions">
-                  <a class="btn" href={L.join}>{h.join.cta}</a>
-                  <a class="ghost" href={L.donate}>{h.join.donate}</a>
-                </div>
-                <p class="rp-account">{h.join.note}</p>
-              </div></div>
+          </HomeScene>
+          <HomeScene id="cycle" path="build" labelledby="cycle-t">
+            <div data-when="open">
+              <p class="status"><i aria-hidden="true"></i>{J.cycle.kicker}</p>
+              <h2 class="hm-side-h" id="cycle-t">{J.cycle.title}</h2>
+              <p class="hm-side-p">{J.cycle.body}</p>
             </div>
-          </section>
+            <div data-when="closed">
+              <p class="status"><i aria-hidden="true"></i>{J.cycle.closed.kicker}</p>
+              <h2 class="hm-side-h">{J.cycle.closed.title}</h2>
+              <p class="hm-side-p">{J.cycle.closed.body}</p>
+            </div>
+            <ul class="hm-know" aria-label={J.cycle.know.kicker}>
+              {J.cycle.know.items.map((it) => <li><b>{it.title}</b><span>{it.body}</span></li>)}
+            </ul>
+            <div class="hm-actions">
+              <a class="btn" href={pathJoin("build")} data-when="open">{J.cycle.cta}</a>
+              <a class="btn" href={L.join} data-when="closed">{J.cycle.closed.cta}</a>
+              <a class="textlink" href={u("/upskiller/")}>{J.cycle.upskiller}</a>
+            </div>
+            <p class="rp-account" data-when="open">{J.cycle.apply}</p>
+            <p class="rp-account" data-when="closed">{J.cycle.closed.note}</p>
+          </HomeScene>
+
+          <!-- Share: its thread, with contributions rising up it; then the centre, where they're curated and
+               sent back out to every Lab. -->
+          <HomeScene id="share" path="share" labelledby="share-t" opener={ch.share}>
+            <p class="hm-ch-title">{ch.share.title}</p>
+            <p class="hm-ch-when">{ch.share.when}</p>
+            <p class="hm-ch-lede">{ch.share.lede}</p>
+            <ul class="hm-mini hm-mini-links">
+              {ch.share.ways.map((w) => <li><b>{w.title}</b><span>{w.body}{w.to && <> <a class="textlink" href={giveTo[w.to]}>{w.link} →</a></>}</span></li>)}
+            </ul>
+          </HomeScene>
+          <HomeScene id="centre" path="share" labelledby="centre-t">
+            <p class="kicker hm-k"><i class="gem" data-gem="share" aria-hidden="true"></i>{J.centre.kicker}</p>
+            <h2 class="hm-side-h" id="centre-t">{J.centre.title}</h2>
+            <p class="hm-side-p">{J.centre.lede}</p>
+            <div class="hm-go"><a class="hm-path" href={pathJoin(go.share.path)}><em>{go.share.label}<small>{go.share.note}</small></em><span aria-hidden="true">→</span></a></div>
+          </HomeScene>
+
+          <!-- The weave again: the loop. -->
+          <HomeScene id="together" labelledby="together-t">
+            <p class="kicker">{J.together.kicker}</p>
+            <h2 class="hm-side-h" id="together-t">{J.together.title}</h2>
+            <p class="hm-side-p">{J.together.lede}</p>
+          </HomeScene>
+
+          <!-- The system again: every Lab on its own and on the network; a new Lab born; the cities. -->
+          <HomeScene id="labs" labelledby="labs-t">
+            <p class="kicker">{J.labs.kicker}</p>
+            <h2 class="hm-side-h" id="labs-t">{J.labs.title}</h2>
+            <p class="hm-side-p">{J.labs.lede}</p>
+            <ul class="hm-cityline">
+              {J.labs.items.map((c) => <li class:list={{ active: c.active }}><i aria-hidden="true"></i><b>{c.city}</b><span>{c.status} · {c.detail}</span></li>)}
+            </ul>
+            <p class="rp-account">{J.labs.note}</p>
+          </HomeScene>
+
+          <!-- The close: the one action, and the three ways in. -->
+          <HomeScene id="start" labelledby="start-t">
+            <h2 class="hm-side-h" id="start-t">{h.join.title}</h2>
+            <p class="hm-side-p">{h.join.lede}</p>
+            <ul class="hm-ways-in">
+              {h.threads.items.map((t) => <li><a href={pathJoin(t.path)}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.then}</span><em aria-hidden="true">→</em></a></li>)}
+            </ul>
+            <div class="hm-actions">
+              <a class="btn" href={L.join}>{h.join.cta}</a>
+              <a class="ghost" href={L.donate}>{h.join.donate}</a>
+            </div>
+            <p class="rp-account">{h.join.note}</p>
+          </HomeScene>
         </div>
       </div>
-
-      <!-- The detail, after the journey, on the plain ground: the short version, then each path's own detail in
-           the journey's order, how it began, and the cities. -->
-      <section id="what" class="rp-sec rp-simple hm-after">
-        <div class="rp-wrap">
-          <div class="rp-head center reveal">
-            <p class="kicker">{h.facts.kicker}</p>
-            <h2 class="rp-h2">{h.facts.title}</h2>
-          </div>
-          <ul class="rp-facts">
-            {h.facts.items.map((f) => (
-              <li class="reveal">
-                <i class={`mk mk-${glyph[f.icon] ?? "person"}`} aria-hidden="true"></i>
-                <h3>{f.title}</h3>
-                <p>{f.body}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <!-- Learn: the next few workshops to drop into, and what they teach, then the room. -->
-      <section id="sessions" class="rp-sec hm-sessions">
-        <div class="rp-wrap">
-          <div class="hm-head-row reveal">
-            <div class="rp-head">
-              <p class="kicker hm-k"><i class="gem" data-gem="learn" aria-hidden="true"></i>{h.sessions.kicker}</p>
-              <h2 class="rp-h2">{h.sessions.title}</h2>
-            </div>
-            <a class="textlink" href={L.events}>{h.sessions.all} →</a>
-          </div>
-          <ol class="hm-events">
-            {h.sessions.items.map((e) => (
-              <li class="reveal">
-                <p class="when"><b>{e.date}</b> {e.time}</p>
-                <h3>{e.title}</h3>
-                <p class="where">{e.where}</p>
-              </li>
-            ))}
-          </ol>
-          <ul class="hm-learn">
-            {h.sessions.learn.map((l) => (
-              <li class="reveal"><h3>{l.title}</h3><p>{l.body}</p></li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <!-- The room: where it happens, and who's in it. -->
-      <section class="hm-room" aria-labelledby="room-t">
-        <img src={u("/home/room-1800.webp")} srcset={`${u("/home/room-900.webp")} 900w, ${u("/home/room-1800.webp")} 1800w`} sizes="100vw" alt={h.room.alt} width="1800" height="1350" loading="lazy" decoding="async" />
-        <div class="rp-wrap hm-room-text reveal">
-          <h2 class="rp-h2" id="room-t">{h.room.title}</h2>
-          <p class="rp-lede-sm">{h.room.body}</p>
-          <div class="hm-go"><a class="hm-path" href={pathJoin(go.learn.path)}><em>{go.learn.label}<small>{go.learn.note}</small></em><span aria-hidden="true">→</span></a></div>
-        </div>
-      </section>
-
-      <!-- Build: how a Build Cycle works, from a workshop to the Showcase and giving back; what it is and isn't;
-           two Upskillers in their own words; then the next cycle, with the button. -->
-      <section id="how" class="rp-sec rp-path">
-        <div class="rp-wrap">
-          <div class="rp-head reveal">
-            <p class="kicker hm-k"><i class="gem" data-gem="build" aria-hidden="true"></i>{h.how.kicker}</p>
-            <h2 class="rp-h2">{h.how.title}</h2>
-          </div>
-          <ol class="rp-steps" style={`--n: ${h.how.steps.length}`}>
-            {h.how.steps.map((s, i) => (
-              <li class:list={["reveal", s.mark && `is-${s.mark}`]}>
-                <span class="dot" aria-hidden="true"></span>
-                <p class="rp-step"><span class="no">{nos[i]}</span></p>
-                <h3>{s.title}</h3>
-                <p class="rp-body">{s.body}</p>
-                {s.mark === "account" && <p class="rp-mark"><Fragment set:html={ACCT} />{h.how.markAccount}</p>}
-                {s.mark === "button" && <p class="rp-mark"><img src={small("upskiller")} alt="" width="40" height="40" loading="lazy" />{h.how.markButton}</p>}
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <!-- What it is and isn't: a realistic preview, before anyone commits. The application itself, its dates and
-           its questions are inside the account. -->
-      <section id="before" class="rp-sec hm-honest">
-        <div class="rp-wrap">
-          <div class="rp-head reveal">
-            <p class="kicker">{h.honest.kicker}</p>
-            <h2 class="rp-h2">{h.honest.title}</h2>
-          </div>
-          <ul class="hm-isnt">
-            {h.honest.items.map((it) => <li class="reveal"><h3>{it.title}</h3><p>{it.body}</p></li>)}
-          </ul>
-        </div>
-      </section>
-
-      <!-- Spotlights: two Upskillers, in their own words. -->
-      <section id="spotlights" class="rp-sec hm-quotes">
-        <div class="rp-wrap">
-          <div class="rp-head reveal">
-            <p class="kicker">{h.spotlights.kicker}</p>
-            <h2 class="rp-h2">{h.spotlights.title}</h2>
-          </div>
-          <div class="hm-quote-row">
-            {h.spotlights.items.map((q) => (
-              <figure class="reveal">
-                <img class="hm-portrait" src={u(`/home/${q.photo}.webp`)} alt={q.name} width="560" height="560" loading="lazy" decoding="async" />
-                <blockquote>“{q.quote}”</blockquote>
-                <figcaption><b>{q.name}</b> {q.role}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <!-- The next Build Cycle, with the button every Upskiller gets. Open until it closes, then underway. -->
-      <section id="cycle" class="hm-cycle">
-        <div class="rp-wrap hm-cycle-in reveal">
-          <div class="hm-cycle-text" data-when="open">
-            <p class="status"><i aria-hidden="true"></i>{h.cycle.kicker}</p>
-            <h2 class="rp-h2">{h.cycle.title}</h2>
-            <p class="rp-lede-sm">{h.cycle.body}</p>
-            <p class="hm-apply">{h.cycle.apply}</p>
-            <a class="btn" href={pathJoin("build")}>{h.cycle.cta}</a>
-          </div>
-          <div class="hm-cycle-text" data-when="closed">
-            <p class="status"><i aria-hidden="true"></i>{h.cycle.closed.kicker}</p>
-            <h2 class="rp-h2">{h.cycle.closed.title}</h2>
-            <p class="rp-lede-sm">{h.cycle.closed.body}</p>
-            <ul class="hm-ways">
-              {h.cycle.closed.ways.map((w) => <li><a class="textlink" href={w.to === "mentor" ? u("/mentor/") : L.events}>{w.label} →</a></li>)}
-            </ul>
-            <a class="btn" href={L.join}>{h.cycle.closed.cta}</a>
-            <p class="hm-apply">{h.cycle.closed.note}</p>
-          </div>
-          <a class="hm-cycle-button" href={u("/upskiller/")} aria-label="The Upskiller button: what Upskillers do">
-            <img src={u("/roles/upskiller/hero-760.webp")} alt="" width="760" height="760" loading="lazy" decoding="async" />
-          </a>
-        </div>
-      </section>
-
-      <!-- Pass it on: the ways to make The Labs better, then the way in. -->
-      <section id="ways" class="rp-sec hm-give">
-        <div class="rp-wrap">
-          <div class="rp-head reveal">
-            <p class="kicker hm-k"><i class="gem" data-gem="give" aria-hidden="true"></i>{ch.give.kicker}</p>
-            <h2 class="rp-h2">{ch.give.heading}</h2>
-          </div>
-          <ul class="hm-three">
-            {ch.give.ways.map((w) => (
-              <li class="reveal">
-                <h3>{w.title}</h3>
-                <p class="rp-body">{w.body}</p>
-                {w.to && <a class="textlink" href={giveTo[w.to]}>{w.link} →</a>}
-              </li>
-            ))}
-          </ul>
-          <div class="hm-go reveal"><a class="hm-path" href={pathJoin(go.give.path)}><em>{go.give.label}<small>{go.give.note}</small></em><span aria-hidden="true">→</span></a></div>
-        </div>
-      </section>
-
-      <!-- How it began and where it's going, then the cities. -->
-      <section id="story" class="rp-sec rp-moments hm-story">
-        <div class="rp-wrap">
-          <div class="rp-head reveal">
-            <p class="kicker">{h.story.kicker}</p>
-            <h2 class="rp-h2">{h.story.title}</h2>
-          </div>
-          <ol class="rp-rows">
-            {h.story.items.map((m, i) => (
-              <li class="rp-row reveal">
-                <p class="rp-step"><span class="no">{nos[i]}</span></p>
-                <h3>{m.title}</h3>
-                <p class="rp-body">{m.body}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <!-- Cities: where there's a Lab, and where there's a waitlist. -->
-      <section id="cities" class="rp-sec hm-cities">
-        <div class="rp-wrap rp-split">
-          <div class="rp-head reveal">
-            <p class="kicker">{h.cities.kicker}</p>
-            <h2 class="rp-h2">{h.cities.title}</h2>
-            <p class="rp-lede-sm">{h.cities.note}</p>
-          </div>
-          <ul class="hm-city-list reveal">
-            {h.cities.items.map((c) => (
-              <li class:list={{ active: c.active }}>
-                <h3>{c.city}</h3>
-                <p class="state"><i aria-hidden="true"></i>{c.status}</p>
-                <p class="detail">{c.detail}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
     </main>
 
     <footer class="hm-foot">
@@ -407,7 +304,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <a class="ghost small" href={L.donate}>{h.join.donate}</a>
           </div>
           <nav class="hm-foot-cols" aria-label="Footer">
-            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#cities">{h.cities.title.replace(".", "")}</a></div>
+            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#labs">{J.labs.kicker}</a></div>
             <div><p class="kicker">{h.footer.roles}</p>{list.roles.map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
             <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={L.contact}>{h.footer.contact}</a><a href={L.join}>{h.footer.member}</a></div>
             <div><p class="kicker">{h.footer.open}</p><a href={L.github}>{h.footer.built}</a><a href={L.join}>{h.nav.cta}</a></div>
@@ -446,7 +343,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       // with the next (the old one out, then the new one in), so words never scroll across the picture. The
       // last scene isn't held as it leaves: it scrolls away with the world, into the detail.
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const scenes = ["top", "intro", "paths", "learn", "build", "give", "together", "start"].map((id) => document.getElementById(id)!);
+      const scenes = [...document.querySelectorAll<HTMLElement>("[data-scene]")];
       const inners = scenes.map((el) => el.querySelector<HTMLElement>("[data-scene-in]")!);
       const ons = scenes.map(() => 0);
       const smooth = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
