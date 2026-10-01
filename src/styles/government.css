@@ -1,0 +1,76 @@
+/* ════ /government/ — For government. The program page's look (join.css) with
+   this page's own layout: a text-led hero beside the world's picture, the three
+   words, the tiers, the options, and the details box. ════ */
+
+/* hero: the words on the left, the picture of The Labs on the right; on a
+   phone, the picture above. The render sits on black, so it's screened onto
+   the ink (black drops out) and feathered at its edges: no box shows. */
+.gv-hero { position: relative; min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center;
+  column-gap: clamp(24px, 4vw, 64px); padding: calc(var(--head) + 32px) var(--g) clamp(56px, 8vh, 96px); }
+.gv-hero-copy { position: relative; z-index: 1; grid-column: 1; grid-row: 1; max-width: 720px; }
+.gv-hero h1 { margin: 18px 0 0; font-size: clamp(48px, 6.1vw, 104px); font-weight: 700; line-height: 0.94; letter-spacing: -0.05em; color: var(--t1); }
+.gv-hero .lede { margin-top: 28px; max-width: 34em; font-size: clamp(18px, 1.6vw, 22px); }
+.gv-ctas { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
+.gv-hero .rise { animation-delay: 0.05s; }
+.gv-hero .d1 { animation-delay: 0.15s; }
+.gv-hero .d2 { animation-delay: 0.3s; }
+.gv-hero .d3 { animation-delay: 0.45s; }
+.gv-art { grid-column: 2; grid-row: 1; align-self: stretch; position: relative; margin-right: calc(-1 * var(--g)); min-height: 420px; pointer-events: none; mix-blend-mode: screen;
+  animation: gv-art-in 1.8s cubic-bezier(.2, .7, .2, 1) both; }
+.gv-art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 68%;
+  -webkit-mask-image: radial-gradient(ellipse 62% 58% at 52% 64%, #000 55%, rgba(0, 0, 0, 0.6) 72%, transparent 100%);
+  mask-image: radial-gradient(ellipse 62% 58% at 52% 64%, #000 55%, rgba(0, 0, 0, 0.6) 72%, transparent 100%); }
+@keyframes gv-art-in { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: none; } }
+@media (max-width: 900px) {
+  .gv-hero { grid-template-columns: minmax(0, 1fr); align-items: end; min-height: auto; padding-top: calc(var(--head) + 8px); }
+  .gv-art { grid-column: 1; grid-row: 1; margin: 0 calc(-1 * var(--g)); min-height: 0; height: min(42svh, 86vw); }
+  .gv-art img { object-position: 50% 72%; -webkit-mask-image: radial-gradient(ellipse 70% 62% at 50% 62%, #000 50%, transparent 100%); mask-image: radial-gradient(ellipse 70% 62% at 50% 62%, #000 50%, transparent 100%); }
+  .gv-hero-copy { grid-row: 2; margin-top: 12px; }
+}
+
+/* the three words: each large, with what it means here beside it */
+.gv-words { margin: clamp(40px, 6vw, 72px) 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); column-gap: clamp(24px, 4vw, 48px); }
+.gv-words > div { padding: 26px 0 30px; border-top: 1px solid var(--rule); }
+.gv-words dt { font-size: clamp(32px, 3.6vw, 48px); font-weight: 700; letter-spacing: -0.035em; line-height: 1; color: var(--t1); }
+.gv-words dd { margin: 16px 0 0; max-width: 30em; font-size: 17px; line-height: 1.55; color: var(--t2); }
+
+/* the tiers: a row each; sector cohorts sit inside the open cycle, so their row
+   is set in from it, hung on a gold rule (gold: the local, the norm) */
+.gv-tiers { margin: clamp(40px, 6vw, 72px) 0 0; padding: 0; list-style: none; }
+.gv-tiers li { display: grid; grid-template-columns: 56px minmax(0, 0.8fr) minmax(0, 1.2fr); column-gap: clamp(20px, 3vw, 40px); padding: 28px 0 32px; border-top: 1px solid var(--rule); }
+.gv-tiers .n { font-size: 18px; font-weight: 700; color: var(--t2); }
+.gv-tiers h3 { margin: 0; font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; letter-spacing: -0.02em; color: var(--t1); }
+.gv-tiers .when { margin: 8px 0 0; font-size: 15px; color: var(--teal); }
+.gv-tier-b p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--t2); }
+.gv-tier-b p + p { margin-top: 12px; }
+.gv-tiers li.inside { margin-left: clamp(24px, 6vw, 96px); padding-left: clamp(16px, 2vw, 28px); border-top: 0; border-left: 2px solid #CFAB67; }
+.gv-tiers li.inside .n { color: #CFAB67; }
+.gv-inside { margin: 0 0 8px; font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #CFAB67; }
+@media (max-width: 760px) {
+  .gv-tiers li { grid-template-columns: 40px minmax(0, 1fr); row-gap: 14px; }
+  .gv-tier-b { grid-column: 2; }
+}
+
+/* the options: numbered rows, title and what it means */
+.gv-options { margin: clamp(40px, 6vw, 72px) 0 0; padding: 0; list-style: none; }
+.gv-options li { display: grid; grid-template-columns: 56px minmax(0, 0.8fr) minmax(0, 1.2fr); column-gap: clamp(20px, 3vw, 40px); padding: 26px 0 30px; border-top: 1px solid var(--rule); }
+.gv-options .n { font-size: 18px; font-weight: 700; color: var(--t2); }
+.gv-options li:first-child .n { color: var(--teal); }
+.gv-options h3 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.016em; color: var(--t1); }
+.gv-options p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--t2); }
+@media (max-width: 760px) {
+  .gv-options li { grid-template-columns: 40px minmax(0, 1fr); row-gap: 10px; }
+  .gv-options p { grid-column: 2; }
+}
+
+.gv-h2-mid { max-width: 14em; font-size: clamp(36px, 5vw, 68px); }
+.gv-note { margin: 8px 0 0; font-size: 16px; color: var(--t2); }
+
+/* the details for procurement and grants: a quiet box */
+.gv-box { max-width: 880px; padding: clamp(28px, 4vw, 48px); border: 1px solid var(--rule); border-radius: 20px; background: rgba(255, 255, 255, 0.025); }
+.gv-box h2 { margin: 12px 0 0; font-size: clamp(28px, 3vw, 40px); font-weight: 700; letter-spacing: -0.03em; color: var(--t1); }
+.gv-box ul { margin: 24px 0 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.gv-box li { position: relative; padding-left: 22px; font-size: 17px; line-height: 1.55; color: var(--t2); }
+.gv-box li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
+
+@media (prefers-reduced-motion: reduce) { .gv-art { animation: none; } }
