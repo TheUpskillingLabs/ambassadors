@@ -56,8 +56,8 @@ const nos = ["01", "02", "03", "04", "05"];
         </a>
         <ul class="jp-links" id="jp-menu">
           <li><a class="navlink" href="#frame" data-spy="frame">{g.nav.frame}</a></li>
-          <li><a class="navlink" href="#how" data-spy="how">{g.nav.how}</a></li>
-          <li><a class="navlink" href="#options" data-spy="options evidence">{g.nav.options}</a></li>
+          <li><a class="navlink" href="#how" data-spy="where how better">{g.nav.how}</a></li>
+          <li><a class="navlink" href="#options" data-spy="options started">{g.nav.options}</a></li>
           <li><a class="navlink" href="#start" data-spy="start procure">{g.nav.start}</a></li>
           <li class="menu-only"><a class="navlink" href={home}>{g.nav.home}</a></li>
         </ul>
@@ -101,6 +101,22 @@ const nos = ["01", "02", "03", "04", "05"];
         </div>
       </section>
 
+      <!-- Where it happens: the ground layer (state programs set the direction; this is where people show up). -->
+      <section id="where" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{g.where.kicker}</p>
+            <h2 class="h2">{g.where.title}</h2>
+            <p class="lede">{g.where.lede}</p>
+          </div>
+          <div class="jp-cols three reveal">
+            {g.where.items.map((it) => (
+              <div class="jp-col"><p class="label">{it.label}</p><p>{it.body}</p></div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <!-- How it works: workshops, then the open cycle, with sector cohorts inside it. -->
       <section id="how" class="jp-sec">
         <div class="wrap">
@@ -127,6 +143,21 @@ const nos = ["01", "02", "03", "04", "05"];
         </div>
       </section>
 
+      <!-- How it gets better: open to every contribution, kept by what works; delivery earned. -->
+      <section id="better" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{g.better.kicker}</p>
+            <h2 class="h2 gv-h2-mid">{g.better.title}</h2>
+            <p class="lede">{g.better.lede}</p>
+          </div>
+          <div class="gv-earned reveal">
+            <h3>{g.better.delivery.title}</h3>
+            <p>{g.better.delivery.body}</p>
+          </div>
+        </div>
+      </section>
+
       <!-- Five ways to work with us, sector cohorts first. -->
       <section id="options" class="jp-sec">
         <div class="wrap">
@@ -142,11 +173,27 @@ const nos = ["01", "02", "03", "04", "05"];
         </div>
       </section>
 
-      <section id="evidence" class="jp-sec">
-        <div class="wrap reveal">
-          <p class="kicker">{g.evidence.kicker}</p>
-          <h2 class="h2 gv-h2-mid">{g.evidence.title}</h2>
-          <p class="lede">{g.evidence.body}</p>
+      <!-- Where it started: the people it was for built it; what they made; results in the open. -->
+      <section id="started" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{g.started.kicker}</p>
+            <h2 class="h2 gv-h2-mid">{g.started.title}</h2>
+            <p class="lede">{g.started.body}</p>
+          </div>
+          <div class="gv-made reveal">
+            <p class="kicker">{g.started.projectsLabel}</p>
+            <ul>{g.started.projects.map((pr) => <li><b>{pr.name}</b><span>{pr.body}</span></li>)}</ul>
+          </div>
+          <div class="gv-results reveal">
+            <h3>{g.started.results.title}</h3>
+            <p>{g.started.results.body}</p>
+            <dl class="gv-stats">
+              {g.started.results.stats.map((st) => <div><dt>{st.n}</dt><dd>{st.label}</dd></div>)}
+            </dl>
+            <p class="gv-note">{g.started.results.note}</p>
+          </div>
+          <p class="gv-press reveal"><a class="textlink" href={g.started.pressHref}>{g.started.press} →</a></p>
         </div>
       </section>
 
@@ -214,7 +261,7 @@ const nos = ["01", "02", "03", "04", "05"];
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       // The section in view is marked in the nav.
       const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["frame", "how", "options", "evidence", "start", "procure", "join"].map((id) => document.getElementById(id)!);
+      const order = ["frame", "where", "how", "better", "options", "started", "start", "procure", "join"].map((id) => document.getElementById(id)!);
       let queued = false;
       const spy = () => {
         queued = false;

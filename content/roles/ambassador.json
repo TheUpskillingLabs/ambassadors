@@ -33,7 +33,7 @@
       {
         "step": "First",
         "title": "Start a conversation.",
-        "body": "Ask someone what they're curious about, and really listen. Over time, bring [N] people to their first workshop.",
+        "body": "Ask someone what they're curious about, and really listen. Over time, bring a few people to their first workshop.",
         "icon": "coffee"
       },
       {
@@ -111,7 +111,7 @@
     "items": [
       {
         "q": "Does it cost anything?",
-        "a": "No. Being an ambassador is free, and so is every program at The Labs. Supporting membership is the only thing with dues, and it's optional."
+        "a": "No. Being an ambassador is free, and so is every program at The Labs."
       },
       {
         "q": "How much time does it take?",

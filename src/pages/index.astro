@@ -94,9 +94,11 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <li><a class="navlink" href="#share">{h.nav.share}</a></li>
           <li><a class="navlink" href="#open">{h.nav.story}</a></li>
           <li><a class="navlink" href="#found">{h.nav.found}</a></li>
+          <li class="menu-only"><a class="navlink" href={u("/government/")}>{h.nav.gov}</a></li>
           <li class="menu-only"><a class="navlink" href={L.login}>{h.nav.login}</a></li>
         </ul>
         <div class="jp-end">
+          <a class="navlink wide-only hm-gov" href={u("/government/")}>{h.nav.gov}</a>
           <a class="navlink wide-only" href={L.login}>{h.nav.login}</a>
           <a class="btn" href={L.join} data-head-cta><span class="wide-only">{h.nav.cta}</span><span class="narrow-only">{h.nav.ctaShort}</span></a>
           <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={j.nav.menu} data-menu-btn data-label-open={j.nav.menu} data-label-close={j.nav.menuClose}><span></span><span></span><span></span></button>
@@ -339,8 +341,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           </div>
           <nav class="hm-foot-cols" aria-label="Footer">
             <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#labs">{J.labs.kicker}</a><a href="#found">{h.footer.found}</a></div>
-            <div><p class="kicker">{h.footer.roles}</p>{list.roles.map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
-            <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={community}>{h.footer.contributors}</a><a href={u("/government/")}>{h.footer.government}</a><a href={L.contact}>{h.footer.contact}</a><a href={L.join}>{h.footer.member}</a></div>
+            <div><p class="kicker">{h.footer.roles}</p>{list.roles.filter((c) => c.listed !== false).map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
+            <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={community}>{h.footer.contributors}</a><a href={u("/government/")}>{h.footer.government}</a><a href={L.contact}>{h.footer.contact}</a></div>
             <div><p class="kicker">{h.footer.open}</p><a href={L.github}>{h.footer.built}</a><a href={L.join}>{h.nav.cta}</a></div>
           </nav>
         </div>

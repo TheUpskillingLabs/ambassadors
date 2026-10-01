@@ -20,6 +20,7 @@
     "share": "Contribute",
     "story": "Our story",
     "found": "Start a Lab",
+    "gov": "For government",
     "login": "Log in",
     "cta": "Join The Labs",
     "ctaShort": "Join"
@@ -358,7 +359,7 @@
     "centre": {
       "kicker": "What you make goes further",
       "title": "One big open project.",
-      "lede": "The workshops, the guides, the way a Build Cycle runs, the tools: volunteers make all of it, in the open, and it's free for anyone. A small team tests the best of it and shares it with Labs in other cities, with your name still on it."
+      "lede": "The workshops, the guides, the way a Build Cycle runs, the tools: volunteers make all of it, in the open, and it's free for anyone. Anyone can add to it. What works best in practice is what we keep and share with Labs in other cities, with your name still on it."
     },
     "together": {
       "$comment": "The weave again, after the three threads: the loop, then the system.",
@@ -427,8 +428,7 @@
     "about": "About",
     "board": "Our board",
     "contact": "Contact",
-    "member": "Become a member",
-    "contributors": "Contributor Community",
+        "contributors": "Contributor Community",
     "government": "For government",
     "found": "Start a Lab",
     "built": "Built in the open",

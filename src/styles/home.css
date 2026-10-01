@@ -364,3 +364,9 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   .rp .hm-path { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(0, 20, 27, 0.74); }
   .hm-card { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(0, 20, 27, 0.92); }
 }
+
+/* The header's quiet link for partners: on screens wide enough to hold it on one line beside Log in (it's in
+   the narrow menu and the footer otherwise). No link in the header wraps. */
+.hm .jp-end .navlink, .hm .jp-head .btn { white-space: nowrap; }
+.hm .jp-end .hm-gov { display: none; }
+@media (min-width: 1360px) { .hm .jp-end .hm-gov { display: inline-flex; } }

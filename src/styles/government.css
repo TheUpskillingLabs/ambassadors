@@ -74,3 +74,27 @@
 .gv-box li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); }
 
 @media (prefers-reduced-motion: reduce) { .gv-art { animation: none; } }
+
+/* delivery, earned: a note hung on the local gold rule */
+.gv-earned { max-width: 760px; margin-top: clamp(32px, 4vw, 48px); padding: 4px 0 4px clamp(18px, 2vw, 28px); border-left: 2px solid #CFAB67; }
+.gv-earned h3 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.016em; color: var(--t1); }
+.gv-earned p { margin: 10px 0 0; font-size: 17px; line-height: 1.55; color: var(--t2); }
+
+/* where it started: what the first cohort made, then the results in the open */
+.gv-made { margin-top: clamp(36px, 5vw, 56px); max-width: 880px; }
+.gv-made ul { margin: 14px 0 0; padding: 0; list-style: none; }
+.gv-made li { display: grid; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); column-gap: clamp(16px, 3vw, 40px); padding: 16px 0; border-top: 1px solid var(--rule); font-size: 17px; line-height: 1.5; }
+.gv-made b { font-weight: 600; color: var(--t1); }
+.gv-made span { color: var(--t2); }
+.gv-results { margin-top: clamp(40px, 6vw, 72px); max-width: 880px; }
+.gv-results h3 { margin: 0; font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; letter-spacing: -0.02em; color: var(--t1); }
+.gv-results > p { margin: 12px 0 0; max-width: 40em; font-size: 17px; line-height: 1.55; color: var(--t2); }
+.gv-stats { margin: 28px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: clamp(16px, 3vw, 40px); }
+.gv-stats > div { padding-top: 18px; border-top: 1px solid var(--rule); }
+.gv-stats dt { font-size: clamp(36px, 4.4vw, 60px); font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--t1); }
+.gv-stats dd { margin: 10px 0 0; font-size: 15px; line-height: 1.4; color: var(--t2); }
+.gv-press { margin-top: 28px; font-size: 16px; }
+@media (max-width: 760px) {
+  .gv-made li { grid-template-columns: minmax(0, 1fr); row-gap: 4px; }
+  .gv-stats { grid-template-columns: minmax(0, 1fr); row-gap: 18px; }
+}
