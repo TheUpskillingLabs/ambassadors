@@ -1,9 +1,13 @@
 ---
 /* The Upskilling Labs home page: a prototype of the pre-login experience for
    OLOS (the app behind theupskillinglabs.org) to adopt. It keeps the live home
-   page's facts and its one action (Join The Labs), and puts them in the order a
-   newcomer needs: what this is, how it works, when the next cycle starts, a
-   session to drop into, a role to take, who's here, where, and how it began.
+   page's facts and its one action (Join The Labs). After the hero and what this
+   is: joining is the one action, and it opens three paths that weave together
+   (learn it, build it, pass it on). Then a chapter for each, in the order of the
+   hero's shots: Learn (the workshops and the room), Build (a Build Cycle: how it
+   works, what it is and isn't, the people who've done it, the next cycle) and
+   Pass it on (mentoring, improving how it works, the tools). Then how it began,
+   the cities, and the one action again. Every way in is the free account.
 
    It's built on the role pages' system (src/styles/role.css, with home.css for
    what only this page has): ink, the teal and red glows with the grain only in
@@ -22,6 +26,8 @@ import "../styles/role.css";
 import "../styles/home.css";
 import { u } from "../lib/url";
 import h from "../../content/site/home.json";
+import HomeChapter from "../components/HomeChapter.astro";
+import Threads from "../components/Threads.astro";
 import list from "../../content/roles/roles.json";
 import j from "../../content/site/join.json";
 
@@ -39,8 +45,9 @@ const icons: Record<string, string> = {
 const pageTitle = h.title;
 // Each path in the last shot goes straight to the account, with the path it came from (?path=, proposed for OLOS).
 const pathJoin = (slug: string) => `${L.join}&path=${slug}`;
-// The three ways in link on: to this week's workshops, to how a Build Cycle works, to mentoring.
-const wayTo: Record<string, string> = { events: L.events, how: "#how", mentor: u("/mentor/") };
+// The chapters, and where Contribute's ways link on.
+const ch = h.chapters, go = ch.go;
+const giveTo: Record<string, string> = { mentor: u("/mentor/"), github: L.github };
 // The cycle's state, switched by date: open until it closes, then underway. The page sets it again as it
 // loads, so a static build never shows a stale "applications open".
 const closesAt = `${h.cycle.closes}T00:00:00-04:00`;
@@ -78,9 +85,9 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <img class="hm-word" src={u("/home/wordmark.png")} alt="The Upskilling Labs" width="233" height="144" />
         </a>
         <ul class="jp-links" id="jp-menu">
-          <li><a class="navlink" href="#ways">{h.nav.ways}</a></li>
-          <li><a class="navlink" href="#how">{h.nav.how}</a></li>
-          <li><a class="navlink" href="#sessions">{h.nav.sessions}</a></li>
+          <li><a class="navlink" href="#learn">{h.nav.learn}</a></li>
+          <li><a class="navlink" href="#build">{h.nav.build}</a></li>
+          <li><a class="navlink" href="#give">{h.nav.give}</a></li>
           <li><a class="navlink" href="#story">{h.nav.story}</a></li>
           <li class="menu-only"><a class="navlink" href={L.login}>{h.nav.login}</a></li>
         </ul>
@@ -175,29 +182,67 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <!-- The three ways in: join, build, contribute. Start anywhere; most people do more than one. -->
-      <section id="ways" class="rp-sec hm-ways3">
+      <!-- Joining is the one action, and it opens three paths that weave together. Not steps: threads. -->
+      <section id="paths" class="rp-sec hm-paths3">
         <div class="rp-wrap">
           <div class="rp-head center reveal">
-            <p class="kicker">{h.ways.kicker}</p>
-            <h2 class="rp-h2">{h.ways.title}</h2>
-            <p class="rp-lede-sm">{h.ways.lede}</p>
+            <p class="kicker">{h.threads.kicker}</p>
+            <h2 class="rp-h2 hm-triad">{h.threads.title.split(/(?<=\.) /).map((t, i) => <>{i > 0 && " "}<span>{t}</span></>)}</h2>
+            <p class="rp-lede-sm">{h.threads.lede}</p>
           </div>
-          <ol class="hm-three">
-            {h.ways.items.map((w) => (
-              <li class="reveal">
-                <p class="hm-verb">{w.verb}</p>
-                <h3>{w.title}</h3>
-                <p class="hm-when">{w.when}</p>
-                <p class="rp-body">{w.body}</p>
-                <a class="textlink" href={wayTo[w.to]}>{w.link} →</a>
-              </li>
-            ))}
-          </ol>
+          <div class="hm-weave reveal">
+            <Threads />
+            <ol class="hm-strands">
+              {h.threads.items.map((t) => <li><a href={`#${t.id}`}><i class={`mk mk-${ch[t.id as "learn" | "build" | "give"].mark}`} aria-hidden="true"></i><b>{t.name}</b><span>{t.when}</span></a></li>)}
+            </ol>
+          </div>
         </div>
       </section>
 
-      <!-- How a Build Cycle works: from a workshop to the Showcase, and giving back. -->
+      <!-- The three paths, one chapter each, in the hero's order: Learn, Build, Pass it on. -->
+      <HomeChapter id="learn" c={ch.learn} />
+
+      <!-- Learn: the next few workshops to drop into, and what they teach, then the room. -->
+      <section id="sessions" class="rp-sec hm-sessions">
+        <div class="rp-wrap">
+          <div class="hm-head-row reveal">
+            <div class="rp-head">
+              <p class="kicker">{h.sessions.kicker}</p>
+              <h2 class="rp-h2">{h.sessions.title}</h2>
+            </div>
+            <a class="textlink" href={L.events}>{h.sessions.all} →</a>
+          </div>
+          <ol class="hm-events">
+            {h.sessions.items.map((e) => (
+              <li class="reveal">
+                <p class="when"><b>{e.date}</b> {e.time}</p>
+                <h3>{e.title}</h3>
+                <p class="where">{e.where}</p>
+              </li>
+            ))}
+          </ol>
+          <ul class="hm-learn">
+            {h.sessions.learn.map((l) => (
+              <li class="reveal"><h3>{l.title}</h3><p>{l.body}</p></li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- The room: where it happens, and who's in it. -->
+      <section class="hm-room" aria-labelledby="room-t">
+        <img src={u("/home/room-1800.webp")} srcset={`${u("/home/room-900.webp")} 900w, ${u("/home/room-1800.webp")} 1800w`} sizes="100vw" alt={h.room.alt} width="1800" height="1350" loading="lazy" decoding="async" />
+        <div class="rp-wrap hm-room-text reveal">
+          <h2 class="rp-h2" id="room-t">{h.room.title}</h2>
+          <p class="rp-lede-sm">{h.room.body}</p>
+          <div class="hm-go"><a class="hm-path" href={pathJoin(go.learn.path)}><em>{go.learn.label}<small>{go.learn.note}</small></em><span aria-hidden="true">→</span></a></div>
+        </div>
+      </section>
+
+      <HomeChapter id="build" c={ch.build} />
+
+      <!-- Build: how a Build Cycle works, from a workshop to the Showcase and giving back; what it is and isn't;
+           two Upskillers in their own words; then the next cycle, with the button. -->
       <section id="how" class="rp-sec rp-path">
         <div class="rp-wrap">
           <div class="rp-head reveal">
@@ -243,6 +288,25 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
+      <!-- Spotlights: two Upskillers, in their own words. -->
+      <section id="spotlights" class="rp-sec hm-quotes">
+        <div class="rp-wrap">
+          <div class="rp-head reveal">
+            <p class="kicker">{h.spotlights.kicker}</p>
+            <h2 class="rp-h2">{h.spotlights.title}</h2>
+          </div>
+          <div class="hm-quote-row">
+            {h.spotlights.items.map((q) => (
+              <figure class="reveal">
+                <img class="hm-portrait" src={u(`/home/${q.photo}.webp`)} alt={q.name} width="560" height="560" loading="lazy" decoding="async" />
+                <blockquote>“{q.quote}”</blockquote>
+                <figcaption><b>{q.name}</b> {q.role}</figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <!-- The next Build Cycle, with the button every Upskiller gets. Open until it closes, then underway. -->
       <section id="cycle" class="hm-cycle">
         <div class="rp-wrap hm-cycle-in reveal">
@@ -251,7 +315,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <h2 class="rp-h2">{h.cycle.title}</h2>
             <p class="rp-lede-sm">{h.cycle.body}</p>
             <p class:list={["hm-apply", { ph: ph(h.cycle.apply) }]}>{h.cycle.apply}</p>
-            <a class="btn" href={L.join}>{h.cycle.cta}</a>
+            <a class="btn" href={pathJoin("build")}>{h.cycle.cta}</a>
           </div>
           <div class="hm-cycle-text" data-when="closed">
             <p class="status"><i aria-hidden="true"></i>{h.cycle.closed.kicker}</p>
@@ -269,43 +333,29 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <!-- Sessions: the next few to drop into, and what they teach. -->
-      <section id="sessions" class="rp-sec hm-sessions">
+      <HomeChapter id="give" c={ch.give} />
+
+      <!-- Pass it on: the ways to make The Labs better, then the way in. -->
+      <section class="rp-sec hm-give">
         <div class="rp-wrap">
-          <div class="hm-head-row reveal">
-            <div class="rp-head">
-              <p class="kicker">{h.sessions.kicker}</p>
-              <h2 class="rp-h2">{h.sessions.title}</h2>
-            </div>
-            <a class="textlink" href={L.events}>{h.sessions.all} →</a>
+          <div class="rp-head reveal">
+            <p class="kicker">{ch.give.kicker}</p>
+            <h2 class="rp-h2">{ch.give.heading}</h2>
           </div>
-          <ol class="hm-events">
-            {h.sessions.items.map((e) => (
+          <ul class="hm-three">
+            {ch.give.ways.map((w) => (
               <li class="reveal">
-                <p class="when"><b>{e.date}</b> {e.time}</p>
-                <h3>{e.title}</h3>
-                <p class="where">{e.where}</p>
+                <h3>{w.title}</h3>
+                <p class="rp-body">{w.body}</p>
+                {w.to && <a class="textlink" href={giveTo[w.to]}>{w.link} →</a>}
               </li>
             ))}
-          </ol>
-          <ul class="hm-learn">
-            {h.sessions.learn.map((l) => (
-              <li class="reveal"><h3>{l.title}</h3><p>{l.body}</p></li>
-            ))}
           </ul>
+          <div class="hm-go reveal"><a class="hm-path" href={pathJoin(go.give.path)}><em>{go.give.label}<small>{go.give.note}</small></em><span aria-hidden="true">→</span></a></div>
         </div>
       </section>
 
-      <!-- The room: where it happens, and who's in it. -->
-      <section class="hm-room" aria-labelledby="room-t">
-        <img src={u("/home/room-1800.webp")} srcset={`${u("/home/room-900.webp")} 900w, ${u("/home/room-1800.webp")} 1800w`} sizes="100vw" alt={h.room.alt} width="1800" height="1350" loading="lazy" decoding="async" />
-        <div class="rp-wrap hm-room-text reveal">
-          <h2 class="rp-h2" id="room-t">{h.room.title}</h2>
-          <p class="rp-lede-sm">{h.room.body}</p>
-        </div>
-      </section>
-
-      <!-- Our story: how it began, and where it's going. -->
+      <!-- After the chapters: how it began and where it's going, then the cities, then the one action. -->
       <section id="story" class="rp-sec rp-moments hm-story">
         <div class="rp-wrap">
           <div class="rp-head reveal">
@@ -321,25 +371,6 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
               </li>
             ))}
           </ol>
-        </div>
-      </section>
-
-      <!-- Spotlights: two Upskillers, in their own words. -->
-      <section id="spotlights" class="rp-sec hm-quotes">
-        <div class="rp-wrap">
-          <div class="rp-head reveal">
-            <p class="kicker">{h.spotlights.kicker}</p>
-            <h2 class="rp-h2">{h.spotlights.title}</h2>
-          </div>
-          <div class="hm-quote-row">
-            {h.spotlights.items.map((q) => (
-              <figure class="reveal">
-                <img class="hm-portrait" src={u(`/home/${q.photo}.webp`)} alt={q.name} width="560" height="560" loading="lazy" decoding="async" />
-                <blockquote>“{q.quote}”</blockquote>
-                <figcaption><b>{q.name}</b> {q.role}</figcaption>
-              </figure>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -363,8 +394,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <!-- Join. -->
-      <section id="join" class="rp-join hm-join">
+      <!-- Start: the one action, again, for whichever way you came. -->
+      <section id="start" class="rp-join hm-join">
         <div class="rp-wrap reveal">
           <h2>{h.join.title}</h2>
           <p class="rp-lede-sm">{h.join.lede}</p>
@@ -386,7 +417,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <a class="ghost small" href={L.donate}>{h.join.donate}</a>
           </div>
           <nav class="hm-foot-cols" aria-label="Footer">
-            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#how">{h.nav.how}</a><a href="#cities">{h.cities.title.replace(".", "")}</a></div>
+            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#cities">{h.cities.title.replace(".", "")}</a></div>
             <div><p class="kicker">{h.footer.roles}</p>{list.roles.map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
             <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={L.contact}>{h.footer.contact}</a><a href={L.join}>{h.footer.member}</a></div>
             <div><p class="kicker">{h.footer.open}</p><a href={L.github}>{h.footer.built}</a><a href={L.join}>{h.nav.cta}</a></div>
@@ -415,7 +446,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       import { mountOrbNet } from "../scripts/orbnet";
 
       // The header's button steps aside while the hero or the intro's button is
-      // on screen, and again at the join section, so the page never shows two.
+      // on screen, and again at the closing section, so the page never shows two.
       const root = document.documentElement;
       const head = document.querySelector<HTMLElement>("[data-head]")!;
       new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
@@ -425,7 +456,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       const syncCta = () => { const off = introIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
       syncCta();
       new IntersectionObserver(([e]) => { introIn = e.isIntersecting; syncCta(); }).observe(document.querySelector("[data-hero-cta]")!);
-      new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+      new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 }).observe(document.getElementById("start")!);
       initMenu();
       openCovers();
 

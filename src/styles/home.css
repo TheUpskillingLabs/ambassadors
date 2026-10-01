@@ -174,20 +174,67 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 @media (max-width: 900px) { .hm-honest-grid { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 680px) { .hm-isnt { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
 
-/* ── three ways in: join, build, contribute, side by side under hairlines, each with its verb, its time and a
-   way on. ── */
+/* ── the threads: three strands twisting round each other, one per path joining opens, in the model's colours
+   (people, projects, knowledge). Short segments sorted back to front, each over a halo of ink, so they weave.
+   With data-on, that path's strand is lit and the others step back. ── */
+.thr-box { overflow: hidden; }
+.thr { display: block; width: max(100%, 860px); height: 56px; }
+.thr line { vector-effect: non-scaling-stroke; fill: none; }
+.thr .h { stroke: var(--ink); stroke-width: 8; }
+.thr .l { stroke-width: 2; stroke-linecap: round; }
+.thr .l[data-s="learn"] { stroke: #FFDBBD; }
+.thr .l[data-s="build"] { stroke: #FF5C47; }
+.thr .l[data-s="give"] { stroke: #9EFFF5; }
+.thr:not([data-on="all"]) .l { opacity: 0.2; }
+.thr[data-on="learn"] .l[data-s="learn"], .thr[data-on="build"] .l[data-s="build"], .thr[data-on="give"] .l[data-s="give"] { opacity: 1; stroke-width: 2.6; }
+
+/* ── one account, three paths: the triad set large, the threads under it, each strand named at its end. ── */
+.hm-triad span { display: inline-block; }
+.hm-triad { max-width: 13em; font-size: var(--fs-d1); line-height: 0.96; letter-spacing: -0.045em; }
+.hm-weave { margin-top: clamp(48px, 6vw, 88px); }
+.hm-strands { list-style: none; margin: 28px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gut); row-gap: 8px; }
+.hm-strands a { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: 12px; row-gap: 4px; padding: 14px 0; color: var(--t1); text-decoration: none; }
+.hm-strands .mk { width: 11px; height: 11px; }
+.hm-strands b { font-size: var(--fs-sub); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; }
+.hm-strands span { grid-column: 2; font-size: var(--fs-sm); color: var(--t2); }
+.hm-strands a:hover b, .hm-strands a:focus-visible b { color: var(--teal); }
+@media (max-width: 680px) {
+  .hm-strands { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
+  .hm-strands li + li { border-top: 1px solid var(--rule); }
+  .hm-strands a { grid-template-columns: auto auto 1fr; align-items: baseline; }
+  .hm-strands span { grid-column: 3; justify-self: end; }
+}
+
+/* ── a chapter: one path. The threads with its strand lit, its name set large, then what it is. ── */
+.hm-ch { position: relative; padding-top: clamp(150px, 22vh, 240px); }
+.hm-ch[data-ch="learn"] { --chc: #FFDBBD; }
+.hm-ch[data-ch="build"] { --chc: #FF5C47; }
+.hm-ch[data-ch="give"] { --chc: #9EFFF5; }
+.hm-ch-in { margin-top: clamp(36px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: var(--gut); row-gap: 28px; align-items: end; }
+.hm-ch-k { margin: 0; display: flex; align-items: center; gap: 12px; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; color: var(--t2); }
+.hm-ch-k .mk { width: 12px; height: 12px; }
+.hm-ch-verb { margin: 16px 0 0; font-size: var(--fs-d2); font-weight: 700; line-height: 0.9; letter-spacing: -0.055em; color: var(--t1); text-wrap: balance; }
+.hm-ch-verb .dot { color: var(--chc); }
+.hm-ch-say { padding-bottom: 0.6em; }
+.hm-ch-title { margin: 0; font-size: var(--fs-sub); font-weight: 600; line-height: 1.12; letter-spacing: -0.025em; color: var(--t1); text-wrap: balance; }
+.hm-ch-when { margin: 14px 0 0; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
+.hm-ch-lede { margin: 14px 0 0; max-width: 40ch; font-size: var(--fs-body); line-height: 1.55; color: var(--t2); text-wrap: pretty; }
+.hm-ch + .rp-sec { padding-top: clamp(72px, 10vh, 112px); }
+@media (max-width: 900px) { .hm-ch-in { grid-template-columns: minmax(0, 1fr); } .hm-ch-say { padding-bottom: 0; } }
+
+/* ── pass it on: three ways, side by side under hairlines, each with a way on. ── */
 .hm-three { list-style: none; margin: clamp(40px, 5vw, 72px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gut); row-gap: 48px; }
 .hm-three li { padding-top: 22px; border-top: 1px solid var(--rule); display: flex; flex-direction: column; align-items: flex-start; }
-.hm-verb { margin: 0; font-size: var(--fs-cap); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
-.hm-three h3 { margin: 14px 0 0; font-size: var(--fs-sub); font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; color: var(--t1); }
-.hm-when { margin: 10px 0 0; font-size: var(--fs-sm); font-weight: 600; color: var(--t1); }
+.hm-three h3 { margin: 0; font-size: var(--fs-sub); font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; color: var(--t1); }
 .hm-three .rp-body { margin-top: 12px; }
-.hm-three .textlink { margin-top: 18px; font-size: var(--fs-body); font-weight: 600; }
+.hm-three .textlink { margin-top: auto; padding-top: 18px; font-size: var(--fs-body); font-weight: 600; }
 @media (max-width: 860px) { .hm-three { grid-template-columns: minmax(0, 1fr); } }
 
-/* ── roles: the two ways in, side by side. ── */
-.rp .rp-cards.hm-two { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-flow: row; max-width: 820px; margin-inline: auto; overflow: visible; }
-@media (max-width: 680px) { .rp .rp-cards.hm-two { grid-template-columns: minmax(0, 1fr); } }
+/* ── a path's way in, at the end of its chapter: the hero's path button, again. ── */
+.hm-go { margin-top: clamp(40px, 5vw, 64px); max-width: 420px; }
+.hm-room-text .hm-go { margin-top: 28px; }
+.rp .hm-go .hm-path { padding: 16px 20px; font-size: 18px; font-weight: 600; }
+.hm-go .hm-path > span { font-size: 20px; letter-spacing: 0; }
 
 /* ── the room: a real evening at the library, full bleed, fading into the ink. ── */
 .hm-room { position: relative; isolation: isolate; margin-top: clamp(96px, 14vh, 160px); min-height: clamp(460px, 78vh, 820px); display: flex; align-items: flex-end; overflow: hidden; }
