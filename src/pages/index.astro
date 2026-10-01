@@ -411,7 +411,9 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           if (top >= vh || bottom <= 0) op = 0;
           ons[i] = op;
           const inner = inners[i];
-          if (inner) { put(inner, "opacity", op.toFixed(3)); put(inner, "pointerEvents", op < 0.5 ? "none" : "auto"); }
+          // A scene's words off screen are hidden outright, so the phone keeps no layer for them (twenty full-width
+          // layers, most of them invisible, otherwise sit in its GPU memory).
+          if (inner) { put(inner, "opacity", op.toFixed(3)); put(inner, "pointerEvents", op < 0.5 ? "none" : "auto"); put(inner, "visibility", op > 0 ? "visible" : "hidden"); }
         });
         syncCta(); onPlace?.();
       };

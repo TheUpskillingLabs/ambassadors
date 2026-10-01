@@ -1031,10 +1031,15 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   const gl = canvas.getContext("webgl2", { antialias: false, premultipliedAlpha: false, alpha: false, preserveDrawingBuffer: Boolean(opts.poster) });
   if (!gl) return null;
   const hdr = Boolean(gl.getExtension("EXT_color_buffer_float"));
+  // Phones (and small machines) get a lighter world, so it keeps an even 60 frames a second: fewer pixels
+  // (about 1.25 per CSS pixel), a bloom built from a quarter-size picture, shorter orbit trails, and a little
+  // less dust. The look is the same; the GPU does about half the work.
+  const small = !opts.poster && (matchMedia("(max-width: 700px)").matches || (navigator.hardwareConcurrency || 8) <= 4);
+  const TSEG = small ? 3 : 5;
   let P: Record<string, ReturnType<typeof compile>>;
   try {
     P = {
-      actor: compile(gl, ACTOR_VS, POINT_FS), sprite: compile(gl, SPRITE_VS, POINT_FS), tie: compile(gl, TIE_VS, LINE_FS), trail: compile(gl, TRAIL_VS, LINE_FS),
+      actor: compile(gl, ACTOR_VS, POINT_FS), sprite: compile(gl, SPRITE_VS, POINT_FS), tie: compile(gl, TIE_VS, LINE_FS), trail: compile(gl, TRAIL_VS.replace("const int SEG = 5;", `const int SEG = ${TSEG};`), LINE_FS),
       fab: compile(gl, FABRIC_VS, FABRIC_FS), strand: compile(gl, STRAND_VS, STRAND_FS), disc: compile(gl, DISC_VS, DISC_FS), orb: compile(gl, ORB_VS, ORB_FS),
       pre: compile(gl, FULL_VS, PREFILTER_FS), down: compile(gl, FULL_VS, DOWN_FS), up: compile(gl, FULL_VS, UP_FS), comp: compile(gl, FULL_VS, COMPOSITE_FS),
     };
@@ -1042,7 +1047,6 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   wrap.appendChild(canvas);
 
   const still = Boolean(opts.still || opts.poster);
-  const small = !opts.poster && (matchMedia("(max-width: 700px)").matches || (navigator.hardwareConcurrency || 8) <= 4);
   // The stage is painted into the picture (see stage() in the composite), except for the poster, which the page
   // screens over the stage itself.
   const bake = !opts.poster;
@@ -1084,13 +1088,13 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   // Orbits' dust.
   const grid: number[] = [];
   for (let R = 1.2; R < 6.3; R += 0.16 + rnd() * 0.14) {
-    const k = rnd(), bright = 0.5 + rnd() * 0.7, n = Math.round((2 * Math.PI * R) / 0.03);
+    const k = rnd(), bright = 0.5 + rnd() * 0.7, n = Math.round((2 * Math.PI * R) / (small ? 0.04 : 0.03));
     for (let i = 0; i < n; i++) grid.push(R + (rnd() - 0.5) * 0.02, (i / n) * Math.PI * 2 + rnd() * 0.01, k, bright);
   }
   const FB = vao([[P.fab.prog, "aG", 4]], new Float32Array(grid), gl.STATIC_DRAW);
   const gridN = grid.length / 4;
   // The weave's dust: each path's points, spread evenly along it, with two seeds for where in the strand.
-  const perStrand = small ? 7000 : 14000, strandArr: number[] = [];
+  const perStrand = small ? 5000 : 14000, strandArr: number[] = [];
   for (let k = 0; k < 3; k++) for (let i = 0; i < perStrand; i++) strandArr.push(k, (i + rnd()) / perStrand, rnd(), rnd());
   const ST = vao([[P.strand.prog, "aS", 4]], new Float32Array(strandArr), gl.STATIC_DRAW);
   const strandN = strandArr.length / 4;
@@ -1167,7 +1171,8 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   let scene: RT | null = null; let mips: RT[] = [];
 
   /* sizing and quality */
-  let W = 1, H = 1, cssW = 1, cssH = 1, dpr = 1, quality = small ? 0.75 : 1;
+  const QMAX = small ? 0.62 : 1, QMIN = small ? 0.45 : 0.5;
+  let W = 1, H = 1, cssW = 1, cssH = 1, dpr = 1, quality = QMAX;
   const resize = () => {
     cssW = wrap.clientWidth; cssH = wrap.clientHeight;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1175,8 +1180,10 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     canvas.width = W; canvas.height = H;
     if (scene) freeRT(scene); mips.forEach(freeRT);
     scene = makeRT(W, H);
-    mips = []; let w = W, h = H;
-    for (let i = 0; i < 5; i++) { w = Math.max(1, w >> 1); h = Math.max(1, h >> 1); mips.push(makeRT(w, h)); }
+    // The bloom's chain: from half size down five levels, or on a phone from a quarter size down four (the same
+    // reach, with the biggest, costliest level skipped).
+    mips = []; let w = small ? W >> 1 : W, h = small ? H >> 1 : H;
+    for (let i = 0; i < (small ? 4 : 5); i++) { w = Math.max(1, w >> 1); h = Math.max(1, h >> 1); mips.push(makeRT(w, h)); }
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     if (still || pausedFlag) draw(performance.now());
   };
@@ -1427,8 +1434,10 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       fps.push(now - last);
       if (fps.length >= 90) {
         fps.sort((a, b) => a - b); const med = fps[45]; fps.length = 0; const q0 = quality;
-        if (med > 22 && quality > 0.5) quality = Math.max(0.5, quality - 0.15);
-        else if (med < 12 && quality < (small ? 0.75 : 1)) quality = Math.min(small ? 0.75 : 1, quality + 0.1);
+        // (A phone is held to 60 frames a second, so its typical frame can't show room to spare: it only steps
+        // down, as soon as it starts missing frames, since uneven frames are what reads as jitter.)
+        if (med > (small ? 18.5 : 22) && quality > QMIN) quality = Math.max(QMIN, quality - (small ? 0.08 : 0.15));
+        else if (!small && med < 12 && quality < QMAX) quality = Math.min(QMAX, quality + 0.1);
         if (q0 !== quality) resize();
       }
     }
@@ -1736,7 +1745,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     const drawTrails = (side: number) => {
       add(); gl!.useProgram(P.trail.prog); gl!.bindVertexArray(TRV); camU(P.trail.U, side); stateU(P.trail.U);
       gl!.uniform3fv(P.trail.U.uLabC, labC); gl!.uniform2fv(P.trail.U.uLabTilt, labTilt); gl!.uniform2f(P.trail.U.uRes, W, H); gl!.uniform1f(P.trail.U.uPx, dpr * quality); gl!.uniform1i(P.trail.U.uFirst, 0);
-      gl!.drawArraysInstanced(gl!.TRIANGLE_STRIP, 0, 4, N * 5);
+      gl!.drawArraysInstanced(gl!.TRIANGLE_STRIP, 0, 4, N * TSEG);
     };
     const drawActors = (side: number) => {
       add(); gl!.useProgram(P.actor.prog); gl!.bindVertexArray(EMPTY); camU(P.actor.U, side); stateU(P.actor.U); focusU(P.actor.U);
@@ -1807,7 +1816,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       gl!.drawArrays(gl!.TRIANGLES, 0, 3);
     };
     gl!.useProgram(P.pre.prog); gl!.uniform1f(P.pre.U.uThreshold, 1.05);
-    full(P.pre, scene!, mips[0], [1 / W, 1 / H]);
+    full(P.pre, scene!, mips[0], small ? [1.5 / W, 1.5 / H] : [1 / W, 1 / H]);
     for (let i = 1; i < mips.length; i++) full(P.down, mips[i - 1], mips[i], [1 / mips[i - 1].w, 1 / mips[i - 1].h]);
     gl!.enable(gl!.BLEND); add();
     for (let i = mips.length - 2; i >= 0; i--) full(P.up, mips[i + 1], mips[i], [1 / mips[i + 1].w, 1 / mips[i + 1].h]);
