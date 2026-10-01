@@ -46,7 +46,7 @@
     }
   },
   "model": {
-    "$comment": "The world behind the whole page (src/scripts/orbnet.ts): the camera travels its scenes as you scroll, from the whole system to the three paths, the DC Lab (learn), a team (build), the orb and every Lab (pass it on), and a new Lab at the close; the thread of the three paths runs through it (src/scripts/weave.ts). Its words: the orb's button, the pause, and what pointing at anything says.",
+    "$comment": "The world (src/scripts/orbnet.ts), held on screen through the journey: the camera travels its scenes as you scroll, and the motif changes shape with them: the whole system, the system beside what this is, the weave hanging from the orb, each path's own thread (learn, build, pass it on), the weave again, and the system again with a new Lab born. Its words: the orb's button, the pause, and what pointing at anything says.",
     "pause": "Pause",
     "play": "Play",
     "skip": "Skip the story",
@@ -135,9 +135,10 @@
     "terms": "Join once, and three paths open up.",
     "cta": "Join The Labs",
     "login": "Log in",
-    "note": "Creates your free Upskilling account, with Google: Slack, events, and you can apply.",
+    "note": "Creates your free Upskilling account, with Google. Everything after that, from workshops to applying for a Build Cycle, happens inside it.",
     "people": "185 people in DC so far.",
-    "$people": "The faces are the Inaugural AI Cohort's portraits (OLOS public/assets/cohort-grid-sample.png); the count is the DC Lab's on Sep 29, 2026. In OLOS, both from its members."
+    "$people": "The faces are the Inaugural AI Cohort's portraits (OLOS public/assets/cohort-grid-sample.png); the count is the DC Lab's on Sep 29, 2026. In OLOS, both from its members.",
+    "label": "What this is"
   },
   "facts": {
     "kicker": "What this is",
@@ -166,44 +167,58 @@
     ]
   },
   "threads": {
-    "$comment": "Joining is the one action; it opens three paths that weave together. Drawn in the pins' language, from LabsPin.blend: here, the orb with three gold orbits crossing over and under each other, a swoosh flying each one in its path's material (teal candy enamel, red candy enamel, gold); at each chapter, the braid (src/components/Braid.astro) with that path's strand lit. They aren't steps: most people do all three, in their own order.",
+    "$comment": "Joining is the one action; it opens three paths that weave together. In the world (src/scripts/orbnet.ts) the paths are three of the orb's orbits, in the same dust, which unwind into one braid hanging from the orb; each chapter draws its own strand in to a single thread; then the braid again, then the orbits. They aren't steps: most people do all three, in their own order. `then` is what each path's way in says at the close.",
     "kicker": "One account, three paths",
     "title": "Learn it. Build it. Pass it on.",
     "lede": "They aren't steps. They're threads: what you learn goes into what you build, and what you build goes back to everyone.",
-    "alt": "The Labs orb with three gold orbits crossing over and under each other, and a swoosh flying each one: teal, red and gold.",
+    "alt": "Three of the orb's orbits unwinding into one braid of three strands: teal, red and silver.",
     "items": [
       {
         "id": "learn",
         "name": "Learn",
-        "when": "Twice a week, drop in"
+        "when": "Twice a week, drop in",
+        "path": "learn",
+        "then": "Your account, then a workshop."
       },
       {
         "id": "build",
         "name": "Build",
-        "when": "Twelve weeks, on a team"
+        "when": "Twelve weeks, on a team",
+        "path": "build",
+        "then": "Your account, then apply."
       },
       {
         "id": "give",
         "name": "Pass it on",
-        "when": "As much as you like"
+        "when": "As much as you like",
+        "path": "contribute",
+        "then": "Your account, then a place to start."
       }
     ]
   },
   "chapters": {
-    "$comment": "The three paths, one chapter each, in the hero's order. Each opens with the braid, its own strand lit, and its name set large with its gem, and ends with its way in: the free account, with its path (the same three as the hero's last shot). No levels, pins, membership or dues here.",
+    "$comment": "The three paths, one scene each in the journey: the world's weave draws in to that path's thread, and the words sit beside it. Each links down to its detail after the journey. No levels, pins, membership or dues here.",
     "learn": {
       "no": "01",
       "verb": "Learn",
       "title": "Get sharp, in good company.",
       "when": "Twice a week, drop in",
-      "lede": "Workshops in person at DC Public Library, some online, on the skills work runs on now. No application, no prerequisites. Anyone can come."
+      "lede": "Workshops in person at DC Public Library, some online, on the skills work runs on now. No application, no prerequisites. Anyone can come.",
+      "more": {
+        "label": "This week's workshops",
+        "to": "sessions"
+      }
     },
     "build": {
       "no": "02",
       "verb": "Build",
       "title": "Make something real.",
       "when": "Twelve weeks, on a team",
-      "lede": "A Build Cycle: find your Pod around a problem situation, form a team of three to five, and build it together, with Mentors beside you, all the way to the Showcase."
+      "lede": "A Build Cycle: find your Pod around a problem situation, form a team of three to five, and build it together, with Mentors beside you, all the way to the Showcase.",
+      "more": {
+        "label": "How a Build Cycle works",
+        "to": "how"
+      }
     },
     "give": {
       "no": "03",
@@ -230,7 +245,11 @@
           "link": "Built in the open",
           "to": "github"
         }
-      ]
+      ],
+      "more": {
+        "label": "Ways to pass it on",
+        "to": "ways"
+      }
     },
     "go": {
       "learn": {
@@ -245,13 +264,19 @@
       }
     }
   },
+  "together": {
+    "$comment": "The weave again, after the three threads: the paths back together, then the system.",
+    "kicker": "Woven together",
+    "title": "Each one makes the others stronger.",
+    "lede": "Most people end up doing all three. Every cycle, the people who learned here become the people the next ones learn from."
+  },
   "how": {
     "kicker": "How a Build Cycle works",
     "title": "From a workshop to the Showcase.",
     "steps": [
       {
         "title": "Create your account.",
-        "body": "Free, with Google. You get Slack, events and a profile, and you can apply.",
+        "body": "Free, with Google. Everything else happens inside it: events, Slack, your profile, and applying.",
         "mark": "account"
       },
       {
@@ -280,8 +305,8 @@
     "markAccount": "Your Upskilling account"
   },
   "honest": {
-    "$comment": "Before the Apply button: what it is and isn't (a realistic preview; some people deciding it isn't for them is the point), then what happens next, dated. The dates, the application's questions and the contact are placeholders until they're set.",
-    "kicker": "Before you apply",
+    "$comment": "A realistic preview, before anyone commits: some people deciding it isn't for them is the point. The application itself, its dates, its questions and who to ask live inside the account (OLOS), not on the public pages.",
+    "kicker": "Good to know",
     "title": "What it is, and what it isn't.",
     "items": [
       {
@@ -300,34 +325,7 @@
         "title": "A real commitment.",
         "body": "Twelve weeks. Month one, while Pods form, and the run-up to the Showcase are the heaviest; the middle is steady. Most people feel unsure while Pods form, and everyone lands in one."
       }
-    ],
-    "next": {
-      "title": "What happens next",
-      "steps": [
-        {
-          "when": "[PLACEHOLDER] Date",
-          "what": "Applications close."
-        },
-        {
-          "when": "[PLACEHOLDER] Date",
-          "what": "You hear back: a place, or the waitlist."
-        },
-        {
-          "when": "[PLACEHOLDER] Date",
-          "what": "Orientation, and you join the Slack."
-        },
-        {
-          "when": "Oct 13",
-          "what": "Kickoff at the Upskilling Summit."
-        },
-        {
-          "when": "[PLACEHOLDER] Date",
-          "what": "The Showcase."
-        }
-      ],
-      "questions": "[PLACEHOLDER] The application's questions, shown here before you sign in.",
-      "contact": "[PLACEHOLDER] Questions first? A named person to ask, and how."
-    }
+    ]
   },
   "cycle": {
     "$comment": "Two states, switched by date on the page itself so it never goes stale: open until `closes`, then underway. `closes` is the kickoff date until the deadline is set. In OLOS, from the cycle's own dates.",
@@ -335,7 +333,7 @@
     "kicker": "Applications open",
     "title": "Fall 2026 starts October 13.",
     "body": "Twelve weeks, a Pod of curious peers, and a problem worth solving. Places are limited. It's an open cycle: the projects are open source, free for anyone to use and build on.",
-    "apply": "[PLACEHOLDER] Apply by the deadline, once it's set.",
+    "apply": "Create your account, then apply from inside it.",
     "cta": "Join The Labs",
     "closed": {
       "kicker": "Fall 2026 is underway",
@@ -356,7 +354,7 @@
         }
       ],
       "cta": "Hear when the next cycle opens",
-      "note": "[PLACEHOLDER] Next cycle: dates to be set."
+      "note": "Your account tells you when the next cycle opens."
     }
   },
   "sessions": {

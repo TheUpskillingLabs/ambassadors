@@ -1,25 +1,26 @@
 ---
 /* The Upskilling Labs home page: a prototype of the pre-login experience for
-   OLOS (the app behind theupskillinglabs.org) to adopt. It keeps the live home
-   page's facts and its one action (Join The Labs). After the hero and what this
-   is: joining is the one action, and it opens three paths that weave together
-   (learn it, build it, pass it on). Then a chapter for each, in the order of the
-   hero's shots: Learn (the workshops and the room), Build (a Build Cycle: how it
-   works, what it is and isn't, the people who've done it, the next cycle) and
-   Pass it on (mentoring, improving how it works, the tools). Then how it began,
-   the cities, and the one action again. Every way in is the free account.
+   OLOS (the app behind theupskillinglabs.org) to adopt. Its one action is the
+   free account (Join The Labs); everything after it (workshops, applying,
+   contributing) happens inside the account, not here.
+
+   It opens with a journey, after Lusion's Oryzo: one live world held on screen
+   (src/scripts/orbnet.ts) while eight scenes go by, the words small and beside
+   the picture, never over it. The motif changes shape as you go: the whole
+   system under the title; the system beside what this is; its three path
+   orbits unwinding into a braid hanging from the orb (one account, three
+   paths); each path's own thread (Learn, Build, Pass it on); the braid again;
+   the system again, a new Lab born in it, with the three ways in. Then the
+   world scrolls away and the detail follows on the plain ground: the short
+   version, the workshops and the room (Learn), a Build Cycle, what it is and
+   isn't, two Upskillers and the next cycle (Build), the ways to pass it on,
+   how it began, and the cities.
 
    It's built on the role pages' system (src/styles/role.css, with home.css for
    what only this page has): ink, the teal and red glows with the grain only in
-   them, Geologica, hairline rules, teal labels. The hero follows Apple's AirTag
-   page: the name, one line, and one object centred: the orb, live, at the hub
-   of its network (src/scripts/orbnet.ts), which shows how The Labs grows: hub
-   and spoke, from national to regional to neighbourhood Labs.
-
-   The sessions, cities and member count are a snapshot in
-   content/site/home.json; in OLOS they come from its own data. Links point at
-   the live site until then. The Ambassador program page moved to /ambassador/,
-   one role page among five. */
+   them, Geologica, hairline rules, teal labels. The sessions, cities and member
+   count are a snapshot in content/site/home.json; in OLOS they come from its
+   own data. Links point at the live site until then. */
 import "@fontsource-variable/geologica/wght.css";
 import "../styles/join.css";
 import "../styles/role.css";
@@ -48,8 +49,6 @@ const giveTo: Record<string, string> = { mentor: u("/mentor/"), github: L.github
 // loads, so a static build never shows a stale "applications open".
 const closesAt = `${h.cycle.closes}T00:00:00-04:00`;
 const cycleState = Date.now() < Date.parse(closesAt) ? "open" : "closed";
-const ph = (s: string) => s.includes("[PLACEHOLDER]");
-const unph = (s: string) => s.replace("[PLACEHOLDER] ", "");
 const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat(u("/home/suzie.webp"));
 ---
 <!doctype html>
@@ -95,16 +94,6 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       </nav>
     </header>
 
-    <!-- The world: one live model of The Labs behind the whole page (src/scripts/orbnet.ts), with the thread of
-         the three paths running through it (src/scripts/weave.ts). As you scroll, the camera travels its scenes
-         (the hero, the paths, the three chapters, the close: each marked data-scene); between them, where the
-         page has detail to read, the world dims. -->
-    <div class="hm-world" data-world data-faces={JSON.stringify(faces)} data-words={JSON.stringify(h.model.hover)}>
-      <div class="hm-orbit" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
-      <canvas class="hm-thread" data-thread aria-hidden="true"></canvas>
-      <!-- What you're pointing at (or tapped): a card beside it, from the model. -->
-      <div class="hm-card" data-card aria-hidden="true"><p class="hm-card-k"><i data-card-mk></i><span data-card-kind></span></p><p class="hm-card-t" data-card-title></p><p class="hm-card-d" data-card-detail></p></div>
-    </div>
     <a class="hm-orb-link" href={L.join} aria-label={h.model.orbLabel} data-orb-link><span class="hm-orb-label">{h.model.orb} <b aria-hidden="true">→</b></span></a>
     <button class="hm-pause" type="button" data-quiet aria-pressed="false" aria-label={h.model.pauseLabel} data-pause data-pause-label={h.model.pauseLabel} data-play-label={h.model.playLabel} data-pause-text={h.model.pause} data-play-text={h.model.play}>
       <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M3 2h2v8H3zM7 2h2v8H7z" /><path class="i-play" d="M3 2l7 4-7 4z" /></svg>
@@ -112,40 +101,107 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     </button>
 
     <main id="main">
-      <!-- 1. The whole system first: the title over the world. -->
-      <section id="top" class="hm-hero" data-scene>
-        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
-        <div class="hm-hero-copy" data-quiet>
-          <p class="status hm-eyebrow rise" data-when="open"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
-          <p class="status hm-eyebrow rise" data-when="closed"><i aria-hidden="true"></i>{h.hero.eyebrowClosed}</p>
-          <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
-          {(["open", "closed"] as const).map((st) => (
-            <ul class="hm-spec rise" data-when={st}>{h.hero.spec[st].map((f) => <li>{f}</li>)}</ul>
-          ))}
+      <!-- The journey: one live world (src/scripts/orbnet.ts), held on screen while its scenes go by, each a tall
+           section whose words sit beside the picture, never over it, and cross-fade in place. The motif changes
+           shape as you go: the system, the weave, each path's thread, the weave, the system. Then the world scrolls
+           away, and the detail follows on the plain ground. -->
+      <div class="hm-journey" data-journey>
+        <div class="hm-world" data-world data-faces={JSON.stringify(faces)} data-words={JSON.stringify(h.model.hover)}>
+          <div class="hm-orbit" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
+          <!-- What you're pointing at (or tapped): a card beside it, from the model. -->
+          <div class="hm-card" data-card aria-hidden="true"><p class="hm-card-k"><i data-card-mk></i><span data-card-kind></span></p><p class="hm-card-t" data-card-title></p><p class="hm-card-d" data-card-detail></p></div>
         </div>
-      </section>
 
-      <!-- The intro: what this is, what it costs, the one action. -->
-      <section id="intro" class="rp-intro">
-        <p class="rp-lede reveal">{h.intro.lede}</p>
-        <div class="hm-people reveal">
-          <ul class="hm-faces" aria-hidden="true">
-            {[1, 2, 3, 4, 5, 6, 7].map((n) => <li><img src={u(`/home/face-${n}.webp`)} alt="" width="192" height="192" loading="lazy" decoding="async" /></li>)}
-          </ul>
-          <p>{h.intro.people}</p>
-        </div>
-        <p class="rp-terms reveal"><b>{h.intro.strong}</b> {h.intro.terms}</p>
-        <div class="rp-cta reveal">
-          <div class="hm-actions">
-            <a class="btn" href={L.join} data-hero-cta>{h.intro.cta}</a>
-            <a class="textlink" href={L.login}>{h.intro.login}</a>
-          </div>
-          <p class="rp-account">{h.intro.note}</p>
-        </div>
-      </section>
+        <div class="hm-scenes">
+          <!-- 1. The system: the title over the whole of it. -->
+          <section id="top" class="hm-hero" data-scene>
+            <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+            <div class="hm-scene-in hm-hero-in" data-scene-in>
+              <div class="hm-hero-copy" data-quiet>
+                <p class="status hm-eyebrow rise" data-when="open"><i aria-hidden="true"></i>{h.hero.eyebrow}</p>
+                <p class="status hm-eyebrow rise" data-when="closed"><i aria-hidden="true"></i>{h.hero.eyebrowClosed}</p>
+                <h1 class="rp-title wordin">{h.hero.title.map((l, i) => <>{i > 0 && <br />}{l}</>)}</h1>
+                {(["open", "closed"] as const).map((st) => (
+                  <ul class="hm-spec rise" data-when={st}>{h.hero.spec[st].map((f) => <li>{f}</li>)}</ul>
+                ))}
+              </div>
+            </div>
+          </section>
 
-      <!-- What this is: four facts. -->
-      <section id="what" class="rp-sec rp-simple">
+          <!-- 2. The system, beside what this is: the one action. -->
+          <section id="intro" class="hm-scene" data-scene aria-label={h.intro.label}>
+            <div class="hm-scene-in" data-scene-in>
+              <div class="rp-wrap"><div class="hm-side" data-quiet>
+                <p class="hm-side-lede">{h.intro.lede}</p>
+                <div class="hm-people">
+                  <ul class="hm-faces" aria-hidden="true">
+                    {[1, 2, 3, 4, 5, 6, 7].map((n) => <li><img src={u(`/home/face-${n}.webp`)} alt="" width="192" height="192" loading="lazy" decoding="async" /></li>)}
+                  </ul>
+                  <p>{h.intro.people}</p>
+                </div>
+                <p class="rp-terms"><b>{h.intro.strong}</b> {h.intro.terms}</p>
+                <div class="hm-actions">
+                  <a class="btn" href={L.join} data-hero-cta>{h.intro.cta}</a>
+                  <a class="textlink" href={L.login}>{h.intro.login}</a>
+                </div>
+                <p class="rp-account">{h.intro.note}</p>
+              </div></div>
+            </div>
+          </section>
+
+          <!-- 3. The weave: the three paths unwind from the orb's orbits into one braid hanging from it. -->
+          <section id="paths" class="hm-scene" data-scene aria-labelledby="paths-t">
+            <div class="hm-scene-in" data-scene-in>
+              <div class="rp-wrap"><div class="hm-side" data-quiet>
+                <p class="kicker">{h.threads.kicker}</p>
+                <h2 class="hm-side-h hm-triad" id="paths-t">{h.threads.title.split(/(?<=\.) /).map((t, i) => <>{i > 0 && " "}<span>{t}</span></>)}</h2>
+                <p class="hm-side-p">{h.threads.lede}</p>
+                <ol class="hm-strands">
+                  {h.threads.items.map((t) => <li><a href={`#${t.id}`}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.when}</span></a></li>)}
+                </ol>
+              </div></div>
+            </div>
+          </section>
+
+          <!-- 4–6. Each path's own thread (src/components/HomeChapter.astro). -->
+          <HomeChapter id="learn" c={ch.learn} />
+          <HomeChapter id="build" c={ch.build} />
+          <HomeChapter id="give" c={ch.give} />
+
+          <!-- 7. The weave again: the three back together. -->
+          <section id="together" class="hm-scene" data-scene aria-labelledby="together-t">
+            <div class="hm-scene-in" data-scene-in>
+              <div class="rp-wrap"><div class="hm-side" data-quiet>
+                <p class="kicker">{h.together.kicker}</p>
+                <h2 class="hm-side-h" id="together-t">{h.together.title}</h2>
+                <p class="hm-side-p">{h.together.lede}</p>
+              </div></div>
+            </div>
+          </section>
+
+          <!-- 8. The system again, with a new Lab born in it: the one action, and the three ways in. -->
+          <section id="start" class="hm-scene hm-close" data-scene aria-labelledby="start-t">
+            <div class="hm-scene-in" data-scene-in>
+              <div class="rp-wrap"><div class="hm-side" data-quiet>
+                <h2 class="hm-side-h" id="start-t">{h.join.title}</h2>
+                <p class="hm-side-p">{h.join.lede}</p>
+                <ul class="hm-ways-in">
+                  {h.threads.items.map((t) => <li><a href={pathJoin(t.path)}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.then}</span><em aria-hidden="true">→</em></a></li>)}
+                </ul>
+                <div class="hm-actions">
+                  <a class="btn" href={L.join}>{h.join.cta}</a>
+                  <a class="ghost" href={L.donate}>{h.join.donate}</a>
+                </div>
+                <p class="rp-account">{h.join.note}</p>
+              </div></div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- The detail, after the journey, on the plain ground: the short version, then each path's own detail in
+           the journey's order, how it began, and the cities. -->
+      <section id="what" class="rp-sec rp-simple hm-after">
         <div class="rp-wrap">
           <div class="rp-head center reveal">
             <p class="kicker">{h.facts.kicker}</p>
@@ -163,31 +219,12 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <!-- 2. One account, three paths: the thread stems from the orb, three strands braided. Not steps: threads. -->
-      <section id="paths" class="hm-scene hm-paths3" data-scene>
-        <div class="hm-scene-in">
-          <div class="rp-wrap hm-paths-in">
-            <div class="rp-head center reveal">
-              <p class="kicker">{h.threads.kicker}</p>
-              <h2 class="rp-h2 hm-triad">{h.threads.title.split(/(?<=\.) /).map((t, i) => <>{i > 0 && " "}<span>{t}</span></>)}</h2>
-              <p class="rp-lede-sm">{h.threads.lede}</p>
-            </div>
-            <ol class="hm-strands reveal">
-              {h.threads.items.map((t) => <li><a href={`#${t.id}`}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.when}</span></a></li>)}
-            </ol>
-          </div>
-        </div>
-      </section>
-
-      <!-- 3–5. The three paths, a scene each (src/components/HomeChapter.astro), each followed by its detail. -->
-      <HomeChapter id="learn" c={ch.learn} />
-
       <!-- Learn: the next few workshops to drop into, and what they teach, then the room. -->
       <section id="sessions" class="rp-sec hm-sessions">
         <div class="rp-wrap">
           <div class="hm-head-row reveal">
             <div class="rp-head">
-              <p class="kicker">{h.sessions.kicker}</p>
+              <p class="kicker hm-k"><i class="gem" data-gem="learn" aria-hidden="true"></i>{h.sessions.kicker}</p>
               <h2 class="rp-h2">{h.sessions.title}</h2>
             </div>
             <a class="textlink" href={L.events}>{h.sessions.all} →</a>
@@ -219,14 +256,12 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <HomeChapter id="build" c={ch.build} />
-
       <!-- Build: how a Build Cycle works, from a workshop to the Showcase and giving back; what it is and isn't;
            two Upskillers in their own words; then the next cycle, with the button. -->
       <section id="how" class="rp-sec rp-path">
         <div class="rp-wrap">
           <div class="rp-head reveal">
-            <p class="kicker">{h.how.kicker}</p>
+            <p class="kicker hm-k"><i class="gem" data-gem="build" aria-hidden="true"></i>{h.how.kicker}</p>
             <h2 class="rp-h2">{h.how.title}</h2>
           </div>
           <ol class="rp-steps" style={`--n: ${h.how.steps.length}`}>
@@ -244,27 +279,17 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <!-- Before you apply: what it is and isn't, then what happens next, dated. The facts come before the Apply
-           button, so the people it isn't for can tell, and the rest know what they're saying yes to. -->
+      <!-- What it is and isn't: a realistic preview, before anyone commits. The application itself, its dates and
+           its questions are inside the account. -->
       <section id="before" class="rp-sec hm-honest">
         <div class="rp-wrap">
           <div class="rp-head reveal">
             <p class="kicker">{h.honest.kicker}</p>
             <h2 class="rp-h2">{h.honest.title}</h2>
           </div>
-          <div class="hm-honest-grid">
-            <ul class="hm-isnt">
-              {h.honest.items.map((it) => <li class="reveal"><h3>{it.title}</h3><p>{it.body}</p></li>)}
-            </ul>
-            <aside class="hm-next reveal" aria-labelledby="next-t">
-              <h3 id="next-t">{h.honest.next.title}</h3>
-              <ol>
-                {h.honest.next.steps.map((st) => <li><b class:list={{ ph: ph(st.when) }}>{unph(st.when)}</b><span>{st.what}</span></li>)}
-              </ol>
-              <p class="ph">{h.honest.next.questions}</p>
-              <p class="ph">{h.honest.next.contact}</p>
-            </aside>
-          </div>
+          <ul class="hm-isnt">
+            {h.honest.items.map((it) => <li class="reveal"><h3>{it.title}</h3><p>{it.body}</p></li>)}
+          </ul>
         </div>
       </section>
 
@@ -294,7 +319,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <p class="status"><i aria-hidden="true"></i>{h.cycle.kicker}</p>
             <h2 class="rp-h2">{h.cycle.title}</h2>
             <p class="rp-lede-sm">{h.cycle.body}</p>
-            <p class:list={["hm-apply", { ph: ph(h.cycle.apply) }]}>{h.cycle.apply}</p>
+            <p class="hm-apply">{h.cycle.apply}</p>
             <a class="btn" href={pathJoin("build")}>{h.cycle.cta}</a>
           </div>
           <div class="hm-cycle-text" data-when="closed">
@@ -305,7 +330,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
               {h.cycle.closed.ways.map((w) => <li><a class="textlink" href={w.to === "mentor" ? u("/mentor/") : L.events}>{w.label} →</a></li>)}
             </ul>
             <a class="btn" href={L.join}>{h.cycle.closed.cta}</a>
-            <p class:list={["hm-apply", { ph: ph(h.cycle.closed.note) }]}>{h.cycle.closed.note}</p>
+            <p class="hm-apply">{h.cycle.closed.note}</p>
           </div>
           <a class="hm-cycle-button" href={u("/upskiller/")} aria-label="The Upskiller button: what Upskillers do">
             <img src={u("/roles/upskiller/hero-760.webp")} alt="" width="760" height="760" loading="lazy" decoding="async" />
@@ -313,13 +338,11 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <HomeChapter id="give" c={ch.give} />
-
       <!-- Pass it on: the ways to make The Labs better, then the way in. -->
-      <section class="rp-sec hm-give">
+      <section id="ways" class="rp-sec hm-give">
         <div class="rp-wrap">
           <div class="rp-head reveal">
-            <p class="kicker">{ch.give.kicker}</p>
+            <p class="kicker hm-k"><i class="gem" data-gem="give" aria-hidden="true"></i>{ch.give.kicker}</p>
             <h2 class="rp-h2">{ch.give.heading}</h2>
           </div>
           <ul class="hm-three">
@@ -335,7 +358,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         </div>
       </section>
 
-      <!-- After the chapters: how it began and where it's going, then the cities, then the one action. -->
+      <!-- How it began and where it's going, then the cities. -->
       <section id="story" class="rp-sec rp-moments hm-story">
         <div class="rp-wrap">
           <div class="rp-head reveal">
@@ -371,23 +394,6 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
               </li>
             ))}
           </ul>
-        </div>
-      </section>
-
-      <!-- 6. With: the thread ties into a new Lab, born in the world above; the one action, again. -->
-      <section id="start" class="hm-scene hm-close" data-scene>
-        <div class="hm-scene-in">
-          <div class="rp-join hm-join">
-            <div class="rp-wrap reveal">
-              <h2>{h.join.title}</h2>
-              <p class="rp-lede-sm">{h.join.lede}</p>
-              <div class="hm-actions center">
-                <a class="btn" href={L.join}>{h.join.cta}</a>
-                <a class="ghost" href={L.donate}>{h.join.donate}</a>
-              </div>
-              <p class="rp-account">{h.join.note}</p>
-            </div>
-          </div>
         </div>
       </section>
     </main>
@@ -428,63 +434,76 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       import { openCovers } from "../scripts/covers";
       import { initMenu } from "../scripts/navmenu";
       import { mountOrbNet } from "../scripts/orbnet";
-      import { mountThread } from "../scripts/weave";
 
-      // The header's button steps aside while the intro's button or the close is on screen, so the page never
-      // shows two.
       const root = document.documentElement;
       const head = document.querySelector<HTMLElement>("[data-head]")!;
       new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
         .observe(document.querySelector("[data-top-sentinel]")!);
-      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
-      let introIn = false, joinIn = false;
-      const syncCta = () => { const off = introIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
-      syncCta();
-      new IntersectionObserver(([e]) => { introIn = e.isIntersecting; syncCta(); }).observe(document.querySelector("[data-hero-cta]")!);
-      new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 }).observe(document.getElementById("start")!);
       initMenu();
       openCovers();
 
-      // The world: the live model behind the whole page, the thread through it, and the camera travelling its
-      // scenes as you scroll. Reduced motion gets it still (the camera still follows the page); without WebGL 2
-      // the poster stays.
+      // The journey's scenes. Each scene's words are held in place while any of it is on screen and cross-fade
+      // with the next (the old one out, then the new one in), so words never scroll across the picture. The
+      // last scene isn't held as it leaves: it scrolls away with the world, into the detail.
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const scenes = ["top", "intro", "paths", "learn", "build", "give", "together", "start"].map((id) => document.getElementById(id)!);
+      const inners = scenes.map((el) => el.querySelector<HTMLElement>("[data-scene-in]")!);
+      const ons = scenes.map(() => 0);
+      const smooth = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      const syncCta = () => { const off = ons[1] > 0.5 || ons[ons.length - 1] > 0.25; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
+      const place = () => {
+        const vh = window.innerHeight, n = scenes.length;
+        scenes.forEach((el, i) => {
+          const r = el.getBoundingClientRect(), inner = inners[i];
+          let y = 0, op = 1;
+          if (i > 0 && r.top > 0) { y = -r.top; op = Math.min(op, 1 - smooth(0.35, 0.65, r.top / vh)); }
+          if (i < n - 1 && r.bottom < vh) { y = vh - r.bottom; op = Math.min(op, 1 - smooth(0, 0.3, (vh - r.bottom) / vh)); }
+          if (r.top >= vh || r.bottom <= 0) op = 0;
+          inner.style.transform = y ? `translate3d(0, ${y.toFixed(1)}px, 0)` : "";
+          inner.style.opacity = op.toFixed(3);
+          inner.style.pointerEvents = op < 0.5 ? "none" : "";
+          ons[i] = op;
+        });
+        syncCta();
+      };
+      let placing = 0;
+      const placeSoon = () => { if (!placing) placing = requestAnimationFrame(() => { placing = 0; place(); }); };
+      window.addEventListener("scroll", placeSoon, { passive: true });
+      window.addEventListener("resize", placeSoon);
+      place();
+      // Tabbing into a scene's link brings its scene to the middle of the screen, so it's never focused unseen.
+      scenes.forEach((el, i) => el.addEventListener("focusin", () => {
+        if (ons[i] > 0.9) return;
+        const top = el.getBoundingClientRect().top + window.scrollY + Math.max(0, el.offsetHeight - window.innerHeight) / 2;
+        window.scrollTo({ top, behavior: reduce ? "auto" : "smooth" });
+      }));
+      // The pause shows while the journey is on screen.
+      let inJourney = true;
+      new IntersectionObserver(([e]) => { inJourney = e.isIntersecting; root.classList.toggle("in-journey", inJourney); }).observe(document.querySelector("[data-journey]")!);
+
+      // The world: the live model behind the journey, its camera and its motif following the scenes. Reduced
+      // motion gets it still (it still follows the page); without WebGL 2 the poster stays.
       const orbMode = new URLSearchParams(location.search).get("orb");
       const still = reduce || orbMode === "still" || orbMode === "poster";
       const world = document.querySelector<HTMLElement>("[data-world]")!;
-      const scenes = ["top", "paths", "learn", "build", "give", "start"].map((id) => document.getElementById(id)!);
-      // How much each scene fills the screen. In a scene the world is the picture, bright and inspectable;
-      // between scenes, where there's detail to read, it dims.
-      let dim = 0, heroW = 1;
-      const weigh = () => {
-        const vh = window.innerHeight;
-        const ws = scenes.map((el) => { const r = el.getBoundingClientRect(); const cover = (Math.min(r.bottom, vh) - Math.max(r.top, 0)) / vh; return Math.max(0, Math.min(1, (cover - 0.3) / 0.5)); });
-        heroW = ws[0];
-        dim = 1 - Math.max(...ws);
-        world.style.setProperty("--dim", dim.toFixed(3));
-        root.classList.toggle("in-scene", dim < 0.5);
-      };
-      window.addEventListener("scroll", weigh, { passive: true });
-      window.addEventListener("resize", weigh);
-      weigh();
-
       const card = world.querySelector<HTMLElement>("[data-card]")!;
       const cardMk = card.querySelector<HTMLElement>("[data-card-mk]")!, cardKind = card.querySelector<HTMLElement>("[data-card-kind]")!;
       const cardTitle = card.querySelector<HTMLElement>("[data-card-title]")!, cardDetail = card.querySelector<HTMLElement>("[data-card-detail]")!;
-      let cardWas = "";
+      let cardWas = "", sysNow = 1;
       const pause = document.querySelector<HTMLButtonElement>("[data-pause]")!;
       const orbLink = document.querySelector<HTMLAnchorElement>("[data-orb-link]")!;
-      // One orb at a time: while the world's orb holds the screen, the header carries the wordmark alone; when
-      // the camera leaves it (or the world dims), the mark comes back.
+      // One orb at a time: while the world's orb is on screen, the header carries the wordmark alone; when it
+      // leaves (the weave's threads, or the detail), the mark comes back.
       const brand = document.querySelector<HTMLElement>("[data-brand]")!;
       let dockM = 0;
-      const thread = orbMode === "poster" ? null : mountThread(world.querySelector<HTMLCanvasElement>("[data-thread]")!, { still });
       const net = mountOrbNet(world.querySelector<HTMLElement>("[data-orbnet]")!, {
         still, poster: orbMode === "poster", anchors: scenes, stage: document.body,
         faces: JSON.parse(world.dataset.faces ?? "[]"), words: JSON.parse(world.dataset.words ?? "{}"),
-        inspectable: () => dim < 0.3,
+        // Anything in the system can be asked what it is, while the system is the picture.
+        inspectable: () => inJourney && sysNow > 0.7,
         onFrame: (f) => {
-          thread?.draw(f);
+          sysNow = f.sys;
           // The card: beside what you're pointing at, flipped to its left near the right edge.
           const hv = f.hover;
           card.classList.toggle("on", !!hv);
@@ -494,13 +513,13 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             const flip = hv.x > window.innerWidth - 300;
             card.style.transform = `translate(${(flip ? hv.x - hv.r - 14 : hv.x + hv.r + 14).toFixed(1)}px, ${hv.y.toFixed(1)}px) translate(${flip ? "-100%" : "0"}, -50%)`;
           }
-          // The orb is the button while the whole system is on screen: a link laid over it.
-          const show = heroW * Math.max(0, 1 - f.s * 4);
+          // The orb is the button while the whole system holds the screen under the title: a link laid over it.
+          const show = ons[0] * Math.max(0, 1 - f.s * 4);
           orbLink.style.transform = `translate(${(f.orb.x - f.orb.r).toFixed(1)}px, ${(f.orb.y - f.orb.r).toFixed(1)}px)`;
           orbLink.style.width = orbLink.style.height = `${(f.orb.r * 2).toFixed(1)}px`;
           orbLink.style.setProperty("--show", show.toFixed(3));
           orbLink.style.visibility = show > 0.05 ? "visible" : "hidden";
-          const onScreen = f.orb.r > 14 && f.orb.y > -f.orb.r && f.orb.y < window.innerHeight + f.orb.r && dim < 0.5 ? 1 : 0;
+          const onScreen = inJourney && f.orb.r > 14 && f.orb.y > -f.orb.r * 0.5 && f.orb.y < window.innerHeight + f.orb.r ? 1 : 0;
           dockM += (1 - onScreen - dockM) * 0.15;
           brand.style.setProperty("--m", dockM.toFixed(3));
         },
