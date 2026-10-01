@@ -47,6 +47,8 @@ const pageTitle = h.title;
 const pathJoin = (slug: string) => `${L.join}&path=${slug}`;
 const ch = h.chapters, J = h.journey, go = ch.go;
 const giveTo: Record<string, string> = { mentor: u("/mentor/"), github: L.github };
+// Share's way leads to the Contributor Community page, which explains how contributing works and where to start.
+const community = u("/contributing/");
 // The cycle's state, switched by date: open until it closes, then underway. The page sets it again as it
 // loads, so a static build never shows a stale "applications open".
 const closesAt = `${J.cycle.closes}T00:00:00-04:00`;
@@ -262,12 +264,13 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <ul class="hm-mini hm-mini-links">
               {ch.share.ways.map((w) => <li><b>{w.title}</b><span>{w.body}{w.to && <> <a class="textlink" href={giveTo[w.to]}>{w.link} →</a></>}</span></li>)}
             </ul>
+            <a class="hm-more textlink" href={community}>{ch.share.more} →</a>
           </HomeScene>
           <HomeScene id="centre" path="share" labelledby="centre-t">
             <p class="kicker hm-k"><i class="gem" data-gem="share" aria-hidden="true"></i>{J.centre.kicker}</p>
             <h2 class="hm-side-h" id="centre-t">{J.centre.title}</h2>
             <p class="hm-side-p">{J.centre.lede}</p>
-            <div class="hm-go"><a class="hm-path" href={pathJoin(go.share.path)}><em>{go.share.label}<small>{go.share.note}</small></em><span aria-hidden="true">→</span></a></div>
+            <div class="hm-go"><a class="hm-path" href={community}><em>{go.share.label}<small>{go.share.note}</small></em><span aria-hidden="true">→</span></a></div>
           </HomeScene>
 
           <!-- The weave again: the loop. -->
@@ -320,7 +323,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <nav class="hm-foot-cols" aria-label="Footer">
             <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#labs">{J.labs.kicker}</a></div>
             <div><p class="kicker">{h.footer.roles}</p>{list.roles.map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
-            <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={L.contact}>{h.footer.contact}</a><a href={L.join}>{h.footer.member}</a></div>
+            <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={community}>{h.footer.contributors}</a><a href={L.contact}>{h.footer.contact}</a><a href={L.join}>{h.footer.member}</a></div>
             <div><p class="kicker">{h.footer.open}</p><a href={L.github}>{h.footer.built}</a><a href={L.join}>{h.nav.cta}</a></div>
           </nav>
         </div>

@@ -1,5 +1,5 @@
 {
-  "$comment": "The Upskilling Labs home page (src/pages/index.astro): one journey of eighteen scenes over a live world, the words beside the picture. The idea it shows: The Labs is one big open project. Everyone in it builds three things together (open workshops and playbooks, the method and kits that turn strangers into teams doing real work, and the platform every Lab runs on), and a small team at the centre curates the official versions every Lab gets. The Build Cycle is the engine: real work, start to finish; when cohorts hit obstacles, Mentors build the next workshops around them; what works is shared back. Everything after the account happens inside it. No levels, pins, membership or dues here.",
+  "$comment": "The Upskilling Labs home page (src/pages/index.astro): one journey of nineteen scenes over a live world, the words beside the picture. The idea it shows: The Labs is one big open project. Everyone in it builds three things together (open workshops and playbooks, the method and kits that turn strangers into teams doing real work, and the platform every Lab runs on), and a small team at the centre curates the official versions every Lab gets. The Build Cycle is the engine: real work, start to finish; when cohorts hit obstacles, Mentors build the next workshops around them; what works is shared back. Everything after the account happens inside it. No levels, pins, membership or dues here.",
   "placeholder": true,
   "title": "The Upskilling Labs",
   "description": "Work is changing too fast to figure out alone. The Upskilling Labs is a free, open community where you learn it, build it and share it, with people near you.",
@@ -187,9 +187,9 @@
     },
     "go": {
       "share": {
-        "label": "Share what I know",
-        "note": "Your free account, then a place to start.",
-        "path": "contribute"
+        "$comment": "Where Share's way leads: the Contributor Community page (/contributing/), which explains how contributing works and where to start.",
+        "label": "The Contributor Community",
+        "note": "How contributing works, and where to start."
       }
     },
     "share": {
@@ -198,6 +198,7 @@
       "title": "Add to what everyone learns from.",
       "when": "As much as you like",
       "lede": "Everything here is open. Help at a workshop or write one, refine how a cycle runs, or build the platform.",
+      "more": "How the Contributor Community works",
       "ways": [
         {
           "title": "Open workshops and playbooks",
@@ -428,7 +429,7 @@
     "about": "About",
     "board": "Our board",
     "contact": "Contact",
-    "member": "Become a member",
+    "member": "Become a member", "contributors": "Contributor Community",
     "built": "Built in the open",
     "partners": "In partnership with",
     "legal": "The Upskilling Labs, Inc. is a fiscally sponsored project of Superbloom Design, a 501(c)(3). Donations are tax-deductible to the extent permitted by law.",
