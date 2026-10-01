@@ -917,10 +917,25 @@ void main() {
 const COMPOSITE_FS = `#version 300 es
 precision highp float;
 in vec2 vUv; uniform sampler2D uScene; uniform sampler2D uBloom;
-uniform float uBloomAmt; uniform vec2 uRes; uniform float uFrame; uniform vec4 uShock; uniform float uAspect;
+uniform float uBloomAmt; uniform vec2 uRes; uniform float uFrame; uniform vec4 uShock; uniform float uAspect; uniform float uBg;
 out vec4 o;
 ${GLSL_HASH}
 vec3 shoulder(vec3 c) { vec3 k = vec3(0.88); return mix(c, k + (1.0 - k) * (1.0 - exp(-(c - k) / (1.0 - k))), step(k, c)); }
+// The stage behind the world, exactly as the page's CSS paints it (.hm-world: ink, a deep-teal glow right of
+// centre, a teal one in the top-left corner, and the brand's grain laid over the glows), so the world can be
+// screened over it here, in one opaque picture, rather than by the browser's compositor every frame (which a
+// phone feels). uv from the bottom left; CSS from the top left.
+vec3 stage(vec2 uv) {
+  vec2 p = vec2(uv.x, 1.0 - uv.y);
+  float m1 = clamp(1.0 - length(p / vec2(0.55, 0.45)), 0.0, 1.0);
+  float m2 = clamp(1.0 - length((p - vec2(1.0, 0.62)) / vec2(0.5, 0.4)), 0.0, 1.0);
+  vec3 b = mix(vec3(0.0, 20.0, 27.0) / 255.0, vec3(0.0, 95.0, 104.0) / 255.0, 0.42 * m2);
+  b = mix(b, vec3(0.0, 148.0, 160.0) / 255.0, 0.3 * m1);
+  // The grain: white at about a seventh, overlaid at 0.55 where the glows are (on a dark ground, overlay of
+  // white lifts by its alpha).
+  float m = m1 + m2 * (1.0 - m1), n = 0.5 + 0.3 * (hash(gl_FragCoord.xy) - 0.5);
+  return b * (1.0 + 0.151 * m * n);
+}
 void main() {
   vec2 uv = vUv;
   // The shockwave: a ring from the orb that bends what's behind it as it passes.
@@ -937,7 +952,10 @@ void main() {
   // The brand's grain, only where there's light.
   float l = max(c.r, max(c.g, c.b));
   c += (hash(gl_FragCoord.xy + uFrame * 17.0) - 0.5) * 0.05 * smoothstep(0.02, 0.35, l);
-  o = vec4(clamp(c, 0.0, 1.0), 1.0);
+  c = clamp(c, 0.0, 1.0);
+  // Screened over the stage (as the page would, with mix-blend-mode: screen).
+  if (uBg > 0.5) c = 1.0 - (1.0 - stage(vUv)) * (1.0 - c);
+  o = vec4(c, 1.0);
 }`;
 
 function compile(gl: WebGL2RenderingContext, vs: string, fs: string) {
@@ -986,6 +1004,9 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
 
   const still = Boolean(opts.still || opts.poster);
   const small = !opts.poster && (matchMedia("(max-width: 700px)").matches || (navigator.hardwareConcurrency || 8) <= 4);
+  // The stage is painted into the picture (see stage() in the composite), except for the poster, which the page
+  // screens over the stage itself.
+  const bake = !opts.poster;
   const model = new Model(small ? 0.5 : 0.8, !still);
   const rnd = mulberry(7);
 
@@ -1107,7 +1128,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   let scene: RT | null = null; let mips: RT[] = [];
 
   /* sizing and quality */
-  let W = 1, H = 1, cssW = 1, cssH = 1, dpr = 1, quality = small ? 0.8 : 1;
+  let W = 1, H = 1, cssW = 1, cssH = 1, dpr = 1, quality = small ? 0.75 : 1;
   const resize = () => {
     cssW = wrap.clientWidth; cssH = wrap.clientHeight;
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1158,14 +1179,16 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       if (still || pausedFlag) draw(performance.now());
     });
   }
-  // Each scene's anchor, as page y (its middle); re-measured as the page reflows.
-  let anchorY: number[] = [];
-  const measureAnchors = () => { anchorY = (opts.anchors ?? []).map((el) => { const r = el.getBoundingClientRect(); return r.top + window.scrollY + r.height / 2; }); };
+  // Each scene's anchor, as page y (its middle); re-measured as the page reflows. And the screen's height as the
+  // layout sees it, which (unlike innerHeight) holds still while a phone's toolbar comes and goes, so the camera
+  // doesn't lurch when it does.
+  let anchorY: number[] = [], viewH = document.documentElement.clientHeight || window.innerHeight;
+  const measureAnchors = () => { viewH = document.documentElement.clientHeight || window.innerHeight; anchorY = (opts.anchors ?? []).map((el) => { const r = el.getBoundingClientRect(); return r.top + window.scrollY + r.height / 2; }); };
   const readScroll = () => {
     if (anchorY.length > 1) {
       // The middle of the screen against the scenes' middles: hold on a scene while it's on screen, and travel
       // to the next in the middle stretch between them.
-      const c = window.scrollY + window.innerHeight / 2, n = anchorY.length;
+      const c = window.scrollY + viewH / 2, n = anchorY.length;
       let sh = 0;
       if (c >= anchorY[n - 1]) sh = n - 1;
       else if (c > anchorY[0]) { let k = 0; while (c > anchorY[k + 1]) k++; const f = (c - anchorY[k]) / Math.max(1, anchorY[k + 1] - anchorY[k]); sh = k + ease(clamp((f - 0.22) / 0.56, 0, 1)); }
@@ -1175,7 +1198,10 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       scrollP = clamp(-r.top / Math.max(1, r.height - window.innerHeight), 0, 1);
     }
   };
-  if (opts.anchors) { measureAnchors(); new ResizeObserver(() => { measureAnchors(); readScroll(); }).observe(document.body); window.addEventListener("load", () => { measureAnchors(); readScroll(); }); }
+  if (opts.anchors) {
+    const again = () => { measureAnchors(); readScroll(); };
+    measureAnchors(); new ResizeObserver(again).observe(document.body); window.addEventListener("load", again); window.addEventListener("resize", again);
+  }
   if (!still) window.addEventListener("scroll", readScroll, { passive: true });
   readScroll();
 
@@ -1268,15 +1294,26 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   const mulberryAt = (() => { const r = mulberry(31), cache: [number, number, number][] = []; for (let i = 0; i < 16; i++) cache.push([r(), r(), r()]); return (i: number) => cache[i % 16]; })();
   let knot = 0, settle = 0;
   const pulsed: Record<number, boolean> = {};
+  const massU = new Float32Array(40), labU = new Float32Array(40), labC = new Float32Array(30), labTilt = new Float32Array(20), ripU = new Float32Array(16);
   const t0 = performance.now();
   let last = t0, lastReal = t0, simT = 0, frame = 0, introT = 0;
-  const fps = { acc: 0, n: 0 };
+  const fps: number[] = [];
   if (still) { for (let i = 0; i < 720; i++) { simT += 1 / 60; model.step(1 / 60, simT, i > 320 && i < 570, false); } } // a still: the last sparks settling, not mid-burst
 
   function draw(now: number) {
     const dt = still || pausedFlag ? 0 : Math.min(0.05, (now - last) / 1000);
-    // Adapt: if frames run slow, draw fewer pixels; if there's room again, more.
-    if (!still && !pausedFlag && last !== now) { fps.acc += (now - last); fps.n++; if (fps.n >= 90) { const avg = fps.acc / fps.n; fps.acc = 0; fps.n = 0; const q0 = quality; if (avg > 24 && quality > 0.5) quality = Math.max(0.5, quality - 0.15); else if (avg < 13 && quality < 1) quality = Math.min(1, quality + 0.1); if (q0 !== quality) resize(); } }
+    // Adapt: if frames run slow, draw fewer pixels; if there's room again, more. By the typical frame (the
+    // median of 90), so one long frame (a scroll's hiccup, a tab coming back) never changes it, and with a wide
+    // band between the two, so it settles rather than see-saws (each change costs a frame).
+    if (!still && !pausedFlag && last !== now && now - last < 250) {
+      fps.push(now - last);
+      if (fps.length >= 90) {
+        fps.sort((a, b) => a - b); const med = fps[45]; fps.length = 0; const q0 = quality;
+        if (med > 22 && quality > 0.5) quality = Math.max(0.5, quality - 0.15);
+        else if (med < 12 && quality < (small ? 0.75 : 1)) quality = Math.min(small ? 0.75 : 1, quality + 0.1);
+        if (q0 !== quality) resize();
+      }
+    }
     last = now;
     // Easing by time, not by frame, so the camera keeps up at any frame rate (and while paused).
     const rdt = Math.min(0.1, Math.max(0, (now - lastReal) / 1000)); lastReal = now;
@@ -1363,7 +1400,12 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     let sn = 0;
     // Smaller and softer where the network packs tight on screen, so a busy Lab on a phone stays a Lab.
     const sS = 0.55 + 0.45 * cam.dense, sA = 0.5 + 0.5 * cam.dense;
-    const putS = (q: V3, size: number, alpha: number, c: V3) => { const o = sn * 11; sparkArr.set([q[0], q[1], q[2], size * sS, 5, 0, alpha * sA * keep, c[0], c[1], c[2], -1], o); sn++; };
+    // (Written straight into the buffer: no arrays made per sprite, so no collector's pauses mid-scroll.)
+    const putX = (q: V3, size: number, shape: number, flash: number, alpha: number, c: V3) => {
+      const A = sparkArr, o = sn * 11;
+      A[o] = q[0]; A[o + 1] = q[1]; A[o + 2] = q[2]; A[o + 3] = size; A[o + 4] = shape; A[o + 5] = flash; A[o + 6] = alpha; A[o + 7] = c[0]; A[o + 8] = c[1]; A[o + 9] = c[2]; A[o + 10] = -1; sn++;
+    };
+    const putS = (q: V3, size: number, alpha: number, c: V3) => { if (sn < MAX_PULSES * TAIL) putX(q, size * sS, 5, 0, alpha * sA * keep, c); };
     for (const pu of model.pulses) {
       if (t < pu.t0) continue;
       const u = clamp((t - pu.t0) / pu.dur, 0, 1);
@@ -1375,7 +1417,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     // the helix (T[1]). The helix's geometry is the strand shader's, so a glyph set on a strand sits on it.
     const putG = (q: V3, size: number, shape: number, flash: number, alpha: number, c: V3) => {
       if (alpha < 0.01 || sn >= MAX_PULSES * TAIL) return;
-      sparkArr.set([q[0], q[1], q[2], size, shape, flash, alpha, c[0], c[1], c[2], -1], sn * 11); sn++;
+      putX(q, size, shape, flash, alpha, c);
     };
     const stretch = ease(1 - clamp(SCENE.system.reduce((acc, i) => acc + (w[i] ?? 0), 0), 0, 1));
     const twist = (still ? 0 : t * 0.05) + sCur * 1.6;
@@ -1471,7 +1513,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     gl!.bindBuffer(gl!.ARRAY_BUFFER, SP.buf); gl!.bufferSubData(gl!.ARRAY_BUFFER, 0, sparkArr, 0, sn * 11);
 
     // Masses for the orbits' wells and the glows.
-    const massU = new Float32Array(40), labU = new Float32Array(40), labC = new Float32Array(30), labTilt = new Float32Array(20);
+    massU.fill(0); labU.fill(0); labC.fill(0); labTilt.fill(0); ripU.fill(0);
     massU.set([0, 0, 1.0, 0.85], 0);
     model.labs.forEach((L, i) => {
       const k = Math.min(1.4, L.mass / 300);
@@ -1479,7 +1521,6 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
       labU.set([L.c[0], L.c[2], (0.1 + 0.55 * k) * (L.lit ? 1.1 : 0.8) * (focus === i ? 1 + focusAmt : 1) * (1 + beats[2] * 0.8), L.size * 1.1], i * 4);
       labC.set(L.c, i * 3); labTilt.set(L.tilt, i * 2);
     });
-    const ripU = new Float32Array(16);
     model.ripples.slice(-4).forEach((r, i) => { const age = t - r.t0; ripU.set([0, 0, 1.1 + age * 2.6, r.s * Math.max(0, 1 - age / 1.6)], i * 4); });
 
     /* draw the scene */
@@ -1596,7 +1637,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     gl!.activeTexture(gl!.TEXTURE0); gl!.bindTexture(gl!.TEXTURE_2D, scene!.tex); gl!.uniform1i(P.comp.U.uScene, 0);
     gl!.activeTexture(gl!.TEXTURE1); gl!.bindTexture(gl!.TEXTURE_2D, mips[0].tex); gl!.uniform1i(P.comp.U.uBloom, 1);
     gl!.uniform1f(P.comp.U.uBloomAmt, 0.42 + 0.25 * model.orbFlash + 0.25 * orbHover); gl!.uniform2f(P.comp.U.uRes, W, H); gl!.uniform1f(P.comp.U.uFrame, Math.floor(t * 24) % 97);
-    gl!.uniform1f(P.comp.U.uAspect, W / H);
+    gl!.uniform1f(P.comp.U.uAspect, W / H); gl!.uniform1f(P.comp.U.uBg, bake ? 1 : 0);
     const sc = { x: (orbC[0] / (-orbC[2] * tanX) + cam.sh[0]) * 0.5 + 0.5, y: (orbC[1] / (-orbC[2] * tanY) + cam.sh[1]) * 0.5 + 0.5 };
     const shock = model.ripples.length ? model.ripples[model.ripples.length - 1] : null;
     const age = shock ? t - shock.t0 : 9;
@@ -1604,7 +1645,7 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
     gl!.drawArrays(gl!.TRIANGLES, 0, 3);
     frame++;
 
-    if (!wrap.classList.contains("is-live")) wrap.classList.add("is-live");
+    if (!wrap.classList.contains("is-live")) wrap.classList.add("is-live", ...(bake ? ["is-baked"] : []));
 
     // Tell the page what's on screen: the story's progress, each beat's weight, the orb, and what you're
     // pointing at.
@@ -1628,7 +1669,14 @@ export function mountOrbNet(wrap: HTMLElement, opts: OrbNetOptions = {}): OrbNet
   }
 
   let on = false, raf = 0, visible = false;
-  const loop = (now: number) => { draw(now); raf = on ? requestAnimationFrame(loop) : 0; };
+  // On a phone, an even 60 frames a second: a 90 or 120 Hz screen otherwise asks for frames as fast as it
+  // refreshes, and a world that can't always keep up stutters between the two rates. (Everything else on the
+  // page is held still while it scrolls, so nothing needs more.)
+  let drawn = 0;
+  const loop = (now: number) => {
+    if (!small || now - drawn > 1000 / 60 - 3) { drawn = now; draw(now); }
+    raf = on ? requestAnimationFrame(loop) : 0;
+  };
   const setOn = (v: boolean) => { if (v === on) return; on = v; if (on && !raf) { readScroll(); last = lastReal = performance.now(); raf = requestAnimationFrame(loop); } };
   new IntersectionObserver(([e]) => { visible = e.isIntersecting; setOn(visible && !document.hidden); }).observe(wrap);
   document.addEventListener("visibilitychange", () => setOn(visible && !document.hidden));

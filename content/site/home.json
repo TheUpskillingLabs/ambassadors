@@ -417,8 +417,7 @@
     "note": "Creates your free Upskilling account, with Google."
   },
   "end": {
-    "$comment": "The very end of the journey: the world becomes the logo, settling into the brand's own lockup (public/home/logo-mark.webp and logo-wordmark.webp, cut from the brand kit's logo-lockup-light.png).",
-    "label": "The Upskilling Labs"
+    "$comment": "The very end of the journey has no words: the world becomes the logo, settling into the brand's own lockup (public/home/logo-mark.webp and logo-wordmark.webp, cut from the brand kit's logo-lockup-light.png). The lockup is decorative there (the header and the footer name The Labs)."
   },
   "footer": {
     "explore": "Explore",

@@ -3,28 +3,36 @@
 
 /* ── the journey: one live world (src/scripts/orbnet.ts) held on screen while its scenes go by, then scrolled
    away with the last of them. It's sticky in the journey, and the scenes run over it (pulled up by its own
-   height). The model is composited with screen blending over the stage's glows, so the words sit inside its
-   light; nothing is ever laid over the picture: no scrims, no panels, no dimming. ── */
+   height). The model is screened over the stage's glows, so the words sit inside its light; nothing is ever
+   laid over the picture: no scrims, no panels, no dimming. Once live, the world paints the stage itself (one
+   opaque picture, no blending left for the browser to do each frame), and it's as tall as the screen gets
+   (lvh), so a phone's toolbar coming and going never resizes it or opens a gap under it. ── */
 .hm-journey { position: relative; }
-.hm-world { position: sticky; top: 0; z-index: 0; height: 100svh; pointer-events: none; isolation: isolate;
+.hm-world { position: sticky; top: 0; z-index: 0; height: 100vh; height: 100lvh; pointer-events: none; isolation: isolate;
   background: radial-gradient(55% 45% at 0% 0%, rgba(var(--tl), 0.3), rgba(var(--tl), 0) 100%), radial-gradient(50% 40% at 100% 62%, rgba(0, 95, 104, 0.42), rgba(0, 95, 104, 0) 100%), var(--ink); }
 .hm-world::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: var(--grain); mix-blend-mode: overlay; opacity: 0.55;
   -webkit-mask-image: radial-gradient(55% 45% at 0% 0%, #000, transparent), radial-gradient(50% 40% at 100% 62%, #000, transparent);
   mask-image: radial-gradient(55% 45% at 0% 0%, #000, transparent), radial-gradient(50% 40% at 100% 62%, #000, transparent); }
 .hm-orbit { position: absolute; inset: 0; z-index: 1; mix-blend-mode: screen; pointer-events: none; background: var(--poster) center 62% / cover no-repeat; }
 .hm-orbit.is-live { background: none; }
+.hm-orbit.is-baked { mix-blend-mode: normal; }
+.hm-world:has(.is-baked) { isolation: auto; }
+.hm-world:has(.is-baked)::after { content: none; }
 .hm-orbit canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
 .hm main, .hm .hm-foot { position: relative; z-index: 1; }
-.hm-scenes { position: relative; z-index: 1; margin-top: -100svh; }
+.hm-scenes { position: relative; z-index: 1; margin-top: -100vh; margin-top: -100lvh; }
 
-/* ── the scenes. Each is tall; its words are held in place while any of it is on screen and cross-fade with
-   the next (the page's script), so they never scroll across the picture. On a wide screen the picture sits
+/* ── the scenes. Each is tall; its words are pinned to the screen (fixed, so the browser itself holds them
+   still while the page scrolls: nothing moved by script, nothing to lag the finger) and cross-fade with the
+   next by opacity alone (the page's script), so they never scroll across the picture. They sit on the small
+   viewport's foot (svh), above a phone's toolbar, and don't move when it comes and goes. On a wide screen the picture sits
    right of centre and the words in a column on the left, at the foot; on a portrait screen the picture sits
    high and the words below it. Small, supporting: a kicker, a line set large, a sentence or two. ── */
 .hm-hero { position: relative; height: 130svh; }
 .hm-scene { position: relative; height: 230svh; }
-.hm-scene-in { position: sticky; top: 0; height: 100svh; display: flex; flex-direction: column; justify-content: flex-end; padding: calc(var(--head) + 24px) 0 clamp(40px, 10vh, 112px); will-change: opacity, transform; }
-.hm-hero-in { justify-content: flex-start; padding: 0; }
+.hm-scene-in { position: fixed; z-index: 1; left: 0; right: 0; top: 100svh; transform: translateY(-100%); display: flex; flex-direction: column;
+  padding: 0 0 clamp(40px, 10vh, 112px); opacity: 0; pointer-events: none; will-change: opacity; }
+.hm-hero-in { top: 0; transform: none; padding: 0; opacity: 1; pointer-events: auto; }
 .hm-hero-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; padding: calc(var(--head) + clamp(20px, 5vh, 60px)) var(--g) 0; text-align: center; pointer-events: none; }
 .hm-scene-in > .rp-wrap { width: 100%; }
 .hm-side { width: min(34rem, 40vw); }
@@ -303,5 +311,14 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 /* ── the very end: the logo forms in the world (the paths become its swoosh over the orb) and settles into the
    brand's own lockup, its two parts placed and sized from the world's orb by the page's script. ── */
 .hm-end { position: relative; height: 170svh; }
-.hm-end .hm-scene-in { display: block; padding: 0; }
-.hm-logo-part { position: absolute; left: 0; top: 0; display: block; height: auto; max-width: none; opacity: 0; pointer-events: none; will-change: transform, opacity; }
+.hm-logo { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.hm-logo-part { position: absolute; left: 0; top: 0; display: block; height: auto; max-width: none; opacity: 0; pointer-events: none; transform-origin: 0 0; will-change: transform, opacity; }
+
+/* ── on a touch screen, nothing blurs what's behind it over the live world (each blur is the whole picture read
+   back and filtered every frame, which a phone feels as stutter): the header's soft edge is its gradient alone
+   while the journey's on screen, and the path buttons and the card are a touch more solid instead. ── */
+@media (hover: none) {
+  html.in-journey .hm .jp-head::after { -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .rp .hm-path { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(0, 20, 27, 0.74); }
+  .hm-card { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(0, 20, 27, 0.92); }
+}

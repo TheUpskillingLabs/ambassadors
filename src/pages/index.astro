@@ -70,6 +70,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
     <script is:inline define:vars={{ closesAt }}>document.documentElement.dataset.cycle = Date.now() < Date.parse(closesAt) ? "open" : "closed";</script>
     <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={orbit("hub-poster.webp")} fetchpriority="high" />
+    <!-- Without the script, each scene's words sit in their scene (nothing is there to fade them). -->
+    <noscript><style>.hm .hm-scene-in { position: sticky; top: 0; height: 100svh; transform: none; opacity: 1; pointer-events: auto; justify-content: flex-end; padding-top: calc(var(--head) + 24px); } .hm .hm-hero-in { justify-content: flex-start; padding: 0; }</style></noscript>
   </head>
   <body class="jp rp hm">
     <a class="skip" href="#main">Skip to content</a>
@@ -112,6 +114,13 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <div class="hm-orbit" data-orbnet role="img" aria-label={h.hero.orbLabel} style={`--poster: url(${orbit("hub-poster.webp")})`}></div>
           <!-- What you're pointing at (or tapped): a card beside it, from the model. -->
           <div class="hm-card" data-card aria-hidden="true"><p class="hm-card-k"><i data-card-mk></i><span data-card-kind></span></p><p class="hm-card-t" data-card-title></p><p class="hm-card-d" data-card-detail></p></div>
+          <!-- The very end: the brand's own lockup (brandkit logo-lockup-light.png), cut in two at the gap between
+               mark and wordmark, placed from the world's orb so the artwork's orb sits exactly on it. It's part of
+               the world, so it scrolls away with it. (Loaded as the end comes near.) -->
+          <div class="hm-logo" aria-hidden="true">
+            <img class="hm-logo-part" data-logo-word data-src={u("/home/logo-wordmark.webp")} alt="" width="1111" height="732" decoding="async" />
+            <img class="hm-logo-part" data-logo-mark data-src={u("/home/logo-mark.webp")} alt="" width="786" height="732" decoding="async" />
+          </div>
         </div>
 
         <div class="hm-scenes">
@@ -294,15 +303,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           </HomeScene>
 
           <!-- The very end: the system gives way to the logo. The paths fly together into the swoosh over the orb,
-               and the wordmark settles in beside it, where the page's script sets it. -->
-          <section id="end" class="hm-scene hm-end" data-scene aria-label={h.end.label}>
-            <div class="hm-scene-in" data-scene-in>
-              <!-- The brand's own lockup (brandkit logo-lockup-light.png), cut in two at the gap between mark and
-                   wordmark, placed from the world's orb so the artwork's orb sits exactly on it. -->
-              <img class="hm-logo-part" data-logo-word src={u("/home/logo-wordmark.webp")} alt="The Upskilling Labs" width="1111" height="732" loading="lazy" decoding="async" />
-              <img class="hm-logo-part" data-logo-mark src={u("/home/logo-mark.webp")} alt="" width="786" height="732" loading="lazy" decoding="async" />
-            </div>
-          </section>
+               and the wordmark settles in beside it (the lockup is in the world, above). No words: just the time. -->
+          <section id="end" class="hm-scene hm-end" data-scene aria-hidden="true"></section>
         </div>
       </div>
     </main>
@@ -351,37 +353,56 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       initMenu();
       openCovers();
 
-      // The journey's scenes. Each scene's words are held in place while any of it is on screen and cross-fade
-      // with the next (the old one out, then the new one in), so words never scroll across the picture. The
-      // last scene isn't held as it leaves: it scrolls away with the world, into the detail.
+      // The journey's scenes. Each scene's words are pinned to the screen (a fixed layer: the browser holds them
+      // still as the page scrolls, so nothing is moved by script and nothing can lag the finger) and cross-fade
+      // with the next by opacity alone (the old one out, then the new one in), so words never scroll across the
+      // picture. Where the scenes sit on the page is measured once (and again if it reflows), so following the
+      // scroll reads nothing back from the page.
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
       const scenes = [...document.querySelectorAll<HTMLElement>("[data-scene]")];
-      const inners = scenes.map((el) => el.querySelector<HTMLElement>("[data-scene-in]")!);
+      const inners = scenes.map((el) => el.querySelector<HTMLElement>("[data-scene-in]"));
       const ons = scenes.map(() => 0);
       const smooth = (a: number, b: number, x: number) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+      // Style writes only when a value changes, so a frame where nothing moves costs the page nothing.
+      const styled = new WeakMap<HTMLElement, Record<string, string>>();
+      const put = (el: HTMLElement, k: string, v: string) => {
+        let m = styled.get(el); if (!m) styled.set(el, (m = {}));
+        if (m[k] === v) return; m[k] = v;
+        el.style.setProperty(k.startsWith("--") ? k : k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`), v);
+      };
       const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
       const startAt = scenes.findIndex((el) => el.id === "start");
-      const syncCta = () => { const off = ons[1] > 0.5 || ons[startAt] > 0.25; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
+      let ctaOff: boolean | null = null;
+      const syncCta = () => { const off = ons[1] > 0.5 || ons[startAt] > 0.25; if (off === ctaOff) return; ctaOff = off; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
+      let tops: number[] = [], bots: number[] = [], vh = 1;
+      const measure = () => {
+        // (The layout's height, which holds still while a phone's toolbar comes and goes.)
+        const y = window.scrollY; vh = document.documentElement.clientHeight || window.innerHeight;
+        tops = scenes.map((el) => el.getBoundingClientRect().top + y); bots = scenes.map((el) => el.getBoundingClientRect().bottom + y);
+      };
+      let onPlace: (() => void) | null = null;
       const place = () => {
-        const vh = window.innerHeight, n = scenes.length;
-        scenes.forEach((el, i) => {
-          const r = el.getBoundingClientRect(), inner = inners[i];
-          let y = 0, op = 1;
-          if (i > 0 && r.top > 0) { y = -r.top; op = Math.min(op, 1 - smooth(0.35, 0.65, r.top / vh)); }
-          if (i < n - 1 && r.bottom < vh) { y = vh - r.bottom; op = Math.min(op, 1 - smooth(0, 0.3, (vh - r.bottom) / vh)); }
-          if (r.top >= vh || r.bottom <= 0) op = 0;
-          inner.style.transform = y ? `translate3d(0, ${y.toFixed(1)}px, 0)` : "";
-          inner.style.opacity = op.toFixed(3);
-          inner.style.pointerEvents = op < 0.5 ? "none" : "";
+        const y = window.scrollY, n = scenes.length;
+        scenes.forEach((_, i) => {
+          const top = tops[i] - y, bottom = bots[i] - y;
+          let op = 1;
+          if (i > 0 && top > 0) op = Math.min(op, 1 - smooth(0.35, 0.65, top / vh));
+          if (i < n - 1 && bottom < vh) op = Math.min(op, 1 - smooth(0, 0.3, (vh - bottom) / vh));
+          if (top >= vh || bottom <= 0) op = 0;
           ons[i] = op;
+          const inner = inners[i];
+          if (inner) { put(inner, "opacity", op.toFixed(3)); put(inner, "pointerEvents", op < 0.5 ? "none" : "auto"); }
         });
-        syncCta();
+        syncCta(); onPlace?.();
       };
       let placing = 0;
       const placeSoon = () => { if (!placing) placing = requestAnimationFrame(() => { placing = 0; place(); }); };
+      const remeasure = () => { measure(); place(); };
       window.addEventListener("scroll", placeSoon, { passive: true });
-      window.addEventListener("resize", placeSoon);
-      place();
+      window.addEventListener("resize", remeasure);
+      window.addEventListener("load", remeasure);
+      new ResizeObserver(remeasure).observe(document.body);
+      remeasure();
       // Tabbing into a scene's link brings its scene to the middle of the screen, so it's never focused unseen.
       scenes.forEach((el, i) => el.addEventListener("focusin", () => {
         if (ons[i] > 0.9) return;
@@ -411,13 +432,21 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       // source) lands exactly on the world's: the mark cut from x 140, the wordmark from x 950, both from y 120.
       const logoWord = document.querySelector<HTMLElement>("[data-logo-word]")!, logoMark = document.querySelector<HTMLElement>("[data-logo-mark]")!;
       const LOGO = { cx: 511.1, cy: 484.3, r: 348.2, top: 120, mark: [140, 786], word: [950, 1111] };
+      const logoParts = [[logoMark, LOGO.mark], [logoWord, LOGO.word]] as const;
+      const loadLogo = () => logoParts.forEach(([el]) => { if (!el.getAttribute("src")) el.setAttribute("src", el.dataset.src!); });
+      // Sized once (and again only if the orb grows or shrinks by much), then moved and scaled by transform, so
+      // following the orb never lays the page out again.
+      let logoK0 = 0;
       const placeLogo = (x: number, y: number, r: number) => {
         const k = r / LOGO.r, top = y + (LOGO.top - LOGO.cy) * k;
-        for (const [el, [x0, w]] of [[logoMark, LOGO.mark], [logoWord, LOGO.word]] as const) {
-          el.style.width = `${(w * k).toFixed(2)}px`;
-          el.style.transform = `translate(${(x + (x0 - LOGO.cx) * k).toFixed(2)}px, ${top.toFixed(2)}px)`;
+        if (!logoK0 || Math.abs(k / logoK0 - 1) > 0.08) { logoK0 = k; for (const [el, [, w]] of logoParts) put(el, "width", `${(w * k).toFixed(1)}px`); }
+        for (const [el, [x0, w]] of logoParts) {
+          const sc = (k * w) / parseFloat(styled.get(el)!.width);
+          put(el, "transform", `translate(${(x + (x0 - LOGO.cx) * k).toFixed(2)}px, ${top.toFixed(2)}px) scale(${sc.toFixed(4)})`);
         }
       };
+      let orbR0 = 0;
+      const SCENES_LOGO_LOAD = scenes.length - 5; // load the lockup a few scenes ahead of the end
       const net = mountOrbNet(world.querySelector<HTMLElement>("[data-orbnet]")!, {
         still, poster: orbMode === "poster", anchors: scenes, stage: document.body,
         faces: JSON.parse(world.dataset.faces ?? "[]"), words: JSON.parse(world.dataset.words ?? "{}"),
@@ -434,28 +463,35 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             const flip = hv.x > window.innerWidth - 300;
             card.style.transform = `translate(${(flip ? hv.x - hv.r - 14 : hv.x + hv.r + 14).toFixed(1)}px, ${hv.y.toFixed(1)}px) translate(${flip ? "-100%" : "0"}, -50%)`;
           }
-          // The orb is the button while the whole system holds the screen under the title: a link laid over it.
+          // The orb is the button while the whole system holds the screen under the title: a link laid over it
+          // (sized once, then moved and scaled with the orb).
           const show = ons[0] * Math.max(0, 1 - f.s * 4);
-          orbLink.style.transform = `translate(${(f.orb.x - f.orb.r).toFixed(1)}px, ${(f.orb.y - f.orb.r).toFixed(1)}px)`;
-          orbLink.style.width = orbLink.style.height = `${(f.orb.r * 2).toFixed(1)}px`;
-          orbLink.style.setProperty("--show", show.toFixed(3));
-          orbLink.style.visibility = show > 0.05 ? "visible" : "hidden";
+          put(orbLink, "--show", show.toFixed(3));
+          put(orbLink, "visibility", show > 0.05 ? "visible" : "hidden");
+          if (show > 0.05) {
+            if (!orbR0 || Math.abs(f.orb.r / orbR0 - 1) > 0.08) { orbR0 = f.orb.r; put(orbLink, "width", `${(orbR0 * 2).toFixed(1)}px`); put(orbLink, "height", `${(orbR0 * 2).toFixed(1)}px`); }
+            put(orbLink, "transform", `translate(${(f.orb.x - f.orb.r).toFixed(1)}px, ${(f.orb.y - f.orb.r).toFixed(1)}px) scale(${(f.orb.r / orbR0).toFixed(4)})`);
+          }
           const onScreen = inJourney && f.orb.r > 14 && f.orb.y > -f.orb.r * 0.5 && f.orb.y < window.innerHeight + f.orb.r ? 1 : 0;
           dockM += (1 - onScreen - dockM) * 0.15;
-          brand.style.setProperty("--m", dockM.toFixed(3));
+          put(brand, "--m", dockM.toFixed(3));
           // The very end: the logo forms round the world's orb, so the header's steps aside, and the wordmark
           // settles in beside the orb as in the lockup.
-          brand.style.opacity = (1 - f.logo).toFixed(3);
+          put(brand, "opacity", (1 - f.logo).toFixed(3));
+          if (f.s > SCENES_LOGO_LOAD) loadLogo();
           if (f.logo > 0.01) placeLogo(f.orb.x, f.orb.y, f.orb.r);
-          logoWord.style.opacity = Math.max(0, (f.logo - 0.35) / 0.65).toFixed(3);
-          logoMark.style.opacity = f.settle.toFixed(3);
+          put(logoWord, "opacity", Math.max(0, (f.logo - 0.35) / 0.65).toFixed(3));
+          put(logoMark, "opacity", f.settle.toFixed(3));
         },
       });
       if (!net) {
         brand.style.setProperty("--m", "1"); orbLink.hidden = true;
-        // Without the world, the end is the lockup itself, centred.
+        // Without the world, the end is the lockup itself, centred, shown with the last scene.
+        loadLogo();
         const r = Math.min(window.innerWidth / 5.47 * 0.85, window.innerHeight * 0.22) / 1, x = (window.innerWidth - 5.47 * r) / 2 + (511.1 - 156) / 348.2 * r;
-        placeLogo(x, window.innerHeight / 2, r); logoWord.style.opacity = logoMark.style.opacity = "1";
+        placeLogo(x, window.innerHeight / 2, r);
+        onPlace = () => { const op = ons[ons.length - 1].toFixed(3); put(logoWord, "opacity", op); put(logoMark, "opacity", op); };
+        onPlace();
       }
       if (!net || still) pause.hidden = true;
       if (net) {
