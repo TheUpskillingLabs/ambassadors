@@ -416,6 +416,15 @@
     "donate": "Support The Labs",
     "note": "Creates your free Upskilling account, with Google."
   },
+  "end": {
+    "$comment": "The very end of the journey: the world becomes the logo, the wordmark beside the orb.",
+    "label": "The Upskilling Labs",
+    "wordmark": [
+      "The",
+      "Upskilling",
+      "Labs"
+    ]
+  },
   "footer": {
     "explore": "Explore",
     "community": "Community",
