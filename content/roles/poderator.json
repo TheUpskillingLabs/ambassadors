@@ -3,9 +3,9 @@
   "placeholder": true,
   "slug": "poderator",
   "role": "Poderator",
-  "description": "Keep a Pod of Upskillers together and moving, from the first meeting to the Showcase.",
+  "description": "A Poderator keeps a Pod of nine or more people together through a Build Cycle at The Upskilling Labs, from the first meeting to the Showcase.",
   "nav": {
-    "why": "Why",
+    "why": "Who they are",
     "how": "How it works",
     "roles": "Roles",
     "cta": "Become a Poderator",
@@ -27,29 +27,49 @@
     "href": "https://theupskillinglabs.org/login?intent=join&path=poderator",
     "status": "Poderators are chosen before each Build Cycle begins"
   },
+  "met": {
+    "$comment": "For someone who met a wearer and wants to know who that was and how to think of them (most people who land here). The lede doubles as the spoken line the role's training gives wearers, so the page and the person say the same thing (design/research/role-explainers.md).",
+    "kicker": "Met someone wearing this?",
+    "lede": "They're a Poderator. They keep a Pod of nine or more people together through a Build Cycle, from the first meeting to the Showcase.",
+    "know": [
+      {
+        "title": "A volunteer.",
+        "body": "Looking after one Pod, for one Build Cycle."
+      },
+      {
+        "title": "Not the teacher.",
+        "body": "Mentors bring the know-how. The Poderator makes sure everyone gets there."
+      },
+      {
+        "title": "A role, not a certification.",
+        "body": "The button says what they're doing this cycle."
+      }
+    ],
+    "where": "You'd meet one at a Pod meeting, a workshop at the public library, or the Showcase. Ask them what their Pod is working on."
+  },
   "moments": {
-    "kicker": "What you'll do",
+    "kicker": "What they do",
     "title": "Gather. Unstick. Launch.",
     "items": [
       {
         "step": "First",
         "title": "Gather the Pod.",
-        "body": "Run the check-ins and the in-person events, and help everyone find their footing."
+        "body": "They run the check-ins and the in-person events, and help everyone find their footing."
       },
       {
         "step": "Then",
         "title": "Keep it moving.",
-        "body": "When a team stalls, ask the question that gets it going, or bring in a Mentor."
+        "body": "When a team stalls, they ask the question that gets it going, or bring in a Mentor."
       },
       {
         "step": "One day",
         "title": "Get them to the Showcase.",
-        "body": "Watch your Pod show what it built."
+        "body": "They watch the Pod show what it built."
       }
     ]
   },
   "simple": {
-    "kicker": "In short",
+    "kicker": "Could this be you?",
     "title": "Simple, on purpose.",
     "items": [
       {
@@ -120,8 +140,8 @@
         "a": "Yes. There's nothing to qualify for before you start: you train for the role, run your first Pod alongside someone who's done it, and earn your way to running Pods on your own by doing it well."
       },
       {
-        "q": "Does it cost anything?",
-        "a": "No. Being a Poderator is free."
+        "q": "Is The Labs a bootcamp?",
+        "a": "Not really. There's no curriculum to get through. Teams work on a real problem and learn what they need along the way."
       }
     ]
   },

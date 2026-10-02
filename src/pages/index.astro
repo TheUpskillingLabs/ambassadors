@@ -97,6 +97,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           <li><a class="navlink" href="#share">{h.nav.share}</a></li>
           <li><a class="navlink" href="#open">{h.nav.story}</a></li>
           <li><a class="navlink" href="#found">{h.nav.found}</a></li>
+          <!-- For someone who met a wearer: the four role pages, in the phone menu only (wide screens have the footer). -->
+          <li class="menu-only hm-meet"><p class="kicker" id="hm-meet-k">{h.nav.meet}</p><div role="group" aria-labelledby="hm-meet-k">{list.roles.filter((c) => c.listed !== false).map((c) => <a class="navlink" href={u(`/${c.slug}/`)}>{c.name}</a>)}</div></li>
           <li class="menu-only"><a class="navlink" href={u("/government/")}>{h.nav.gov}</a></li>
           <li class="menu-only"><a class="navlink" href={L.login}>{h.nav.login}</a></li>
         </ul>

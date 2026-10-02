@@ -21,6 +21,7 @@
     "story": "Our story",
     "found": "Start a Lab",
     "gov": "For government",
+    "meet": "Who you'll meet",
     "login": "Log in",
     "cta": "Join The Labs",
     "ctaShort": "Join"
@@ -278,7 +279,7 @@
     "pod": {
       "kicker": "The first month",
       "title": "Strangers become a Pod.",
-      "lede": "Everyone joins a group of nine or more, called a Pod, around a problem situation you choose together: a real, messy problem people face. It can feel uncertain at first. That's normal, and everyone finds a Pod."
+      "lede": "Everyone joins a group of nine or more, called a Pod, around a problem situation you choose together: a real, messy problem people face. It can feel uncertain at first. That's normal: everyone finds a Pod, and a Poderator keeps it together."
     },
     "teams": {
       "kicker": "Teams",
@@ -427,7 +428,7 @@
   "footer": {
     "explore": "Explore",
     "community": "Community",
-    "roles": "Roles",
+    "roles": "Who you'll meet",
     "open": "Open source",
     "workshops": "Workshops",
     "about": "About",

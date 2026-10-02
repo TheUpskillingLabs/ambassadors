@@ -3,9 +3,9 @@
   "placeholder": true,
   "slug": "mentor",
   "role": "Mentor",
-  "description": "Help a Pod when it gets stuck: a single workshop or a whole Build Cycle. You choose.",
+  "description": "Mentors at The Upskilling Labs are people who do the work, there to help a team when it gets stuck: for one workshop or a whole Build Cycle.",
   "nav": {
-    "why": "Why",
+    "why": "Who they are",
     "how": "How it works",
     "roles": "Roles",
     "cta": "Become a Mentor",
@@ -27,29 +27,49 @@
     "href": "https://theupskillinglabs.org/login?intent=join&path=mentor",
     "status": "Start by helping at a workshop."
   },
+  "met": {
+    "$comment": "For someone who met a wearer and wants to know who that was and how to think of them (most people who land here). The lede doubles as the spoken line the role's training gives wearers, so the page and the person say the same thing (design/research/role-explainers.md).",
+    "kicker": "Met someone wearing this?",
+    "lede": "They're a Mentor: someone who does this kind of work, there to help a team over a wall when it gets stuck.",
+    "know": [
+      {
+        "title": "A volunteer.",
+        "body": "Giving one workshop, or a whole Build Cycle."
+      },
+      {
+        "title": "Not teaching.",
+        "body": "The person in the room who's done it before."
+      },
+      {
+        "title": "A role, not a certification.",
+        "body": "The button says who to ask when a team is stuck."
+      }
+    ],
+    "where": "You'd meet one at a workshop at the public library, beside a team that's stuck, or at the Showcase. Ask them what they do."
+  },
   "moments": {
-    "kicker": "What you'll do",
+    "kicker": "What they do",
     "title": "Drop in. Unblock. Cheer.",
     "items": [
       {
         "step": "First",
         "title": "Drop in.",
-        "body": "Sit with a Pod when it's stuck, and ask what they've tried."
+        "body": "They sit with a Pod when it's stuck, and ask what it's tried."
       },
       {
         "step": "Then",
         "title": "Unblock.",
-        "body": "Share what you know from doing the work: a shortcut, a pattern, a person to ask."
+        "body": "They share what they know from doing the work: a shortcut, a pattern, a person to ask."
       },
       {
         "step": "One day",
         "title": "Watch them ship.",
-        "body": "Be there at the Showcase when they show what they built."
+        "body": "They're there at the Showcase when the Pod shows what it built."
       }
     ]
   },
   "simple": {
-    "kicker": "In short",
+    "kicker": "Could this be you?",
     "title": "Simple, on purpose.",
     "items": [
       {
@@ -120,8 +140,8 @@
         "a": "People who do the work, in any field. There are no formal requirements: what you bring is judged by how it works in practice."
       },
       {
-        "q": "Does it cost anything?",
-        "a": "No. Mentoring is free."
+        "q": "Is The Labs a bootcamp?",
+        "a": "Not really. There's no curriculum to get through. Teams work on a real problem and learn what they need along the way."
       }
     ]
   },

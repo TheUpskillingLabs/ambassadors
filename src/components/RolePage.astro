@@ -1,8 +1,18 @@
 ---
-/* A role's recruitment page, built around its button: one template for every
-   public role (Ambassador, Upskiller, Poderator, Mentor, Supporting Member),
-   with each role's words in content/roles/<slug>.json and the list of roles in
+/* A role's page, built around its button: one template for every public role
+   (Ambassador, Upskiller, Poderator, Mentor, Supporting Member), with each
+   role's words in content/roles/<slug>.json and the list of roles in
    content/roles/roles.json.
+
+   Most people who land here met someone wearing the button and want to know who
+   that was and how to think of them; fewer came to take the role. So a role
+   with a `met` block opens for the first group, the way parkrun, Reagan
+   National and Melbourne explain their people to the public (see
+   design/research/role-explainers.md): who they are, how to think of them,
+   where you'd meet them, in the third person. The page turns to "Could this be
+   you?" at "In short", and the role's own button comes after "How it works".
+   A role without `met` (the Ambassador program page, whose manifesto already
+   says why that person talked to you) keeps the original intro.
 
    The structure follows two product pages for a single round object, Apple's
    AirTag and Lusion's Oryzo; the look is The Labs' own (ink, the teal and red
@@ -10,13 +20,14 @@
    labels):
    - the hero: the role's name, one line, and its button centred and large,
      with rings spreading out from it (AirTag's hero; the spreading is ours);
-   - the intro: what the role is in a few sentences, what it costs you, and the
-     one button (AirTag's intro and price line);
-   - what you'll do: three moments as rows, label, line and a sentence (Oryzo's
+   - the intro: who they are, three things to know about them and where you'd
+     meet them, then what the role costs (AirTag's intro and price line); or,
+     without `met`, the role in a few sentences and the one button;
+   - what they do: three moments as rows, label, line and a sentence (Oryzo's
      kicker, headline and caption);
-   - in short: four facts with small icons (AirTag's "Beautifully simple.");
+   - in short (the turn): four facts with small icons (AirTag's "Beautifully simple.");
    - how it works: the steps, marking where the account starts and where the
-     button is given;
+     button is given, then the role's button;
    - the button, drawn face on from its print file with construction lines and
      callouts (Oryzo's blueprint, AirTag's tech specs);
    - which role is right for you: every role's button side by side (Apple's
@@ -35,11 +46,14 @@ import list from "../../content/roles/roles.json";
 import j from "../../content/site/join.json";
 
 interface Step { title: string; body: string; mark?: string }
+/** For people who met someone wearing the button: who they are, three things to know, where you'd meet one. */
+interface Met { kicker: string; lede: string; know: { title: string; body: string }[]; where: string }
 interface Role {
   placeholder?: boolean; slug: string; role: string; description: string;
   nav: { why: string; how: string; roles: string; cta: string; ctaShort: string };
   hero: { eyebrow: string; title: string[]; alt: string };
   intro: { lede: string; strong: string; terms: string; cta: string; href: string; status: string };
+  met?: Met;
   moments: { kicker: string; title: string; items: { step: string; title: string; body: string; icon?: string }[] };
   simple: { kicker: string; title: string; items: { icon: string; title: string; body: string }[] };
   path: { kicker: string; title: string; steps: Step[] };
@@ -136,19 +150,37 @@ const icons: Record<string, string> = {
         </div>
       </section>
 
-      <!-- The intro: the role in a few sentences, what it asks of you, and the one button. -->
-      <section id="intro" class="rp-intro">
-        <p class="rp-lede reveal">{r.intro.lede}</p>
-        <p class="rp-terms reveal"><b>{r.intro.strong}</b> <span class:list={{ ph: ph(r.intro.terms) }}>{r.intro.terms}</span></p>
-        <div class="rp-cta reveal">
-          <a class="btn" href={href} data-hero-cta>{r.intro.cta}</a>
-          <p class="rp-account">{list.account}</p>
-          <p class:list={["status", { ph: ph(r.intro.status) }]}><i aria-hidden="true"></i>{r.intro.status}</p>
-        </div>
-        {r.placeholder && <p class="rp-draft reveal"><b>Draft.</b> {list.draft}</p>}
-      </section>
+      {r.met ? (
+        /* The intro, for someone who met a wearer: who they are, three things to know, where you'd meet one;
+           then what the role costs and when, for anyone weighing it. No button here: it comes at the turn. */
+        <section id="intro" class="rp-intro rp-met">
+          <p class="kicker reveal">{r.met.kicker}</p>
+          <p class="rp-lede reveal">{r.met.lede}</p>
+          <ul class="rp-know reveal">
+            {r.met.know.map((k) => <li><b>{k.title}</b> {k.body}</li>)}
+          </ul>
+          <p class="rp-where reveal">{r.met.where}</p>
+          <div class="rp-spec reveal">
+            <p class="rp-terms"><b>{r.intro.strong}</b> <span class:list={{ ph: ph(r.intro.terms) }}>{r.intro.terms}</span></p>
+            <p class:list={["status", { ph: ph(r.intro.status) }]}><i aria-hidden="true"></i>{r.intro.status}</p>
+          </div>
+          {r.placeholder && <p class="rp-draft reveal"><b>Draft.</b> {list.draft}</p>}
+        </section>
+      ) : (
+        /* The intro: the role in a few sentences, what it asks of you, and the one button. */
+        <section id="intro" class="rp-intro">
+          <p class="rp-lede reveal">{r.intro.lede}</p>
+          <p class="rp-terms reveal"><b>{r.intro.strong}</b> <span class:list={{ ph: ph(r.intro.terms) }}>{r.intro.terms}</span></p>
+          <div class="rp-cta reveal">
+            <a class="btn" href={href} data-page-cta>{r.intro.cta}</a>
+            <p class="rp-account">{list.account}</p>
+            <p class:list={["status", { ph: ph(r.intro.status) }]}><i aria-hidden="true"></i>{r.intro.status}</p>
+          </div>
+          {r.placeholder && <p class="rp-draft reveal"><b>Draft.</b> {list.draft}</p>}
+        </section>
+      )}
 
-      <!-- What you'll do: three moments, told in order. -->
+      <!-- What they do (or, without `met`, what you'll do): three moments, told in order. -->
       <section id="moments" class="rp-sec rp-moments">
         <div class="rp-wrap">
           <div class="rp-head reveal">
@@ -168,7 +200,7 @@ const icons: Record<string, string> = {
         </div>
       </section>
 
-      <!-- In short: four facts. -->
+      <!-- In short: four facts. With `met`, this is the turn ("Could this be you?"). -->
       <section id="simple" class="rp-sec rp-simple">
         <div class="rp-wrap">
           <div class="rp-head center reveal">
@@ -187,7 +219,7 @@ const icons: Record<string, string> = {
         </div>
       </section>
 
-      <!-- How it works: the steps, marking where the account starts and the button is given. -->
+      <!-- How it works: the steps, marking where the account starts and the button is given; with `met`, then the role's button. -->
       <section id="path" class="rp-sec rp-path">
         <div class="rp-wrap">
           <div class="rp-head reveal">
@@ -206,6 +238,12 @@ const icons: Record<string, string> = {
               </li>
             ))}
           </ol>
+          {r.met && (
+            <div class="rp-cta reveal">
+              <a class="btn" href={href} data-page-cta>{r.intro.cta}</a>
+              <p class="rp-account">{list.account}</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -315,17 +353,18 @@ const icons: Record<string, string> = {
       import { mountButton } from "../scripts/button3d";
       import { initMenu } from "../scripts/navmenu";
 
-      // Nav: the header's button steps aside while the intro's is on screen,
-      // and again at the join section, so the page never shows two.
+      // Nav: the header's button steps aside while the page's own is on screen
+      // (in the intro, or after "How it works" when the page opens for people
+      // who met a wearer), and again at the join section, so the page never shows two.
       const root = document.documentElement;
       const head = document.querySelector<HTMLElement>("[data-head]")!;
       new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
         .observe(document.querySelector("[data-top-sentinel]")!);
       const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
-      let heroIn = true, introIn = false, joinIn = false;
-      const syncCta = () => { const off = heroIn || introIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
+      let heroIn = true, pageIn = false, joinIn = false;
+      const syncCta = () => { const off = heroIn || pageIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
       new IntersectionObserver(([e]) => { heroIn = e.isIntersecting; syncCta(); }, { threshold: 0.5 }).observe(document.getElementById("top")!);
-      new IntersectionObserver(([e]) => { introIn = e.isIntersecting; syncCta(); }).observe(document.querySelector("[data-hero-cta]")!);
+      new IntersectionObserver(([e]) => { pageIn = e.isIntersecting; syncCta(); }).observe(document.querySelector("[data-page-cta]")!);
       new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 }).observe(document.getElementById("join")!);
       initMenu();
 
