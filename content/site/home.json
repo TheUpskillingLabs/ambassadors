@@ -61,6 +61,11 @@
         "meetsDc": "meets at DC Public Library",
         "meets": "meets at a library nearby"
       },
+      "you": {
+        "kind": "You",
+        "title": "This is you",
+        "detail": "Here since your first scroll, and on every path from here"
+      },
       "face": {
         "kind": "Person",
         "title": "From the first cohort",
