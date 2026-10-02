@@ -16,6 +16,7 @@ const RULES = [
   [/\bthoughtfully\b/i, '"thoughtfully" is filler; cut it or say how'],
   [/(^|[^A-Za-z])the Labs\b/, 'always "The Labs", capital T'],
   [/\b(a|every|each|those|these|any|your|per) Labs\b/, 'never a bare "Labs": say "The Labs"'],
+  [/\b(your|their|our|my|his|her)( own| local| new| first)? Labs?\b|\bLabs? (could be|is|are) (yours|theirs|ours|mine)\b/i, 'no one owns a Lab, or The Labs: say "a Lab", "the Lab", "the Lab near you"'],
 ];
 // Files (or JSON keys) that quote banned words in order to forbid them.
 const ALLOW_FILES = new Set(["content/steps/labs.md", "content/site/ui.en.json"]);

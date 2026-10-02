@@ -13,7 +13,7 @@
    These are the page's glyphs too, in the pins' materials: the three paths
    joining opens wear the same colours (learn teal, build red, share gold), so
    the model, the emblem, the weave and the gems are one visual language. The
-   metal is gold, the norm: everyone comes in through their own Lab, and gold is
+   metal is gold, the norm: everyone comes in through a Lab near them, and gold is
    the regional metal; the Labs' orbits are gold dust. Silver belongs to the
    national org alone, so it shows only at the centre: the commons round the orb
    (its dust, its knowledge, the ties into it), the orb's wave, and what the orb
@@ -509,7 +509,7 @@ bool culled(vec3 p) { return (uM * p).z * uSide < 0.0; }`;
 const GLSL_STATE = `
 uniform highp sampler2D uPos; uniform highp sampler2D uSt; uniform highp sampler2D uOrb;
 ivec2 texAt(int i) { return ivec2(i % ${TEXW}, i / ${TEXW}); }
-// The metal is gold: everyone comes in through their own Lab, so gold is the norm. Silver is the national
+// The metal is gold: everyone comes in through a Lab near them, so gold is the norm. Silver is the national
 // org's alone (the commons round the orb, its wave, what it sends out), there to be discovered later.
 const vec3 COL[5] = vec3[5](vec3(1.0, 0.86, 0.74), vec3(0.14, 0.84, 0.86), vec3(1.0, 0.36, 0.28), vec3(1.0, 0.79, 0.44), vec3(1.0, 0.9, 0.8)); // pearl, teal, red, gold; you
 const vec3 NATIONAL = vec3(0.84, 0.89, 0.95); // silver
