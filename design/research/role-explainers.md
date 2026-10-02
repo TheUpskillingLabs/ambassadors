@@ -96,8 +96,7 @@ When strangers meet an organisation's visibly identified people, what does the o
 
 - **Home page:**
   - The world is unchanged.
-  - The phone menu gets one row, "Who you'll meet", with the four role pages.
-  - The footer's role column takes the same label.
+  - The role pages stay out of the menu (Brendan, Oct 2); they're in the footer, whose column is now "Who you'll meet".
   - The Pod scene names the Poderator in words only: "everyone finds a Pod, and a Poderator keeps it together" (patterns 1 and 6).
 - **Role pages with `met`** (Upskiller, Poderator, Mentor) open for someone who met a wearer:
   - "Met someone wearing this?"

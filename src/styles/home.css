@@ -370,12 +370,3 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 .hm .jp-end .navlink, .hm .jp-head .btn { white-space: nowrap; }
 .hm .jp-end .hm-gov { display: none; }
 @media (min-width: 1360px) { .hm .jp-end .hm-gov { display: inline-flex; } }
-
-/* The phone menu's "Who you'll meet" row, for someone who met a wearer: a small label, then the four role
-   pages on one or two lines. Menu only (at 1080 px and narrower); wide screens have the footer's column. */
-@media (max-width: 1080px) {
-  html[data-menu] .hm .jp-links .hm-meet { padding: 14px 0 6px; }
-  .hm .hm-meet .kicker { margin: 0; color: var(--teal); }
-  .hm .hm-meet div { display: flex; flex-wrap: wrap; column-gap: 22px; }
-  html[data-menu] .hm .jp-links .hm-meet .navlink { min-height: 44px; }
-}
