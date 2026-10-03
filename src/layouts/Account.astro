@@ -57,7 +57,7 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
             </summary>
             <div class="stepsmenu-panel"><StepList current={step} dark /></div>
           </details>
-          <a class="appbar-present" href={u("/present/")}><Icon name="deck" size={18} /> {t("nav.present")}</a>
+          <a class="appbar-present" href={u("/account/present/")}><Icon name="deck" size={18} /> {t("nav.present")}</a>
         </div>}
       </div>
       {!bare && <div class="appbar-progress" role="progressbar" aria-valuemin="0" aria-valuemax={steps.length} aria-valuenow="0"
@@ -72,8 +72,8 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
       <div class="sitefoot-inner">
         <p>{t("footer.legal")}</p>
         <p class="foot-row">
+          <a href={u("/")}>{t("footer.site")}</a>
           <a href={u("/ambassador/")}>{t("footer.program")}</a>
-          <a href="https://theupskillinglabs.org">{t("footer.site")}</a>
           <button class="foot-reset" type="button" data-reset data-confirm={t("footer.resetConfirm")}>{t("footer.reset")}</button>
         </p>
         <p>{t("footer.license")}</p>
@@ -102,7 +102,7 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
       reset.addEventListener("click", () => {
         if (!confirm(reset.dataset.confirm)) return;
         resetAll();
-        location.href = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/guide/`;
+        location.href = `${import.meta.env.BASE_URL.replace(/\/+$/, "")}/account/guide/`;
       });
       if ("serviceWorker" in navigator && import.meta.env.PROD) {
         window.addEventListener("load", () => {

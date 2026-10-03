@@ -2,17 +2,17 @@
 /* /nominate/ — an ambassador suggests someone to their coordinator. The
    coordinator decides and, if yes, sends a pre-approved invite from /invite/.
    Nothing is sent by the site: the ambassador's own phone sends the message. */
-import Base from "../../layouts/Base.astro";
-import PageHeader from "../../components/PageHeader.astro";
-import Icon from "../../components/Icon.astro";
-import { guideHome } from "../../lib/content";
-import { t } from "../../lib/i18n";
-import c from "../../../content/site/invite.json";
-import help from "../../../content/site/help.json";
+import Account from "../../../layouts/Account.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import Icon from "../../../components/Icon.astro";
+import { guideHome } from "../../../lib/content";
+import { t } from "../../../lib/i18n";
+import c from "../../../../content/site/invite.json";
+import help from "../../../../content/site/help.json";
 const n = c.nominate;
 const co = help.coordinator;
 ---
-<Base title={n.title} description={n.lede}>
+<Account title={n.title} description={n.lede}>
   <PageHeader back={{ href: guideHome, label: t("nav.home") }} title={n.title} lede={n.lede} />
   <div class="wrap apply nominate" data-nominate data-phone={co.phone} data-email={co.email}
     data-strings={JSON.stringify({ message: n.message, noContact: n.noContact, errors: n.errors })}>
@@ -42,8 +42,8 @@ const co = help.coordinator;
   </div>
 
   <script>
-    import { application, profile } from "../../lib/store";
-    import { coordinatorHref } from "../../lib/apply";
+    import { application, profile } from "../../../lib/store";
+    import { coordinatorHref } from "../../../lib/apply";
     const root = document.querySelector<HTMLElement>("[data-nominate]")!;
     const S = JSON.parse(root.dataset.strings!);
     const form = root.querySelector<HTMLFormElement>("[data-form]")!;
@@ -72,4 +72,4 @@ const co = help.coordinator;
       location.href = href;
     });
   </script>
-</Base>
+</Account>

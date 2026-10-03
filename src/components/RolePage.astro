@@ -38,8 +38,7 @@
    (src/scripts/button3d.ts, as on the program page) and a Cycles still from
    LabsPin.blend's "Button Hero" scene everywhere else. Unlisted drafts
    (noindex) until the board approves the roles. */
-import "@fontsource-variable/geologica/wght.css";
-import "../styles/join.css";
+import Site from "../layouts/Site.astro";
 import "../styles/role.css";
 import { u } from "../lib/url";
 import list from "../../content/roles/roles.json";
@@ -83,6 +82,12 @@ const ACCT = '<svg class="acct" width="22" height="22" viewBox="0 0 24 24" fill=
 const nos = ["01", "02", "03", "04", "05", "06"];
 // The brass moment pins are centred in their renders; each hangs flush left by its own inset (its left edge as a share of the image's width).
 const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake: 0.079 };
+const local = [
+  { label: r.nav.why, href: "#intro", spy: "intro" },
+  { label: r.nav.how, href: "#path", spy: "path" },
+  { label: r.nav.roles, href: "#roles", spy: "roles" },
+];
+const note = [j.footer.renders, r.placeholder ? "[PLACEHOLDER] draft copy: details marked in this style are still to be set." : ""].filter(Boolean).join(" ");
 
 // Line icons for the facts, 24px, drawn in the page's teal.
 const icons: Record<string, string> = {
@@ -96,43 +101,8 @@ const icons: Record<string, string> = {
   vote: '<rect x="4.5" y="10" width="15" height="9.5" rx="1.5"/><path d="M9 10V5.5h6V10"/><path d="M5 5l14 14"/>',
 };
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>{pageTitle}</title>
-    <meta name="description" content={r.description} />
-    <meta name="theme-color" content="#00141B" />
-    <meta name="robots" content="noindex" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={r.description} />
-    <meta property="og:image" content={new URL(amb ? u("/join/button-share.jpg") : u(`/roles/${slug}/hero-1200.webp`), Astro.site)} />
-    <script is:inline>document.documentElement.dataset.menu = "";</script>
-    <link rel="icon" href={u("/favicon.png")} type="image/png" />
-    <link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes={sizes} fetchpriority="high" />
-  </head>
-  <body class="jp rp" data-role={slug}>
-    <a class="skip" href="#main">Skip to content</a>
-    <header class="jp-head cta-off" data-head>
-      <nav aria-label={r.role}>
-        <a class="jp-brand" href="#top">
-          <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
-          <span class="wide-only">{r.role}</span>
-        </a>
-        <ul class="jp-links" id="jp-menu">
-          <li><a class="navlink" href="#intro">{r.nav.why}</a></li>
-          <li><a class="navlink" href="#path">{r.nav.how}</a></li>
-          <li><a class="navlink" href="#roles">{r.nav.roles}</a></li>
-        </ul>
-        <div class="jp-end">
-          <a class="btn" href={href} data-head-cta><span class="wide-only">{r.nav.cta}</span><span class="narrow-only">{r.nav.ctaShort}</span></a>
-          <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={j.nav.menu} data-menu-btn data-label-open={j.nav.menu} data-label-close={j.nav.menuClose}><span></span><span></span><span></span></button>
-        </div>
-      </nav>
-    </header>
-
+<Site title={pageTitle} description={r.description} image={amb ? "/join/button-share.jpg" : `/roles/${slug}/hero-1200.webp`} bodyClass="rp" ctaOff local={local} note={note}>
+  <Fragment slot="head"><link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes={sizes} fetchpriority="high" /></Fragment>
     <main id="main">
       <!-- The hero: the role, one line, and its button, with rings spreading from it. -->
       <section id="top" class="rp-hero">
@@ -330,43 +300,19 @@ const icons: Record<string, string> = {
       </section>
     </main>
 
-    <footer class="jp-foot">
-      <div class="wrap">
-        <div class="col">
-          <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
-          <p>{j.footer.legal}</p>
-          <p>{j.footer.rights}</p>
-          <p>{j.footer.renders}</p>
-          {r.placeholder && <p class="ph">[PLACEHOLDER] draft copy: details marked in this style are still to be set.</p>}
-        </div>
-        <div class="col">
-          <p class="kicker">{j.footer.sponsors}</p>
-          <div class="sponsors">
-            <img src={u("/assets/dcpl-knockout-logo.png")} alt="DC Public Library" width="117" height="96" loading="lazy" />
-            <img src={u("/assets/superbloom-white.png")} alt="Superbloom Design" width="406" height="96" loading="lazy" />
-          </div>
-        </div>
-      </div>
-    </footer>
-
     <script>
       import { mountButton } from "../scripts/button3d";
-      import { initMenu } from "../scripts/navmenu";
 
       // Nav: the header's button steps aside while the page's own is on screen
       // (in the intro, or after "How it works" when the page opens for people
       // who met a wearer), and again at the join section, so the page never shows two.
-      const root = document.documentElement;
       const head = document.querySelector<HTMLElement>("[data-head]")!;
-      new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
-        .observe(document.querySelector("[data-top-sentinel]")!);
       const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
       let heroIn = true, pageIn = false, joinIn = false;
       const syncCta = () => { const off = heroIn || pageIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
       new IntersectionObserver(([e]) => { heroIn = e.isIntersecting; syncCta(); }, { threshold: 0.5 }).observe(document.getElementById("top")!);
       new IntersectionObserver(([e]) => { pageIn = e.isIntersecting; syncCta(); }).observe(document.querySelector("[data-page-cta]")!);
       new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; syncCta(); }, { threshold: 0.25 }).observe(document.getElementById("join")!);
-      initMenu();
 
       // The hero button: live 3D on wide screens with a mouse and a real GPU,
       // after the page has gone quiet; it turns toward the pointer through a
@@ -445,5 +391,4 @@ const icons: Record<string, string> = {
       const later = () => ("requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1200));
       if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
     </script>
-  </body>
-</html>
+</Site>

@@ -4,10 +4,10 @@ import { u } from "./url";
 
 export type Step = { id: string; title: string; href: string; readTime: number };
 
-export const stepHref = (id: string) => u(`/${id}/`);
+export const stepHref = (id: string) => u(`/account/guide/${id}/`);
 
-/** The guide's Home. "/" is the public program page. */
-export const guideHome = u("/guide/");
+/** The guide's Home, inside the account. */
+export const guideHome = u("/account/guide/");
 
 export async function steps(): Promise<CollectionEntry<"steps">[]> {
   return (await getCollection("steps")).sort((a, b) => a.data.order - b.data.order);

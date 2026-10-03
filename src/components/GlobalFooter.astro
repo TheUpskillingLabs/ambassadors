@@ -1,0 +1,47 @@
+---
+/* The one footer every public page shares: the lockup and one line, five
+   columns (take part, contribute, who you'll meet, partner with us, about),
+   the partners' marks and the legal lines. A draft page passes `note`, shown
+   last in small type. The words are in content/site/nav.json. */
+import { u } from "../lib/url";
+import { NAV, navHref } from "../lib/nav";
+import roles from "../../content/roles/roles.json";
+
+interface Props { note?: string }
+const { note } = Astro.props;
+const F = NAV.footer;
+const listed = roles.roles.filter((r) => r.listed !== false);
+---
+<footer class="sh-foot">
+  <div class="sh-wrap">
+    <div class="sh-foot-top">
+      <div class="sh-foot-brand">
+        <img class="logo" src={u("/assets/logo-lockup-white.png")} alt={NAV.brand} width="392" height="144" loading="lazy" />
+        <p>{F.lede}</p>
+        <a class="ghost small" href={navHref("donate")}>{F.donate}</a>
+      </div>
+      <nav class="sh-foot-cols" aria-label="Footer">
+        {F.columns.map((col) => (
+          <div>
+            <p class="kicker">{col.title}</p>
+            {col.roles ? listed.map((r) => <a href={u(`/${r.slug}/`)}>{r.name}</a>) : col.links.map((l) => <a href={navHref(l.href)}>{l.label}</a>)}
+          </div>
+        ))}
+      </nav>
+    </div>
+    <div class="sh-foot-mid">
+      <p class="kicker">{F.partners}</p>
+      <div class="sponsors">
+        <img src={u("/assets/dcpl-knockout-logo.png")} alt="DC Public Library" width="117" height="96" loading="lazy" />
+        <img src={u("/assets/levy-strategic-design-white.png")} alt="Levy Strategic Design" width="198" height="96" loading="lazy" />
+        <img src={u("/assets/superbloom-white.png")} alt="Superbloom Design" width="406" height="96" loading="lazy" />
+      </div>
+    </div>
+    <div class="sh-foot-legal">
+      <p>{F.legal}</p>
+      <p>{F.google} <a class="textlink" href={navHref("privacy")}>{F.privacy} →</a></p>
+      <p>{F.rights} · {F.license}</p>
+      {note && <p class="ph">{note}</p>}
+    </div>
+  </div>
+</footer>

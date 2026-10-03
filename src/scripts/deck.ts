@@ -119,7 +119,7 @@ export function initDeck(): void {
 
   document.querySelector<HTMLAnchorElement>("[data-open-audience]")?.addEventListener("click", (e) => {
     e.preventDefault();
-    window.open(u(`/present/${short ? "?short" : ""}#${slides[i].dataset.n}`), "ag-audience");
+    window.open(u(`/account/present/${short ? "?short" : ""}#${slides[i].dataset.n}`), "ag-audience");
   });
 
   // Pacing timer (notes view): elapsed time against the talk shape's

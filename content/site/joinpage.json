@@ -1,0 +1,48 @@
+{
+  "$comment": "/join/ — the account's start page, where every Join The Labs button leads (GOV.UK's start-page pattern: just enough to know what you're starting, one button, what happens next). The button goes to the live site's sign-in with ?path= carried over from the link that brought you (proposed for OLOS to route you after sign-in). Words for each path are keyed by its slug.",
+  "placeholder": false,
+  "title": "Join The Labs",
+  "description": "One free account, and every path starts from it: workshops, a Build Cycle, a place to help. It takes a minute, and you sign in with Google.",
+  "hero": {
+    "kicker": "Join The Labs",
+    "title": "One free account. Every path starts here.",
+    "lede": "It takes a minute. Then you'll see what's on near you, and the people who are already in."
+  },
+  "gets": {
+    "kicker": "What you get",
+    "title": "Your place in The Labs.",
+    "items": [
+      { "title": "What's on near you", "body": "Every workshop and event at the Lab near you, and a seat at any of them." },
+      { "title": "The people", "body": "The community's channels, and a profile the people you build with can see." },
+      { "title": "A Build Cycle", "body": "Applying for the next cycle happens from your account, when applications open." },
+      { "title": "A place to help", "body": "Lead a workshop, mentor a team, improve the guides. It starts here too." }
+    ]
+  },
+  "start": {
+    "cta": "Continue with Google",
+    "note": "We use only your name, email address and profile picture, and never ask for your Gmail, Drive or Calendar.",
+    "login": "Already in? Log in"
+  },
+  "next": {
+    "kicker": "What happens next",
+    "title": "Three steps, then you're in.",
+    "steps": [
+      { "title": "Sign in with Google", "body": "No form, no password. Your name and photo come with you." },
+      { "title": "Find the Lab near you", "body": "Tell us where you are. If there's a Lab near you, you'll see what's on. If not, you'll hear the moment one opens." },
+      { "title": "Pick your first thing", "body": "A workshop this week, the next Build Cycle, or a way to help. Most people end up doing all three." }
+    ]
+  },
+  "paths": {
+    "$comment": "Shown under the title when the link that brought you carried a path (?path=). Each says what the account leads to for that path.",
+    "learn": "Your account, then a workshop.",
+    "build": "Your account, then apply for the next Build Cycle.",
+    "contribute": "Your account, then a place to help.",
+    "start-a-lab": "Your account, then tell us where you are. We'll talk it through with you.",
+    "upskiller": "Your account, then apply for the next Build Cycle.",
+    "mentor": "Your account, then help at a workshop.",
+    "poderator": "Your account, then a Build Cycle, where Poderators are asked.",
+    "ambassador": "Your account, then orientation, and the button in person.",
+    "problem": "Your account, then tell us about the problem."
+  },
+  "fine": "Free, and it stays free. The Labs is made by volunteers and open to anyone."
+}

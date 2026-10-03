@@ -1,0 +1,80 @@
+---
+/* /join/ — the account's start page: what the free account gets you, one
+   button (sign in with Google, on the live site), and what happens next.
+   Every Join The Labs button on the site leads here, carrying ?path=<slug>
+   for where it came from (learn, build, contribute, start-a-lab, a role…);
+   the page passes it on to sign-in (proposed for OLOS to route you after)
+   and says what that path leads to. Copy in content/site/joinpage.json;
+   the look in src/styles/page.css. (This used to redirect to the Ambassador
+   program page; that page is /ambassador/.) */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { LIVE } from "../../lib/nav";
+import p from "../../../content/site/joinpage.json";
+
+const pageTitle = `${p.title} · The Upskilling Labs`;
+const { $comment: _c, ...paths } = p.paths;
+---
+<Site title={pageTitle} description={p.description} bodyClass="pg" ctaOff>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="kicker rise">{p.hero.kicker}</p>
+        <h1 class="rise d1">{p.hero.title}</h1>
+        <p class="lede rise d2">{p.hero.lede}</p>
+        <p class="lede rise d2" hidden data-path-note data-paths={JSON.stringify(paths)}></p>
+        <div class="pg-start rise d3">
+          <a class="btn" href={LIVE.join} data-join data-page-cta>
+            <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="#fff" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.9h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.4z"/><path fill="#fff" opacity=".8" d="M12 22c2.7 0 5-.9 6.6-2.4l-3.2-2.5c-.9.6-2 1-3.4 1-2.6 0-4.8-1.8-5.6-4.1H3.1v2.6A10 10 0 0 0 12 22z"/><path fill="#fff" opacity=".6" d="M6.4 14a6 6 0 0 1 0-3.9V7.5H3.1a10 10 0 0 0 0 9z"/><path fill="#fff" opacity=".7" d="M12 6c1.5 0 2.8.5 3.8 1.5l2.9-2.9A10 10 0 0 0 3.1 7.5l3.3 2.6C7.2 7.8 9.4 6 12 6z"/></svg>
+            {p.start.cta}
+          </a>
+          <p>{p.start.note} <a class="textlink" href={LIVE.login}>{p.start.login} →</a></p>
+        </div>
+      </section>
+
+      <section id="gets" class="pg-sec">
+        <p class="kicker">{p.gets.kicker}</p>
+        <h2 class="h2">{p.gets.title}</h2>
+        <ul class="pg-gets">
+          {p.gets.items.map((g) => <li><h3>{g.title}</h3><p>{g.body}</p></li>)}
+        </ul>
+      </section>
+
+      <section id="next" class="pg-sec">
+        <p class="kicker">{p.next.kicker}</p>
+        <h2 class="h2">{p.next.title}</h2>
+        <ol class="pg-steps">
+          {p.next.steps.map((s) => <li><h3>{s.title}</h3><p>{s.body}</p></li>)}
+        </ol>
+        <p class="pg-fine">{p.fine}</p>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{p.hero.kicker}</h2>
+          <p class="lede">{p.hero.lede}</p>
+          <div class="row">
+            <a class="btn" href={LIVE.join} data-join>{p.start.cta}</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // The path the link carried (?path=) goes on to sign-in, and the line for it shows under the title.
+      const path = new URLSearchParams(location.search).get("path");
+      if (path && /^[a-z0-9-]{1,40}$/.test(path)) {
+        document.querySelectorAll<HTMLAnchorElement>("[data-join]").forEach((a) => { const url = new URL(a.href); url.searchParams.set("path", path); a.href = url.toString(); });
+        const note = document.querySelector<HTMLElement>("[data-path-note]")!;
+        const words = JSON.parse(note.dataset.paths ?? "{}") as Record<string, string>;
+        if (words[path]) { note.textContent = words[path]; note.hidden = false; }
+      }
+      // The header's button steps aside while the page's own is on screen.
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      let topIn = true, joinIn = false;
+      const sync = () => { const off = topIn || joinIn; head.classList.toggle("cta-off", off); cta.tabIndex = off ? -1 : 0; };
+      new IntersectionObserver(([e]) => { topIn = e.isIntersecting; sync(); }, { threshold: 0.2 }).observe(document.getElementById("top")!);
+      new IntersectionObserver(([e]) => { joinIn = e.isIntersecting; sync(); }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>

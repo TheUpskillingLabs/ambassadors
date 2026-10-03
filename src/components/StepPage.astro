@@ -6,7 +6,7 @@
    the five dots, and one button onward (the next unfinished step, or Home
    and "You're ready" once all five are done). Esc stays on the page. */
 import type { CollectionEntry } from "astro:content";
-import Base from "../layouts/Base.astro";
+import Account from "../layouts/Account.astro";
 import PageHeader from "./PageHeader.astro";
 import Icon from "./Icon.astro";
 import StepList from "./StepList.astro";
@@ -19,7 +19,7 @@ const all = await path();
 const i = all.findIndex((s) => s.id === entry.id);
 const next = all[i + 1];
 ---
-<Base title={entry.data.title} description={entry.data.summary} step={entry.id}>
+<Account title={entry.data.title} description={entry.data.summary} step={entry.id}>
   <div class="step-layout">
   <aside class="rail" aria-label={t("nav.steps")}><StepList current={entry.id} /></aside>
   <div class="step-main">
@@ -115,4 +115,4 @@ const next = all[i + 1];
     // A click on the backdrop (outside the box) closes it too.
     dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
   </script>
-</Base>
+</Account>

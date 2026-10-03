@@ -1,4 +1,4 @@
-/* The header's menu on narrow screens (join.css, max-width: 1080px): the
+/* The header's menu on narrow screens (join.css, max-width: 1199px): the
    section links sit behind a button whose three bars turn into an X, and drop
    down as a panel under the header. The links are the same ones the wide nav
    shows, so the scroll-spy marks the current section in both.
@@ -8,7 +8,7 @@
    scripting off, the links stay inline. Closes on a link, the
    button, Escape (focus goes back to the button), a tap outside, or widening
    past the breakpoint. */
-const NARROW = "(max-width: 1080px)";
+const NARROW = "(max-width: 1199px)";
 
 export function initMenu(): void {
   const head = document.querySelector<HTMLElement>("[data-head]");

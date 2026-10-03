@@ -1,0 +1,26 @@
+{
+  "$comment": "/partners/ — Partner with us: the hub behind the header's utility link, with a door for each kind of institution. Libraries and funders are coming (design/information-architecture, the project doc); until then the hub lists the two pages there are. Its one action, like theirs, is a conversation.",
+  "placeholder": false,
+  "title": "Partner with us",
+  "description": "The Labs works with governments, employers and the places people meet. Here's how, and who to talk to.",
+  "hero": {
+    "kicker": "Partner with us",
+    "title": "Put The Labs to work where you are.",
+    "lede": "Free workshops and team projects, run by volunteers at the public library, open to anyone. Governments fund and adopt it. Employers run it inside. Either way, it starts with a conversation."
+  },
+  "doors": [
+    { "title": "For government", "body": "Workforce boards, agencies and library systems: sector cohorts on your region's problems, open playbooks you can adopt, and results published every cycle.", "href": "/government/", "cta": "For government" },
+    { "title": "For enterprise", "body": "Put people from across your company on a real problem for twelve weeks, with facilitators you grow and Mentors from outside. Or start smaller: lend your experts, send your people, sponsor a cohort.", "href": "/enterprise/", "cta": "For enterprise" }
+  ],
+  "more": {
+    "kicker": "Also",
+    "title": "Libraries, funders and problem owners.",
+    "body": "Every Lab lives in a public library, every cycle runs on real problems someone brought, and all of it is free because people fund it. Pages for each are on the way. Until then, write to us."
+  },
+  "join": {
+    "title": "Start the conversation.",
+    "lede": "Tell us who you are and what you'd put The Labs to work on. We'll take it from there.",
+    "cta": "Talk to us",
+    "residents": "Here for yourself? Join The Labs: it's free."
+  }
+}

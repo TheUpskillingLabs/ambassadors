@@ -18,8 +18,7 @@
    page's macro shots of the pin, with this page's taglines.
 
    Copy lives in content/site/contributing.json. */
-import "@fontsource-variable/geologica/wght.css";
-import "../../styles/join.css";
+import Site from "../../layouts/Site.astro";
 import "../../styles/contributing.css";
 import { u } from "../../lib/url";
 import JoinCover from "../../components/JoinCover.astro";
@@ -34,49 +33,17 @@ const heroStill = media("hero-brass-760.webp");
 const heroSet = `${media("hero-brass-760.webp")} 760w, ${media("hero-brass-1200.webp")} 1200w`;
 const pin3d = u("/join/pin3d.js");
 const home = u("/ambassador/");
-const apply = u("/apply/");
+const apply = u("/account/apply/");
 const pageTitle = `${c.title} · The Upskilling Labs`;
+const local = [
+  { label: c.nav.start, href: "#start", spy: "why ch-together start" },
+  { label: c.nav.rings, href: "#rings", spy: "ch-levelup rings" },
+  { label: c.nav.given, href: "#given", spy: "ch-leader given status decides" },
+  { label: c.nav.program, href: home },
+];
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>{pageTitle}</title>
-    <meta name="description" content={c.description} />
-    <meta name="theme-color" content="#00141B" />
-    <meta name="robots" content="noindex" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={c.description} />
-    <meta property="og:image" content={new URL(media("og.jpg"), Astro.site)} />
-    <!-- The narrow-screen menu (src/scripts/navmenu.ts) collapses the nav from the first paint, so nothing shifts when it loads. -->
-    <script is:inline>document.documentElement.dataset.menu = "";</script>
-    <link rel="icon" href={u("/favicon.png")} type="image/png" />
-    <link rel="preload" as="image" href={heroStill} imagesrcset={heroSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" />
-  </head>
-  <body class="jp cm">
-    <a class="skip" href="#main">Skip to content</a>
-    <header class="jp-head" data-head>
-      <nav aria-label="Contributing">
-        <a class="jp-brand" href="#top">
-          <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
-          <span class="wide-only">{c.nav.brand}</span>
-        </a>
-        <ul class="jp-links" id="jp-menu">
-          <li><a class="navlink" href="#start" data-spy="why ch-together start">{c.nav.start}</a></li>
-          <li><a class="navlink" href="#rings" data-spy="ch-levelup rings">{c.nav.rings}</a></li>
-          <li><a class="navlink" href="#given" data-spy="ch-leader given status decides">{c.nav.given}</a></li>
-          <li class="menu-only"><a class="navlink" href={home}>{c.nav.program}</a></li>
-        </ul>
-        <div class="jp-end">
-          <a class="navlink wide-only" href={home}>{c.nav.program}</a>
-          <a class="btn" href={apply} data-head-cta><span class="wide-only">{c.nav.cta}</span><span class="narrow-only">{c.nav.ctaShort}</span></a>
-          <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={c.nav.menu} data-menu-btn data-label-open={c.nav.menu} data-label-close={c.nav.menuClose}><span></span><span></span><span></span></button>
-        </div>
-      </nav>
-    </header>
-
+<Site title={pageTitle} description={c.description} image={media("og.jpg")} bodyClass="cm" local={local} note={c.placeholder ? `[PLACEHOLDER] ${c.footer.source}` : c.footer.renders}>
+  <Fragment slot="head"><link rel="preload" as="image" href={heroStill} imagesrcset={heroSet} imagesizes="min(760px, 94vw, 56vh)" fetchpriority="high" /></Fragment>
     <main id="main">
       <!-- Hero: the pin on its own, in brass, turning toward the pointer. -->
       <section id="top" class="jp-hero cm-hero">
@@ -234,23 +201,9 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
       </section>
     </main>
 
-    <footer class="jp-foot">
-      <div class="wrap">
-        <div class="col">
-          <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
-          <p>{j.footer.legal}</p>
-          <p>{j.footer.rights}</p>
-          <p><a class="textlink" href={home}>{c.footer.program} →</a></p>
-          <p>{c.footer.renders}</p>
-          {c.placeholder && <p class="ph">[PLACEHOLDER] {c.footer.source}</p>}
-        </div>
-      </div>
-    </footer>
-
     <script>
       import { mountView, gpuOk, kick, type RankPin } from "../../scripts/rankpin";
       import { openCovers } from "../../scripts/covers";
-      import { initMenu } from "../../scripts/navmenu";
 
       const root = document.documentElement;
       const pin3d = document.querySelector<HTMLElement>("[data-pin3d]")!.dataset.pin3d!;
@@ -258,32 +211,16 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
       const desktop = matchMedia("(hover: hover) and (pointer: fine) and (min-width: 900px)");
       const clamp = (v: number, lo: number, hi: number) => Math.max(lo, Math.min(hi, v));
 
-      /* ── nav: compact once you scroll; the section in view is marked ── */
+      /* ── nav: the header's button steps aside while the closing one is on screen ── */
       const head = document.querySelector<HTMLElement>("[data-head]")!;
-      new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
-        .observe(document.querySelector("[data-top-sentinel]")!);
       const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
       new IntersectionObserver(([e]) => {
         head.classList.toggle("cta-off", e.isIntersecting);
         cta.tabIndex = e.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
-      const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["why", "ch-together", "start", "ch-levelup", "rings", "ch-leader", "given", "status", "decides", "join"].map((id) => document.getElementById(id)!);
-      let spyQueued = false;
-      const spy = () => {
-        spyQueued = false;
-        const line = innerHeight * 0.35;
-        const current = order.filter((el) => el.getBoundingClientRect().top <= line).pop()?.id ?? "";
-        links.forEach((a) => (a.dataset.spy!.split(" ").includes(current) ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current")));
-      };
-      addEventListener("scroll", () => { if (!spyQueued) { spyQueued = true; requestAnimationFrame(spy); } }, { passive: true });
-      spy();
 
       // Chapter covers: opened as they come into view where scroll timelines aren't supported.
       openCovers();
-
-      // Narrow screens: the section links sit behind the menu button.
-      initMenu();
 
       /* ── the way up: one level at a time ──
          Wide screens with motion: the stage holds still while you scroll, and the
@@ -486,5 +423,4 @@ const pageTitle = `${c.title} · The Upskilling Labs`;
       const later = () => ("requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 2500 }) : setTimeout(start, 1200));
       if (document.readyState === "complete") later(); else addEventListener("load", later, { once: true });
     </script>
-  </body>
-</html>
+</Site>

@@ -35,7 +35,7 @@ html[data-intro] .hm-hero-copy { --in: 0; --l2: 0; }
 .hm-world:has(.is-baked) { isolation: auto; }
 .hm-world:has(.is-baked)::after { content: none; }
 .hm-orbit canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
-.hm main, .hm .hm-foot { position: relative; z-index: 1; }
+.hm main { position: relative; z-index: 1; }
 .hm-scenes { position: relative; z-index: 1; margin-top: -100vh; margin-top: -100lvh; }
 
 /* ── the scenes. Each is tall; its words are pinned to the screen (fixed, so the browser itself holds them
@@ -257,31 +257,7 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 .hm-join .btn, .hm-join .ghost { min-height: 56px; padding: 0 30px; font-size: 18px; }
 .hm-join .btn { margin-top: 0; }
 
-/* ── footer: the live site's columns, on ink. ── */
-.hm-foot { border-top: 1px solid var(--rule); background: var(--ink); padding: clamp(48px, 7vh, 80px) 0 40px; }
-.hm-foot-top { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gut); row-gap: 40px; }
-.hm-foot-brand { grid-column: 1 / span 4; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
-.hm-foot-brand .logo { height: 44px; width: auto; }
-.hm-foot-brand p { margin: 0; max-width: 34ch; font-size: var(--fs-sm); line-height: 1.55; color: var(--t2); }
-.hm-foot-cols { grid-column: 6 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--gut); row-gap: 32px; }
-.hm-foot-cols div { display: flex; flex-direction: column; gap: 12px; }
-.hm-foot-cols .kicker { margin-bottom: 4px; color: var(--t2); }
-.hm-foot-cols a { font-size: var(--fs-sm); color: var(--t1); text-decoration: none; }
-.hm-foot-cols a:hover { color: var(--teal); }
-.hm-foot-mid { margin-top: clamp(40px, 6vh, 64px); padding-top: 28px; border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; align-items: center; gap: 20px 40px; }
-.hm-foot-mid .kicker { color: var(--t2); }
-.hm-foot .sponsors { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; }
-.hm-foot .sponsors img { height: 26px; width: auto; }
-.hm-foot .sponsors img:first-child { height: 44px; }
-.hm-foot-legal { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--rule); display: grid; gap: 10px; }
-.hm-foot-legal p { margin: 0; max-width: 90ch; font-size: 13px; line-height: 1.55; color: var(--t2); }
-
-@media (max-width: 1080px) {
-  .hm-foot-brand, .hm-foot-cols { grid-column: 1 / -1; }
-  .hm-foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 860px) {
-}
+/* The footer is the global one (site.css). */
 @media (max-width: 680px) {
   .hm-pause { bottom: 14px; }
   .rp .hm-path { padding: 9px 14px; font-size: 16px; }
@@ -368,5 +344,3 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 /* The header's quiet link for partners: on screens wide enough to hold it on one line beside Log in (it's in
    the narrow menu and the footer otherwise). No link in the header wraps. */
 .hm .jp-end .navlink, .hm .jp-head .btn { white-space: nowrap; }
-.hm .jp-end .hm-gov { display: none; }
-@media (min-width: 1360px) { .hm .jp-end .hm-gov { display: inline-flex; } }

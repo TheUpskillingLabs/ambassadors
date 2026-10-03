@@ -6,13 +6,13 @@
    so Back works and a reload resumes where you were. Copy:
    content/site/apply.json. Nothing is sent by the site; see src/lib/apply.ts
    for where OLOS plugs in. */
-import Base from "../../layouts/Base.astro";
-import Icon from "../../components/Icon.astro";
-import { u } from "../../lib/url";
-import { t } from "../../lib/i18n";
-import { guideHome } from "../../lib/content";
-import a from "../../../content/site/apply.json";
-import help from "../../../content/site/help.json";
+import Account from "../../../layouts/Account.astro";
+import Icon from "../../../components/Icon.astro";
+import { u } from "../../../lib/url";
+import { t } from "../../../lib/i18n";
+import { guideHome } from "../../../lib/content";
+import a from "../../../../content/site/apply.json";
+import help from "../../../../content/site/help.json";
 
 const screens = ["video", "quiz", "agreement", "you"] as const;
 const navs = [a.video.nav, a.quiz.nav, a.agreement.nav, a.you.nav];
@@ -34,7 +34,7 @@ const strings = {
   ask: { msg: t("ask.message"), msgOpen: t("ask.messageNoDate"), send: a.done.ask.send, sent: a.done.ask.sent },
 };
 ---
-<Base title={a.title} description={a.description} bare>
+<Account title={a.title} description={a.description} bare>
   <div class="wrap apply" data-apply
     data-strings={JSON.stringify(strings)}
     data-answers={JSON.stringify(a.quiz.questions.map((q) => q.answer))}
@@ -167,10 +167,10 @@ const strings = {
   </div>
 
   <script>
-    import { application, profile, type Application } from "../../lib/store";
-    import { coordinatorMessage, coordinatorHref } from "../../lib/apply";
-    import { askMessage, askHref, rememberAsk } from "../../lib/ask";
-    import { readHash } from "../../lib/invite";
+    import { application, profile, type Application } from "../../../lib/store";
+    import { coordinatorMessage, coordinatorHref } from "../../../lib/apply";
+    import { askMessage, askHref, rememberAsk } from "../../../lib/ask";
+    import { readHash } from "../../../lib/invite";
 
     const root = document.querySelector<HTMLElement>("[data-apply]")!;
     const S = JSON.parse(root.dataset.strings!);
@@ -376,4 +376,4 @@ const strings = {
     // No hash (the guide's "Continue your application"): pick up where they left off.
     show((location.hash.slice(1) || furthest(application.get())) as Screen, false);
   </script>
-</Base>
+</Account>
