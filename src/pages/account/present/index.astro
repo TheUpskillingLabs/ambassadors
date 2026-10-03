@@ -1,5 +1,5 @@
 ---
-import { u } from "../../lib/url";
+import { u } from "../../../lib/url";
 /* /present — the boilerplate deck. No login, no download.
      /present            full-screen presentation
      /present?short      60-second version (slides 1, 5, 6)
@@ -8,13 +8,13 @@ import { u } from "../../lib/url";
      /present?practice   cues visible beneath each slide
    Flags combine (e.g. ?short&practice). */
 import "@fontsource-variable/geologica/wght.css";
-import "../../styles/colors_and_type.css";
-import "../../styles/system.css";
-import "../../styles/deck.css";
-import Slides from "../../components/Slides.astro";
-import Icon from "../../components/Icon.astro";
-import { t, ui } from "../../lib/i18n";
-import deck from "../../../content/site/deck.json";
+import "../../../styles/colors_and_type.css";
+import "../../../styles/system.css";
+import "../../../styles/deck.css";
+import Slides from "../../../components/Slides.astro";
+import Icon from "../../../components/Icon.astro";
+import { t, ui } from "../../../lib/i18n";
+import deck from "../../../../content/site/deck.json";
 ---
 <!doctype html>
 <html lang="en">
@@ -69,7 +69,7 @@ import deck from "../../../content/site/deck.json";
       </section>
 
       <div class="controls" data-controls>
-        <a class="ctl" href={u("/room/")} data-ctl>{t("present.exit")}</a>
+        <a class="ctl" href={u("/account/guide/room/")} data-ctl>{t("present.exit")}</a>
         <button class="ctl" type="button" data-ctl data-toggle-cues aria-pressed="false">{t("present.cues")}</button>
         <button class="ctl" type="button" data-ctl data-fullscreen>{t("present.fullscreen")}</button>
         <button class="ctl" type="button" data-ctl data-help-open aria-label={t("present.keys")}>?</button>
@@ -86,7 +86,7 @@ import deck from "../../../content/site/deck.json";
     </div>
 
     <script>
-      import { initDeck } from "../../scripts/deck";
+      import { initDeck } from "../../../scripts/deck";
       initDeck();
     </script>
     <script>

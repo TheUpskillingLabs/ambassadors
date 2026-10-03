@@ -1,0 +1,44 @@
+---
+/* The ambassador tools moved inside the account (/account/…), and the guide's
+   first step gave up /labs/ for the Labs themselves. Their old addresses still
+   work: each is a page that sends you on, keeping the query and the #hash
+   (a coordinator's invite link is /apply/#invite=…, and a plain redirect would
+   drop it). Static, so it works on GitHub Pages; the host turns these into
+   real redirects at launch. */
+import { u } from "../lib/url";
+
+// (getStaticPaths runs on its own, so the map lives inside it.)
+export function getStaticPaths() {
+  const MOVED: Record<string, string> = {
+    guide: "/account/guide/",
+    labs: "/account/guide/labs/",
+    conversation: "/account/guide/conversation/",
+    "your-story": "/account/guide/your-story/",
+    room: "/account/guide/room/",
+    practice: "/account/guide/practice/",
+    apply: "/account/apply/",
+    invite: "/account/invite/",
+    nominate: "/account/nominate/",
+    present: "/account/present/",
+    offline: "/account/offline/",
+    account: "/account/guide/",
+  };
+  return Object.keys(MOVED).map((moved) => ({ params: { moved }, props: { to: MOVED[moved] } }));
+}
+const { to } = Astro.props;
+const target = u(to);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Moved · The Upskilling Labs</title>
+    <link rel="canonical" href={new URL(target, Astro.site)} />
+    <script is:inline define:vars={{ target }}>location.replace(target + location.search + location.hash);</script>
+    <noscript><meta http-equiv="refresh" content={`0;url=${target}`} /></noscript>
+  </head>
+  <body>
+    <p>This page moved to <a href={target}>{target}</a>.</p>
+  </body>
+</html>

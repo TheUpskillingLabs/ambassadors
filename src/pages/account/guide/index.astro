@@ -4,22 +4,22 @@
    list. Finishing all five means you're ready for your first conversation,
    so the button becomes "Tell your coordinator you're ready". The pin is
    earned later, by passing it on (design/pin/). */
-import Base from "../../layouts/Base.astro";
-import Row from "../../components/Row.astro";
-import Icon from "../../components/Icon.astro";
-import CoordinatorLink from "../../components/CoordinatorLink.astro";
-import { u } from "../../lib/url";
-import { t } from "../../lib/i18n";
-import inv from "../../../content/site/invite.json";
-import { path } from "../../lib/content";
+import Account from "../../../layouts/Account.astro";
+import Row from "../../../components/Row.astro";
+import Icon from "../../../components/Icon.astro";
+import CoordinatorLink from "../../../components/CoordinatorLink.astro";
+import { u } from "../../../lib/url";
+import { t } from "../../../lib/i18n";
+import inv from "../../../../content/site/invite.json";
+import { path } from "../../../lib/content";
 const steps = await path();
 ---
-<Base>
+<Account>
   <div class="wrap home" data-home={JSON.stringify(steps)} data-start={t("home.start")} data-continue={t("home.continue")} data-welcome={t("home.welcome")}>
     <div class="panel apply-nudge" data-apply-nudge hidden>
       <p class="nudge-t">{t("home.nudgeTitle")}</p>
       <p>{t("home.nudge")}</p>
-      <a class="see" href={u("/apply/")} data-apply-link data-continue={t("home.applyContinue")}>{t("home.apply")} →</a>
+      <a class="see" href={u("/account/apply/")} data-apply-link data-continue={t("home.applyContinue")}>{t("home.apply")} →</a>
     </div>
     <h1 class="home-title" data-title data-done={t("home.doneTitle")}>{t("home.title")}</h1>
     <p class="home-member" data-member hidden>{t("home.member")}</p>
@@ -51,8 +51,8 @@ const steps = await path();
       <p class="nudge-t">{inv.bring.title}</p>
       <p class="apply-note">{inv.bring.shareHint}</p>
       <p class="bring-row">
-        <button class="linkbtn" type="button" data-share data-apply={u("/apply/")} data-copied={inv.bring.copied}>{inv.bring.shareLabel}</button>
-        <a class="see" href={u("/nominate/")}>{inv.bring.nominate} →</a>
+        <button class="linkbtn" type="button" data-share data-apply={u("/account/apply/")} data-copied={inv.bring.copied}>{inv.bring.shareLabel}</button>
+        <a class="see" href={u("/account/nominate/")}>{inv.bring.nominate} →</a>
       </p>
     </div>
     <script is:inline>
@@ -65,7 +65,7 @@ const steps = await path();
   </div>
 
   <script>
-    import { progress, application } from "../../lib/store";
+    import { progress, application } from "../../../lib/store";
     const root = document.querySelector<HTMLElement>("[data-home]")!;
     // Open to everyone; people who haven't finished orientation get a nudge to apply,
     // ambassadors get a welcome by name.
@@ -103,4 +103,4 @@ const steps = await path();
       } catch { /* share sheet closed */ }
     });
   </script>
-</Base>
+</Account>

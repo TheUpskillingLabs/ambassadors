@@ -1,0 +1,53 @@
+---
+/* The shell every public page shares: the head (Seo.astro), the global header
+   and footer (GlobalHeader.astro, GlobalFooter.astro) and their behaviour
+   (src/scripts/site.ts). A page puts its own <main id="main"> in the slot,
+   its extra <head> tags in the "head" slot, and keeps its own scripts.
+
+   `quiet` is for immersive pages (the home), whose header stays light over the
+   world; `local` is a page's own row of sections; `note` is a draft page's
+   footer line. Every page is unlisted until `index` says otherwise. */
+import "@fontsource-variable/geologica/wght.css";
+import "../styles/join.css";
+import "../styles/site.css";
+import Seo from "../components/Seo.astro";
+import GlobalHeader, { type LocalLink } from "../components/GlobalHeader.astro";
+import GlobalFooter from "../components/GlobalFooter.astro";
+import { NAV } from "../lib/nav";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  index?: boolean;
+  /** Classes on <body> beside "jp" (a page's own stylesheet scopes to them). */
+  bodyClass?: string;
+  /** Attributes on <html> (the home page's data-cycle). */
+  htmlAttrs?: Record<string, string | undefined>;
+  quiet?: boolean;
+  brand?: "lockup" | "home";
+  ctaOff?: boolean;
+  local?: LocalLink[];
+  localLabel?: string;
+  note?: string;
+}
+const { title, description, image, index, bodyClass = "", htmlAttrs = {}, quiet, brand, ctaOff, local, localLabel, note } = Astro.props;
+---
+<!doctype html>
+<html lang="en" {...htmlAttrs}>
+  <head>
+    <Seo title={title} description={description} image={image} index={index} />
+    <script is:inline>document.documentElement.dataset.menu = "";</script>
+    <slot name="head" />
+  </head>
+  <body class:list={["jp", bodyClass, { "has-local": !!local?.length }]}>
+    <a class="skip" href="#main">{NAV.skip}</a>
+    <GlobalHeader quiet={quiet} brand={brand} ctaOff={ctaOff} local={local} localLabel={localLabel} />
+    <slot />
+    <GlobalFooter note={note} />
+    <script>
+      import { initSite } from "../scripts/site";
+      initSite();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+/* ════ Plain pages (the Partner with us hub, the Join start page): the
+   program page's look (join.css: ink, Geologica, hairline rules, teal labels)
+   with a text hero, rows that are doors, a list of what you get, and the
+   closing section. Scoped to body.pg. ════ */
+.pg-hero { position: relative; padding: calc(var(--head) + clamp(40px, 8vh, 96px)) var(--g) clamp(24px, 4vh, 48px); max-width: 1600px; margin: 0 auto; }
+.pg-hero h1 { margin: 18px 0 0; max-width: 11em; font-size: clamp(44px, 6.1vw, 96px); font-weight: 700; line-height: 0.95; letter-spacing: -0.05em; color: var(--t1); }
+.pg-hero .lede { margin-top: 26px; max-width: 36em; font-size: clamp(18px, 1.6vw, 22px); }
+.pg-sec { padding: clamp(48px, 8vh, 96px) var(--g) 0; max-width: 1600px; margin: 0 auto; }
+.pg-sec .h2 { font-size: clamp(34px, 4.2vw, 61px); max-width: 14em; }
+.pg-sec > p { margin: 18px 0 0; max-width: 38em; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.55; color: var(--t2); }
+
+/* doors: a row each, the title, what's behind it, and the way in */
+.pg-doors { margin: clamp(32px, 5vw, 56px) 0 0; padding: 0; list-style: none; }
+.pg-doors li { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr) auto; align-items: start; column-gap: clamp(20px, 3vw, 40px); padding: 28px 0 32px; border-top: 1px solid var(--rule); }
+.pg-doors li:last-child { border-bottom: 1px solid var(--rule); }
+.pg-doors h3 { margin: 0; font-size: clamp(24px, 2.4vw, 32px); font-weight: 600; letter-spacing: -0.02em; color: var(--t1); }
+.pg-doors p { margin: 0; max-width: 36em; font-size: 17px; line-height: 1.55; color: var(--t2); }
+.pg-doors .ghost { min-height: 46px; padding: 0 20px; font-size: 16px; white-space: nowrap; }
+@media (max-width: 860px) {
+  .pg-doors li { grid-template-columns: minmax(0, 1fr); row-gap: 14px; }
+}
+
+/* what you get: short claims, side by side */
+.pg-gets { margin: clamp(32px, 5vw, 56px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); column-gap: clamp(20px, 3vw, 36px); }
+.pg-gets li { padding: 22px 0 26px; border-top: 1px solid var(--rule); }
+.pg-gets h3 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.016em; color: var(--t1); }
+.pg-gets p { margin: 10px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
+
+/* the start: one button, then what happens next as steps */
+.pg-start { margin: clamp(32px, 5vw, 56px) 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 16px 24px; }
+.pg-start .btn { min-height: 56px; padding: 0 30px; font-size: 18px; gap: 12px; }
+.pg-start .btn svg { flex: none; }
+.pg-start p { margin: 0; font-size: 15px; color: var(--t2); max-width: 32em; }
+.pg-steps { margin: clamp(32px, 5vw, 56px) 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); column-gap: clamp(20px, 3vw, 36px); }
+.pg-steps li { counter-increment: s; padding: 22px 0 26px; border-top: 1px solid var(--rule); }
+.pg-steps li::before { content: counter(s, decimal-leading-zero); display: block; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; color: var(--teal); }
+.pg-steps h3 { margin: 10px 0 0; font-size: 20px; font-weight: 600; letter-spacing: -0.016em; color: var(--t1); }
+.pg-steps p { margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
+.pg-fine { margin: 28px 0 0; max-width: 60ch; font-size: 14px; line-height: 1.55; color: var(--t2); }

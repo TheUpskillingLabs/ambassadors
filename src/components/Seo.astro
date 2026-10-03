@@ -1,0 +1,30 @@
+---
+/* The <head> every public page shares: title, description, canonical, Open
+   Graph, the theme colour and the icon. Every page is unlisted (noindex)
+   until it moves to production; `index` turns that off page by page then. */
+import { u } from "../lib/url";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Share image, as a site path (u() is applied) or a full URL. */
+  image?: string;
+  /** Let search engines index this page. Off for every page on the staging build. */
+  index?: boolean;
+}
+const { title, description, image = "/join/hub-share.jpg", index = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const og = /^https?:/.test(image) ? image : new URL(u(image), Astro.site).toString();
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="theme-color" content="#00141B" />
+{!index && <meta name="robots" content="noindex" />}
+<link rel="canonical" href={canonical} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={og} />
+<meta property="og:type" content="website" />
+<link rel="icon" href={u("/favicon.png")} type="image/png" />

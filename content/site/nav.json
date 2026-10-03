@@ -1,0 +1,55 @@
+{
+  "$comment": "The global header and footer, on every public page (src/components/GlobalHeader.astro, GlobalFooter.astro, through src/layouts/Site.astro). Tasks in the main nav, audiences in the utility links and the footer, one button (Join The Labs), as design/information-architecture (the project doc) sets out. An href starting with / is a page here; anything else is a key into home.json's links (the live site). Until the owner pages exist (Workshops, Build Cycles, Find a Lab, About are built in later PRs), the main links go to the best place there is today: the live site's pages, or the home page's scenes.",
+  "brand": "The Upskilling Labs",
+  "main": [
+    { "label": "Workshops", "href": "events" },
+    { "label": "Build Cycles", "href": "/#build" },
+    { "label": "Contribute", "href": "/contributing/" },
+    { "label": "Find a Lab", "href": "/#labs" },
+    { "label": "About", "href": "about" }
+  ],
+  "utility": [
+    { "label": "Partner with us", "href": "/partners/" },
+    { "label": "Donate", "href": "donate" },
+    { "label": "Log in", "href": "login" }
+  ],
+  "cta": { "label": "Join The Labs", "short": "Join", "href": "/join/" },
+  "menu": "Menu",
+  "menuClose": "Close menu",
+  "skip": "Skip to content",
+  "sections": "On this page",
+  "footer": {
+    "lede": "Free workshops and team projects at your local public library, made by volunteers and open to anyone.",
+    "donate": "Support The Labs",
+    "columns": [
+      { "title": "Take part", "links": [
+        { "label": "Workshops", "href": "events" },
+        { "label": "Build Cycles", "href": "/#build" },
+        { "label": "Find a Lab", "href": "/#labs" },
+        { "label": "Start a Lab", "href": "/#found" }
+      ] },
+      { "title": "Contribute", "links": [
+        { "label": "Ways to help", "href": "/contributing/" },
+        { "label": "Built in the open", "href": "github" },
+        { "label": "Join The Labs", "href": "/join/" }
+      ] },
+      { "title": "Who you'll meet", "roles": true, "links": [] },
+      { "title": "Partner with us", "links": [
+        { "label": "Governments", "href": "/government/" },
+        { "label": "Employers", "href": "/enterprise/" }
+      ] },
+      { "title": "About", "links": [
+        { "label": "Our story", "href": "about" },
+        { "label": "Our board", "href": "board" },
+        { "label": "Contact", "href": "contact" },
+        { "label": "Donate", "href": "donate" }
+      ] }
+    ],
+    "partners": "In partnership with",
+    "legal": "The Upskilling Labs, Inc. is a fiscally sponsored project of Superbloom Design, a 501(c)(3). Donations are tax-deductible to the extent permitted by law.",
+    "google": "You join by signing in with Google. We use only your name, email address and profile picture, and never ask for your Gmail, Drive or Calendar.",
+    "privacy": "How we handle your data",
+    "license": "MIT code · CC BY 4.0 content · Built in the open",
+    "rights": "© 2026 The Upskilling Labs, Inc."
+  }
+}

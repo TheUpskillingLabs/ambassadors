@@ -24,7 +24,7 @@
     "strong": "Free.",
     "terms": "One Pod, one Build Cycle: about three months, busiest at the start and the end.",
     "cta": "Become a Poderator",
-    "href": "https://theupskillinglabs.org/login?intent=join&path=poderator",
+    "href": "/join/?path=poderator",
     "status": "Poderators are chosen before each Build Cycle begins"
   },
   "met": {
