@@ -1,0 +1,19 @@
+{
+  "$comment": "The next cycle, kicking off at the Oct 13 Summit. Its theme, deadline and Showcase date are still to be set (user-journey.md); `closes` is the kickoff until the deadline is, and `showcase` is a placeholder thirteen weeks on.",
+  "title": "Fall 2026",
+  "lab": "dc",
+  "season": "fall",
+  "year": 2026,
+  "kickoff": "2026-10-13",
+  "showcase": "2027-01-12",
+  "closes": "2026-10-13",
+  "anchors": [
+    "2026-10-13-upskilling-summit-3"
+  ],
+  "meta": {
+    "owner": "lab",
+    "review": "2026-10-20",
+    "status": "live",
+    "source": "theupskillinglabs.org/build-cycles and the home page's cycle band, read Oct 3, 2026"
+  }
+}

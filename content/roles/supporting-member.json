@@ -1,6 +1,14 @@
 {
   "$comment": "Supporting Members pay light dues and get a button; dues never buy a vote, a rank or a pin (design/research/recognition-system.md, Membership and dues). Placeholders: the amount, the sliding scale and waiver, what Members get, and how to join.",
   "placeholder": true,
+  "meta": {
+    "route": "/supporting-member/",
+    "need": "As someone who met a person wearing the supporting member button, I need to know who they are and how to think of them, so that I can trust what they told me.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "draft",
+    "index": false
+  },
   "slug": "supporting-member",
   "role": "Supporting Member",
   "description": "Back The Upskilling Labs with light dues, and wear a button that says so.",

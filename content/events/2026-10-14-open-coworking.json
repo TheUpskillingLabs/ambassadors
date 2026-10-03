@@ -1,0 +1,15 @@
+{
+  "$comment": "A dated session, from the live site's events (a snapshot; in OLOS, from its events). Past events stay as the record; src/lib/dates.ts hides them from what's coming up.",
+  "title": "Open Coworking",
+  "kind": "coworking",
+  "date": "2026-10-14",
+  "time": "10:00",
+  "lab": "dc",
+  "place": "Martin Luther King Jr. Memorial Library, Washington, DC",
+  "meta": {
+    "owner": "lab",
+    "review": "2026-10-20",
+    "status": "live",
+    "source": "theupskillinglabs.org/events, read Oct 3, 2026"
+  }
+}

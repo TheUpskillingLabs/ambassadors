@@ -92,6 +92,28 @@ These also need real values:
 | `/account/present/?practice` | Talk cues shown under each slide |
 | `/guide/`, `/labs/`, `/conversation/`, `/your-story/`, `/room/`, `/practice/`, `/apply/`, `/invite/`, `/nominate/`, `/present/`, `/offline/`, `/account/` | The ambassador tools' old addresses (they moved inside the account on PR 1 of the rework, which freed `/labs/` for the Labs): each is a page that sends you on, keeping the query and the `#invite=…` hash (`src/pages/[...moved].astro`). |
 
+## Governance: every page and record carries its meta
+
+Every public page's copy (`content/site/*.json`, `content/roles/<slug>.json`) and every record (`content/labs`, `content/events`, `content/cycles`) carries a `meta` block, checked by `src/content.config.ts` on every build:
+
+- `route` (pages): the address, so the checks know which built page it is;
+- `need`: "As a…, I need…, so that…", the user need the page meets (GOV.UK's form);
+- `owner`: who answers for it, a role (`national`, `lab`, `contributors`), never a person;
+- `review`: the date someone next looks at it;
+- `status`: `live` (linked and listed), `draft` (built, but unlinked and unlisted) or `withdrawn` (kept with a notice);
+- `index` (pages): whether search engines may index it, once it's on production; off everywhere on the staging build;
+- `source` (records): where the facts came from, with the date they were taken.
+
+Three checks run in `npm run build`, and fail it:
+
+- `scripts/check-meta.mjs` (before the build): a review date that has passed; a live page carrying a placeholder marker (`[PLACEHOLDER]`, `[N]`, a whole string in brackets); two pages on one route. `CHECK_DATE=YYYY-MM-DD` pretends it's another day.
+- `scripts/check-links.mjs` (after the build): every internal link, image and script in `dist/` resolves; every `#anchor` exists on its page; no live page links to a draft.
+- `scripts/lint-copy.mjs` (before the build): the voice rules, on everything in `content/`.
+
+The site also rebuilds every day (`.github/workflows/deploy-pages.yml`), so dated pages never go stale between commits, and a passed review date fails loudly. Dated things are decided by the clock, never retyped: `src/lib/dates.ts` picks what's coming up and a cycle's state (applications open, underway, done).
+
+**Records** are snapshots from the live site until OLOS has an API: one JSON file per Lab, event and cycle, each saying where its facts came from. Past events stay as the record.
+
 ## Design rules
 
 The site follows The Labs Brand Style Guide via the OLOS design system. Some rules are easy to break by accident:

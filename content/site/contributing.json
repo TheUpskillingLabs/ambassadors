@@ -1,6 +1,14 @@
 {
   "$comment": "The Contributor Community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, and not linked from the program page) until the board approves the levels; the home page's Share path leads here, as the explainer for contributing. The one idea: The Labs is built by the people who learn here. Learning by doing, applied to The Labs itself: anyone can contribute (make something, take a role, teach what you know, or back it as a Supporting Member; roles open in order, and Poderator comes after a Build Cycle), and each level means you've worked hands-on in more of its workstreams, major and minor. The page is three chapters, and each cover's promise is paid off by the sections right under it: Start anywhere (the ways in), Go as far as you like (the levels), Yours for good (how the pin is given, active or emeritus, what won't change). The pins are the symbol: one section walks the levels, by scroll or by picking one, with a pin you can drag (live 3D on desktop). Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open. The covers reuse the program page's macro shots of the pin (src/components/JoinCover.astro): chapters[].shot picks the shot (join.json mission[n]); title is this page's tagline.",
   "placeholder": true,
+  "meta": {
+    "route": "/contributing/",
+    "need": "As someone who wants to help, I need to know how contributing works and where to start, so that I can find my place.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
   "title": "Contributor Community",
   "description": "The Labs is built by the people who learn here. Start anywhere, go as far as you like, and what you earn is yours for good.",
   "nav": {
@@ -141,7 +149,7 @@
         "trusted": "Deciding where a workstream goes next. The board keeps the final say."
       }
     ],
-    "names": "Workstreams and level names are still drafts. Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Smaller ones include events, communications and research. [PLACEHOLDER]",
+    "names": "Workstreams and level names are still drafts. Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Smaller ones include events, communications and research.",
     "picker": {
       "legend": "Level",
       "levels": [

@@ -1,6 +1,14 @@
 {
   "$comment": "Upskillers: participants in a Build Cycle. Facts from Brendan's journey interview (Sep 29, 2026; the project's user-journey notes): account → workshop → apply (places are limited) → Pods of nine or more form in month one → teams of three to five → the Showcase. Effort is described by its shape (heavy, steady, heavy) until hours are measured. Buttons are new this cycle. The application, its deadline and its questions live inside the account, not on this page.",
   "placeholder": true,
+  "meta": {
+    "route": "/upskiller/",
+    "need": "As someone who met a person wearing the upskiller button, I need to know who they are and how to think of them, so that I can trust what they told me.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
   "slug": "upskiller",
   "role": "Upskiller",
   "description": "Upskillers at The Upskilling Labs learn by building a real project with a small team: twelve weeks, free, in person at the public library.",

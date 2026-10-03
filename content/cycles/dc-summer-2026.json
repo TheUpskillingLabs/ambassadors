@@ -1,0 +1,20 @@
+{
+  "$comment": "The cycle that ends at the Oct 13 Showcase: twelve weeks in Washington, DC, Pods on civic and elections problems. From the live site's Build Cycles page (a snapshot).",
+  "title": "Civic & Elections",
+  "lab": "dc",
+  "season": "summer",
+  "year": 2026,
+  "theme": "Civic & Elections",
+  "kickoff": "2026-07-14",
+  "showcase": "2026-10-13",
+  "closes": "2026-07-14",
+  "anchors": [
+    "2026-10-13-upskilling-summit-3"
+  ],
+  "meta": {
+    "owner": "lab",
+    "review": "2026-10-20",
+    "status": "live",
+    "source": "theupskillinglabs.org/build-cycles and the home page's cycle band, read Oct 3, 2026"
+  }
+}
