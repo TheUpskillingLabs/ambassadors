@@ -1,0 +1,64 @@
+---
+/* /build-cycles/<id>/ — one Build Cycle: its Lab, dates and state, its
+   anchor events, what the teams made and the results. The last two are
+   empty until the Showcase captures them, and say so. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection, getEntry } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref } from "../../lib/nav";
+import { cycleState } from "../../lib/dates";
+import { fill, longDate } from "../../lib/takepart";
+import EventList from "../../components/EventList.astro";
+import b from "../../../content/site/build-cycles.json";
+
+export async function getStaticPaths() {
+  return (await getCollection("cycles")).map((c) => ({ params: { id: c.id }, props: { c } }));
+}
+const { c } = Astro.props;
+const lab = await getEntry("labs", c.data.lab);
+const labs = new Map((await getCollection("labs")).map((l) => [l.id, l]));
+const anchors = (await getCollection("events")).filter((e) => c.data.anchors.includes(e.id)).sort((x, y) => x.data.date.localeCompare(y.data.date));
+const state = cycleState(c.data);
+const title = `${c.data.title} · ${lab?.data.city ?? ""}`;
+---
+<Site title={`${title} · The Upskilling Labs`} description={`A Build Cycle at ${lab?.data.city}: ${fill(b.cycle.when, { kickoff: longDate(c.data.kickoff), showcase: longDate(c.data.showcase) })}.`} bodyClass="pg">
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="pg-crumb"><a href={u("/build-cycles/")}>← {b.cycle.back}</a></p>
+        <p class="kicker rise">{b.cycle.kicker} · {b.cycle.state[state]}</p>
+        <h1 class="rise d1">{c.data.title}</h1>
+        <dl class="pg-facts rise d2">
+          {lab && <div><dt>Lab</dt><dd><a href={u(`/labs/${lab.id}/`)}>{lab.data.city}</a></dd></div>}
+          <div><dt>Kickoff</dt><dd>{longDate(c.data.kickoff)}</dd></div>
+          <div><dt>Showcase</dt><dd>{longDate(c.data.showcase)}</dd></div>
+          {c.data.theme && <div><dt>Theme</dt><dd>{c.data.theme}</dd></div>}
+        </dl>
+      </section>
+      {anchors.length > 0 && <section id="anchors" class="pg-sec">
+        <p class="kicker">{b.cycle.anchors}</p>
+        <EventList events={anchors} labs={labs} />
+      </section>}
+      <section id="projects" class="pg-sec">
+        <h2 class="h2">{b.cycle.projects.title}</h2>
+        <p class="pg-empty">{b.cycle.projects.empty}</p>
+      </section>
+      <section id="results" class="pg-sec">
+        <h2 class="h2">{b.cycle.results.title}</h2>
+        <p class="pg-empty">{b.cycle.results.empty}</p>
+      </section>
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{b.join.title}</h2>
+          <p class="lede">{b.join.lede}</p>
+          <div class="row"><a class="btn" href={joinHref("build")}>{b.join.cta}</a></div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => { head.classList.toggle("cta-off", e.isIntersecting); cta.tabIndex = e.isIntersecting ? -1 : 0; }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>

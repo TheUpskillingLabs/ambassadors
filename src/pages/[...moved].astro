@@ -1,7 +1,7 @@
 ---
 /* The ambassador tools moved inside the account (/account/…), and the guide's
-   first step gave up /labs/ for the Labs themselves. Their old addresses still
-   work: each is a page that sends you on, keeping the query and the #hash
+   first step gave up /labs/ for the Labs themselves (so /labs/ is Find a Lab
+   now). The other old addresses still work: each is a page that sends you on, keeping the query and the #hash
    (a coordinator's invite link is /apply/#invite=…, and a plain redirect would
    drop it). Static, so it works on GitHub Pages; the host turns these into
    real redirects at launch. */
@@ -11,7 +11,6 @@ import { u } from "../lib/url";
 export function getStaticPaths() {
   const MOVED: Record<string, string> = {
     guide: "/account/guide/",
-    labs: "/account/guide/labs/",
     conversation: "/account/guide/conversation/",
     "your-story": "/account/guide/your-story/",
     room: "/account/guide/room/",

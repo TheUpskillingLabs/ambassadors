@@ -1,0 +1,104 @@
+{
+  "$comment": "/labs/ — Find a Lab, with Start a Lab beside it (/labs/start/), and the words for each Lab's own page (/labs/<id>/). The Labs come from content/labs; a city still gathering names never shows a count this low, it says to be the first. No one owns a Lab (home-copy.md).",
+  "placeholder": false,
+  "meta": {
+    "route": "/labs/",
+    "need": "As someone who wants to take part near where I live, I need to know whether there's a Lab near me, and what to do if there isn't, so that I can join one or start one.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
+  "title": "Find a Lab",
+  "description": "Each city has its own Lab, run by the people in it and at home in its public library. DC is up and running, and more cities are gathering names.",
+  "hero": {
+    "kicker": "Find a Lab",
+    "title": "It starts in your city.",
+    "lede": "Each city has its own Lab, run by the people in it and at home in its public library. DC is up and running, and more cities are gathering names."
+  },
+  "active": { "kicker": "Up and running", "title": "Where it's happening." },
+  "list": {
+    "kicker": "Gathering names",
+    "title": "The next cities.",
+    "lede": "Every Lab starts as a list of names. When a city's list is long enough, and someone there wants to lead, it opens.",
+    "first": "Be the first on the list",
+    "started": "The list has started",
+    "waiting": "{n} waiting",
+    "threshold": 5,
+    "join": "Put your name down"
+  },
+  "stages": {
+    "$comment": "Each Lab's stage, said plainly, on the list and on the Lab's page.",
+    "list": "Gathering names",
+    "forming": "Forming",
+    "first-workshops": "First workshops",
+    "first-cycle": "First Build Cycle",
+    "active": "Up and running",
+    "chartered": "Chartered"
+  },
+  "elsewhere": {
+    "title": "Not on the list?",
+    "body": "Join, and tell us where you are. Your name starts the list for your city.",
+    "cta": "Join The Labs"
+  },
+  "start": {
+    "kicker": "Start a Lab",
+    "title": "The next Lab could start with you.",
+    "body": "Every Lab starts with a few people who want one where they live. You don't need to have done this before.",
+    "cta": "How to start one"
+  },
+  "lab": {
+    "$comment": "Words for a Lab's own page.",
+    "kicker": "A Lab",
+    "library": "At home in {library}",
+    "members": "{n} people have joined",
+    "rhythm": "The rhythm",
+    "coming": "Coming up here",
+    "comingEmpty": "Nothing is on the calendar right now. Join, and you'll hear the moment the next one is.",
+    "cycle": "This cycle",
+    "join": { "title": "Come along.", "lede": "Make your free account, and you'll see what's on here.", "cta": "Join The Labs" },
+    "listJoin": { "title": "Put your name down.", "lede": "Enough names, and it opens. You'll hear the moment it does.", "cta": "Join the list", "note": "It takes a free account: sign in with Google, and your name goes on the list." },
+    "back": "Every Lab"
+  },
+  "startPage": {
+    "$comment": "/labs/start/ — Start a Lab: the requirements up front and one first step (TEDx, Toastmasters: see the project doc information-architecture).",
+    "meta": {
+      "route": "/labs/start/",
+      "need": "As someone who'd start a Lab where I live, I need to know what it takes, what I bring and what The Labs brings, so that I can take the first step.",
+      "owner": "national",
+      "review": "2026-11-15",
+      "status": "live",
+      "index": false
+    },
+    "title": "Start a Lab",
+    "description": "Every Lab starts with a few people who want one where they live. You bring the people. We'll bring the workshops, the Build Cycle and the tools, and help you find it a home at your public library.",
+    "hero": {
+      "kicker": "Start a Lab",
+      "title": "The next Lab could start with you.",
+      "lede": "Every Lab starts with a few people who want one where they live. You don't need to have done this before."
+    },
+    "bring": {
+      "kicker": "What it takes",
+      "title": "You bring the people. We bring the rest.",
+      "you": { "title": "You bring", "items": ["A few people who want a Lab where they live", "Somewhere to meet, or the will to find one", "An evening a week, to start"] },
+      "we": { "title": "We bring", "items": ["The workshops, and the people who've run them", "The Build Cycle, and help running the first one", "The platform every Lab runs on", "Help finding a home at your public library"] }
+    },
+    "stages": {
+      "kicker": "How it grows",
+      "title": "Five stages, at your pace.",
+      "items": [
+        { "title": "Gathering names", "body": "People in your city put their names down. Yours can be the first." },
+        { "title": "Forming", "body": "Someone steps up to lead, and a library or a space comes into view." },
+        { "title": "First workshops", "body": "A few sessions, with workshops and help from the cities that came before." },
+        { "title": "First Build Cycle", "body": "Twelve weeks, Pods and teams, and a Showcase of your own." },
+        { "title": "Chartered", "body": "A Lab in its own right, part of the network, run by the people in it." }
+      ],
+      "early": "The first people in a city decide what its Lab becomes."
+    },
+    "join": {
+      "title": "Start with your name.",
+      "lede": "Make your free account and tell us where you are. We'll talk it through with you.",
+      "cta": "Start a Lab"
+    }
+  }
+}

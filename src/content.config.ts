@@ -49,7 +49,7 @@ const recordMeta = z.object({
 /** The public pages whose copy is one JSON file each (content/site). The
  *  shape of each page's copy is its own; the collection checks the governance. */
 const pages = defineCollection({
-  loader: glob({ pattern: ["home.json", "joinpage.json", "partners.json", "government.json", "enterprise.json", "contributing.json"], base: "./content/site" }),
+  loader: glob({ pattern: ["home.json", "joinpage.json", "partners.json", "government.json", "enterprise.json", "contributing.json", "workshops.json", "build-cycles.json", "labs.json"], base: "./content/site" }),
   schema: z.object({ placeholder, meta: pageMeta, title: z.string(), description: z.string() }).loose(),
 });
 

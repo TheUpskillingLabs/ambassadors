@@ -1,0 +1,59 @@
+---
+/* /events/<id>/ — one event: when, where, which Lab and cycle, what it's
+   about, and where to save a seat. Stands on its own for someone arriving
+   from a search or a shared link. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection, getEntry } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref, LIVE } from "../../lib/nav";
+import { formatEvent, startsAt } from "../../lib/dates";
+import { longDate } from "../../lib/takepart";
+import w from "../../../content/site/workshops.json";
+
+export async function getStaticPaths() {
+  return (await getCollection("events")).map((e) => ({ params: { id: e.id }, props: { e } }));
+}
+const { e } = Astro.props;
+const lab = e.data.lab ? await getEntry("labs", e.data.lab) : undefined;
+const cycle = e.data.cycle ? await getEntry("cycles", e.data.cycle) : undefined;
+const f = formatEvent(e.data);
+const past = startsAt(e.data).getTime() <= Date.now();
+const KIND: Record<string, string> = { workshop: "Workshop", anchor: "Anchor event", "open-house": "Open house", coworking: "Coworking", social: "Social" };
+const where = e.data.online ? "Online" : e.data.place ?? lab?.data.city ?? "";
+const register = e.data.href ?? LIVE.events;
+---
+<Site title={`${e.data.title} · The Upskilling Labs`} description={e.data.summary ?? `${KIND[e.data.kind]} on ${longDate(e.data.date)}, ${where}. Free and open to anyone.`} bodyClass="pg">
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="pg-crumb"><a href={u("/events/")}>← {w.coming.all}</a></p>
+        <p class="kicker rise">{KIND[e.data.kind]}{past ? " · Past" : ""}</p>
+        <h1 class="rise d1">{e.data.title}</h1>
+        {e.data.summary && <p class="lede rise d2">{e.data.summary}</p>}
+        <dl class="pg-facts rise d2">
+          <div><dt>When</dt><dd>{longDate(e.data.date)} · {f.time}</dd></div>
+          <div><dt>Where</dt><dd>{where}</dd></div>
+          {lab && <div><dt>Lab</dt><dd><a href={u(`/labs/${lab.id}/`)}>{lab.data.city}</a></dd></div>}
+          {cycle && <div><dt>Build Cycle</dt><dd><a href={u(`/build-cycles/${cycle.id}/`)}>{cycle.data.title}</a></dd></div>}
+          <div><dt>Cost</dt><dd>Free</dd></div>
+        </dl>
+        {!past && <div class="pg-start rise d3">
+          <a class="btn" href={register}>Save a seat</a>
+          <p>Free, and open to anyone. Make your account first and you'll see everything else that's on. <a class="textlink" href={joinHref("learn")}>Join The Labs →</a></p>
+        </div>}
+      </section>
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{w.join.title}</h2>
+          <p class="lede">{w.join.lede}</p>
+          <div class="row"><a class="btn" href={joinHref("learn")}>{w.join.cta}</a></div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => { head.classList.toggle("cta-off", e.isIntersecting); cta.tabIndex = e.isIntersecting ? -1 : 0; }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>

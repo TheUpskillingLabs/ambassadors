@@ -1,0 +1,79 @@
+---
+/* /labs/<id>/ — one Lab's page on the national site (the ymca.org/locations
+   pattern): where it stands, its library, its rhythm, what's coming up there,
+   its current cycle, and the way in: the account, or the list if it's still
+   gathering names. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref } from "../../lib/nav";
+import { upcoming, currentCycle, cycleState } from "../../lib/dates";
+import { fill, labLine, stageWord, longDate } from "../../lib/takepart";
+import EventList from "../../components/EventList.astro";
+import L from "../../../content/site/labs.json";
+import b from "../../../content/site/build-cycles.json";
+
+export async function getStaticPaths() {
+  return (await getCollection("labs")).map((l) => ({ params: { id: l.id }, props: { l } }));
+}
+const { l } = Astro.props;
+const running = l.data.stage === "active" || l.data.stage === "chartered";
+const labs = new Map((await getCollection("labs")).map((x) => [x.id, x]));
+const next = upcoming((await getCollection("events")).filter((e) => e.data.lab === l.id), new Date(), 6);
+const cycle = currentCycle(await getCollection("cycles"), l.id);
+const join = running ? L.lab.join : L.lab.listJoin;
+const description = running ? `${L.hero.lede}` : `${l.data.city} is gathering names. ${L.list.lede}`;
+---
+<Site title={`${l.data.city} · The Upskilling Labs`} description={description} bodyClass="pg">
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="pg-crumb"><a href={u("/labs/")}>← {L.lab.back}</a></p>
+        <p class="kicker rise">{L.lab.kicker} · {stageWord(l.data.stage)}</p>
+        <h1 class="rise d1">{running ? l.data.name : l.data.city}</h1>
+        <p class="lede rise d2">{running ? [l.data.library ? fill(L.lab.library, { library: l.data.library }) : "", l.data.members ? fill(L.lab.members, { n: l.data.members }) : ""].filter(Boolean).join(". ") : labLine(l)}.</p>
+        {!running && <div class="pg-start rise d3">
+          <a class="btn" href={joinHref(`lab-${l.id}`)}>{join.cta}</a>
+          <p>{L.lab.listJoin.note}</p>
+        </div>}
+      </section>
+
+      {running && l.data.rhythm.length > 0 && <section id="rhythm" class="pg-sec">
+        <p class="kicker">{L.lab.rhythm}</p>
+        <ul class="pg-gets">{l.data.rhythm.map((r) => <li><h3>{r}</h3></li>)}</ul>
+      </section>}
+
+      {running && <section id="coming" class="pg-sec">
+        <p class="kicker">{L.lab.coming}</p>
+        <EventList events={next} labs={labs} empty={L.lab.comingEmpty} />
+      </section>}
+
+      {running && cycle && <section id="cycle" class="pg-sec">
+        <p class="kicker">{L.lab.cycle} · {b.cycle.state[cycleState(cycle.data)]}</p>
+        <h2 class="h2"><a style="color: inherit; text-decoration: none" href={u(`/build-cycles/${cycle.id}/`)}>{cycle.data.title}</a></h2>
+        <p>{fill(b.cycle.when, { kickoff: longDate(cycle.data.kickoff), showcase: longDate(cycle.data.showcase) })}</p>
+      </section>}
+
+      {!running && <section id="what" class="pg-sec">
+        <p class="kicker">{L.list.kicker}</p>
+        <h2 class="h2">{L.list.title}</h2>
+        <p>{L.list.lede}</p>
+        <ol class="pg-steps">{L.startPage.stages.items.map((s) => <li><h3>{s.title}</h3><p>{s.body}</p></li>)}</ol>
+        <p class="pg-fine"><a class="textlink" href={u("/labs/start/")}>{L.start.cta} →</a></p>
+      </section>}
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{join.title}</h2>
+          <p class="lede">{join.lede}</p>
+          <div class="row"><a class="btn" href={joinHref(running ? "learn" : `lab-${l.id}`)}>{join.cta}</a></div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => { head.classList.toggle("cta-off", e.isIntersecting); cta.tabIndex = e.isIntersecting ? -1 : 0; }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>

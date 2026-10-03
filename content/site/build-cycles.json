@@ -1,0 +1,69 @@
+{
+  "$comment": "/build-cycles/ — Build, the owner page for Build Cycles: what a cycle is, how it runs (the home page's Build scenes, in one place), the current cycle's state (from content/cycles, decided by the clock), what it isn't, and the one action, the account. Each cycle also has its own page (/build-cycles/<id>/).",
+  "placeholder": false,
+  "meta": {
+    "route": "/build-cycles/",
+    "need": "As someone thinking about a Build Cycle, I need to know what it is, what it asks, when the next one starts and how to apply, so that I can decide to go for it.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
+  "title": "Build Cycles",
+  "description": "A Build Cycle is twelve weeks where strangers pick a problem worth solving, team up, and make something that helps. Free, in person at your local public library, by application.",
+  "hero": {
+    "kicker": "Build",
+    "title": "Make something real.",
+    "lede": "A Build Cycle is twelve weeks where strangers pick a problem worth solving, team up, and make something that helps.",
+    "spec": ["Free", "Twelve weeks", "In person, some online", "By application"]
+  },
+  "state": {
+    "$comment": "The current cycle's band, by its state (src/lib/dates.ts). {title}, {kickoff} and {showcase} are filled from the cycle.",
+    "open": { "kicker": "Applications open", "title": "{title} starts {kickoff}.", "body": "It's free, and places are limited. Make your free account, then apply from there.", "cta": "Join The Labs" },
+    "underway": { "kicker": "{title} is underway", "title": "The next cycle is coming.", "body": "Applications have closed, and the teams are building. You don't have to wait to get involved.", "cta": "Hear when the next cycle opens", "ways": ["Drop into a workshop", "Come to the Showcase", "Help as a Mentor"] },
+    "done": { "kicker": "Between cycles", "title": "The next cycle is coming.", "body": "The last one ended at its Showcase. Join, and your account tells you when the next one opens.", "cta": "Hear when the next cycle opens" }
+  },
+  "how": {
+    "kicker": "How a cycle runs",
+    "title": "Strangers become a Pod. Then a team.",
+    "steps": [
+      { "title": "Kickoff", "body": "It starts in one room, at the Summit, with the problem situations: real, messy problems people face." },
+      { "title": "A Pod", "body": "Everyone joins a group of nine or more, called a Pod, around a problem situation you choose together. It can feel uncertain at first. That's normal: everyone finds a Pod, and a Poderator keeps it together." },
+      { "title": "A team", "body": "As ideas take shape, teams of three to five form around the ones people want to make. Mentors, experienced volunteers who've done this before, are there to help." },
+      { "title": "Building", "body": "When your team hits a wall, a Mentor helps you over it, then turns it into a workshop, so the next team doesn't hit the same one." },
+      { "title": "The Showcase", "body": "At the end, every team shows its project in public. Anyone can use what you made, and your name stays on it." }
+    ],
+    "shape": "The busiest weeks are at the start and the end."
+  },
+  "know": {
+    "kicker": "Good to know",
+    "items": [
+      { "title": "No lectures.", "body": "Workshops teach skills; your Pod is where you practise." },
+      { "title": "Not job placement.", "body": "You leave with something you made, with your name on it, and people who've built with you." },
+      { "title": "In person.", "body": "Evenings at your local public library, with some sessions online." },
+      { "title": "A real commitment.", "body": "Twelve weeks, busiest at the start and the end." }
+    ]
+  },
+  "cycles": {
+    "kicker": "Every cycle",
+    "title": "Cycle by cycle.",
+    "lede": "Each cycle gets its own page: the problems, the teams, what they made and where it went. The first ones are being filled in from the Showcase."
+  },
+  "cycle": {
+    "$comment": "Words for a cycle's own page.",
+    "kicker": "A Build Cycle",
+    "when": "Kickoff {kickoff} · Showcase {showcase}",
+    "state": { "open": "Applications open", "underway": "Underway", "done": "Done" },
+    "anchors": "Anchor events",
+    "projects": { "title": "What the teams made", "empty": "The projects are captured at the Showcase, with each team's consent, and go here after." },
+    "results": { "title": "Results", "empty": "Who took part, what they made and where they went next are published after the cycle." },
+    "back": "Every Build Cycle"
+  },
+  "join": {
+    "title": "Twelve weeks. Something real.",
+    "lede": "Make your free account, then apply from there when applications are open.",
+    "cta": "Join The Labs",
+    "next": "Then: apply, or come to a workshop first.",
+    "upskiller": "What Upskillers do"
+  }
+}

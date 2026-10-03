@@ -1,0 +1,75 @@
+---
+/* /workshops/ — Learn, the owner page for workshops: what they are, what's
+   coming up (content/events, by the clock), what they're like, how it works,
+   the realistic preview, and the account. Copy in content/site/workshops.json. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref } from "../../lib/nav";
+import { upcoming } from "../../lib/dates";
+import EventList from "../../components/EventList.astro";
+import w from "../../../content/site/workshops.json";
+
+const labs = new Map((await getCollection("labs")).map((l) => [l.id, l]));
+const next = upcoming(await getCollection("events"), new Date(), 5);
+const pageTitle = `${w.title} · The Upskilling Labs`;
+const local = [
+  { label: w.coming.kicker, href: "#coming", spy: "coming" },
+  { label: w.like.kicker, href: "#like", spy: "like" },
+  { label: w.how.kicker, href: "#how", spy: "how know" },
+];
+---
+<Site title={pageTitle} description={w.description} bodyClass="pg" local={local}>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="kicker rise">{w.hero.kicker}</p>
+        <h1 class="rise d1">{w.hero.title}</h1>
+        <p class="lede rise d2">{w.hero.lede}</p>
+        <ul class="pg-spec rise d2">{w.hero.spec.map((s) => <li>{s}</li>)}</ul>
+      </section>
+
+      <section id="coming" class="pg-sec">
+        <p class="kicker">{w.coming.kicker}</p>
+        <h2 class="h2">{w.coming.title}</h2>
+        <EventList events={next} labs={labs} empty={w.coming.empty} />
+        <p class="pg-fine"><a class="textlink" href={u("/events/")}>{w.coming.all} →</a></p>
+      </section>
+
+      <section id="like" class="pg-sec">
+        <p class="kicker">{w.like.kicker}</p>
+        <h2 class="h2">{w.like.title}</h2>
+        <ul class="pg-gets">{w.like.items.map((g) => <li><h3>{g.title}</h3><p>{g.body}</p></li>)}</ul>
+        <p class="pg-fine">{w.like.note}</p>
+      </section>
+
+      <section id="how" class="pg-sec">
+        <p class="kicker">{w.how.kicker}</p>
+        <h2 class="h2">{w.how.title}</h2>
+        <ol class="pg-steps">{w.how.steps.map((s) => <li><h3>{s.title}</h3><p>{s.body}</p></li>)}</ol>
+      </section>
+
+      <section id="know" class="pg-sec">
+        <p class="kicker">{w.know.kicker}</p>
+        <ul class="pg-gets">{w.know.items.map((g) => <li><h3>{g.title}</h3><p>{g.body}</p></li>)}</ul>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{w.join.title}</h2>
+          <p class="lede">{w.join.lede}</p>
+          <div class="row">
+            <a class="btn" href={joinHref("learn")}>{w.join.cta}</a>
+            <span class="muted">{w.join.next}</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => { head.classList.toggle("cta-off", e.isIntersecting); cta.tabIndex = e.isIntersecting ? -1 : 0; }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>
