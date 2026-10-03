@@ -1,0 +1,21 @@
+{
+  "$comment": "/about/results/ — results. A draft, unlinked, until the first published numbers: the fall cycle's. The partner pages' results lines stay off live pages until then too.",
+  "placeholder": true,
+  "meta": {
+    "route": "/about/results/",
+    "need": "As a funder, a partner or a member, I need to see what The Labs has done, in numbers, so that I can judge whether it works.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "draft",
+    "index": false
+  },
+  "title": "Results",
+  "description": "What The Labs has done, in numbers, published every cycle.",
+  "hero": {
+    "kicker": "About",
+    "title": "What came of it.",
+    "lede": "Every cycle ends in public at the Showcase, and the numbers follow: who came, what was built, what was reused."
+  },
+  "empty": "The first published results come with the fall cycle. Until then, the projects are the proof.",
+  "more": "The projects"
+}

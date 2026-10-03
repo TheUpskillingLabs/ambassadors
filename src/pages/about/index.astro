@@ -1,0 +1,87 @@
+---
+/* /about/ — About, the owner page for how it's run: the story, what we
+   believe, how The Labs is run, who it works with, and contact. Copy in
+   content/site/about.json. The board and the results have their own pages,
+   drafts until the names are brought over and the first numbers are
+   published; until then About links to the live site's board page. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref, LIVE } from "../../lib/nav";
+import a from "../../../content/site/about.json";
+
+const pageTitle = `${a.title} · The Upskilling Labs`;
+const live = LIVE as Record<string, string>;
+const href = (h: string) => (h.startsWith("/") ? u(h) : live[h]);
+const partners = (await getCollection("labs")).filter((l) => l.data.meta.status === "live" && l.data.library).map((l) => l.data.library);
+const local = [
+  { label: a.story.kicker, href: "#story", spy: "story" },
+  { label: a.believe.kicker, href: "#believe", spy: "believe" },
+  { label: a.run.kicker, href: "#run", spy: "run" },
+  { label: a.with.kicker, href: "#with", spy: "with" },
+  { label: a.contact.kicker, href: "#contact", spy: "contact" },
+];
+---
+<Site title={pageTitle} description={a.description} bodyClass="pg" local={local}>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="kicker rise">{a.hero.kicker}</p>
+        <h1 class="rise d1">{a.hero.title}</h1>
+        <p class="lede rise d2">{a.hero.lede}</p>
+      </section>
+
+      <section id="story" class="pg-sec">
+        <p class="kicker">{a.story.kicker}</p>
+        <h2 class="h2">{a.story.title}</h2>
+        {a.story.paras.map((p) => <p>{p}</p>)}
+        <p class="pg-fine"><a class="textlink" href={u("/labs/")}>{a.story.more} →</a></p>
+      </section>
+
+      <section id="believe" class="pg-sec">
+        <p class="kicker">{a.believe.kicker}</p>
+        <h2 class="h2">{a.believe.title}</h2>
+        <ul class="pg-gets">{a.believe.items.map((g) => <li><h3>{g.title}</h3><p>{g.body}</p></li>)}</ul>
+      </section>
+
+      <section id="run" class="pg-sec">
+        <p class="kicker">{a.run.kicker}</p>
+        <h2 class="h2">{a.run.title}</h2>
+        <ul class="pg-gets">
+          {a.run.items.map((g) => <li><h3>{g.title}</h3><p>{g.body}</p>{"link" in g && g.href && <p><a class="textlink" href={href(g.href)}>{g.link} →</a></p>}</li>)}
+        </ul>
+      </section>
+
+      <section id="with" class="pg-sec">
+        <p class="kicker">{a.with.kicker}</p>
+        <h2 class="h2">{a.with.title}</h2>
+        <p>{a.with.body}</p>
+        {partners.length > 0 && <p class="pg-fine">{partners.join(" · ")}</p>}
+        <p class="pg-fine"><a class="ghost" href={u("/partners/")}>{a.with.cta} →</a></p>
+      </section>
+
+      <section id="contact" class="pg-sec">
+        <p class="kicker">{a.contact.kicker}</p>
+        <h2 class="h2">{a.contact.title}</h2>
+        <p>{a.contact.body}</p>
+        <div class="pg-start">
+          <a class="ghost" href={href(a.contact.href)}>{a.contact.cta} →</a>
+          <a class="textlink" href={live.donate}>{a.contact.donate}</a>
+        </div>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{a.join.title}</h2>
+          <p class="lede">{a.join.lede}</p>
+          <div class="row"><a class="btn" href={joinHref("learn")}>{a.join.cta}</a></div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => { head.classList.toggle("cta-off", e.isIntersecting); cta.tabIndex = e.isIntersecting ? -1 : 0; }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>

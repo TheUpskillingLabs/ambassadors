@@ -1,0 +1,96 @@
+{
+  "$comment": "/about/ — About, the owner page for how it's run: the story, what we believe, how The Labs is run (fiscal sponsorship, the board, built in the open), who it works with, and how to reach us. Every fact here is in the record already (content/site/apply.json, the footer's legal line); nothing is new. The board's names and the results stay on their own pages (about-board.json, about-results.json), drafts until the names are brought over from the live site and the first numbers are published.",
+  "placeholder": false,
+  "meta": {
+    "route": "/about/",
+    "need": "As someone deciding whether to trust The Labs, I need to know where it came from, who runs it and how, so that I can decide to join, partner or give.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
+  "title": "About",
+  "description": "The Upskilling Labs is free workshops and team projects at the public library, made by volunteers and open to anyone. Where it came from, what we believe, and how it's run.",
+  "hero": {
+    "kicker": "About",
+    "title": "Made by the people in it.",
+    "lede": "The Upskilling Labs is free workshops and team projects at your local public library, made by volunteers and open to anyone. It's run in the open, and what works is shared with every Lab."
+  },
+  "story": {
+    "kicker": "Our story",
+    "title": "It started at the library.",
+    "paras": [
+      "In fall 2025, DC Public Library and Levy, a strategic design firm, ran a pilot for about fifty former federal workers working out their next move: career change, new tools, and a team to do it with.",
+      "The people who came through that pilot founded The Upskilling Labs in January 2026, so that what they'd found could be open to anyone. The DC Lab still meets at DC Public Library, and more cities are gathering names.",
+      "What a Lab makes stays open: the workshops, the guides, the way a Build Cycle runs and the platform it runs on are all built in public, and the best of it goes to every Lab that comes next."
+    ],
+    "more": "Find a Lab"
+  },
+  "believe": {
+    "kicker": "What we believe",
+    "title": "Work is changing too fast to figure out alone.",
+    "items": [
+      {
+        "title": "So we don't.",
+        "body": "Learning sticks when it's hands-on, with people at every level, on a problem that matters to someone."
+      },
+      {
+        "title": "Real work, start to finish.",
+        "body": "A Build Cycle is twelve weeks on a real problem, with a team, ending in public at the Showcase. You leave with something you made, with your name on it."
+      },
+      {
+        "title": "Shaped by many, not a few.",
+        "body": "What comes next should be decided by the people living it. Every Lab is run by the people in it, and no one owns one."
+      },
+      {
+        "title": "Free, and open.",
+        "body": "No tech background needed, nothing to buy. The code is MIT, the content is CC BY 4.0, and anyone can add to either."
+      }
+    ]
+  },
+  "run": {
+    "kicker": "How it's run",
+    "title": "In the open, by volunteers.",
+    "items": [
+      {
+        "title": "A fiscally sponsored project",
+        "body": "The Upskilling Labs, Inc. is a fiscally sponsored project of Superbloom Design, a 501(c)(3), while its own status is pending. Donations are tax-deductible to the extent permitted by law."
+      },
+      {
+        "title": "A board",
+        "body": "A board oversees the national organization. The Labs themselves are run locally, by the people in them.",
+        "link": "Our board",
+        "href": "board"
+      },
+      {
+        "title": "Built in the open",
+        "body": "The platform every Lab runs on, OLOS, is open source, and so is this site. Playbooks, guides and workshops are shared under CC BY 4.0.",
+        "link": "The code",
+        "href": "github"
+      },
+      {
+        "title": "Results, published",
+        "body": "Each cycle ends at a public Showcase, and the numbers follow. The first published results come with the fall cycle."
+      }
+    ]
+  },
+  "with": {
+    "kicker": "Who we work with",
+    "title": "Libraries, employers and governments.",
+    "body": "Every Lab lives in a public library. Employers run Build Cycles inside and lend their experts. Governments fund and adopt what works. Each starts with a conversation.",
+    "cta": "Partner with us"
+  },
+  "contact": {
+    "kicker": "Contact",
+    "title": "Talk to a person.",
+    "body": "Questions, press, a problem to bring, or a city that should have a Lab: write to us and someone will answer.",
+    "cta": "Contact us",
+    "href": "contact",
+    "donate": "Support The Labs"
+  },
+  "join": {
+    "title": "Come and see.",
+    "lede": "The quickest way to know what this is: come to a workshop. Make your free account, and you'll see what's on near you.",
+    "cta": "Join The Labs"
+  }
+}

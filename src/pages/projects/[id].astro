@@ -1,0 +1,43 @@
+---
+/* /projects/<id>/ — one project: what it is, who made it (named only with
+   consent), the problem, the cycle, the code and the Showcase recording. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref } from "../../lib/nav";
+import p from "../../../content/site/projects.json";
+
+export async function getStaticPaths() {
+  return (await getCollection("projects")).map((x) => ({ params: { id: x.id }, props: { x } }));
+}
+const { x } = Astro.props;
+const cycle = x.data.cycle ? (await getCollection("cycles")).find((c) => c.id === x.data.cycle) : undefined;
+const problem = x.data.problem ? (await getCollection("problems")).find((c) => c.id === x.data.problem) : undefined;
+const status = p.project.status as Record<string, string>;
+---
+<Site title={`${x.data.title} · The Upskilling Labs`} description={x.data.summary} bodyClass="pg">
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="pg-crumb"><a href={u("/projects/")}>← {p.title}</a></p>
+        <p class="kicker rise">{p.project.kicker} · {status[x.data.status]}</p>
+        <h1 class="rise d1">{x.data.title}</h1>
+        <p class="lede rise d2">{x.data.summary}</p>
+        <dl class="pg-facts rise d3">
+          {x.data.team.length > 0 && <div><dt>{p.project.team}</dt><dd>{x.data.team.map((t, i) => <>{i > 0 && ", "}{t.handle ? <a href={u(`/people/${t.handle}/`)}>{t.name}</a> : t.name}</>)}</dd></div>}
+          {problem && <div><dt>{p.project.problem}</dt><dd><a href={u(`/problems/${problem.id}/`)}>{problem.data.title}</a></dd></div>}
+          {cycle && <div><dt>{p.project.cycle}</dt><dd><a href={u(`/build-cycles/${cycle.id}/`)}>{cycle.data.title}</a></dd></div>}
+          {x.data.repo && <div><dt>{p.project.repo}</dt><dd><a href={x.data.repo}>{new URL(x.data.repo).hostname}</a></dd></div>}
+          {x.data.recording && <div><dt>{p.project.recording}</dt><dd><a href={x.data.recording}>{new URL(x.data.recording).hostname}</a></dd></div>}
+        </dl>
+      </section>
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{p.join.title}</h2>
+          <p class="lede">{p.join.lede}</p>
+          <div class="row"><a class="btn" href={joinHref("build")}>{p.join.cta}</a></div>
+        </div>
+      </section>
+    </main>
+</Site>

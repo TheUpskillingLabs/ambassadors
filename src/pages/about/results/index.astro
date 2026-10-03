@@ -1,0 +1,23 @@
+---
+/* /about/results/ — results. A draft, unlinked, until the first published
+   numbers (the fall cycle's). */
+import Site from "../../../layouts/Site.astro";
+import "../../../styles/page.css";
+import { u } from "../../../lib/url";
+import r from "../../../../content/site/about-results.json";
+---
+<Site title={`${r.title} · The Upskilling Labs`} description={r.description} bodyClass="pg" note={r.placeholder ? "[PLACEHOLDER] Draft: the first published results come with the fall cycle." : undefined}>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="pg-crumb"><a href={u("/about/")}>← About</a></p>
+        <p class="kicker rise">{r.hero.kicker}</p>
+        <h1 class="rise d1">{r.hero.title}</h1>
+        <p class="lede rise d2">{r.hero.lede}</p>
+      </section>
+      <section id="numbers" class="pg-sec">
+        <p class="pg-empty">{r.empty}</p>
+        <p class="pg-fine"><a class="textlink" href={u("/projects/")}>{r.more} →</a></p>
+      </section>
+    </main>
+</Site>
