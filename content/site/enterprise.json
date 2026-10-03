@@ -1,0 +1,170 @@
+{
+  "$comment": "/enterprise/ — For enterprise: a sales page for companies, leading with in-house cycles (Brendan, Oct 2, 2026: lead with running it in-house; the story is an org chart that rewires into a network; called For enterprise). The story's scenes play over the org-chart world (src/scripts/orgworld.ts); the sales sections follow. In-house cycles, the platform instance and what stays the company's are proposals, so the page is a draft (placeholder: true) and unlisted (noindex). Its one action is a conversation, like For government.",
+  "placeholder": true,
+  "title": "For enterprise",
+  "description": "The Labs puts people from across your company on a real problem for twelve weeks. They frame it, build it and teach it back, and the whole company gets better at the work.",
+  "nav": {
+    "brand": "For enterprise",
+    "story": "How it works",
+    "offer": "In-house cycles",
+    "ways": "Other ways in",
+    "faq": "Questions",
+    "home": "The Labs",
+    "cta": "Talk to us",
+    "ctaShort": "Talk to us",
+    "menu": "Menu",
+    "menuClose": "Close menu"
+  },
+  "hero": {
+    "kicker": "For enterprise",
+    "title": "Your best team isn't on the org chart.",
+    "lede": "The Labs puts people from across your company on a real problem for twelve weeks. They frame it, build it and teach it back, and the whole company gets better at the work.",
+    "cta": "Talk to us",
+    "more": "See how it works",
+    "skip": "Skip to the offer"
+  },
+  "story": {
+    "$comment": "One scene per idea, after the hero; each plays in the world as you scroll (the hero is scene 0). Keep each to a kicker, a title and one or two sentences.",
+    "alt": "An org chart of five departments. People from across it gather around a problem, form teams with Mentors from outside, build, teach what they learned, and the chart rewires into a network that joins the wider network of Labs.",
+    "pause": "Pause",
+    "play": "Play",
+    "pauseLabel": "Pause the animation",
+    "playLabel": "Play the animation",
+    "scenes": [
+      {
+        "kicker": "The problem",
+        "title": "Work is changing faster than any org chart.",
+        "body": "The problems that matter most don't sit in one department. Neither do the people who could solve them."
+      },
+      {
+        "kicker": "Week one",
+        "title": "Strangers become a Pod.",
+        "body": "Nine or more people from every function gather around one of your problem situations: a real, messy problem nobody owns yet."
+      },
+      {
+        "kicker": "Teams",
+        "title": "Teams form around what they propose.",
+        "body": "As the Pod reframes the problem, teams of three to five form around the ideas worth building. Mentors from The Labs' community join them: people from outside your walls who've done this before."
+      },
+      {
+        "kicker": "Building",
+        "title": "Every obstacle becomes a workshop.",
+        "body": "Each team builds a working first version. When one hits a wall, a Mentor helps them over it, then turns it into a workshop so the next team doesn't hit the same one."
+      },
+      {
+        "kicker": "Teaching",
+        "title": "Then they teach it.",
+        "body": "Everyone teaches one workshop on a skill their team needed. What a dozen people learned reaches everyone they work with."
+      },
+      {
+        "kicker": "Twelve weeks on",
+        "title": "The org chart stays. The silos don't.",
+        "body": "People who'd never met now work across the lines, and they can frame a problem, form a team and build again, without us."
+      },
+      {
+        "kicker": "The network",
+        "title": "Part of something bigger.",
+        "body": "Your cycles run on the same open method Labs run at public libraries, city by city. The best of every Lab reaches you, and what your people improve goes back to everyone."
+      }
+    ]
+  },
+  "model": {
+    "$comment": "Words drawn in the world (src/scripts/orgworld.ts). Small, so keep them short.",
+    "top": "Leadership",
+    "departments": ["Operations", "Product", "Finance", "People", "Sales"],
+    "problem": "Problem situation",
+    "mentor": "Mentor",
+    "company": "Your company",
+    "labs": "Labs at public libraries",
+    "commons": "The open playbooks"
+  },
+  "offer": {
+    "kicker": "In-house cycles",
+    "draft": "Draft offer",
+    "title": "Bring The Labs inside.",
+    "lede": "A Build Cycle for your company, on your problems, run by people you train.",
+    "items": [
+      { "title": "Twelve weeks on your problems", "body": "Your people, from every function, in Pods and teams, through to a Showcase for your leadership." },
+      { "title": "Facilitators you grow", "body": "Your people train as Poderators, run their first cycle beside ours, and earn the role by doing it well." },
+      { "title": "Mentors from outside", "body": "People who do the work, from The Labs' community, there when a team gets stuck." },
+      { "title": "Your own platform", "body": "Cycles run on your own instance of the open platform, so your data stays with you." },
+      { "title": "Every playbook", "body": "The workshops and guides every Lab uses, free, and better every cycle." },
+      { "title": "Proof you can check", "body": "Every contribution is credited by name, so you see who did what, not just who attended." }
+    ],
+    "cta": "Talk to us about an in-house cycle"
+  },
+  "gets": {
+    "kicker": "What your company gets",
+    "title": "Capability you can see.",
+    "items": [
+      { "title": "People who frame problems", "body": "Not just solve the one they're handed." },
+      { "title": "Teams across the lines", "body": "Working relationships that outlast the cycle." },
+      { "title": "Proof, not completion", "body": "Credited work you can look at, instead of a certificate." },
+      { "title": "A method you keep", "body": "Open source, with no lock-in. Run it again whenever you like." }
+    ]
+  },
+  "ways": {
+    "kicker": "Other ways in",
+    "title": "Start smaller.",
+    "lede": "Not ready for a cycle of your own? Work with the open programme first.",
+    "items": [
+      { "title": "Lend your experts", "body": "Skills-based volunteering that counts: your people mentor teams for a single workshop or a whole cycle." },
+      { "title": "Send your people", "body": "Your people join the open cycle at the public library, beside career changers and neighbours." },
+      { "title": "Sponsor a sector cohort", "body": "Bring your industry's shared problems, and a cohort takes them on in the open." },
+      { "title": "Help a city open a Lab", "body": "Fund the workshops and the first cycle where your people live and work." }
+    ]
+  },
+  "isnt": {
+    "kicker": "Plainly",
+    "title": "What it isn't.",
+    "items": [
+      { "title": "Not consulting.", "body": "Your people do the work, and keep the skills." },
+      { "title": "Not a finished product.", "body": "Twelve weeks makes a working first version, not a launch." },
+      { "title": "Not a training catalogue.", "body": "People learn by building, with workshops when they need them." },
+      { "title": "Not only about AI.", "body": "AI is part of the work. Framing, teaming and teaching are the rest." }
+    ]
+  },
+  "started": {
+    "kicker": "Where it started",
+    "title": "Built by people who had to.",
+    "body": "In fall 2025, fifty former federal workers met at DC Public Library to work out their next move together. From that group came The Labs, so anyone could do the same.",
+    "results": {
+      "title": "Our results are public, like our code.",
+      "body": "Every cycle, we publish who took part, what they made and where they went next."
+    },
+    "press": "In the press: Technical.ly, February 2026.",
+    "pressHref": "https://technical.ly/civics/dc-public-library-chelsea-kirkland-how-i-got-here/"
+  },
+  "faq": {
+    "kicker": "Questions",
+    "title": "What buyers ask.",
+    "items": [
+      { "q": "Who owns what our teams make?", "a": "In an in-house cycle, what your teams make on your problems is yours. What they learn about the method, a better workshop or a sharper guide, goes back to the open playbooks, so every Lab gets better." },
+      { "q": "How much of our people's time does it take?", "a": "Twelve weeks, busiest at the start and the end and steady in between. We'll plan it around the work they already do." },
+      { "q": "Do our people need to be technical?", "a": "No. Teams mix every function, and people learn what they need by building." },
+      { "q": "Where does our data live?", "a": "Your cycles run on your own instance of the platform, so your people's details and your problems stay with you." },
+      { "q": "What happens when the cycle ends?", "a": "Your facilitators can run the next one, the projects keep going, and your people keep teaching what they learned." },
+      { "q": "What does it cost?", "a": "We'll scope it with you. The open programme and the playbooks are free." }
+    ]
+  },
+  "start": {
+    "kicker": "How to start",
+    "title": "Three steps to your first cycle.",
+    "steps": [
+      { "title": "Tell us the problems", "body": "Two or three problem situations you'd put your best team on, if you had one." },
+      { "title": "Shape it together", "body": "Who takes part, who trains to facilitate, and when the Showcase is." },
+      { "title": "Start the cycle", "body": "Pods form in week one, and twelve weeks later your teams show what they built." }
+    ],
+    "note": "One person on your side owns the problems and the Showcase."
+  },
+  "join": {
+    "title": "Put your best team on it.",
+    "lede": "Tell us the problems you'd give them. We'll shape the rest with you.",
+    "cta": "Talk to us",
+    "residents": "Here for yourself? Join The Labs: it's free."
+  },
+  "footer": {
+    "home": "The Upskilling Labs",
+    "draft": "Draft for review: in-house cycles, the platform instance and what stays yours are proposals, still to be confirmed."
+  }
+}

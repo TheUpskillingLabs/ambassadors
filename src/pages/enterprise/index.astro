@@ -1,0 +1,339 @@
+---
+/* /enterprise/ — For enterprise: a sales page for companies, leading with
+   in-house cycles. Unlisted draft (noindex), linked from the home page's footer.
+
+   It opens on its own world (src/scripts/orgworld.ts): an org chart that
+   rewires into a network as you scroll, told in seven scenes after the hero
+   (the problem, a Pod from every department, teams with Mentors from outside,
+   building, teaching back, the chart rewired, and the company as one node in
+   the wider network of Labs). On a wide screen the world fills the screen with
+   the words in a column on the left; on a portrait screen the world holds the
+   top half and the words scroll up beneath it. Then the sales sections: the
+   in-house offer, what a company gets, other ways in, what it isn't, where it
+   started, questions, how to start, and the one action: a conversation (like
+   For government; companies don't start with an account).
+
+   The look is the program page's (join.css) with this page's layout in
+   enterprise.css, reusing For government's numbered rows (government.css).
+   Copy lives in content/site/enterprise.json. */
+import "@fontsource-variable/geologica/wght.css";
+import "../../styles/join.css";
+import "../../styles/government.css";
+import "../../styles/enterprise.css";
+import { u } from "../../lib/url";
+import e from "../../../content/site/enterprise.json";
+import h from "../../../content/site/home.json";
+
+const L = h.links;
+const home = u("/");
+const poster = u("/enterprise/poster.webp");
+const quotes = h.journey.showcase.quotes;
+const pageTitle = `${e.title} · The Upskilling Labs`;
+const nos = ["01", "02", "03", "04", "05", "06"];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={e.description} />
+    <meta name="theme-color" content="#00141B" />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={e.description} />
+    <meta property="og:image" content={new URL(u("/enterprise/share.jpg"), Astro.site)} />
+    <script is:inline>document.documentElement.dataset.menu = "";</script>
+    <link rel="icon" href={u("/favicon.png")} type="image/png" />
+  </head>
+  <body class="jp gv en">
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="jp-head" data-head>
+      <nav aria-label={e.nav.brand}>
+        <a class="jp-brand" href={home}>
+          <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
+          <span class="wide-only">{e.nav.brand}</span>
+        </a>
+        <ul class="jp-links" id="jp-menu">
+          <li><a class="navlink" href="#s1" data-spy="story">{e.nav.story}</a></li>
+          <li><a class="navlink" href="#offer" data-spy="offer gets">{e.nav.offer}</a></li>
+          <li><a class="navlink" href="#ways" data-spy="ways isnt started">{e.nav.ways}</a></li>
+          <li><a class="navlink" href="#faq" data-spy="faq start">{e.nav.faq}</a></li>
+          <li class="menu-only"><a class="navlink" href={home}>{e.nav.home}</a></li>
+        </ul>
+        <div class="jp-end">
+          <a class="btn" href={L.contact} data-head-cta><span class="wide-only">{e.nav.cta}</span><span class="narrow-only">{e.nav.ctaShort}</span></a>
+          <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={e.nav.menu} data-menu-btn data-label-open={e.nav.menu} data-label-close={e.nav.menuClose}><span></span><span></span><span></span></button>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <!-- The story: the world held on screen while the scenes scroll past it. -->
+      <section id="story" class="en-story">
+        <div class="en-stage" data-stage role="img" aria-label={e.story.alt}>
+          <img class="en-poster" src={poster} alt="" width="1600" height="1000" fetchpriority="high" />
+          <canvas aria-hidden="true" data-world></canvas>
+          <button class="en-pause" type="button" hidden data-pause data-pause-label={e.story.pauseLabel} data-play-label={e.story.playLabel} aria-label={e.story.pauseLabel}>
+            <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M3 1.5v9M9 1.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round" /><path class="i-play" d="M3 1.5 10.5 6 3 10.5z" fill="currentColor" /></svg>
+            <span data-pause-text data-text-pause={e.story.pause} data-text-play={e.story.play}>{e.story.pause}</span>
+          </button>
+        </div>
+
+        <div class="en-scenes">
+        <div class="en-scene en-hero" data-scene>
+          <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+          <div class="en-copy">
+            <p class="kicker rise">{e.hero.kicker}</p>
+            <h1 class="rise d1">{e.hero.title}</h1>
+            <p class="lede rise d2">{e.hero.lede}</p>
+            <div class="gv-ctas rise d3">
+              <a class="btn" href={L.contact}>{e.hero.cta}</a>
+              <a class="ghost" href="#s1">{e.hero.more}<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5v11M2.5 8 7 12.5 11.5 8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+            </div>
+            <p class="en-skip rise d3"><a class="textlink" href="#offer">{e.hero.skip} →</a></p>
+          </div>
+        </div>
+
+        {e.story.scenes.map((s, i) => (
+          <div class="en-scene" id={`s${i + 1}`} data-scene>
+            <div class="en-copy">
+              <p class="kicker">{s.kicker}</p>
+              <h2 class="en-h">{s.title}</h2>
+              <p class="en-body">{s.body}</p>
+            </div>
+          </div>
+        ))}
+        </div>
+      </section>
+
+      <!-- The offer: an in-house cycle, what's in it. -->
+      <section id="offer" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{e.offer.kicker}{e.placeholder && <span class="en-draft">{e.offer.draft}</span>}</p>
+            <h2 class="h2">{e.offer.title}</h2>
+            <p class="lede">{e.offer.lede}</p>
+          </div>
+          <ul class="en-offer reveal">
+            {e.offer.items.map((it) => <li><h3>{it.title}</h3><p>{it.body}</p></li>)}
+          </ul>
+          <div class="en-cta reveal"><a class="btn" href={L.contact}>{e.offer.cta}</a></div>
+        </div>
+      </section>
+
+      <!-- What a company gets. -->
+      <section id="gets" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{e.gets.kicker}</p>
+            <h2 class="h2 gv-h2-mid">{e.gets.title}</h2>
+          </div>
+          <ul class="en-gets reveal">
+            {e.gets.items.map((it) => <li><h3>{it.title}</h3><p>{it.body}</p></li>)}
+          </ul>
+        </div>
+      </section>
+
+      <!-- Other ways in, with the open programme. -->
+      <section id="ways" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{e.ways.kicker}</p>
+            <h2 class="h2">{e.ways.title}</h2>
+            <p class="lede">{e.ways.lede}</p>
+          </div>
+          <ol class="gv-options reveal">
+            {e.ways.items.map((it, i) => <li><span class="n">{nos[i]}</span><h3>{it.title}</h3><p>{it.body}</p></li>)}
+          </ol>
+        </div>
+      </section>
+
+      <!-- What it isn't. -->
+      <section id="isnt" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{e.isnt.kicker}</p>
+            <h2 class="h2 gv-h2-mid">{e.isnt.title}</h2>
+          </div>
+          <ul class="en-isnt reveal">
+            {e.isnt.items.map((it) => <li><b>{it.title}</b> <span>{it.body}</span></li>)}
+          </ul>
+        </div>
+      </section>
+
+      <!-- Where it started: the first cohort, in their words; results in the open. -->
+      <section id="started" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{e.started.kicker}</p>
+            <h2 class="h2 gv-h2-mid">{e.started.title}</h2>
+            <p class="lede">{e.started.body}</p>
+          </div>
+          <div class="en-quotes reveal">
+            {quotes.map((q) => (
+              <figure>
+                <blockquote>{q.quote}</blockquote>
+                <figcaption><img src={u(`/home/${q.photo}.webp`)} alt="" width="56" height="56" loading="lazy" /><span><b>{q.name}</b>{q.role}</span></figcaption>
+              </figure>
+            ))}
+          </div>
+          <div class="gv-results reveal">
+            <h3>{e.started.results.title}</h3>
+            <p>{e.started.results.body}</p>
+          </div>
+          <p class="gv-press reveal"><a class="textlink" href={e.started.pressHref}>{e.started.press} →</a></p>
+        </div>
+      </section>
+
+      <!-- Questions buyers ask. -->
+      <section id="faq" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{e.faq.kicker}</p>
+            <h2 class="h2">{e.faq.title}</h2>
+          </div>
+          <div class="jp-faq reveal">
+            {e.faq.items.map((f) => (
+              <details>
+                <summary><span>{f.q}</span><i aria-hidden="true"></i></summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="start" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{e.start.kicker}</p>
+            <h2 class="h2">{e.start.title}</h2>
+          </div>
+          <ol class="jp-steps reveal">
+            {e.start.steps.map((s, i) => (
+              <li class:list={{ milestone: i === e.start.steps.length - 1 }}><span class="n">{nos[i]}</span><h3>{s.title}</h3><p>{s.body}</p></li>
+            ))}
+          </ol>
+          <p class="gv-note reveal">{e.start.note}</p>
+        </div>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{e.join.title}</h2>
+          <p class="lede">{e.join.lede}</p>
+          <div class="row">
+            <a class="btn" href={L.contact}>{e.join.cta}</a>
+            <a class="textlink" href={L.join}>{e.join.residents} →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="jp-foot">
+      <div class="wrap">
+        <div class="col">
+          <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
+          <p>{h.footer.legal}</p>
+          <p>{h.footer.rights} · {h.footer.license}</p>
+          <p><a class="textlink" href={home}>{e.footer.home} →</a></p>
+          {e.placeholder && <p class="ph">{e.footer.draft}</p>}
+        </div>
+      </div>
+    </footer>
+
+    <script is:inline define:vars={{ model: e.model }}>window.__orgLabels = model;</script>
+    <script>
+      import { initMenu } from "../../scripts/navmenu";
+      import { mountOrgWorld, type OrgLabels } from "../../scripts/orgworld";
+
+      const root = document.documentElement;
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      // Compact once you scroll; the header's button steps aside while the closing one is on screen.
+      new IntersectionObserver(([en]) => { root.dataset.scrolled = String(!en.isIntersecting); })
+        .observe(document.querySelector("[data-top-sentinel]")!);
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([en]) => {
+        head.classList.toggle("cta-off", en.isIntersecting);
+        cta.tabIndex = en.isIntersecting ? -1 : 0;
+      }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+      initMenu();
+
+      // The world: the scroll sets which scene it's in; the words fade in as they reach the reading line.
+      const stage = document.querySelector<HTMLElement>("[data-stage]")!;
+      const canvas = stage.querySelector<HTMLCanvasElement>("[data-world]")!;
+      const scenes = [...document.querySelectorAll<HTMLElement>("[data-scene]")];
+      const portrait = matchMedia("(max-aspect-ratio: 1/1)");
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const fixedParam = new URLSearchParams(location.search).get("world");
+      const fixed = fixedParam !== null && fixedParam !== "" ? Number(fixedParam) : undefined;
+      let centers: number[] = [];
+      const measure = () => { centers = scenes.map((el) => { const r = el.getBoundingClientRect(); return r.top + scrollY + r.height / 2; }); };
+      const line = () => scrollY + innerHeight * (portrait.matches ? 0.74 : 0.5);
+      const progress = () => {
+        const y = line();
+        if (!centers.length || y <= centers[0]) return 0;
+        for (let i = 0; i < centers.length - 1; i++) if (y < centers[i + 1]) return i + (y - centers[i]) / (centers[i + 1] - centers[i]);
+        return centers.length - 1;
+      };
+      const smooth = (x: number) => { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); };
+
+      let world: ReturnType<typeof mountOrgWorld> | null = null;
+      try {
+        if (canvas.getContext("2d")) {
+          world = mountOrgWorld(canvas, (window as unknown as { __orgLabels: OrgLabels }).__orgLabels, { still: reduce, fixed });
+          stage.classList.add("live");
+        }
+      } catch { world = null; }
+
+      let queued = false;
+      const update = () => {
+        queued = false;
+        world?.setProgress(progress());
+        const y = line(), span = innerHeight * (portrait.matches ? 0.5 : 0.34);
+        scenes.forEach((el, i) => {
+          const o = 1 - smooth((Math.abs(centers[i] - y) - innerHeight * 0.16) / span);
+          el.style.setProperty("--o", o.toFixed(3));
+        });
+        spy();
+      };
+      const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+      addEventListener("scroll", queue, { passive: true });
+      addEventListener("resize", () => { measure(); queue(); });
+      portrait.addEventListener("change", () => { measure(); world?.resize(); queue(); });
+      addEventListener("load", () => { measure(); queue(); });
+      document.fonts?.ready.then(() => { measure(); queue(); });
+
+      // Pause: the world's drift stops (the scroll still moves it). Not with reduced motion, where it doesn't drift.
+      const pause = stage.querySelector<HTMLButtonElement>("[data-pause]")!;
+      if (world && !reduce && fixed === undefined) {
+        pause.hidden = false;
+        const label = pause.querySelector<HTMLElement>("[data-pause-text]")!;
+        pause.addEventListener("click", () => {
+          const now = !world!.paused();
+          if (now) world!.pause(); else world!.play();
+          pause.classList.toggle("is-paused", now);
+          pause.setAttribute("aria-label", now ? pause.dataset.playLabel! : pause.dataset.pauseLabel!);
+          label.textContent = now ? label.dataset.textPlay! : label.dataset.textPause!;
+        });
+      }
+
+      // The section in view is marked in the nav.
+      const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
+      const order = ["story", "offer", "gets", "ways", "isnt", "started", "faq", "start", "join"].map((id) => document.getElementById(id)!);
+      function spy() {
+        const at = innerHeight * 0.35;
+        const current = order.filter((el) => el.getBoundingClientRect().top <= at).pop()?.id ?? "";
+        const inStory = current === "story" && progress() >= 0.5;
+        links.forEach((a) => {
+          const ids = a.dataset.spy!.split(" ");
+          const on = ids.includes(current) && (current !== "story" || inStory);
+          if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
+        });
+      }
+      measure(); update();
+    </script>
+  </body>
+</html>
