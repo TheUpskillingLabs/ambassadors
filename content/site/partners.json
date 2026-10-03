@@ -1,6 +1,14 @@
 {
   "$comment": "/partners/ — Partner with us: the hub behind the header's utility link, with a door for each kind of institution. Libraries and funders are coming (design/information-architecture, the project doc); until then the hub lists the two pages there are. Its one action, like theirs, is a conversation.",
   "placeholder": false,
+  "meta": {
+    "route": "/partners/",
+    "need": "As someone from an institution, I need to find the right way to work with The Labs, so that I can start a conversation.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
   "title": "Partner with us",
   "description": "The Labs works with governments, employers and the places people meet. Here's how, and who to talk to.",
   "hero": {

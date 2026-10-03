@@ -26,6 +26,9 @@ const L = h.links;
 const art = u("/join/hub-poster.webp");
 const pageTitle = `${g.title} · The Upskilling Labs`;
 const nos = ["01", "02", "03", "04", "05"];
+// Empty until the first cohort's projects and the first numbers are in (JSON types an empty list as never[]).
+const projects = g.started.projects as { name: string; body: string }[];
+const stats = g.started.results.stats as { n: string; label: string }[];
 const local = [
   { label: g.nav.frame, href: "#frame", spy: "frame" },
   { label: g.nav.how, href: "#how", spy: "where how better" },
@@ -149,16 +152,16 @@ const local = [
             <h2 class="h2 gv-h2-mid">{g.started.title}</h2>
             <p class="lede">{g.started.body}</p>
           </div>
-          <div class="gv-made reveal">
+          {projects.length > 0 && <div class="gv-made reveal">
             <p class="kicker">{g.started.projectsLabel}</p>
-            <ul>{g.started.projects.map((pr) => <li><b>{pr.name}</b><span>{pr.body}</span></li>)}</ul>
-          </div>
+            <ul>{projects.map((pr) => <li><b>{pr.name}</b><span>{pr.body}</span></li>)}</ul>
+          </div>}
           <div class="gv-results reveal">
             <h3>{g.started.results.title}</h3>
             <p>{g.started.results.body}</p>
-            <dl class="gv-stats">
-              {g.started.results.stats.map((st) => <div><dt>{st.n}</dt><dd>{st.label}</dd></div>)}
-            </dl>
+            {stats.length > 0 && <dl class="gv-stats">
+              {stats.map((st) => <div><dt>{st.n}</dt><dd>{st.label}</dd></div>)}
+            </dl>}
             <p class="gv-note">{g.started.results.note}</p>
           </div>
           <p class="gv-press reveal"><a class="textlink" href={g.started.pressHref}>{g.started.press} →</a></p>

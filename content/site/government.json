@@ -1,6 +1,14 @@
 {
   "$comment": "For government (/government/): what a government can do with or through The Labs. Unlisted draft (noindex), linked from the home page's footer. Written for the people who decide (workforce boards, economic development, agencies, library systems), a line at a time. The frame is work, wages, wealth in The Labs' own meaning: work in Arendt's sense (making something that lasts, as against labor that's used up), wages make it a job, wealth makes the labor of a job mean something. The model: free workshops (the competencies people need as work changes; digital and AI skills are one part), the open cycle anyone can join as a contributor at any time (with set windows for problem situations and proposals), and sector cohorts, by application, inside it. Sector cohorts are the main thing a government sponsors. Against RAISE US (see the project doc competition-raise-us.md), the page is the ground layer: where residents actually show up, radically open to contributions, curated by what works in practice, with delivery earned against a common standard (in design) and results published each cycle (placeholders until the fall numbers). 'Digital opportunity' is how the page speaks to digital-equity programs and funders. Don't use 'lighthouse sectors' (Governor Moore's term). The one action is a conversation, not the account: procurement staff don't make accounts. Research behind it: the project doc government-options-research.md.",
   "placeholder": true,
+  "meta": {
+    "route": "/government/",
+    "need": "As someone who decides for a government, I need the model, the proof and the steps, so that I can start a conversation.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
   "title": "For government",
   "description": "Free workshops and team projects where people learn by working on your region's real problems. Everything they make is open source, free for residents, communities, businesses, institutions and the city itself to use.",
   "nav": {
@@ -124,34 +132,14 @@
     "title": "Built by the people it was for.",
     "body": "In fall 2025, fifty former federal workers met at DC Public Library to work out their next move together. From that group came The Labs, so anyone could do the same.",
     "projectsLabel": "What the first cohort made",
-    "projects": [
-      {
-        "name": "[Project]",
-        "body": "[One line on what it does and who it's for.]"
-      },
-      {
-        "name": "[Project]",
-        "body": "[One line on what it does and who it's for.]"
-      }
-    ],
+    "$comment": "The first cohort's projects go here once they're captured at the Oct 13 Showcase, with consent, each as { name, body }; the block is hidden while the list is empty.",
+    "projects": [],
     "results": {
       "title": "Our results are public, like our code.",
       "body": "The numbers that decide what we keep are published every cycle: who took part, what they made, and where they went next.",
-      "stats": [
-        {
-          "n": "[N]",
-          "label": "people took part"
-        },
-        {
-          "n": "[N]",
-          "label": "projects shown at the Showcase"
-        },
-        {
-          "n": "[N]",
-          "label": "went on to new work or better pay"
-        }
-      ],
-      "note": "Placeholder figures: the first published numbers come with the fall cycle."
+      "$comment": "The stats (people took part; projects shown at the Showcase; went on to new work or better pay) go here once the first numbers are published, each as { n, label }. Until then the list is empty and the note says when.",
+      "stats": [],
+      "note": "The first published numbers come with the fall cycle."
     },
     "press": "In the press: Technical.ly, February 2026.",
     "pressHref": "https://technical.ly/civics/dc-public-library-chelsea-kirkland-how-i-got-here/"

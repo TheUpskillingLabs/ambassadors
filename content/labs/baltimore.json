@@ -1,0 +1,14 @@
+{
+  "$comment": "A city on the list (a snapshot from the live site). Counts this low are never shown as a number: the page says to be the first on the list.",
+  "name": "Baltimore",
+  "city": "Baltimore, MD",
+  "region": "MD",
+  "stage": "list",
+  "waiting": 1,
+  "meta": {
+    "owner": "lab",
+    "review": "2026-10-20",
+    "status": "live",
+    "source": "theupskillinglabs.org/local-labs, read Oct 3, 2026"
+  }
+}
