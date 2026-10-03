@@ -1,0 +1,53 @@
+---
+/* /labs/start/ — Start a Lab: the requirements up front, what you bring and
+   what The Labs brings, the stages, and one first step: the account, with
+   path=start-a-lab. Copy in content/site/labs.json (startPage). */
+import Site from "../../../layouts/Site.astro";
+import "../../../styles/page.css";
+import { u } from "../../../lib/url";
+import { joinHref } from "../../../lib/nav";
+import L from "../../../../content/site/labs.json";
+
+const s = L.startPage;
+const local = [
+  { label: s.bring.kicker, href: "#bring", spy: "bring" },
+  { label: s.stages.kicker, href: "#stages", spy: "stages" },
+];
+---
+<Site title={`${s.title} · The Upskilling Labs`} description={s.description} bodyClass="pg" local={local}>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="pg-crumb"><a href={u("/labs/")}>← {L.lab.back}</a></p>
+        <p class="kicker rise">{s.hero.kicker}</p>
+        <h1 class="rise d1">{s.hero.title}</h1>
+        <p class="lede rise d2">{s.hero.lede}</p>
+      </section>
+      <section id="bring" class="pg-sec">
+        <p class="kicker">{s.bring.kicker}</p>
+        <h2 class="h2">{s.bring.title}</h2>
+        <div class="pg-two">
+          <div><h3>{s.bring.you.title}</h3><ul>{s.bring.you.items.map((i) => <li>{i}</li>)}</ul></div>
+          <div><h3>{s.bring.we.title}</h3><ul>{s.bring.we.items.map((i) => <li>{i}</li>)}</ul></div>
+        </div>
+      </section>
+      <section id="stages" class="pg-sec">
+        <p class="kicker">{s.stages.kicker}</p>
+        <h2 class="h2">{s.stages.title}</h2>
+        <ol class="pg-steps">{s.stages.items.map((st) => <li><h3>{st.title}</h3><p>{st.body}</p></li>)}</ol>
+        <p class="pg-fine">{s.stages.early}</p>
+      </section>
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{s.join.title}</h2>
+          <p class="lede">{s.join.lede}</p>
+          <div class="row"><a class="btn" href={joinHref("start-a-lab")}>{s.join.cta}</a></div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => { head.classList.toggle("cta-off", e.isIntersecting); cta.tabIndex = e.isIntersecting ? -1 : 0; }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>

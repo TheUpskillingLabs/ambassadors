@@ -1,0 +1,60 @@
+{
+  "$comment": "/workshops/ — Learn, the owner page for workshops: what they are, what's coming up (from content/events, decided by the clock), what they're like, and the one action, the account. Most of the words are the home page's Learn scenes, said in one place.",
+  "placeholder": false,
+  "meta": {
+    "route": "/workshops/",
+    "need": "As someone who wants to learn something useful soon, I need to know what the workshops are, when the next ones are and what they ask of me, so that I can come to one.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
+  "title": "Workshops",
+  "description": "Free, hands-on workshops at your local public library, and some online, on the skills that matter at work right now. No application, no experience needed. Anyone can come.",
+  "hero": {
+    "kicker": "Learn",
+    "title": "Get sharp, in good company.",
+    "lede": "Free workshops at your local public library, and some online, on the skills that matter at work right now. No application, no experience needed. Anyone can come.",
+    "spec": ["Free", "In person, some online", "Twice a week", "Open to anyone"]
+  },
+  "coming": {
+    "kicker": "Coming up",
+    "title": "Pick one and come along.",
+    "all": "Every workshop and event",
+    "empty": "Nothing is on the calendar right now. Join, and you'll hear the moment the next one is."
+  },
+  "like": {
+    "kicker": "What they're like",
+    "title": "Hands-on, with people at every level.",
+    "items": [
+      { "title": "Skills that last", "body": "Communicating, telling a story, framing a problem well." },
+      { "title": "Using AI well", "body": "What the tools can and can't do, getting good answers, and building simple apps and agents." },
+      { "title": "Made by the people here", "body": "Mentors build each workshop around what a team ran into. What works is kept and shared with every Lab." }
+    ],
+    "note": "Come once, or every week."
+  },
+  "how": {
+    "kicker": "How it works",
+    "title": "Drop in.",
+    "steps": [
+      { "title": "Make your free account", "body": "It takes a minute, and it shows you what's on near you." },
+      { "title": "Pick a session", "body": "Save your seat from your account. Nothing to apply for." },
+      { "title": "Come along", "body": "Bring a laptop if you have one. The people there will help with the rest." }
+    ]
+  },
+  "know": {
+    "kicker": "Good to know",
+    "items": [
+      { "title": "No lectures.", "body": "You'll do the thing, with help beside you." },
+      { "title": "No experience needed.", "body": "Every session starts from where the room is." },
+      { "title": "Free, always.", "body": "Nothing to buy, now or later." },
+      { "title": "It leads somewhere.", "body": "Workshops are where most people start, and where Mentors do too." }
+    ]
+  },
+  "join": {
+    "title": "Come to one this week.",
+    "lede": "Make your free account, and you'll see what's on near you.",
+    "cta": "Join The Labs",
+    "next": "Then: a workshop, or the next Build Cycle."
+  }
+}
