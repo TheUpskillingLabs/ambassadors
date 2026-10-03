@@ -30,14 +30,19 @@
 
    It's built on the role pages' system (src/styles/role.css, with home.css for
    what only this page has): ink, the teal and red glows with the grain only in
-   them, Geologica, hairline rules, teal labels. The sessions, cities and member
-   count are a snapshot in content/site/home.json; in OLOS they come from its
-   own data. Links point at the live site until then. */
+   them, Geologica, hairline rules, teal labels. Nothing dated is written here:
+   what's coming up, the cities and the cycle's state are read from
+   content/events, content/labs and content/cycles (the site rebuilds daily),
+   and each scene with an owner page (Workshops, Build Cycles, Find a Lab,
+   Start a Lab, the Contributor Community) carries a quiet link to it. */
 import Site from "../layouts/Site.astro";
 import "../styles/role.css";
 import "../styles/home.css";
+import { getCollection } from "astro:content";
 import { u } from "../lib/url";
 import { joinHref } from "../lib/nav";
+import { upcoming, formatEvent, currentCycle, cycleState } from "../lib/dates";
+import { fill, byStage, labLine, stageWord } from "../lib/takepart";
 import h from "../../content/site/home.json";
 import HomeScene from "../components/HomeScene.astro";
 
@@ -51,18 +56,37 @@ const ch = h.chapters, J = h.journey, go = ch.go;
 const giveTo: Record<string, string> = { mentor: u("/mentor/"), github: L.github };
 // Share's way leads to the Contributor Community page, which explains how contributing works and where to start.
 const community = u("/contributing/");
-// The cycle's state, switched by date: open until it closes, then underway. The page sets it again as it
-// loads, so a static build never shows a stale "applications open".
-const closesAt = `${J.cycle.closes}T00:00:00-04:00`;
-const cycleState = Date.now() < Date.parse(closesAt) ? "open" : "closed";
+// What's dated comes from the collections, by the clock (src/lib/dates.ts), never from the copy.
+const now = new Date();
+const labs = (await getCollection("labs")).filter((l) => l.data.meta.status === "live").sort(byStage);
+const labById = new Map(labs.map((l) => [l.id, l]));
+const running = (l: (typeof labs)[number]) => l.data.stage === "active" || l.data.stage === "chartered";
+const joined = labs.reduce((n, l) => n + (l.data.members ?? 0), 0);
+// The cities on the home: every running Lab, then the next few gathering names (the longest lists first).
+const gathering = labs.filter((l) => !running(l)).sort((a, b) => (b.data.waiting ?? 0) - (a.data.waiting ?? 0) || byStage(a, b));
+const cities = labs.filter(running).concat(gathering).slice(0, Math.max(J.labs.show, labs.filter(running).length));
+// Under a city: where a running Lab meets; for the rest, how its list is going.
+const cityLine = (l: (typeof labs)[number]) => running(l) ? `${stageWord(l.data.stage)} · ${l.data.library}` : labLine(l);
+const next = upcoming(await getCollection("events"), now, 4);
+const where = (e: (typeof next)[number]) => e.data.online ? J.week.online : (e.data.lab && labById.get(e.data.lab)?.data.city.split(",")[0]) || e.data.place || "";
+// The cycle's state: open until it closes, underway until its Showcase, then done. The page sets it again as
+// it loads, so a static build never shows a stale "applications open".
+const cycles = (await getCollection("cycles")).filter((c) => c.data.meta.status === "live");
+const cycle = currentCycle(cycles, undefined, now);
+const state = cycle ? cycleState(cycle.data, now) : "done";
+const cycleDates = cycle ? { closes: `${cycle.data.closes}T23:59:59-04:00`, showcase: `${cycle.data.showcase}T23:59:59-04:00` } : null;
+// (The day without its year: "Fall 2026 starts October 13." says the year already.)
+const dayOf = (d: string) => new Date(`${d}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", timeZone: "UTC" });
+const cycleVars = cycle ? { title: cycle.data.title, kickoff: dayOf(cycle.data.kickoff), showcase: dayOf(cycle.data.showcase) } : { title: "", kickoff: "", showcase: "" };
+const STATES = ["open", "underway", "done"] as const;
 const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat(u("/home/suzie.webp"));
 ---
-<Site title={pageTitle} description={h.description} image={orbit("hub-share.jpg")} bodyClass="rp hm" htmlAttrs={{ "data-cycle": cycleState }} quiet brand="home" ctaOff note={h.placeholder ? "Prototype for OLOS: sessions, cities and member counts are a snapshot from Sep 29, 2026." : undefined}>
+<Site title={pageTitle} description={h.description} image={orbit("hub-share.jpg")} bodyClass="rp hm" htmlAttrs={{ "data-cycle": state }} quiet brand="home" ctaOff>
   <Fragment slot="head">
     <!-- The page opens on the logo (see the opening in src/scripts/orbnet.ts): until it's played, no poster and
          no title, so nothing shows before it. Not with reduced motion, a still, or a page opened partway down. -->
     <script is:inline>if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !/orb=(still|poster)/.test(location.search) && (!location.hash || location.hash === "#top")) { document.documentElement.dataset.intro = ""; setTimeout(() => { delete document.documentElement.dataset.intro; }, 9000); }</script>
-    <script is:inline define:vars={{ closesAt }}>document.documentElement.dataset.cycle = Date.now() < Date.parse(closesAt) ? "open" : "closed";</script>
+    <script is:inline define:vars={{ cycleDates }}>if (cycleDates) { const t = Date.now(); document.documentElement.dataset.cycle = t <= Date.parse(cycleDates.closes) ? "open" : t <= Date.parse(cycleDates.showcase) ? "underway" : "done"; }</script>
     <link rel="preload" as="image" href={orbit("hub-poster.webp")} fetchpriority="high" />
     <!-- Without the script, each scene's words sit in their scene (nothing is there to fade them). -->
     <noscript><style>.hm .hm-scene-in { position: sticky; top: 0; height: 100svh; transform: none; opacity: 1; pointer-events: auto; justify-content: flex-end; padding-top: calc(var(--head) + 24px); } .hm .hm-hero-in { justify-content: flex-start; padding: 0; }</style></noscript>
@@ -115,7 +139,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
               <ul class="hm-faces" aria-hidden="true">
                 {[1, 2, 3, 4, 5, 6, 7].map((n) => <li><img src={u(`/home/face-${n}.webp`)} alt="" width="192" height="192" loading="lazy" decoding="async" /></li>)}
               </ul>
-              <p>{h.intro.people}</p>
+              <p>{fill(h.intro.people, { n: joined })}</p>
             </div>
             <p class="rp-terms">{h.intro.terms}</p>
             <div class="hm-actions">
@@ -156,6 +180,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
               {J.workshops.topics.map((t) => <li><b>{t.title}</b><span>{t.body}</span></li>)}
             </ul>
             <p class="hm-side-p">{J.workshops.note}</p>
+            <a class="textlink hm-more" href={u("/workshops/")}>{J.workshops.more} →</a>
           </HomeScene>
           <HomeScene id="week" path="learn" labelledby="week-t">
             <figure class="hm-photo">
@@ -164,10 +189,12 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             </figure>
             <p class="kicker hm-k"><i class="gem" data-gem="learn" aria-hidden="true"></i>{J.week.kicker}</p>
             <h2 class="hm-side-h" id="week-t">{J.week.title}</h2>
-            <ol class="hm-rows">
-              {J.week.items.map((e) => <li><span class="when"><b>{e.date}</b> {e.time}</span><span class="what">{e.title}</span><span class="where">{e.where}</span></li>)}
-            </ol>
-            <a class="textlink hm-more" href={L.events}>{J.week.all} →</a>
+            {next.length ? (
+              <ol class="hm-rows">
+                {next.map((e) => { const f = formatEvent(e.data); return <li><span class="when"><b>{f.day}</b> {f.time}</span><a class="what" href={u(`/events/${e.id}/`)}>{e.data.title}</a><span class="where">{where(e)}</span></li>; })}
+              </ol>
+            ) : <p class="hm-side-p">{J.week.empty}</p>}
+            <a class="textlink hm-more" href={u("/events/")}>{J.week.all} →</a>
           </HomeScene>
 
           <!-- Build: its thread; strangers becoming a Pod; teams round what they propose; a knot freed by a
@@ -199,26 +226,24 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             </div>
           </HomeScene>
           <HomeScene id="cycle" path="build" labelledby="cycle-t">
-            <div data-when="open">
-              <p class="status"><i aria-hidden="true"></i>{J.cycle.kicker}</p>
-              <h2 class="hm-side-h" id="cycle-t">{J.cycle.title}</h2>
-              <p class="hm-side-p">{J.cycle.body}</p>
-            </div>
-            <div data-when="closed">
-              <p class="status"><i aria-hidden="true"></i>{J.cycle.closed.kicker}</p>
-              <h2 class="hm-side-h">{J.cycle.closed.title}</h2>
-              <p class="hm-side-p">{J.cycle.closed.body}</p>
-            </div>
+            {STATES.map((st) => (
+              <div data-when={st}>
+                <p class="status"><i aria-hidden="true"></i>{fill(J.cycle[st].kicker, cycleVars)}</p>
+                <h2 class="hm-side-h" id={st === "open" ? "cycle-t" : undefined}>{fill(J.cycle[st].title, cycleVars)}</h2>
+                <p class="hm-side-p">{fill(J.cycle[st].body, cycleVars)}</p>
+              </div>
+            ))}
             <ul class="hm-know" aria-label={J.cycle.know.kicker}>
               {J.cycle.know.items.map((it) => <li><b>{it.title}</b><span>{it.body}</span></li>)}
             </ul>
             <div class="hm-actions">
-              <a class="btn" href={pathJoin("build")} data-when="open">{J.cycle.cta}</a>
-              <a class="btn" href={join} data-when="closed">{J.cycle.closed.cta}</a>
+              <a class="btn" href={pathJoin("build")} data-when="open">{J.cycle.open.cta}</a>
+              <a class="btn" href={join} data-when="underway">{J.cycle.underway.cta}</a>
+              <a class="btn" href={join} data-when="done">{J.cycle.done.cta}</a>
               <a class="textlink" href={u("/upskiller/")}>{J.cycle.upskiller}</a>
             </div>
-            <p class="rp-account" data-when="open">{J.cycle.apply}</p>
-            <p class="rp-account" data-when="closed">{J.cycle.closed.note}</p>
+            {STATES.map((st) => <p class="rp-account" data-when={st}>{J.cycle[st].note}</p>)}
+            <a class="textlink hm-more" href={u("/build-cycles/")}>{J.cycle.more} →</a>
           </HomeScene>
 
           <!-- Share: its thread, with contributions flowing down it; then the next system's centre, where
@@ -252,9 +277,10 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <h2 class="hm-side-h" id="labs-t">{J.labs.title}</h2>
             <p class="hm-side-p">{J.labs.lede}</p>
             <ul class="hm-cityline">
-              {J.labs.items.map((c) => <li class:list={{ active: c.active }}><i aria-hidden="true"></i><b>{c.city}</b><span>{c.status} · {c.detail}</span></li>)}
+              {cities.map((l) => <li class:list={{ active: running(l) }}><i aria-hidden="true"></i><a href={u(`/labs/${l.id}/`)}><b>{l.data.city}</b></a><span>{cityLine(l)}</span></li>)}
             </ul>
             <p class="rp-account">{J.labs.note}</p>
+            <a class="textlink hm-more" href={u("/labs/")}>{J.labs.more} →</a>
           </HomeScene>
 
           <!-- Start a Lab: close on the newborn Lab, where its first people gather and The Labs' kit reaches it from
@@ -269,6 +295,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
               <a class="btn" href={pathJoin("start-a-lab")}>{J.found.cta}</a>
             </div>
             <p class="rp-account">{J.found.note}</p>
+            <a class="textlink hm-more" href={u("/labs/start/")}>{J.found.more} →</a>
           </HomeScene>
 
           <!-- The close: the one action, and the three ways in. -->
@@ -329,6 +356,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         tops = scenes.map((el) => el.getBoundingClientRect().top + y); bots = scenes.map((el) => el.getBoundingClientRect().bottom + y);
       };
       let onPlace: (() => void) | null = null;
+      let syncOrb: () => void = () => {}; // (set once the world's part of the page is wired up, below)
       const place = () => {
         const y = window.scrollY, n = scenes.length;
         scenes.forEach((_, i) => {
@@ -345,7 +373,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           const near = top < vh * 2 && bottom > -vh;
           if (inner) { put(inner, "opacity", op.toFixed(3)); put(inner, "pointerEvents", op < 0.5 ? "none" : "auto"); put(inner, "visibility", near ? "visible" : "hidden"); }
         });
-        syncCta(); onPlace?.();
+        syncCta(); syncOrb(); onPlace?.();
       };
       let placing = 0;
       const placeSoon = () => { if (!placing) placing = requestAnimationFrame(() => { placing = 0; place(); }); };
@@ -380,6 +408,21 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       let cardWas = "", sysNow = 1;
       const pause = document.querySelector<HTMLButtonElement>("[data-pause]")!;
       const orbLink = document.querySelector<HTMLAnchorElement>("[data-orb-link]")!;
+      // The orb is the button while the whole system holds the screen under the title: a link laid over it
+      // (sized once, then moved and scaled with the orb). How much of it shows is the title scene's own
+      // visibility times what the world last said (orbK: gone once the camera moves or during the opening), so
+      // it's set from the page's scroll as well as from the world's frames: a still world (the poster, reduced
+      // motion) draws no frame as you scroll, and without this the link stayed on screen down to the footer.
+      let orbK = 0, orbR0 = 0, orbAt = { x: 0, y: 0, r: 0 };
+      syncOrb = () => {
+        const show = ons[0] * orbK;
+        put(orbLink, "--show", show.toFixed(3));
+        put(orbLink, "visibility", show > 0.05 ? "visible" : "hidden");
+        if (show > 0.05 && orbAt.r) {
+          if (!orbR0 || Math.abs(orbAt.r / orbR0 - 1) > 0.08) { orbR0 = orbAt.r; put(orbLink, "width", `${(orbR0 * 2).toFixed(1)}px`); put(orbLink, "height", `${(orbR0 * 2).toFixed(1)}px`); }
+          put(orbLink, "transform", `translate(${(orbAt.x - orbAt.r).toFixed(1)}px, ${(orbAt.y - orbAt.r).toFixed(1)}px) scale(${(orbAt.r / orbR0).toFixed(4)})`);
+        }
+      };
       // One orb at a time: while the world's orb is on screen, the header carries the wordmark alone; when it
       // leaves (the weave's threads, or the detail), the mark comes back.
       const brand = document.querySelector<HTMLElement>("[data-brand]")!;
@@ -401,7 +444,6 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
           put(el, "transform", `translate(${(x + (x0 - LOGO.cx) * k).toFixed(2)}px, ${top.toFixed(2)}px) scale(${sc.toFixed(4)})`);
         }
       };
-      let orbR0 = 0;
       const SCENES_LOGO_LOAD = scenes.length - 5; // load the lockup a few scenes ahead of the end
       // The opening on the logo: only from the top of the page. It waits for the lockup's artwork, and the
       // page's own words come in as it finishes.
@@ -425,15 +467,9 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             const flip = hv.x > window.innerWidth - 300;
             card.style.transform = `translate(${(flip ? hv.x - hv.r - 14 : hv.x + hv.r + 14).toFixed(1)}px, ${hv.y.toFixed(1)}px) translate(${flip ? "-100%" : "0"}, -50%)`;
           }
-          // The orb is the button while the whole system holds the screen under the title: a link laid over it
-          // (sized once, then moved and scaled with the orb).
-          const show = ons[0] * Math.max(0, 1 - f.s * 4) * f.intro;
-          put(orbLink, "--show", show.toFixed(3));
-          put(orbLink, "visibility", show > 0.05 ? "visible" : "hidden");
-          if (show > 0.05) {
-            if (!orbR0 || Math.abs(f.orb.r / orbR0 - 1) > 0.08) { orbR0 = f.orb.r; put(orbLink, "width", `${(orbR0 * 2).toFixed(1)}px`); put(orbLink, "height", `${(orbR0 * 2).toFixed(1)}px`); }
-            put(orbLink, "transform", `translate(${(f.orb.x - f.orb.r).toFixed(1)}px, ${(f.orb.y - f.orb.r).toFixed(1)}px) scale(${(f.orb.r / orbR0).toFixed(4)})`);
-          }
+          // The orb's link (see syncOrb): the world says how much of it there is and where the orb is.
+          orbK = Math.max(0, 1 - f.s * 4) * f.intro; orbAt = f.orb;
+          syncOrb();
           const onScreen = inJourney && f.orb.r > 14 && f.orb.y > -f.orb.r * 0.5 && f.orb.y < window.innerHeight + f.orb.r ? 1 : 0;
           dockM += (1 - onScreen - dockM) * 0.15;
           put(brand, "--m", dockM.toFixed(3));
