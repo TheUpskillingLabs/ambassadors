@@ -6,6 +6,10 @@ It uses the same design system as OLOS: the brand tokens, type scale, buttons, c
 
 **Status:** v1 prototype. All copy is seed copy marked `[PLACEHOLDER]` until real Labs copy replaces it (see [Replacing placeholder copy](#replacing-placeholder-copy)).
 
+## Where this is going
+
+This repo is becoming the whole of The Upskilling Labs' experience: the public site, the account, the open project and the network of Labs. The plan, in nine PRs, is in [`docs/rework-plan.md`](docs/rework-plan.md) (a draft, for review).
+
 ## Stack
 
 - [Astro](https://astro.build) static site with content collections (Markdown + JSON, validated by schemas in `src/content.config.ts`). There's no backend and no database.
