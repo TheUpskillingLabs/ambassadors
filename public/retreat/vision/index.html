@@ -2298,11 +2298,11 @@ const SLIDES = [
       <h2 class="h">The plan: three cards, one headline</h2>
       <ul class="spins plan">
         <li><span>5 min</span>Write impact, peer and headline cards, on your own</li>
-        <li><span>4 min</span>Post them on the walls and vote for the best</li>
-        <li><span>8 min</span>Make one headline 10x bigger, in threes</li>
+        <li><span>4 min</span>Get into threes: share and cluster your cards</li>
+        <li><span>8 min</span>Make your group’s headline 10x bigger</li>
         <li><span>5 min</span>Pick one together, and close</li>
       </ul>`,
-    notes: ["Point at the sheets as you name them: impact, peers, headlines, and the parking lot. Cards and markers are on every table. “Everyone writes three kinds of card. We post them, vote for the best, and turn the best headlines into one.” Keep this slide and the next two to about a minute and a half."],
+    notes: ["Cards and markers are on every table; the parking lot is on the wall. “Everyone writes three kinds of card. Then you get into threes to share and cluster them, turn your group’s best headline into a moonshot, and we pick one together.” Keep this slide and the next two to about a minute and a half."],
   },
   {
     label: "Impact or headline · 10:27", make: () => Object.assign(headlineScene(), { dur: [0, 1] }),
@@ -2335,22 +2335,22 @@ const SLIDES = [
     pocket: "Only if the room stalls. Impact: “Every public library runs Labs workshops.” · “Teaching a workshop is how most people prove a new skill.” · “Congress charters The Labs.” Peers: Cooperative Extension and 4-H · the public library · Wikipedia · Code for America’s brigades.",
   },
   {
-    label: "2 · Post and vote · 10:33–10:37", make: () => clusterScene(false), timer: { secs: 240, at: 0, cap: "2 · Post and vote" },
-    words: `<p class="kicker">Step 2 of 4 · Everyone</p>
-      <h2 class="h">Post your cards, then vote</h2>
-      <p class="lead dim">Put each card on its sheet: impact, peers or headlines. Then read the walls and put a check mark on the cards you’d fight for.</p>
-      <p class="small">Up to three check marks per sheet. Same idea twice? Stack them. Hedging cards go in the parking lot.</p>`,
-    notes: ["“Post each card on its sheet, then read the walls and put a check mark on the ones you’d fight for, up to three per sheet.” Voting can start while people are still posting. Ask one volunteer to stack duplicates on the impact wall into rough clusters."],
+    label: "2 · Share and cluster · 10:33–10:37", make: () => clusterScene(false), timer: { secs: 240, at: 0, cap: "2 · Share and cluster" },
+    words: `<p class="kicker">Step 2 of 4 · In threes</p>
+      <h2 class="h">Share and cluster in threes</h2>
+      <p class="lead dim">Get into groups of three. Take turns reading your cards aloud. Put the impact cards that belong together side by side, and name each cluster.</p>
+      <p class="small">Then pick your group’s strongest peer and the one headline you’ll build on. Hedging cards go in the parking lot.</p>`,
+    notes: ["“Get into groups of three. Take turns reading your cards out loud. Put the impact cards that belong together side by side and give each cluster a name. Then pick your strongest peer and the one headline you’ll build on.” Count off by threes if people stall; a pair is fine if the numbers don’t divide."],
   },
   {
     label: "3 · 10x bigger · 10:37–10:45", make: () => clusterScene(true), timer: { secs: 480, at: 0, cap: "3 · 10x bigger" },
-    words: `<p class="kicker">Step 3 of 4 · In threes</p>
-      <h2 class="h">Make one headline 10x bigger</h2>
-      <p class="lead dim">Each group takes a different headline from the top of the headlines sheet and makes it 10x bigger: big enough to stand next to the peers on the wall.</p>
+    words: `<p class="kicker">Step 3 of 4 · Same threes</p>
+      <h2 class="h">Make your headline 10x bigger</h2>
+      <p class="lead dim">Take the headline your group picked and make it 10x bigger: big enough to stand next to your strongest peer.</p>
       <div class="cells"><span>Who<em>A man</em></span><span>What<em>On the moon, home safely</em></span><span>A number<em>Before the decade is out</em></span></div>
-      <p class="small">Borrow from the impact cards with the most check marks. Write the final version large, on a fresh card.</p>`,
+      <p class="small">Borrow from your biggest clusters. Write the final version large, on a fresh card.</p>`,
     notes: [
-      "“Get into threes. Each group takes a different headline from the top of the headlines sheet. Your job: make it 10x bigger. Kennedy’s had a who, a what and a number: a man, on the moon and home safely, before the decade is out. Yours needs the same, and it should be big enough to stand next to the peers on the wall.” Remember the moon: the bigger goal is often the one where nobody has a head start. Aim for four or five groups so the read-aloud fits; in a small room, go to pairs. Protect this time.",
+      "“Same groups. Take the headline you picked. Your job: make it 10x bigger. Kennedy’s had a who, a what and a number: a man, on the moon and home safely, before the decade is out. Yours needs the same, and it should be big enough to stand next to your strongest peer.” Remember the moon: the bigger goal is often the one where nobody has a head start. Four or five groups keeps the read-aloud inside four minutes. Protect this time.",
     ],
     pocket: "An example, if they need one: “By 2036, Labs workshops run in 1,000 public libraries, and 100,000 people have earned pins teaching their neighbors.”",
   },
@@ -2371,7 +2371,7 @@ const SLIDES = [
       <h2 class="h">Our 2036 headline</h2>
       <p class="lead dim">Read it aloud. It goes with us into the Q4 problems session and the DC founding team conversation this afternoon.</p>
       <p class="small">Next: break, back at 11:05</p>`,
-    notes: ["Read the working headline aloud, slowly. “We’ll carry this into our Q4 problems session and the DC founding team conversation this afternoon.” Then break. Photograph all three sheets, the 10x headlines and the parking lot."],
+    notes: ["Read the working headline aloud, slowly. “We’ll carry this into our Q4 problems session and the DC founding team conversation this afternoon.” Then break. Photograph each group’s clusters, the 10x headlines and the parking lot."],
   },
 
 ];
