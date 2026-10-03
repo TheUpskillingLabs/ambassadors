@@ -18,7 +18,7 @@ async function walk(dir) {
 }
 
 // Large or non-essential files are cached on first use instead of up front.
-const SKIP = [/^sw\.js$/, /^icons\/icon-512\.png$/, /\.map$/, /^join\//, /^index\.html$/, /^invite\//, /^contributing\// /* invite: the coordinator's unlisted page; contributing: the unlisted pin page and its renders; the public program page and its 7 MB of media: cached on first visit, not up front */];
+const SKIP = [/^sw\.js$/, /^icons\/icon-512\.png$/, /\.map$/, /^join\//, /^index\.html$/, /^invite\//, /^contributing\//, /^retreat\// /* retreat: the team retreat's self-contained deck (600 KB, unlisted), cached on first visit; invite: the coordinator's unlisted page; contributing: the unlisted pin page and its renders; the public program page and its 7 MB of media: cached on first visit, not up front */];
 // Only the latin subset of the font is precached; other subsets load on demand.
 const FONT_OK = /geologica-latin-wght-normal/;
 
