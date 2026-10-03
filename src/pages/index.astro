@@ -12,18 +12,21 @@
    workshops around them, and what works is shared back.
 
    It's one journey, after Lusion's Oryzo: a live world held on screen
-   (src/scripts/orbnet.ts) while nineteen scenes go by, each one idea, the words
+   (src/scripts/orbnet.ts) while twenty scenes go by, each one idea, the words
    small and beside the picture, never over it (src/components/HomeScene.astro).
-   The motif changes shape: the system under the title; beside what this is;
-   close on the centre (one open project); its three path orbits drawn down into
-   a triple helix (Learn it. Build it. Share it.); down the helix to each path's
-   thread, where small scenes play out: open workshops coming down Learn's; a
-   Pod forming, teams, a knot freed by a workshop, the Showcase and the next
-   cycle on Build's; contributions rising up Share's to the centre, which sends
-   the official version out; the weave again; the system again, every Lab on one
-   network and a new one born; the close, with the three ways in; and at the very end the logo forms,
-   the paths flying together into its swoosh over the orb, then settling into
-   the brand's own lockup. Then the footer.
+   The journey only ever goes down, and the motif changes shape as it does: the
+   system under the title; beside what this is; close on the centre (where it
+   started); its three path orbits drawn down into a triple helix (Learn. Build.
+   Share.); down the helix to each path's thread, where small scenes play out:
+   open workshops coming down Learn's; a Pod forming, teams, a knot freed by a
+   workshop, the Showcase and the next cycle on Build's; contributions flowing
+   down Share's into the next system's centre, one cycle on, which sends the
+   official version out to every Lab; the three paths coiled into its orbits (it
+   keeps getting better); every Lab on one network and a new one born; Start a
+   Lab, close on it; the close, with the three ways in, as the paths pour into
+   the orbits; and at the very end the logo forms, the paths flying together into
+   its swoosh over the orb, then settling into the brand's own lockup. Then the
+   footer.
 
    It's built on the role pages' system (src/styles/role.css, with home.css for
    what only this page has): ink, the teal and red glows with the grain only in
@@ -259,8 +262,8 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             <p class="rp-account" data-when="closed">{J.cycle.closed.note}</p>
           </HomeScene>
 
-          <!-- Share: its thread, with contributions rising up it; then the centre, where they're curated and
-               sent back out to every Lab. -->
+          <!-- Share: its thread, with contributions flowing down it; then the next system's centre, where
+               they're curated and sent out to every Lab. -->
           <HomeScene id="share" path="share" labelledby="share-t" opener={ch.share}>
             <p class="hm-ch-title">{ch.share.title}</p>
             <p class="hm-ch-when">{ch.share.when}</p>
