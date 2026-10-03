@@ -1,0 +1,37 @@
+{
+  "$comment": "/newsroom/ — stories: people's own, and the press. A draft, unlinked, until the first story is brought over with its consent record (the live site's legacy newsroom has one: a DC Public Library story).",
+  "placeholder": true,
+  "meta": {
+    "route": "/newsroom/",
+    "need": "As press, a funder or someone curious, I need to read what's been said about The Labs and by the people in it, so that I can judge it and tell others.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "draft",
+    "index": false
+  },
+  "title": "Newsroom",
+  "description": "Stories from the people in The Labs, and what the press has said.",
+  "hero": {
+    "kicker": "Newsroom",
+    "title": "In their words.",
+    "lede": "Stories from the people in The Labs, and what the press has said."
+  },
+  "list": {
+    "kicker": "Stories"
+  },
+  "empty": "Stories appear here as the people in them agree to be shown.",
+  "story": {
+    "kicker": "A story",
+    "press": "In the press",
+    "own": "From The Labs",
+    "read": "Read it",
+    "people": "In this story"
+  },
+  "press": {
+    "kicker": "Press",
+    "title": "Writing about The Labs?",
+    "body": "Write to us and someone will answer. The brand's marks and the facts about The Labs are in the record, built in the open.",
+    "cta": "Contact us",
+    "href": "contact"
+  }
+}

@@ -1,0 +1,28 @@
+---
+/* /newsroom/<id>/ — one story: ours, or the press's (linked, not copied). */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { longDate } from "../../lib/takepart";
+import n from "../../../content/site/newsroom.json";
+
+export async function getStaticPaths() {
+  return (await getCollection("stories")).map((s) => ({ params: { id: s.id }, props: { s } }));
+}
+const { s } = Astro.props;
+const people = (await getCollection("people")).filter((p) => s.data.people.includes(p.id));
+---
+<Site title={`${s.data.title} · The Upskilling Labs`} description={s.data.summary} bodyClass="pg">
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="pg-crumb"><a href={u("/newsroom/")}>← {n.title}</a></p>
+        <p class="kicker rise">{s.data.kind === "press" ? `${n.story.press}${s.data.outlet ? ` · ${s.data.outlet}` : ""}` : n.story.own} · {longDate(s.data.date)}</p>
+        <h1 class="rise d1">{s.data.title}</h1>
+        <p class="lede rise d2">{s.data.summary}</p>
+        {s.data.href && <p class="pg-start rise d3"><a class="ghost" href={s.data.href}>{n.story.read} →</a></p>}
+        {people.length > 0 && <dl class="pg-facts"><div><dt>{n.story.people}</dt><dd>{people.map((p, i) => <>{i > 0 && ", "}<a href={u(`/people/${p.id}/`)}>{p.data.name}</a></>)}</dd></div></dl>}
+      </section>
+    </main>
+</Site>

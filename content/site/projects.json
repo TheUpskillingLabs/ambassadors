@@ -1,0 +1,65 @@
+{
+  "$comment": "/projects/ — the catalogue of what teams built, each from content/projects (none yet: the first come from the Oct 13 Showcase, with the teams' consent). The empty state says so by the clock: before the next Showcase, when it's coming; after, that projects appear once their teams agree.",
+  "placeholder": false,
+  "meta": {
+    "route": "/projects/",
+    "need": "As someone deciding whether this is real, I need to see what teams have built, so that I can judge the work and find people to learn from.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
+  "title": "Projects",
+  "description": "What teams built in a Build Cycle: real problems, working prototypes, findings, and the people behind them.",
+  "hero": {
+    "kicker": "The open project",
+    "title": "What teams made.",
+    "lede": "Every Build Cycle ends at a Showcase, where each team shows what it built: a prototype, a finding, a tool, what worked and what didn't. Anyone can use it, and the team's names stay on it."
+  },
+  "list": {
+    "kicker": "Projects"
+  },
+  "empty": {
+    "before": "The first projects go up after the {title} Showcase on {showcase}.",
+    "after": "Projects appear here once their teams have agreed to be shown."
+  },
+  "how": {
+    "kicker": "How a project comes about",
+    "title": "A problem, a team, twelve weeks.",
+    "steps": [
+      {
+        "title": "A problem situation",
+        "body": "Each cycle starts with real, messy problems people face, brought by the people who face them."
+      },
+      {
+        "title": "A Pod, then a team",
+        "body": "Nine or more people gather round a problem; teams of three to five form round the ideas worth making."
+      },
+      {
+        "title": "The Showcase",
+        "body": "Every team shows its work in public. What's reusable goes back to the commons, with credit."
+      }
+    ],
+    "more": "How a Build Cycle works"
+  },
+  "project": {
+    "$comment": "Words for a project's own page.",
+    "kicker": "A project",
+    "team": "The team",
+    "problem": "The problem",
+    "cycle": "The cycle",
+    "repo": "The code",
+    "recording": "At the Showcase",
+    "status": {
+      "building": "Being built",
+      "shown": "Shown at the Showcase",
+      "reused": "In use",
+      "paused": "Paused"
+    }
+  },
+  "join": {
+    "title": "Make one.",
+    "lede": "Make your free account, then apply for the next Build Cycle from there.",
+    "cta": "Join The Labs"
+  }
+}

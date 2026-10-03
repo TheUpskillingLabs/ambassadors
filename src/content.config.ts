@@ -49,7 +49,7 @@ const recordMeta = z.object({
 /** The public pages whose copy is one JSON file each (content/site). The
  *  shape of each page's copy is its own; the collection checks the governance. */
 const pages = defineCollection({
-  loader: glob({ pattern: ["home.json", "joinpage.json", "partners.json", "government.json", "enterprise.json", "contributing.json", "workshops.json", "build-cycles.json", "labs.json"], base: "./content/site" }),
+  loader: glob({ pattern: ["home.json", "joinpage.json", "partners.json", "government.json", "enterprise.json", "contributing.json", "workshops.json", "build-cycles.json", "labs.json", "about.json", "about-board.json", "about-results.json", "projects.json", "problems.json", "newsroom.json"], base: "./content/site" }),
   schema: z.object({ placeholder, meta: pageMeta, title: z.string(), description: z.string() }).loose(),
 });
 
@@ -118,6 +118,91 @@ const cycles = defineCollection({
   }),
 });
 
+/** Consent to be shown: who agreed, to what, and when. Required on every
+ *  person and story, on a project's team members, and on a problem's named
+ *  owner (scripts/check-meta.mjs refuses a live record without it). */
+const consent = z.object({
+  /** Who agreed (the person, or someone speaking for the organization). */
+  who: z.string().min(2),
+  /** What they agreed to, in their words or ours ("to be named on the project page"). */
+  to: z.string().min(5),
+  on: isoDate,
+  /** How it was given (an email, a form at the Showcase, a message). */
+  how: z.string().optional(),
+});
+
+/** A problem situation: real, messy, brought by the people who face it (content/problems). Published each cycle. */
+const problems = defineCollection({
+  loader: glob({ pattern: "*.json", base: "./content/problems" }),
+  schema: z.object({
+    title: z.string(),
+    /** Who it affects, in a sentence. */
+    affects: z.string(),
+    summary: z.string(),
+    /** The problem owner, shown only with consent; otherwise described ("a DC agency"). */
+    owner: z.object({ name: z.string(), org: z.string().optional(), consent: consent.optional() }).optional(),
+    ownerDescribed: z.string().optional(),
+    lab: z.string().optional(),
+    cycle: z.string().optional(),
+    status: z.enum(["open", "working", "done"]).default("open"),
+    meta: recordMeta,
+  }),
+});
+
+/** A project: what a team built in a Build Cycle (content/projects). Shown at the Showcase first. */
+const projects = defineCollection({
+  loader: glob({ pattern: "*.json", base: "./content/projects" }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    /** Each team member, with consent to be named; `handle` links a person's page. */
+    team: z.array(z.object({ name: z.string(), handle: z.string().optional(), consent })).default([]),
+    problem: z.string().optional(),
+    lab: z.string().optional(),
+    cycle: z.string().optional(),
+    status: z.enum(["building", "shown", "reused", "paused"]).default("shown"),
+    repo: z.url().optional(),
+    recording: z.url().optional(),
+    image: z.string().optional(),
+    meta: recordMeta,
+  }),
+});
+
+/** A person (content/people/<handle>.json), opt-in: no page without consent. Found through their work, not a list. */
+const people = defineCollection({
+  loader: glob({ pattern: "*.json", base: "./content/people" }),
+  schema: z.object({
+    name: z.string(),
+    /** Roles held (role slugs: upskiller, poderator, mentor, ambassador). */
+    roles: z.array(z.string()).default([]),
+    lab: z.string().optional(),
+    bio: z.string().optional(),
+    /** Workshops led, as titles (events link back by id once they carry a `led` field). */
+    led: z.array(z.string()).default([]),
+    cycles: z.array(z.string()).default([]),
+    consent,
+    meta: recordMeta,
+  }),
+});
+
+/** A story: a person's own, or the press (content/stories). */
+const stories = defineCollection({
+  loader: glob({ pattern: "*.json", base: "./content/stories" }),
+  schema: z.object({
+    title: z.string(),
+    date: isoDate,
+    kind: z.enum(["own", "press"]),
+    /** The outlet, for the press. */
+    outlet: z.string().optional(),
+    href: z.url().optional(),
+    summary: z.string(),
+    /** The people in it (handles), each needing a consent record of their own. */
+    people: z.array(z.string()).default([]),
+    consent,
+    meta: recordMeta,
+  }),
+});
+
 /** The path: one Markdown file per step, read in `order`. A step's body can
  *  place a built-in block with an HTML comment on its own line:
  *  <!-- ladder -->, <!-- faq -->, <!-- story -->, <!-- asks -->, <!-- present -->. */
@@ -162,4 +247,4 @@ const faq = defineCollection({
   }),
 });
 
-export const collections = { pages, roles, labs, events, cycles, steps, scenarios, faq };
+export const collections = { pages, roles, labs, events, cycles, problems, projects, people, stories, steps, scenarios, faq };
