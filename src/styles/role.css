@@ -106,6 +106,20 @@ html[data-scrolled="true"] .rp .jp-head nav::before, html[data-scrolled="true"] 
 .rp-mark .acct { flex: none; color: var(--t1); }
 .rp-draft { margin: 44px auto 0; max-width: 36em; font-size: var(--fs-sm); line-height: 1.5; color: var(--t2); }
 .rp-draft b { font-weight: 600; color: var(--teal); }
+/* The intro for someone who met a wearer (a role with `met`): the question they came with, who it was,
+   three things to know as a row of hairline cells (stacked on phones), where you'd meet one, then the
+   role's cost and dates. The role's button waits for the turn, after "How it works". */
+.rp-met .kicker { margin: 0 0 20px; color: var(--teal); }
+.rp-know { list-style: none; margin: 48px auto 0; padding: 0; max-width: 62rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 36px; text-align: left; }
+.rp-know li { padding-top: 16px; border-top: 1px solid var(--rule); font-size: var(--fs-body); line-height: 1.5; color: var(--t2); text-wrap: pretty; }
+.rp-know b { display: block; margin-bottom: 4px; font-weight: 600; color: var(--t1); }
+.rp-where { margin: 40px auto 0; max-width: 34em; font-size: var(--fs-body); line-height: 1.55; color: var(--t1); text-wrap: pretty; }
+.rp-spec { margin-top: 28px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.rp-spec .rp-terms { margin-top: 0; text-wrap: balance; }
+.rp-path .rp-cta { margin-top: clamp(40px, 6vh, 64px); align-items: flex-start; }
+@media (max-width: 860px) {
+  .rp-know { grid-template-columns: minmax(0, 1fr); row-gap: 16px; margin-top: 36px; }
+}
 
 /* ── what you'll do: three rows, label, line and a sentence (Oryzo's kicker,
    headline and caption), in a glow of teal on the left and red on the right. ── */
@@ -225,8 +239,8 @@ html[data-scrolled="true"] .rp .jp-head nav::before, html[data-scrolled="true"] 
   .rp-eyebrow { font-size: 21px; }
   .rp-title { font-size: min(11vw, 7.6svh); }
   .rp-intro, .rp-head.center { text-align: left; }
-  .rp-lede, .rp-terms, .rp-draft, .rp-head.center .rp-h2, .rp-head.center .rp-lede-sm { margin-inline: 0; }
-  .rp-cta { align-items: flex-start; }
+  .rp-lede, .rp-terms, .rp-draft, .rp-know, .rp-where, .rp-head.center .rp-h2, .rp-head.center .rp-lede-sm { margin-inline: 0; }
+  .rp-cta, .rp-spec { align-items: flex-start; }
   .rp-facts { grid-template-columns: minmax(0, 1fr); text-align: left; row-gap: 36px; }
   .rp-facts li { display: grid; grid-template-columns: 32px minmax(0, 1fr); column-gap: 18px; }
   .rp-facts svg { grid-row: 1 / span 2; margin: 2px 0 0; }

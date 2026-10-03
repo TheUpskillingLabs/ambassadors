@@ -3,9 +3,9 @@
   "placeholder": true,
   "slug": "upskiller",
   "role": "Upskiller",
-  "description": "Learn by building a real project with a small team, free, in person, near you.",
+  "description": "Upskillers at The Upskilling Labs learn by building a real project with a small team: twelve weeks, free, in person at the public library.",
   "nav": {
-    "why": "Why",
+    "why": "Who they are",
     "how": "How it works",
     "roles": "Roles",
     "cta": "Join The Labs",
@@ -26,29 +26,49 @@
     "href": "https://theupskillinglabs.org/login?intent=join&path=upskiller",
     "status": "Fall 2026 starts Oct 13. Apply from your account."
   },
+  "met": {
+    "$comment": "For someone who met a wearer and wants to know who that was and how to think of them (most people who land here). The lede doubles as the spoken line the role's training gives wearers, so the page and the person say the same thing (design/research/role-explainers.md).",
+    "kicker": "Met someone wearing this?",
+    "lede": "They're an Upskiller. They're building a real project with a small team at The Upskilling Labs, over a twelve-week Build Cycle.",
+    "know": [
+      {
+        "title": "Learning by building.",
+        "body": "No curriculum and no grades: a real project, on a problem people face."
+      },
+      {
+        "title": "Beside people at every level.",
+        "body": "Beginners and experts, on the same team."
+      },
+      {
+        "title": "A role, not a certification.",
+        "body": "The button says they're building this cycle."
+      }
+    ],
+    "where": "You'd meet one at a workshop, with their Pod at the public library, or at the Showcase, where every team shows what it made. Ask them what they're building."
+  },
   "moments": {
-    "kicker": "What you'll do",
+    "kicker": "What they do",
     "title": "Three months. One real thing.",
     "items": [
       {
         "step": "First",
-        "title": "Find your Pod.",
+        "title": "Find a Pod.",
         "body": "In month one, Pods of nine or more form around a problem situation. Everyone lands in one."
       },
       {
         "step": "Then",
         "title": "Build it.",
-        "body": "As you reframe the problem and propose projects, teams of three to five form. Your team builds one thing."
+        "body": "As the Pod reframes the problem and proposes projects, teams of three to five form. Each team builds one thing."
       },
       {
         "step": "One day",
         "title": "Show it at the Showcase.",
-        "body": "Show your work in public, and keep it going as open source."
+        "body": "Every team shows its work in public, and keeps it going as open source."
       }
     ]
   },
   "simple": {
-    "kicker": "In short",
+    "kicker": "Could this be you?",
     "title": "Simple, on purpose.",
     "items": [
       {
