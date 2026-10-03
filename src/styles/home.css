@@ -177,7 +177,9 @@ html[data-scrolled="true"] .hm-brand { --bh: 38px; }
 .hm-people p { margin: 0; font-size: var(--fs-sm); font-weight: 600; color: var(--t2); }
 
 /* ── the cycle's state: open until it closes, then underway (set on <html> before paint). ── */
-html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-when="open"] { display: none !important; }
+/* The cycle scene has three states (open, underway, done); only the one the clock says shows. Without the
+   attribute (no cycle at all), the "done" words stand. */
+html[data-cycle="open"] [data-when]:not([data-when="open"]), html[data-cycle="underway"] [data-when]:not([data-when="underway"]), html[data-cycle="done"] [data-when]:not([data-when="done"]), html:not([data-cycle]) [data-when]:not([data-when="done"]) { display: none !important; }
 
 /* ── one visual language (see "The visual language" in the README): the model's actors and the three paths
    joining opens share their marks, colours and materials. The pins' materials: candy enamel with a gloss and a
@@ -278,10 +280,11 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 .hm-photo img { display: block; width: 100%; max-width: 360px; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 12%; border-radius: 12px; }
 .hm-photo figcaption { margin-top: 10px; max-width: 360px; font-size: 13px; line-height: 1.45; color: var(--t2); }
 .hm-rows { list-style: none; margin: 18px 0 0; padding: 0; border-bottom: 1px solid var(--rule); }
-.hm-rows li { display: grid; grid-template-columns: 7em minmax(0, 1fr) auto; column-gap: 14px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--rule); font-size: var(--fs-sm); line-height: 1.35; }
-.hm-rows .when { color: var(--t2); font-variant-numeric: tabular-nums; }
+.hm-rows li { display: grid; grid-template-columns: 8em minmax(0, 1fr) auto; column-gap: 14px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--rule); font-size: var(--fs-sm); line-height: 1.35; }
+.hm-rows .when { color: var(--t2); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .hm-rows .when b { font-weight: 600; color: var(--t1); }
-.hm-rows .what { font-weight: 600; color: var(--t1); }
+.hm-rows .what { font-weight: 600; color: var(--t1); text-decoration: none; }
+.hm-rows .what:hover, .hm-rows .what:focus-visible { color: var(--teal); }
 .hm-rows .where { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); }
 .hm-says { margin-top: 20px; display: grid; gap: 16px; }
 .hm-says figure { margin: 0; display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 14px; align-items: start; padding-top: 14px; border-top: 1px solid var(--rule); }
@@ -299,9 +302,11 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
 .hm-cityline li { display: grid; grid-template-columns: 12px auto minmax(0, 1fr); column-gap: 12px; align-items: baseline; padding: 9px 0; border-top: 1px solid var(--rule); font-size: var(--fs-sm); }
 .hm-cityline i { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--t2); align-self: center; }
 .hm-cityline .active i { border: 0; background: linear-gradient(160deg, #0BD2D0 0%, #01191F 55%, #FA291B 100%); box-shadow: 0 0 10px rgba(11, 210, 208, 0.45); }
+.hm-cityline a { color: inherit; text-decoration: none; }
+.hm-cityline a:hover b, .hm-cityline a:focus-visible b { color: var(--teal); }
 .hm-cityline b { font-weight: 600; color: var(--t2); }
 .hm-cityline .active b { color: var(--t1); }
-.hm-cityline span { justify-self: end; color: var(--t2); font-size: 13px; }
+.hm-cityline span { justify-self: end; text-align: right; color: var(--t2); font-size: 13px; }
 .hm-side .hm-go { margin-top: 22px; }
 @media (max-aspect-ratio: 1/1) {
   .hm-side-note, .hm-photo, .hm-mini span { display: none; }
@@ -314,7 +319,7 @@ html[data-cycle="open"] [data-when="closed"], html[data-cycle="closed"] [data-wh
   #intro .hm-side-h { font-size: clamp(28px, 7.6vw, 40px); }
   #intro .hm-people { display: none; } /* the workshops' topics keep their line: it's what they are */
   .hm-rows { margin-top: 12px; }
-  .hm-rows li { grid-template-columns: 6.4em minmax(0, 1fr); padding: 7px 0; font-size: 14px; }
+  .hm-rows li { grid-template-columns: 7.2em minmax(0, 1fr); padding: 7px 0; font-size: 14px; }
   .hm-rows .where { display: none; }
   .hm-says { margin-top: 12px; gap: 10px; }
   .hm-says figure { padding-top: 10px; grid-template-columns: 34px minmax(0, 1fr); }

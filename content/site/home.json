@@ -1,6 +1,6 @@
 {
-  "$comment": "The Upskilling Labs home page (src/pages/index.astro): one journey of twenty scenes over a live world, the words beside the picture. The idea it shows: The Labs is one big open project. Everyone in it builds three things together (open workshops and playbooks, the method and kits that turn strangers into teams doing real work, and the platform every Lab runs on), and a small team at the centre curates the official versions every Lab gets. The Build Cycle is the engine: real work, start to finish; when cohorts hit obstacles, Mentors build the next workshops around them; what works is shared back. Everything after the account happens inside it. No levels, pins, membership or dues here.",
-  "placeholder": true,
+  "$comment": "The Upskilling Labs home page (src/pages/index.astro): one journey of twenty scenes over a live world, the words beside the picture. The idea it shows: The Labs is one big open project. Everyone in it builds three things together (open workshops and playbooks, the method and kits that turn strangers into teams doing real work, and the platform every Lab runs on), and a small team at the centre curates the official versions every Lab gets. The Build Cycle is the engine: real work, start to finish; when cohorts hit obstacles, Mentors build the next workshops around them; what works is shared back. Everything after the account happens inside it. No levels, pins, membership or dues here. Nothing dated lives in this file: what's coming up, the cities and the cycle's state are read from content/events, content/labs and content/cycles at build time (the site rebuilds daily), so this copy never goes stale.",
+  "placeholder": false,
   "meta": {
     "route": "/",
     "need": "As someone who just heard of The Labs, I need to know what it is and whether it is for me, so that I can decide to join.",
@@ -21,17 +21,6 @@
     "contact": "https://theupskillinglabs.org/contact",
     "privacy": "https://theupskillinglabs.org/privacy",
     "github": "https://github.com/TheUpskillingLabs/OLOS"
-  },
-  "nav": {
-    "learn": "Workshops",
-    "build": "Build Cycles",
-    "share": "Contribute",
-    "story": "Our story",
-    "found": "Start a Lab",
-    "gov": "For government",
-    "login": "Log in",
-    "cta": "Join The Labs",
-    "ctaShort": "Join"
   },
   "hero": {
     "title": [
@@ -138,7 +127,7 @@
     "title": "Whoever you are, you're in the right place.",
     "who": "Changing careers, just starting out, or decades in and ready to pass it on. We'll help you find your footing, and what you get out of it grows with what you put in.",
     "terms": "No tech background needed, and nothing to buy.",
-    "people": "185 people have joined so far.",
+    "people": "{n} people have joined so far.",
     "cta": "Join The Labs",
     "login": "Log in",
     "note": "It's free, and you sign in with Google. Then you'll see what's on near you."
@@ -235,6 +224,7 @@
     "workshops": {
       "kicker": "Workshops",
       "title": "Hands-on, with people at every level.",
+      "more": "How workshops work",
       "topics": [
         {
           "title": "Skills that last",
@@ -250,34 +240,10 @@
     "week": {
       "kicker": "Coming up",
       "title": "Pick one and come along.",
-      "all": "All events",
-      "$comment": "A snapshot of the next sessions on Sep 29, 2026. In OLOS, the next few from its events.",
-      "items": [
-        {
-          "date": "Sep 29",
-          "time": "4 PM",
-          "title": "Privacy by Design",
-          "where": "Washington"
-        },
-        {
-          "date": "Oct 1",
-          "time": "5 PM",
-          "title": "AI Curious? Join our Build Cycle Open House",
-          "where": "Virtual"
-        },
-        {
-          "date": "Oct 5",
-          "time": "5 PM",
-          "title": "AI Curious? Join our Build Cycle Open House",
-          "where": "Virtual"
-        },
-        {
-          "date": "Oct 13",
-          "time": "4 PM",
-          "title": "Upskilling Summit #3: Showcase and Kick-off",
-          "where": "Washington"
-        }
-      ],
+      "all": "Every event",
+      "$comment": "The next few from content/events (src/lib/dates.ts, upcoming), where the lab is named by its city and online sessions by {online}. With nothing on the calendar, {empty}.",
+      "online": "Online",
+      "empty": "Nothing is on the calendar right now. Join, and you'll hear the moment the next one is.",
       "photo": {
         "alt": "A Labs evening at the library: people talking in small groups around the tables.",
         "caption": "Pull up a chair: it happens in person, at the library, with people figuring it out alongside you."
@@ -318,31 +284,27 @@
       ]
     },
     "cycle": {
-      "$comment": "Two states, switched by date on the page itself so it never goes stale: open until `closes`, then underway. `closes` is the kickoff date until the deadline is set. In OLOS, from the cycle's own dates.",
-      "closes": "2026-10-13",
-      "kicker": "Applications open",
-      "title": "Fall 2026 starts October 13.",
-      "body": "It's free, and places are limited.",
-      "apply": "Make your free account, then apply from there.",
-      "cta": "Join The Labs",
-      "closed": {
-        "kicker": "Fall 2026 is underway",
+      "$comment": "The current cycle (content/cycles, via src/lib/dates.ts currentCycle), in one of three states decided by the clock: open until it closes, underway until its Showcase, then done. {title}, {kickoff} and {showcase} are filled from the cycle. The page decides the state again as it loads, so a static build never shows a stale 'applications open'. `more` is the quiet link to the Build Cycles page.",
+      "more": "How a Build Cycle works",
+      "upskiller": "What Upskillers do",
+      "open": {
+        "kicker": "Applications open",
+        "title": "{title} starts {kickoff}.",
+        "body": "It's free, and places are limited.",
+        "cta": "Join The Labs",
+        "note": "Make your free account, then apply from there."
+      },
+      "underway": {
+        "kicker": "{title} is underway",
         "title": "The next cycle is coming.",
-        "body": "Applications for Fall 2026 have closed. You don't have to wait to get involved.",
-        "ways": [
-          {
-            "label": "Drop into a workshop",
-            "to": "events"
-          },
-          {
-            "label": "Come to the Showcase",
-            "to": "events"
-          },
-          {
-            "label": "Help as a Mentor",
-            "to": "mentor"
-          }
-        ],
+        "body": "Applications for {title} have closed, and the teams are building. You don't have to wait to get involved: drop into a workshop, come to the Showcase, or help as a Mentor.",
+        "cta": "Hear when the next cycle opens",
+        "note": "Your account tells you when the next cycle opens."
+      },
+      "done": {
+        "kicker": "Between cycles",
+        "title": "The next cycle is coming.",
+        "body": "{title} ended at its Showcase on {showcase}. You don't have to wait to get involved: drop into a workshop, or help as a Mentor.",
         "cta": "Hear when the next cycle opens",
         "note": "Your account tells you when the next cycle opens."
       },
@@ -366,8 +328,7 @@
             "body": "Twelve weeks, busiest at the start and the end."
           }
         ]
-      },
-      "upskiller": "What Upskillers do"
+      }
     },
     "centre": {
       "kicker": "What you make goes further",
@@ -384,30 +345,9 @@
       "kicker": "Your city",
       "title": "It starts in your city.",
       "lede": "Each city has its own Lab, run by the people in it and at home in its public library. DC is up and running, and we're opening in more cities now.",
-      "$comment": "A snapshot from the live site on Sep 29, 2026. In OLOS, from its Labs and waitlists.",
-      "items": [
-        {
-          "city": "Washington, DC",
-          "status": "Active",
-          "detail": "DC Public Library · 185 members",
-          "active": true
-        },
-        {
-          "city": "Baltimore, MD",
-          "status": "Waitlist open",
-          "detail": "1 person waiting"
-        },
-        {
-          "city": "Dallas, TX",
-          "status": "Waitlist open",
-          "detail": "1 person waiting"
-        },
-        {
-          "city": "Fairfax, VA",
-          "status": "Waitlist open",
-          "detail": "Be the first on the list"
-        }
-      ],
+      "$comment": "The cities from content/labs (the running Labs first, then the ones gathering names, a few at most); the words for each stage are in content/site/labs.json. `more` is the quiet link to Find a Lab.",
+      "show": 4,
+      "more": "Find a Lab",
       "note": "Join, and you'll hear the moment one opens near you."
     },
     "found": {
@@ -418,6 +358,7 @@
       "offer": "You bring the people. We'll bring the workshops, the Build Cycle and the tools, and help you find it a home at your public library.",
       "early": "The first people in a city decide what its Lab becomes.",
       "cta": "Start a Lab",
+      "more": "How starting a Lab works",
       "note": "Make your free account and tell us where you are. We'll talk it through with you."
     }
   },
@@ -431,26 +372,5 @@
   },
   "end": {
     "$comment": "The very end of the journey has no words: the world becomes the logo, settling into the brand's own lockup (public/home/logo-mark.webp and logo-wordmark.webp, cut from the brand kit's logo-lockup-light.png). The lockup is decorative there (the header and the footer name The Labs)."
-  },
-  "footer": {
-    "explore": "Explore",
-    "community": "Community",
-    "roles": "Who you'll meet",
-    "open": "Open source",
-    "workshops": "Workshops",
-    "about": "About",
-    "board": "Our board",
-    "contact": "Contact",
-        "contributors": "Contributor Community",
-    "government": "For government",
-    "enterprise": "For enterprise",
-    "found": "Start a Lab",
-    "built": "Built in the open",
-    "partners": "In partnership with",
-    "legal": "The Upskilling Labs, Inc. is a fiscally sponsored project of Superbloom Design, a 501(c)(3). Donations are tax-deductible to the extent permitted by law.",
-    "google": "You join by signing in with Google. We use only your name, email address and profile picture, and never ask for your Gmail, Drive or Calendar.",
-    "privacy": "How we handle your data",
-    "license": "MIT code · CC BY 4.0 content · Built in the open",
-    "rights": "© 2026 The Upskilling Labs, Inc."
   }
 }
