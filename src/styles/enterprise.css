@@ -1,0 +1,86 @@
+/* ════ /enterprise/ — For enterprise. The program page's look (join.css) and
+   For government's numbered rows (government.css), with this page's own story:
+   the org-chart world held on screen while the scenes scroll past it, then the
+   sales sections. ════ */
+
+/* ── the story ── */
+.en-story { position: relative; }
+/* Wide: the world fills the screen behind the words; it sits right of centre,
+   so the words keep the left column and never cross it. */
+.en-stage { position: sticky; top: 0; z-index: 0; height: 100svh; overflow: hidden;
+  background: radial-gradient(60% 55% at 92% 8%, rgba(0, 148, 160, 0.24), rgba(0, 148, 160, 0) 100%),
+    radial-gradient(48% 42% at 18% 100%, rgba(214, 44, 52, 0.14), rgba(214, 44, 52, 0) 100%), var(--ink); }
+.en-stage::after { content: ""; position: absolute; inset: 0; pointer-events: none; background-image: var(--grain); mix-blend-mode: overlay; opacity: 0.55;
+  -webkit-mask-image: radial-gradient(60% 55% at 92% 8%, #000, transparent), radial-gradient(48% 42% at 18% 100%, #000, transparent);
+  mask-image: radial-gradient(60% 55% at 92% 8%, #000, transparent), radial-gradient(48% 42% at 18% 100%, #000, transparent); }
+.en-stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+/* The still, for when the world can't run: shown until the canvas is live. */
+.en-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 78% 50%; }
+.en-stage.live .en-poster { display: none; }
+.en-pause { position: absolute; right: var(--g); bottom: clamp(16px, 3vh, 28px); z-index: 2; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px;
+  border: 1px solid var(--rule); border-radius: 999px; background: rgba(0, 20, 27, 0.6); color: var(--t2); font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
+.en-pause:hover { color: var(--t1); border-color: var(--t2); }
+.en-pause .i-play { display: none; }
+.en-pause.is-paused .i-play { display: inline; }
+.en-pause.is-paused .i-pause { display: none; }
+
+/* The scenes are pulled up over the stage, so the stage stops at the story's end and never covers what follows. */
+.en-scenes { position: relative; z-index: 1; margin-top: -100svh; }
+.en-scene { position: relative; z-index: 1; min-height: 100svh; display: flex; align-items: center; padding: var(--head) var(--g) 0; pointer-events: none; }
+.en-copy { width: min(36rem, 36vw); pointer-events: auto; opacity: var(--o, 1); transform: translateY(calc((1 - var(--o, 1)) * 18px)); }
+.en-hero h1 { margin: 18px 0 0; font-size: clamp(44px, 4.9vw, 92px); font-weight: 700; line-height: 0.95; letter-spacing: -0.05em; color: var(--t1); }
+.en-hero .lede { margin-top: 26px; max-width: 32em; font-size: clamp(18px, 1.5vw, 21px); }
+.en-hero .rise { animation-delay: 0.05s; }
+.en-hero .d1 { animation-delay: 0.15s; }
+.en-hero .d2 { animation-delay: 0.3s; }
+.en-hero .d3 { animation-delay: 0.45s; }
+.en-skip { margin: 22px 0 0; font-size: 15px; }
+.en-h { margin: 16px 0 0; font-size: clamp(34px, 3.6vw, 60px); font-weight: 700; line-height: 1; letter-spacing: -0.04em; color: var(--t1); }
+.en-body { margin: 20px 0 0; max-width: 30em; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.55; color: var(--t2); text-wrap: pretty; }
+.en-scene:last-child { padding-bottom: 12svh; }
+
+/* Portrait: the world holds the top of the screen and the words scroll up
+   beneath it, fading under its lower edge, never over the picture. */
+@media (max-aspect-ratio: 1/1) {
+  .en-scenes { margin-top: 0; }
+  .en-stage { z-index: 2; height: 54svh;
+    -webkit-mask-image: linear-gradient(#000 86%, transparent); mask-image: linear-gradient(#000 86%, transparent); }
+  .en-scene { min-height: 52svh; align-items: flex-start; padding: 8px var(--g) 0; }
+  .en-hero { min-height: auto; padding-top: 4px; padding-bottom: 12svh; }
+  .en-copy { width: 100%; max-width: 36rem; }
+  .en-hero h1 { margin-top: 12px; font-size: clamp(36px, 10vw, 60px); }
+  .en-hero .lede { margin-top: 18px; font-size: 18px; }
+  .en-h { font-size: clamp(30px, 8.6vw, 46px); }
+  .en-body { font-size: 17px; }
+  .en-pause { bottom: 12%; }
+  .en-scene:last-child { padding-bottom: 24svh; }
+}
+
+/* ── the offer ── */
+.en-draft { margin-left: 12px; padding: 3px 9px; border: 1px solid rgba(207, 171, 103, 0.6); border-radius: 999px; color: #CFAB67; font-size: 11px; letter-spacing: 0.08em; vertical-align: 1px; }
+.en-offer { margin: clamp(40px, 6vw, 72px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); column-gap: clamp(24px, 4vw, 48px); }
+.en-offer li { padding: 26px 0 32px; border-top: 1px solid var(--rule); }
+.en-offer h3 { margin: 0; font-size: 22px; font-weight: 600; letter-spacing: -0.016em; color: var(--t1); }
+.en-offer p { margin: 10px 0 0; max-width: 30em; font-size: 17px; line-height: 1.55; color: var(--t2); }
+.en-cta { margin-top: 28px; }
+
+/* ── what a company gets: four short claims, large ── */
+.en-gets { margin: clamp(40px, 6vw, 72px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); column-gap: clamp(20px, 3vw, 36px); }
+.en-gets li { padding: 24px 0 30px; border-top: 1px solid var(--rule); }
+.en-gets h3 { margin: 0; font-size: clamp(22px, 2vw, 28px); font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; color: var(--t1); }
+.en-gets p { margin: 12px 0 0; font-size: 17px; line-height: 1.55; color: var(--t2); }
+
+/* ── what it isn't ── */
+.en-isnt { margin: clamp(36px, 5vw, 56px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); column-gap: clamp(24px, 4vw, 48px); max-width: 1100px; }
+.en-isnt li { padding: 20px 0 24px; border-top: 1px solid var(--rule); font-size: 18px; line-height: 1.5; color: var(--t2); }
+.en-isnt b { font-weight: 600; color: var(--t1); }
+
+/* ── where it started: the first cohort, in their words ── */
+.en-quotes { margin-top: clamp(36px, 5vw, 56px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(24px, 4vw, 48px); max-width: 1100px; }
+.en-quotes figure { margin: 0; padding-top: 24px; border-top: 1px solid var(--rule); }
+.en-quotes blockquote { margin: 0; font-size: clamp(19px, 1.7vw, 24px); line-height: 1.4; letter-spacing: -0.01em; color: var(--t1); text-wrap: pretty; }
+.en-quotes figcaption { margin-top: 18px; display: flex; align-items: center; gap: 14px; font-size: 15px; line-height: 1.35; color: var(--t2); }
+.en-quotes figcaption img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.en-quotes figcaption b { display: block; font-weight: 600; color: var(--t1); }
+
+@media (prefers-reduced-motion: reduce) { .en-copy { transform: none; } }
