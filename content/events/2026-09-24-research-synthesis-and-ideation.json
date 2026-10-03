@@ -1,0 +1,14 @@
+{
+  "$comment": "A dated session, from the live site's events (a snapshot; in OLOS, from its events). Past events stay as the record; src/lib/dates.ts hides them from what's coming up.",
+  "title": "Research Synthesis and Ideation",
+  "kind": "workshop",
+  "date": "2026-09-24",
+  "time": "17:00",
+  "online": true,
+  "meta": {
+    "owner": "lab",
+    "review": "2026-10-20",
+    "status": "live",
+    "source": "theupskillinglabs.org/events, read Oct 3, 2026"
+  }
+}

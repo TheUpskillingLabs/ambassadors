@@ -1,6 +1,14 @@
 {
   "$comment": "/join/ — the account's start page, where every Join The Labs button leads (GOV.UK's start-page pattern: just enough to know what you're starting, one button, what happens next). The button goes to the live site's sign-in with ?path= carried over from the link that brought you (proposed for OLOS to route you after sign-in). Words for each path are keyed by its slug.",
   "placeholder": false,
+  "meta": {
+    "route": "/join/",
+    "need": "As someone ready to join, I need to know what the free account gets me and what happens next, so that I start without hesitating.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
   "title": "Join The Labs",
   "description": "One free account, and every path starts from it: workshops, a Build Cycle, a place to help. It takes a minute, and you sign in with Google.",
   "hero": {

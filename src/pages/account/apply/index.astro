@@ -53,7 +53,7 @@ const strings = {
     </div>
 
     <!-- 1. The Labs in three minutes: the film, or the short read -->
-    <section class="apply-screen" data-screen="video" aria-labelledby="ap-video">
+    <section class="apply-screen" id="video" data-screen="video" aria-labelledby="ap-video">
       <h1 id="ap-video" class="apply-title" tabindex="-1">{a.video.title}</h1>
       <p class="lede">{a.video.lede}</p>
       <div class="apply-video">
@@ -77,7 +77,7 @@ const strings = {
     </section>
 
     <!-- 2. The quiz: the coordinator's ten questions, with hints -->
-    <section class="apply-screen" data-screen="quiz" aria-labelledby="ap-quiz" hidden>
+    <section class="apply-screen" id="quiz" data-screen="quiz" aria-labelledby="ap-quiz" hidden>
       <h1 id="ap-quiz" class="apply-title" tabindex="-1">{a.quiz.title}</h1>
       <p class="lede">{a.quiz.lede}</p>
       <form class="apply-form quiz" data-form="quiz" novalidate>
@@ -102,7 +102,7 @@ const strings = {
     </section>
 
     <!-- 3. The agreement -->
-    <section class="apply-screen" data-screen="agreement" aria-labelledby="ap-agreement" hidden>
+    <section class="apply-screen" id="agreement" data-screen="agreement" aria-labelledby="ap-agreement" hidden>
       <h1 id="ap-agreement" class="apply-title" tabindex="-1">{a.agreement.title}</h1>
       <p class="lede">{a.agreement.lede}</p>
       <form class="apply-form" data-form="agreement" novalidate>

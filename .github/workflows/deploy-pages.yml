@@ -7,6 +7,10 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  # Daily, so dated pages (what's coming up, a cycle's state) never go stale
+  # between commits, and a passed review date fails loudly (scripts/check-meta.mjs).
+  schedule:
+    - cron: "17 9 * * *"
 
 permissions:
   contents: read

@@ -1,6 +1,14 @@
 {
   "$comment": "/enterprise/ — For enterprise: a sales page for companies, leading with in-house cycles (Brendan, Oct 2, 2026: lead with running it in-house; the story is an org chart that rewires into a network; called For enterprise). The story's scenes play over the org-chart world (src/scripts/orgworld.ts); the sales sections follow. In-house cycles, the platform instance and what stays the company's are proposals, so the page is a draft (placeholder: true) and unlisted (noindex). Its one action is a conversation, like For government.",
   "placeholder": true,
+  "meta": {
+    "route": "/enterprise/",
+    "need": "As someone who owns how a company learns, I need the offer, the proof and the steps, so that I can start a conversation.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
   "title": "For enterprise",
   "description": "The Labs puts people from across your company on a real problem for twelve weeks. They frame it, build it and teach it back, and the whole company gets better at the work.",
   "nav": {

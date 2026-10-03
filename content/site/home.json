@@ -1,6 +1,14 @@
 {
   "$comment": "The Upskilling Labs home page (src/pages/index.astro): one journey of twenty scenes over a live world, the words beside the picture. The idea it shows: The Labs is one big open project. Everyone in it builds three things together (open workshops and playbooks, the method and kits that turn strangers into teams doing real work, and the platform every Lab runs on), and a small team at the centre curates the official versions every Lab gets. The Build Cycle is the engine: real work, start to finish; when cohorts hit obstacles, Mentors build the next workshops around them; what works is shared back. Everything after the account happens inside it. No levels, pins, membership or dues here.",
   "placeholder": true,
+  "meta": {
+    "route": "/",
+    "need": "As someone who just heard of The Labs, I need to know what it is and whether it is for me, so that I can decide to join.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
   "title": "The Upskilling Labs",
   "description": "Work is changing too fast to figure out alone. The Upskilling Labs is free workshops and team projects at your local public library, made by volunteers and open to anyone.",
   "links": {

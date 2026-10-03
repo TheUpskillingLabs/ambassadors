@@ -1,6 +1,14 @@
 {
   "$comment": "The Ambassador program page (/ambassador/), one role page among five. Every \"Become an ambassador\" goes to account creation, like every role; the orientation (/apply/) is a prototype of a step inside the account. The moments carry the brass soft enamel pins (public/join/moment-*.webp) that the program page had.",
   "placeholder": true,
+  "meta": {
+    "route": "/ambassador/",
+    "need": "As someone who met a person wearing the ambassador button, I need to know who they are and how to think of them, so that I can trust what they told me.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
   "slug": "ambassador",
   "role": "Ambassador",
   "description": "Help the right people find The Upskilling Labs, one conversation at a time. It's free, and how you do it is up to you.",

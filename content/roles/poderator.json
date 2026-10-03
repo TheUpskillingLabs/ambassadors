@@ -1,6 +1,14 @@
 {
   "$comment": "Poderators run a Pod through a Build Cycle (the app calls them shepherds; the name isn't settled). The button is given once trained and seated. Placeholders: hours a week, the training, and the sign-up link.",
   "placeholder": true,
+  "meta": {
+    "route": "/poderator/",
+    "need": "As someone who met a person wearing the poderator button, I need to know who they are and how to think of them, so that I can trust what they told me.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
   "slug": "poderator",
   "role": "Poderator",
   "description": "A Poderator keeps a Pod of nine or more people together through a Build Cycle at The Upskilling Labs, from the first meeting to the Showcase.",
