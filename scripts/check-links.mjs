@@ -8,7 +8,7 @@ import { routeStatus } from "./lib/meta.mjs";
 
 const DIST = "dist";
 const BASE = (process.env.BASE_PATH || "/").replace(/\/+$/, "");
-const ATTR = /(?:href|src|srcset|data-src|data-pin3d|data-art|data-apply-url)="([^"]*)"/g;
+const ATTR = /\b(href|src|srcset|data-src|data-pin3d|data-art|data-apply-url)="([^"]*)"/g;
 
 async function walk(dir) {
   const out = [];
@@ -32,7 +32,9 @@ for (const file of await walk(DIST)) {
   const ids = new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
   const live = status.get(route) === "live";
   for (const m of html.matchAll(ATTR)) {
-    for (const part of m[1].split(",")) {
+    // Only a srcset is a list (split on a comma followed by space, so a data: URI's own comma stays put).
+    if (/^data:/.test(m[2])) continue;
+    for (const part of m[1] === "srcset" ? m[2].split(/,\s+/) : [m[2]]) {
       const ref = part.trim().split(/\s+/)[0];
       if (!ref) continue;
       if (ref.startsWith("#")) { if (ref.length > 1 && !ids.has(ref.slice(1))) fail(route, `anchor ${ref} has no element`); continue; }
