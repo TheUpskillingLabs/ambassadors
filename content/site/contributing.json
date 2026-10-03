@@ -113,7 +113,7 @@
         "rank": "Contributing Member",
         "shows": "One part of The Labs",
         "line": "Something you gave is now part of how The Labs runs.",
-        "how": "Your work, your time, or your know-how made a real difference, and your Lab wrote down what it was.",
+        "how": "Your work, your time, or your know-how made a real difference, and the Lab wrote down what it was.",
         "trusted": "Vouching for the next person who's ready."
       },
       {
@@ -130,7 +130,7 @@
         "shows": "Every major workstream",
         "line": "You've seen every part of The Labs up close.",
         "how": "You've worked hands-on in every major workstream, and a few of the smaller ones.",
-        "trusted": "Saying yes to changes in your Lab's playbooks, and mentoring Reviewers."
+        "trusted": "Saying yes to changes in the Lab's playbooks, and mentoring Reviewers."
       },
       {
         "id": "maintainer",
@@ -175,7 +175,7 @@
       },
       {
         "title": "It goes on the record.",
-        "body": "Your Lab checks it and writes one line about what you did, next to your name."
+        "body": "The Lab checks it and writes one line about what you did, next to your name."
       },
       {
         "title": "Pinned.",
@@ -192,7 +192,7 @@
       {
         "label": "Active",
         "title": "In the thick of it.",
-        "body": "You've got a seat in your Lab, and the say that comes with it."
+        "body": "You've got a seat at the table, and the say that comes with it."
       },
       {
         "label": "Emeritus",

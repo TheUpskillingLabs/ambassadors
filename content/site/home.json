@@ -400,12 +400,12 @@
           "detail": "Be the first on the list"
         }
       ],
-      "note": "Join, and you'll hear the moment yours opens."
+      "note": "Join, and you'll hear the moment one opens near you."
     },
     "found": {
       "$comment": "For people who'd start a Lab where they live, wherever that is (on the list of cities or not). The world closes in on the newborn Lab: a few people gather at it, then The Labs' own kit reaches it from the centre, in silver (the national org). Said a line at a time: you could do this; you don't need experience; what you bring and what we bring; why now; then the account (path=start-a-lab), where founding goes on.",
       "kicker": "Start a Lab",
-      "title": "The next Lab could be yours.",
+      "title": "The next Lab could start with you.",
       "lede": "Every Lab starts with a few people who want one where they live. You don't need to have done this before.",
       "offer": "You bring the people. We'll bring the workshops, the Build Cycle and the tools, and help you find it a home at your public library.",
       "early": "The first people in a city decide what its Lab becomes.",
