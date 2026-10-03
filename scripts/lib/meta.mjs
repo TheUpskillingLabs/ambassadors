@@ -4,11 +4,11 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-export const PAGE_FILES = ["home", "joinpage", "partners", "government", "enterprise", "contributing", "workshops", "build-cycles", "labs"].map((f) => `content/site/${f}.json`);
-export const RECORD_DIRS = ["content/labs", "content/events", "content/cycles"];
+export const PAGE_FILES = ["home", "joinpage", "partners", "government", "enterprise", "contributing", "workshops", "build-cycles", "labs", "about", "about-board", "about-results", "projects", "problems", "newsroom"].map((f) => `content/site/${f}.json`);
+export const RECORD_DIRS = ["content/labs", "content/events", "content/cycles", "content/problems", "content/projects", "content/people", "content/stories"];
 
 async function jsonFiles(dir) {
-  return (await readdir(dir)).filter((f) => f.endsWith(".json")).map((f) => path.join(dir, f));
+  return (await readdir(dir).catch(() => [])).filter((f) => f.endsWith(".json")).map((f) => path.join(dir, f));
 }
 
 /** Every governed file: { file, kind: "page" | "record", data }. */

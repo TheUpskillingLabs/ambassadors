@@ -1,0 +1,46 @@
+---
+/* /problems/<id>/ — one problem situation: who it affects, who brought it
+   (named only with consent, else described), the cycle, and what came of it. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref } from "../../lib/nav";
+import p from "../../../content/site/problems.json";
+
+export async function getStaticPaths() {
+  return (await getCollection("problems")).map((x) => ({ params: { id: x.id }, props: { x } }));
+}
+const { x } = Astro.props;
+const cycle = x.data.cycle ? (await getCollection("cycles")).find((c) => c.id === x.data.cycle) : undefined;
+const came = (await getCollection("projects")).filter((y) => y.data.problem === x.id && y.data.meta.status === "live");
+const owner = x.data.owner?.consent ? [x.data.owner.name, x.data.owner.org].filter(Boolean).join(", ") : x.data.ownerDescribed;
+const status = p.problem.status as Record<string, string>;
+---
+<Site title={`${x.data.title} · The Upskilling Labs`} description={x.data.summary} bodyClass="pg">
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="pg-crumb"><a href={u("/problems/")}>← {p.title}</a></p>
+        <p class="kicker rise">{p.problem.kicker} · {status[x.data.status]}</p>
+        <h1 class="rise d1">{x.data.title}</h1>
+        <p class="lede rise d2">{x.data.summary}</p>
+        <dl class="pg-facts rise d3">
+          <div><dt>{p.problem.affects}</dt><dd>{x.data.affects}</dd></div>
+          {owner && <div><dt>{p.problem.owner}</dt><dd>{owner}</dd></div>}
+          {cycle && <div><dt>{p.problem.cycle}</dt><dd><a href={u(`/build-cycles/${cycle.id}/`)}>{cycle.data.title}</a></dd></div>}
+        </dl>
+      </section>
+      <section id="came" class="pg-sec">
+        <p class="kicker">{p.problem.projects}</p>
+        {came.length ? <ul class="pg-labs">{came.map((y) => <li><h3><a href={u(`/projects/${y.id}/`)}>{y.data.title}</a></h3><p>{y.data.summary}</p></li>)}</ul> : <p class="pg-empty">{p.problem.none}</p>}
+      </section>
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{p.join.title}</h2>
+          <p class="lede">{p.join.lede}</p>
+          <div class="row"><a class="btn" href={joinHref("build")}>{p.join.cta}</a></div>
+        </div>
+      </section>
+    </main>
+</Site>

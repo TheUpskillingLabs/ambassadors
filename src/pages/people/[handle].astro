@@ -1,0 +1,40 @@
+---
+/* /people/<handle>/ — a person, opt-in (no page without their consent record,
+   src/content.config.ts): their roles, their Lab, and the work with their
+   name on it. There's no list of people; they're found through their work. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import w from "../../../content/site/people.json";
+import roles from "../../../content/roles/roles.json";
+
+export async function getStaticPaths() {
+  return (await getCollection("people")).filter((x) => x.data.consent).map((x) => ({ params: { handle: x.id }, props: { x } }));
+}
+const { x } = Astro.props;
+const lab = x.data.lab ? (await getCollection("labs")).find((l) => l.id === x.data.lab) : undefined;
+const projects = (await getCollection("projects")).filter((y) => y.data.meta.status === "live" && y.data.team.some((t) => t.handle === x.id));
+const cycles = (await getCollection("cycles")).filter((c) => x.data.cycles.includes(c.id));
+const roleName = (slug: string) => roles.roles.find((r) => r.slug === slug)?.name ?? slug;
+---
+<Site title={`${x.data.name} · The Upskilling Labs`} description={x.data.bio ?? w.description} bodyClass="pg">
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="kicker rise">{w.person.kicker}</p>
+        <h1 class="rise d1">{x.data.name}</h1>
+        {x.data.bio && <p class="lede rise d2">{x.data.bio}</p>}
+        <dl class="pg-facts rise d3">
+          {x.data.roles.length > 0 && <div><dt>{w.person.roles}</dt><dd>{x.data.roles.map((r, i) => <>{i > 0 && ", "}<a href={u(`/${r}/`)}>{roleName(r)}</a></>)}</dd></div>}
+          {lab && <div><dt>{w.person.labs}</dt><dd><a href={u(`/labs/${lab.id}/`)}>{lab.data.city}</a></dd></div>}
+          {cycles.length > 0 && <div><dt>{w.person.cycles}</dt><dd>{cycles.map((c, i) => <>{i > 0 && ", "}<a href={u(`/build-cycles/${c.id}/`)}>{c.data.title}</a></>)}</dd></div>}
+        </dl>
+      </section>
+      <section id="work" class="pg-sec">
+        <p class="kicker">{w.person.projects}</p>
+        {projects.length ? <ul class="pg-labs">{projects.map((y) => <li><h3><a href={u(`/projects/${y.id}/`)}>{y.data.title}</a></h3><p>{y.data.summary}</p></li>)}</ul> : <p class="pg-empty">{w.person.none}</p>}
+        {x.data.led.length > 0 && <><p class="kicker" style="margin-top: 40px">{w.person.led}</p><ul class="pg-gets">{x.data.led.map((t) => <li><h3>{t}</h3></li>)}</ul></>}
+      </section>
+    </main>
+</Site>

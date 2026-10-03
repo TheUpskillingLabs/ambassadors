@@ -1,0 +1,22 @@
+{
+  "$comment": "/about/board/ — the board. A draft, unlinked, until the members' names and titles are brought over from the live site (theupskillinglabs.org/board) with their agreement to be shown here; the About page links to the live board page until then.",
+  "placeholder": true,
+  "meta": {
+    "route": "/about/board/",
+    "need": "As someone deciding whether to trust The Labs, I need to know who oversees it, so that I can judge it by its people.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "draft",
+    "index": false
+  },
+  "title": "Our board",
+  "description": "The board of The Upskilling Labs, Inc.",
+  "hero": {
+    "kicker": "About",
+    "title": "Our board.",
+    "lede": "The board oversees the national organization: its finances, its policies and the fiscal sponsorship. The Labs themselves are run locally, by the people in them."
+  },
+  "members": [],
+  "empty": "[PLACEHOLDER] The members' names and titles are brought over from the live site once each has agreed to be shown here.",
+  "live": "The board on the live site"
+}

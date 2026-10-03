@@ -46,3 +46,9 @@ export function formatEvent(e: { date: string; time: string; tz: string }, local
     time: at.toLocaleTimeString(locale, { hour: "numeric", minute: at.getMinutes() ? "2-digit" : undefined, timeZone: e.tz }),
   };
 }
+
+/** The next Showcase still to come (the cycle whose Showcase is soonest), for "the first projects go up after…". */
+export function nextShowcase(cycles: CycleEntry[], now = new Date()): CycleEntry | undefined {
+  const day = (d: string) => Date.parse(`${d}T23:59:59-04:00`);
+  return cycles.filter((c) => c.data.meta.status === "live" && day(c.data.showcase) >= now.getTime()).sort((a, b) => a.data.showcase.localeCompare(b.data.showcase))[0];
+}

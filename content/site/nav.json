@@ -1,12 +1,12 @@
 {
-  "$comment": "The global header and footer, on every public page (src/components/GlobalHeader.astro, GlobalFooter.astro, through src/layouts/Site.astro). Tasks in the main nav, audiences in the utility links and the footer, one button (Join The Labs), as design/information-architecture (the project doc) sets out. An href starting with / is a page here; anything else is a key into home.json's links (the live site). Workshops, Build Cycles and Find a Lab have their pages; About goes to the live site until its page is built (a later PR).",
+  "$comment": "The global header and footer, on every public page (src/components/GlobalHeader.astro, GlobalFooter.astro, through src/layouts/Site.astro). Tasks in the main nav, audiences in the utility links and the footer, one button (Join The Labs), as design/information-architecture (the project doc) sets out. An href starting with / is a page here; anything else is a key into home.json's links (the live site). Workshops, Build Cycles, Find a Lab and About have their pages; the board and contact go to the live site until theirs are built.",
   "brand": "The Upskilling Labs",
   "main": [
     { "label": "Workshops", "href": "/workshops/" },
     { "label": "Build Cycles", "href": "/build-cycles/" },
     { "label": "Contribute", "href": "/contributing/" },
     { "label": "Find a Lab", "href": "/labs/" },
-    { "label": "About", "href": "about" }
+    { "label": "About", "href": "/about/" }
   ],
   "utility": [
     { "label": "Partner with us", "href": "/partners/" },
@@ -30,6 +30,8 @@
       ] },
       { "title": "Contribute", "links": [
         { "label": "Ways to help", "href": "/contributing/" },
+        { "label": "Problems", "href": "/problems/" },
+        { "label": "Projects", "href": "/projects/" },
         { "label": "Built in the open", "href": "github" },
         { "label": "Join The Labs", "href": "/join/" }
       ] },
@@ -39,7 +41,7 @@
         { "label": "Employers", "href": "/enterprise/" }
       ] },
       { "title": "About", "links": [
-        { "label": "Our story", "href": "about" },
+        { "label": "Our story", "href": "/about/" },
         { "label": "Our board", "href": "board" },
         { "label": "Contact", "href": "contact" },
         { "label": "Donate", "href": "donate" }

@@ -1,0 +1,26 @@
+---
+/* /about/board/ — the board. A draft, unlinked, until the members' names and
+   titles come over from the live site with their agreement to be shown. */
+import Site from "../../../layouts/Site.astro";
+import "../../../styles/page.css";
+import { u } from "../../../lib/url";
+import { LIVE } from "../../../lib/nav";
+import b from "../../../../content/site/about-board.json";
+
+const members = b.members as { name: string; title: string }[];
+---
+<Site title={`${b.title} · The Upskilling Labs`} description={b.description} bodyClass="pg" note={b.placeholder ? "[PLACEHOLDER] Draft: the board's names come over from the live site once each member has agreed to be shown here." : undefined}>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="pg-crumb"><a href={u("/about/")}>← About</a></p>
+        <p class="kicker rise">{b.hero.kicker}</p>
+        <h1 class="rise d1">{b.hero.title}</h1>
+        <p class="lede rise d2">{b.hero.lede}</p>
+      </section>
+      <section id="members" class="pg-sec">
+        {members.length ? <ul class="pg-gets">{members.map((m) => <li><h3>{m.name}</h3><p>{m.title}</p></li>)}</ul> : <p class="pg-empty">{b.empty}</p>}
+        <p class="pg-fine"><a class="textlink" href={LIVE.board}>{b.live} →</a></p>
+      </section>
+    </main>
+</Site>

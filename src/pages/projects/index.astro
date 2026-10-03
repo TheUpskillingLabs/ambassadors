@@ -1,0 +1,71 @@
+---
+/* /projects/ — what teams built, from content/projects (each shown only with
+   its team's consent: scripts/check-meta.mjs). Before the next Showcase the
+   empty state says when the first go up; after, that they appear once the
+   teams agree. Copy in content/site/projects.json. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref } from "../../lib/nav";
+import { nextShowcase } from "../../lib/dates";
+import { fill, longDate } from "../../lib/takepart";
+import p from "../../../content/site/projects.json";
+
+const now = new Date();
+const projects = (await getCollection("projects")).filter((x) => x.data.meta.status === "live").sort((a, b) => b.data.meta.review.localeCompare(a.data.meta.review));
+const cycles = new Map((await getCollection("cycles")).map((c) => [c.id, c]));
+const coming = nextShowcase([...cycles.values()], now);
+const empty = coming ? fill(p.empty.before, { title: coming.data.title, showcase: longDate(coming.data.showcase) }) : p.empty.after;
+const status = p.project.status as Record<string, string>;
+const local = [
+  { label: p.list.kicker, href: "#list", spy: "list" },
+  { label: p.how.kicker, href: "#how", spy: "how" },
+];
+---
+<Site title={`${p.title} · The Upskilling Labs`} description={p.description} bodyClass="pg" local={local}>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="kicker rise">{p.hero.kicker}</p>
+        <h1 class="rise d1">{p.hero.title}</h1>
+        <p class="lede rise d2">{p.hero.lede}</p>
+      </section>
+
+      <section id="list" class="pg-sec">
+        <p class="kicker">{p.list.kicker}</p>
+        {projects.length ? (
+          <ul class="pg-labs">
+            {projects.map((x) => (
+              <li>
+                <span class="stage">{status[x.data.status]}{x.data.cycle && cycles.get(x.data.cycle) && ` · ${cycles.get(x.data.cycle)!.data.title}`}</span>
+                <h3><a href={u(`/projects/${x.id}/`)}>{x.data.title}</a></h3>
+                <p>{x.data.summary}</p>
+                <a class="textlink" href={u(`/projects/${x.id}/`)}>{p.project.kicker} →</a>
+              </li>
+            ))}
+          </ul>
+        ) : <p class="pg-empty">{empty}</p>}
+      </section>
+
+      <section id="how" class="pg-sec">
+        <p class="kicker">{p.how.kicker}</p>
+        <h2 class="h2">{p.how.title}</h2>
+        <ol class="pg-steps">{p.how.steps.map((s) => <li><h3>{s.title}</h3><p>{s.body}</p></li>)}</ol>
+        <p class="pg-fine"><a class="textlink" href={u("/build-cycles/")}>{p.how.more} →</a></p>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{p.join.title}</h2>
+          <p class="lede">{p.join.lede}</p>
+          <div class="row"><a class="btn" href={joinHref("build")}>{p.join.cta}</a></div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => { head.classList.toggle("cta-off", e.isIntersecting); cta.tabIndex = e.isIntersecting ? -1 : 0; }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>

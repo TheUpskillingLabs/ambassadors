@@ -1,0 +1,52 @@
+{
+  "$comment": "/problems/ — the problem situations each cycle works on, from content/problems (none public yet; they're published each cycle, owners named only with consent), and the door for bringing one: the account, with path=problem.",
+  "placeholder": false,
+  "meta": {
+    "route": "/problems/",
+    "need": "As someone with a problem worth solving, or deciding whether the work is real, I need to see what The Labs works on and how to bring a problem, so that I can bring one or join one.",
+    "owner": "national",
+    "review": "2026-11-15",
+    "status": "live",
+    "index": false
+  },
+  "title": "Problems",
+  "description": "The real problems Build Cycle teams work on, and how to bring one.",
+  "hero": {
+    "kicker": "The open project",
+    "title": "Real problems, worth twelve weeks.",
+    "lede": "A Build Cycle doesn't start with a brief. It starts with a problem situation: something real and messy that people face, brought by the people who face it. Teams form round it, and what they make goes back to whoever brought it."
+  },
+  "list": {
+    "kicker": "Problem situations"
+  },
+  "empty": {
+    "before": "The {title} cycle's problems are published after its Showcase on {showcase}.",
+    "after": "Problem situations appear here as each cycle publishes them, with their owners named only when they've agreed."
+  },
+  "bring": {
+    "kicker": "Bring us a problem",
+    "title": "Have one?",
+    "body": "Agencies, libraries, employers and neighbours bring them. If it's real, affects people, and could use twelve weeks of a team's attention, tell us about it. Make your free account and say what it is; someone from the Lab near you will follow up.",
+    "cta": "Bring a problem",
+    "note": "You decide whether your organization is named on the page."
+  },
+  "problem": {
+    "$comment": "Words for a problem's own page.",
+    "kicker": "A problem situation",
+    "affects": "Who it affects",
+    "owner": "Brought by",
+    "cycle": "The cycle",
+    "projects": "What came of it",
+    "none": "No project has come of it yet.",
+    "status": {
+      "open": "Open",
+      "working": "Being worked on",
+      "done": "Worked on"
+    }
+  },
+  "join": {
+    "title": "Work on one.",
+    "lede": "Make your free account, then apply for the next Build Cycle from there.",
+    "cta": "Join The Labs"
+  }
+}

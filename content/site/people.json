@@ -1,0 +1,14 @@
+{
+  "$comment": "Words for a person's page (/people/<handle>/, from content/people; opt-in: no page without the person's consent record). No catalogue: people are found through their work. (Words only, not a page: there is no /people/ index.)",
+  "title": "People",
+  "description": "A person in The Labs, and the work with their name on it.",
+  "person": {
+    "kicker": "A person",
+    "roles": "Roles",
+    "projects": "Projects",
+    "led": "Workshops led",
+    "cycles": "Build Cycles",
+    "labs": "Lab",
+    "none": "Nothing credited yet."
+  }
+}

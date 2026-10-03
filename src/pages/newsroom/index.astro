@@ -1,0 +1,39 @@
+---
+/* /newsroom/ — stories: people's own and the press, from content/stories
+   (each with a consent record). A draft, unlinked, until the first story
+   comes over. Copy in content/site/newsroom.json. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { LIVE } from "../../lib/nav";
+import { longDate } from "../../lib/takepart";
+import n from "../../../content/site/newsroom.json";
+
+const stories = (await getCollection("stories")).filter((x) => x.data.meta.status === "live").sort((a, b) => b.data.date.localeCompare(a.data.date));
+const live = LIVE as Record<string, string>;
+---
+<Site title={`${n.title} · The Upskilling Labs`} description={n.description} bodyClass="pg" note={n.placeholder ? "[PLACEHOLDER] Draft: unlinked until the first story comes over with its consent record." : undefined}>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="kicker rise">{n.hero.kicker}</p>
+        <h1 class="rise d1">{n.hero.title}</h1>
+        <p class="lede rise d2">{n.hero.lede}</p>
+      </section>
+      <section id="list" class="pg-sec">
+        <p class="kicker">{n.list.kicker}</p>
+        {stories.length ? (
+          <ul class="pg-events">
+            {stories.map((s) => <li><p class="when"><b>{longDate(s.data.date)}</b></p><div><h3><a href={u(`/newsroom/${s.id}/`)}>{s.data.title}</a></h3><p class="where">{s.data.kind === "press" ? s.data.outlet ?? n.story.press : n.story.own}</p></div><span class="kind">{s.data.kind === "press" ? n.story.press : n.story.own}</span></li>)}
+          </ul>
+        ) : <p class="pg-empty">{n.empty}</p>}
+      </section>
+      <section id="press" class="pg-sec">
+        <p class="kicker">{n.press.kicker}</p>
+        <h2 class="h2">{n.press.title}</h2>
+        <p>{n.press.body}</p>
+        <p class="pg-fine"><a class="ghost" href={live[n.press.href]}>{n.press.cta} →</a></p>
+      </section>
+    </main>
+</Site>
