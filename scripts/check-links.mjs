@@ -41,7 +41,9 @@ for (const file of await walk(DIST)) {
       if (/^(https?:|mailto:|sms:|tel:|data:|javascript:)/.test(ref) || ref.startsWith("//")) continue;
       links++;
       const clean = ref.split(/[?#]/)[0];
-      let rel = clean.startsWith(BASE + "/") ? clean.slice(BASE.length) : clean.startsWith("/") ? null : path.posix.join(path.posix.dirname(route), clean);
+      // A relative link resolves against the page's own directory: a route ending in / is that directory.
+      const dir = route.endsWith("/") ? route : path.posix.dirname(route);
+      let rel = clean.startsWith(BASE + "/") ? clean.slice(BASE.length) : clean.startsWith("/") ? null : path.posix.join(dir, clean);
       if (rel === null) { fail(route, `link outside the base path: ${ref}`); continue; }
       if (rel === "") rel = "/";
       const target = path.join(DIST, rel);
