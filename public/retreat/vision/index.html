@@ -2140,16 +2140,18 @@ const SLIDES = [
   {
     label: "Frame · the spinouts", make: () => spinoutScene(),
     words: `<p class="kicker">Philadelphia · 1731–1775</p>
-      <h2 class="h">The Junto spun out institutions</h2>
+      <h2 class="h">The Junto’s spinouts went worldwide</h2>
       <ul class="spins">
         <li style="--d:0.9s"><span>1731</span>A library</li>
         <li style="--d:1.75s"><span>1736</span>A volunteer fire company</li>
         <li style="--d:2.6s"><span>1743</span>A philosophical society</li>
-        <li style="--d:3.45s"><span>1749</span>An academy, now the University of Pennsylvania</li>
+        <li style="--d:3.45s"><span>1749</span>An academy, now UPenn</li>
         <li style="--d:4.3s"><span>1751</span>A hospital</li>
-        <li style="--d:5.15s"><span>1775</span>And Franklin’s post office became the nation’s</li>
-      </ul>`,
-    notes: ["“Then the Junto kept spinning things out. A library. A volunteer fire company, from a paper Franklin first read to the club. A philosophical society. An academy that’s now the University of Pennsylvania. A hospital. And Franklin ran the colonial post, which became the nation’s post office.” The list builds itself; speak over it."],
+        <li style="--d:5.15s"><span>1775</span>The national post office</li>
+      </ul>
+      <p class="lead" data-at="1">Not answers for one city or one country: cities on every continent run on them.</p>`,
+    notes: ["“Then the Junto kept spinning things out. A library. A volunteer fire company, from a paper Franklin first read to the club. A philosophical society. An academy that’s now the University of Pennsylvania. A hospital. And Franklin ran the colonial post, which became the nation’s post office.” The list builds itself; speak over it.",
+      "“None of these were answers for one city, or even one country. Today, cities on every continent run on them.” Pause."],
     pocket: "Franklin’s Autobiography: the fire company grew out of a paper “first read in the Junto”; for the Academy, “the Junto furnished a good part” of its first backers. The hospital was Dr. Thomas Bond’s idea, with Franklin raising the money.",
   },
   {
@@ -2236,11 +2238,11 @@ const SLIDES = [
     label: "Frame · the question", make: () => sys({ geo: { orbLift: (c) => ss(0.4, 2.6, c.t), lift: (c, j) => ss(1.1 + j * 0.3, 3.0 + j * 0.3, c.t) }, p: (c) => eio(c.sa[1]), dur: [0, 6.5],
       cam: (c) => { const k = eio(ss(0.2, 5.0, c.t)), g = eio(c.sa[1] ?? 0), G = GEO_CAM(c); return { t: [lerp(DCP[0], G.t[0], k), lerp(0, G.t[1], k), lerp(DCP[2], G.t[2], k)], d: Math.exp(lerp(Math.log(3.3), Math.log(lerp(22, 29, g)), k)), yaw: lerp(0.2, G.yaw, k), pitch: lerp(34, 27, k) * DEG, fov: lerp(30, 34, k), sx: lerp(0.28, 0.31, k), sy: lerp(0.14, 0.16, k), zoom: lerp(1.5, 1, k) }; } }),
     words: `<p class="kicker">Sketch the moonshot</p>
-      <h2 class="h">What will our chapter say?</h2>
-      <p class="lead dim">Someday someone will write the history of how this country got through the AI transition, including a chapter about us.</p>
+      <h2 class="h">What will the world say we did?</h2>
+      <p class="lead dim">The Junto has a chapter in the story of how the world got through print. When the story of AI is written, what does ours say?</p>
       <div class="pair" data-at="1"><p class="lead">Not next quarter.</p><p class="year" data-yr>2036</p></div>`,
     notes: [
-      "“So here’s the question for the next half hour: when someone writes the history of how this country got through the AI transition, what does our chapter say?” The Labs rise out of the map, starting from the DC library you opened on.",
+      "“The Junto has a chapter in the story of how the world got through the age of print. Someone will write the story of how the world got through the age of AI. So here’s the question for the next twenty minutes: what does our chapter say? What will the world say we did?” The Labs rise out of the map, starting from the DC library you opened on.",
       "“Not next quarter. 2036.” New Labs light up in cities across the country, then join the orbit.",
     ],
     hud(c, el) { const y = el.querySelector("[data-yr]"); if (y && c) y.textContent = String(Math.round(2026 + 10 * eio(c.sa[1] ?? 0))); },
