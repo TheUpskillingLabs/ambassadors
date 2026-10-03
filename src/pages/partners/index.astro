@@ -1,0 +1,61 @@
+---
+/* /partners/ — Partner with us: the hub behind the header's utility link, one
+   door per kind of institution (For government, For enterprise; libraries and
+   funders to come). Its one action is a conversation. Copy in
+   content/site/partners.json; the look in src/styles/page.css. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { u } from "../../lib/url";
+import { joinHref, LIVE } from "../../lib/nav";
+import p from "../../../content/site/partners.json";
+
+const pageTitle = `${p.title} · The Upskilling Labs`;
+---
+<Site title={pageTitle} description={p.description} bodyClass="pg">
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="kicker rise">{p.hero.kicker}</p>
+        <h1 class="rise d1">{p.hero.title}</h1>
+        <p class="lede rise d2">{p.hero.lede}</p>
+      </section>
+
+      <section id="doors" class="pg-sec">
+        <ul class="pg-doors">
+          {p.doors.map((d) => (
+            <li>
+              <h3>{d.title}</h3>
+              <p>{d.body}</p>
+              <a class="ghost" href={u(d.href)}>{d.cta} →</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="more" class="pg-sec">
+        <p class="kicker">{p.more.kicker}</p>
+        <h2 class="h2">{p.more.title}</h2>
+        <p>{p.more.body}</p>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{p.join.title}</h2>
+          <p class="lede">{p.join.lede}</p>
+          <div class="row">
+            <a class="btn" href={LIVE.contact}>{p.join.cta}</a>
+            <a class="textlink" href={joinHref()}>{p.join.residents} →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => {
+        head.classList.toggle("cta-off", e.isIntersecting);
+        cta.tabIndex = e.isIntersecting ? -1 : 0;
+      }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>

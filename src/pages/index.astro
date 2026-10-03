@@ -33,21 +33,20 @@
    them, Geologica, hairline rules, teal labels. The sessions, cities and member
    count are a snapshot in content/site/home.json; in OLOS they come from its
    own data. Links point at the live site until then. */
-import "@fontsource-variable/geologica/wght.css";
-import "../styles/join.css";
+import Site from "../layouts/Site.astro";
 import "../styles/role.css";
 import "../styles/home.css";
 import { u } from "../lib/url";
+import { joinHref } from "../lib/nav";
 import h from "../../content/site/home.json";
 import HomeScene from "../components/HomeScene.astro";
-import list from "../../content/roles/roles.json";
-import j from "../../content/site/join.json";
 
 const L = h.links;
 const orbit = (f: string) => u(`/join/${f}`);
 const pageTitle = h.title;
-// Each way in goes straight to the account, with the path it came from (?path=, proposed for OLOS).
-const pathJoin = (slug: string) => `${L.join}&path=${slug}`;
+// Each way in goes to the account's start page (/join/), with the path it came from (?path=, proposed for OLOS).
+const pathJoin = (slug: string) => joinHref(slug);
+const join = joinHref();
 const ch = h.chapters, J = h.journey, go = ch.go;
 const giveTo: Record<string, string> = { mentor: u("/mentor/"), github: L.github };
 // Share's way leads to the Contributor Community page, which explains how contributing works and where to start.
@@ -58,58 +57,18 @@ const closesAt = `${J.cycle.closes}T00:00:00-04:00`;
 const cycleState = Date.now() < Date.parse(closesAt) ? "open" : "closed";
 const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat(u("/home/suzie.webp"));
 ---
-<!doctype html>
-<html lang="en" data-cycle={cycleState}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>{pageTitle}</title>
-    <meta name="description" content={h.description} />
-    <meta name="theme-color" content="#00141B" />
-    <meta name="robots" content="noindex" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={h.description} />
-    <meta property="og:image" content={new URL(orbit("hub-share.jpg"), Astro.site)} />
-    <script is:inline>document.documentElement.dataset.menu = "";</script>
+<Site title={pageTitle} description={h.description} image={orbit("hub-share.jpg")} bodyClass="rp hm" htmlAttrs={{ "data-cycle": cycleState }} quiet brand="home" ctaOff note={h.placeholder ? "Prototype for OLOS: sessions, cities and member counts are a snapshot from Sep 29, 2026." : undefined}>
+  <Fragment slot="head">
     <!-- The page opens on the logo (see the opening in src/scripts/orbnet.ts): until it's played, no poster and
          no title, so nothing shows before it. Not with reduced motion, a still, or a page opened partway down. -->
     <script is:inline>if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !/orb=(still|poster)/.test(location.search) && (!location.hash || location.hash === "#top")) { document.documentElement.dataset.intro = ""; setTimeout(() => { delete document.documentElement.dataset.intro; }, 9000); }</script>
     <script is:inline define:vars={{ closesAt }}>document.documentElement.dataset.cycle = Date.now() < Date.parse(closesAt) ? "open" : "closed";</script>
-    <link rel="icon" href={u("/favicon.png")} type="image/png" />
     <link rel="preload" as="image" href={orbit("hub-poster.webp")} fetchpriority="high" />
     <!-- Without the script, each scene's words sit in their scene (nothing is there to fade them). -->
     <noscript><style>.hm .hm-scene-in { position: sticky; top: 0; height: 100svh; transform: none; opacity: 1; pointer-events: auto; justify-content: flex-end; padding-top: calc(var(--head) + 24px); } .hm .hm-hero-in { justify-content: flex-start; padding: 0; }</style></noscript>
-  </head>
-  <body class="jp rp hm">
-    <a class="skip" href="#main">Skip to content</a>
-    <header class="jp-head cta-off" data-head data-quiet>
-      <nav aria-label="The Upskilling Labs">
-        <!-- One orb at a time: while the hero's orb is on screen it is the logo, so the header carries the
-             wordmark alone; as the stage scrolls away the orb docks into the header as the mark. -->
-        <a class="jp-brand hm-brand" href="#top" data-brand>
-          <img class="hm-mark" src={u("/home/mark.png")} alt="" width="159" height="144" />
-          <img class="hm-word" src={u("/home/wordmark.png")} alt="The Upskilling Labs" width="233" height="144" />
-        </a>
-        <ul class="jp-links" id="jp-menu">
-          <li><a class="navlink" href="#learn">{h.nav.learn}</a></li>
-          <li><a class="navlink" href="#build">{h.nav.build}</a></li>
-          <li><a class="navlink" href="#share">{h.nav.share}</a></li>
-          <li><a class="navlink" href="#open">{h.nav.story}</a></li>
-          <li><a class="navlink" href="#found">{h.nav.found}</a></li>
-          <li class="menu-only"><a class="navlink" href={u("/government/")}>{h.nav.gov}</a></li>
-          <li class="menu-only"><a class="navlink" href={L.login}>{h.nav.login}</a></li>
-        </ul>
-        <div class="jp-end">
-          <a class="navlink wide-only hm-gov" href={u("/government/")}>{h.nav.gov}</a>
-          <a class="navlink wide-only" href={L.login}>{h.nav.login}</a>
-          <a class="btn" href={L.join} data-head-cta><span class="wide-only">{h.nav.cta}</span><span class="narrow-only">{h.nav.ctaShort}</span></a>
-          <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={j.nav.menu} data-menu-btn data-label-open={j.nav.menu} data-label-close={j.nav.menuClose}><span></span><span></span><span></span></button>
-        </div>
-      </nav>
-    </header>
+  </Fragment>
 
-    <a class="hm-orb-link" href={L.join} aria-label={h.model.orbLabel} data-orb-link><span class="hm-orb-label">{h.model.orb} <b aria-hidden="true">→</b></span></a>
+    <a class="hm-orb-link" href={join} aria-label={h.model.orbLabel} data-orb-link><span class="hm-orb-label">{h.model.orb} <b aria-hidden="true">→</b></span></a>
     <button class="hm-pause" type="button" data-quiet aria-pressed="false" aria-label={h.model.pauseLabel} data-pause data-pause-label={h.model.pauseLabel} data-play-label={h.model.playLabel} data-pause-text={h.model.pause} data-play-text={h.model.play}>
       <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path class="i-pause" d="M3 2h2v8H3zM7 2h2v8H7z" /><path class="i-play" d="M3 2l7 4-7 4z" /></svg>
       <span>{h.model.pause}</span>
@@ -160,7 +119,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             </div>
             <p class="rp-terms">{h.intro.terms}</p>
             <div class="hm-actions">
-              <a class="btn" href={L.join} data-hero-cta>{h.intro.cta}</a>
+              <a class="btn" href={join} data-hero-cta>{h.intro.cta}</a>
               <a class="textlink" href={L.login}>{h.intro.login}</a>
             </div>
             <p class="rp-account">{h.intro.note}</p>
@@ -255,7 +214,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
             </ul>
             <div class="hm-actions">
               <a class="btn" href={pathJoin("build")} data-when="open">{J.cycle.cta}</a>
-              <a class="btn" href={L.join} data-when="closed">{J.cycle.closed.cta}</a>
+              <a class="btn" href={join} data-when="closed">{J.cycle.closed.cta}</a>
               <a class="textlink" href={u("/upskiller/")}>{J.cycle.upskiller}</a>
             </div>
             <p class="rp-account" data-when="open">{J.cycle.apply}</p>
@@ -321,7 +280,7 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
               {h.threads.items.map((t) => <li><a href={pathJoin(t.path)}><i class="gem" data-gem={t.id} aria-hidden="true"></i><b>{t.name}</b><span>{t.then}</span><em aria-hidden="true">→</em></a></li>)}
             </ul>
             <div class="hm-actions">
-              <a class="btn" href={L.join}>{h.join.cta}</a>
+              <a class="btn" href={join}>{h.join.cta}</a>
               <a class="ghost" href={L.donate}>{h.join.donate}</a>
             </div>
             <p class="rp-account">{h.join.note}</p>
@@ -334,48 +293,12 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
       </div>
     </main>
 
-    <footer class="hm-foot">
-      <div class="rp-wrap">
-        <div class="hm-foot-top">
-          <div class="hm-foot-brand">
-            <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
-            <p>{h.join.lede}</p>
-            <a class="ghost small" href={L.donate}>{h.join.donate}</a>
-          </div>
-          <nav class="hm-foot-cols" aria-label="Footer">
-            <div><p class="kicker">{h.footer.explore}</p><a href={L.events}>{h.footer.workshops}</a><a href="#build">{h.nav.build}</a><a href="#labs">{J.labs.kicker}</a><a href="#found">{h.footer.found}</a></div>
-            <div><p class="kicker">{h.footer.roles}</p>{list.roles.filter((c) => c.listed !== false).map((c) => <a href={u(`/${c.slug}/`)}>{c.name}</a>)}</div>
-            <div><p class="kicker">{h.footer.community}</p><a href={L.about}>{h.footer.about}</a><a href={L.board}>{h.footer.board}</a><a href={community}>{h.footer.contributors}</a><a href={u("/government/")}>{h.footer.government}</a><a href={u("/enterprise/")}>{h.footer.enterprise}</a><a href={L.contact}>{h.footer.contact}</a></div>
-            <div><p class="kicker">{h.footer.open}</p><a href={L.github}>{h.footer.built}</a><a href={L.join}>{h.nav.cta}</a></div>
-          </nav>
-        </div>
-        <div class="hm-foot-mid">
-          <p class="kicker">{h.footer.partners}</p>
-          <div class="sponsors">
-            <img src={u("/assets/dcpl-knockout-logo.png")} alt="DC Public Library" width="117" height="96" loading="lazy" />
-            <img src={u("/assets/levy-strategic-design-white.png")} alt="Levy Strategic Design" width="198" height="96" loading="lazy" />
-            <img src={u("/assets/superbloom-white.png")} alt="Superbloom Design" width="406" height="96" loading="lazy" />
-          </div>
-        </div>
-        <div class="hm-foot-legal">
-          <p>{h.footer.legal}</p>
-          <p>{h.footer.google} <a class="textlink" href={L.privacy}>{h.footer.privacy} →</a></p>
-          <p>{h.footer.rights} · {h.footer.license}</p>
-          {h.placeholder && <p class="ph">Prototype for OLOS: sessions, cities and member counts are a snapshot from Sep 29, 2026.</p>}
-        </div>
-      </div>
-    </footer>
-
     <script>
       import { openCovers } from "../scripts/covers";
-      import { initMenu } from "../scripts/navmenu";
       import { mountOrbNet } from "../scripts/orbnet";
 
       const root = document.documentElement;
       const head = document.querySelector<HTMLElement>("[data-head]")!;
-      new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); })
-        .observe(document.querySelector("[data-top-sentinel]")!);
-      initMenu();
       openCovers();
 
       // The journey's scenes. Each scene's words are pinned to the screen (a fixed layer: the browser holds them
@@ -561,5 +484,4 @@ const faces = [1, 2, 3, 4, 5, 6, 7].map((n) => u(`/home/face-${n}.webp`)).concat
         pause.querySelector("span")!.textContent = v ? pause.dataset.playText! : pause.dataset.pauseText!;
       });
     </script>
-  </body>
-</html>
+</Site>

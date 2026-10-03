@@ -24,7 +24,7 @@
     "strong": "Free.",
     "terms": "A single workshop, or a whole cycle. You choose.",
     "cta": "Become a Mentor",
-    "href": "https://theupskillinglabs.org/login?intent=join&path=mentor",
+    "href": "/join/?path=mentor",
     "status": "Start by helping at a workshop."
   },
   "met": {

@@ -16,8 +16,7 @@
    The look is the program page's (join.css) with this page's layout in
    enterprise.css, reusing For government's numbered rows (government.css).
    Copy lives in content/site/enterprise.json. */
-import "@fontsource-variable/geologica/wght.css";
-import "../../styles/join.css";
+import Site from "../../layouts/Site.astro";
 import "../../styles/government.css";
 import "../../styles/enterprise.css";
 import { u } from "../../lib/url";
@@ -25,50 +24,19 @@ import e from "../../../content/site/enterprise.json";
 import h from "../../../content/site/home.json";
 
 const L = h.links;
-const home = u("/");
 const poster = u("/enterprise/poster.webp");
 const quotes = h.journey.showcase.quotes;
 const pageTitle = `${e.title} · The Upskilling Labs`;
 const nos = ["01", "02", "03", "04", "05", "06"];
+const local = [
+  { label: e.nav.story, href: "#s1", spy: "story" },
+  { label: e.nav.offer, href: "#offer", spy: "offer gets" },
+  { label: e.nav.ways, href: "#ways", spy: "ways isnt started" },
+  { label: e.nav.faq, href: "#faq", spy: "faq start" },
+  { label: e.nav.cta, href: "#join", spy: "join" },
+];
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>{pageTitle}</title>
-    <meta name="description" content={e.description} />
-    <meta name="theme-color" content="#00141B" />
-    <meta name="robots" content="noindex" />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
-    <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={e.description} />
-    <meta property="og:image" content={new URL(u("/enterprise/share.jpg"), Astro.site)} />
-    <script is:inline>document.documentElement.dataset.menu = "";</script>
-    <link rel="icon" href={u("/favicon.png")} type="image/png" />
-  </head>
-  <body class="jp gv en">
-    <a class="skip" href="#main">Skip to content</a>
-    <header class="jp-head" data-head>
-      <nav aria-label={e.nav.brand}>
-        <a class="jp-brand" href={home}>
-          <img src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" />
-          <span class="wide-only">{e.nav.brand}</span>
-        </a>
-        <ul class="jp-links" id="jp-menu">
-          <li><a class="navlink" href="#s1" data-spy="story">{e.nav.story}</a></li>
-          <li><a class="navlink" href="#offer" data-spy="offer gets">{e.nav.offer}</a></li>
-          <li><a class="navlink" href="#ways" data-spy="ways isnt started">{e.nav.ways}</a></li>
-          <li><a class="navlink" href="#faq" data-spy="faq start">{e.nav.faq}</a></li>
-          <li class="menu-only"><a class="navlink" href={home}>{e.nav.home}</a></li>
-        </ul>
-        <div class="jp-end">
-          <a class="btn" href={L.contact} data-head-cta><span class="wide-only">{e.nav.cta}</span><span class="narrow-only">{e.nav.ctaShort}</span></a>
-          <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={e.nav.menu} data-menu-btn data-label-open={e.nav.menu} data-label-close={e.nav.menuClose}><span></span><span></span><span></span></button>
-        </div>
-      </nav>
-    </header>
-
+<Site title={pageTitle} description={e.description} image="/enterprise/share.jpg" bodyClass="gv en" local={local} note={e.placeholder ? e.footer.draft : undefined}>
     <main id="main">
       <!-- The story: the world held on screen while the scenes scroll past it. -->
       <section id="story" class="en-story">
@@ -232,34 +200,17 @@ const nos = ["01", "02", "03", "04", "05", "06"];
       </section>
     </main>
 
-    <footer class="jp-foot">
-      <div class="wrap">
-        <div class="col">
-          <img class="logo" src={u("/assets/logo-lockup-white.png")} alt="The Upskilling Labs" width="392" height="144" loading="lazy" />
-          <p>{h.footer.legal}</p>
-          <p>{h.footer.rights} · {h.footer.license}</p>
-          <p><a class="textlink" href={home}>{e.footer.home} →</a></p>
-          {e.placeholder && <p class="ph">{e.footer.draft}</p>}
-        </div>
-      </div>
-    </footer>
-
     <script is:inline define:vars={{ model: e.model }}>window.__orgLabels = model;</script>
     <script>
-      import { initMenu } from "../../scripts/navmenu";
       import { mountOrgWorld, type OrgLabels } from "../../scripts/orgworld";
 
-      const root = document.documentElement;
       const head = document.querySelector<HTMLElement>("[data-head]")!;
-      // Compact once you scroll; the header's button steps aside while the closing one is on screen.
-      new IntersectionObserver(([en]) => { root.dataset.scrolled = String(!en.isIntersecting); })
-        .observe(document.querySelector("[data-top-sentinel]")!);
+      // The header's button steps aside while the closing one is on screen.
       const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
       new IntersectionObserver(([en]) => {
         head.classList.toggle("cta-off", en.isIntersecting);
         cta.tabIndex = en.isIntersecting ? -1 : 0;
       }, { threshold: 0.25 }).observe(document.getElementById("join")!);
-      initMenu();
 
       // The world: the scroll sets which scene it's in; the words fade in as they reach the reading line.
       const stage = document.querySelector<HTMLElement>("[data-stage]")!;
@@ -297,7 +248,6 @@ const nos = ["01", "02", "03", "04", "05", "06"];
           const o = 1 - smooth((Math.abs(centers[i] - y) - innerHeight * 0.16) / span);
           el.style.setProperty("--o", o.toFixed(3));
         });
-        spy();
       };
       const queue = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
       addEventListener("scroll", queue, { passive: true });
@@ -320,20 +270,6 @@ const nos = ["01", "02", "03", "04", "05", "06"];
         });
       }
 
-      // The section in view is marked in the nav.
-      const links = [...head.querySelectorAll<HTMLAnchorElement>("[data-spy]")];
-      const order = ["story", "offer", "gets", "ways", "isnt", "started", "faq", "start", "join"].map((id) => document.getElementById(id)!);
-      function spy() {
-        const at = innerHeight * 0.35;
-        const current = order.filter((el) => el.getBoundingClientRect().top <= at).pop()?.id ?? "";
-        const inStory = current === "story" && progress() >= 0.5;
-        links.forEach((a) => {
-          const ids = a.dataset.spy!.split(" ");
-          const on = ids.includes(current) && (current !== "story" || inStory);
-          if (on) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current");
-        });
-      }
       measure(); update();
     </script>
-  </body>
-</html>
+</Site>

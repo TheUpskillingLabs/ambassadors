@@ -2,13 +2,13 @@
 /* A Markdown step (The Labs, The Conversation, The Room). The body is
    rendered as written; <!-- name --> comments on their own line drop in a
    built-in block. An unknown name fails the build. */
-import StepPage from "../components/StepPage.astro";
-import Ladder from "../components/Ladder.astro";
-import Faq from "../components/Faq.astro";
-import StoryCard from "../components/StoryCard.astro";
-import AskList from "../components/AskList.astro";
-import PresentLinks from "../components/PresentLinks.astro";
-import { steps } from "../lib/content";
+import StepPage from "../../../components/StepPage.astro";
+import Ladder from "../../../components/Ladder.astro";
+import Faq from "../../../components/Faq.astro";
+import StoryCard from "../../../components/StoryCard.astro";
+import AskList from "../../../components/AskList.astro";
+import PresentLinks from "../../../components/PresentLinks.astro";
+import { steps } from "../../../lib/content";
 
 export async function getStaticPaths() {
   return (await steps()).filter((s) => s.data.kind === "page").map((entry) => ({ params: { step: entry.id }, props: { entry } }));

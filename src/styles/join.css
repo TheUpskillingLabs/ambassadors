@@ -78,7 +78,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
   .jp-head::after { height: calc(var(--head) + 56px); }
 }
 
-/* The menu (src/scripts/navmenu.ts): at 1080 px and narrower the header is one
+/* The menu (src/scripts/navmenu.ts): at 1199 px and narrower the header is one
    row (logo, the button, the menu button) and the section links drop down as
    a panel. Only when the script has run (html[data-menu]); otherwise the links
    stay inline. The icon's three bars turn into an X; transform and opacity only. */
@@ -92,7 +92,7 @@ html[data-scrolled="true"] .jp-brand img { height: 38px; }
 .jp-menu-btn[aria-expanded="true"] span:nth-child(1) { transform: rotate(45deg); }
 .jp-menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; transform: scaleX(0.2); }
 .jp-menu-btn[aria-expanded="true"] span:nth-child(3) { transform: rotate(-45deg); }
-@media (max-width: 1080px) {
+@media (max-width: 1199px) {
   html[data-menu] .jp-head nav { position: relative; grid-template-columns: 1fr auto; }
   html[data-menu] .jp-end { gap: 10px; }
   html[data-menu] .jp-end > .navlink { display: none; }

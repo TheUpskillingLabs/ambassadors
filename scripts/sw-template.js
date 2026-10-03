@@ -45,7 +45,7 @@ self.addEventListener("fetch", (event) => {
           return res;
         })
         .catch(() =>
-          caches.match(pageKey(url)).then((hit) => hit || caches.match(BASE + "/offline/"))
+          caches.match(pageKey(url)).then((hit) => hit || caches.match(BASE + "/account/offline/"))
         )
     );
     return;

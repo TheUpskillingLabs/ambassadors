@@ -1,0 +1,52 @@
+---
+/* The one header every public page shares. Tasks in the main links
+   (Workshops · Build Cycles · Contribute · Find a Lab · About), the audiences
+   and the account in the utility links (Partner with us · Donate · Log in),
+   and one button: Join The Labs. Under 1200px the links fold into the menu
+   (src/scripts/navmenu.ts) and the button stays.
+
+   A page with sections passes `local`: a second row under the main one with
+   its own links, marked as you scroll (src/scripts/site.ts). The home page
+   passes brand="home" for its docking mark and wordmark, and `quiet` for a
+   header that stays light over the world. */
+import { u } from "../lib/url";
+import { NAV, navHref, type NavLink } from "../lib/nav";
+import LocalNav from "./LocalNav.astro";
+
+export interface LocalLink extends NavLink { spy?: string }
+interface Props {
+  quiet?: boolean;
+  brand?: "lockup" | "home";
+  /** Start with the button hidden (a page whose own button is on screen first). */
+  ctaOff?: boolean;
+  local?: LocalLink[];
+  localLabel?: string;
+}
+const { quiet = false, brand = "lockup", ctaOff = false, local, localLabel = NAV.sections } = Astro.props;
+const here = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isHere = (href: string) => href.startsWith("/") && !href.includes("#") && (u(href).replace(/\/+$/, "") || "/") === here;
+---
+<header class:list={["jp-head", "sh", { "cta-off": ctaOff, "has-local": !!local?.length }]} data-head data-quiet={quiet ? "" : undefined}>
+  <nav class="sh-top" aria-label={NAV.brand}>
+    {brand === "home" ? (
+      <a class="jp-brand hm-brand" href="#top" data-brand>
+        <img class="hm-mark" src={u("/home/mark.png")} alt="" width="159" height="144" />
+        <img class="hm-word" src={u("/home/wordmark.png")} alt={NAV.brand} width="233" height="144" />
+      </a>
+    ) : (
+      <a class="jp-brand" href={u("/")}>
+        <img src={u("/assets/logo-lockup-white.png")} alt={NAV.brand} width="392" height="144" />
+      </a>
+    )}
+    <ul class="jp-links" id="jp-menu">
+      {NAV.main.map((l) => <li><a class="navlink" href={navHref(l.href)} aria-current={isHere(l.href) ? "page" : undefined}>{l.label}</a></li>)}
+      {NAV.utility.map((l) => <li class="menu-only"><a class="navlink" href={navHref(l.href)} aria-current={isHere(l.href) ? "page" : undefined}>{l.label}</a></li>)}
+    </ul>
+    <div class="jp-end">
+      {NAV.utility.map((l) => <a class="navlink wide-only sh-util" href={navHref(l.href)} aria-current={isHere(l.href) ? "page" : undefined}>{l.label}</a>)}
+      <a class="btn" href={navHref(NAV.cta.href)} data-head-cta><span class="wide-only">{NAV.cta.label}</span><span class="narrow-only">{NAV.cta.short}</span></a>
+      <button class="jp-menu-btn" type="button" aria-expanded="false" aria-controls="jp-menu" aria-label={NAV.menu} data-menu-btn data-label-open={NAV.menu} data-label-close={NAV.menuClose}><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  {local?.length ? <LocalNav links={local} label={localLabel} /> : null}
+</header>

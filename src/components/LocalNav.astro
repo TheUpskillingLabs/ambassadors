@@ -1,0 +1,15 @@
+---
+/* A page's own sections, as a row under the global header. Each link may name
+   the section ids it stands for (data-spy, space-separated); the one in view
+   is marked as you scroll (src/scripts/site.ts). On narrow screens the row
+   scrolls sideways. */
+import type { LocalLink } from "./GlobalHeader.astro";
+
+interface Props { links: LocalLink[]; label: string }
+const { links, label } = Astro.props;
+---
+<nav class="sh-local" aria-label={label} data-local>
+  <ul>
+    {links.map((l) => <li><a class="navlink" href={l.href} data-spy={l.spy ?? l.href.replace(/^#/, "")}>{l.label}</a></li>)}
+  </ul>
+</nav>

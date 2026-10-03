@@ -24,7 +24,7 @@
     "strong": "Light dues.",
     "terms": "[PLACEHOLDER] Amount and sliding scale to be set.",
     "cta": "Become a Supporting Member",
-    "href": "https://theupskillinglabs.org/login?intent=join&path=supporting-member",
+    "href": "/join/?path=supporting-member",
     "status": "[PLACEHOLDER] Opening once dues are set"
   },
   "moments": {
