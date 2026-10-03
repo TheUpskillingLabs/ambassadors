@@ -2175,7 +2175,7 @@ const SLIDES = [
       <p class="lead" data-at="1">Then it spread. France carried it across Europe, and Latin America’s revolutions borrowed the American model. It helped invent modern democracy, and in time led to the Pax Americana.</p>`,
     notes: [
       "“Cheap print, the Enlightenment and clubs like theirs gave ordinary people the argument for governing themselves. And it was an experiment: first it had to work here. Declared in 1776, adopted state by state, and proven in 1801, when power passed peacefully to the other party for the first time.” The states light first, east to west.",
-      "“Only then did it spread. France was the exception, and the exporter: its revolution carried the idea across Europe. Latin America’s revolutions borrowed the American model, constitution and all. A revolution that inspired the world helped invent modern democracy, and led, in time, to the Pax Americana.” (Hold the parallel for the rules: here first.) Skipping the next slide? Bridge straight to the moon: “And in 1961, at the height of it…”",
+      "“Only then did it spread. France was the exception, and the exporter: its revolution carried the idea across Europe. Latin America’s revolutions borrowed the American model, constitution and all. A revolution that inspired the world helped invent modern democracy, and led, in time, to the Pax Americana.” (Hold the parallel for the rules: here first.) Skipping the next slide? Go straight to the 1961 slide.",
     ],
     pocket: "Venezuela (1811), Argentina (1819), Mexico (1824), Uruguay (1830) and Chile drew on Manuel García de Sena’s 1811 Spanish translations of the Declaration, the Constitution and state constitutions. France set up “sister republics” across Europe from 1795 to 1799. The map’s timing is illustrative.",
     hud(c, el) { const y = el.querySelector("[data-yr]"); if (y && c) y.textContent = Math.floor(c.year || 1776); },
@@ -2189,9 +2189,20 @@ const SLIDES = [
       <p class="small" data-at="1"><span class="src">IMLS Public Libraries Survey, FY 2023. The map is illustrative.</span></p>`,
     notes: [
       "“And back home, the Junto’s library became a model for libraries across the country.” The years run on their own; let them. (Running long? Skip this slide.)",
-      "“Today there are more than 17,000 public library locations, in nearly every community.” Pause, then bridge: “Fast-forward to 1961.”",
+      "“Today there are more than 17,000 public library locations, in nearly every community.” Pause, then advance.",
     ],
     hud(c, el) { const y = el.querySelector("[data-yr]"); if (y && c) y.textContent = Math.floor(c.year); },
+  },
+  {
+    label: "Frame · 1961, the segue", make: () => moonScene(),
+    words: `<p class="kicker">Fast-forward · 1961</p>
+      <h2 class="h">Where “moonshot” comes from</h2>
+      <p class="lead dim">By 1961, the republic that started in Philadelphia led the free world, and it was losing the space race.</p>
+      <p class="lead" data-at="1">Its answer gave us the word.</p>`,
+    notes: [
+      "“Fast-forward to 1961. The republic that started in Philadelphia now led the free world. And it was losing a race.”",
+      "“Its answer gave us a word we still use for the boldest kind of goal: a moonshot.” Advance, and let the launch play.",
+    ],
   },
   {
     label: "Frame · the moon", make: () => Object.assign(launchScene(), { dur: [0, 2.6] }), sound: "launch",
