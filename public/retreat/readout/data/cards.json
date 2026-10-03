@@ -1,0 +1,690 @@
+{
+ "meta": {
+  "event": "The Labs retreat, Saturday, October 3, 2026",
+  "note": "Transcribed from photographs of the cards and from the recordings of the read-aloud. Spelling and wording are as written; TUL and UL are the room's own shorthand. Groups D and E are known from their recordings only; their cards were not photographed. One peer card (B, Aspen Institute) is partly hidden in the photograph.",
+  "cardTypes": {
+   "impact": "By 2036, because of The Labs…",
+   "peer": "In 2036, our name is said in the same breath as…",
+   "headline": "Our 2036 headline (the group's 10x version)",
+   "draft": "A headline draft from the solo round",
+   "note": "A note on the sheet or in the margin"
+  },
+  "paths": {
+   "learn": "teal square",
+   "build": "red diamond",
+   "share": "gold ring"
+  }
+ },
+ "moonshot": {
+  "groups": {
+   "A": {
+    "sheet": "sheet-a.webp",
+    "cards": "photo-a-cards.webp",
+    "clip": "headline-a.m4a",
+    "readAt": "11:22"
+   },
+   "B": {
+    "sheet": "sheet-b.webp",
+    "cards": "photo-b-cards.webp",
+    "clip": "headline-b.m4a",
+    "readAt": "11:18"
+   },
+   "C": {
+    "sheet": "sheet-c.webp",
+    "cards": null,
+    "clip": "headline-c.m4a",
+    "readAt": "11:20"
+   },
+   "D": {
+    "sheet": null,
+    "cards": null,
+    "clip": "headline-d.m4a",
+    "readAt": "11:22"
+   },
+   "E": {
+    "sheet": null,
+    "cards": null,
+    "clip": "headline-e.m4a",
+    "readAt": "11:19"
+   }
+  },
+  "headlines": [
+   {
+    "group": "A",
+    "text": "TUL is federated across every US community, driving a deep understanding and development of autonomy and agency in every personal digital interaction, keeping citizens relevant and equal participants in the workforce, and AI policy.",
+    "spoken": "We have Upskilling Labs federated across every US community, driving a deep understanding and development of autonomy and agency in every personal digital interaction, keeping citizens relevant and equal participants in the workforce and AI policy. So, super wordy. The big one there: proliferating across the country.",
+    "future": "autonomy and agency in every personal digital interaction; citizens relevant and equal participants in the workforce and AI policy",
+    "position": "federated across every US community",
+    "who": true,
+    "what": true,
+    "number": false
+   },
+   {
+    "group": "B",
+    "text": "TUL working with 100+ local + national govts + 10,000,000 upskillers",
+    "spoken": "Upskilling Labs working with a hundred local and national governments plus 10 million upskillers globally. Bigger stakeholders, but keeping true to our main focus: helping local communities and individuals grow their skills, grow their confidence and build community.",
+    "future": null,
+    "position": "working with 100+ local and national governments and 10 million upskillers",
+    "who": true,
+    "what": true,
+    "number": true
+   },
+   {
+    "group": "C",
+    "text": "Every community that hosts an Upskilling Labs attracts private + public investment. Every member of that community is gainfully employed in a fulfilling role. Communities have what they need to solve problems for public & private sectors at the local, national & global levels.",
+    "spoken": "Two statements. Every community that hosts an Upskilling Lab attracts private and public investment; every member of that community is gainfully employed in a fulfilling role. Communities have what they need to solve problems for public and private sectors at the local, national and global levels.",
+    "future": "every member gainfully employed in a fulfilling role; communities have what they need to solve problems at every level",
+    "position": "every community that hosts a Lab attracts private and public investment",
+    "who": true,
+    "what": true,
+    "number": true
+   },
+   {
+    "group": "D",
+    "text": "The Upskilling Labs community and workforce model is leading in human agency development; other nations race to adopt it.",
+    "spoken": "The Upskilling Labs community and workforce model is leading in human agency development; other nations race to adopt it. We believe in a future of work that's still human-driven, that we've created a system for producing those outcomes, and that others find value in it and use it, at scale, such that we're actually a new institution, whether private or public.",
+    "future": "a future of work that is still human-driven",
+    "position": "the model leading in human agency development; other nations race to adopt it",
+    "who": true,
+    "what": true,
+    "number": false
+   },
+   {
+    "group": "E",
+    "text": "A successful Lab in every city, in every country, for everyone, in every industry, in less than 10 years.",
+    "spoken": "A successful Lab in every city, in every country, for everyone, in every industry, in less than 10 years. We thought about proliferating beyond what it was originally created for, and making sure it's open access for anyone who wants to learn.",
+    "future": null,
+    "position": "a Lab in every city, in every country, for everyone, in every industry",
+    "who": true,
+    "what": true,
+    "number": false,
+    "deadline": "under 10 years"
+   }
+  ],
+  "cards": [
+   {
+    "group": "A",
+    "type": "impact",
+    "color": "yellow",
+    "text": "By 2036… disparities will be reduced because of the ability to have access to TUL (free of charge) in anchor institutions in your community",
+    "cluster": "access"
+   },
+   {
+    "group": "A",
+    "type": "impact",
+    "color": "yellow",
+    "text": "By 2036 because of the Labs, policy (local, state, federal) will ensure that TUL is a nationally disseminated model in [the places where we] work, school (learn), play & worship",
+    "cluster": "spread"
+   },
+   {
+    "group": "A",
+    "type": "impact",
+    "color": "green",
+    "text": "UL participants are AI thought leaders in their communities",
+    "cluster": "voice"
+   },
+   {
+    "group": "A",
+    "type": "impact",
+    "color": "green",
+    "text": "UL participants are valued voices in the debate and policy around AI governance",
+    "cluster": "voice"
+   },
+   {
+    "group": "A",
+    "type": "impact",
+    "color": "green",
+    "text": "UL participants are able to keep up with (if not shape) the changes to paying employment",
+    "cluster": "work"
+   },
+   {
+    "group": "A",
+    "type": "impact",
+    "color": "blue",
+    "text": "Free data: data is made free to be ingested by tools owned and made by people who own their use cases",
+    "cluster": "ownership"
+   },
+   {
+    "group": "A",
+    "type": "impact",
+    "color": "blue",
+    "text": "Federated tools: you own your material; it is ingested by tools owned by the people",
+    "cluster": "ownership"
+   },
+   {
+    "group": "A",
+    "type": "impact",
+    "color": "blue",
+    "text": "Peer learning: everyone, anyone can have a speaking space to present new ideas and learn from, in real life",
+    "cluster": "peer"
+   },
+   {
+    "group": "A",
+    "type": "draft",
+    "color": "blue",
+    "text": "We build knowledge, confidence and understanding of AI equitably across communities of all sizes."
+   },
+   {
+    "group": "A",
+    "type": "peer",
+    "color": "green",
+    "text": "Universities"
+   },
+   {
+    "group": "A",
+    "type": "note",
+    "color": "blue",
+    "text": "Across the country · deep understanding of autonomy and agency of digital extension · keep citizens as relevant and equal participants: workforce, AI policy"
+   },
+   {
+    "group": "B",
+    "type": "impact",
+    "color": "orange",
+    "text": "Because of the Labs, we've connected key information and data providers with internal tools",
+    "cluster": "work"
+   },
+   {
+    "group": "B",
+    "type": "impact",
+    "color": "blue",
+    "text": "A citizen-informed policy-making method has been innovated through local labor research",
+    "cluster": "voice"
+   },
+   {
+    "group": "B",
+    "type": "impact",
+    "color": "blue",
+    "text": "The upskilling philosophy of learning by doing is integrated into education systems; we serve as collaborators on training the next generation of professionals",
+    "cluster": "spread"
+   },
+   {
+    "group": "B",
+    "type": "impact",
+    "color": "blue",
+    "text": "Expand into non-English-speaking, international, culture- and environment-specific build cycles",
+    "cluster": "spread"
+   },
+   {
+    "group": "B",
+    "type": "impact",
+    "color": "blue",
+    "text": "Expand into developing countries for AI upskilling",
+    "cluster": "spread"
+   },
+   {
+    "group": "B",
+    "type": "impact",
+    "color": "blue",
+    "text": "Private-sector partnerships, with learning modules that our mentors develop as part of upskilling curricula offered to employers",
+    "cluster": "work"
+   },
+   {
+    "group": "B",
+    "type": "impact",
+    "color": "pink",
+    "text": "Space for collective skillbuilding, for all to grow at their own pace #lifelonglearners",
+    "cluster": "peer"
+   },
+   {
+    "group": "B",
+    "type": "draft",
+    "color": "orange",
+    "text": "TUL reaches 100 metropolitan cities"
+   },
+   {
+    "group": "B",
+    "type": "draft",
+    "color": "pink",
+    "text": "Communities across the nation and globally can start up independent spaces to support learning and growth, which reduces barriers to entry and levels access to education for all"
+   },
+   {
+    "group": "B",
+    "type": "peer",
+    "color": "pink",
+    "text": "Higher ed · MOOCs · basic ed, public and private · for-profit and non-profit education institutions"
+   },
+   {
+    "group": "B",
+    "type": "peer",
+    "color": "blue",
+    "text": "Anthropic Skilljar-type learning"
+   },
+   {
+    "group": "B",
+    "type": "peer",
+    "color": "orange",
+    "text": "Mentioned alongside Brookings and Pew Research for information on workforce development outcomes"
+   },
+   {
+    "group": "B",
+    "type": "peer",
+    "color": "orange",
+    "text": "Spoken of in the same breath as the Aspen Institute (card partly hidden)"
+   },
+   {
+    "group": "B",
+    "type": "note",
+    "color": "white",
+    "text": "Spreading information and knowledge; sharing; democratic practice"
+   },
+   {
+    "group": "C",
+    "type": "peer",
+    "color": "green",
+    "text": "Collective Action"
+   },
+   {
+    "group": "C",
+    "type": "peer",
+    "color": "pink",
+    "text": "Code for America, but focused on upskilling"
+   },
+   {
+    "group": "C",
+    "type": "peer",
+    "color": "orange",
+    "text": "Tech DC · AI Collective · I've looked at models: no other learning-by-building · book groups, private"
+   },
+   {
+    "group": "C",
+    "type": "impact",
+    "color": "pink",
+    "text": "Workers not at the mercy of Big Tech; people as citizens (card partly out of frame)",
+    "cluster": "ownership"
+   }
+  ],
+  "clusters": {
+   "access": "Access and equity",
+   "voice": "Voice and policy",
+   "work": "Work and employers",
+   "ownership": "Owning the tools and the data",
+   "spread": "The model spreads",
+   "peer": "Peer learning, in person"
+  }
+ },
+ "personas": {
+  "walls": [
+   {
+    "id": "upskiller-1",
+    "who": "Upskiller (volunteering with an upskiller, 2027 → 2050)",
+    "photo": "wall-upskiller-1.webp",
+    "cards": [
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "Experience in leadership, team building, project management"
+     },
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "Share lessons learned; practice"
+     },
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "Lifelong learner #growthmindset"
+     },
+     {
+      "path": "learn",
+      "q": "how",
+      "text": "Making connections; sustained connection; positive community"
+     },
+     {
+      "path": "learn",
+      "q": "how",
+      "text": "Good, engaging presentation"
+     },
+     {
+      "path": "learn",
+      "q": "how",
+      "text": "Local context; relevance to the individual"
+     },
+     {
+      "path": "learn",
+      "q": "what",
+      "text": "New skills"
+     },
+     {
+      "path": "learn",
+      "q": "what",
+      "text": "New technology"
+     },
+     {
+      "path": "learn",
+      "q": "what",
+      "text": "Learn about where you live"
+     },
+     {
+      "path": "build",
+      "q": "why",
+      "text": "Create positive learning opportunities for others"
+     },
+     {
+      "path": "build",
+      "q": "why",
+      "text": "Creative diversity"
+     },
+     {
+      "path": "build",
+      "q": "why",
+      "text": "Showcase, demo your expertise"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Open public space, welcoming to everyone"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Project-based learning; supportive community; accessibility"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Real-world problems, local and in person; support from other organizers and leaders"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Propose your own interests, your topic of interest"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Playful experimentation"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Designing out loud; individual voice"
+     },
+     {
+      "path": "build",
+      "q": "what",
+      "text": "Solutions to real-world issues within a finite period, to explore and test-pilot"
+     },
+     {
+      "path": "build",
+      "q": "what",
+      "text": "Build and experiment; validate ideas"
+     },
+     {
+      "path": "build",
+      "q": "what",
+      "text": "Get feedback from the community"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "Accountability and thought partners"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "Confidence, personal and professional"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "Community: working together on real-world problems"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "Community connections #humanity #equity"
+     },
+     {
+      "path": "share",
+      "q": "how",
+      "text": "Build references, previous performance"
+     },
+     {
+      "path": "share",
+      "q": "how",
+      "text": "Peer learning; share knowledge; low stakes"
+     },
+     {
+      "path": "share",
+      "q": "what",
+      "text": "Contribute to community"
+     },
+     {
+      "path": "share",
+      "q": "what",
+      "text": "Personal growth"
+     }
+    ]
+   },
+   {
+    "id": "upskiller-2",
+    "who": "Upskiller",
+    "photo": "wall-upskiller-2.webp",
+    "cards": [
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "Likes satisfying his curiosity; wants to solve his own problems"
+     },
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "Curiosity about what the org is"
+     },
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "Wants to work on challenging problems"
+     },
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "Struggles to learn in lecture format"
+     },
+     {
+      "path": "learn",
+      "q": "how",
+      "text": "Diverse experiences and backgrounds"
+     },
+     {
+      "path": "learn",
+      "q": "how",
+      "text": "Talk, ideate, create a plan, and tell the AI “don't make mistakes”"
+     },
+     {
+      "path": "learn",
+      "q": "how",
+      "text": "Throw dollars and tokens at it; play, explore, ask questions"
+     },
+     {
+      "path": "learn",
+      "q": "what",
+      "text": "A sequence of deliverables that builds a range of AI skills"
+     },
+     {
+      "path": "learn",
+      "q": "what",
+      "text": "Vibe coding, GitHub, privacy, build out loud"
+     },
+     {
+      "path": "build",
+      "q": "why",
+      "text": "Kinesthetic, interactive"
+     },
+     {
+      "path": "build",
+      "q": "why",
+      "text": "Proof of work, and skills to show employers"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Stimulating, hands-on, social learning"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Design an experiential journey"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "A leveled playing field"
+     },
+     {
+      "path": "build",
+      "q": "what",
+      "text": "A series of relevant deliverables (a survey, a white paper, an app)"
+     },
+     {
+      "path": "build",
+      "q": "what",
+      "text": "Be a pioneer, a visionary"
+     },
+     {
+      "path": "build",
+      "q": "what",
+      "text": "A vibe-coded app"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "To get attention; prestige and status; more money"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "Build community and relationships; have fun; get more diverse ideas"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "Find fellow nerds; network; leads to community and opportunity"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "Networking, employability"
+     },
+     {
+      "path": "share",
+      "q": "how",
+      "text": "Build out loud"
+     },
+     {
+      "path": "share",
+      "q": "how",
+      "text": "In local communities: meetups, volunteering"
+     },
+     {
+      "path": "share",
+      "q": "how",
+      "text": "LinkedIn"
+     },
+     {
+      "path": "share",
+      "q": "what",
+      "text": "Posts, resume, portfolio"
+     },
+     {
+      "path": "share",
+      "q": "what",
+      "text": "Stories and experiences; sample deliverables; outcomes"
+     }
+    ]
+   },
+   {
+    "id": "pivoters",
+    "who": "Mid-career pivoters",
+    "photo": "wall-pivoters.webp",
+    "cards": [
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "AI is changing their field; eager to learn"
+     },
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "Build and learn marketable skills; skill = building"
+     },
+     {
+      "path": "learn",
+      "q": "why",
+      "text": "Job hunting; trying to figure out what is next"
+     },
+     {
+      "path": "learn",
+      "q": "how",
+      "text": "Mentors, volunteers"
+     },
+     {
+      "path": "learn",
+      "q": "how",
+      "text": "Workshops; learn by doing; teams"
+     },
+     {
+      "path": "learn",
+      "q": "what",
+      "text": "Hands-on learning"
+     },
+     {
+      "path": "learn",
+      "q": "what",
+      "text": "New tools and methods"
+     },
+     {
+      "path": "build",
+      "q": "why",
+      "text": "Learn by doing; building to learn"
+     },
+     {
+      "path": "build",
+      "q": "why",
+      "text": "Inspired to address social problems"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Working on projects that are meaningful and relevant to them"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "Just come with a laptop"
+     },
+     {
+      "path": "build",
+      "q": "how",
+      "text": "A consistent problem over time allows a deeper throughline; not in their field forces different thought"
+     },
+     {
+      "path": "build",
+      "q": "what",
+      "text": "Create something I can use in my day to day, at work or personally"
+     },
+     {
+      "path": "build",
+      "q": "what",
+      "text": "A session, and application to their own work"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "Feedback"
+     },
+     {
+      "path": "share",
+      "q": "why",
+      "text": "To build a larger circle"
+     },
+     {
+      "path": "share",
+      "q": "how",
+      "text": "Presentation opportunities to showcase"
+     }
+    ]
+   }
+  ]
+ }
+}
