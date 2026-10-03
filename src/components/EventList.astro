@@ -1,0 +1,24 @@
+---
+/* A list of events, a row each: the date large, the title (a link to the
+   event's page), where, and what kind it is. Used on Workshops, the calendar,
+   a Lab's page and a cycle's page. */
+import { u } from "../lib/url";
+import { formatEvent } from "../lib/dates";
+import type { CollectionEntry } from "astro:content";
+
+interface Props { events: CollectionEntry<"events">[]; labs: Map<string, CollectionEntry<"labs">>; past?: boolean; empty?: string }
+const { events, labs, past = false, empty } = Astro.props;
+const KIND: Record<string, string> = { workshop: "Workshop", anchor: "Anchor event", "open-house": "Open house", coworking: "Coworking", social: "Social" };
+const where = (e: CollectionEntry<"events">) => e.data.online ? "Online" : (e.data.lab && labs.get(e.data.lab)?.data.city) || e.data.place || "";
+---
+{events.length ? (
+  <ul class:list={["pg-events", { past }]}>
+    {events.map((e) => { const f = formatEvent(e.data); return (
+      <li>
+        <p class="when"><b>{f.day}</b>{f.time}</p>
+        <div><h3><a href={u(`/events/${e.id}/`)}>{e.data.title}</a></h3><p class="where">{where(e)}</p></div>
+        <span class="kind">{KIND[e.data.kind] ?? e.data.kind}</span>
+      </li>
+    ); })}
+  </ul>
+) : empty ? <p class="pg-empty">{empty}</p> : null}

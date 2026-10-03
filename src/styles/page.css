@@ -37,3 +37,59 @@
 .pg-steps h3 { margin: 10px 0 0; font-size: 20px; font-weight: 600; letter-spacing: -0.016em; color: var(--t1); }
 .pg-steps p { margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: var(--t2); }
 .pg-fine { margin: 28px 0 0; max-width: 60ch; font-size: 14px; line-height: 1.55; color: var(--t2); }
+
+/* ── the spec line: length · format · cost · who it's for ── */
+.pg-spec { margin: 22px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px 0; font-size: 15px; color: var(--t2); }
+.pg-spec li { display: flex; align-items: center; }
+.pg-spec li + li::before { content: "·"; margin: 0 10px; color: var(--rule); }
+
+/* ── a state band: the current cycle, said by the clock ── */
+.pg-band { margin: clamp(32px, 5vw, 56px) 0 0; padding: clamp(24px, 3vw, 36px) clamp(20px, 3vw, 36px); border: 1px solid var(--rule); border-radius: 14px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); column-gap: clamp(24px, 4vw, 48px); row-gap: 18px; align-items: center; }
+.pg-band h3 { margin: 10px 0 0; font-size: clamp(26px, 2.6vw, 36px); font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; color: var(--t1); }
+.pg-band p { margin: 12px 0 0; max-width: 36em; font-size: 17px; line-height: 1.55; color: var(--t2); }
+.pg-band .btn { justify-self: start; }
+.pg-band .ways { margin: 14px 0 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 15px; color: var(--t2); }
+@media (max-width: 760px) { .pg-band { grid-template-columns: minmax(0, 1fr); } }
+
+/* ── events: a row each, the date large ── */
+.pg-events { margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; list-style: none; }
+.pg-events li { display: grid; grid-template-columns: 112px minmax(0, 1fr) auto; column-gap: clamp(16px, 2.5vw, 32px); align-items: baseline; padding: 18px 0; border-top: 1px solid var(--rule); }
+.pg-events li:last-child { border-bottom: 1px solid var(--rule); }
+.pg-events .when { font-size: 15px; color: var(--teal); white-space: nowrap; }
+.pg-events .when b { display: block; font-size: 20px; font-weight: 700; letter-spacing: -0.02em; color: var(--t1); }
+.pg-events h3 { margin: 0; font-size: 19px; font-weight: 600; letter-spacing: -0.012em; }
+.pg-events h3 a { color: var(--t1); text-decoration: none; }
+.pg-events h3 a:hover { color: var(--teal); }
+.pg-events .where { margin: 4px 0 0; font-size: 15px; color: var(--t2); }
+.pg-events .kind { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t2); white-space: nowrap; }
+.pg-events.past { opacity: 0.7; }
+@media (max-width: 680px) { .pg-events li { grid-template-columns: 88px minmax(0, 1fr); } .pg-events .kind { grid-column: 2; } }
+
+/* ── Labs: cards for the ones running, rows for the ones gathering names ── */
+.pg-labs { margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.pg-labs li { padding: 22px 24px 24px; border: 1px solid var(--rule); border-radius: 14px; display: flex; flex-direction: column; gap: 8px; }
+.pg-labs .stage { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); }
+.pg-labs h3 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.025em; }
+.pg-labs h3 a { color: var(--t1); text-decoration: none; }
+.pg-labs h3 a:hover { color: var(--teal); }
+.pg-labs p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--t2); }
+.pg-labs .textlink { align-self: flex-start; margin-top: auto; padding-top: 10px; font-size: 15px; }
+.pg-cities { margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); column-gap: clamp(16px, 2vw, 28px); }
+.pg-cities li { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 14px 0; border-top: 1px solid var(--rule); }
+.pg-cities a { font-size: 18px; font-weight: 600; letter-spacing: -0.012em; color: var(--t1); text-decoration: none; }
+.pg-cities a:hover { color: var(--teal); }
+.pg-cities span { font-size: 14px; color: var(--t2); white-space: nowrap; }
+
+/* ── a page about one thing: the facts in a column beside the words ── */
+.pg-facts { margin: clamp(24px, 4vw, 40px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); column-gap: clamp(16px, 2vw, 28px); row-gap: 18px; }
+.pg-facts div { padding-top: 14px; border-top: 1px solid var(--rule); }
+.pg-facts dt { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t2); }
+.pg-facts dd { margin: 6px 0 0; font-size: 18px; font-weight: 600; letter-spacing: -0.012em; color: var(--t1); }
+.pg-facts dd a { color: var(--t1); }
+.pg-two { margin: clamp(32px, 5vw, 56px) 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); column-gap: clamp(24px, 4vw, 48px); row-gap: 28px; }
+.pg-two h3 { margin: 0; padding-top: 16px; border-top: 1px solid var(--rule); font-size: 20px; font-weight: 600; letter-spacing: -0.016em; color: var(--t1); }
+.pg-two ul { margin: 12px 0 0; padding-left: 1.1em; font-size: 17px; line-height: 1.6; color: var(--t2); }
+.pg-empty { margin: 18px 0 0; max-width: 40em; padding: 18px 20px; border: 1px dashed var(--rule); border-radius: 14px; font-size: 16px; line-height: 1.55; color: var(--t2); }
+.pg-crumb { margin: 0 0 18px; font-size: 14px; }
+.pg-crumb a { color: var(--t2); text-decoration: none; }
+.pg-crumb a:hover { color: var(--t1); }

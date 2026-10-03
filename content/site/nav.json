@@ -1,11 +1,11 @@
 {
-  "$comment": "The global header and footer, on every public page (src/components/GlobalHeader.astro, GlobalFooter.astro, through src/layouts/Site.astro). Tasks in the main nav, audiences in the utility links and the footer, one button (Join The Labs), as design/information-architecture (the project doc) sets out. An href starting with / is a page here; anything else is a key into home.json's links (the live site). Until the owner pages exist (Workshops, Build Cycles, Find a Lab, About are built in later PRs), the main links go to the best place there is today: the live site's pages, or the home page's scenes.",
+  "$comment": "The global header and footer, on every public page (src/components/GlobalHeader.astro, GlobalFooter.astro, through src/layouts/Site.astro). Tasks in the main nav, audiences in the utility links and the footer, one button (Join The Labs), as design/information-architecture (the project doc) sets out. An href starting with / is a page here; anything else is a key into home.json's links (the live site). Workshops, Build Cycles and Find a Lab have their pages; About goes to the live site until its page is built (a later PR).",
   "brand": "The Upskilling Labs",
   "main": [
-    { "label": "Workshops", "href": "events" },
-    { "label": "Build Cycles", "href": "/#build" },
+    { "label": "Workshops", "href": "/workshops/" },
+    { "label": "Build Cycles", "href": "/build-cycles/" },
     { "label": "Contribute", "href": "/contributing/" },
-    { "label": "Find a Lab", "href": "/#labs" },
+    { "label": "Find a Lab", "href": "/labs/" },
     { "label": "About", "href": "about" }
   ],
   "utility": [
@@ -23,10 +23,10 @@
     "donate": "Support The Labs",
     "columns": [
       { "title": "Take part", "links": [
-        { "label": "Workshops", "href": "events" },
-        { "label": "Build Cycles", "href": "/#build" },
-        { "label": "Find a Lab", "href": "/#labs" },
-        { "label": "Start a Lab", "href": "/#found" }
+        { "label": "Workshops", "href": "/workshops/" },
+        { "label": "Build Cycles", "href": "/build-cycles/" },
+        { "label": "Find a Lab", "href": "/labs/" },
+        { "label": "Start a Lab", "href": "/labs/start/" }
       ] },
       { "title": "Contribute", "links": [
         { "label": "Ways to help", "href": "/contributing/" },

@@ -4,7 +4,7 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-export const PAGE_FILES = ["home", "joinpage", "partners", "government", "enterprise", "contributing"].map((f) => `content/site/${f}.json`);
+export const PAGE_FILES = ["home", "joinpage", "partners", "government", "enterprise", "contributing", "workshops", "build-cycles", "labs"].map((f) => `content/site/${f}.json`);
 export const RECORD_DIRS = ["content/labs", "content/events", "content/cycles"];
 
 async function jsonFiles(dir) {

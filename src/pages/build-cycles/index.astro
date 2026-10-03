@@ -1,0 +1,91 @@
+---
+/* /build-cycles/ — Build, the owner page for Build Cycles: what a cycle is,
+   the current cycle's state (content/cycles, by the clock), how a cycle runs,
+   the realistic preview, every cycle, and the account. Copy in
+   content/site/build-cycles.json. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref } from "../../lib/nav";
+import { currentCycle, cycleState } from "../../lib/dates";
+import { fill, longDate } from "../../lib/takepart";
+import b from "../../../content/site/build-cycles.json";
+
+const cycles = (await getCollection("cycles")).filter((c) => c.data.meta.status === "live").sort((x, y) => y.data.kickoff.localeCompare(x.data.kickoff));
+const labs = new Map((await getCollection("labs")).map((l) => [l.id, l]));
+const now = new Date();
+const current = currentCycle(cycles, undefined, now);
+const state = current ? cycleState(current.data, now) : "done";
+const band = b.state[state];
+const vars = current ? { title: current.data.title, kickoff: longDate(current.data.kickoff), showcase: longDate(current.data.showcase) } : { title: "", kickoff: "", showcase: "" };
+const pageTitle = `${b.title} · The Upskilling Labs`;
+const local = [
+  { label: b.state.open.kicker, href: "#now", spy: "now" },
+  { label: b.how.kicker, href: "#how", spy: "how know" },
+  { label: b.cycles.kicker, href: "#cycles", spy: "cycles" },
+];
+---
+<Site title={pageTitle} description={b.description} bodyClass="pg" local={local}>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="kicker rise">{b.hero.kicker}</p>
+        <h1 class="rise d1">{b.hero.title}</h1>
+        <p class="lede rise d2">{b.hero.lede}</p>
+        <ul class="pg-spec rise d2">{b.hero.spec.map((s) => <li>{s}</li>)}</ul>
+        <div id="now" class="pg-band rise d3" data-state={state}>
+          <div>
+            <p class="kicker">{fill(band.kicker, vars)}</p>
+            <h3>{fill(band.title, vars)}</h3>
+            <p>{fill(band.body, vars)}</p>
+            {"ways" in band && <ul class="ways">{band.ways.map((x) => <li>{x}</li>)}</ul>}
+          </div>
+          <a class="btn" href={joinHref("build")}>{band.cta}</a>
+        </div>
+      </section>
+
+      <section id="how" class="pg-sec">
+        <p class="kicker">{b.how.kicker}</p>
+        <h2 class="h2">{b.how.title}</h2>
+        <ol class="pg-steps">{b.how.steps.map((s) => <li><h3>{s.title}</h3><p>{s.body}</p></li>)}</ol>
+        <p class="pg-fine">{b.how.shape}</p>
+      </section>
+
+      <section id="know" class="pg-sec">
+        <p class="kicker">{b.know.kicker}</p>
+        <ul class="pg-gets">{b.know.items.map((g) => <li><h3>{g.title}</h3><p>{g.body}</p></li>)}</ul>
+      </section>
+
+      <section id="cycles" class="pg-sec">
+        <p class="kicker">{b.cycles.kicker}</p>
+        <h2 class="h2">{b.cycles.title}</h2>
+        <p>{b.cycles.lede}</p>
+        <ul class="pg-labs">
+          {cycles.map((c) => { const st = cycleState(c.data, now); return (
+            <li>
+              <span class="stage">{b.cycle.state[st]}</span>
+              <h3><a href={u(`/build-cycles/${c.id}/`)}>{c.data.title}</a></h3>
+              <p>{labs.get(c.data.lab)?.data.city} · {fill(b.cycle.when, { kickoff: longDate(c.data.kickoff), showcase: longDate(c.data.showcase) })}</p>
+            </li>
+          ); })}
+        </ul>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{b.join.title}</h2>
+          <p class="lede">{b.join.lede}</p>
+          <div class="row">
+            <a class="btn" href={joinHref("build")}>{b.join.cta}</a>
+            <a class="textlink" href={u("/upskiller/")}>{b.join.upskiller} →</a>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => { head.classList.toggle("cta-off", e.isIntersecting); cta.tabIndex = e.isIntersecting ? -1 : 0; }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>

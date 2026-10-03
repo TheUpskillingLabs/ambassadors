@@ -1,0 +1,82 @@
+---
+/* /labs/ — Find a Lab: the Labs up and running, the cities gathering names
+   (never a count this low: "Be the first on the list"), what to do if yours
+   isn't there, and Start a Lab beside it. Labs from content/labs; copy in
+   content/site/labs.json. */
+import Site from "../../layouts/Site.astro";
+import "../../styles/page.css";
+import { getCollection } from "astro:content";
+import { u } from "../../lib/url";
+import { joinHref } from "../../lib/nav";
+import { byStage, labLine, stageWord } from "../../lib/takepart";
+import L from "../../../content/site/labs.json";
+
+const all = (await getCollection("labs")).filter((l) => l.data.meta.status === "live").sort(byStage);
+const running = all.filter((l) => l.data.stage === "active" || l.data.stage === "chartered");
+const rest = all.filter((l) => !running.includes(l));
+const pageTitle = `${L.title} · The Upskilling Labs`;
+const local = [
+  { label: L.active.kicker, href: "#active", spy: "active" },
+  { label: L.list.kicker, href: "#list", spy: "list" },
+  { label: L.start.kicker, href: "#start", spy: "start" },
+];
+---
+<Site title={pageTitle} description={L.description} bodyClass="pg" local={local}>
+    <main id="main">
+      <section id="top" class="pg-hero">
+        <span class="jp-sentinel" data-top-sentinel aria-hidden="true"></span>
+        <p class="kicker rise">{L.hero.kicker}</p>
+        <h1 class="rise d1">{L.hero.title}</h1>
+        <p class="lede rise d2">{L.hero.lede}</p>
+      </section>
+
+      <section id="active" class="pg-sec">
+        <p class="kicker">{L.active.kicker}</p>
+        <h2 class="h2">{L.active.title}</h2>
+        <ul class="pg-labs">
+          {running.map((l) => (
+            <li>
+              <span class="stage">{stageWord(l.data.stage)}</span>
+              <h3><a href={u(`/labs/${l.id}/`)}>{l.data.city}</a></h3>
+              <p>{labLine(l)}</p>
+              {l.data.rhythm[0] && <p>{l.data.rhythm[0]}</p>}
+              <a class="textlink" href={u(`/labs/${l.id}/`)}>What's on →</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section id="list" class="pg-sec">
+        <p class="kicker">{L.list.kicker}</p>
+        <h2 class="h2">{L.list.title}</h2>
+        <p>{L.list.lede}</p>
+        <ul class="pg-cities">
+          {rest.map((l) => <li><a href={u(`/labs/${l.id}/`)}>{l.data.city}</a><span>{l.data.stage === "list" ? labLine(l) : stageWord(l.data.stage)}</span></li>)}
+        </ul>
+        <div class="pg-band">
+          <div><h3>{L.elsewhere.title}</h3><p>{L.elsewhere.body}</p></div>
+          <a class="btn" href={joinHref("start-a-lab")}>{L.elsewhere.cta}</a>
+        </div>
+      </section>
+
+      <section id="start" class="pg-sec">
+        <p class="kicker">{L.start.kicker}</p>
+        <h2 class="h2">{L.start.title}</h2>
+        <p>{L.start.body}</p>
+        <p class="pg-fine"><a class="ghost" href={u("/labs/start/")}>{L.start.cta} →</a></p>
+      </section>
+
+      <section id="join" class="jp-join">
+        <div class="wrap reveal" style="position: relative">
+          <h2>{L.lab.join.title}</h2>
+          <p class="lede">{L.lab.join.lede}</p>
+          <div class="row"><a class="btn" href={joinHref("learn")}>{L.lab.join.cta}</a></div>
+        </div>
+      </section>
+    </main>
+    <script>
+      const head = document.querySelector<HTMLElement>("[data-head]")!;
+      const cta = head.querySelector<HTMLAnchorElement>("[data-head-cta]")!;
+      new IntersectionObserver(([e]) => { head.classList.toggle("cta-off", e.isIntersecting); cta.tabIndex = e.isIntersecting ? -1 : 0; }, { threshold: 0.25 }).observe(document.getElementById("join")!);
+    </script>
+</Site>
