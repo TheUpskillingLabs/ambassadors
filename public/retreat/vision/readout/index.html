@@ -1944,65 +1944,135 @@ const DISC_TILT = -0.32;
 const discAt = (C, r, a, sc, o) => { const x = Math.cos(a) * r * sc, y = Math.sin(a) * r * sc; o[0] = C[0] + x; o[1] = C[1] + y * Math.cos(DISC_TILT); o[2] = C[2] + y * Math.sin(DISC_TILT); return o; };
 const wallNotes = (w) => { const out = []; PATHS3.forEach((p) => QS3.forEach((q) => { const cs = w.cards.filter((c) => c.path === p && c.q === q); cs.forEach((card, j) => out.push({ card, p, q, r: Q_R[q], a: SEC_C[p] + SEC_W / 2 - ((j + 0.5) / cs.length) * SEC_W })); })); return out; };
 
+/* ── The head: a person, the top of the skull cut away, and the golden circle inside ──
+   The head is a field of points on a signed-distance surface (cranium, face, nose, lips, chin, ears,
+   eyes, neck), lit at its edges so the profile reads. Everything above the cut lifts off as the slide
+   opens; the golden circle sits in the cut, where the brain would be. */
+const HEAD = (() => {
+  let geo = null;
+  const NC = [0, 0.6, -0.8], P0 = [0, 0.43, -0.38]; // the cut's plane: its normal (up and back) and a point on it
+  const E1 = [-1, 0, 0], E2 = [0, 0.8, 0.6]; // two directions in that plane
+  const beyond = (p) => (p[0] - P0[0]) * NC[0] + (p[1] - P0[1]) * NC[1] + (p[2] - P0[2]) * NC[2];
+  const len = Math.hypot;
+  const ell = (p, c, r) => { const x = (p[0] - c[0]) / r[0], y = (p[1] - c[1]) / r[1], z = (p[2] - c[2]) / r[2], k0 = len(x, y, z), k1 = len(x / r[0], y / r[1], z / r[2]); return (k0 * (k0 - 1)) / Math.max(k1, 1e-6); };
+  const sph = (p, c, r) => len(p[0] - c[0], p[1] - c[1], p[2] - c[2]) - r;
+  const cap = (p, a, b, r) => { const pa = [p[0] - a[0], p[1] - a[1], p[2] - a[2]], ba = [b[0] - a[0], b[1] - a[1], b[2] - a[2]], h = clamp((pa[0] * ba[0] + pa[1] * ba[1] + pa[2] * ba[2]) / (ba[0] * ba[0] + ba[1] * ba[1] + ba[2] * ba[2]), 0, 1); return len(pa[0] - ba[0] * h, pa[1] - ba[1] * h, pa[2] - ba[2] * h) - r; };
+  const su = (a, b, k) => { const h = clamp(0.5 + (0.5 * (b - a)) / k, 0, 1); return lerp(b, a, h) - k * h * (1 - h); };
+  const sdf = (p) => {
+    let d = ell(p, [0, 0.22, -0.12], [0.7, 0.78, 0.9]); // cranium
+    d = su(d, ell(p, [0, 0.25, 0.35], [0.6, 0.55, 0.45]), 0.12); // forehead
+    d = su(d, ell(p, [0, 0.12, 0.7], [0.5, 0.1, 0.14]), 0.07); // brow
+    d = su(d, ell(p, [0, -0.22, 0.32], [0.58, 0.5, 0.52]), 0.12); // cheeks
+    d = su(d, ell(p, [0, -0.58, 0.25], [0.5, 0.3, 0.5]), 0.1); // jaw
+    d = su(d, ell(p, [0.42, -0.6, -0.05], [0.12, 0.2, 0.25]), 0.1);
+    d = su(d, ell(p, [-0.42, -0.6, -0.05], [0.12, 0.2, 0.25]), 0.1);
+    d = su(d, ell(p, [0, -0.86, 0.62], [0.2, 0.15, 0.15]), 0.08); // chin
+    d = su(d, cap(p, [0, 0.1, 0.82], [0, -0.32, 1.12], 0.075), 0.05); // nose
+    d = su(d, sph(p, [0, -0.32, 1.08], 0.11), 0.04);
+    d = su(d, ell(p, [0, -0.36, 0.96], [0.18, 0.08, 0.1]), 0.04);
+    d = su(d, ell(p, [0, -0.52, 0.9], [0.21, 0.055, 0.085]), 0.03); // lips
+    d = su(d, ell(p, [0, -0.62, 0.87], [0.19, 0.06, 0.085]), 0.03);
+    d = su(d, ell(p, [0.72, -0.05, -0.08], [0.08, 0.24, 0.15]), 0.05); // ears
+    d = su(d, ell(p, [-0.72, -0.05, -0.08], [0.08, 0.24, 0.15]), 0.05);
+    d = su(d, cap(p, [0, -0.55, -0.1], [0, -1.55, -0.1], 0.38), 0.15); // neck
+    d = su(d, ell(p, [0, -1.75, -0.12], [1.45, 0.42, 0.6]), 0.3); // shoulders
+    d = Math.max(d, -Math.min(sph(p, [0.27, 0.0, 0.78], 0.13), sph(p, [-0.27, 0.0, 0.78], 0.13))); // eye sockets
+    return Math.min(d, sph(p, [0.27, 0.0, 0.7], 0.1), sph(p, [-0.27, 0.0, 0.7], 0.1)); // eyes
+  };
+  const grad = (p) => { const e = 0.004, f = sdf(p); return [(sdf([p[0] + e, p[1], p[2]]) - f) / e, (sdf([p[0], p[1] + e, p[2]]) - f) / e, (sdf([p[0], p[1], p[2] + e]) - f) / e]; };
+  const build = () => {
+    const rnd = mulberry(1961), P = [], Nn = [];
+    for (let guard = 0; P.length < 5600 && guard < 2000000; guard++) {
+      const p = [(rnd() * 2 - 1) * 1.55, rnd() * 3.3 - 2.25, rnd() * 2.1 - 0.85], face = p[2] > 0.3 && p[1] > -1.0 && p[1] < 0.45;
+      if (Math.abs(sdf(p)) > 0.018 || (!face && rnd() > 0.42)) continue; // more points on the face, where the profile is
+      let g = grad(p), gl = len(...g) || 1;
+      for (let k = 0; k < 2; k++) { const f = sdf(p); p[0] -= (g[0] / gl) * f; p[1] -= (g[1] / gl) * f; p[2] -= (g[2] / gl) * f; g = grad(p); gl = len(...g) || 1; }
+      P.push(p); Nn.push([g[0] / gl, g[1] / gl, g[2] / gl]);
+    }
+    const RIM = []; // where the cut meets the skull
+    for (let k = 0; k < 420; k++) { const t = (k / 420) * TAU, d = [E1[0] * Math.cos(t) + E2[0] * Math.sin(t), E1[1] * Math.cos(t) + E2[1] * Math.sin(t), E1[2] * Math.cos(t) + E2[2] * Math.sin(t)]; let lo = 0.05, hi = 1.6; for (let it = 0; it < 30; it++) { const m = (lo + hi) / 2; sdf([P0[0] + d[0] * m, P0[1] + d[1] * m, P0[2] + d[2] * m]) < 0 ? (lo = m) : (hi = m); } RIM.push([P0[0] + d[0] * lo, P0[1] + d[1] * lo, P0[2] + d[2] * lo]); }
+    return { P, N: Nn, RIM };
+  };
+  return { NC, P0, E1, E2, beyond, get: () => geo || (geo = build()) };
+})();
+
 function circlesScene(opt) {
-  const walls = opt.walls.map((k) => RD.personas.walls[k]), n = walls.length, sc = opt.scale ?? 1, sp = opt.spread ?? 0, Y = opt.y ?? 0;
-  const PEOPLE = 18, NR = 300, NS = 60; // per circle: the person, the notes, three rings, three spokes
-  let idx = X0;
-  const L = walls.map((w, wi) => { const notes = wallNotes(w), s0 = { w, notes, p0: idx }; idx += PEOPLE; s0.n0 = idx; idx += notes.length; s0.r0 = idx; idx += NR * 3; s0.k0 = idx; idx += NS * 3; s0.end = idx; return s0; });
+  const G = HEAD.get(), walls = opt.walls.map((k) => RD.personas.walls[k]), n = walls.length, sc = opt.scale ?? 1, sp = opt.spread ?? 0;
+  const S = 3.0 * sc, CS = 0.8 * sc; // the head's size, and the circle's inside it
+  const NP = n === 1 ? G.P.length : 3400, NRIM = G.RIM.length, NR = 240, NS = 40;
+  let idx = 0;
+  const L = walls.map((w, wi) => { const notes = wallNotes(w), s0 = { w, notes, h0: idx }; idx += NP; s0.m0 = idx; idx += NRIM; s0.n0 = idx; idx += notes.length; s0.r0 = idx; idx += NR * 3; s0.k0 = idx; idx += NS * 3; s0.end = idx; return s0; });
   const END = idx;
   const tallOf = (c) => (c.aspect ?? 1.8) < 1.05;
-  const centre = (wi, c) => (n === 1 ? [0, 0, 0] : tallOf(c) ? [0, ((n - 1) / 2 - wi) * 6.4 * sc, 0] : [(wi - (n - 1) / 2) * sp, Y, 0]);
-  const arrive = (c, note) => (opt.reveal === "paths" ? (note.p === "learn" ? eio(ss(0.3, 1.5, c.t)) : eio(c.sa[PATHS3.indexOf(note.p)] ?? 0)) : eio(ss(0.15 + 0.3 * note.r, 1.2 + 0.3 * note.r, c.t)));
+  const centre = (wi, c) => (n > 1 && tallOf(c) ? [0, ((n - 1) / 2 - wi) * 3.5 * S, 0] : [(wi - (n - 1) / 2) * sp, 0, 0]);
+  // the turn: from profile, face to the left, to the back of the head toward us
+  const turn = (c) => eio(ss(2.0, 4.0, c.t)), angle = (c) => lerp(-Math.PI / 2, (-160 * Math.PI) / 180, turn(c));
+  const open = (c) => eio(ss(3.0, 4.2, c.t));
+  const place = (C, q, th, o) => { const cs = Math.cos(th), sn = Math.sin(th); o[0] = C[0] + (q[0] * cs + q[2] * sn) * S; o[1] = C[1] + q[1] * S; o[2] = C[2] + (-q[0] * sn + q[2] * cs) * S; return o; };
+  const Q = [0, 0, 0];
+  const inDisc = (r, a, inset) => { const k = (r * CS) / S, ca = Math.cos(a), sa = Math.sin(a); Q[0] = HEAD.P0[0] + (HEAD.E1[0] * ca + HEAD.E2[0] * sa) * k - HEAD.NC[0] * inset; Q[1] = HEAD.P0[1] + (HEAD.E1[1] * ca + HEAD.E2[1] * sa) * k - HEAD.NC[1] * inset; Q[2] = HEAD.P0[2] + (HEAD.E1[2] * ca + HEAD.E2[2] * sa) * k - HEAD.NC[2] * inset; return Q; };
+  const arrive = (c, note) => (opt.reveal === "paths" ? (note.p === "learn" ? eio(ss(3.9, 4.9, c.t)) : eio(c.sa[PATHS3.indexOf(note.p)] ?? 0)) : eio(ss(3.7 + 0.3 * note.r, 4.7 + 0.3 * note.r, c.t)));
   const litAt = (c, note, wi) => { if (!opt.lit) return opt.reveal === "paths" ? (c.step === PATHS3.indexOf(note.p) ? 1 : 0.55) : 1; let v = opt.lit(0, note, wi); for (let j = 1; j < c.sa.length; j++) v = lerp(v, opt.lit(j, note, wi), eio(c.sa[j] ?? 0)); return v; };
+  const NV = [0, 0, 0];
   return {
-    ties: 0, bloom: 0.46,
+    ties: 0, bloom: 0.5,
     at(i, c, o) {
-      if (i < X0 || i >= END) return hide(o);
+      if (i >= END) return hide(o);
       let wi = 0; while (wi < L.length - 1 && i >= L[wi].end) wi++;
-      const S = L[wi], C = centre(wi, c), gather = eio(ss(0.1 + 0.2 * wi, 1.2 + 0.2 * wi, c.t));
-      if (i < S.n0) { // the person
-        const a = R2[i] * TAU + c.T * 0.3, r = 0.34 * sc * Math.sqrt(R3[i]);
-        put(o, C[0] + Math.cos(a) * r, C[1] + Math.sin(a) * r * 0.9, C[2] + (R4[i] - 0.5) * 0.2 * sc, COL.pearl, 0.9 * gather, 7 * sc + 1.5, SH.dot, 0.2);
+      const H = L[wi], C = centre(wi, c), th = angle(c), op = open(c), form = eio(ss(0.05 + 0.15 * wi, 1.0 + 0.15 * wi, c.t));
+      if (i < H.m0) { // the head's surface, brightest at its edges
+        const j = i - H.h0, p = G.P[j], nn = G.N[j], cap = HEAD.beyond(p) > 0;
+        Q[0] = p[0] + (cap ? HEAD.NC[0] * op * 1.3 : 0); Q[1] = p[1] + (cap ? HEAD.NC[1] * op * 1.3 : 0); Q[2] = p[2] + (cap ? HEAD.NC[2] * op * 1.3 : 0);
+        place(C, Q, th, V); const cs = Math.cos(th), sn = Math.sin(th); NV[0] = nn[0] * cs + nn[2] * sn; NV[1] = nn[1]; NV[2] = -nn[0] * sn + nn[2] * cs;
+        const cam = c.cam ? c.cam.P : [0, 0, 30], vx = cam[0] - V[0], vy = cam[1] - V[1], vz = cam[2] - V[2], vl = Math.hypot(vx, vy, vz) || 1;
+        const rim = 1 - Math.abs((NV[0] * vx + NV[1] * vy + NV[2] * vz) / vl), neck = ss(-2.0, -1.5, p[1]);
+        const a = (0.08 + 0.7 * Math.pow(rim, 1.8)) * neck * form * (cap ? 1 - op : 1);
+        if (a < 0.01) return hide(o);
+        put(o, V[0], V[1], V[2], mixc(COL.silver, COL.teal, 0.35 * rim), a, 2.5 + 1.8 * rim, SH.dust);
         return;
       }
-      if (i < S.r0) { // the notes, flying out from the person to their ring and sector
-        const note = S.notes[i - S.n0], on = arrive(c, note), lit = litAt(c, note, wi), k = PK[note.p];
+      if (i < H.n0) { // the cut's edge
+        place(C, G.RIM[i - H.m0], th, V);
+        put(o, V[0], V[1], V[2], COL.gold, 0.6 * op * form, 3.2, SH.dust, 0.3 * op * (1 - op) * 4);
+        return;
+      }
+      if (i < H.r0) { // the notes, flying out from the middle to their ring and sector
+        const note = H.notes[i - H.n0], on = arrive(c, note), lit = litAt(c, note, wi), k = PK[note.p];
         if (on <= 0.001) return hide(o);
-        const a = note.a + Math.sin(c.T * 0.4 + i) * 0.012, r = lerp(0.2, note.r, on);
-        discAt(C, r, a, sc, V);
+        place(C, inDisc(lerp(0.1, note.r, on), note.a + Math.sin(c.T * 0.4 + i) * 0.012, 0.03 - 0.12 * (1 - on)), th, V);
         put(o, V[0], V[1], V[2], KIND[k], (0.2 + 0.8 * lit) * on, (8 + 9 * lit) * sc + 3, KSH[k], 0.6 * Math.sin(Math.PI * on));
         return;
       }
-      if (i < S.k0) { // three rings, each tinted by the sector it passes through
-        const q = Math.floor((i - S.r0) / NR), u = ((i - S.r0) % NR) / NR, a = u * TAU, R = Q_R[QS3[q]] * (1 + (R3[i] - 0.5) * 0.02);
+      if (i < H.k0) { // three rings, tinted by the sector they pass through
+        const q = Math.floor((i - H.r0) / NR), u = ((i - H.r0) % NR) / NR, a = u * TAU, R = Q_R[QS3[q]] * (1 + (R3[i] - 0.5) * 0.02);
         const d = (x) => Math.abs(Math.atan2(Math.sin(a - x), Math.cos(a - x)));
         const p = PATHS3.reduce((m, x) => (d(SEC_C[x]) < d(SEC_C[m]) ? x : m), "learn"), inSec = d(SEC_C[p]) < SEC_W / 2;
-        discAt(C, R, a, sc, V);
-        put(o, V[0], V[1], V[2], inSec ? mixc(COL.dust, KIND[PK[p]], 0.5) : COL.dim, (inSec ? 0.42 : 0.12) * gather, 2.8, SH.dust);
+        place(C, inDisc(R, a, 0.03), th, V);
+        put(o, V[0], V[1], V[2], inSec ? mixc(COL.dust, KIND[PK[p]], 0.5) : COL.dim, (inSec ? 0.45 : 0.14) * op, 2.8, SH.dust);
         return;
       }
-      { // three spokes, between the sectors
-        const k = Math.floor((i - S.k0) / NS), u = ((i - S.k0) % NS) / NS;
-        discAt(C, lerp(0.62, 2.62, u), SEC_C[PATHS3[k]] + Math.PI / 3, sc, V);
-        put(o, V[0], V[1], V[2], COL.dim, 0.22 * gather, 2.4, SH.dust);
+      { // three spokes between the sectors
+        const k = Math.floor((i - H.k0) / NS), u = ((i - H.k0) % NS) / NS;
+        place(C, inDisc(lerp(0.55, 2.55, u), SEC_C[PATHS3[k]] + Math.PI / 3, 0.03), th, V);
+        put(o, V[0], V[1], V[2], COL.dim, 0.24 * op, 2.4, SH.dust);
       }
     },
     labels(c) {
-      const out = [];
-      L.forEach((S, wi) => {
+      const out = [], op = open(c), th = angle(c);
+      L.forEach((H, wi) => {
         const C = centre(wi, c);
         if (n === 1) {
-          QS3.forEach((q) => out.push({ t: q, cls: "lab-ring", p: discAt(C, Q_R[q], (5 * Math.PI) / 6, sc, [0, 0, 0]) }));
-          PATHS3.forEach((p) => out.push({ t: p, cls: "lab-" + p, p: discAt(C, 2.95, SEC_C[p], sc, [0, 0, 0]), a: opt.reveal === "paths" ? arrive(c, { p, r: 1 }) : 1 }));
+          QS3.forEach((q) => out.push({ t: q, cls: "lab-ring", p: place(C, inDisc(Q_R[q], (5 * Math.PI) / 6, 0.03), th, [0, 0, 0]), a: op }));
+          PATHS3.forEach((p) => out.push({ t: p, cls: "lab-" + p, p: place(C, inDisc(2.95, SEC_C[p], 0.03), th, [0, 0, 0]), a: opt.reveal === "paths" ? arrive(c, { p, r: 1 }) : op }));
         }
-        if (opt.titles) out.push(tallOf(c) && n > 1 ? { t: opt.titles[wi], cls: "lab-title", al: "l", p: [C[0] + 2.6 * sc, C[1], C[2]] } : { t: opt.titles[wi], cls: "lab-title", p: [C[0], C[1] - 2.85 * sc * Math.cos(DISC_TILT), C[2]] });
+        if (opt.titles) out.push(tallOf(c) ? { t: opt.titles[wi], cls: "lab-title", al: "l", p: [C[0] + 1.7 * S, C[1] - 0.9 * S, C[2]], a: eio(ss(0.4, 1.4, c.t)) } : { t: opt.titles[wi], cls: "lab-title", p: [C[0], C[1] - 2.35 * S, C[2]], a: eio(ss(0.4, 1.4, c.t)) });
       });
       return out;
     },
     cam(c) {
       const tall = tallOf(c);
-      if (n === 1) return tall ? { t: [0, -0.2, 0], d: 14, yaw: 0.06, pitch: 6 * DEG, fov: 34, sx: 0, sy: 0.42, zoom: 1 } : { t: [0, 0.1, 0], d: 13, yaw: 0.08 + c.T * 0.003, pitch: 6 * DEG, fov: 34, sx: 0.44, sy: -0.04, zoom: 1 };
-      return tall ? { t: [0.9 * sc, 0, 0], d: 34 * sc, yaw: 0, pitch: 5 * DEG, fov: 34, sx: 0, sy: 0.42, zoom: 1 } : { t: [0, Y, 0], d: opt.d ?? 18, yaw: 0.03, pitch: 5 * DEG, fov: 34, sx: opt.sx ?? 0.36, sy: opt.sy ?? 0.4, zoom: 1 };
+      if (n === 1) return tall ? { t: [0, -1.5, 0], d: 27, yaw: 0, pitch: 16 * DEG, fov: 34, sx: 0, sy: 0.4, zoom: 1 } : { t: [0, -1.4, 0], d: 21, yaw: 0.04 * Math.sin(c.T * 0.1), pitch: 16 * DEG, fov: 34, sx: 0.44, sy: -0.02, zoom: 1 };
+      return tall ? { t: [1.4 * S, -0.7 * S, 0], d: 15 * S * 3.3 / 1.65 * 0.6, yaw: 0, pitch: 12 * DEG, fov: 34, sx: 0, sy: 0.42, zoom: 1 } : { t: [0, -1.0, 0], d: opt.d ?? 28, yaw: 0, pitch: 16 * DEG, fov: 34, sx: opt.sx ?? 0.3, sy: opt.sy ?? 0.4, zoom: 1 };
     },
     bodies: () => [],
     shock: () => null,
@@ -2271,7 +2341,7 @@ const PART2 = [
     hud(c) { numsHud(c, 0.8); },
   },
   {
-    label: "Three messages", layer: "lab", hud: labelsHud, make: () => circlesScene({ walls: [0, 1, 2], reveal: "all", scale: 0.6, spread: 4.7, sx: 0.26, d: 19, titles: ["1 · belonging", "2 · curiosity, status", "3 · necessity"], lit: (j, note) => (j === 0 ? (MSG_Q.some((t) => note.card.text.includes(t)) ? 1 : 0.15) : note.p === "share" ? 1 : 0.15) }),
+    label: "Three messages", layer: "lab", hud: labelsHud, make: () => circlesScene({ walls: [0, 1, 2], reveal: "all", scale: 0.55, spread: 5.6, sx: 0.26, d: 30, titles: ["1 · belonging", "2 · curiosity, status", "3 · necessity"], lit: (j, note) => (j === 0 ? (MSG_Q.some((t) => note.card.text.includes(t)) ? 1 : 0.15) : note.p === "share" ? 1 : 0.15) }),
     words: `<p class="kicker">The messaging</p>
       <h2 class="h">Three messages, and none of them is “learn AI”</h2>
       <div class="cols">
@@ -2370,7 +2440,7 @@ const SLIDES = [
   wallSlide(1),
   wallSlide(2),
   {
-    label: "The notes, counted", layer: "lab", hud: labelsHud, make: () => Object.assign(circlesScene({ walls: [0, 1, 2], reveal: "all", scale: 0.6, spread: 4.7, sx: 0.26, d: 19, titles: WALLS.map((w, k) => `${k + 1} · ${wallLabel(w).name} · ${w.cards.length}`) }), { dur: [0, 1.6] }),
+    label: "The notes, counted", layer: "lab", hud: labelsHud, make: () => Object.assign(circlesScene({ walls: [0, 1, 2], reveal: "all", scale: 0.55, spread: 5.6, sx: 0.26, d: 30, titles: WALLS.map((w, k) => `${k + 1} · ${wallLabel(w).name} · ${w.cards.length}`) }), { dur: [0, 1.6] }),
     words: `<p class="kicker">The three walls</p>
       <h2 class="h">${N_NOTES} notes, counted</h2>
       ${tally1}${tally2}
