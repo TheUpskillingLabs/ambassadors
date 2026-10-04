@@ -77,7 +77,7 @@
     "position": "every community that hosts a Lab attracts private and public investment",
     "who": true,
     "what": true,
-    "number": true
+    "number": false
    },
    {
     "group": "D",
