@@ -1,7 +1,7 @@
 {
  "meta": {
   "event": "The Labs retreat, Saturday, October 3, 2026",
-  "note": "Transcribed from photographs of the cards and from the recordings of the read-aloud. Spelling and wording are as written; TUL and UL are the room's own shorthand. Groups D and E are known from their recordings only; their cards were not photographed. Two cards are partly cut off in the photographs: one of B's peer cards (the Aspen Institute) and one of C's impact cards.",
+  "note": "Transcribed from photographs of the cards and from the recordings of the read-aloud. Spelling and wording are as written, except that the room's shorthand for the name is written out in full. Groups D and E are known from their recordings only; their cards were not photographed. Two cards are partly cut off in the photographs: one of B's peer cards (the Aspen Institute) and one of C's impact cards.",
   "cardTypes": {
    "impact": "By 2036, because of The Labs…",
    "peer": "In 2036, our name is said in the same breath as…",
@@ -51,7 +51,7 @@
   "headlines": [
    {
     "group": "A",
-    "text": "TUL is federated across every US community, driving a deep understanding and development of autonomy and agency in every personal digital interaction, keeping citizens relevant and equal participants in the workforce, and AI policy.",
+    "text": "The Upskilling Labs is federated across every US community, driving a deep understanding and development of autonomy and agency in every personal digital interaction, keeping citizens relevant and equal participants in the workforce, and AI policy.",
     "spoken": "We have Upskilling Labs federated across every US community, driving a deep understanding and development of autonomy and agency in every personal digital interaction, keeping citizens relevant and equal participants in the workforce and AI policy. So, super wordy. The big one there: proliferating across the country.",
     "future": "autonomy and agency in every personal digital interaction; citizens relevant and equal participants in the workforce and AI policy",
     "position": "federated across every US community",
@@ -61,7 +61,7 @@
    },
    {
     "group": "B",
-    "text": "TUL working with 100+ local + national govts + 10,000,000 upskillers",
+    "text": "The Upskilling Labs working with 100+ local + national govts + 10,000,000 upskillers",
     "spoken": "Upskilling Labs working with a hundred local and national governments plus 10 million upskillers globally. Bigger stakeholders, but keeping true to our main focus: helping local communities and individuals grow their skills, grow their confidence and build community.",
     "future": null,
     "position": "working with 100+ local and national governments and 10 million upskillers",
@@ -106,31 +106,31 @@
     "group": "A",
     "type": "impact",
     "color": "yellow",
-    "text": "By 2036… disparities will be reduced because of the ability to have access to TUL (free of charge) in anchor institutions in your community"
+    "text": "By 2036… disparities will be reduced because of the ability to have access to The Upskilling Labs (free of charge) in anchor institutions in your community"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "yellow",
-    "text": "By 2036 because of the Labs, policy (local, state, federal) will ensure that TUL is a nationally disseminated model in [the places where we] work, school (learn), play & worship"
+    "text": "By 2036 because of the Labs, policy (local, state, federal) will ensure that The Upskilling Labs is a nationally disseminated model in [the places where we] work, school (learn), play & worship"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "green",
-    "text": "UL participants are AI thought leaders in their communities"
+    "text": "Upskilling Labs participants are AI thought leaders in their communities"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "green",
-    "text": "UL participants are valued voices in the debate and policy around AI governance"
+    "text": "Upskilling Labs participants are valued voices in the debate and policy around AI governance"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "green",
-    "text": "UL participants are able to keep up with (if not shape) the changes to paying employment"
+    "text": "Upskilling Labs participants are able to keep up with (if not shape) the changes to paying employment"
    },
    {
     "group": "A",
@@ -214,7 +214,7 @@
     "group": "B",
     "type": "draft",
     "color": "orange",
-    "text": "TUL reaches 100 metropolitan cities"
+    "text": "The Upskilling Labs reaches 100 metropolitan cities"
    },
    {
     "group": "B",
