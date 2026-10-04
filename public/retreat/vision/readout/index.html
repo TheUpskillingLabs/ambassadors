@@ -158,6 +158,24 @@ body[data-layer="nums"] #numlabels { opacity: 1; }
 .tally tr.sum th, .tally tr.sum td { border-bottom: 0; color: var(--t1); }
 .tally .p-learn { color: var(--teal-hi) !important; } .tally .p-build { color: #ff7f6a !important; } .tally .p-share { color: var(--metal) !important; }
 
+/* Part 2: the struck word, the quotes, the flow of ideas, and draft to headline */
+.k-strike li::before { border: max(1.5px, calc(2.5 * var(--u))) solid var(--metal); border-radius: 50%; }
+.k-strike s { text-decoration: line-through; text-decoration-thickness: max(1.5px, calc(3 * var(--u))); text-decoration-color: var(--metal); color: var(--t3); }
+.k-quote li::before { width: calc(7 * var(--u)); height: calc(7 * var(--u)); min-width: 4px; min-height: 4px; top: 0.6em; border-radius: 50%; background: var(--teal-hi); }
+.byg.wide li { grid-template-columns: calc(120 * var(--u)) 1fr; }
+.flowtab { border-collapse: collapse; font-size: max(11px, calc(19 * var(--u))); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.flowtab th, .flowtab td { padding: calc(4 * var(--u)) calc(22 * var(--u)) calc(4 * var(--u)) 0; border-bottom: 1px solid var(--rule); text-align: center; white-space: nowrap; }
+.flowtab tbody th { text-align: left; font-weight: 500; color: var(--t1); }
+.flowtab thead th { font-size: max(9px, calc(16 * var(--u))); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); }
+.flowtab td.on { color: var(--teal-hi); } .flowtab td.off { color: var(--t3); } .flowtab td.word { color: var(--metal); font-size: 0.86em; }
+.words:has(.flowtab) { width: calc(980 * var(--u)); }
+.flow { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: calc(12 * var(--u)); }
+.flow li { display: grid; grid-template-columns: calc(160 * var(--u)) 1fr; gap: calc(14 * var(--u)); align-items: baseline; font-size: max(13px, calc(25 * var(--u))); line-height: 1.28; color: var(--t2); text-wrap: pretty; }
+.flow li b { font-size: max(9px, calc(17 * var(--u))); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t3); }
+.flow li:nth-child(2n) span { color: var(--t1); }
+.flow li.back b { color: var(--teal-hi); } .flow li.back span { color: var(--t1); }
+.words:has(.flow) { width: calc(940 * var(--u)); }
+
 /* the clock: top right, out of the picture's way */
 #clock { position: fixed; z-index: 3; right: var(--gut); top: calc(var(--gut) * 0.42 + env(safe-area-inset-top, 0px)); display: flex; flex-direction: column; align-items: flex-end; gap: calc(12 * var(--u)); opacity: 0; transform: translateY(calc(-10 * var(--u))); transition: opacity 0.6s ease, transform 0.8s ease; pointer-events: none; }
 #clock.on { opacity: 1; transform: none; }
@@ -229,6 +247,8 @@ body[data-layer="nums"] #numlabels { opacity: 1; }
   #sheet { right: var(--gut); left: var(--gut); width: auto; bottom: auto; top: calc(var(--gut) * 0.56 + env(safe-area-inset-top, 0px) + 70px); transform: none; }
   #evidence { display: none; }
   .cols, .cols.two { grid-template-columns: 1fr; }
+  .flowtab th, .flowtab td { white-space: normal; padding-right: 8px; }
+  .words:has(.flowtab), .words:has(.flow) { width: 100%; }
   .words:has(.cols), .words:has(.k-impact) { width: 100%; }
   .labels span { font-size: 11px; }
   #hint { display: none; }
@@ -1994,12 +2014,12 @@ const wallSlide = (k) => {
   const w = WALLS[k], L = wallLabel(w);
   return {
     label: `Wall ${k + 1} · ${L.name}`, layer: "wall" + k, make: () => personaScene(k),
-    words: `<p class="kicker">Wall ${k + 1} of ${WALLS.length} · ${w.cards.length} notes, as written</p>
+    words: `<p class="kicker">Messaging · wall ${k + 1} of ${WALLS.length} · ${w.cards.length} notes, as written</p>
       <h2 class="h">${esc(L.name)}</h2>
       ${L.more ? `<p class="small">As labeled: ${esc(w.who)}</p>` : ""}
       ${["learn", "build", "share"].map((p, j) => wallPath(w, p, j)).join("")}`,
     notes: [
-      `“Wall ${k + 1}: ${w.who}.” Learn: why they'd come, how it should work, what they'd get.`,
+      `“Wall ${k + 1}: ${w.who}.” Learn: the why, the how, the what.`,
       "Build.",
       "Share.",
     ],
@@ -2028,13 +2048,143 @@ const PLACES = [
 ];
 const B_ABROAD = CARDS.filter((c) => c.group === "B" && c.type === "impact" && /international|developing countries/i.test(c.text));
 
+/* the number labels ride their rings (the first above it, the others below) */
+const numsHud = (c, dim) => {
+  const lab = document.getElementById("numlabels"); if (!lab || !c || !c.project) return;
+  lab.querySelectorAll("span").forEach((s, k) => { if (!NUMS[k]) return; const p = c.project(NUMS[k].c), on = eio(ss(0.9 + k * 0.35, 1.5 + k * 0.35, c.t)) * dim; s.style.transform = k === 0 ? `translate(calc(${p.x.toFixed(1)}px - 50%), calc(${(p.y - 0.03 * innerHeight).toFixed(1)}px - 100%))` : `translate(calc(${p.x.toFixed(1)}px - 50%), ${(p.y + 0.035 * innerHeight).toFixed(1)}px)`; s.style.opacity = on.toFixed(2); });
+};
+
+/* ── Part 2: what runs through it. It isn't really about AI. ── */
+const AI = /\bAI\b/;
+const AI_HL = RD.moonshot.headlines.filter((h) => AI.test(h.text)).length;
+const AI_IMPACT = ofType("impact").filter((c) => AI.test(c.text));
+const AI_WALL = WALLS.flatMap((w) => w.cards).filter((c) => AI.test(c.text));
+const strike = (t) => esc(t).replace(/\bAI\b/g, "<s>AI</s>");
+const struck = [...AI_IMPACT.map((c) => c.text), ...AI_WALL.filter((c) => /skills/.test(c.text)).map((c) => c.text)];
+const twoCols = (a, b) => `<div class="cols two"><div><p class="kicker sub">${a[0]}</p><ul class="items k-quote">${a[1].map((t) => `<li>${qt(t)}</li>`).join("")}</ul></div><div><p class="kicker sub">${b[0]}</p><ul class="items k-quote">${b[1].map((t) => `<li>${qt(t)}</li>`).join("")}</ul></div></div>`;
+const MARK = { y: "●", n: "—" };
+const FLOW = [
+  ["Scale, reach", "y", "y", "y", "n"],
+  ["Governments, policy", "y", "y", "y", "n"],
+  ["Civic agency", "y", "y", "y", "personal"],
+  ["Data, evidence", "y", "n", "n", "n"],
+  ["Learning by building", "y", "n", "n", "y"],
+  ["Confidence", "y", "n", "y", "y"],
+  ["Peer, in person", "y", "n", "n", "y"],
+  ["Community", "a place", "a place", "both", "belonging"],
+  ["Access, equity", "y", "y", "y", "y"],
+  ["Work, careers", "y", "y", "y", "concrete"],
+  ["Curiosity, play, status", "n", "n", "n", "y"],
+  ["Proof of work", "n", "n", "n", "y"],
+];
+const flowTable = `<table class="flowtab"><thead><tr><th></th><th>Cards</th><th>Headlines</th><th>Aloud</th><th>Messaging</th></tr></thead><tbody>${FLOW.map(([k, ...v]) => `<tr><th>${k}</th>${v.map((x) => `<td class="${x === "n" ? "off" : x === "y" ? "on" : "word"}">${MARK[x] || x}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+const SHARE = { n: count(ALLN, (c) => c.path === "share"), why: count(ALLN, (c) => c.path === "share" && c.q === "why"), how: count(ALLN, (c) => c.path === "share" && c.q === "how"), what: count(ALLN, (c) => c.path === "share" && c.q === "what") };
+
+const PART2 = [
+  {
+    label: "Part 2 · It isn't really about AI", make: () => voicesScene({ all: true }),
+    words: `<p class="kicker">Part 2 · What runs through it</p>
+      <h2 class="h">It isn't really about AI</h2>
+      <p class="lead dim" data-at="0">Take the word out and nothing breaks.</p>
+      <div data-at="1" data-only><ul class="items k-strike">${struck.map((t) => `<li>${strike(t)}</li>`).join("")}</ul>
+        <p class="small">AI is in ${plural(AI_HL, "of the five headlines", "of the five headlines").replace(/^1 /, "one ")}, ${AI_IMPACT.length} of ${ofType("impact").length} impact cards and ${AI_WALL.length} of ${N_NOTES} messaging notes. Where it shows up, it's the backdrop: the pressure, a tool, a place to have a say.</p></div>
+      <div data-at="2" data-only><p class="lead dim">The peers the room named are mostly about learning, research and civic life: universities, MOOCs, Brookings, Pew, the Aspen Institute, Code for America, Collective Action, Tech DC, private book groups.</p><p class="small">AI shows up among them as Anthropic-style training and the AI Collective.</p></div>`,
+    notes: [
+      "“Here's what runs through all of it. It isn't really about AI.”",
+      `“Take the word out and nothing breaks: thought leaders in their communities, voices in governance, upskilling, a range of skills. AI is in one headline, ${AI_IMPACT.length} impact cards and ${AI_WALL.length} of ${N_NOTES} messaging notes.”`,
+      "“And the peers you named are mostly institutions of learning, research and civic life, not tech companies.”",
+    ],
+  },
+  {
+    label: "Four things", make: () => closeScene(),
+    words: `<p class="kicker">What it's about</p>
+      <h2 class="h">Four things</h2>
+      <ul class="asks"><li>Learning by building</li><li data-at="1">People with agency</li><li data-at="2">Community</li><li data-at="3">Work</li></ul>
+      <p class="small" data-at="3">AI is why now. These are the point.</p>`,
+    notes: ["“What it is about: four things. Learning by building.”", "“People with agency.”", "“Community.”", "“And work. AI is why now; these are the point.”"],
+  },
+  {
+    label: "1 · Learning by building", make: () => personaScene(2),
+    words: `<p class="kicker">1 · Learning by building</p>
+      <h2 class="h">The method is the point</h2>
+      <p class="lead">${qt("I've looked at models: no other learning-by-building.")}</p>
+      <p class="lead dim">${qt("skill = building")} ${qt("Just come with a laptop.")} ${qt("Kinesthetic, interactive.")} ${qt("Project-based learning.")}</p>
+      <p class="small" data-at="1">It's in the cards and on every messaging wall, and in none of the five headlines.</p>`,
+    notes: ["“The method. One peer card said it: I've looked at models, no other learning-by-building. The pivoters wrote skill equals building.”", "“It's on every messaging wall, and in none of the headlines. We'll come back to that.”"],
+  },
+  {
+    label: "2 · Agency", make: () => headlineScene(),
+    words: `<p class="kicker">2 · People with agency</p>
+      <h2 class="h">Civic in the vision, personal in the message</h2>
+      ${twoCols(["In the vision", ["citizens relevant and equal participants", "Workers not at the mercy of Big Tech; people as citizens", "Federated tools: you own your material", "A citizen-informed policy-making method"]], ["In the messaging", ["Propose your own interests", "wants to solve his own problems", "projects that are meaningful and relevant to them", "Create something I can use in my day to day"]])}`,
+    notes: ["“Agency, twice. In the vision it's civic: citizens, owning your tools, a say in policy. In the messaging it's personal: your own interests, your own problems, something you can use.”"],
+  },
+  {
+    label: "3 · Community", make: () => personaScene(0),
+    words: `<p class="kicker">3 · Community</p>
+      <h2 class="h">A place, then belonging</h2>
+      ${twoCols(["In the vision", ["every US community", "Every community that hosts an Upskilling Labs", "helping local communities"]], ["In the messaging", ["Project-based learning; supportive community", "Contribute to community", "Find fellow nerds", "In local communities: meetups, volunteering"]])}
+      <p class="small" data-at="1">The most-used word of the morning. The pivoters' message never uses it.</p>`,
+    notes: ["“Community, the word you used most. In the vision it's a place: every community, communities that host a Lab. In the messaging it's belonging: supportive community, fellow nerds.”", "“The pivoters' message never uses it.”"],
+  },
+  {
+    label: "4 · Work", make: () => voicesScene({ all: true }),
+    words: `<p class="kicker">4 · Work</p>
+      <h2 class="h">${qt("A future of work that's still human-driven")}</h2>
+      <ul class="byg wide"><li><b>C</b><span>${qt("Every member of that community is gainfully employed in a fulfilling role.")}</span></li><li><b>A</b><span>${qt("able to keep up with (if not shape) the changes to paying employment")}</span></li><li><b>Wall 2</b><span>${qt("Proof of work, and skills to show employers")}</span></li><li><b>Wall 3</b><span>${qt("Job hunting; trying to figure out what is next")}</span></li></ul>`,
+    notes: ["“Work. D said it aloud: a future of work that's still human-driven. A fulfilling role, keeping up with paid work, or shaping it, and proof to show for it.”"],
+  },
+  {
+    label: "Where ideas came in and dropped out", make: () => groupCardsScene(["impact", "peer", "draft", "note"], ORDER, [GROUPS]),
+    words: `<p class="kicker">Across the morning</p>
+      <h2 class="h">Where ideas came in and dropped out</h2>
+      ${flowTable}
+      <p class="small" data-at="1">The vision climbs to governments and nations. The messaging comes back down to one person: a laptop, a meetup, a portfolio.</p>`,
+    notes: ["“Here's every idea across the morning: the cards, the headlines, what you said aloud, and the messaging. Some carried all the way through. Some only lived in the vision; some only showed up in the messaging.”", "“The vision climbs to governments and nations. The messaging comes back down to one person.”"],
+  },
+  {
+    label: "From draft to headline", make: () => groupCardsScene(["draft", "note"], ORDER, [["A", "B"]]),
+    words: `<p class="kicker">From draft to headline</p>
+      <h2 class="h">Going 10x kept the reach and dropped the core</h2>
+      <ul class="flow">
+        <li><b>A · draft</b><span>${qt(ofType("draft", "A")[0].text.replace(/\.$/, ""))}</span></li>
+        <li><b>A · headline</b><span>${qt("federated across every US community")} …</span></li>
+        <li><b>B · draft</b><span>${qt("Communities across the nation and globally can start up independent spaces to support learning and growth")} …</span></li>
+        <li><b>B · headline</b><span>${qt("working with 100+ local + national govts + 10,000,000 upskillers")}</span></li>
+        <li data-at="1" class="back"><b>B · aloud</b><span>${qt("keeping true to our main focus: helping local communities and individuals grow their skills, grow their confidence and build community.")}</span></li>
+      </ul>`,
+    notes: ["“From the solo drafts to the group headlines, the 10x step kept the reach and dropped the core. A's draft was about building knowledge and confidence; the headline is about federation. B's draft had communities starting their own spaces; the headline has governments.”", "“And B put it straight back the moment they read it aloud.”"],
+  },
+  {
+    label: "Every number counts reach", layer: "nums", make: () => numbersScene(),
+    words: `<p class="kicker">The numbers</p>
+      <h2 class="h">Every number counts reach</h2>
+      <p class="lead dim">100 cities, then 100+ governments, 10,000,000 upskillers, less than 10 years.</p>
+      <p class="lead" data-at="1">What happens to a person is never a number: ${qt("gainfully employed in a fulfilling role", ",")} ${qt("grow their confidence", ",")} ${qt("something I can use in my day to day", ".")}</p>`,
+    notes: ["“Every number in the room counts reach: cities, governments, upskillers, years.”", "“What happens to a person is never a number.”"],
+    hud(c) { numsHud(c, 0.8); },
+  },
+  {
+    label: "Three messages", make: () => personasScene(),
+    words: `<p class="kicker">The messaging</p>
+      <h2 class="h">Three messages, and none of them is “learn AI”</h2>
+      <div class="cols">
+        <div><p class="kicker sub">Wall 1 · belonging</p><ul class="items k-quote"><li>${qt("Contribute to community")}</li><li>${qt("Create positive learning opportunities for others")}</li><li>${qt("Real-world problems, local and in person")}</li></ul></div>
+        <div><p class="kicker sub">Wall 2 · curiosity, status</p><ul class="items k-quote"><li>${qt("Wants to work on challenging problems")}</li><li>${qt("To get attention; prestige and status; more money")}</li><li>${qt("Find fellow nerds")}</li></ul></div>
+        <div><p class="kicker sub">Wall 3 · necessity</p><ul class="items k-quote"><li>${qt("AI is changing their field")}</li><li>${qt("skill = building")}</li><li>${qt("A consistent problem over time")}</li></ul></div>
+      </div>
+      <p class="small" data-at="1">Share has a why but not yet a what: ${SHARE.n} of ${N_NOTES} notes, ${SHARE.why} why, ${SHARE.how} how, ${SHARE.what} what. The what is something they built.</p>`,
+    notes: ["“Three people, three messages. Belonging. Curiosity and status. Necessity. Even for the pivoter, AI is only the trigger; what they want is to build something they can use.”", "“And share has a why but not yet a what. The what is something they built.”"],
+  },
+];
+
 const SLIDES = [
   {
     label: "Open · the morning in cards", make: () => openScene(),
     words: `<p class="kicker">Vision Module · Readout · Team Retreat CY27 Q4</p>
       <h1 class="h h-xl">The moonshot, sketched</h1>
       <p class="lead dim" data-at="1">What the room made on October 3: five headlines, ${N_MOON} cards and three walls with ${N_NOTES} notes.</p>
-      <p class="small" data-at="1">In the first session, each person wrote impact, peer and headline cards; then five groups each made one 2036 headline, 10x bigger. In the second, three walls each took one person and filled a grid: learn, build and share, by why, how and what.</p>
+      <p class="small" data-at="1">In the vision session, each person wrote impact, peer and headline cards; then five groups each made one 2036 headline, 10x bigger. In the messaging session, three walls each took one person and wrote why, how and what for learn, build and share. Part 1 is what the room made, as written. Part 2 is what runs through it.</p>
       <p class="small" data-at="1">Typed up from the photographs and the read-aloud. Groups ${missing("impact").join(" and ")}'s cards weren't photographed, and two cards are partly cut off.</p>`,
     notes: [
       "On screen as people come in: the morning's cards, drifting in. Advance when ready.",
@@ -2070,10 +2220,7 @@ const SLIDES = [
       "“Three numbers: 100-plus local and national governments and 10 million upskillers, from B; less than 10 years, from E.” The rings are drawn to a log scale.",
       `“And ‘every’, in ${EVERY.length} of the five: ${EVERY.join(", ").replace(/, ([^,]*)$/, " and $1")}.”`,
     ],
-    hud(c, el) {
-      const lab = document.getElementById("numlabels"); if (!lab || !c || !c.project) return;
-      lab.querySelectorAll("span").forEach((s, k) => { if (!NUMS[k]) return; const p = c.project(NUMS[k].c), on = eio(ss(0.9 + k * 0.35, 1.5 + k * 0.35, c.t)) * (c.step ? 0.35 : 1); s.style.transform = k === 0 ? `translate(calc(${p.x.toFixed(1)}px - 50%), calc(${(p.y - 0.03 * innerHeight).toFixed(1)}px - 100%))` : `translate(calc(${p.x.toFixed(1)}px - 50%), ${(p.y + 0.035 * innerHeight).toFixed(1)}px)`; s.style.opacity = on.toFixed(2); });
-    },
+    hud(c) { numsHud(c, c && c.step ? 0.35 : 1); },
   },
   {
     label: "Where each headline is set", make: () => Object.assign(adoptScene(), { dur: [0, 4.0] }),
@@ -2127,6 +2274,7 @@ const SLIDES = [
       `“And by question. ${emptyLine}”`,
     ],
   },
+  ...PART2,
   {
     label: "The data", make: () => closeScene(),
     words: `<p class="kicker">The data</p>
