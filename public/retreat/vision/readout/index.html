@@ -195,6 +195,21 @@ body[data-layer="nums"] #numlabels, body[data-layer="lab"] #scenelabels { opacit
 .show-ui #hint:not(.gone) ~ #count { opacity: 0; }
 #flash { position: fixed; z-index: 9; left: 50%; bottom: 24px; transform: translate(-50%, 8px); max-width: min(520px, calc(100vw - 32px)); background: var(--paper); color: var(--on-paper); border-radius: var(--r); padding: 12px 16px; font-size: 14px; line-height: 20px; opacity: 0; transition: opacity 0.3s, transform 0.3s; pointer-events: none; }
 #flash.on { opacity: 1; transform: translate(-50%, 0); }
+/* what a glyph stands for: hover one (tap on a phone) for the card, note, headline or number, as written */
+#tip { position: fixed; z-index: 8; left: 0; top: 0; width: max-content; max-width: min(360px, calc(100vw - 32px)); box-sizing: border-box; padding: 14px 16px 13px; border-radius: var(--r); background: rgba(3, 35, 42, 0.97); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.14); box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity 0.14s ease, visibility 0s 0.14s; user-select: text; -webkit-user-select: text; }
+#tip.on { opacity: 1; visibility: visible; transition: opacity 0.14s ease; }
+#tip.pinned { pointer-events: auto; }
+#tip.docked { left: 16px; right: 16px; top: auto; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); width: auto; max-width: none; transform: none; }
+.tip-k { margin: 0 0 7px; display: flex; align-items: center; gap: 9px; font-size: 11px; line-height: 15px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t2); }
+.tip-k i { flex: none; width: 9px; height: 9px; box-sizing: border-box; border: 2px solid var(--metal); border-radius: 50%; }
+#tip[data-k="1"] .tip-k i { border: 0; border-radius: 1px; background: var(--teal-hi); }
+#tip[data-k="2"] .tip-k i { border: 0; border-radius: 1px; background: #ff7f6a; transform: rotate(45deg) scale(0.86); }
+#tip[data-k="-1"] .tip-k i { display: none; }
+.tip-t { margin: 0; font-size: 15px; line-height: 1.42; color: var(--t1); text-wrap: pretty; }
+.tip-a { display: none; margin-top: 10px; font-size: 13px; font-weight: 600; color: var(--teal-hi); text-decoration: none; }
+.tip-a::after { content: " ↗"; }
+#tip.pinned .tip-a { display: inline-block; }
+body.picking:not(.idle) { cursor: pointer; }
 #blank { position: fixed; inset: 0; z-index: 7; background: #000; display: none; cursor: none; }
 #blank.on { display: block; }
 
@@ -270,11 +285,12 @@ body[data-layer="nums"] #numlabels, body[data-layer="lab"] #scenelabels { opacit
 
 <main id="slides" aria-live="polite"></main>
 <div id="clock" aria-live="off"><span class="clock-cap"></span><span class="clock-n">0:00</span><span class="clock-rule"><i></i></span></div>
-<p id="hint">Press → or click to advance · F full screen · N notes · ? all keys</p>
+<p id="hint">Press → or click to advance · Point at any mark to read it · F full screen · N notes · ? all keys</p>
 <div id="count"></div>
 <div id="prog"><i></i></div>
 <div id="blank"></div>
 <div id="flash" role="status"></div>
+<div id="tip" class="ui" role="status" aria-live="polite"><p class="tip-k"><i></i><span></span></p><p class="tip-t"></p><a class="tip-a" href="#" target="_blank" rel="noopener">Its row in the data</a></div>
 
 <aside id="notes" class="ui" aria-label="Speaker notes">
   <div class="n-top"><p class="n-lbl" id="n-label"></p><span id="n-where"></span></div>
@@ -293,6 +309,7 @@ body[data-layer="nums"] #numlabels, body[data-layer="lab"] #scenelabels { opacit
     <dl>
       <div><dt>→  Space  click</dt><dd>Next step or slide</dd></div>
       <div><dt>←</dt><dd>Back</dd></div>
+      <div><dt>Point or tap</dt><dd>Any mark: the card, note, headline or number it stands for. Click it to keep it open; Esc closes it.</dd></div>
       <div><dt>F</dt><dd>Full screen</dd></div>
       <div><dt>N</dt><dd>Speaker notes</dd></div>
       <div><dt>P</dt><dd>Presenter window</dd></div>
@@ -1596,6 +1613,7 @@ function createWorld(canvas, opts = {}) {
       OUT[o + 8] = e < 0.5 ? oA[8] : oB[8]; OUT[o + 9] = oA[9] + (oB[9] - oA[9]) * e;
     }
 
+    if (PICK.i >= 0 && PICK.i < N) { const o = PICK.i * STR; if (OUT[o + 6] > 0.02) { OUT[o + 6] = Math.min(1, OUT[o + 6] * 1.3 + 0.35); OUT[o + 7] *= 1.7; OUT[o + 9] = Math.max(OUT[o + 9], 0.9); } }
     /* bodies, keyed, blended across a change */
     const eb = trans ? eio(tAge / (rm ? 0.6 : 1.7)) : 1;
     let bodies = cur.bodies(cc).map((b) => ({ ...b, alpha: 1 }));
@@ -1730,6 +1748,7 @@ function createWorld(canvas, opts = {}) {
     start() { if (!running) { running = true; last = 0; raf = requestAnimationFrame(loop); } },
     stop() { running = false; cancelAnimationFrame(raf); },
     resize,
+    out: () => OUT, STR,
     renderAt(t, dt = 1 / 60) { // for stills: run the clock forward to t seconds into the slide
       const steps = Math.ceil(t / dt);
       for (let k = 0; k < steps; k++) frame((last || 0) + dt * 1000);
@@ -1744,14 +1763,34 @@ const BUST_BAKED = {"volunteer": {"n": 12648, "c": 3201, "s": 0.02, "m": 0, "p":
 const hide = (o) => { o[6] = 0; };
 const X0 = 11800; // particles above this index are free for the readout's own layers
 
+/* ── What each glyph stands for ──
+   Every glyph that is one of the room's headlines, cards, notes or numbers carries it: hover it (or tap it) and
+   the deck shows it as written, with a link to its row on the data page. PICK is what the pointer is on; the
+   engine enlarges that glyph, and a scene lights a whole group (a trio, a ring, a bust) when its key is picked. */
+const DATA_URL = "https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/data/";
+const PICK = { i: -1, key: null };
+const DATUM = (() => {
+  const m = RD.moonshot, KT = { impact: 2, peer: 1, draft: 3, note: 3 }, KP = { learn: 1, build: 2, share: 3 };
+  const NAME = { impact: "Impact card", peer: "Peer card", draft: "Headline draft", note: "Note" };
+  const headline = {};
+  m.headlines.forEach((h) => { headline[h.group] = { key: "h:" + h.group, k: 3, kicker: `Headline · group ${h.group}`, text: h.text, href: DATA_URL + "#h-" + h.group, one: false }; });
+  const card = m.cards.map((c, j) => ({ key: "c:" + j, k: KT[c.type] ?? 3, kicker: `${NAME[c.type] || "Card"} · group ${c.group}`, text: c.text, href: DATA_URL + "#c-" + j }));
+  const walls = RD.personas.walls, note = walls.map((w, wi) => w.cards.map((c, j) => ({ key: `w${wi}:${j}`, k: KP[c.path], kicker: `Wall ${wi + 1} · ${c.path} · ${c.q}`, text: c.text, href: DATA_URL + `#w${wi + 1}-${j}` })));
+  const persona = walls.map((w, wi) => ({ key: "p:" + wi, k: -1, kicker: `Messaging · wall ${wi + 1} of ${walls.length} · ${w.cards.length} notes`, text: "As labeled: " + w.who, plain: true, href: DATA_URL + "#wall-" + (wi + 1), one: false }));
+  const number = (label, k) => { const h = m.headlines.find((x) => x.text.toLowerCase().includes(label.toLowerCase())); return { key: "n:" + k, k: 3, kicker: `${label} · group ${h.group}'s headline`, text: h.text, href: DATA_URL + "#h-" + h.group, one: false }; };
+  const cardOf = (c) => card[m.cards.indexOf(c)];
+  return { headline, card, note, persona, number, cardOf };
+})();
+const range = (a, b, step = 1) => { const out = []; for (let i = a; i < b; i += step) out.push(i); return out; };
+
 /* The cards as glyphs: impact = red diamond (a change in the world), peer = teal square (an institution we stand
    beside), headline and draft = gold ring (what we carry out); a persona wall's cards take their path's glyph. */
 const CARD_GLYPHS = (() => {
   const g = [];
   const T = { impact: 2, peer: 1, headline: 3, draft: 3, note: 3 }, P = { learn: 1, build: 2, share: 3 };
-  RD.moonshot.cards.forEach((c) => g.push({ k: T[c.type] ?? 3, session: 0 }));
-  RD.moonshot.headlines.forEach(() => g.push({ k: 3, session: 0 }));
-  RD.personas.walls.forEach((w) => w.cards.forEach((c) => g.push({ k: P[c.path], session: 1 })));
+  RD.moonshot.cards.forEach((c, j) => g.push({ k: T[c.type] ?? 3, session: 0, d: DATUM.card[j] }));
+  RD.moonshot.headlines.forEach((h) => g.push({ k: 3, session: 0, d: { ...DATUM.headline[h.group], one: true } }));
+  RD.personas.walls.forEach((w, wi) => w.cards.forEach((c, j) => g.push({ k: P[c.path], session: 1, d: DATUM.note[wi][j] })));
   return g;
 })();
 const COUNTS = (() => {
@@ -1784,6 +1823,7 @@ function openScene() {
       }
       base.at(i, c, o);
     },
+    picks: () => range(G0, G0 + NG), datum: (i) => CARD_GLYPHS[i - G0].d,
     cam(c) { return { t: [GEO_O[0] + 0.3, GEO_O[1] - 0.2, GEO_O[2]], d: lerp(16, 19, eio(c.sa[1] ?? 0)), yaw: 0.35 + c.T * 0.006, pitch: 22 * DEG, fov: 34, sx: 0.3, sy: 0.04, zoom: 1 }; },
     bodies(c) { return base.bodies(c); },
     shock: () => null,
@@ -1796,9 +1836,10 @@ const voicePos = (k, T) => { const a = (k / VOICE_N) * TAU - 0.4 + T * 0.012; re
 function voicesScene(opt = {}) {
   const PER = 3, D0 = X0, ND = 420, G0 = D0 + ND, GLOW0 = G0 + VOICE_N * PER, TIE0 = GLOW0 + VOICE_N, NT = 160, HALO0 = TIE0 + VOICE_N * NT, NH = 220, END = HALO0 + NH;
   const active = (c) => (opt.all ? -1 : Math.min(VOICE_N - 1, c.step));
-  const lit = (c, k) => (opt.all ? (opt.pass && !opt.pass[k] ? 0.25 : 1) : k === active(c) ? 1 : 0.22);
+  const lit = (c, k) => (PICK.key === "h:" + ORDER[k] ? 1 : opt.all ? (opt.pass && !opt.pass[k] ? 0.25 : 1) : k === active(c) ? 1 : 0.22);
   return {
     ties: 0, bloom: 0.46,
+    picks: () => range(G0, TIE0), datum: (i) => DATUM.headline[ORDER[i < GLOW0 ? Math.floor((i - G0) / PER) : i - GLOW0]],
     at(i, c, o) {
       if (i >= D0 && i < G0) { // the orb's own dust
         const th = R2[i] * TAU + c.T * 0.06, rr = lerp(1.35, 2.0, Math.sqrt(R3[i])), x = Math.cos(th) * rr, z = Math.sin(th) * rr, y = (R4[i] - 0.5) * 0.06;
@@ -1871,9 +1912,11 @@ function groupCardsScene(types, order, litAt) {
   const start = []; let idx = G0; cards.forEach((cs) => { start.push(idx); idx += cs.length; });
   const GH0 = idx, NGH = 140, END = GH0 + VOICE_N * NGH;
   const KG = { impact: 2, peer: 1, draft: 3, note: 3, headline: 3 };
-  const lit = (c, k) => (litAt[clamp(c.step ?? 0, 0, litAt.length - 1)].includes(order[k]) ? 1 : 0.2);
+  const lit = (c, k) => (PICK.key === "h:" + order[k] || litAt[clamp(c.step ?? 0, 0, litAt.length - 1)].includes(order[k]) ? 1 : 0.2);
+  const cardAt = (i) => { let k = 0; while (k < start.length - 1 && i >= start[k + 1]) k++; return cards[k][i - start[k]]; };
   return {
     ties: 0, bloom: 0.46,
+    picks: () => range(P0, GH0), datum: (i) => (i < G0 ? DATUM.headline[order[Math.floor((i - P0) / PER)]] : DATUM.cardOf(cardAt(i))),
     at(i, c, o) {
       if (i >= D0 && i < P0) { // the orb's own dust
         const th = R2[i] * TAU + c.T * 0.06, rr = lerp(1.35, 2.0, Math.sqrt(R3[i])), x = Math.cos(th) * rr, z = Math.sin(th) * rr, y = (R4[i] - 0.5) * 0.06;
@@ -1914,15 +1957,16 @@ const NUMS = [
 ];
 function numbersScene() {
   const NR = 520, G0 = X0;
-  const rOf = (n) => 0.35 + 0.33 * Math.log10(n);
+  const rOf = (n) => 0.35 + 0.33 * Math.log10(n), D = NUMS.map((M, k) => DATUM.number(M.label, k));
   return {
     ties: 0, bloom: 0.5,
+    picks: () => range(G0, G0 + NUMS.length * NR, 5), datum: (i) => D[Math.floor((i - G0) / NR)],
     at(i, c, o) {
       if (i >= G0 && i < G0 + NUMS.length * NR) {
-        const k = Math.floor((i - G0) / NR), q = (i - G0) % NR, M = NUMS[k], r = rOf(M.n), on = eio(ss(0.2 + k * 0.35, 1.0 + k * 0.35, c.t));
+        const k = Math.floor((i - G0) / NR), q = (i - G0) % NR, M = NUMS[k], r = rOf(M.n), on = eio(ss(0.2 + k * 0.35, 1.0 + k * 0.35, c.t)), hot = PICK.key === "n:" + k ? 1 : 0;
         const a = (q / NR) * TAU + c.T * (0.08 - 0.012 * k), rr = r * (1 + (R3[i] - 0.5) * 0.08);
         if (M.dash && frac(a / TAU * 12) > 0.55) return hide(o);
-        put(o, M.c[0] + Math.cos(a) * rr, M.c[1] + Math.sin(a) * rr * 0.42 + (R4[i] - 0.5) * 0.04, M.c[2] + Math.sin(a) * rr * 0.3, COL.gold, (0.5 + 0.5 * R1[i]) * on, 2.6 * (1 + 0.4 * (1 - on)) * (1 - 0.3 * (1 - on)), SH.dust, 0.3 * Math.sin(Math.PI * on));
+        put(o, M.c[0] + Math.cos(a) * rr, M.c[1] + Math.sin(a) * rr * 0.42 + (R4[i] - 0.5) * 0.04, M.c[2] + Math.sin(a) * rr * 0.3, COL.gold, Math.min(1, (0.5 + 0.5 * R1[i]) * on * (1 + 0.6 * hot)), 2.6 * (1 + 0.4 * (1 - on)) * (1 - 0.3 * (1 - on)) * (1 + 0.35 * hot), SH.dust, 0.3 * Math.sin(Math.PI * on) + 0.4 * hot);
         return;
       }
       hide(o);
@@ -1971,8 +2015,10 @@ function circlesScene(opt) {
   const NR = 240, NS = 40;
   let idx = 0;
   // one bust shows every dot; several show the coarse set (every other row, every other dot), which the bake puts first
-  const L = opt.walls.map((k, wi) => { const g = BUST.get(BUST.KIND[k]), w = RD.personas.walls[k], notes = wallNotes(w), np = n === 1 ? Math.min(g.P.length, 15200) : g.NC, s0 = { g, w, notes, np, h0: idx, pitch: g.step * S * (n === 1 ? 1 : 2) }; idx += np; s0.n0 = idx; idx += notes.length; s0.r0 = idx; idx += NR * 3; s0.k0 = idx; idx += NS * 3; s0.end = idx; return s0; });
+  const L = opt.walls.map((k, wi) => { const g = BUST.get(BUST.KIND[k]), w = RD.personas.walls[k], notes = wallNotes(w), np = n === 1 ? Math.min(g.P.length, 15200) : g.NC, s0 = { g, w, notes, np, pkey: "p:" + k, h0: idx, pitch: g.step * S * (n === 1 ? 1 : 2) }; idx += np; s0.n0 = idx; idx += notes.length; s0.r0 = idx; idx += NR * 3; s0.k0 = idx; idx += NS * 3; s0.end = idx; return s0; });
   const END = idx;
+  const PICKS = [].concat(...L.map((H) => [...range(H.n0, H.r0), ...range(H.h0, H.n0, n === 1 ? 23 : 9)]));
+  const wallOf = (i) => { let wi = 0; while (wi < L.length - 1 && i >= L[wi].end) wi++; return wi; };
   const tallOf = (c) => (c.aspect ?? 1.8) < 1.05;
   const centre = (wi, c) => (n > 1 && tallOf(c) ? [0, ((n - 1) / 2 - wi) * 2.0 * S, 0] : [(wi - (n - 1) / 2) * sp, 0, 0]);
   // three-quarter first, the face turned toward the camera and a little left; then the head turns nearly all the way round,
@@ -1996,6 +2042,8 @@ function circlesScene(opt) {
   const facingOf = (c, V) => { const cam = c.cam ? c.cam.P : [0, 0, 30], vx = cam[0] - V[0], vy = cam[1] - V[1], vz = cam[2] - V[2], vl = Math.hypot(vx, vy, vz) || 1; const nl = Math.hypot(NV[0], NV[1], NV[2]) || 1; return clamp((NV[0] * vx + NV[1] * vy + NV[2] * vz) / (vl * nl), -1, 1); }; // the normals are stored in 8 bits, so renormalize and clamp
   return {
     ties: 0, bloom: 0.32,
+    picks: () => PICKS,
+    datum: (i) => { const wi = wallOf(i), H = L[wi]; if (i < H.n0) return DATUM.persona[opt.walls[wi]]; const note = H.notes[i - H.n0]; return DATUM.note[opt.walls[wi]][H.w.cards.indexOf(note.card)]; },
     at(i, c, o) {
       if (i >= END) return hide(o);
       let wi = 0; while (wi < L.length - 1 && i >= L[wi].end) wi++;
@@ -2012,7 +2060,7 @@ function circlesScene(opt) {
         const lum = Math.min(1.1, 0.2 + 0.65 * key + 0.45 * rim * rim);
         if (u > 0) { const d = u * u * S * (0.9 + 1.5 * R2[i]); V[0] += d * (1 + 0.4 * R3[i]); V[1] += d * (0.5 * (R4[i] - 0.4)) + Math.sin(c.T * 0.8 + i) * 0.08 * u * S; V[2] += d * 0.5 * (R3[i] - 0.3); }
         const seen = lerp(0.45 + 0.55 * ss(-0.3, 0.3, f), 1, ss(0, 0.25, u)), base = ss(-1.3, -1.02, p[1]), twinkle = 0.78 + 0.22 * Math.sin(c.T * 1.4 + i * 1.7);
-        const a = seen * base * form * twinkle * (kind === 2 ? 0.85 * (1 - 0.9 * hiddenBy(c, C, th, V)) : (0.35 + 0.6 * Math.min(1, lum)) * (out > 0.05 ? 0.55 : 1)) * (1 - ss(0.5, 1, u));
+        const a = (PICK.key === H.pkey ? 1.35 : 1) * seen * base * form * twinkle * (kind === 2 ? 0.85 * (1 - 0.9 * hiddenBy(c, C, th, V)) : (0.35 + 0.6 * Math.min(1, lum)) * (out > 0.05 ? 0.55 : 1)) * (1 - ss(0.5, 1, u));
         if (a < 0.01) return hide(o);
         const col = kind === 2 ? COL.pearl : kind === 1 ? mixc(COL.silver, COL.pearl, 0.4) : mixc(COL.teal, COL.silver, 0.5 + 0.4 * Math.min(1, lum));
         const sz = kind === 2 ? 0.16 + 0.1 * lum : (0.07 + 0.17 * lum) * (0.6 + 0.8 * R3[i]) * (R1[i] > 0.985 ? 2.4 : 1);
@@ -2072,10 +2120,10 @@ const personaScene = (k) => circlesScene({ walls: [k], reveal: "paths" });
    rest fall back, so each claim is shown standing on its evidence. */
 const FIELD = (() => {
   const m = RD.moonshot, items = [];
-  m.headlines.forEach((h) => items.push({ side: 0, text: h.text, k: 3, big: true }));
+  m.headlines.forEach((h) => items.push({ side: 0, text: h.text, k: 3, big: true, d: { ...DATUM.headline[h.group], one: true } }));
   const KT = { impact: 2, peer: 1, draft: 3, note: 3 };
-  ["impact", "peer", "draft", "note"].forEach((t) => m.cards.filter((c) => c.type === t).forEach((c) => items.push({ side: 0, text: c.text, k: KT[t], type: t })));
-  RD.personas.walls.forEach((w, wi) => w.cards.forEach((c) => items.push({ side: wi + 1, text: c.text, k: PK[c.path], path: c.path })));
+  ["impact", "peer", "draft", "note"].forEach((t) => m.cards.filter((c) => c.type === t).forEach((c) => items.push({ side: 0, text: c.text, k: KT[t], type: t, d: DATUM.cardOf(c) })));
+  RD.personas.walls.forEach((w, wi) => w.cards.forEach((c, j) => items.push({ side: wi + 1, text: c.text, k: PK[c.path], path: c.path, d: DATUM.note[wi][j] })));
   const RAD = [0, 1, 2, 3].map((s) => 0.25 * Math.sqrt(items.filter((x) => x.side === s).length));
   [0, 1, 2, 3].forEach((s) => { const its = items.filter((x) => x.side === s); its.forEach((x, k) => { x.r = RAD[s] * Math.sqrt((k + 0.5) / its.length); x.a = k * 2.39996 + s; }); });
   const WIDE = [[-5.0, 0, 0], [-0.9, 0, 0], [2.55, 0, 0], [5.6, 0, 0]], TALL = [[-1.9, 2.15, 0], [1.9, 2.15, 0], [-1.9, -2.2, 0], [1.9, -2.2, 0]];
@@ -2087,6 +2135,7 @@ function fieldScene(lit, view = {}) { // lit: (step, item) → 0..1
   const litAt = (c, it) => { let v = lit(0, it); for (let j = 1; j < c.sa.length; j++) v = lerp(v, lit(j, it), eio(c.sa[j] ?? 0)); return v; };
   return {
     ties: 0, bloom: 0.48,
+    picks: () => range(G0, H0), datum: (i) => FIELD.items[i - G0].d,
     at(i, c, o) {
       if (i >= G0 && i < H0) {
         const it = FIELD.items[i - G0], C = cen(c)[it.side], v = litAt(c, it), on = eio(ss(0.1 + it.r * 0.4, 1.2 + it.r * 0.4, c.t)), a = it.a + c.T * 0.02 * (it.side ? -1 : 1);
@@ -2538,6 +2587,7 @@ const Clips = (() => {
     Clips.stop(); if (!reduce && SLIDES[i].clip) { const id = SLIDES[i].clip(st); if (id) Clips.play(id); }
     render(entering);
     hideHint();
+    if (entering) hideTip();
   }
   const next = () => { const s = SLIDES[cur]; if (step < s.steps - 1) go(cur, step + 1); else if (cur < n - 1) go(cur + 1, 0); };
   const prev = () => { if (step > 0) go(cur, step - 1); else if (cur > 0) go(cur - 1, SLIDES[cur - 1].steps - 1); };
@@ -2585,6 +2635,54 @@ const Clips = (() => {
     else if (m.cmd === "blank") setBlank(!blank); else if (m.cmd === "go") go(m.i, m.step || 0); else if (m.cmd === "hello") broadcast();
   });
 
+  /* every mark that stands for something the room wrote answers for it: point at it (or tap it) to read it */
+  const tip = $("#tip"), tipK = $(".tip-k span", tip), tipT = $(".tip-t", tip), tipA = $(".tip-a", tip);
+  let pinned = false, shown = null;
+  const pickAt = (x, y, r) => {
+    const sc = cur >= 0 && SLIDES[cur].scene; if (!world || !world.out || !sc || !sc.datum || blank) return null;
+    const c = world.ctx(); if (!c || !c.project) return null;
+    const OUT = world.out(), STR = world.STR || 10; let best = null, bd = r * r;
+    for (const i of sc.picks(c)) {
+      const o = i * STR; if (!(OUT[o + 6] > 0.12)) continue;
+      const p = c.project([OUT[o], OUT[o + 1], OUT[o + 2]]), dx = p.x - x, dy = p.y - y, d = dx * dx + dy * dy;
+      if (d < bd) { const dt = sc.datum(i, c); if (dt) { bd = d; best = { i, d: dt, x: p.x, y: p.y }; } }
+    }
+    return best;
+  };
+  function showTip(h, pin) {
+    const d = h.d;
+    PICK.i = d.one === false ? -1 : h.i; PICK.key = d.key; if (world) world.ping();
+    if (!shown || shown.d !== d) { tip.dataset.k = d.k; tipK.textContent = d.kicker; tipT.textContent = d.plain ? d.text : "“" + d.text + "”"; tipA.href = d.href; }
+    shown = h; pinned = pin;
+    tip.classList.add("on"); tip.classList.toggle("pinned", pin);
+    // on a phone it docks along the bottom; on a wider screen it sits beside the mark if there's room, else below it (or above), never over it
+    const dock = innerWidth < 640; tip.classList.toggle("docked", dock);
+    if (dock) { tip.style.transform = ""; document.body.classList.add("picking"); return; }
+    const w = tip.offsetWidth, ht = tip.offsetHeight, m = 12, gap = 18;
+    let x, y;
+    if (h.x + gap + w <= innerWidth - m) x = h.x + gap; else if (h.x - gap - w >= m) x = h.x - gap - w;
+    if (x != null) y = clamp(h.y - ht / 2, m, Math.max(m, innerHeight - ht - m));
+    else { x = clamp(h.x - w / 2, m, Math.max(m, innerWidth - w - m)); y = h.y + gap + ht <= innerHeight - m ? h.y + gap : Math.max(m, h.y - gap - ht); }
+    tip.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
+    document.body.classList.add("picking");
+  }
+  function hideTip() {
+    if (!shown && !pinned) return;
+    shown = null; pinned = false; PICK.i = -1; PICK.key = null; if (world) world.ping();
+    tip.classList.remove("on", "pinned"); document.body.classList.remove("picking");
+  }
+  let mx = -1, my = -1, hoverQueued = false;
+  addEventListener("pointermove", (e) => {
+    if (e.pointerType !== "mouse" || pinned) return;
+    mx = e.clientX; my = e.clientY;
+    if (hoverQueued) return; hoverQueued = true;
+    requestAnimationFrame(() => { hoverQueued = false; if (pinned) return; const h = isUi(document.elementFromPoint(mx, my) || document.body) ? null : pickAt(mx, my, 16); if (h) showTip(h, false); else hideTip(); });
+  });
+  document.documentElement.addEventListener("mouseleave", () => { if (!pinned) hideTip(); });
+  // a pinned mark follows its glyph as the scene drifts
+  const follow = () => { requestAnimationFrame(follow); if (!shown || !world) return; const c = world.ctx(), OUT = world.out(), o = shown.i * (world.STR || 10); if (!c || !c.project) return; if (!(OUT[o + 6] > 0.05)) { hideTip(); return; } const p = c.project([OUT[o], OUT[o + 1], OUT[o + 2]]); if (Math.abs(p.x - shown.x) + Math.abs(p.y - shown.y) > 0.5) showTip({ ...shown, x: p.x, y: p.y }, pinned); };
+  requestAnimationFrame(follow);
+
   /* input */
   const help = $("#help");
   const openHelp = (v) => { help.classList.toggle("on", v); };
@@ -2604,7 +2702,7 @@ const Clips = (() => {
     else if (k === "b" || k === "B" || k === ".") setBlank(!blank);
     else if (k === "?" || k === "h" || k === "H") openHelp(!help.classList.contains("on"));
     else if (k === "p" || k === "P") { try { const w = window.open(location.href.split("#")[0] + "#presenter", "labs-presenter", "width=980,height=720"); if (!w) flash("Couldn’t open a window here. Open this page again in a second window and add #presenter to its address."); } catch (er) { flash("Couldn’t open a window here."); } }
-    else if (k === "Escape") { toggleNotes(false); openHelp(false); }
+    else if (k === "Escape") { if (shown) { hideTip(); return; } toggleNotes(false); openHelp(false); }
     else if (/^[1-9]$/.test(k)) go(+k - 1);
     else return;
     poke();
@@ -2613,14 +2711,23 @@ const Clips = (() => {
   // A click that only brings the page into focus (in an embedded view, say) doesn't also advance it.
   let focusedAtDown = true;
   addEventListener("pointerdown", () => { focusedAtDown = document.hasFocus(); Clips.unlock(); }, true);
-  addEventListener("click", (e) => { if (isUi(e.target) || e.button !== 0 || !focusedAtDown) return; if (blank) { setBlank(false); return; } if (e.shiftKey) prev(); else next(); });
+  addEventListener("click", (e) => {
+    if (isUi(e.target) || e.button !== 0 || !focusedAtDown) return;
+    if (blank) { setBlank(false); return; }
+    const h = pickAt(e.clientX, e.clientY, 16); if (h) { showTip(h, true); return; } // a click on a mark opens it, and doesn't advance
+    if (pinned) { hideTip(); return; } // nor does the click that closes it
+    if (e.shiftKey) prev(); else next();
+  });
   let tx = 0, ty = 0, tt = 0;
   addEventListener("touchstart", (e) => { const p = e.changedTouches[0]; tx = p.clientX; ty = p.clientY; tt = performance.now(); }, { passive: true });
   addEventListener("touchend", (e) => {
     if (isUi(e.target)) return;
     const p = e.changedTouches[0], dx = p.clientX - tx, dy = p.clientY - ty;
     if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { dx < 0 ? next() : prev(); }
-    else if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && performance.now() - tt < 400) { p.clientX < innerWidth / 3 ? prev() : next(); }
+    else if (Math.abs(dx) < 10 && Math.abs(dy) < 10 && performance.now() - tt < 400) {
+      const h = pickAt(p.clientX, p.clientY, 26);
+      if (h) showTip(h, true); else if (pinned) hideTip(); else p.clientX < innerWidth / 3 ? prev() : next();
+    }
     e.preventDefault();
   });
   // the counter and the hint show while the pointer moves, then get out of the way
@@ -2638,7 +2745,7 @@ const Clips = (() => {
   const m = /^s(\d+)$/.exec(params);
   go(m ? clamp(+m[1] - 1, 0, n - 1) : 0);
   requestAnimationFrame(tick);
-  if (TEST) window.__deck = { go, world, next, SLIDES, get cur() { return cur; } };
+  if (TEST) window.__deck = { go, world, next, SLIDES, pickAt, showTip, hideTip, get cur() { return cur; } };
 
   /* ── the presenter window ── */
   function presenter() {
