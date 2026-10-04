@@ -1,7 +1,7 @@
 {
  "meta": {
   "event": "The Labs retreat, Saturday, October 3, 2026",
-  "note": "Transcribed from photographs of the cards and from the recordings of the read-aloud. Spelling and wording are as written; TUL and UL are the room's own shorthand. Groups D and E are known from their recordings only; their cards were not photographed. One peer card (B, Aspen Institute) is partly hidden in the photograph.",
+  "note": "Transcribed from photographs of the cards and from the recordings of the read-aloud. Spelling and wording are as written; TUL and UL are the room's own shorthand. Groups D and E are known from their recordings only; their cards were not photographed. Two cards are partly cut off in the photographs: one of B's peer cards (the Aspen Institute) and one of C's impact cards.",
   "cardTypes": {
    "impact": "By 2036, because of The Labs…",
    "peer": "In 2036, our name is said in the same breath as…",
@@ -106,57 +106,49 @@
     "group": "A",
     "type": "impact",
     "color": "yellow",
-    "text": "By 2036… disparities will be reduced because of the ability to have access to TUL (free of charge) in anchor institutions in your community",
-    "cluster": "access"
+    "text": "By 2036… disparities will be reduced because of the ability to have access to TUL (free of charge) in anchor institutions in your community"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "yellow",
-    "text": "By 2036 because of the Labs, policy (local, state, federal) will ensure that TUL is a nationally disseminated model in [the places where we] work, school (learn), play & worship",
-    "cluster": "spread"
+    "text": "By 2036 because of the Labs, policy (local, state, federal) will ensure that TUL is a nationally disseminated model in [the places where we] work, school (learn), play & worship"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "green",
-    "text": "UL participants are AI thought leaders in their communities",
-    "cluster": "voice"
+    "text": "UL participants are AI thought leaders in their communities"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "green",
-    "text": "UL participants are valued voices in the debate and policy around AI governance",
-    "cluster": "voice"
+    "text": "UL participants are valued voices in the debate and policy around AI governance"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "green",
-    "text": "UL participants are able to keep up with (if not shape) the changes to paying employment",
-    "cluster": "work"
+    "text": "UL participants are able to keep up with (if not shape) the changes to paying employment"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "blue",
-    "text": "Free data: data is made free to be ingested by tools owned and made by people who own their use cases",
-    "cluster": "ownership"
+    "text": "Free data: data is made free to be ingested by tools owned and made by people who own their use cases"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "blue",
-    "text": "Federated tools: you own your material; it is ingested by tools owned by the people",
-    "cluster": "ownership"
+    "text": "Federated tools: you own your material; it is ingested by tools owned by the people"
    },
    {
     "group": "A",
     "type": "impact",
     "color": "blue",
-    "text": "Peer learning: everyone, anyone can have a speaking space to present new ideas and learn from, in real life",
-    "cluster": "peer"
+    "text": "Peer learning: everyone, anyone can have a speaking space to present new ideas and learn from, in real life"
    },
    {
     "group": "A",
@@ -180,50 +172,43 @@
     "group": "B",
     "type": "impact",
     "color": "orange",
-    "text": "Because of the Labs, we've connected key information and data providers with internal tools",
-    "cluster": "work"
+    "text": "Because of the Labs, we've connected key information and data providers with internal tools"
    },
    {
     "group": "B",
     "type": "impact",
     "color": "blue",
-    "text": "A citizen-informed policy-making method has been innovated through local labor research",
-    "cluster": "voice"
+    "text": "A citizen-informed policy-making method has been innovated through local labor research"
    },
    {
     "group": "B",
     "type": "impact",
     "color": "blue",
-    "text": "The upskilling philosophy of learning by doing is integrated into education systems; we serve as collaborators on training the next generation of professionals",
-    "cluster": "spread"
+    "text": "The upskilling philosophy of learning by doing is integrated into education systems; we serve as collaborators on training the next generation of professionals"
    },
    {
     "group": "B",
     "type": "impact",
     "color": "blue",
-    "text": "Expand into non-English-speaking, international, culture- and environment-specific build cycles",
-    "cluster": "spread"
+    "text": "Expand into non-English-speaking, international, culture- and environment-specific build cycles"
    },
    {
     "group": "B",
     "type": "impact",
     "color": "blue",
-    "text": "Expand into developing countries for AI upskilling",
-    "cluster": "spread"
+    "text": "Expand into developing countries for AI upskilling"
    },
    {
     "group": "B",
     "type": "impact",
     "color": "blue",
-    "text": "Private-sector partnerships, with learning modules that our mentors develop as part of upskilling curricula offered to employers",
-    "cluster": "work"
+    "text": "Private-sector partnerships, with learning modules that our mentors develop as part of upskilling curricula offered to employers"
    },
    {
     "group": "B",
     "type": "impact",
     "color": "pink",
-    "text": "Space for collective skillbuilding, for all to grow at their own pace #lifelonglearners",
-    "cluster": "peer"
+    "text": "Space for collective skillbuilding, for all to grow at their own pace #lifelonglearners"
    },
    {
     "group": "B",
@@ -289,18 +274,9 @@
     "group": "C",
     "type": "impact",
     "color": "pink",
-    "text": "Workers not at the mercy of Big Tech; people as citizens (card partly out of frame)",
-    "cluster": "ownership"
+    "text": "Workers not at the mercy of Big Tech; people as citizens (card partly out of frame)"
    }
-  ],
-  "clusters": {
-   "access": "Access and equity",
-   "voice": "Voice and policy",
-   "work": "Work and employers",
-   "ownership": "Owning the tools and the data",
-   "spread": "The model spreads",
-   "peer": "Peer learning, in person"
-  }
+  ]
  },
  "personas": {
   "walls": [
