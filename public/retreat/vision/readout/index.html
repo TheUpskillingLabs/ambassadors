@@ -210,6 +210,10 @@ body[data-layer="nums"] #numlabels, body[data-layer="lab"] #scenelabels { opacit
 .tip-a::after { content: " ↗"; }
 #tip.pinned .tip-a { display: inline-block; }
 body.picking:not(.idle) { cursor: pointer; }
+.ripple { position: fixed; z-index: 7; left: 0; top: 0; width: 88px; height: 88px; margin: -44px 0 0 -44px; box-sizing: border-box; border-radius: 50%; border: 2px solid var(--metal); pointer-events: none; opacity: 0; transform: translate(var(--x), var(--y)) scale(0.12); animation: ripple-out 0.95s cubic-bezier(0.2, 0.7, 0.3, 1) forwards, ripple-fade 0.95s linear forwards; }
+.ripple[data-k="1"] { border-color: var(--teal-hi); } .ripple[data-k="2"] { border-color: #ff7f6a; } .ripple[data-k="-1"] { border-color: rgba(255, 255, 255, 0.85); }
+@keyframes ripple-out { to { transform: translate(var(--x), var(--y)) scale(1); } }
+@keyframes ripple-fade { 0% { opacity: 0; } 6% { opacity: 0.95; } 55% { opacity: 0.6; } 100% { opacity: 0; } }
 #blank { position: fixed; inset: 0; z-index: 7; background: #000; display: none; cursor: none; }
 #blank.on { display: block; }
 
@@ -268,6 +272,7 @@ body.picking:not(.idle) { cursor: pointer; }
 }
 @media (pointer: coarse) { #hint { display: none; } }
 @media (prefers-reduced-motion: reduce) {
+  .ripple { display: none; }
   .words [data-at] { transition: opacity 0.3s ease; transform: none; }
   #drift img { animation: none; opacity: 0.9; transform: rotate(var(--rot)); }
 }
@@ -1748,7 +1753,7 @@ function createWorld(canvas, opts = {}) {
     start() { if (!running) { running = true; last = 0; raf = requestAnimationFrame(loop); } },
     stop() { running = false; cancelAnimationFrame(raf); },
     resize,
-    out: () => OUT, STR,
+    out: () => OUT, STR, wake: () => { needs = 150; }, // a redraw with no pulse (ping() sends one out)
     renderAt(t, dt = 1 / 60) { // for stills: run the clock forward to t seconds into the slide
       const steps = Math.ceil(t / dt);
       for (let k = 0; k < steps; k++) frame((last || 0) + dt * 1000);
@@ -2649,10 +2654,17 @@ const Clips = (() => {
     }
     return best;
   };
+  // one ring goes out from the mark when it's first pointed at; nothing repeats while the pointer stays on it
+  const ripple = (x, y, k) => {
+    if (reduce) return;
+    const r = document.createElement("span"); r.className = "ripple"; r.dataset.k = k;
+    r.style.setProperty("--x", Math.round(x) + "px"); r.style.setProperty("--y", Math.round(y) + "px");
+    r.addEventListener("animationend", (e) => { if (e.animationName === "ripple-fade") r.remove(); }); document.body.appendChild(r);
+  };
   function showTip(h, pin) {
     const d = h.d;
-    PICK.i = d.one === false ? -1 : h.i; PICK.key = d.key; if (world) world.ping();
-    if (!shown || shown.d !== d) { tip.dataset.k = d.k; tipK.textContent = d.kicker; tipT.textContent = d.plain ? d.text : "“" + d.text + "”"; tipA.href = d.href; }
+    PICK.i = d.one === false ? -1 : h.i; PICK.key = d.key; if (world && world.wake) world.wake();
+    if (!shown || shown.d !== d) { tip.dataset.k = d.k; tipK.textContent = d.kicker; tipT.textContent = d.plain ? d.text : "“" + d.text + "”"; tipA.href = d.href; ripple(h.x, h.y, d.k); }
     shown = h; pinned = pin;
     tip.classList.add("on"); tip.classList.toggle("pinned", pin);
     // on a phone it docks along the bottom; on a wider screen it sits beside the mark if there's room, else below it (or above), never over it
@@ -2668,7 +2680,7 @@ const Clips = (() => {
   }
   function hideTip() {
     if (!shown && !pinned) return;
-    shown = null; pinned = false; PICK.i = -1; PICK.key = null; if (world) world.ping();
+    shown = null; pinned = false; PICK.i = -1; PICK.key = null; if (world && world.wake) world.wake();
     tip.classList.remove("on", "pinned"); document.body.classList.remove("picking");
   }
   let mx = -1, my = -1, hoverQueued = false;
