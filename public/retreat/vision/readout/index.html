@@ -2043,9 +2043,15 @@ function circlesScene(opt) {
   const centre = (wi, c) => (n > 1 && tallOf(c) ? [0, ((n - 1) / 2 - wi) * 2.0 * S, 0] : [(wi - (n - 1) / 2) * sp, 0, 0]);
   // three-quarter first, the face turned toward the camera and a little left; then the head turns nearly all the way round,
   // and once its back faces the camera it comes apart, the back of the skull first, and leaves its circle
-  const turn = (c) => eio(ss(1.8, 3.4, c.t)), angle = (c) => lerp(-25 * DEG, -200 * DEG, turn(c));
+  // A persona's intro and conclusion hold the three-quarter view instead (mode "intro" or "outro"), swaying a little;
+  // the conclusion draws the bust back together out of its dust, face first, as the wall's notes drift into it.
+  const hold = opt.mode === "intro" || opt.mode === "outro", outro = opt.mode === "outro";
+  const turn = (c) => eio(ss(1.8, 3.4, c.t)), angle = hold ? (c) => (-25 + 4 * Math.sin(c.T * 0.22)) * DEG : (c) => lerp(-25 * DEG, -200 * DEG, turn(c));
   // it comes loose from the back of the skull forward, the face last, and blows off behind the head
-  const loose = (c, i, p) => { const t0 = 2.8 + 0.6 * clamp((p[2] + 0.55) / 0.95, 0, 1) + 0.3 * R1[i]; return ss(t0, t0 + 0.95, c.t); };
+  const front = (p) => clamp((p[2] + 0.55) / 0.95, 0, 1);
+  const loose = hold ? (outro ? (c, i, p) => { const t0 = 0.15 + 0.7 * (1 - front(p)) + 0.35 * R1[i]; return 1 - ss(t0, t0 + 1.3, c.t); } : () => 0)
+    : (c, i, p) => { const t0 = 2.8 + 0.6 * front(p) + 0.3 * R1[i]; return ss(t0, t0 + 0.95, c.t); };
+  const absorb = (c, i) => eio(ss(0.25 + 0.6 * R1[i], 1.7 + 0.6 * R1[i], c.t)); // a note's way into the bust, in the conclusion
   const open = (c) => eio(ss(3.2, 4.3, c.t));
   const place = (C, q, th, o) => { const cs = Math.cos(th), sn = Math.sin(th); o[0] = C[0] + (q[0] * cs + q[2] * sn) * S; o[1] = C[1] + q[1] * S; o[2] = C[2] + (-q[0] * sn + q[2] * cs) * S; return o; };
   const Q = [0, 0, 0], NV = [0, 0, 0];
@@ -2087,6 +2093,15 @@ function circlesScene(opt) {
         put(o, V[0], V[1], V[2], col, a, -H.pitch * sz * (1 + 1.2 * u), PIP);
         return;
       }
+      if (hold) { // intro: no notes yet; conclusion: each note drifts in from round the bust and is taken into it
+        if (!outro || i >= H.r0) return hide(o);
+        const note = H.notes[i - H.n0], k = PK[note.p], u = absorb(c, i), a0 = R2[i] * TAU, z0 = R3[i] * 2 - 1, rr = 0.95 + 0.45 * R4[i], ring = Math.sqrt(1 - z0 * z0);
+        Q[0] = lerp(Math.cos(a0) * ring * rr * 1.25, 0, u); Q[1] = lerp(-0.2 + z0 * rr, -0.05, u); Q[2] = lerp(-0.08 + Math.sin(a0) * ring * rr, -0.08, u);
+        place(C, Q, th, V);
+        if (u > 0.97) return hide(o);
+        put(o, V[0], V[1], V[2], KIND[k], Math.pow(1 - u, 0.6) * ss(0, 0.3, c.t), ((8 + 9) * sc + 3) * (1 - 0.6 * u), KSH[k], 0.5 * Math.sin(Math.PI * u));
+        return;
+      }
       const op = open(c);
       if (i < H.r0) { // the notes, flying out from the middle to their ring and sector
         const note = H.notes[i - H.n0], on = arrive(c, note), lit = litAt(c, note, wi), k = PK[note.p];
@@ -2111,6 +2126,7 @@ function circlesScene(opt) {
     },
     labels(c) {
       const out = [], op = open(c), th = angle(c);
+      if (hold) return out;
       L.forEach((H, wi) => {
         const C = centre(wi, c);
         if (n === 1) {
@@ -2124,7 +2140,7 @@ function circlesScene(opt) {
     },
     cam(c) {
       const tall = tallOf(c);
-      const k = eio(ss(3.1, 4.6, c.t)); // once the head has gone, the camera moves in on the circle
+      const k = hold ? 0 : eio(ss(3.1, 4.6, c.t)); // once the head has gone, the camera moves in on the circle
       if (n === 1) return tall ? { t: [0, lerp(-1.8, 1.0, k), 0], d: lerp(28, 19, k), yaw: 0, pitch: 12 * DEG, fov: 34, sx: 0, sy: 0.4, zoom: 1 } : { t: [0, lerp(-1.7, 1.1, k), 0], d: lerp(22, 14.5, k), yaw: 0.04 * Math.sin(c.T * 0.1), pitch: 12 * DEG, fov: 34, sx: 0.44, sy: -0.02, zoom: 1 };
       return tall ? { t: [0.7 * S, lerp(-0.35, 0.15, k) * S, 0], d: lerp(10, 8.5, k) * S, yaw: 0, pitch: 12 * DEG, fov: 34, sx: 0, sy: 0.42, zoom: 1 } : { t: [0, lerp(-0.35, 0.05, k) * S, 0], d: lerp(opt.d ?? 28, (opt.d ?? 28) * 0.85, k), yaw: 0, pitch: 12 * DEG, fov: 34, sx: opt.sx ?? 0.3, sy: opt.sy ?? 0.4, zoom: 1 };
     },
@@ -2132,7 +2148,7 @@ function circlesScene(opt) {
     shock: () => null,
   };
 }
-const personaScene = (k) => circlesScene({ walls: [k], reveal: "paths" });
+const personaScene = (k, mode) => circlesScene({ walls: [k], reveal: "paths", mode });
 
 /* ── The whole morning, as one field ──
    Every headline, card and wall note as its own glyph: the vision session on the left (headlines at its
@@ -2347,15 +2363,60 @@ const wallSlide = (k) => {
   const w = WALLS[k], L = wallLabel(w), gloss = GLOSS[L.name.toLowerCase()];
   return {
     label: `Wall ${k + 1} · ${L.name}`, layer: "lab", hud: labelsHud, make: () => personaScene(k),
-    words: `<p class="kicker">The second exercise · wall ${k + 1} of ${WALLS.length} · ${w.cards.length} sticky notes</p>
+    words: `<p class="kicker">The second exercise · Wall ${k + 1} of ${WALLS.length} · ${w.cards.length} sticky notes</p>
       <h2 class="h">${esc(L.name)}</h2>
-      <p class="small">${L.more ? `As labeled: ${esc(w.who)}. ` : ""}${gloss || ""}</p>
       ${["learn", "build", "share"].map((p, j) => wallPath(w, p, j)).join("")}`,
     notes: [
-      `“Wall ${k + 1}: ${w.who}.”${gloss ? " " + gloss : ""} Start with Learn: why they'd come, how it should work for them, and what they'd get.`,
+      `“Here's the wall. Start with Learn: why they'd come, how it should work for them, and what they'd get.”`,
       "Build: the twelve weeks on a team.",
       "Share: teaching what they know.",
     ],
+  };
+};
+
+/* ── Each persona: who the wall pictured, then (after the wall) the person its notes add up to ──
+   The intro says who was being pictured, in the team's own label. The conclusion is our reading of the wall's
+   notes as one person: a short portrait, then why they'd come, how it should work and what they'd leave with,
+   each in the team's exact words (wq: facts.py checks every one against that wall's notes). */
+const wq = (t) => qt(t);
+const PORTRAITS = [
+  { wall: 0, who: "An upskiller who volunteers",
+    intro: "The first wall pictures an upskiller: someone on a Build Cycle, learning by building a real project with a small team. The team's label adds that they're volunteering with an upskiller, and a span of years: 2027 to 2050.",
+    title: "A lifelong learner who wants to lead",
+    portrait: "They come to grow as a leader and to make learning happen for other people. They want an open, welcoming room, real problems close to home, and the freedom to follow their own interests. They leave with new skills, ideas they've tested, and people who hold them to it.",
+    rows: [["Why", [wq("Experience in leadership, team building, project management"), wq("Create positive learning opportunities for others")]], ["How", [wq("Open public space, welcoming to everyone"), wq("Propose your own interests")]], ["What", [wq("New skills"), wq("Get feedback from the community")]]] },
+  { wall: 1, who: "Another upskiller",
+    intro: "The second wall pictures an upskiller too, with no other label. Same starting point as the first wall, but the notes add up to a different person.",
+    title: "A curious builder who wants proof",
+    portrait: "They're driven by curiosity and hard problems, and lectures don't work for them. They learn by playing with AI tools, hands-on and alongside other people. They want real things to show for it, like an app or a portfolio, plus the recognition and the fellow nerds that come with it.",
+    rows: [["Why", [wq("Wants to work on challenging problems"), wq("Struggles to learn in lecture format")]], ["How", [wq("Stimulating, hands-on, social learning"), wq("play, explore, ask questions")]], ["What", [wq("A vibe-coded app"), wq("Posts, resume, portfolio")]]] },
+  { wall: 2, who: "Mid-career pivoters",
+    intro: "The third wall pictures people changing careers partway through their working lives.",
+    title: "A career changer working out what's next",
+    portrait: "AI is changing their field. They're job hunting, working out what comes next, and eager to learn. They learn by doing: hands-on, with mentors and a team, on projects that matter to them. They want something they can use at work right away, and a wider circle of people around them.",
+    rows: [["Why", [wq("AI is changing their field; eager to learn"), wq("Job hunting; trying to figure out what is next")]], ["How", [wq("Workshops; learn by doing; teams"), wq("Just come with a laptop")]], ["What", [wq("Hands-on learning"), wq("Create something I can use in my day to day")]]] },
+];
+const introSlide = (k) => {
+  const w = WALLS[k], P = PORTRAITS[k];
+  return {
+    label: `Wall ${k + 1} · who we're picturing`, make: () => personaScene(k, "intro"),
+    words: `<p class="kicker">The second exercise · Wall ${k + 1} of ${WALLS.length} · Who we're picturing</p>
+      <h2 class="h">${esc(P.who)}</h2>
+      <p class="lead dim">${esc(P.intro)}</p>
+      <p class="small">As labeled: ${qt(w.who, ".")} ${w.cards.length} sticky notes answer the same three questions for Learn, Build and Share: why would they come, how should it work for them, and what would they get out of it?</p>`,
+    notes: [`“The ${["first", "second", "third"][k]} wall. ${P.intro} Let's see what the team wrote.”`],
+  };
+};
+const outroSlide = (k) => {
+  const w = WALLS[k], P = PORTRAITS[k];
+  return {
+    label: `Wall ${k + 1} · putting it together`, make: () => personaScene(k, "outro"),
+    words: `<p class="kicker">Wall ${k + 1} · Putting it together</p>
+      <h2 class="h">${esc(P.title)}</h2>
+      <p class="lead dim" data-at="0" data-only>${esc(P.portrait)}</p>
+      <div data-at="1" data-only><p class="kicker sub">In the team's words</p><ul class="byg wide">${P.rows.map(([h, qs]) => `<li><b>${h}</b><span>${qs.join(" · ")}</span></li>`).join("")}</ul></div>
+      <p class="small">Our reading of the ${w.cards.length} sticky notes on this wall, as one person.</p>`,
+    notes: [`“Put together, the ${w.cards.length} notes describe one person: ${P.title.toLowerCase()}. ${P.portrait}”`, "“And here's the same person in the team's own words: why they'd come, how it should work, and what they'd leave with.”"],
   };
 };
 
@@ -2657,9 +2718,9 @@ const SLIDES = [
       "“We've drawn each wall as a circle: the person in the middle, why, how and what as rings, and Learn, Build and Share as slices. Every dot is one sticky note.”",
     ],
   },
-  wallSlide(0),
-  wallSlide(1),
-  wallSlide(2),
+  introSlide(0), wallSlide(0), outroSlide(0),
+  introSlide(1), wallSlide(1), outroSlide(1),
+  introSlide(2), wallSlide(2), outroSlide(2),
   {
     label: "The sticky notes, counted", layer: "lab", hud: labelsHud, make: () => Object.assign(circlesScene({ walls: [0, 1, 2], reveal: "all", scale: 0.55, spread: 5.6, sx: 0.26, d: 30, titles: WALLS.map((w, k) => `${k + 1} · ${wallLabel(w).name} · ${w.cards.length}`) }), { dur: [0, 1.6] }),
     words: `<p class="kicker">The second exercise · All three walls</p>
