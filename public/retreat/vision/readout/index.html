@@ -110,6 +110,7 @@ body[data-layer="nums"] #numlabels, body[data-layer="lab"] #scenelabels { opacit
 #scenelabels .lab-ring { font-size: max(9px, calc(15 * var(--u))); color: var(--t3); }
 #scenelabels .lab-learn { color: var(--teal-hi); } #scenelabels .lab-build { color: #ff7f6a; } #scenelabels .lab-share { color: var(--metal); }
 #scenelabels .lab-title { color: var(--t2); }
+#scenelabels .lab-count { font-size: max(12px, calc(26 * var(--u))); font-weight: 700; letter-spacing: 0; color: var(--t1); font-variant-numeric: tabular-nums; }
 .labels span { position: absolute; left: 0; top: 0; white-space: nowrap; font-size: max(11px, calc(22 * var(--u))); font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--t1); text-shadow: 0 2px 12px rgba(0, 20, 27, 0.9); will-change: transform, opacity; }
 #numlabels span { color: var(--metal); }
 
@@ -2045,7 +2046,8 @@ function circlesScene(opt) {
   // and once its back faces the camera it comes apart, the back of the skull first, and leaves its circle
   // A persona's intro and conclusion hold the three-quarter view instead (mode "intro" or "outro"), swaying a little;
   // the conclusion draws the bust back together out of its dust, face first, as the wall's notes drift into it.
-  const hold = opt.mode === "intro" || opt.mode === "outro", outro = opt.mode === "outro";
+  // On the slides that list all three (mode "logo") the busts hold the same pose: each is its persona's mark.
+  const hold = opt.mode === "intro" || opt.mode === "outro" || opt.mode === "logo", outro = opt.mode === "outro";
   const turn = (c) => eio(ss(1.8, 3.4, c.t)), angle = hold ? (c) => (-25 + 4 * Math.sin(c.T * 0.22)) * DEG : (c) => lerp(-25 * DEG, -200 * DEG, turn(c));
   // it comes loose from the back of the skull forward, the face last, and blows off behind the head
   const front = (p) => clamp((p[2] + 0.55) / 0.95, 0, 1);
@@ -2126,14 +2128,13 @@ function circlesScene(opt) {
     },
     labels(c) {
       const out = [], op = open(c), th = angle(c);
-      if (hold) return out;
       L.forEach((H, wi) => {
         const C = centre(wi, c);
-        if (n === 1) {
+        if (n === 1 && !hold) {
           QS3.forEach((q) => out.push({ t: q, cls: "lab-ring", p: place(C, inDisc(Q_R[q], (5 * Math.PI) / 6, 0.02), th, [0, 0, 0]), a: op }));
           PATHS3.forEach((p) => out.push({ t: p, cls: "lab-" + p, p: place(C, inDisc(2.95, SEC_C[p], 0.02), th, [0, 0, 0]), a: opt.reveal === "paths" ? arrive(c, { p, r: 1 }) : op }));
         }
-        const k = eio(ss(3.1, 4.6, c.t)); // titles sit under the bust, then under its circle
+        const k = hold ? 0 : eio(ss(3.1, 4.6, c.t)); // titles sit under the bust, then under its circle
         if (opt.titles) out.push(tallOf(c) ? { t: opt.titles[wi], cls: "lab-title", al: "l", p: [C[0] + lerp(0.85 * S, 2.6 * CS, k), C[1] + lerp(-0.5 * S, 0.25 * S, k), C[2]], a: eio(ss(0.4, 1.4, c.t)) } : { t: opt.titles[wi], cls: "lab-title", p: [C[0], C[1] + lerp(-1.3 * S, 0.25 * S - 3.05 * CS, k), C[2]], a: eio(ss(0.4, 1.4, c.t)) });
       });
       return out;
@@ -2149,6 +2150,71 @@ function circlesScene(opt) {
   };
 }
 const personaScene = (k, mode) => circlesScene({ walls: [k], reveal: "paths", mode });
+
+/* ── The grid every wall filled, and the circle it becomes ──
+   Down the side, the three ways in; across the top, the three questions. The next step bends the grid into the
+   circle: each row becomes a slice and each column a ring, why at the centre. Each cell is a patch of dust;
+   point at one for its question and how many sticky notes answered it across the three walls. */
+function matrixScene() {
+  const G0 = X0, PER = 150, CELLS = [];
+  PATHS3.forEach((p, pi) => QS3.forEach((q, qi) => CELLS.push({ p, q, pi, qi, n: RD.personas.walls.reduce((a, w) => a + w.cards.filter((c) => c.path === p && c.q === q).length, 0) })));
+  const END = G0 + CELLS.length * PER, CW = 1.45, CH = 0.95, GAP = 0.14, SC = 1.0;
+  const RB = { why: [0.32, 1.28], how: [1.36, 1.98], what: [2.06, 2.68] }; // the rings' bands, in the persona circles' units
+  const PN = { learn: "Learn", build: "Build", share: "Share" };
+  const QQ = { why: (p) => `Why would this person come to ${p}?`, how: (p) => `How should ${p} work for them?`, what: (p) => `What would they get out of ${p}?` };
+  const D = CELLS.map((cl) => ({ key: `cell:${cl.p}:${cl.q}`, k: PK[cl.p], kicker: `${PN[cl.p]} · ${cl.q}`, text: `${QQ[cl.q](PN[cl.p])} Across the three walls, ${cl.n} sticky ${cl.n === 1 ? "note answers" : "notes answer"} it.`, plain: true, href: DATA_URL + "#wall-1", link: "See the walls in the data", one: false }));
+  const tallOf = (c) => (c.aspect ?? 1.8) < 1.05;
+  /* Grid to circle, in two moves that can be followed by eye. m runs 0..1 over the step.
+     1 (m 0–0.45): each row turns on its side, like a blind, and slides over to become one upright slice of a
+       flat strip: why at the bottom, what at the top; Share, Learn, Build from left to right.
+     2 (m 0.45–1): the strip bends round until its two ends meet, and the slices close into the circle.
+     In a cell, u runs why→what (it becomes the radius) and v runs across the row (it becomes the angle). */
+  const RC = 1.5 * SC, rowY = (pi) => (1 - pi) * (CH + GAP);
+  const phiOf = (p, v) => Math.PI / 2 - (SEC_C[p] + SEC_W / 2 - v * SEC_W); // clockwise from twelve o'clock
+  const place = (pi, p, s0, rho, v, m, rr, o) => { // s0: along the row in the grid; rho: radius in the circle
+    const ramp = (x0, x1) => Math.min(1, Math.max(0, (m - x0) / (x1 - x0)));
+    const a = eio(ramp(0.03 * pi, 0.4 + 0.03 * pi)), b = eio(ramp(0.5, 1));
+    if (a < 1) {
+      const s = lerp(s0, rho - RC, a), t = (0.5 - v) * lerp(CH, SEC_W * rr, a), th = (a * Math.PI) / 2, cs = Math.cos(th), sn = Math.sin(th);
+      const cx = a * phiOf(p, 0.5) * rr, cy = lerp(rowY(pi), RC - rr, a);
+      o[0] = cx + s * cs - t * sn; o[1] = cy + s * sn + t * cs; o[2] = 0; return o;
+    }
+    const X = phiOf(p, v) * rr, y = rho - rr;
+    if (b < 1e-4) { o[0] = X; o[1] = y; o[2] = 0; return o; }
+    const R = rr / b, f = X / R;
+    o[0] = Math.sin(f) * (R + y); o[1] = Math.cos(f) * (R + y) - R + b * rr; o[2] = 0; return o;
+  };
+  const sOf = (qi, u) => (qi - 1) * (CW + GAP) + (u - 0.5) * CW, rhoOf = (q, u) => lerp(RB[q][0], RB[q][1], u) * SC;
+  const rrOf = (c) => (tallOf(c) ? 0.78 : 1.15); // how tightly the strip is laid out before it bends
+  return {
+    ties: 0, bloom: 0.4, dur: [0, 3.8],
+    picks: () => range(G0, END, 4), datum: (i) => D[Math.floor((i - G0) / PER)],
+    at(i, c, o) {
+      if (i < G0 || i >= END) return hide(o);
+      const ci = Math.floor((i - G0) / PER), j = (i - G0) % PER, cl = CELLS[ci], u = ((j % 15) + R2[i]) / 15, v = (Math.floor(j / 15) + R3[i]) / 10;
+      const m = c.sa[1] ?? 0, on = eio(ss(0.1 + 0.07 * ci, 0.9 + 0.07 * ci, c.t)), hot = PICK.key === D[ci].key ? 1 : 0, edge = u < 0.07 || u > 0.93 || v < 0.1 || v > 0.9 ? 1 : 0;
+      place(cl.pi, cl.p, sOf(cl.qi, u), rhoOf(cl.q, u), v, m, rrOf(c), V);
+      const lift = Math.sin(Math.PI * m) * 0.16 * (R4[i] - 0.5);
+      put(o, V[0], V[1] + lift, lift, KIND[PK[cl.p]], Math.min(1, (0.3 + 0.2 * R1[i] + 0.35 * edge + 0.3 * hot) * on), -(0.022 + 0.01 * edge + 0.012 * hot), PIP);
+    },
+    labels(c) {
+      const m = c.sa[1] ?? 0, a = eio(ss(0.5, 1.3, c.t)), rr = rrOf(c), out = [];
+      // the questions ride along the top edge of the Learn row, which turns into the gap left of the Learn slice
+      QS3.forEach((q, qi) => out.push({ t: q, cls: "lab-ring", p: place(0, "learn", sOf(qi, 0.5), rhoOf(q, 0.5), lerp(-0.36, -0.1, ss(0, 0.45, m)), m, rr, [0, 0, 0]), a }));
+      // each way in rides at the start of its row, sits under its slice in the strip, then waits outside the circle
+      // (the label spans are made once per slide, so both sets are always listed and faded by alpha)
+      const lead = 1 - ss(0.5, 0.6, m), tail = ss(0.88, 1, m);
+      PATHS3.forEach((p, pi) => out.push({ t: PN[p], cls: "lab-" + p, p: place(pi, p, -1.5 * CW - GAP - 0.55, RB.why[0] * SC - 0.42, 0.5, Math.min(m, 0.46), rr, [0, 0, 0]), a: a * lead }));
+      PATHS3.forEach((p) => out.push({ t: PN[p], cls: "lab-" + p, p: [Math.cos(SEC_C[p]) * 2.95 * SC, Math.sin(SEC_C[p]) * 2.95 * SC, 0], a: a * tail }));
+      // each cell's count: how many sticky notes answered it, across the three walls
+      CELLS.forEach((cl) => out.push({ t: String(cl.n), cls: "lab-count", p: place(cl.pi, cl.p, sOf(cl.qi, 0.5), rhoOf(cl.q, 0.5), 0.5, m, rr, [0, 0, 0]), a: a * 0.9 }));
+      return out;
+    },
+    cam: (c) => (tallOf(c) ? { t: [0, 0, 0], d: 10, yaw: 0, pitch: 0, fov: 34, sx: 0, sy: 0.4, zoom: 1 } : { t: [0, 0, 0], d: 13.5, yaw: 0, pitch: 0, fov: 34, sx: 0.34, sy: -0.04, zoom: 1 }),
+    bodies: () => [],
+    shock: () => null,
+  };
+}
 
 /* ── The whole morning, as one field ──
    Every headline, card and wall note as its own glyph: the vision session on the left (headlines at its
@@ -2575,7 +2641,7 @@ const PART2 = [
     hud(c) { numsHud(c, 0.8); },
   },
   {
-    label: "Three messages", layer: "lab", hud: labelsHud, make: () => circlesScene({ walls: [0, 1, 2], reveal: "all", scale: 0.55, spread: 5.6, sx: 0.26, d: 30, titles: ["1 · belonging", "2 · curiosity, status", "3 · necessity"], lit: (j, note) => (j === 0 ? (MSG_Q.some((t) => note.card.text.includes(t)) ? 1 : 0.15) : note.p === "share" ? 1 : 0.15) }),
+    label: "Three messages", layer: "lab", hud: labelsHud, make: () => circlesScene({ walls: [0, 1, 2], mode: "logo", scale: 0.55, spread: 5.6, sx: 0.26, d: 30, titles: ["1 · belonging", "2 · curiosity, status", "3 · necessity"], lit: (j, note) => (j === 0 ? (MSG_Q.some((t) => note.card.text.includes(t)) ? 1 : 0.15) : note.p === "share" ? 1 : 0.15) }),
     words: `<p class="kicker">Part 2 · The walls</p>
       <h2 class="h">Three messages, and none of them is “learn AI”</h2>
       <div class="cols">
@@ -2705,24 +2771,30 @@ const SLIDES = [
     notes: [`“Here are the words from the first exercise, sized by how often the team used them. ${leaders(CLOUDS.ex1).replace(/[“”]/g, "")} Point at any word to see the cards it's on.”`],
   },
   {
-    label: "The second exercise · three walls", layer: "lab", hud: labelsHud, make: () => circlesScene({ walls: [0, 1, 2], reveal: "all", scale: 0.55, spread: 5.6, sx: 0.26, d: 30, titles: WALLS.map((w, k) => `${k + 1} · ${wallLabel(w).name}`) }),
+    label: "The second exercise · the grid", layer: "lab", hud: labelsHud, make: () => matrixScene(),
     words: `<p class="kicker">The second exercise · How we'd talk to people</p>
-      <h2 class="h">Three people, three walls of sticky notes</h2>
-      <p class="lead dim">Next, the team pictured three kinds of people who might come to The Labs and gave each one a wall.</p>
-      <div data-at="1"><p class="kicker sub">For Learn, Build and Share, they answered three questions</p>
-        <ul class="byg wide"><li><b>Why</b><span>would this person come?</span></li><li><b>How</b><span>should it work for them?</span></li><li><b>What</b><span>would they get out of it?</span></li></ul></div>
-      <p class="small" data-at="2">Each wall is drawn as a circle. The person is in the middle. Why, how and what are rings going out from them, and Learn, Build and Share are the three slices. Each dot is one sticky note.</p>`,
+      <h2 class="h">One grid for every person</h2>
+      <p class="lead dim" data-at="0" data-only>Down the side are our three ways in: Learn, Build and Share. Across the top are three questions: why would someone come, how should it work for them, and what would they get out of it? Each sticky note answers one question for one way in.</p>
+      <p class="lead dim" data-at="1" data-only>Stand each row on its end and bend the grid round, and it becomes a circle. Learn, Build and Share turn into three slices; why sits at the center, then how, then what. That's the order of Simon Sinek's Golden Circle, which starts with why. Every sticky note still lands in one cell.</p>
+      <p class="small">Point at or tap a cell to see its question, and how many sticky notes answered it.</p>`,
     notes: [
-      "“The second exercise was about how we talk to people. The team pictured three kinds of people who might come to The Labs and gave each one a wall.”",
-      "“For each way in, Learn, Build and Share, they wrote sticky notes on three questions: why would this person come, how should it work for them, and what would they get out of it?”",
-      "“We've drawn each wall as a circle: the person in the middle, why, how and what as rings, and Learn, Build and Share as slices. Every dot is one sticky note.”",
+      "“The second exercise was about how we talk to people, and it used one grid. Down the side, our three ways in: Learn, Build and Share. Across the top, three questions: why would someone come, how should it work for them, and what would they get out of it?”",
+      "“Now watch: stand each row on its end, bend the grid round, and it becomes a circle. Learn, Build and Share are the slices; why sits at the center, then how, then what. That's the order of Simon Sinek's Golden Circle, which starts with why. Every sticky note still lands in one cell.”",
     ],
+  },
+  {
+    label: "The second exercise · three people", layer: "lab", hud: labelsHud, make: () => circlesScene({ walls: [0, 1, 2], mode: "logo", scale: 0.55, spread: 5.6, sx: 0.36, d: 30, titles: WALLS.map((w, k) => `${k + 1} · ${PORTRAITS[k].who}`) }),
+    words: `<p class="kicker">The second exercise · Three people</p>
+      <h2 class="h">Three people, three walls of sticky notes</h2>
+      <p class="lead dim">The team pictured three kinds of people who might come to The Labs and gave each one a wall with that grid.</p>
+      <p class="small">Each figure stands for one wall's person, and you'll see it again wherever that person comes up. Point at or tap one to see how its wall was labeled.</p>`,
+    notes: ["“Then the team pictured three kinds of people who might come to The Labs and gave each one a wall with that grid. Each of these figures stands for one of them; you'll see them again.”"],
   },
   introSlide(0), wallSlide(0), outroSlide(0),
   introSlide(1), wallSlide(1), outroSlide(1),
   introSlide(2), wallSlide(2), outroSlide(2),
   {
-    label: "The sticky notes, counted", layer: "lab", hud: labelsHud, make: () => Object.assign(circlesScene({ walls: [0, 1, 2], reveal: "all", scale: 0.55, spread: 5.6, sx: 0.26, d: 30, titles: WALLS.map((w, k) => `${k + 1} · ${wallLabel(w).name} · ${w.cards.length}`) }), { dur: [0, 1.6] }),
+    label: "The sticky notes, counted", layer: "lab", hud: labelsHud, make: () => Object.assign(circlesScene({ walls: [0, 1, 2], mode: "logo", scale: 0.55, spread: 5.6, sx: 0.26, d: 30, titles: WALLS.map((w, k) => `${k + 1} · ${wallLabel(w).name} · ${w.cards.length}`) }), { dur: [0, 1.6] }),
     words: `<p class="kicker">The second exercise · All three walls</p>
       <h2 class="h">${N_NOTES} sticky notes, counted</h2>
       <p class="small" data-at="0" data-only>By wall, and by way in.</p><p class="small" data-at="1" data-only>By way in, and by question.</p>
