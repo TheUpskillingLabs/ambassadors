@@ -1279,5 +1279,664 @@
     ]
    }
   ]
+ },
+ "analysis": {
+  "about": "Our coding of every item the team wrote on the day (headlines, cards, wall notes, breakout notes; not the printed questions, which were prepared beforehand). Each item can carry more than one theme. Themes are our reading; the codebook says what each one includes and leaves out.",
+  "codebook": [
+   {
+    "id": "build",
+    "name": "Learning by building",
+    "means": "People learn by making real things: hands-on, project by project, by doing, with something made at the end.",
+    "includes": "Learning by doing, hands-on work, projects, deliverables, experiments, prototypes.",
+    "excludes": "“Build” meaning relationships or community."
+   },
+   {
+    "id": "learn",
+    "name": "Learning and growth",
+    "means": "Learning for its own sake, and growing as a person: curiosity, new skills, new tools, confidence.",
+    "includes": "Curiosity, new skills or tools, lifelong learning, personal growth, confidence.",
+    "excludes": "How the learning happens (that's Learning by building)."
+   },
+   {
+    "id": "relevance",
+    "name": "Relevant to my life",
+    "means": "Learning that connects to the person's own place, problems and work.",
+    "includes": "Local context, real-world or social problems that matter to them, something they can use at work or day to day, tailoring.",
+    "excludes": "Problems in general, with no tie to the person."
+   },
+   {
+    "id": "community",
+    "name": "Belonging and connection",
+    "means": "Peers, relationships and community are a reason to come and to stay.",
+    "includes": "Community, connection, peers, networking, teams, feedback from others, social learning, thought partners.",
+    "excludes": "“Community” meaning a place or town (that's Scale and reach)."
+   },
+   {
+    "id": "staying",
+    "name": "Staying engaged",
+    "means": "Keeping people coming back: engagement, drop-off, attrition, and what happens after a cycle ends.",
+    "includes": "Drop-off, attrition, engagement, durable participation, life after the cycle, stepping back without leaving.",
+    "excludes": "Recruiting new people."
+   },
+   {
+    "id": "pathway",
+    "name": "Contributing and mentoring",
+    "means": "People teach, mentor and volunteer, and the path from participant into those roles.",
+    "includes": "Mentors, moderators, volunteers, sharing what you know, leading, the participant-to-leader path, contribution.",
+    "excludes": "Being mentored (that's Belonging and connection)."
+   },
+   {
+    "id": "recognition",
+    "name": "Being seen",
+    "means": "Showing your work and being recognized for it.",
+    "includes": "Showcases, demos, status, attention, LinkedIn, posts, portfolios as visibility, references.",
+    "excludes": "Proof aimed at employers alone (that's Work and livelihood)."
+   },
+   {
+    "id": "work",
+    "name": "Work and livelihood",
+    "means": "Jobs, careers, income and what employers will count.",
+    "includes": "Employment, job hunting, marketable skills, proof for employers, new roles, the workforce, professional growth.",
+    "excludes": "Work as in project work."
+   },
+   {
+    "id": "agency",
+    "name": "Agency and ownership",
+    "means": "People own their learning, data, tools and direction, and have an equal voice.",
+    "includes": "Agency, autonomy, choosing your own topic or path, individual voice, citizens, owning your data and tools, self-empowerment.",
+    "excludes": "Access and cost (that's Access and equity)."
+   },
+   {
+    "id": "access",
+    "name": "Access and equity",
+    "means": "Open to everyone: free, welcoming, fewer barriers, more equal.",
+    "includes": "Free of charge, welcoming spaces, accessibility, diversity, equity, low barriers to entry.",
+    "excludes": "Reach in numbers (that's Scale and reach)."
+   },
+   {
+    "id": "ai",
+    "name": "AI",
+    "means": "AI as a subject, a tool or the reason for change.",
+    "includes": "Any mention of AI, AI tools or skills, vibe coding, AI policy.",
+    "excludes": "Technology in general."
+   },
+   {
+    "id": "scale",
+    "name": "Scale and reach",
+    "means": "Growing to more people, places and institutions.",
+    "includes": "Every city or community, numbers of people or governments, other nations, national models, new cities or sectors.",
+    "excludes": "Depth of change for one person."
+   },
+   {
+    "id": "standing",
+    "name": "Standing and peers",
+    "means": "Who we'd be mentioned alongside, and our credibility.",
+    "includes": "Peer institutions named on peer cards, reputation.",
+    "excludes": "Partnerships for money (that's Money and sustainability)."
+   },
+   {
+    "id": "prove",
+    "name": "Showing what changes",
+    "means": "Measuring and showing outcomes and impact.",
+    "includes": "Measurement, impact, outcomes, follow-up, social return on investment, outcome data.",
+    "excludes": "Feedback given to a participant (that's Belonging and connection)."
+   },
+   {
+    "id": "money",
+    "name": "Money and sustainability",
+    "means": "Funding, revenue and investment, and staying sustainable.",
+    "includes": "Grants, earned revenue, sponsors, donors, investment, partnerships that bring money.",
+    "excludes": "Personal income (that's Work and livelihood)."
+   },
+   {
+    "id": "ops",
+    "name": "How we run it",
+    "means": "Structure, guidance, systems and communication for running the program.",
+    "includes": "Structures, instructions, tools and platforms for running it, Slack, accountability for sign-ups, curricula processes, cycle structure.",
+    "excludes": "A participant's own tools (that's Learning by building or AI)."
+   }
+  ],
+  "codes": {
+   "h-A": [
+    "scale",
+    "agency",
+    "work",
+    "ai"
+   ],
+   "h-B": [
+    "scale"
+   ],
+   "h-C": [
+    "scale",
+    "money",
+    "work"
+   ],
+   "h-D": [
+    "scale",
+    "agency",
+    "work"
+   ],
+   "h-E": [
+    "scale"
+   ],
+   "c-0": [
+    "access"
+   ],
+   "c-1": [
+    "scale"
+   ],
+   "c-2": [
+    "ai",
+    "pathway"
+   ],
+   "c-3": [
+    "ai",
+    "agency"
+   ],
+   "c-4": [
+    "work"
+   ],
+   "c-5": [
+    "agency"
+   ],
+   "c-6": [
+    "agency"
+   ],
+   "c-7": [
+    "community",
+    "access"
+   ],
+   "c-8": [
+    "ai",
+    "access",
+    "learn"
+   ],
+   "c-9": [
+    "standing"
+   ],
+   "c-10": [
+    "scale",
+    "agency",
+    "work",
+    "ai"
+   ],
+   "c-11": [
+    "ops"
+   ],
+   "c-12": [
+    "agency"
+   ],
+   "c-13": [
+    "build",
+    "scale"
+   ],
+   "c-14": [
+    "scale",
+    "access"
+   ],
+   "c-15": [
+    "scale",
+    "ai"
+   ],
+   "c-16": [
+    "money",
+    "work",
+    "pathway"
+   ],
+   "c-17": [
+    "build",
+    "community",
+    "access"
+   ],
+   "c-18": [
+    "scale"
+   ],
+   "c-19": [
+    "scale",
+    "access"
+   ],
+   "c-20": [
+    "standing"
+   ],
+   "c-21": [
+    "standing"
+   ],
+   "c-22": [
+    "standing",
+    "prove",
+    "work"
+   ],
+   "c-23": [
+    "standing"
+   ],
+   "c-24": [
+    "community",
+    "agency"
+   ],
+   "c-25": [
+    "standing"
+   ],
+   "c-26": [
+    "standing"
+   ],
+   "c-27": [
+    "standing",
+    "build"
+   ],
+   "c-28": [
+    "agency",
+    "work"
+   ],
+   "w1-0": [
+    "pathway"
+   ],
+   "w1-1": [
+    "pathway"
+   ],
+   "w1-2": [
+    "learn"
+   ],
+   "w1-3": [
+    "community",
+    "staying"
+   ],
+   "w1-4": [
+    "ops"
+   ],
+   "w1-5": [
+    "relevance"
+   ],
+   "w1-6": [
+    "learn"
+   ],
+   "w1-7": [
+    "learn"
+   ],
+   "w1-8": [
+    "relevance",
+    "learn"
+   ],
+   "w1-9": [
+    "pathway"
+   ],
+   "w1-10": [
+    "access"
+   ],
+   "w1-11": [
+    "recognition"
+   ],
+   "w1-12": [
+    "access"
+   ],
+   "w1-13": [
+    "build",
+    "community",
+    "access"
+   ],
+   "w1-14": [
+    "build",
+    "relevance",
+    "community"
+   ],
+   "w1-15": [
+    "agency"
+   ],
+   "w1-16": [
+    "build"
+   ],
+   "w1-17": [
+    "build",
+    "agency"
+   ],
+   "w1-18": [
+    "build",
+    "relevance"
+   ],
+   "w1-19": [
+    "build"
+   ],
+   "w1-20": [
+    "community"
+   ],
+   "w1-21": [
+    "community"
+   ],
+   "w1-22": [
+    "learn"
+   ],
+   "w1-23": [
+    "community",
+    "relevance"
+   ],
+   "w1-24": [
+    "community",
+    "access"
+   ],
+   "w1-25": [
+    "recognition",
+    "work"
+   ],
+   "w1-26": [
+    "community",
+    "pathway"
+   ],
+   "w1-27": [
+    "pathway",
+    "community"
+   ],
+   "w1-28": [
+    "learn"
+   ],
+   "w2-0": [
+    "learn",
+    "relevance"
+   ],
+   "w2-1": [
+    "learn"
+   ],
+   "w2-2": [
+    "learn"
+   ],
+   "w2-3": [
+    "build"
+   ],
+   "w2-4": [
+    "community",
+    "access"
+   ],
+   "w2-5": [
+    "ai",
+    "build"
+   ],
+   "w2-6": [
+    "build",
+    "ai"
+   ],
+   "w2-7": [
+    "build",
+    "ai"
+   ],
+   "w2-8": [
+    "build",
+    "ai"
+   ],
+   "w2-9": [
+    "build"
+   ],
+   "w2-10": [
+    "work",
+    "recognition"
+   ],
+   "w2-11": [
+    "build",
+    "community"
+   ],
+   "w2-12": [
+    "build"
+   ],
+   "w2-13": [
+    "access"
+   ],
+   "w2-14": [
+    "build",
+    "relevance"
+   ],
+   "w2-15": [
+    "recognition"
+   ],
+   "w2-16": [
+    "build",
+    "ai"
+   ],
+   "w2-17": [
+    "recognition",
+    "work"
+   ],
+   "w2-18": [
+    "community"
+   ],
+   "w2-19": [
+    "community",
+    "work"
+   ],
+   "w2-20": [
+    "work",
+    "community"
+   ],
+   "w2-21": [
+    "build",
+    "recognition"
+   ],
+   "w2-22": [
+    "community",
+    "pathway"
+   ],
+   "w2-23": [
+    "recognition"
+   ],
+   "w2-24": [
+    "recognition",
+    "work"
+   ],
+   "w2-25": [
+    "recognition"
+   ],
+   "w3-0": [
+    "ai",
+    "learn",
+    "work"
+   ],
+   "w3-1": [
+    "build",
+    "work"
+   ],
+   "w3-2": [
+    "work"
+   ],
+   "w3-3": [
+    "community"
+   ],
+   "w3-4": [
+    "build",
+    "community"
+   ],
+   "w3-5": [
+    "build"
+   ],
+   "w3-6": [
+    "learn"
+   ],
+   "w3-7": [
+    "build"
+   ],
+   "w3-8": [
+    "relevance"
+   ],
+   "w3-9": [
+    "relevance",
+    "build"
+   ],
+   "w3-10": [
+    "access",
+    "build"
+   ],
+   "w3-11": [
+    "build",
+    "ops"
+   ],
+   "w3-12": [
+    "relevance",
+    "work"
+   ],
+   "w3-13": [
+    "relevance",
+    "work"
+   ],
+   "w3-14": [
+    "community"
+   ],
+   "w3-15": [
+    "community"
+   ],
+   "w3-16": [
+    "recognition"
+   ],
+   "b1-0": [
+    "learn",
+    "ops"
+   ],
+   "b1-1": [
+    "ops"
+   ],
+   "b1-2": [
+    "staying"
+   ],
+   "b1-3": [
+    "agency"
+   ],
+   "b1-4": [
+    "agency"
+   ],
+   "b1-5": [
+    "ops",
+    "agency"
+   ],
+   "b1-6": [
+    "staying",
+    "ops"
+   ],
+   "b2-0": [
+    "ops"
+   ],
+   "b2-1": [
+    "community",
+    "staying"
+   ],
+   "b2-2": [
+    "community",
+    "staying"
+   ],
+   "b3-0": [
+    "ops"
+   ],
+   "b4-0": [
+    "scale"
+   ],
+   "b4-1": [
+    "agency",
+    "staying"
+   ],
+   "b4-2": [
+    "ops"
+   ],
+   "b4-3": [
+    "scale",
+    "ops"
+   ],
+   "b4-4": [
+    "ops",
+    "relevance"
+   ],
+   "b4-5": [
+    "agency",
+    "relevance"
+   ],
+   "b5-0": [
+    "pathway"
+   ],
+   "b5-1": [
+    "build",
+    "staying"
+   ],
+   "b5-2": [
+    "work",
+    "prove"
+   ],
+   "b5-3": [
+    "community",
+    "pathway"
+   ],
+   "b5-4": [
+    "pathway"
+   ],
+   "b5-5": [
+    "pathway",
+    "staying"
+   ],
+   "b5-6": [
+    "staying"
+   ],
+   "b5-7": [
+    "learn",
+    "pathway"
+   ],
+   "b6-0": [
+    "pathway",
+    "work"
+   ],
+   "b6-1": [
+    "pathway"
+   ],
+   "b6-2": [
+    "pathway",
+    "ops"
+   ],
+   "b6-3": [
+    "pathway"
+   ],
+   "b6-4": [
+    "pathway",
+    "staying"
+   ],
+   "b6-5": [
+    "pathway",
+    "ai"
+   ],
+   "b6-6": [
+    "pathway"
+   ],
+   "b7-0": [
+    "prove"
+   ],
+   "b7-1": [
+    "prove"
+   ],
+   "b7-2": [
+    "prove"
+   ],
+   "b7-3": [
+    "prove",
+    "work"
+   ],
+   "b7-4": [
+    "prove"
+   ],
+   "b7-5": [
+    "prove",
+    "work"
+   ],
+   "b7-6": [
+    "prove"
+   ],
+   "b8-0": [
+    "money"
+   ],
+   "b8-1": [
+    "money"
+   ],
+   "b8-2": [
+    "money"
+   ],
+   "b8-3": [
+    "money"
+   ],
+   "b8-4": [
+    "money"
+   ]
+  },
+  "unclear": {
+   "b3-0": "“USL” is unclear, so we coded only what the note plainly asks for.",
+   "b5-2": "The end of the note is hard to read; coded on the part we can read."
+  }
  }
 }
