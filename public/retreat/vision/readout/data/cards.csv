@@ -1,194 +1,194 @@
-session,group_or_wall,type_or_path,question,text
-moonshot,A,headline,,"The Upskilling Labs is federated across every US community, driving a deep understanding and development of autonomy and agency in every personal digital interaction, keeping citizens relevant and equal participants in the workforce, and AI policy."
-moonshot,B,headline,,"The Upskilling Labs working with 100+ local + national govts + 10,000,000 upskillers"
-moonshot,C,headline,,"Every community that hosts an Upskilling Labs attracts private + public investment. Every member of that community is gainfully employed in a fulfilling role. Communities have what they need to solve problems for public & private sectors at the local, national & global levels."
-moonshot,D,headline,,The Upskilling Labs community and workforce model is leading in human agency development; other nations race to adopt it.
-moonshot,E,headline,,"A successful Lab in every city, in every country, for everyone, in every industry, in less than 10 years."
-moonshot,A,impact,,By 2036… disparities will be reduced because of the ability to have access to The Upskilling Labs (free of charge) in anchor institutions in your community
-moonshot,A,impact,,"By 2036 because of the Labs, policy (local, state, federal) will ensure that The Upskilling Labs is a nationally disseminated model in [the places where we] work, school (learn), play & worship"
-moonshot,A,impact,,Upskilling Labs participants are AI thought leaders in their communities
-moonshot,A,impact,,Upskilling Labs participants are valued voices in the debate and policy around AI governance
-moonshot,A,impact,,Upskilling Labs participants are able to keep up with (if not shape) the changes to paying employment
-moonshot,A,impact,,Free data: data is made free to be ingested by tools owned and made by people who own their use cases
-moonshot,A,impact,,Federated tools: you own your material; it is ingested by tools owned by the people
-moonshot,A,impact,,"Peer learning: everyone, anyone can have a speaking space to present new ideas and learn from, in real life"
-moonshot,A,draft,,"We build knowledge, confidence and understanding of AI equitably across communities of all sizes."
-moonshot,A,peer,,Universities
-moonshot,A,note,,"Across the country · deep understanding of autonomy and agency of digital extension · keep citizens as relevant and equal participants: workforce, AI policy"
-moonshot,B,impact,,"Because of the Labs, we've connected key information and data providers with internal tools"
-moonshot,B,impact,,A citizen-informed policy-making method has been innovated through local labor research
-moonshot,B,impact,,The upskilling philosophy of learning by doing is integrated into education systems; we serve as collaborators on training the next generation of professionals
-moonshot,B,impact,,"Expand into non-English-speaking, international, culture- and environment-specific build cycles"
-moonshot,B,impact,,Expand into developing countries for AI upskilling
-moonshot,B,impact,,"Private-sector partnerships, with learning modules that our mentors develop as part of upskilling curricula offered to employers"
-moonshot,B,impact,,"Space for collective skillbuilding, for all to grow at their own pace #lifelonglearners"
-moonshot,B,draft,,The Upskilling Labs reaches 100 metropolitan cities
-moonshot,B,draft,,"Communities across the nation and globally can start up independent spaces to support learning and growth, which reduces barriers to entry and levels access to education for all"
-moonshot,B,peer,,"Higher ed · MOOCs · basic ed, public and private · for-profit and non-profit education institutions"
-moonshot,B,peer,,Anthropic Skilljar-type learning
-moonshot,B,peer,,Mentioned alongside Brookings and Pew Research for information on workforce development outcomes
-moonshot,B,peer,,Spoken of in the same breath as the Aspen Institute (card partly hidden)
-moonshot,B,note,,Spreading information and knowledge; sharing; democratic practice
-moonshot,C,peer,,Collective Action
-moonshot,C,peer,,"Code for America, but focused on upskilling"
-moonshot,C,peer,,"Tech DC · AI Collective · I've looked at models: no other learning-by-building · book groups, private"
-moonshot,C,impact,,Workers not at the mercy of Big Tech; people as citizens (card partly out of frame)
-personas,upskiller-1,learn,why,"Experience in leadership, team building, project management"
-personas,upskiller-1,learn,why,Share lessons learned; practice
-personas,upskiller-1,learn,why,Lifelong learner #growthmindset
-personas,upskiller-1,learn,how,Making connections; sustained connection; positive community
-personas,upskiller-1,learn,how,"Good, engaging presentation"
-personas,upskiller-1,learn,how,Local context; relevance to the individual
-personas,upskiller-1,learn,what,New skills
-personas,upskiller-1,learn,what,New technology
-personas,upskiller-1,learn,what,Learn about where you live
-personas,upskiller-1,build,why,Create positive learning opportunities for others
-personas,upskiller-1,build,why,Creative diversity
-personas,upskiller-1,build,why,"Showcase, demo your expertise"
-personas,upskiller-1,build,how,"Open public space, welcoming to everyone"
-personas,upskiller-1,build,how,Project-based learning; supportive community; accessibility
-personas,upskiller-1,build,how,"Real-world problems, local and in person; support from other organizers and leaders"
-personas,upskiller-1,build,how,"Propose your own interests, your topic of interest"
-personas,upskiller-1,build,how,Playful experimentation
-personas,upskiller-1,build,how,Designing out loud; individual voice
-personas,upskiller-1,build,what,"Solutions to real-world issues within a finite period, to explore and test-pilot"
-personas,upskiller-1,build,what,Build and experiment; validate ideas
-personas,upskiller-1,build,what,Get feedback from the community
-personas,upskiller-1,share,why,Accountability and thought partners
-personas,upskiller-1,share,why,"Confidence, personal and professional"
-personas,upskiller-1,share,why,Community: working together on real-world problems
-personas,upskiller-1,share,why,Community connections #humanity #equity
-personas,upskiller-1,share,how,"Build references, previous performance"
-personas,upskiller-1,share,how,Peer learning; share knowledge; low stakes
-personas,upskiller-1,share,what,Contribute to community
-personas,upskiller-1,share,what,Personal growth
-personas,upskiller-2,learn,why,Likes satisfying his curiosity; wants to solve his own problems
-personas,upskiller-2,learn,why,Curiosity about what the org is
-personas,upskiller-2,learn,why,Wants to work on challenging problems
-personas,upskiller-2,learn,why,Struggles to learn in lecture format
-personas,upskiller-2,learn,how,Diverse experiences and backgrounds
-personas,upskiller-2,learn,how,"Talk, ideate, create a plan, and tell the AI “don't make mistakes”"
-personas,upskiller-2,learn,how,"Throw dollars and tokens at it; play, explore, ask questions"
-personas,upskiller-2,learn,what,A sequence of deliverables that builds a range of AI skills
-personas,upskiller-2,learn,what,"Vibe coding, GitHub, privacy, build out loud"
-personas,upskiller-2,build,why,"Kinesthetic, interactive"
-personas,upskiller-2,build,why,"Proof of work, and skills to show employers"
-personas,upskiller-2,build,how,"Stimulating, hands-on, social learning"
-personas,upskiller-2,build,how,Design an experiential journey
-personas,upskiller-2,build,how,A leveled playing field
-personas,upskiller-2,build,what,"A series of relevant deliverables (a survey, a white paper, an app)"
-personas,upskiller-2,build,what,"Be a pioneer, a visionary"
-personas,upskiller-2,build,what,A vibe-coded app
-personas,upskiller-2,share,why,To get attention; prestige and status; more money
-personas,upskiller-2,share,why,Build community and relationships; have fun; get more diverse ideas
-personas,upskiller-2,share,why,Find fellow nerds; network; leads to community and opportunity
-personas,upskiller-2,share,why,"Networking, employability"
-personas,upskiller-2,share,how,Build out loud
-personas,upskiller-2,share,how,"In local communities: meetups, volunteering"
-personas,upskiller-2,share,how,LinkedIn
-personas,upskiller-2,share,what,"Posts, resume, portfolio"
-personas,upskiller-2,share,what,Stories and experiences; sample deliverables; outcomes
-personas,pivoters,learn,why,AI is changing their field; eager to learn
-personas,pivoters,learn,why,Build and learn marketable skills; skill = building
-personas,pivoters,learn,why,Job hunting; trying to figure out what is next
-personas,pivoters,learn,how,"Mentors, volunteers"
-personas,pivoters,learn,how,Workshops; learn by doing; teams
-personas,pivoters,learn,what,Hands-on learning
-personas,pivoters,learn,what,New tools and methods
-personas,pivoters,build,why,Learn by doing; building to learn
-personas,pivoters,build,why,Inspired to address social problems
-personas,pivoters,build,how,Working on projects that are meaningful and relevant to them
-personas,pivoters,build,how,Just come with a laptop
-personas,pivoters,build,how,A consistent problem over time allows a deeper throughline; not in their field forces different thought
-personas,pivoters,build,what,"Create something I can use in my day to day, at work or personally"
-personas,pivoters,build,what,"A session, and application to their own work"
-personas,pivoters,share,why,Feedback
-personas,pivoters,share,why,To build a larger circle
-personas,pivoters,share,how,Presentation opportunities to showcase
-breakouts,guidance,printed question,,"How might we help poderators confidently decide when and how to step in with a Pod that's struggling to get started, without undermining the Pod's chance to self-organize?"
-breakouts,guidance,printed question,,How might we simplify/better communicate the transition process from problem definition to teams forming?
-breakouts,guidance,printed question,,How might we provide information/instructions in a central location during a cycle (e.g. website dashboard)?
-breakouts,guidance,printed question,,"How might we standardize instructions for a better pod experience, with clearer expectations?"
-breakouts,guidance,printed question,,"How might we create coherence across goals for participant growth, priorities for sessions, assigned tasks, and messaging?"
-breakouts,guidance,printed question,,How might we give ambassadors response frameworks for standard questions and public-facing conversations without eliminating their personal voice?
-breakouts,guidance,sticky note (orange),,How might we ensure people get to experience all roles on a team?
-breakouts,guidance,sticky note (green),,What structures would help pods organize?
-breakouts,guidance,sticky note (green),,Who is the profile of the person who drops? What do we know about their goals? What about those who stay?
-breakouts,guidance,sticky note (purple),,How might we help/support Upskillers to feel self-empowered to ask for help when stuck?
-breakouts,guidance,sticky note (pink),,HMW activate the feeling of agency + autonomy early in the build cycle to model expectations of volunteers + upskillers
-breakouts,guidance,sticky note (yellow),,HMW reach agreement on the right level of cycle structure to balance “what am I meant to do” with opportunities for emergent?
-breakouts,guidance,sticky note (green),,How might we hold participants/registrants accountable when signing up for workshops / reducing attrition?
-breakouts,connection,printed question,,How might we help Upskillers build stronger relationships earlier in the build cycle?
-breakouts,connection,printed question,,How might we reduce drop-off during the build cycle?
-breakouts,connection,printed question,,How might we encourage more use of our 'digital commons' (aka Slack) early on in the build cycle?
-breakouts,connection,printed question,,How might we design the buddy system so it builds lasting friendships rather than feeling like an assigned chore?
-breakouts,connection,printed question,,How might we make event discovery feel like a collaborative activity for the whole ambassador network?
-breakouts,connection,printed question,,"How might we examine the build cycle and investigate the optimal length, and align it with the natural energy of a calendar year?"
-breakouts,connection,sticky note (green),,How might we simplify Slack usage and centralize a method of communicating on Slack so that information is not lost and not tracked?
-breakouts,connection,sticky note (green),,How might we build in reqs for engagement for Upskillers so that we help them break the ice about engaging
-breakouts,connection,sticky note (yellow),,How might we help participants find a few peers whose shared goals serve to grow engagement and sense of time well spent?
-breakouts,systems,printed question,,How might we codify our workflows so they require less manual effort?
-breakouts,systems,printed question,,"How might we develop AI tools that would also simplify our operations, like a grant identifying agent?"
-breakouts,systems,printed question,,"How might we reduce the manual effort of producing a full post cadence for every workshop, so that volunteer time goes toward strategy instead of repetitive drafting?"
-breakouts,systems,printed question,,"How might we centralize performance monitoring across LinkedIn, Luma, and the website, so metrics don't rely on manually reading screenshots?"
-breakouts,systems,printed question,,"How might we turn ongoing recruitment needs (mentors, volunteers, Upskillers) into a standing content stream, rather than one-off posts written only when a need becomes urgent?"
-breakouts,systems,sticky note (teal),,How might we operationalize the USL needs?
-breakouts,tailored,printed question,,How might we provide a personalized map/guide for upskillers that helps them achieve their AI learning goals?
-breakouts,tailored,printed question,,How might we increase the variety of workshops we offer for learners at different skill levels and interests?
-breakouts,tailored,printed question,,How might we develop and improve processes and guidelines for OLOS so that we are able to open up development to a larger group?
-breakouts,tailored,printed question,,How might we build a comms playbook and brand toolkit that a new city launching its own Lab could pick up and run with little or no onboarding?
-breakouts,tailored,sticky note (pink),,How might we attract new upskillers for other sectors so that there is more impact and reach?
-breakouts,tailored,sticky note (pink),,How might we build Autonomous pathway for upskillers to immediately see the value they get + be willing to lean in.
-breakouts,tailored,sticky note (teal),,How might we create a platform that guides users + organizers?
-breakouts,tailored,sticky note (purple),,How might we decide what every Lab must keep vs what a new city can change for growth
-breakouts,tailored,sticky note (green),,How might we develop new curricula for workshops tailored to the current build theme?
-breakouts,tailored,sticky note (green),,HMW build a tool that enables participants to design their own learning journey built around our program offers?
-breakouts,community,printed question,,"How might we turn build-cycle graduates into the next cycle's mentors and moderators, rather than starting mentor recruitment from scratch (i.e., your personal network)?"
-breakouts,community,printed question,,How might we keep track of previous cycle builders?
-breakouts,community,printed question,,"How might we create an intuitive structured pathway for people to move from participant → practitioner → contributor → leader, such that every cycle/cohort makes the org/next cycle stronger?"
-breakouts,community,printed question,,How might we transform the people who develop capabilities through The Labs into the people who help develop capabilities in others?
-breakouts,community,sticky note (orange),,"HMW create a durable progression from participant to practitioner to contributor to leader, so that each cohort's learning, relationships, and expertise strengthens the next?"
-breakouts,community,sticky note (purple),,How might we keep promising prototypes alive after showcase?
-breakouts,community,sticky note (green),,"How might we have a colloquium post-presentation retrospective, where we provide portfolioing help in exchange for data/feedback so that both [the end is unclear]"
-breakouts,community,sticky note (pink),,HMW scale personal connection between volunteers + Upskillers while the Upskillers are in the build cycle so we can 10x skills transfer
-breakouts,community,sticky note (pink),,HMW build in build cycle interactions that bring visibility to the volunteer opportunities so Upskillers see a path toward mentor[ship]
-breakouts,community,sticky note (orange),,Principle: Participation becomes durable when people can see where they belong next + how their contribution changes the system; otherwise cohort completion becomes natural exit point vs. deeper relationship
-breakouts,community,sticky note (yellow),,How might we design an extended experience journey to deliver value beyond the cycle?
-breakouts,community,sticky note (green),,How might we help participants get a balance of contributing strengths + trying new skills? What structures w/i build cycle help that?
-breakouts,volunteers,printed question,,How might we recruit and retain enough volunteer mentors/moderators for each cycle without burning out your existing network of former colleagues?
-breakouts,volunteers,printed question,,"How might we keep track of mentors and volunteers who actually want to be part of the organization in a volunteer capacity, without burning them out with asks and having them fill out forms that might not get seen?"
-breakouts,volunteers,printed question,,How might we keep mentors engaged via more than just workshops?
-breakouts,volunteers,printed question,,How might we leverage the expertise of our mentors better to help upskillers during the cycle?
-breakouts,volunteers,printed question,,How might we improve onboarding/training so that volunteers feel prepared and ready to support a workshop virtually/in-person?
-breakouts,volunteers,printed question,,"How might we make contribution to The Labs feel like a meaningful form of professional growth, rather than simply another volunteer obligation?"
-breakouts,volunteers,printed question,,How might we create a contributor culture where delivering hands-on improvements to the system is a core part of participating in the system?
-breakouts,volunteers,sticky note (orange),,"HMW build a scalable contributor ecosystem that attracts, prepares, activates, develops, and retains mentors and moderators while making their contributions visibly valuable for Upskillers, The Labs, and their own professional growth?"
-breakouts,volunteers,sticky note (orange),,How do we grow our volunteer network? Where do we source them?
-breakouts,volunteers,sticky note (green),,How do we clarify + communicate types of volunteer needs?
-breakouts,volunteers,sticky note (orange),,"Operating principle: Every contribution should have a clear ask, bounded commitment, visible impact, and meaningful return."
-breakouts,volunteers,sticky note (purple),,How might we let volunteers step back for a cycle without losing touch + saying goodbye?
-breakouts,volunteers,sticky note (yellow),,How can we get AI experts from Frontier Labs join as mentors?
-breakouts,volunteers,sticky note (yellow),,HMW design tiered volunteer roles to make clear how volunteers can scale up their engagement?
-breakouts,prove,printed question,,How might we ensure we are getting consistent measurement on our outcomes so that we can build a stronger program AND tell our story to partners and funders?
-breakouts,prove,printed question,,"How might we measure the impact of learning opportunities (virtual/in-person workshops, pod experience)?"
-breakouts,prove,printed question,,How might we capture feedback to inform better learning?
-breakouts,prove,printed question,,"How might we clearly articulate metrics of success: is it participant growth, project delivery, or participant and volunteer network numbers?"
-breakouts,prove,printed question,,How might we make the Labs itself better at learning from its own experiments?
-breakouts,prove,printed question,,"How might we strengthen our articulation of who the Labs are for, and the unmet need it addresses for them? (And how do we know this?)"
-breakouts,prove,printed question,,"How might we build a funding narrative (grants, sponsors) that reflects impact in terms funders care about, not just activity (workshops held, events run)?"
-breakouts,prove,printed question,,"How might we package brand-visible content (recaps, testimonials, metrics) into reusable assets that fundraising and partnership teams can pull from directly, rather than starting from scratch each time?"
-breakouts,prove,sticky note (green),,HMW develop longitudinal data gathering to truly measure Upskilling Labs outcomes?
-breakouts,prove,sticky note (green),,How do we measure confidence?
-breakouts,prove,sticky note (teal),,How might we quantify the impact of our mission?
-breakouts,prove,sticky note (yellow),,"How might we better measure community impact? jobs, startups,"
-breakouts,prove,sticky note (teal),,How might we communicate + deliver on the impact of our mission?
-breakouts,prove,sticky note (purple),,SROI — social return on investment. How might we follow-up w/ Upskillers 6 months → 12 months after a cycle so that we know whether their skills led to new roles/projects/work?
-breakouts,prove,sticky note (teal),,How might we make our mission deliver impact
-breakouts,revenue,printed question,,How might we start building out other funding streams so that we are relying less on grants?
-breakouts,revenue,printed question,,How might we create income streams for the Labs that are not dependent on donors and grants?
-breakouts,revenue,printed question,,How might we turn a one-time learning opportunity into a more sustainable product?
-breakouts,revenue,sticky note (teal),,How might we turn The Upskilling Labs into a sustainable non-profit business?
-breakouts,revenue,sticky note (green),,How might we develop an earned revenue strategy that stays true to the mission?
-breakouts,revenue,sticky note (green),,How might we turn funding into an ongoing activity rather than just a passive ask?
-breakouts,revenue,sticky note (yellow),,How might we get revenue streams from top 10 companies in DMV?
-breakouts,revenue,sticky note (yellow),,HMW connect with prospective targeted sponsors + donors who want to or already support the Labs' work
+session,item_id,group_or_wall,type_or_path,question,text,our_themes
+moonshot,h-A,A,headline,,"The Upskilling Labs is federated across every US community, driving a deep understanding and development of autonomy and agency in every personal digital interaction, keeping citizens relevant and equal participants in the workforce, and AI policy.",Scale and reach; Agency and ownership; Work and livelihood; AI
+moonshot,h-B,B,headline,,"The Upskilling Labs working with 100+ local + national govts + 10,000,000 upskillers",Scale and reach
+moonshot,h-C,C,headline,,"Every community that hosts an Upskilling Labs attracts private + public investment. Every member of that community is gainfully employed in a fulfilling role. Communities have what they need to solve problems for public & private sectors at the local, national & global levels.",Scale and reach; Money and sustainability; Work and livelihood
+moonshot,h-D,D,headline,,The Upskilling Labs community and workforce model is leading in human agency development; other nations race to adopt it.,Scale and reach; Agency and ownership; Work and livelihood
+moonshot,h-E,E,headline,,"A successful Lab in every city, in every country, for everyone, in every industry, in less than 10 years.",Scale and reach
+moonshot,c-0,A,impact,,By 2036… disparities will be reduced because of the ability to have access to The Upskilling Labs (free of charge) in anchor institutions in your community,Access and equity
+moonshot,c-1,A,impact,,"By 2036 because of the Labs, policy (local, state, federal) will ensure that The Upskilling Labs is a nationally disseminated model in [the places where we] work, school (learn), play & worship",Scale and reach
+moonshot,c-2,A,impact,,Upskilling Labs participants are AI thought leaders in their communities,AI; Contributing and mentoring
+moonshot,c-3,A,impact,,Upskilling Labs participants are valued voices in the debate and policy around AI governance,AI; Agency and ownership
+moonshot,c-4,A,impact,,Upskilling Labs participants are able to keep up with (if not shape) the changes to paying employment,Work and livelihood
+moonshot,c-5,A,impact,,Free data: data is made free to be ingested by tools owned and made by people who own their use cases,Agency and ownership
+moonshot,c-6,A,impact,,Federated tools: you own your material; it is ingested by tools owned by the people,Agency and ownership
+moonshot,c-7,A,impact,,"Peer learning: everyone, anyone can have a speaking space to present new ideas and learn from, in real life",Belonging and connection; Access and equity
+moonshot,c-8,A,draft,,"We build knowledge, confidence and understanding of AI equitably across communities of all sizes.",AI; Access and equity; Learning and growth
+moonshot,c-9,A,peer,,Universities,Standing and peers
+moonshot,c-10,A,note,,"Across the country · deep understanding of autonomy and agency of digital extension · keep citizens as relevant and equal participants: workforce, AI policy",Scale and reach; Agency and ownership; Work and livelihood; AI
+moonshot,c-11,B,impact,,"Because of the Labs, we've connected key information and data providers with internal tools",How we run it
+moonshot,c-12,B,impact,,A citizen-informed policy-making method has been innovated through local labor research,Agency and ownership
+moonshot,c-13,B,impact,,The upskilling philosophy of learning by doing is integrated into education systems; we serve as collaborators on training the next generation of professionals,Learning by building; Scale and reach
+moonshot,c-14,B,impact,,"Expand into non-English-speaking, international, culture- and environment-specific build cycles",Scale and reach; Access and equity
+moonshot,c-15,B,impact,,Expand into developing countries for AI upskilling,Scale and reach; AI
+moonshot,c-16,B,impact,,"Private-sector partnerships, with learning modules that our mentors develop as part of upskilling curricula offered to employers",Money and sustainability; Work and livelihood; Contributing and mentoring
+moonshot,c-17,B,impact,,"Space for collective skillbuilding, for all to grow at their own pace #lifelonglearners",Learning by building; Belonging and connection; Access and equity
+moonshot,c-18,B,draft,,The Upskilling Labs reaches 100 metropolitan cities,Scale and reach
+moonshot,c-19,B,draft,,"Communities across the nation and globally can start up independent spaces to support learning and growth, which reduces barriers to entry and levels access to education for all",Scale and reach; Access and equity
+moonshot,c-20,B,peer,,"Higher ed · MOOCs · basic ed, public and private · for-profit and non-profit education institutions",Standing and peers
+moonshot,c-21,B,peer,,Anthropic Skilljar-type learning,Standing and peers
+moonshot,c-22,B,peer,,Mentioned alongside Brookings and Pew Research for information on workforce development outcomes,Standing and peers; Showing what changes; Work and livelihood
+moonshot,c-23,B,peer,,Spoken of in the same breath as the Aspen Institute (card partly hidden),Standing and peers
+moonshot,c-24,B,note,,Spreading information and knowledge; sharing; democratic practice,Belonging and connection; Agency and ownership
+moonshot,c-25,C,peer,,Collective Action,Standing and peers
+moonshot,c-26,C,peer,,"Code for America, but focused on upskilling",Standing and peers
+moonshot,c-27,C,peer,,"Tech DC · AI Collective · I've looked at models: no other learning-by-building · book groups, private",Standing and peers; Learning by building
+moonshot,c-28,C,impact,,Workers not at the mercy of Big Tech; people as citizens (card partly out of frame),Agency and ownership; Work and livelihood
+personas,w1-0,upskiller-1,learn,why,"Experience in leadership, team building, project management",Contributing and mentoring
+personas,w1-1,upskiller-1,learn,why,Share lessons learned; practice,Contributing and mentoring
+personas,w1-2,upskiller-1,learn,why,Lifelong learner #growthmindset,Learning and growth
+personas,w1-3,upskiller-1,learn,how,Making connections; sustained connection; positive community,Belonging and connection; Staying engaged
+personas,w1-4,upskiller-1,learn,how,"Good, engaging presentation",How we run it
+personas,w1-5,upskiller-1,learn,how,Local context; relevance to the individual,Relevant to my life
+personas,w1-6,upskiller-1,learn,what,New skills,Learning and growth
+personas,w1-7,upskiller-1,learn,what,New technology,Learning and growth
+personas,w1-8,upskiller-1,learn,what,Learn about where you live,Relevant to my life; Learning and growth
+personas,w1-9,upskiller-1,build,why,Create positive learning opportunities for others,Contributing and mentoring
+personas,w1-10,upskiller-1,build,why,Creative diversity,Access and equity
+personas,w1-11,upskiller-1,build,why,"Showcase, demo your expertise",Being seen
+personas,w1-12,upskiller-1,build,how,"Open public space, welcoming to everyone",Access and equity
+personas,w1-13,upskiller-1,build,how,Project-based learning; supportive community; accessibility,Learning by building; Belonging and connection; Access and equity
+personas,w1-14,upskiller-1,build,how,"Real-world problems, local and in person; support from other organizers and leaders",Learning by building; Relevant to my life; Belonging and connection
+personas,w1-15,upskiller-1,build,how,"Propose your own interests, your topic of interest",Agency and ownership
+personas,w1-16,upskiller-1,build,how,Playful experimentation,Learning by building
+personas,w1-17,upskiller-1,build,how,Designing out loud; individual voice,Learning by building; Agency and ownership
+personas,w1-18,upskiller-1,build,what,"Solutions to real-world issues within a finite period, to explore and test-pilot",Learning by building; Relevant to my life
+personas,w1-19,upskiller-1,build,what,Build and experiment; validate ideas,Learning by building
+personas,w1-20,upskiller-1,build,what,Get feedback from the community,Belonging and connection
+personas,w1-21,upskiller-1,share,why,Accountability and thought partners,Belonging and connection
+personas,w1-22,upskiller-1,share,why,"Confidence, personal and professional",Learning and growth
+personas,w1-23,upskiller-1,share,why,Community: working together on real-world problems,Belonging and connection; Relevant to my life
+personas,w1-24,upskiller-1,share,why,Community connections #humanity #equity,Belonging and connection; Access and equity
+personas,w1-25,upskiller-1,share,how,"Build references, previous performance",Being seen; Work and livelihood
+personas,w1-26,upskiller-1,share,how,Peer learning; share knowledge; low stakes,Belonging and connection; Contributing and mentoring
+personas,w1-27,upskiller-1,share,what,Contribute to community,Contributing and mentoring; Belonging and connection
+personas,w1-28,upskiller-1,share,what,Personal growth,Learning and growth
+personas,w2-0,upskiller-2,learn,why,Likes satisfying his curiosity; wants to solve his own problems,Learning and growth; Relevant to my life
+personas,w2-1,upskiller-2,learn,why,Curiosity about what the org is,Learning and growth
+personas,w2-2,upskiller-2,learn,why,Wants to work on challenging problems,Learning and growth
+personas,w2-3,upskiller-2,learn,why,Struggles to learn in lecture format,Learning by building
+personas,w2-4,upskiller-2,learn,how,Diverse experiences and backgrounds,Belonging and connection; Access and equity
+personas,w2-5,upskiller-2,learn,how,"Talk, ideate, create a plan, and tell the AI “don't make mistakes”",AI; Learning by building
+personas,w2-6,upskiller-2,learn,how,"Throw dollars and tokens at it; play, explore, ask questions",Learning by building; AI
+personas,w2-7,upskiller-2,learn,what,A sequence of deliverables that builds a range of AI skills,Learning by building; AI
+personas,w2-8,upskiller-2,learn,what,"Vibe coding, GitHub, privacy, build out loud",Learning by building; AI
+personas,w2-9,upskiller-2,build,why,"Kinesthetic, interactive",Learning by building
+personas,w2-10,upskiller-2,build,why,"Proof of work, and skills to show employers",Work and livelihood; Being seen
+personas,w2-11,upskiller-2,build,how,"Stimulating, hands-on, social learning",Learning by building; Belonging and connection
+personas,w2-12,upskiller-2,build,how,Design an experiential journey,Learning by building
+personas,w2-13,upskiller-2,build,how,A leveled playing field,Access and equity
+personas,w2-14,upskiller-2,build,what,"A series of relevant deliverables (a survey, a white paper, an app)",Learning by building; Relevant to my life
+personas,w2-15,upskiller-2,build,what,"Be a pioneer, a visionary",Being seen
+personas,w2-16,upskiller-2,build,what,A vibe-coded app,Learning by building; AI
+personas,w2-17,upskiller-2,share,why,To get attention; prestige and status; more money,Being seen; Work and livelihood
+personas,w2-18,upskiller-2,share,why,Build community and relationships; have fun; get more diverse ideas,Belonging and connection
+personas,w2-19,upskiller-2,share,why,Find fellow nerds; network; leads to community and opportunity,Belonging and connection; Work and livelihood
+personas,w2-20,upskiller-2,share,why,"Networking, employability",Work and livelihood; Belonging and connection
+personas,w2-21,upskiller-2,share,how,Build out loud,Learning by building; Being seen
+personas,w2-22,upskiller-2,share,how,"In local communities: meetups, volunteering",Belonging and connection; Contributing and mentoring
+personas,w2-23,upskiller-2,share,how,LinkedIn,Being seen
+personas,w2-24,upskiller-2,share,what,"Posts, resume, portfolio",Being seen; Work and livelihood
+personas,w2-25,upskiller-2,share,what,Stories and experiences; sample deliverables; outcomes,Being seen
+personas,w3-0,pivoters,learn,why,AI is changing their field; eager to learn,AI; Learning and growth; Work and livelihood
+personas,w3-1,pivoters,learn,why,Build and learn marketable skills; skill = building,Learning by building; Work and livelihood
+personas,w3-2,pivoters,learn,why,Job hunting; trying to figure out what is next,Work and livelihood
+personas,w3-3,pivoters,learn,how,"Mentors, volunteers",Belonging and connection
+personas,w3-4,pivoters,learn,how,Workshops; learn by doing; teams,Learning by building; Belonging and connection
+personas,w3-5,pivoters,learn,what,Hands-on learning,Learning by building
+personas,w3-6,pivoters,learn,what,New tools and methods,Learning and growth
+personas,w3-7,pivoters,build,why,Learn by doing; building to learn,Learning by building
+personas,w3-8,pivoters,build,why,Inspired to address social problems,Relevant to my life
+personas,w3-9,pivoters,build,how,Working on projects that are meaningful and relevant to them,Relevant to my life; Learning by building
+personas,w3-10,pivoters,build,how,Just come with a laptop,Access and equity; Learning by building
+personas,w3-11,pivoters,build,how,A consistent problem over time allows a deeper throughline; not in their field forces different thought,Learning by building; How we run it
+personas,w3-12,pivoters,build,what,"Create something I can use in my day to day, at work or personally",Relevant to my life; Work and livelihood
+personas,w3-13,pivoters,build,what,"A session, and application to their own work",Relevant to my life; Work and livelihood
+personas,w3-14,pivoters,share,why,Feedback,Belonging and connection
+personas,w3-15,pivoters,share,why,To build a larger circle,Belonging and connection
+personas,w3-16,pivoters,share,how,Presentation opportunities to showcase,Being seen
+breakouts,,guidance,printed question,,"How might we help poderators confidently decide when and how to step in with a Pod that's struggling to get started, without undermining the Pod's chance to self-organize?",(not coded)
+breakouts,,guidance,printed question,,How might we simplify/better communicate the transition process from problem definition to teams forming?,(not coded)
+breakouts,,guidance,printed question,,How might we provide information/instructions in a central location during a cycle (e.g. website dashboard)?,(not coded)
+breakouts,,guidance,printed question,,"How might we standardize instructions for a better pod experience, with clearer expectations?",(not coded)
+breakouts,,guidance,printed question,,"How might we create coherence across goals for participant growth, priorities for sessions, assigned tasks, and messaging?",(not coded)
+breakouts,,guidance,printed question,,How might we give ambassadors response frameworks for standard questions and public-facing conversations without eliminating their personal voice?,(not coded)
+breakouts,b1-0,guidance,sticky note (orange),,How might we ensure people get to experience all roles on a team?,Learning and growth; How we run it
+breakouts,b1-1,guidance,sticky note (green),,What structures would help pods organize?,How we run it
+breakouts,b1-2,guidance,sticky note (green),,Who is the profile of the person who drops? What do we know about their goals? What about those who stay?,Staying engaged
+breakouts,b1-3,guidance,sticky note (purple),,How might we help/support Upskillers to feel self-empowered to ask for help when stuck?,Agency and ownership
+breakouts,b1-4,guidance,sticky note (pink),,HMW activate the feeling of agency + autonomy early in the build cycle to model expectations of volunteers + upskillers,Agency and ownership
+breakouts,b1-5,guidance,sticky note (yellow),,HMW reach agreement on the right level of cycle structure to balance “what am I meant to do” with opportunities for emergent?,How we run it; Agency and ownership
+breakouts,b1-6,guidance,sticky note (green),,How might we hold participants/registrants accountable when signing up for workshops / reducing attrition?,Staying engaged; How we run it
+breakouts,,connection,printed question,,How might we help Upskillers build stronger relationships earlier in the build cycle?,(not coded)
+breakouts,,connection,printed question,,How might we reduce drop-off during the build cycle?,(not coded)
+breakouts,,connection,printed question,,How might we encourage more use of our 'digital commons' (aka Slack) early on in the build cycle?,(not coded)
+breakouts,,connection,printed question,,How might we design the buddy system so it builds lasting friendships rather than feeling like an assigned chore?,(not coded)
+breakouts,,connection,printed question,,How might we make event discovery feel like a collaborative activity for the whole ambassador network?,(not coded)
+breakouts,,connection,printed question,,"How might we examine the build cycle and investigate the optimal length, and align it with the natural energy of a calendar year?",(not coded)
+breakouts,b2-0,connection,sticky note (green),,How might we simplify Slack usage and centralize a method of communicating on Slack so that information is not lost and not tracked?,How we run it
+breakouts,b2-1,connection,sticky note (green),,How might we build in reqs for engagement for Upskillers so that we help them break the ice about engaging,Belonging and connection; Staying engaged
+breakouts,b2-2,connection,sticky note (yellow),,How might we help participants find a few peers whose shared goals serve to grow engagement and sense of time well spent?,Belonging and connection; Staying engaged
+breakouts,,systems,printed question,,How might we codify our workflows so they require less manual effort?,(not coded)
+breakouts,,systems,printed question,,"How might we develop AI tools that would also simplify our operations, like a grant identifying agent?",(not coded)
+breakouts,,systems,printed question,,"How might we reduce the manual effort of producing a full post cadence for every workshop, so that volunteer time goes toward strategy instead of repetitive drafting?",(not coded)
+breakouts,,systems,printed question,,"How might we centralize performance monitoring across LinkedIn, Luma, and the website, so metrics don't rely on manually reading screenshots?",(not coded)
+breakouts,,systems,printed question,,"How might we turn ongoing recruitment needs (mentors, volunteers, Upskillers) into a standing content stream, rather than one-off posts written only when a need becomes urgent?",(not coded)
+breakouts,b3-0,systems,sticky note (teal),,How might we operationalize the USL needs?,How we run it
+breakouts,,tailored,printed question,,How might we provide a personalized map/guide for upskillers that helps them achieve their AI learning goals?,(not coded)
+breakouts,,tailored,printed question,,How might we increase the variety of workshops we offer for learners at different skill levels and interests?,(not coded)
+breakouts,,tailored,printed question,,How might we develop and improve processes and guidelines for OLOS so that we are able to open up development to a larger group?,(not coded)
+breakouts,,tailored,printed question,,How might we build a comms playbook and brand toolkit that a new city launching its own Lab could pick up and run with little or no onboarding?,(not coded)
+breakouts,b4-0,tailored,sticky note (pink),,How might we attract new upskillers for other sectors so that there is more impact and reach?,Scale and reach
+breakouts,b4-1,tailored,sticky note (pink),,How might we build Autonomous pathway for upskillers to immediately see the value they get + be willing to lean in.,Agency and ownership; Staying engaged
+breakouts,b4-2,tailored,sticky note (teal),,How might we create a platform that guides users + organizers?,How we run it
+breakouts,b4-3,tailored,sticky note (purple),,How might we decide what every Lab must keep vs what a new city can change for growth,Scale and reach; How we run it
+breakouts,b4-4,tailored,sticky note (green),,How might we develop new curricula for workshops tailored to the current build theme?,How we run it; Relevant to my life
+breakouts,b4-5,tailored,sticky note (green),,HMW build a tool that enables participants to design their own learning journey built around our program offers?,Agency and ownership; Relevant to my life
+breakouts,,community,printed question,,"How might we turn build-cycle graduates into the next cycle's mentors and moderators, rather than starting mentor recruitment from scratch (i.e., your personal network)?",(not coded)
+breakouts,,community,printed question,,How might we keep track of previous cycle builders?,(not coded)
+breakouts,,community,printed question,,"How might we create an intuitive structured pathway for people to move from participant → practitioner → contributor → leader, such that every cycle/cohort makes the org/next cycle stronger?",(not coded)
+breakouts,,community,printed question,,How might we transform the people who develop capabilities through The Labs into the people who help develop capabilities in others?,(not coded)
+breakouts,b5-0,community,sticky note (orange),,"HMW create a durable progression from participant to practitioner to contributor to leader, so that each cohort's learning, relationships, and expertise strengthens the next?",Contributing and mentoring
+breakouts,b5-1,community,sticky note (purple),,How might we keep promising prototypes alive after showcase?,Learning by building; Staying engaged
+breakouts,b5-2,community,sticky note (green),,"How might we have a colloquium post-presentation retrospective, where we provide portfolioing help in exchange for data/feedback so that both [the end is unclear]",Work and livelihood; Showing what changes
+breakouts,b5-3,community,sticky note (pink),,HMW scale personal connection between volunteers + Upskillers while the Upskillers are in the build cycle so we can 10x skills transfer,Belonging and connection; Contributing and mentoring
+breakouts,b5-4,community,sticky note (pink),,HMW build in build cycle interactions that bring visibility to the volunteer opportunities so Upskillers see a path toward mentor[ship],Contributing and mentoring
+breakouts,b5-5,community,sticky note (orange),,Principle: Participation becomes durable when people can see where they belong next + how their contribution changes the system; otherwise cohort completion becomes natural exit point vs. deeper relationship,Contributing and mentoring; Staying engaged
+breakouts,b5-6,community,sticky note (yellow),,How might we design an extended experience journey to deliver value beyond the cycle?,Staying engaged
+breakouts,b5-7,community,sticky note (green),,How might we help participants get a balance of contributing strengths + trying new skills? What structures w/i build cycle help that?,Learning and growth; Contributing and mentoring
+breakouts,,volunteers,printed question,,How might we recruit and retain enough volunteer mentors/moderators for each cycle without burning out your existing network of former colleagues?,(not coded)
+breakouts,,volunteers,printed question,,"How might we keep track of mentors and volunteers who actually want to be part of the organization in a volunteer capacity, without burning them out with asks and having them fill out forms that might not get seen?",(not coded)
+breakouts,,volunteers,printed question,,How might we keep mentors engaged via more than just workshops?,(not coded)
+breakouts,,volunteers,printed question,,How might we leverage the expertise of our mentors better to help upskillers during the cycle?,(not coded)
+breakouts,,volunteers,printed question,,How might we improve onboarding/training so that volunteers feel prepared and ready to support a workshop virtually/in-person?,(not coded)
+breakouts,,volunteers,printed question,,"How might we make contribution to The Labs feel like a meaningful form of professional growth, rather than simply another volunteer obligation?",(not coded)
+breakouts,,volunteers,printed question,,How might we create a contributor culture where delivering hands-on improvements to the system is a core part of participating in the system?,(not coded)
+breakouts,b6-0,volunteers,sticky note (orange),,"HMW build a scalable contributor ecosystem that attracts, prepares, activates, develops, and retains mentors and moderators while making their contributions visibly valuable for Upskillers, The Labs, and their own professional growth?",Contributing and mentoring; Work and livelihood
+breakouts,b6-1,volunteers,sticky note (orange),,How do we grow our volunteer network? Where do we source them?,Contributing and mentoring
+breakouts,b6-2,volunteers,sticky note (green),,How do we clarify + communicate types of volunteer needs?,Contributing and mentoring; How we run it
+breakouts,b6-3,volunteers,sticky note (orange),,"Operating principle: Every contribution should have a clear ask, bounded commitment, visible impact, and meaningful return.",Contributing and mentoring
+breakouts,b6-4,volunteers,sticky note (purple),,How might we let volunteers step back for a cycle without losing touch + saying goodbye?,Contributing and mentoring; Staying engaged
+breakouts,b6-5,volunteers,sticky note (yellow),,How can we get AI experts from Frontier Labs join as mentors?,Contributing and mentoring; AI
+breakouts,b6-6,volunteers,sticky note (yellow),,HMW design tiered volunteer roles to make clear how volunteers can scale up their engagement?,Contributing and mentoring
+breakouts,,prove,printed question,,How might we ensure we are getting consistent measurement on our outcomes so that we can build a stronger program AND tell our story to partners and funders?,(not coded)
+breakouts,,prove,printed question,,"How might we measure the impact of learning opportunities (virtual/in-person workshops, pod experience)?",(not coded)
+breakouts,,prove,printed question,,How might we capture feedback to inform better learning?,(not coded)
+breakouts,,prove,printed question,,"How might we clearly articulate metrics of success: is it participant growth, project delivery, or participant and volunteer network numbers?",(not coded)
+breakouts,,prove,printed question,,How might we make the Labs itself better at learning from its own experiments?,(not coded)
+breakouts,,prove,printed question,,"How might we strengthen our articulation of who the Labs are for, and the unmet need it addresses for them? (And how do we know this?)",(not coded)
+breakouts,,prove,printed question,,"How might we build a funding narrative (grants, sponsors) that reflects impact in terms funders care about, not just activity (workshops held, events run)?",(not coded)
+breakouts,,prove,printed question,,"How might we package brand-visible content (recaps, testimonials, metrics) into reusable assets that fundraising and partnership teams can pull from directly, rather than starting from scratch each time?",(not coded)
+breakouts,b7-0,prove,sticky note (green),,HMW develop longitudinal data gathering to truly measure Upskilling Labs outcomes?,Showing what changes
+breakouts,b7-1,prove,sticky note (green),,How do we measure confidence?,Showing what changes
+breakouts,b7-2,prove,sticky note (teal),,How might we quantify the impact of our mission?,Showing what changes
+breakouts,b7-3,prove,sticky note (yellow),,"How might we better measure community impact? jobs, startups,",Showing what changes; Work and livelihood
+breakouts,b7-4,prove,sticky note (teal),,How might we communicate + deliver on the impact of our mission?,Showing what changes
+breakouts,b7-5,prove,sticky note (purple),,SROI — social return on investment. How might we follow-up w/ Upskillers 6 months → 12 months after a cycle so that we know whether their skills led to new roles/projects/work?,Showing what changes; Work and livelihood
+breakouts,b7-6,prove,sticky note (teal),,How might we make our mission deliver impact,Showing what changes
+breakouts,,revenue,printed question,,How might we start building out other funding streams so that we are relying less on grants?,(not coded)
+breakouts,,revenue,printed question,,How might we create income streams for the Labs that are not dependent on donors and grants?,(not coded)
+breakouts,,revenue,printed question,,How might we turn a one-time learning opportunity into a more sustainable product?,(not coded)
+breakouts,b8-0,revenue,sticky note (teal),,How might we turn The Upskilling Labs into a sustainable non-profit business?,Money and sustainability
+breakouts,b8-1,revenue,sticky note (green),,How might we develop an earned revenue strategy that stays true to the mission?,Money and sustainability
+breakouts,b8-2,revenue,sticky note (green),,How might we turn funding into an ongoing activity rather than just a passive ask?,Money and sustainability
+breakouts,b8-3,revenue,sticky note (yellow),,How might we get revenue streams from top 10 companies in DMV?,Money and sustainability
+breakouts,b8-4,revenue,sticky note (yellow),,HMW connect with prospective targeted sponsors + donors who want to or already support the Labs' work,Money and sustainability
