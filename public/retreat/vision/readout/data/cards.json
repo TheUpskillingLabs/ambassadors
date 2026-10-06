@@ -662,5 +662,622 @@
     ]
    }
   ]
+ },
+ "breakouts": {
+  "about": "Eight How Might We boards, one per tension. Each started from a printed sheet of questions; the team added sticky notes in small breakout groups.",
+  "boards": [
+   {
+    "id": "guidance",
+    "short": "Guidance vs. autonomy",
+    "title": "Guidance vs. autonomy",
+    "sheet": [
+     0.79,
+     0.52
+    ],
+    "prompts": [
+     "How might we help poderators confidently decide when and how to step in with a Pod that's struggling to get started, without undermining the Pod's chance to self-organize?",
+     "How might we simplify/better communicate the transition process from problem definition to teams forming?",
+     "How might we provide information/instructions in a central location during a cycle (e.g. website dashboard)?",
+     "How might we standardize instructions for a better pod experience, with clearer expectations?",
+     "How might we create coherence across goals for participant growth, priorities for sessions, assigned tasks, and messaging?",
+     "How might we give ambassadors response frameworks for standard questions and public-facing conversations without eliminating their personal voice?"
+    ],
+    "notes": [
+     {
+      "t": "How might we ensure people get to experience all roles on a team?",
+      "c": "orange",
+      "at": [
+       [
+        0.13,
+        0.27
+       ]
+      ]
+     },
+     {
+      "t": "What structures would help pods organize?",
+      "c": "green",
+      "at": [
+       [
+        0.3,
+        0.29
+       ]
+      ]
+     },
+     {
+      "t": "Who is the profile of the person who drops? What do we know about their goals? What about those who stay?",
+      "c": "green",
+      "at": [
+       [
+        0.46,
+        0.3
+       ]
+      ]
+     },
+     {
+      "t": "How might we help/support Upskillers to feel self-empowered to ask for help when stuck?",
+      "c": "purple",
+      "at": [
+       [
+        0.24,
+        0.48
+       ]
+      ]
+     },
+     {
+      "t": "HMW activate the feeling of agency + autonomy early in the build cycle to model expectations of volunteers + upskillers",
+      "c": "pink",
+      "at": [
+       [
+        0.4,
+        0.48
+       ]
+      ],
+      "note": "A small note in the corner is unclear."
+     },
+     {
+      "t": "HMW reach agreement on the right level of cycle structure to balance “what am I meant to do” with opportunities for emergent?",
+      "c": "yellow",
+      "at": [
+       [
+        0.21,
+        0.64
+       ]
+      ]
+     },
+     {
+      "t": "How might we hold participants/registrants accountable when signing up for workshops / reducing attrition?",
+      "c": "green",
+      "at": [
+       [
+        0.38,
+        0.63
+       ]
+      ],
+      "mark": "3"
+     }
+    ]
+   },
+   {
+    "id": "connection",
+    "short": "Designed connection vs. organic momentum",
+    "title": "Designed connection vs. organic momentum",
+    "sheet": [
+     0.22,
+     0.45
+    ],
+    "prompts": [
+     "How might we help Upskillers build stronger relationships earlier in the build cycle?",
+     "How might we reduce drop-off during the build cycle?",
+     "How might we encourage more use of our 'digital commons' (aka Slack) early on in the build cycle?",
+     "How might we design the buddy system so it builds lasting friendships rather than feeling like an assigned chore?",
+     "How might we make event discovery feel like a collaborative activity for the whole ambassador network?",
+     "How might we examine the build cycle and investigate the optimal length, and align it with the natural energy of a calendar year?"
+    ],
+    "notes": [
+     {
+      "t": "How might we simplify Slack usage and centralize a method of communicating on Slack so that information is not lost and not tracked?",
+      "c": "green",
+      "at": [
+       [
+        0.64,
+        0.31
+       ]
+      ],
+      "mark": "4"
+     },
+     {
+      "t": "How might we build in reqs for engagement for Upskillers so that we help them break the ice about engaging",
+      "c": "green",
+      "at": [
+       [
+        0.84,
+        0.27
+       ]
+      ]
+     },
+     {
+      "t": "How might we help participants find a few peers whose shared goals serve to grow engagement and sense of time well spent?",
+      "c": "yellow",
+      "at": [
+       [
+        0.84,
+        0.42
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "systems",
+    "short": "Manual/reactive vs. systems",
+    "title": "Manual, reactive effort vs. standing systems",
+    "sheet": [
+     0.25,
+     0.36
+    ],
+    "prompts": [
+     "How might we codify our workflows so they require less manual effort?",
+     "How might we develop AI tools that would also simplify our operations, like a grant identifying agent?",
+     "How might we reduce the manual effort of producing a full post cadence for every workshop, so that volunteer time goes toward strategy instead of repetitive drafting?",
+     "How might we centralize performance monitoring across LinkedIn, Luma, and the website, so metrics don't rely on manually reading screenshots?",
+     "How might we turn ongoing recruitment needs (mentors, volunteers, Upskillers) into a standing content stream, rather than one-off posts written only when a need becomes urgent?"
+    ],
+    "notes": [
+     {
+      "t": "How might we operationalize the USL needs?",
+      "c": "teal",
+      "at": [
+       [
+        0.59,
+        0.24
+       ]
+      ],
+      "note": "“USL” as written."
+     }
+    ]
+   },
+   {
+    "id": "tailored",
+    "short": "Tailored vs. scalable",
+    "title": "Tailored experience vs. scalable model",
+    "sheet": [
+     0.44,
+     0.42
+    ],
+    "prompts": [
+     "How might we provide a personalized map/guide for upskillers that helps them achieve their AI learning goals?",
+     "How might we increase the variety of workshops we offer for learners at different skill levels and interests?",
+     "How might we develop and improve processes and guidelines for OLOS so that we are able to open up development to a larger group?",
+     "How might we build a comms playbook and brand toolkit that a new city launching its own Lab could pick up and run with little or no onboarding?"
+    ],
+    "notes": [
+     {
+      "t": "How might we attract new upskillers for other sectors so that there is more impact and reach?",
+      "c": "pink",
+      "at": [
+       [
+        0.15,
+        0.23
+       ]
+      ]
+     },
+     {
+      "t": "How might we build Autonomous pathway for upskillers to immediately see the value they get + be willing to lean in.",
+      "c": "pink",
+      "at": [
+       [
+        0.79,
+        0.27
+       ]
+      ],
+      "note": "Marked “Exp vs Scale” in the corner."
+     },
+     {
+      "t": "How might we create a platform that guides users + organizers?",
+      "c": "teal",
+      "at": [
+       [
+        0.77,
+        0.42
+       ]
+      ]
+     },
+     {
+      "t": "How might we decide what every Lab must keep vs what a new city can change for growth",
+      "c": "purple",
+      "at": [
+       [
+        0.75,
+        0.56
+       ]
+      ]
+     },
+     {
+      "t": "How might we develop new curricula for workshops tailored to the current build theme?",
+      "c": "green",
+      "at": [
+       [
+        0.92,
+        0.56
+       ]
+      ],
+      "mark": "5"
+     },
+     {
+      "t": "HMW build a tool that enables participants to design their own learning journey built around our program offers?",
+      "c": "green",
+      "at": [
+       [
+        0.2,
+        0.72
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "community",
+    "short": "Cohort ends vs. community continues",
+    "title": "Cohorts end vs. the community continues",
+    "sheet": [
+     0.31,
+     0.49
+    ],
+    "prompts": [
+     "How might we turn build-cycle graduates into the next cycle's mentors and moderators, rather than starting mentor recruitment from scratch (i.e., your personal network)?",
+     "How might we keep track of previous cycle builders?",
+     "How might we create an intuitive structured pathway for people to move from participant → practitioner → contributor → leader, such that every cycle/cohort makes the org/next cycle stronger?",
+     "How might we transform the people who develop capabilities through The Labs into the people who help develop capabilities in others?"
+    ],
+    "notes": [
+     {
+      "t": "HMW create a durable progression from participant to practitioner to contributor to leader, so that each cohort's learning, relationships, and expertise strengthens the next?",
+      "c": "orange",
+      "at": [
+       [
+        0.64,
+        0.23
+       ],
+       [
+        0.77,
+        0.34
+       ]
+      ],
+      "note": "Written across two sticky notes."
+     },
+     {
+      "t": "How might we keep promising prototypes alive after showcase?",
+      "c": "purple",
+      "at": [
+       [
+        0.91,
+        0.19
+       ]
+      ]
+     },
+     {
+      "t": "How might we have a colloquium post-presentation retrospective, where we provide portfolioing help in exchange for data/feedback so that both [the end is unclear]",
+      "c": "green",
+      "at": [
+       [
+        0.59,
+        0.52
+       ]
+      ],
+      "note": "The last line is hard to read."
+     },
+     {
+      "t": "HMW scale personal connection between volunteers + Upskillers while the Upskillers are in the build cycle so we can 10x skills transfer",
+      "c": "pink",
+      "at": [
+       [
+        0.74,
+        0.5
+       ]
+      ],
+      "note": "“10x skills transfer” is our best reading."
+     },
+     {
+      "t": "HMW build in build cycle interactions that bring visibility to the volunteer opportunities so Upskillers see a path toward mentor[ship]",
+      "c": "pink",
+      "at": [
+       [
+        0.89,
+        0.5
+       ]
+      ],
+      "note": "The last word runs off the note."
+     },
+     {
+      "t": "Principle: Participation becomes durable when people can see where they belong next + how their contribution changes the system; otherwise cohort completion becomes natural exit point vs. deeper relationship",
+      "c": "orange",
+      "at": [
+       [
+        0.63,
+        0.69
+       ],
+       [
+        0.73,
+        0.8
+       ]
+      ],
+      "note": "Written across two sticky notes."
+     },
+     {
+      "t": "How might we design an extended experience journey to deliver value beyond the cycle?",
+      "c": "yellow",
+      "at": [
+       [
+        0.83,
+        0.67
+       ]
+      ]
+     },
+     {
+      "t": "How might we help participants get a balance of contributing strengths + trying new skills? What structures w/i build cycle help that?",
+      "c": "green",
+      "at": [
+       [
+        0.41,
+        0.8
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "volunteers",
+    "short": "Volunteer goodwill vs. what we ask of it",
+    "title": "Volunteer goodwill vs. what we ask of it",
+    "sheet": [
+     0.68,
+     0.59
+    ],
+    "prompts": [
+     "How might we recruit and retain enough volunteer mentors/moderators for each cycle without burning out your existing network of former colleagues?",
+     "How might we keep track of mentors and volunteers who actually want to be part of the organization in a volunteer capacity, without burning them out with asks and having them fill out forms that might not get seen?",
+     "How might we keep mentors engaged via more than just workshops?",
+     "How might we leverage the expertise of our mentors better to help upskillers during the cycle?",
+     "How might we improve onboarding/training so that volunteers feel prepared and ready to support a workshop virtually/in-person?",
+     "How might we make contribution to The Labs feel like a meaningful form of professional growth, rather than simply another volunteer obligation?",
+     "How might we create a contributor culture where delivering hands-on improvements to the system is a core part of participating in the system?"
+    ],
+    "notes": [
+     {
+      "t": "HMW build a scalable contributor ecosystem that attracts, prepares, activates, develops, and retains mentors and moderators while making their contributions visibly valuable for Upskillers, The Labs, and their own professional growth?",
+      "c": "orange",
+      "at": [
+       [
+        0.13,
+        0.28
+       ],
+       [
+        0.15,
+        0.39
+       ]
+      ],
+      "note": "Written across two sticky notes."
+     },
+     {
+      "t": "How do we grow our volunteer network? Where do we source them?",
+      "c": "orange",
+      "at": [
+       [
+        0.35,
+        0.26
+       ]
+      ]
+     },
+     {
+      "t": "How do we clarify + communicate types of volunteer needs?",
+      "c": "green",
+      "at": [
+       [
+        0.54,
+        0.26
+       ]
+      ]
+     },
+     {
+      "t": "Operating principle: Every contribution should have a clear ask, bounded commitment, visible impact, and meaningful return.",
+      "c": "orange",
+      "at": [
+       [
+        0.75,
+        0.19
+       ]
+      ]
+     },
+     {
+      "t": "How might we let volunteers step back for a cycle without losing touch + saying goodbye?",
+      "c": "purple",
+      "at": [
+       [
+        0.41,
+        0.41
+       ]
+      ]
+     },
+     {
+      "t": "How can we get AI experts from Frontier Labs join as mentors?",
+      "c": "yellow",
+      "at": [
+       [
+        0.27,
+        0.53
+       ]
+      ]
+     },
+     {
+      "t": "HMW design tiered volunteer roles to make clear how volunteers can scale up their engagement?",
+      "c": "yellow",
+      "at": [
+       [
+        0.32,
+        0.68
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "prove",
+    "short": "Do vs. prove",
+    "title": "What we do vs. what we can prove",
+    "sheet": [
+     0.25,
+     0.5
+    ],
+    "prompts": [
+     "How might we ensure we are getting consistent measurement on our outcomes so that we can build a stronger program AND tell our story to partners and funders?",
+     "How might we measure the impact of learning opportunities (virtual/in-person workshops, pod experience)?",
+     "How might we capture feedback to inform better learning?",
+     "How might we clearly articulate metrics of success: is it participant growth, project delivery, or participant and volunteer network numbers?",
+     "How might we make the Labs itself better at learning from its own experiments?",
+     "How might we strengthen our articulation of who the Labs are for, and the unmet need it addresses for them? (And how do we know this?)",
+     "How might we build a funding narrative (grants, sponsors) that reflects impact in terms funders care about, not just activity (workshops held, events run)?",
+     "How might we package brand-visible content (recaps, testimonials, metrics) into reusable assets that fundraising and partnership teams can pull from directly, rather than starting from scratch each time?"
+    ],
+    "notes": [
+     {
+      "t": "HMW develop longitudinal data gathering to truly measure Upskilling Labs outcomes?",
+      "c": "green",
+      "at": [
+       [
+        0.85,
+        0.23
+       ]
+      ]
+     },
+     {
+      "t": "How do we measure confidence?",
+      "c": "green",
+      "at": [
+       [
+        0.65,
+        0.38
+       ]
+      ]
+     },
+     {
+      "t": "How might we quantify the impact of our mission?",
+      "c": "teal",
+      "at": [
+       [
+        0.85,
+        0.39
+       ]
+      ]
+     },
+     {
+      "t": "How might we better measure community impact? jobs, startups,",
+      "c": "yellow",
+      "at": [
+       [
+        0.66,
+        0.54
+       ]
+      ]
+     },
+     {
+      "t": "How might we communicate + deliver on the impact of our mission?",
+      "c": "teal",
+      "at": [
+       [
+        0.85,
+        0.53
+       ]
+      ]
+     },
+     {
+      "t": "SROI — social return on investment. How might we follow-up w/ Upskillers 6 months → 12 months after a cycle so that we know whether their skills led to new roles/projects/work?",
+      "c": "purple",
+      "at": [
+       [
+        0.62,
+        0.71
+       ]
+      ]
+     },
+     {
+      "t": "How might we make our mission deliver impact",
+      "c": "teal",
+      "at": [
+       [
+        0.85,
+        0.67
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "id": "revenue",
+    "short": "Grants vs. diversified",
+    "title": "Grant dependence vs. diversified revenue",
+    "sheet": [
+     0.22,
+     0.43
+    ],
+    "prompts": [
+     "How might we start building out other funding streams so that we are relying less on grants?",
+     "How might we create income streams for the Labs that are not dependent on donors and grants?",
+     "How might we turn a one-time learning opportunity into a more sustainable product?"
+    ],
+    "notes": [
+     {
+      "t": "How might we turn The Upskilling Labs into a sustainable non-profit business?",
+      "c": "teal",
+      "at": [
+       [
+        0.52,
+        0.27
+       ]
+      ]
+     },
+     {
+      "t": "How might we develop an earned revenue strategy that stays true to the mission?",
+      "c": "green",
+      "at": [
+       [
+        0.71,
+        0.27
+       ]
+      ]
+     },
+     {
+      "t": "How might we turn funding into an ongoing activity rather than just a passive ask?",
+      "c": "green",
+      "at": [
+       [
+        0.53,
+        0.44
+       ]
+      ],
+      "mark": "8"
+     },
+     {
+      "t": "How might we get revenue streams from top 10 companies in DMV?",
+      "c": "yellow",
+      "at": [
+       [
+        0.74,
+        0.43
+       ]
+      ]
+     },
+     {
+      "t": "HMW connect with prospective targeted sponsors + donors who want to or already support the Labs' work",
+      "c": "yellow",
+      "at": [
+       [
+        0.54,
+        0.59
+       ]
+      ]
+     }
+    ]
+   }
+  ]
  }
 }
