@@ -1,7 +1,7 @@
 {
  "meta": {
   "event": "The Labs retreat, Saturday, October 3, 2026",
-  "note": "Typed up from photos of the cards and recordings of each group reading aloud. Spelling and wording are as written, except that the team's shorthand for our name is written out in full. Groups D and E's cards weren't photographed, so their headlines come from the recordings. Two cards are partly cut off in the photos: one of group B's peer cards (the Aspen Institute) and one of group C's impact cards.",
+  "note": "Typed up from photos of the cards and recordings of each group reading aloud. Spelling and wording are as written, except that the team's shorthand for our name is written out in full. Group E's cards weren't photographed, so its headline comes from the recording. Group D's cards were typed up from photos shared after the retreat. Some cards are partly cut off or hard to read in the photos: one of group B's peer cards (the Aspen Institute), one of group C's impact cards, and two of group D's impact cards.",
   "cardTypes": {
    "impact": "By 2036, because of The Labs…",
    "peer": "In 2036, our name is said in the same breath as…",
@@ -275,6 +275,204 @@
     "type": "impact",
     "color": "pink",
     "text": "Workers not at the mercy of Big Tech; people as citizens (card partly out of frame)"
+   },
+   {
+    "group": "D",
+    "type": "draft",
+    "color": "red",
+    "text": "Other countries race to adopt the US' workforce model"
+   },
+   {
+    "group": "D",
+    "type": "draft",
+    "color": "red",
+    "text": "The Dept of Upskilling announces 5 million graduates this year"
+   },
+   {
+    "group": "D",
+    "type": "draft",
+    "color": "red",
+    "text": "We reach 10 million people w/ 5,000 communities"
+   },
+   {
+    "group": "D",
+    "type": "note",
+    "color": "yellow",
+    "text": "model · scale · community ⇒ type of work/worker"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "yellow",
+    "text": "future of work = human"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "pink",
+    "text": "Human First (judgement)"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "green",
+    "text": "Generational shift of the role of the knowledge worker · Forward Deployed Operators"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "grey",
+    "text": "Unemployment rate stable; anyone who wants to has work w/ dignity"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "red",
+    "text": "Humans have found the next frontier of work → AI is not running society"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "pink",
+    "text": "Companies reach out to the Labs for upskilling staff"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "yellow",
+    "text": "Governmental institutions are releasing problems to Labs to solve"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "red",
+    "text": "We provide open source public info for individuals + teams to continuously learn + build capability indefinitely"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "yellow",
+    "text": "Advisory role"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "blue",
+    "text": "Trusted partner (education & workforce)"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "yellow",
+    "text": "Impact shift: consumer → builder · job seeker → operator · credential → capability · fear of change → agency"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "grey",
+    "text": "New national learning system for all adults (on par w/ 4-year colleges, community colleges, etc.)"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "orange",
+    "text": "Education overhaul: give people what they need to become operators & leaders. Learning isn't a credential, it is outcome-creating"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "blue",
+    "text": "Climate goals alignment"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "green",
+    "text": "Communities of people across the globe are building relationships while working towards a higher so… (card partly hidden)"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "pink",
+    "text": "Community value alignment"
+   },
+   {
+    "group": "D",
+    "type": "impact",
+    "color": "yellow",
+    "text": "Social fabric repair"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "grey",
+    "text": "Dep. of Labor"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "grey",
+    "text": "Dep. of Ed"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "grey",
+    "text": "State workforce agencies"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "grey",
+    "text": "New hire programs (at e.g. law, finance, consulting, tech cos)"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "orange",
+    "text": "Startup world: communities connecting people, ideas, funding"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "orange",
+    "text": "University systems upskilling AI"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "grey",
+    "text": "Elite universities"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "grey",
+    "text": "Community colleges"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "yellow",
+    "text": "YC + AmeriCorps"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "red",
+    "text": "YMCA"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "grey",
+    "text": "Breakwater"
+   },
+   {
+    "group": "D",
+    "type": "peer",
+    "color": "grey",
+    "text": "RAISE US"
    }
   ]
  },
@@ -1208,6 +1406,16 @@
         0.67
        ]
       ]
+     },
+     {
+      "t": "How might we identify and articulate our identity in a clear and resonant way?",
+      "c": "red",
+      "at": [
+       [
+        0.3,
+        0.86
+       ]
+      ]
      }
     ]
    },
@@ -1932,11 +2140,138 @@
    ],
    "b8-4": [
     "money"
+   ],
+   "c-29": [
+    "scale",
+    "standing"
+   ],
+   "c-30": [
+    "scale"
+   ],
+   "c-31": [
+    "scale"
+   ],
+   "c-32": [
+    "scale",
+    "community",
+    "work"
+   ],
+   "c-33": [
+    "work",
+    "agency"
+   ],
+   "c-34": [
+    "agency"
+   ],
+   "c-35": [
+    "work",
+    "ai"
+   ],
+   "c-36": [
+    "work",
+    "access"
+   ],
+   "c-37": [
+    "work",
+    "agency",
+    "ai"
+   ],
+   "c-38": [
+    "standing",
+    "work"
+   ],
+   "c-39": [
+    "standing",
+    "scale"
+   ],
+   "c-40": [
+    "access",
+    "learn",
+    "build"
+   ],
+   "c-41": [
+    "standing"
+   ],
+   "c-42": [
+    "standing",
+    "work"
+   ],
+   "c-43": [
+    "agency",
+    "build",
+    "work"
+   ],
+   "c-44": [
+    "scale",
+    "access",
+    "learn"
+   ],
+   "c-45": [
+    "learn",
+    "work",
+    "agency"
+   ],
+   "c-46": [],
+   "c-47": [
+    "community",
+    "scale"
+   ],
+   "c-48": [
+    "community"
+   ],
+   "c-49": [
+    "community"
+   ],
+   "c-50": [
+    "standing"
+   ],
+   "c-51": [
+    "standing"
+   ],
+   "c-52": [
+    "standing"
+   ],
+   "c-53": [
+    "standing",
+    "work"
+   ],
+   "c-54": [
+    "standing",
+    "community"
+   ],
+   "c-55": [
+    "standing",
+    "ai"
+   ],
+   "c-56": [
+    "standing"
+   ],
+   "c-57": [
+    "standing"
+   ],
+   "c-58": [
+    "standing"
+   ],
+   "c-59": [
+    "standing"
+   ],
+   "c-60": [
+    "standing"
+   ],
+   "c-61": [
+    "standing"
+   ],
+   "b7-7": [
+    "standing",
+    "ops"
    ]
   },
   "unclear": {
    "b3-0": "“USL” is unclear, so we coded only what the note plainly asks for.",
-   "b5-2": "The end of the note is hard to read; coded on the part we can read."
+   "b5-2": "The end of the note is hard to read; coded on the part we can read.",
+   "c-45": "The end of the card is hard to read; coded on the part we can read.",
+   "c-46": "No theme in the codebook covers climate goals, so it carries none.",
+   "c-47": "Partly hidden under another card; coded on the part we can read."
   }
  }
 }
