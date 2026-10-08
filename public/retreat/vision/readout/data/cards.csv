@@ -33,6 +33,39 @@ moonshot,c-25,C,peer,,Collective Action,Standing and peers
 moonshot,c-26,C,peer,,"Code for America, but focused on upskilling",Standing and peers
 moonshot,c-27,C,peer,,"Tech DC · AI Collective · I've looked at models: no other learning-by-building · book groups, private",Standing and peers; Learning by building
 moonshot,c-28,C,impact,,Workers not at the mercy of Big Tech; people as citizens (card partly out of frame),Agency and ownership; Work and livelihood
+moonshot,c-29,D,draft,,Other countries race to adopt the US' workforce model,Scale and reach; Standing and peers
+moonshot,c-30,D,draft,,The Dept of Upskilling announces 5 million graduates this year,Scale and reach
+moonshot,c-31,D,draft,,"We reach 10 million people w/ 5,000 communities",Scale and reach
+moonshot,c-32,D,note,,model · scale · community ⇒ type of work/worker,Scale and reach; Belonging and connection; Work and livelihood
+moonshot,c-33,D,impact,,future of work = human,Work and livelihood; Agency and ownership
+moonshot,c-34,D,impact,,Human First (judgement),Agency and ownership
+moonshot,c-35,D,impact,,Generational shift of the role of the knowledge worker · Forward Deployed Operators,Work and livelihood; AI
+moonshot,c-36,D,impact,,Unemployment rate stable; anyone who wants to has work w/ dignity,Work and livelihood; Access and equity
+moonshot,c-37,D,impact,,Humans have found the next frontier of work → AI is not running society,Work and livelihood; Agency and ownership; AI
+moonshot,c-38,D,impact,,Companies reach out to the Labs for upskilling staff,Standing and peers; Work and livelihood
+moonshot,c-39,D,impact,,Governmental institutions are releasing problems to Labs to solve,Standing and peers; Scale and reach
+moonshot,c-40,D,impact,,We provide open source public info for individuals + teams to continuously learn + build capability indefinitely,Access and equity; Learning and growth; Learning by building
+moonshot,c-41,D,impact,,Advisory role,Standing and peers
+moonshot,c-42,D,impact,,Trusted partner (education & workforce),Standing and peers; Work and livelihood
+moonshot,c-43,D,impact,,Impact shift: consumer → builder · job seeker → operator · credential → capability · fear of change → agency,Agency and ownership; Learning by building; Work and livelihood
+moonshot,c-44,D,impact,,"New national learning system for all adults (on par w/ 4-year colleges, community colleges, etc.)",Scale and reach; Access and equity; Learning and growth
+moonshot,c-45,D,impact,,"Education overhaul: give people what they need to become operators & leaders. Learning isn't a credential, it is outcome-creating",Learning and growth; Work and livelihood; Agency and ownership
+moonshot,c-46,D,impact,,Climate goals alignment,
+moonshot,c-47,D,impact,,Communities of people across the globe are building relationships while working towards a higher so… (card partly hidden),Belonging and connection; Scale and reach
+moonshot,c-48,D,impact,,Community value alignment,Belonging and connection
+moonshot,c-49,D,impact,,Social fabric repair,Belonging and connection
+moonshot,c-50,D,peer,,Dep. of Labor,Standing and peers
+moonshot,c-51,D,peer,,Dep. of Ed,Standing and peers
+moonshot,c-52,D,peer,,State workforce agencies,Standing and peers
+moonshot,c-53,D,peer,,"New hire programs (at e.g. law, finance, consulting, tech cos)",Standing and peers; Work and livelihood
+moonshot,c-54,D,peer,,"Startup world: communities connecting people, ideas, funding",Standing and peers; Belonging and connection
+moonshot,c-55,D,peer,,University systems upskilling AI,Standing and peers; AI
+moonshot,c-56,D,peer,,Elite universities,Standing and peers
+moonshot,c-57,D,peer,,Community colleges,Standing and peers
+moonshot,c-58,D,peer,,YC + AmeriCorps,Standing and peers
+moonshot,c-59,D,peer,,YMCA,Standing and peers
+moonshot,c-60,D,peer,,Breakwater,Standing and peers
+moonshot,c-61,D,peer,,RAISE US,Standing and peers
 personas,w1-0,upskiller-1,learn,why,"Experience in leadership, team building, project management",Contributing and mentoring
 personas,w1-1,upskiller-1,learn,why,Share lessons learned; practice,Contributing and mentoring
 personas,w1-2,upskiller-1,learn,why,Lifelong learner #growthmindset,Learning and growth
@@ -184,6 +217,7 @@ breakouts,b7-3,prove,sticky note (yellow),,"How might we better measure communit
 breakouts,b7-4,prove,sticky note (teal),,How might we communicate + deliver on the impact of our mission?,Showing what changes
 breakouts,b7-5,prove,sticky note (purple),,SROI — social return on investment. How might we follow-up w/ Upskillers 6 months → 12 months after a cycle so that we know whether their skills led to new roles/projects/work?,Showing what changes; Work and livelihood
 breakouts,b7-6,prove,sticky note (teal),,How might we make our mission deliver impact,Showing what changes
+breakouts,b7-7,prove,sticky note (red),,How might we identify and articulate our identity in a clear and resonant way?,Standing and peers; How we run it
 breakouts,,revenue,printed question,,How might we start building out other funding streams so that we are relying less on grants?,(not coded)
 breakouts,,revenue,printed question,,How might we create income streams for the Labs that are not dependent on donors and grants?,(not coded)
 breakouts,,revenue,printed question,,How might we turn a one-time learning opportunity into a more sustainable product?,(not coded)
