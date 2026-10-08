@@ -4,6 +4,7 @@
    their own behaviour (hiding the button while their own is on screen) in
    their own scripts. */
 import { initMenu } from "./navmenu";
+import { initSmooth } from "./smooth";
 
 export function initSite(): void {
   const root = document.documentElement;
@@ -11,6 +12,7 @@ export function initSite(): void {
   if (sentinel) new IntersectionObserver(([e]) => { root.dataset.scrolled = String(!e.isIntersecting); }).observe(sentinel);
   else root.dataset.scrolled = "true";
   initMenu();
+  initSmooth();
 
   // The section in view is marked in the page's row: the last section whose top has passed a line a third
   // of the way down the screen. A link may stand for several sections (data-spy, space-separated).

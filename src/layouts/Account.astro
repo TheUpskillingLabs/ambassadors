@@ -82,6 +82,8 @@ const fullTitle = title ? `${title} · ${t("siteName")}` : `${t("siteName")} · 
 
     <script>
       import { resetAll, progress } from "../lib/store";
+      import { initSmooth } from "../scripts/smooth";
+      initSmooth();
       // Progress line and step states from saved progress; the Steps menu closes on Escape or outside click.
       const done = progress.all();
       document.querySelectorAll<HTMLElement>("[data-step-link]").forEach((a) => a.classList.toggle("is-done", Boolean(done[a.dataset.stepLink!])));
