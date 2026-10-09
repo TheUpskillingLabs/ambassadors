@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Listening for 2027</title>
-<meta name="description" content="What The Labs team said at the board's listening session on October 3, 2026, to help shape the strategy for 2027: five headlines for 2036, three walls of sticky notes on who we're for, and eight How Might We breakouts. Word for word, and what we noticed.">
+<title>Setting the foundation for 2027 &amp; beyond</title>
+<meta name="description" content="What The Labs team wrote at our October 3, 2026 offsite with volunteer leads and recent Build Cycle participants, planning the quarter and year ahead and our longer-term strategy: five headlines for 2036, Upskiller and Volunteer walls on our value prop, and eight How Might We breakouts. Word for word, and what we noticed.">
 <style>
 @font-face {
   font-family: "Geologica Variable"; font-style: normal; font-display: block; font-weight: 100 900;
@@ -195,6 +195,34 @@ body[data-layer="nums"] #numlabels, body[data-layer="lab"] #scenelabels { opacit
 .flow li:nth-child(2n) span { color: var(--t1); }
 .flow li.back b { color: var(--teal-hi); } .flow li.back span { color: var(--t1); }
 .words:has(.flow) { width: calc(940 * var(--u)); }
+/* folds: a group's cards or a wall's notes, one open at a time */
+.slide.on .words details { pointer-events: auto; }
+.fold { display: flex; flex-direction: column; }
+.fold details { border-top: 1px solid var(--rule); }
+.fold details:last-child { border-bottom: 1px solid var(--rule); }
+.fold summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: calc(14 * var(--u)); padding: calc(12 * var(--u)) 0; font-size: max(11px, calc(21 * var(--u))); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--t2); }
+.fold summary::-webkit-details-marker { display: none; }
+.fold summary::before { content: "+"; width: 1em; color: var(--teal-hi); font-weight: 700; }
+.fold details[open] summary { color: var(--t1); }
+.fold details[open] summary::before { content: "−"; }
+.fold summary:hover { color: var(--t1); }
+.fold summary:focus-visible { outline: 2px solid var(--teal-hi); outline-offset: 2px; }
+.fold-body { max-height: 34vh; overflow-y: auto; padding: 0 0 calc(16 * var(--u)); }
+.words:has(.fold .wall) { width: calc(900 * var(--u)); }
+.fold:has(.wall) .fold-body { max-height: 32vh; }
+.words:has(.fold details[open]) > .kicker { display: none; } /* room for an open fold */
+.byg.hls li { font-size: max(13px, calc(26 * var(--u))); }
+.byg.hls li b { font-size: max(10px, calc(18 * var(--u))); }
+.words:has(.hls) { width: calc(1120 * var(--u)); }
+.spins.plan li { font-size: max(13px, calc(26 * var(--u))); }
+.spins.plan li small { display: block; margin-top: calc(2 * var(--u)); font-size: max(11px, calc(19 * var(--u))); font-weight: 400; color: var(--t2); }
+.spins.plan li b { font-weight: 500; }
+/* the peer cards by kind: smaller, each with its group */
+.peers { row-gap: calc(22 * var(--u)); }
+.words:has(.peers) { width: calc(1480 * var(--u)); }
+.peers .items { gap: calc(6 * var(--u)); }
+.peers .items li { font-size: max(11px, calc(19 * var(--u))); line-height: 1.25; }
+.peers .by { margin-left: 0.5em; font-size: max(8px, calc(14 * var(--u))); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--t3); white-space: nowrap; }
 /* Part 2's findings: the short version, each finding's quotes with where they're from, and the next steps */
 .sum { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: calc(16 * var(--u)); counter-reset: s; }
 .sum li { counter-increment: s; display: grid; grid-template-columns: calc(52 * var(--u)) 1fr; column-gap: calc(8 * var(--u)); align-items: baseline; }
@@ -1827,10 +1855,7 @@ const X0 = 11800; // particles above this index are free for the readout's own l
    engine enlarges that glyph, and a scene lights a whole group (a trio, a ring, a bust) when its key is picked. */
 const DATA_URL = "https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/data/";
 const PICK = { i: -1, key: null };
-const PERSONA_NAME = ["The Sharer", "The Builder", "The Learner"]; // our working names for the three walls' people, for what brings them
-const PERSONA_FIRST = ["Morgan", "Kai", "Dana"]; // and a made-up first name each: neutral, so the name adds no age, gender or background the wall didn't
-const personaFull = (k) => `${PERSONA_FIRST[k]} — “${PERSONA_NAME[k]}”`; // Morgan — “The Sharer”, for titles
-const personaSay = (k) => `${PERSONA_FIRST[k]}, “${PERSONA_NAME[k].replace(/^The /, "the ")}”`; // Morgan, “the Sharer”, in a sentence
+const WALL_NAME = ["Volunteer", "Upskiller", "Upskiller · mid-career pivoters"]; // what each table picked for its wall
 const DATUM = (() => {
   const m = RD.moonshot, KT = { impact: 2, peer: 1, draft: 3, note: 3 }, KP = { learn: 1, build: 2, share: 3 };
   const NAME = { impact: "Impact card", peer: "Peer card", draft: "Headline draft, written alone", note: "Note on the group sheet" };
@@ -1839,7 +1864,7 @@ const DATUM = (() => {
   m.headlines.forEach((h) => { headline[h.group] = { key: "h:" + h.group, k: 3, kicker: `Group ${h.group}'s 2036 headline`, text: h.text, href: DATA_URL + "#h-" + h.group, one: false }; });
   const card = m.cards.map((c, j) => ({ key: "c:" + j, k: KT[c.type] ?? 3, kicker: `${NAME[c.type] || "Card"} · group ${c.group}`, text: c.text, href: DATA_URL + "#c-" + j }));
   const walls = RD.personas.walls, note = walls.map((w, wi) => w.cards.map((c, j) => ({ key: `w${wi}:${j}`, k: KP[c.path], kicker: `Wall ${wi + 1} · ${PATH[c.path]} · ${Q[c.q]}`, text: c.text, href: DATA_URL + `#w${wi + 1}-${j}` })));
-  const persona = walls.map((w, wi) => ({ key: "p:" + wi, k: -1, kicker: `${personaFull(wi)} · wall ${wi + 1} of ${walls.length} · ${w.cards.length} sticky notes`, text: "As labeled: " + w.who, plain: true, href: DATA_URL + "#wall-" + (wi + 1), one: false }));
+  const persona = walls.map((w, wi) => ({ key: "p:" + wi, k: -1, kicker: `${WALL_NAME[wi]} · wall ${wi + 1} of ${walls.length} · ${w.cards.length} sticky notes`, text: "As labeled: " + w.who, plain: true, href: DATA_URL + "#wall-" + (wi + 1), one: false }));
   const number = (label, k) => { const h = m.headlines.find((x) => x.text.toLowerCase().includes(label.toLowerCase())); return { key: "n:" + k, k: 3, kicker: `${label} · from group ${h.group}'s headline`, text: h.text, href: DATA_URL + "#h-" + h.group, one: false }; };
   const cardOf = (c) => card[m.cards.indexOf(c)];
   return { headline, card, note, persona, number, cardOf };
@@ -2682,11 +2707,8 @@ const leaders = (list, again) => {
   return `${qt(cap(a.w))} leads${again ? " again" : ""}, with ${a.n} uses, then ${andList(next.map((w, k) => qt(w.w, k === next.length - 1 ? "," : "")))} with ${next[0].n}${next.length > 1 ? " each" : ""}.`;
 };
 
-/* the five headlines, one per step, in the order they were read */
-const voiceParts = ORDER.map((g, k) => `<div data-at="${k}" data-only class="voice">
-      <p class="kicker">Group ${g}'s 2036 headline</p>
-      <p class="hl">${esc(HL[g].text)}</p>
-      <p class="said">${AFTER[g] ? `<span>Then they added</span>${qt(AFTER[g])}` : `<span>Read aloud</span>Group ${g} read theirs as two statements.`}</p></div>`).join("\n");
+/* the five headlines, together, in the order they were read */
+const voiceParts = `<ul class="byg wide hls">${ORDER.map((g) => `<li><b>Group ${g}</b><span>${esc(HL[g].text)}</span></li>`).join("")}</ul>`;
 
 /* the cards of one type, group by group, as written */
 const plural = (k, one, many) => `${k} ${k === 1 ? one : many}`;
@@ -2700,135 +2722,43 @@ const andList = (xs) => (xs.length < 2 ? xs.join("") : xs.slice(0, -1).join(", "
 /* the walls: one way in per step, every sticky note in it */
 const WALLS = RD.personas.walls;
 const wallLabel = (w) => { const m = /^(.*?)\s*\((.*)\)$/.exec(w.who); return m ? { name: m[1], more: m[2] } : { name: w.who, more: "" }; };
-// the words on a wall's label a newcomer won't know
-const GLOSS = { upskiller: "“Upskiller” is our word for someone on a Build Cycle, learning by building a real project with a small team.", "mid-career pivoters": "People changing careers partway through their working lives." };
 const PATH_NAME = { learn: "Learn", build: "Build", share: "Share" };
-const wallPath = (w, p, k) => {
+/* ── The value prop walls: Upskiller or Volunteer ──
+   Each table picked a persona, an Upskiller or a Volunteer, and filled one grid for them. Wall 1 is the
+   Volunteer ("volunteering with an upskiller, 2027 → 2050"); walls 2 and 3 are Upskillers, our participants,
+   the third labeled mid-career pivoters. The notes are shown as written, by way in and by question. */
+const wallFold = (w) => `<ul class="wall">${["learn", "build", "share"].map((p) => {
   const cell = (qq) => { const cs = w.cards.filter((c) => c.path === p && c.q === qq); return cs.length ? cs.map((c) => esc(c.text)).join(" · ") : "—"; };
-  return `<ul class="wall" data-at="${k}" data-only><li class="p-${p}"><b>${p}</b><span><em>why</em>${cell("why")}</span><span><em>how</em>${cell("how")}</span><span><em>what</em>${cell("what")}</span></li></ul>`;
-};
-const wq = (t) => qt(t);
-/* ── The three personas ──
-   What the walls hold are proto-personas: the team's picture of who might come, drawn at the retreat rather than
-   from interviews (NN/g's term for personas made in a workshop with no new research). So every persona slide
-   says so, each gets a working name for what brings them (named by behavior, not a made-up person), and each
-   ends on a working picture: a short portrait, one line of motivation, the team's own words for why, need and
-   outcome, and the assumptions to check first with people like them. Each section runs: who we're picturing,
-   the wall (and where it leans), its words, putting it together. The avatar stays on screen throughout. */
-const PERSONA = [
-  { name: PERSONA_NAME[0], tag: "Someone with experience, who wants to pass it on",
-    who: "An upskiller who volunteers",
-    intro: "The first wall pictures an upskiller: someone on a Build Cycle, learning by building a real project with a small team. The team's label adds that they're volunteering with an upskiller, and a span of years: 2027 to 2050.",
-    portrait: "Morgan brings experience in leadership and project management, and comes to grow by making learning happen for other people. They want an open, welcoming room, real problems close to home, and the freedom to follow their own interests. They leave with new skills, ideas they've tested, and people who hold them to it.",
-    job: "When Morgan has experience worth passing on, they want to help other people learn by building, so they can grow as a leader and be part of a community.",
-    rows: [["Why they'd come", [wq("Experience in leadership, team building, project management"), wq("Create positive learning opportunities for others")]], ["What they need", [wq("Open public space, welcoming to everyone"), wq("Propose your own interests")]], ["What they'd leave with", [wq("New skills"), wq("Get feedback from the community")]]],
-    test: ["That people with this experience want to give it here, and how much time they'd give.", "That helping others learn is the draw, more than learning something new themselves.", "That a welcoming public space matters to them as much as the subject does."],
-    lean: { lit: (n) => n.p === "build" && n.q === "how" } },
-  { name: PERSONA_NAME[1], tag: "A curious maker who wants proof of work",
-    who: "Another upskiller",
-    intro: "The second wall pictures an upskiller too, with no other label. Same starting point as the first wall, but the notes add up to a different person.",
-    portrait: "Kai is driven by curiosity and hard problems, and lectures don't work for them. They learn by playing with AI tools, hands-on and alongside other people. They want real things to show for it, like an app or a portfolio, plus the recognition and the fellow nerds that come with it.",
-    job: "When a hard problem catches Kai's curiosity, they want to build their way through it with AI tools and other people, so they can show real work for it.",
-    rows: [["Why they'd come", [wq("Wants to work on challenging problems"), wq("Struggles to learn in lecture format")]], ["What they need", [wq("Stimulating, hands-on, social learning"), wq("play, explore, ask questions")]], ["What they'd leave with", [wq("A vibe-coded app"), wq("Posts, resume, portfolio")]]],
-    test: ["That proof of work, like an app or a portfolio, is what they'd come for, and that employers count it.", "That recognition and money pull them as much as curiosity does.", "That they'd stay for the community once a project ends."],
-    lean: { lit: (n) => n.p === "share" } },
-  { name: PERSONA_NAME[2], tag: "A career changer, learning their way to what's next",
-    who: "Mid-career pivoters",
-    intro: "The third wall pictures people changing careers partway through their working lives.",
-    portrait: "AI is changing Dana's field. They're job hunting, working out what comes next, and eager to learn. They learn by doing: hands-on, with mentors and a team, on projects that matter to them. They want something they can use at work right away, and a wider circle of people around them.",
-    job: "When AI starts changing Dana's field, they want to learn by doing, with mentors and a team, so they can move into the work that comes next.",
-    rows: [["Why they'd come", [wq("AI is changing their field; eager to learn"), wq("Job hunting; trying to figure out what is next")]], ["What they need", [wq("Workshops; learn by doing; teams"), wq("Just come with a laptop")]], ["What they'd leave with", [wq("Hands-on learning"), wq("Create something I can use in my day to day")]]],
-    test: ["That they have the time for this while they're job hunting.", "That hands-on projects work better for them than courses.", "What they'd get out of sharing: on this wall, nobody said."],
-    lean: { lit: (n) => n.p === "share" } },
-];
-PERSONA.forEach((P, k) => { P.first = PERSONA_FIRST[k]; P.full = personaFull(k); P.say = personaSay(k); P.h = `${esc(P.first)}&nbsp;— <span class="nw">“${esc(P.name)}”</span>`; }); // P.h: the name in a heading, the callsign kept whole
-const PORTRAITS = PERSONA.map((P, k) => ({ wall: k, ...P })); // facts.py reads the quotes in here
-const PN_ORD = ["first", "second", "third"];
-const cellN = (w, p, q) => w.cards.filter((c) => c.path === p && c.q === q).length;
-const pathN = (w, p) => w.cards.filter((c) => c.path === p).length;
-// where each wall leans, worked out from its notes (the claims are checked against the other walls here, not typed in)
-const LEAN = WALLS.map((w, k) => {
-  const n = w.cards.length, others = WALLS.filter((_, o) => o !== k);
-  if (k === 0) { const b = pathN(w, "build"), bh = cellN(w, "build", "how"), top = others.every((o) => PATHS3.every((p) => QS3.every((q) => cellN(o, p, q) < bh)));
-    return { head: "Most of all, Build", text: `Build gets the most notes: ${b} of ${n}. And ${top ? `its how cell holds ${bh}, more than any other cell on any wall` : `its how cell holds ${bh}`}: what it should feel like to build with The Labs.` }; }
-  if (k === 1) { const s = pathN(w, "share"), most = others.every((o) => pathN(o, "share") < s);
-    return { head: "Share, for recognition", text: `${s} of ${n} notes are about Share${most ? ", more than on either other wall" : ""}. Read them and they're about being seen: attention and status, fellow nerds, networking, a portfolio to show.` }; }
-  const s = pathN(w, "share"), sw = cellN(w, "share", "what"), only = others.every((o) => PATHS3.every((p) => QS3.every((q) => cellN(o, p, q) > 0)));
-  return { head: "Thin on Share", text: `Only ${s} of ${n} notes are about Share, and ${sw === 0 ? `none at all says what they'd get out of sharing${only ? ": the only empty cell on any of the three walls" : ""}` : `${sw} says what they'd get out of it`}.` };
-});
-const protoLine = "A proto-persona: the team's picture of someone who might come, drawn at the retreat rather than from interviews.";
-const nameLine = (P, w) => `${P.first} is a made-up name and ${P.name.replace(/^The /, "the ")} our working name, not a real person; the wall itself was labeled ${qt(w.who, ".")}`;
+  return `<li class="p-${p}"><b>${p}</b><span><em>why</em>${cell("why")}</span><span><em>how</em>${cell("how")}</span><span><em>what</em>${cell("what")}</span></li>`;
+}).join("")}</ul>`;
+// one fold of a set: click its summary to open it; opening one closes the others in its set
+const fold = (set, head, body) => `<details name="${set}"><summary>${head}</summary><div class="fold-body">${body}</div></details>`;
 
-const introSlide = (k) => {
-  const w = WALLS[k], P = PERSONA[k];
-  return {
-    label: `${P.full} · who we're picturing`, make: () => personaScene(k, "intro"),
-    words: `<p class="kicker">The second exercise · Proto-persona ${k + 1} of ${WALLS.length}</p>
-      <h2 class="h">Meet ${P.h}</h2>
-      <p class="lead">${esc(P.tag)}.</p>
-      <p class="lead dim">${esc(P.intro)}</p>
-      <p class="small">${protoLine} ${nameLine(P, w)} Its ${w.cards.length} sticky notes answer the grid's three questions for Learn, Build and Share.</p>`,
-    notes: [`“The ${PN_ORD[k]} person. We're calling them ${P.say}: ${P.tag.toLowerCase()}. ${P.intro} Like all three, this is the team's picture of someone, not someone we've interviewed. Let's see what the team wrote.”`],
-  };
-};
-const wallSlide = (k) => {
-  const w = WALLS[k], P = PERSONA[k], L = LEAN[k];
-  return {
-    label: `${P.full} · the wall`, layer: "lab", hud: labelsHud,
-    make: () => personaWallScene(k, { lit: (j, n) => (j < 3 ? (j === PATHS3.indexOf(n.p) ? 1 : 0.6) : P.lean.lit(n) ? 1 : 0.22), counts: (c) => eio(c.sa[3] ?? 0) * 0.95 }),
-    words: `<p class="kicker">Proto-persona ${k + 1} · Wall ${k + 1} · ${w.cards.length} sticky notes</p>
-      <h2 class="h">${P.h}</h2>
-      ${["learn", "build", "share"].map((p, j) => wallPath(w, p, j)).join("")}
-      <div data-at="3" data-only><p class="kicker sub">Where they lean</p><p class="lead">${esc(L.head)}</p><p class="lead dim">${esc(L.text)}</p><p class="small">The number by each cell is how many sticky notes are in it.</p></div>`,
-    notes: [
-      `“Here's ${P.first}'s wall, drawn as the circle. Start with Learn: why they'd come, how it should work for them, and what they'd get.”`,
-      "“Build: the twelve weeks on a team.”",
-      "“Share: teaching what they know.”",
-      `“And where this person leans. ${L.text}”`,
-    ],
-  };
-};
-const personaCloudSpec = (k) => ({ key: "p" + k, label: `Word cloud: the words on ${PERSONA[k].first}'s wall`, groups: [{ words: CLOUDS.persona[k].words }] });
-const wordsSlide = (k) => {
-  const w = WALLS[k], P = PERSONA[k], C = CLOUDS.persona[k], top = C.words.filter((x) => x.n >= 2);
-  const onlyTop = C.onlyTop.slice(0, 5).map(([t]) => qt(t)), all = CLOUDS.allThree;
-  return {
-    label: `${P.full} · in the team's words`, layer: "cloudp", hud: cloudHud(personaCloudSpec(k)), make: () => personaWordsScene(k),
-    words: `<p class="kicker">Proto-persona ${k + 1} · ${esc(P.full)} · In the team's words</p>
-      <h2 class="h">The words on ${esc(P.first)}'s wall</h2>
-      <p class="lead dim" data-at="0" data-only>Every word on the ${w.cards.length} sticky notes that shows up twice or more, plus the words no other wall uses, sized by how often. ${top.length ? leaders(top) : ""}</p>
-      <p class="lead dim" data-at="1" data-only>Lit: the words only this wall uses, ${C.onlyN} of its ${C.distinct}. Among them, ${andList(onlyTop)}. All three walls share just ${all.length} words: ${andList(all.map((t) => qt(t)))}.</p>
-      <p class="small">These are the team's words about this person, not words from people like them. Point at or tap a word to see the notes it's on.</p>`,
-    notes: [`“The words on ${P.first}'s wall. ${top.length ? leaders(top).replace(/[“”]/g, "") : ""}”`, `“And the words only this wall uses: ${C.onlyTop.slice(0, 5).map(([t]) => t).join(", ")}. All three walls share just ${all.length} words.”`],
-  };
-};
-const outroSlide = (k) => {
-  const w = WALLS[k], P = PERSONA[k];
-  return {
-    label: `${P.full} · putting it together`, make: () => personaScene(k, "outro"),
-    words: `<p class="kicker">Proto-persona ${k + 1} · Putting it together</p>
-      <h2 class="h">${P.h}</h2>
-      <div data-at="0" data-only><p class="lead">${esc(P.tag)}.</p><p class="lead dim">${esc(P.portrait)}</p></div>
-      <div data-at="1" data-only><p class="small"><b>In one line:</b> ${esc(P.job)}</p><p class="kicker sub">In the team's words</p><ul class="byg wide persona">${P.rows.map(([h, qs]) => `<li><b>${h}</b><span>${qs.join(" · ")}</span></li>`).join("")}</ul></div>
-      <div data-at="2" data-only><p class="kicker sub">What to check first, with people like them</p><ul class="items tests">${P.test.map((t) => `<li>${esc(t)}</li>`).join("")}</ul><p class="small">A few conversations with people like ${esc(P.first)} would tell us which of these hold.</p></div>
-      <p class="small">Our reading of the ${w.cards.length} sticky notes on this wall, as one person. A starting picture to test, not a finding.</p>`,
-    notes: [
-      `“Put together, the ${w.cards.length} notes describe one person: ${P.say}, ${P.tag.toLowerCase()}. ${P.portrait}”`,
-      `“In one line: ${P.job} And here's the same person in the team's own words: why they'd come, what they need, and what they'd leave with.”`,
-      `“And because this is the team's picture, not research, here's what we'd check first with people like ${P.first}: ${P.test.join(" ")}”`,
-    ],
-  };
-};
+/* the peer cards across groups, sorted by the kind of institution they name: our sorting, the cards as written */
+const PEER_KINDS = [
+  ["Government", [50, 51, 52]],
+  ["Universities and colleges", [9, 20, 55, 56, 57]],
+  ["Research and policy", [22, 23]],
+  ["Civic and community groups", [25, 26, 58, 59, 60, 61]],
+  ["Tech, startups and employers", [21, 27, 53, 54]],
+];
+
+/* the day as it ran, from the retreat's own agenda */
+const AGENDA = [
+  ["9:30", "State of the Labs", "Three Build Cycles, about 1,000 people reached across DC, about $70K raised, 30+ volunteers"],
+  ["9:40", "Welcome and check-in", ""],
+  ["10:00", "Where we're headed", "This quarter, and 2027"],
+  ["10:20", "Sketch the moonshot", "The Labs in 2036"],
+  ["11:05", "Our value prop and messaging", "Upskiller or Volunteer"],
+  ["12:30", "Explore our How Might We's for Q4", "Eight tensions"],
+  ["1:30", "Building DC's leadership team", ""],
+  ["1:50", "Closing circle", ""],
+];
 
 /* counts, from the data, for every number the slides cite */
 const N_MOON = CARDS.length, N_NOTES = WALLS.reduce((a, w) => a + w.cards.length, 0);
 const PATHS = ["learn", "build", "share"], QS = ["why", "how", "what"];
 const count = (cards, f) => cards.filter(f).length;
-const tally1 = `<table class="tally p" data-at="0" data-only><thead><tr><th></th>${PATHS.map((p) => `<th class="p-${p}">${p}</th>`).join("")}<th>all</th></tr></thead><tbody>${WALLS.map((w, k) => `<tr><th>${esc(personaFull(k))}</th>${PATHS.map((p) => `<td>${count(w.cards, (c) => c.path === p)}</td>`).join("")}<td>${w.cards.length}</td></tr>`).join("")}<tr class="sum"><th>All</th>${PATHS.map((p) => `<td>${WALLS.reduce((a, w) => a + count(w.cards, (c) => c.path === p), 0)}</td>`).join("")}<td>${N_NOTES}</td></tr></tbody></table>`;
-const ALLN = WALLS.flatMap((w) => w.cards);
-const tally2 = `<table class="tally q" data-at="1" data-only><thead><tr><th></th>${QS.map((x) => `<th>${x}</th>`).join("")}<th>all</th></tr></thead><tbody>${PATHS.map((p) => `<tr><th class="p-${p}">${p}</th>${QS.map((x) => `<td>${count(ALLN, (c) => c.path === p && c.q === x)}</td>`).join("")}<td>${count(ALLN, (c) => c.path === p)}</td></tr>`).join("")}<tr class="sum"><th>All</th>${QS.map((x) => `<td>${count(ALLN, (c) => c.q === x)}</td>`).join("")}<td>${N_NOTES}</td></tr></tbody></table>`;
-const EMPTY = WALLS.flatMap((w, k) => PATHS.flatMap((p) => QS.filter((x) => !count(w.cards, (c) => c.path === p && c.q === x)).map((x) => ({ k, p, x }))));
-const emptyLine = EMPTY.length ? `${EMPTY.length === 1 ? "One box on the grids is empty" : EMPTY.length + " boxes on the grids are empty"}: ${EMPTY.map((e) => `${PATH_NAME[e.p]}, ${e.x}, on wall ${e.k + 1}`).join("; ")}.` : "Every box on every grid has at least one sticky note.";
 
 /* the headlines' own words for places, and for "every" */
 const EVERY = GROUPS.filter((g) => /\bevery\b/i.test(HL[g].text));
@@ -2872,8 +2802,6 @@ const FLOW = [
   ["Something to show for it", "n", "n", "n", "y"],
 ];
 const flowTable = `<table class="flowtab"><thead><tr><th></th><th>Cards</th><th>Headlines</th><th>Read aloud</th><th>Walls</th></tr></thead><tbody>${FLOW.map(([k, ...v]) => `<tr><th>${k}</th>${v.map((x) => `<td class="${x === "n" ? "off" : x === "y" ? "on" : "word"}">${MARK[x] || x}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
-const MSG_Q = ["Contribute to community", "Create positive learning opportunities for others", "Real-world problems, local and in person", "Wants to work on challenging problems", "To get attention; prestige and status; more money", "Find fellow nerds", "AI is changing their field", "skill = building", "A consistent problem over time"];
-const SHARE = { n: count(ALLN, (c) => c.path === "share"), why: count(ALLN, (c) => c.path === "share" && c.q === "why"), how: count(ALLN, (c) => c.path === "share" && c.q === "how"), what: count(ALLN, (c) => c.path === "share" && c.q === "what") };
 
 /* ── The breakouts: eight How Might We boards ──
    One slide sets them up, then one per board: its tension in plain words, every sticky note on it as written, and
@@ -2961,7 +2889,7 @@ const srcOf = (id) => {
   if (id[0] === "h") return `Group ${id.slice(2)}'s headline`;
   if (id[0] === "c") { const c = CARDS[+id.slice(2)]; return `Group ${c.group} · ${TYPE_NAME[c.type]}`; }
   const [w, j] = id.slice(1).split("-").map(Number);
-  return id[0] === "w" ? `${PERSONA_FIRST[w - 1]}'s wall · ${PATH_NAME[WALLS[w - 1].cards[j].path]}` : `Breakout · ${BOARDS[w - 1].short}`;
+  return id[0] === "w" ? `${WALL_NAME[w - 1]} wall · ${PATH_NAME[WALLS[w - 1].cards[j].path]}` : `Breakout · ${BOARDS[w - 1].short}`;
 };
 const qi = (id, t) => `<li>${qt(t)}<span class="by">${srcOf(id)}</span></li>`;
 const isHl = (it) => it.id[0] === "h";
@@ -2977,7 +2905,7 @@ const INSIGHTS = [
     themes: ["community", "pathway", "staying"], odd: ["w2-17"],
     saw: `<b>Belonging</b> comes up in all three conversations (${TH.community.total} items), and so does <b>contributing and mentoring</b> (${TH.pathway.total}). In the breakouts, ${B_RANK[0].b === B_COMMUNITY ? "the busiest board" : "one board"} asks how people stay after a Build Cycle, and the volunteers' board drew ${num(B_VOLUNTEERS.notes.length)} ideas.`,
     quotes: [qi("c-7", "everyone, anyone can have a speaking space to present new ideas and learn from"), qi("w1-27", "Contribute to community"), qi("b5-0", "HMW create a durable progression from participant to practitioner to contributor to leader")],
-    but: `Not everyone shares to give back. On ${PERSONA_FIRST[1]}'s wall, Share is also about being noticed.`,
+    but: "Not everyone shares to give back. On the first Upskiller wall, Share is also about being noticed.",
     oddQ: [qi("w2-17", "To get attention; prestige and status; more money")],
     ask: "What's the path after a Build Cycle, from participant to mentor, and who owns it in 2027?",
   },
@@ -2987,7 +2915,7 @@ const INSIGHTS = [
     themes: ["build"], odd: ["w1-4"],
     saw: `<b>Learning by building</b> is ${BUSIEST_W === TH.build ? "the biggest theme on the walls" : "a big theme on the walls"}: ${TH.build.n[1]} of ${CONV_N[1]} sticky notes, on ${BUILD_WALLS === 3 ? "all three walls" : num(BUILD_WALLS) + " walls"}. In the 2036 exercise it's on ${num(TH.build.n[0])} cards and in ${coded("build", 0).some(isHl) ? "some" : "none"} of the five headlines. In the breakouts, ${TH.build.n[2] === 1 ? "one idea" : num(TH.build.n[2]) + " ideas"}.`,
     quotes: [qi("c-27", "I've looked at models: no other learning-by-building"), qi("w3-7", "Learn by doing; building to learn"), qi("b5-1", "How might we keep promising prototypes alive after showcase?")],
-    but: `Building may not be where everyone starts. On ${PERSONA_FIRST[0]}'s wall, Learn asks for a good talk.`,
+    but: "Building may not be where everyone starts. On the Volunteer wall, Learn asks for a good talk.",
     oddQ: [qi("w1-4", "Good, engaging presentation")],
     ask: "If building is what sets us apart, should the 2027 strategy, and the moonshot, say so in plain words?",
   },
@@ -3017,9 +2945,9 @@ const INSIGHTS = [
     themes: ["ai"], odd: coded("ai", 1).filter((it) => it.id.startsWith("w2-")).map((it) => it.id),
     saw: `Counting tools like vibe coding, <b>AI</b> comes up in ${AI_ITEMS.length} of the ${N_ITEMS} items: ${plural(AI_ITEMS.filter(isHl).length, "headline", "headlines").replace(/^1 /, "one ")}, ${num(TH.ai.n[0] - AI_ITEMS.filter(isHl).length)} cards, ${num(TH.ai.n[1])} wall notes and ${TH.ai.n[2] === 1 ? "one breakout idea" : num(TH.ai.n[2]) + " breakout ideas"}. Take the word out, and these still work:`,
     quotesHtml: `<ul class="items k-strike">${struck.map((t) => `<li>${strike(t)}</li>`).join("")}</ul>`,
-    but: `The exception is ${PERSONA_FIRST[1]}. On ${PERSONA_FIRST[1]}'s wall, the AI tools are part of the fun: ${num(AI_KAI)} of the walls' ${num(TH.ai.n[1])} AI notes are there.`,
+    but: `The exception is the first Upskiller wall, where the AI tools are part of the fun: ${num(AI_KAI)} of the walls' ${num(TH.ai.n[1])} AI notes are there.`,
     oddQ: [qi("w2-16", "A vibe-coded app"), qi("w2-8", "Vibe coding, GitHub, privacy, build out loud")],
-    ask: `Lead with what people get, and give AI as the reason it matters now. For people like ${PERSONA_FIRST[1]}, show the tools.`,
+    ask: "Lead with what people get, and give AI as the reason it matters now. For upskillers who come for the tools, show the tools.",
   },
 ];
 const insightSlide = (n) => {
@@ -3046,11 +2974,11 @@ const HOW_WE_READ = {
     <h2 class="h">How we read it</h2>
     <div data-at="0" data-only><p class="kicker sub">What we had</p><p class="lead dim">${N_ITEMS} items, typed up word for word: the five headlines and ${N_MOON} cards from the 2036 exercise, the ${N_NOTES} sticky notes on the walls and the ${N_B_IDEAS} ideas from the breakouts. One pile per conversation, one mark per item.</p><p class="small">Groups ${andList(missing("impact"))}'s cards weren't photographed. We left out the ${N_B_PROMPTS} printed questions, which were written before the day.</p></div>
     <div data-at="1" data-only><p class="kicker sub">How we read them</p><p class="lead dim">We read every item against one codebook of ${N_THEMES} themes. Each theme says what it means, what it takes in and what it leaves out, so anyone can check our calls. An item can carry more than one theme: ${N_MULTI} do, so they sit in more than one row.</p><p class="small">${cap(num(N_UNCLEAR))} items are hard to read in places; we coded only what they plainly say. The codebook and every item's themes are on the data page.</p></div>
-    <div data-at="2" data-only><p class="kicker sub">What it can't tell us</p><ul class="asks asks-s"><li>Counts are items, not people. One person can write several notes, and nobody voted.</li><li>Each conversation asked something different, and the breakout topics were set before the day, so what was asked shapes what came back.</li><li>The three people are the team's picture, not interviews.</li><li>The themes are our reading. Another reader might draw some lines differently.</li></ul></div>`,
+    <div data-at="2" data-only><p class="kicker sub">What it can't tell us</p><ul class="asks asks-s"><li>Counts are items, not people. One person can write several notes, and nobody voted.</li><li>Each conversation asked something different, and the breakout topics were set before the day, so what was asked shapes what came back.</li><li>The Upskiller and Volunteer walls are the team's picture, not interviews.</li><li>The themes are our reading. Another reader might draw some lines differently.</li></ul></div>`,
   notes: [
     `“Part 2 is what we noticed, so first, how we read it. We had ${N_ITEMS} items, typed up word for word: from the 2036 exercise, the walls and the breakouts. One pile per conversation.”`,
     `“We read every item against one codebook of ${N_THEMES} themes, each with what it means, what it takes in and what it leaves out, so anyone can check our calls. An item can carry more than one theme. The codebook is on the data page.”`,
-    "“And what this can't tell us. Counts are items, not people, and nobody voted. Each conversation asked something different, so what was asked shapes what came back. The three people are the team's picture, not interviews. And the themes are our reading.”",
+    "“And what this can't tell us. Counts are items, not people, and nobody voted. Each conversation asked something different, so what was asked shapes what came back. The Upskiller and Volunteer walls are the team's picture, not interviews. And the themes are our reading.”",
   ],
 };
 const THEMES_SLIDE = {
@@ -3075,12 +3003,12 @@ const NEXT_STEPS = {
     <ul class="asks steps">
       <li><b>Share it back.</b> Send the team what we heard, and what the board will do with it, within a month.</li>
       <li><b>Pick the tensions to work on first.</b> Nobody voted on the day, so all eight boards stand equal for now.</li>
-      <li><b>Test the three people</b> with a few real conversations each. One breakout note already asks: ${qt("Who is the profile of the person who drops?")}</li>
+      <li><b>Test the walls</b> with a few real conversations with upskillers and volunteers. One breakout note already asks: ${qt("Who is the profile of the person who drops?")}</li>
       <li><b>Choose what we'll measure:</b> one or two measures of what changes for a person, beside reach.</li>
       <li><b>Decide at a board meeting,</b> with owners and dates.</li>
     </ul>
     <p class="small">Our suggestion, for the board to change. The owners and dates are the board's to set.</p>`,
-  notes: ["“What we'd suggest next. Share it back with the team within a month: what we heard and what the board will do with it. Pick the tensions to work on first, since nobody voted on the day. Test the three people with a few real conversations each. Choose one or two measures of what changes for a person. And decide at a board meeting, with owners and dates.”"],
+  notes: ["“What we'd suggest next. Share it back with the team within a month: what we heard and what the board will do with it. Pick the tensions to work on first, since nobody voted on the day. Test the walls with a few real conversations with upskillers and volunteers. Choose one or two measures of what changes for a person. And decide at a board meeting, with owners and dates.”"],
 };
 const SHORT_VERSION = {
   label: "The short version", make: () => cloudScene(),
@@ -3142,18 +3070,6 @@ const PART2 = [
     ],
   },
   insightSlide(4),
-  {
-    label: "Three messages", layer: "lab", hud: labelsHud, make: () => circlesScene({ walls: [0, 1, 2], mode: "logo", scale: 0.55, spread: 5.6, sx: 0.32, d: 30, titles: PERSONA.map((P, k) => `${P.first} · ${["belonging", "curiosity, status", "necessity"][k]}`), lit: (j, note) => (j === 0 ? (MSG_Q.some((t) => note.card.text.includes(t)) ? 1 : 0.15) : note.p === "share" ? 1 : 0.15) }),
-    words: `<p class="kicker">A closer look · The walls</p>
-      <h2 class="h">Three messages, and none of them is “learn AI”</h2>
-      <div class="cols">
-        <div><p class="kicker sub">${personaFull(0)} · belonging</p><ul class="items k-quote"><li>${qt("Contribute to community")}</li><li>${qt("Create positive learning opportunities for others")}</li><li>${qt("Real-world problems, local and in person")}</li></ul></div>
-        <div><p class="kicker sub">${personaFull(1)} · curiosity, status</p><ul class="items k-quote"><li>${qt("Wants to work on challenging problems")}</li><li>${qt("To get attention; prestige and status; more money")}</li><li>${qt("Find fellow nerds")}</li></ul></div>
-        <div><p class="kicker sub">${personaFull(2)} · necessity</p><ul class="items k-quote"><li>${qt("AI is changing their field")}</li><li>${qt("skill = building")}</li><li>${qt("A consistent problem over time")}</li></ul></div>
-      </div>
-      <p class="small" data-at="1">Share is the thinnest slice: ${SHARE.n} of ${N_NOTES} sticky notes, and only ${SHARE.what} say what someone would share. Two of those are things a person made: ${qt("Posts, resume, portfolio")} and ${qt("sample deliverables", ".")}</p>`,
-    notes: [`“Three people, three messages. For ${personaSay(0)}, it's belonging. For ${personaSay(1)}, curiosity and status. For ${personaSay(2)}, necessity. Even for the career changer, AI is only what set things off; what they want is to build something they can use.”`, `“And Share is the thinnest slice. Only ${SHARE.what} sticky notes say what someone would share, and two of those are things a person made: posts, a resume, a portfolio, sample work.”`],
-  },
   NEXT_STEPS,
 ];
 
@@ -3161,12 +3077,12 @@ const SLIDES = [
   {
     label: "Opening", make: () => openScene(),
     words: `<p class="kicker">The Labs retreat · October 3, 2026</p>
-      <h1 class="h h-xl">Listening for 2027</h1>
-      <p class="lead dim" data-at="1">The Labs' board hosted a listening session with our team to help shape the strategy for 2027. We pictured The Labs in 2036, pictured three people we're for, and took on eight tensions in how we run. Here's what the team wrote, word for word, and what we noticed.</p>
-      <p class="small" data-at="1">Point at or tap any mark to read the card or note behind it. Typed up from photos and from recordings of the groups reading aloud; groups ${andList(missing("impact"))}'s cards weren't photographed.</p>`,
+      <h1 class="h h-xl">Setting the foundation for 2027 &amp; beyond</h1>
+      <p class="lead dim" data-at="1">On October 3 we held an offsite with our volunteer leads and recent Build Cycle participants. We planned the upcoming quarter and year, and talked through our longer-term strategy as an organization. Here's what the team wrote, word for word, and what we noticed.</p>
+      <p class="small" data-at="1">Point at or tap any mark to read the card or note behind it. Typed up from photos and from recordings of the groups reading aloud; group ${andList(missing("impact"))}'s cards weren't photographed.</p>`,
     notes: [
       "On screen as people come in: the day's cards, drifting in. Advance when ready.",
-      `“On October 3, the board hosted a listening session with our team, to help shape The Labs' strategy for 2027. We pictured The Labs in 2036, pictured three people we're for, and took on eight tensions in how we run. This is what the team wrote, word for word: five headlines, ${N_MOON} cards, ${N_NOTES} sticky notes on the walls and ${N_B_IDEAS} ideas from the breakouts. After that, what we noticed.”`,
+      `“On October 3, we held an offsite with our volunteer leads and recent Build Cycle participants, to plan the upcoming quarter and year and to talk through our longer-term strategy. This is what the team wrote, word for word: five headlines, ${N_MOON} cards, ${N_NOTES} sticky notes on the walls and ${N_B_IDEAS} ideas from the breakouts. After that, what we noticed.”`,
     ],
   },
   {
@@ -3182,57 +3098,21 @@ const SLIDES = [
     ],
   },
   {
-    label: "How the day worked", make: () => cloudScene(),
-    words: `<p class="kicker">How the day worked</p>
-      <h2 class="h">Three conversations</h2>
-      <ul class="asks"><li><b>Picture 2036:</b> five headlines and ${N_MOON} cards.</li><li><b>Picture who we're for:</b> three walls, ${N_NOTES} sticky notes.</li><li><b>Break out on eight tensions:</b> ${N_B_IDEAS} ideas on how The Labs runs.</li></ul>
-      <p class="small">The board hosted and listened. Part 1 is what the team wrote, as written. Part 2 is what we noticed, and how we read it.</p>`,
-    notes: ["“The day had three conversations. We pictured The Labs in 2036. We pictured three kinds of people we're for. And we broke out on eight tensions in how we run. The board hosted and listened. First, what the team wrote, as written; then what we noticed.”"],
+    label: "How the day went", make: () => cloudScene(),
+    words: `<p class="kicker">How the day went · 9am to 3pm</p>
+      <h2 class="h">The agenda</h2>
+      <ul class="spins plan">${AGENDA.map(([t, h, d]) => `<li><span>${t}</span><div><b>${h}</b>${d ? `<small>${d}</small>` : ""}</div></li>`).join("")}</ul>
+      <p class="small">Three sessions left writing behind, and this readout covers them: the moonshot, the value prop walls and the How Might We boards. Part 1 is what the team wrote, as written. Part 2 is what we noticed, and how we read it.</p>`,
+    notes: [`“Here's how the day ran. ${AGENDA.map(([t, h]) => `${t}, ${h.toLowerCase()}`).join("; ")}. Three of those sessions left writing behind: the moonshot, the value prop walls and the How Might We boards. That's what this readout covers. First, what the team wrote, as written; then what we noticed.”`],
   },
   SHORT_VERSION,
   {
-    label: "The first exercise · picture 2036", make: () => voicesScene({ all: true }),
-    words: `<p class="kicker">The first exercise · Picture 2036</p>
-      <h2 class="h">Write our moonshot</h2>
-      <p class="lead dim" data-at="0" data-only>In 1961, President Kennedy asked the country to land a man on the moon and bring him home safely before the decade was out. One clear goal, with a who, a what and a deadline. That's where the word “moonshot” comes from.</p>
-      <div data-at="1" data-only><p class="kicker sub">The team tried to write one for The Labs in 2036</p>
-        <ul class="asks"><li>On their own, everyone wrote cards: what The Labs will have changed by 2036, who we'll be mentioned alongside, and a first try at a headline.</li><li>In five small groups, A to E, they picked one headline and made it ten times bigger.</li><li>Each group read its headline aloud.</li></ul></div>`,
-    notes: [
-      "“The first exercise borrowed from 1961. President Kennedy asked the country to land a man on the moon and bring him home safely before the decade was out: one goal, with a who, a what and a deadline. That's where the word ‘moonshot’ comes from.”",
-      "“The team tried to write The Labs' moonshot for 2036. Everyone wrote cards on their own. Then five small groups each picked a headline, made it ten times bigger and read it aloud. Here are the five.”",
-    ],
-  },
-  {
-    label: "Five headlines", layer: "sheet", make: () => voicesScene(), clip: (st) => (Clips.has() ? "headline-" + ORDER[st].toLowerCase() : null),
-    words: `<p class="kicker">The first exercise · What the groups wrote</p>
-      <h2 class="h">Five headlines</h2>
+    label: "Five headlines", make: () => voicesScene({ all: true }),
+    words: `<p class="kicker">The first exercise · Sketch the moonshot</p>
+      <h2 class="h">Five headlines for 2036</h2>
+      <p class="small">Five groups, A to E, each wrote a 2036 headline for The Labs and read it aloud. In the order they were read:</p>
       ${voiceParts}`,
-    notes: ORDER.map((g, k) => `Group ${g}${k === 0 ? ". In the presenting file, each group's recording plays on its own (M mutes). On the web version, read the headline and the line after it." : g === "C" ? ", which read theirs as two statements." : "."}`),
-    hud(c, el) {
-      const sh = document.getElementById("sheet"); if (!sh) return;
-      const g = ORDER[Math.min(ORDER.length - 1, c && c.step != null ? c.step : 0)], src = SHEET_SRC[g];
-      sh.dataset.group = g;
-      const img = sh.querySelector("img"), paper = sh.querySelector(".paper");
-      if (src) { if (img.getAttribute("src") !== src) img.setAttribute("src", src); img.hidden = false; paper.hidden = true; }
-      else { img.hidden = true; paper.hidden = false; paper.dataset.g = g; paper.textContent = HL[g].text; }
-    },
-  },
-  {
-    label: "The numbers, and “every”", layer: "nums", make: () => numbersScene(),
-    words: `<p class="kicker">The first exercise · The headlines</p>
-      <div data-at="0" data-only>
-        <h2 class="h">Three numbers</h2>
-        <p class="lead dim">Kennedy's goal had a deadline. Two of the five headlines have a number: from group B, ${qt("100+ local + national govts")} and ${qt("10,000,000 upskillers", ".")} From group E, ${qt("in less than 10 years", ".")}</p>
-      </div>
-      <div data-at="1" data-only>
-        <h2 class="h">And “every,” in ${plural(EVERY.length, "headline", "headlines").replace(/^3 /, "three ")}</h2>
-        <ul class="byg">${EVERY.map((g) => `<li><b>${g}</b><span>${everyPhrases[g].map((t) => qt(t)).join(", ")}</span></li>`).join("")}</ul>
-      </div>`,
-    notes: [
-      "“Kennedy's goal had a deadline, and two of the headlines have a number: 100-plus local and national governments and 10 million upskillers, from group B; less than 10 years, from group E.” The rings are drawn to a log scale.",
-      `“The other thing they share is the word ‘every,’ in ${EVERY.length} of the five: ${andList(EVERY)}.”`,
-    ],
-    hud(c) { numsHud(c, c && c.step ? 0.35 : 1); },
+    notes: [`“Five groups each wrote a headline for The Labs in 2036. In the order they were read: ${ORDER.map((g) => `group ${g}, ‘${inner(HL[g].text)}’`).join(" ")}”`],
   },
   {
     label: "How far each headline reaches", make: () => Object.assign(adoptScene(), { dur: [0, 4.0] }),
@@ -3246,76 +3126,38 @@ const SLIDES = [
     ],
   },
   {
-    label: "The impact cards", make: () => groupCardsScene("impact", ORDER, [["A"], ["B", "C"]]),
+    label: "The impact cards", make: () => groupCardsScene("impact", ORDER, [withCards("impact")]),
     words: `<p class="kicker">The first exercise · Cards written alone</p>
       <h2 class="h">${ofType("impact").length} impact cards</h2>
-      <p class="small">Each one finishes the sentence “By 2036, because of The Labs…”, with one change in the world per card.</p>
-      <div data-at="0" data-only>${groupBlock("impact", "A", "card")}</div>
-      <div data-at="1" data-only>${withCards("impact").filter((g) => g !== "A").map((g) => groupBlock("impact", g, "card")).join("")}</div>
-      <p class="small" data-at="1" data-only>Groups ${andList(missing("impact"))}'s cards weren't photographed.</p>`,
-    notes: [
-      `“Before the groups, everyone wrote impact cards. Each one finishes the sentence ‘By 2036, because of The Labs…’ There are ${ofType("impact").length}. Group A wrote ${ofType("impact", "A").length}.” Read them.`,
-      `“Group B wrote ${ofType("impact", "B").length}, and group C ${ofType("impact", "C").length}. Groups ${andList(missing("impact"))}'s cards weren't photographed.”`,
-    ],
+      <p class="small">Each one finishes the sentence “By 2036, because of The Labs…”, with one change in the world per card. Click a group to open its cards.</p>
+      <div class="fold">${withCards("impact").map((g) => fold("impact", `Group ${g} · ${plural(ofType("impact", g).length, "card", "cards")}`, itemList(ofType("impact", g), "k-impact"))).join("")}</div>
+      <p class="small">Group ${andList(missing("impact"))}'s cards weren't photographed.</p>`,
+    notes: [`“Before the groups, everyone wrote impact cards. Each one finishes the sentence ‘By 2036, because of The Labs…’ There are ${ofType("impact").length}: ${andList(withCards("impact").map((g) => `${ofType("impact", g).length} from group ${g}`))}.” Open a group to read its cards.`],
   },
   {
     label: "The peer cards", make: () => groupCardsScene("peer", ORDER, [withCards("peer")]),
     words: `<p class="kicker">The first exercise · Cards written alone</p>
-      <h2 class="h">${ofType("peer").length} peer cards</h2>
-      <p class="small">Each one finishes the sentence “In 2036, our name is said in the same breath as…”: who we'd want to be mentioned alongside.</p>
-      <div class="cols">${withCards("peer").map((g) => `<div>${groupBlock("peer", g, "card")}</div>`).join("")}</div>`,
-    notes: [`“Peer cards name who we'd want to be mentioned alongside in 2036. Each finishes the sentence ‘In 2036, our name is said in the same breath as…’ There are ${ofType("peer").length}: ${andList(withCards("peer").map((g) => `${ofType("peer", g).length} from group ${g}`))}.”`],
+      <h2 class="h h-board">${ofType("peer").length} peer cards, by kind</h2>
+      <p class="small">Each one finishes the sentence “In 2036, our name is said in the same breath as…”. All groups together, sorted by kind of institution. The sorting is ours; the cards are as written.</p>
+      <div class="cols peers">${PEER_KINDS.map(([kind, ids]) => `<div><p class="kicker sub">${kind}</p><ul class="items k-peer">${ids.map((j) => `<li>${esc(CARDS[j].text)}<span class="by">Group ${CARDS[j].group}</span></li>`).join("")}</ul></div>`).join("")}</div>`,
+    notes: [`“Peer cards name who we'd want to be mentioned alongside in 2036. There are ${ofType("peer").length}, and across the groups they fall into ${num(PEER_KINDS.length)} kinds: ${andList(PEER_KINDS.map(([k, ids]) => `${k.toLowerCase()} (${ids.length})`))}.”`],
   },
   {
-    label: "Headline drafts and notes", make: () => groupCardsScene(["draft", "note"], ORDER, [GROUPS.filter((g) => ofType("draft", g).length || ofType("note", g).length)]),
-    words: `<p class="kicker">The first exercise · Before the groups</p>
-      <h2 class="h">${plural(ofType("draft").length, "headline draft", "headline drafts")}, ${plural(ofType("note").length, "note", "notes")}</h2>
-      <p class="small">Before the groups formed, people tried a headline on their own. The notes are what was written on the group sheets or in their margins.</p>
-      <div class="cols two">${GROUPS.filter((g) => ofType("draft", g).length || ofType("note", g).length).map((g) => `<div><p class="kicker sub">Group ${g}</p>${itemList(ofType("draft", g), "k-draft")}${ofType("note", g).length ? `<p class="kicker sub">A note</p>${itemList(ofType("note", g), "k-note")}` : ""}</div>`).join("")}</div>`,
-    notes: [`“Before the groups formed, people tried a headline on their own. Here are the ${ofType("draft").length} drafts that were photographed, and ${ofType("note").length} notes from the group sheets.”`],
+    label: "The second exercise · Upskiller or Volunteer", layer: "lab", hud: labelsHud, make: () => goldenScene({ walls: [0, 1, 2], morph: "grid", glyph: 13 }),
+    words: `<p class="kicker">The second exercise · Our value prop and messaging</p>
+      <h2 class="h">Upskiller or Volunteer</h2>
+      <p class="lead dim">People are motivated when three needs are met: competence, autonomy and relatedness. With that in mind, each table picked a persona, an Upskiller or a Volunteer, made it specific, and filled one grid for them.</p>
+      <p class="small">Down the side, our three ways in: Learn, Build and Share. Across the top, three questions: why would this person show up, how should it work for them, and what would they get? Here are all ${N_NOTES} sticky notes from the ${num(WALLS.length)} walls, one mark each: a square for Learn, a diamond for Build, a ring for Share. Point at or tap a mark to read its note.</p>`,
+    notes: ["“The second session was about our value prop and messaging. People are motivated when three needs are met: competence, autonomy and relatedness. Each table picked a persona, an Upskiller or a Volunteer, and filled one grid for them: Learn, Build and Share down the side; why they'd show up, how it should work, and what they'd get, across the top.”"],
   },
   {
-    label: "The first exercise · in their words", layer: "cloud", hud: cloudHud(CLOUD_SPECS.ex1), make: () => cloudScene(),
-    words: `<p class="kicker">The first exercise · In their words</p>
-      <h2 class="h">The words they used most</h2>
-      <p class="lead dim">Every word in the five headlines and ${N_MOON} cards that shows up at least twice, sized by how often. ${leaders(CLOUDS.ex1)}</p>
-      <p class="small">Each word takes the color of the card it comes from most: gold for headlines, drafts and notes, coral for impact cards, teal for peer cards. Small everyday words and our own name are left out. Word counts, not themes: the themes are in Part 2. Point at or tap a word to see where it's used.</p>`,
-    notes: [`“Here are the words from the first exercise, sized by how often the team used them. ${leaders(CLOUDS.ex1).replace(/[“”]/g, "")} Point at any word to see the cards it's on.”`],
-  },
-  {
-    label: "The second exercise · the grid", layer: "lab", hud: labelsHud, make: () => matrixScene(),
-    words: `<p class="kicker">The second exercise · How we'd talk to people</p>
-      <h2 class="h">One grid for every person</h2>
-      <p class="lead dim" data-at="0" data-only>Down the side are our three ways in: Learn, Build and Share. Across the top are three questions: why would someone come, how should it work for them, and what would they get out of it? Each sticky note answers one question for one way in. Here are all ${N_NOTES} from the three walls, one mark each: a square for Learn, a diamond for Build, a ring for Share.</p>
-      <p class="lead dim" data-at="1" data-only>Stand each row on its end and bend the grid round, and it becomes a circle. Learn, Build and Share turn into three slices; why sits at the center, then how, then what. That's the order of Simon Sinek's Golden Circle, which starts with why. It's the circle each person gets on their own wall.</p>
-      <p class="small">The number by each cell is how many sticky notes are in it. Point at or tap a mark to read its note.</p>`,
-    notes: [
-      "“The second exercise was about how we talk to people, and it used one grid. Down the side, our three ways in: Learn, Build and Share. Across the top, three questions: why would someone come, how should it work for them, and what would they get out of it?”",
-      "“Now watch: stand each row on its end, bend the grid round, and it becomes a circle. Learn, Build and Share are the slices; why sits at the center, then how, then what. That's the order of Simon Sinek's Golden Circle, which starts with why. Every sticky note still lands in one cell.”",
-    ],
-  },
-  {
-    label: "The second exercise · three people", layer: "lab", hud: labelsHud, make: () => circlesScene({ walls: [0, 1, 2], mode: "logo", scale: 0.55, spread: 5.6, sx: 0.36, d: 30, titles: PERSONA.map((P) => P.full) }),
-    words: `<p class="kicker">The second exercise · Three people</p>
-      <h2 class="h">Three people, three walls of sticky notes</h2>
-      <p class="lead dim">The team pictured three kinds of people who might come to The Labs and gave each one a wall with that grid. We've named each for what brings them, with a first name so they're easier to picture: ${andList(PERSONA.map((P) => P.full))}.</p>
-      <p class="small">They're proto-personas: the team's best picture of who might come, made at the retreat rather than from interviews, so they're a starting point to test, and the names are made up. Each figure is that person's mark, and you'll see it wherever they come up. Point at or tap one to see how its wall was labeled.</p>`,
-    notes: [`“Then the team pictured three kinds of people who might come to The Labs and gave each one a wall with that grid. We're calling them ${PERSONA.map((P) => P.say).join("; ")}: named for what brings them, with made-up first names so they're easier to picture. They're the team's picture, not people we've interviewed yet, so treat them as a starting point. Each figure is that person's mark; you'll see them again.”`],
-  },
-  introSlide(0), wallSlide(0), wordsSlide(0), outroSlide(0),
-  introSlide(1), wallSlide(1), wordsSlide(1), outroSlide(1),
-  introSlide(2), wallSlide(2), wordsSlide(2), outroSlide(2),
-  {
-    label: "The sticky notes, counted", layer: "lab", hud: labelsHud, make: () => Object.assign(circlesScene({ walls: [0, 1, 2], mode: "logo", scale: 0.55, spread: 5.6, sx: 0.32, d: 30, titles: PERSONA.map((P, k) => `${P.full} · ${WALLS[k].cards.length}`) }), { dur: [0, 1.6] }),
-    words: `<p class="kicker">The second exercise · All three walls</p>
-      <h2 class="h">${N_NOTES} sticky notes, counted</h2>
-      <p class="small" data-at="0" data-only>By wall, and by way in.</p><p class="small" data-at="1" data-only>By way in, and by question.</p>
-      ${tally1}${tally2}
-      <p class="small" data-at="1">${emptyLine}</p>`,
-    notes: [
-      `“All ${N_NOTES} sticky notes, counted by wall and by way in.”`,
-      `“And by question. ${emptyLine}”`,
-    ],
+    label: "The second exercise · the walls", layer: "lab", hud: labelsHud, make: () => goldenScene({ walls: [0, 1, 2], morph: "grid", glyph: 13, at: (c) => [(c.aspect ?? 1.8) < 1.05 ? 0 : 1.1, 0, 0] }),
+    words: `<p class="kicker">The second exercise · What the walls say</p>
+      <h2 class="h h-board">One Volunteer wall, two Upskiller walls</h2>
+      <p class="small">The Volunteer wall is labeled ${qt(wallLabel(WALLS[0]).more, ".")} The Upskiller walls picture our participants; one is labeled ${qt("mid-career pivoters", ".")}</p>
+      <div class="fold">${WALLS.map((w, k) => fold("walls", `${WALL_NAME[k]} · ${plural(w.cards.length, "sticky note", "sticky notes")}`, wallFold(w))).join("")}</div>
+      <p class="small">Click a wall to open it: every note as written, by way in and by question.</p>`,
+    notes: [`“Three walls came back: one Volunteer wall, with ${WALLS[0].cards.length} notes, and two Upskiller walls, with ${WALLS[1].cards.length} and ${WALLS[2].cards.length}. The second Upskiller wall is labeled mid-career pivoters.” Open a wall to read its notes.`],
   },
   {
     label: "The second exercise · in their words", layer: "cloud", hud: cloudHud(CLOUD_SPECS.ex2), make: () => cloudScene(),
@@ -3543,6 +3385,7 @@ const Clips = (() => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
     Clips.unlock();
     const k = e.key;
+    if ((k === "Enter" || k === " ") && e.target.closest && e.target.closest("summary")) return; // a focused fold opens and closes
     if (help.classList.contains("on") && k !== "?") { if (k === "Escape" || k === "h" || k === "H") openHelp(false); return; }
     if (k === "ArrowRight" || k === " " || k === "PageDown" || k === "ArrowDown" || k === "Enter") { e.preventDefault(); if (blank) setBlank(false); else next(); }
     else if (k === "ArrowLeft" || k === "PageUp" || k === "ArrowUp" || k === "Backspace") { e.preventDefault(); if (blank) setBlank(false); else prev(); }
@@ -3560,7 +3403,7 @@ const Clips = (() => {
     else return;
     poke();
   });
-  const isUi = (t) => t.closest && t.closest("#notes, #help, .ui, a");
+  const isUi = (t) => t.closest && t.closest("#notes, #help, .ui, a, details");
   // A click that only brings the page into focus (in an embedded view, say) doesn't also advance it.
   let focusedAtDown = true;
   addEventListener("pointerdown", () => { focusedAtDown = document.hasFocus(); Clips.unlock(); }, true);
