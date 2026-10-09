@@ -19,7 +19,7 @@ const RULES = [
   [/\b(your|their|our|my|his|her)( own| local| new| first)? Labs?\b|\bLabs? (could be|is|are) (yours|theirs|ours|mine)\b/i, 'no one owns a Lab, or The Labs: say "a Lab", "the Lab", "the Lab near you"'],
 ];
 // Files (or JSON keys) that quote banned words in order to forbid them.
-const ALLOW_FILES = new Set(["content/steps/labs.md", "content/site/ui.en.json"]);
+const ALLOW_FILES = new Set(); // none now (the ambassador guide's were; it moved to OLOS)
 const ALLOW_KEYS = new Set(["dont", "$comment"]);
 
 async function walk(dir) {
@@ -40,7 +40,7 @@ function strings(value, key, out) {
 }
 
 let problems = 0;
-for (const file of [...(await walk("content")), "data/schedule.json", "data/roster.json"]) {
+for (const file of await walk("content")) {
   if (ALLOW_FILES.has(file)) continue;
   const text = await readFile(file, "utf8");
   const chunks = file.endsWith(".json")

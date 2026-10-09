@@ -3,7 +3,7 @@
    columns (take part, contribute, who you'll meet, partner with us, about),
    the partners' marks and the legal lines. A draft page passes `note`, shown
    last in small type. The words are in content/site/nav.json. */
-import { u } from "../lib/url";
+import { u, roleHref } from "../lib/url";
 import { NAV, navHref } from "../lib/nav";
 import roles from "../../content/roles/roles.json";
 
@@ -24,7 +24,7 @@ const listed = roles.roles.filter((r) => r.listed !== false);
         {F.columns.map((col) => (
           <div>
             <p class="kicker">{col.title}</p>
-            {col.roles ? listed.map((r) => <a href={u(`/${r.slug}/`)}>{r.name}</a>) : col.links.map((l) => <a href={navHref(l.href)}>{l.label}</a>)}
+            {col.roles ? listed.map((r) => <a href={roleHref(r.slug)}>{r.name}</a>) : col.links.map((l) => <a href={navHref(l.href)}>{l.label}</a>)}
           </div>
         ))}
       </nav>

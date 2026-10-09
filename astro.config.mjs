@@ -1,7 +1,6 @@
 // @ts-check
 import process from "node:process";
 import { defineConfig } from "astro/config";
-import offline from "./src/integrations/offline.mjs";
 
 // Static site, no backend. `site` feeds canonical URLs; swap it when the
 // domain is chosen (open question in the spec).
@@ -15,13 +14,13 @@ export default defineConfig({
   trailingSlash: "ignore",
   build: { format: "directory" },
   // /contributors/, /pin/ and /roles/ became /contributing/; old links still
-  // work. (The ambassador tools' old addresses redirect through
-  // src/pages/[...moved].astro, which keeps an invite link's #hash.) Astro
-  // doesn't add the base to a redirect target, so it's added here.
+  // work. (The Ambassador role's old addresses, /account/…, /ambassador/,
+  // /guide/ and the rest, send you on to OLOS through
+  // src/pages/[...moved].astro.) Astro doesn't add the base to a redirect
+  // target, so it's added here.
   redirects: {
     "/contributors": `${BASE.replace(/\/+$/, "")}/contributing/`,
     "/pin": `${BASE.replace(/\/+$/, "")}/contributing/`,
     "/roles": `${BASE.replace(/\/+$/, "")}/contributing/`,
   },
-  integrations: [offline()],
 });

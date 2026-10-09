@@ -1,15 +1,17 @@
 Copyright (c) 2026 The Upskilling Labs, Inc.
 
-This repository has two parts.
+This notice has two parts.
 
-1. The playbook: CC BY 4.0.
-   The ambassador playbook content in content/steps/, content/scenarios/,
-   content/faq/, content/site/deck.json and content/site/story.json is
+1. The playbook: CC BY 4.0, now in OLOS.
+   The ambassador playbook (formerly content/steps/, content/scenarios/,
+   content/faq/, content/site/deck.json and content/site/story.json here)
+   moved to the OLOS repository, under lib/ambassador/content/, and remains
    licensed under the Creative Commons Attribution 4.0 International License
-   (https://creativecommons.org/licenses/by/4.0/). See content/LICENSE.md.
+   (https://creativecommons.org/licenses/by/4.0/). Copies of it from this
+   repository's history remain under CC BY 4.0. See content/LICENSE.md.
    CC BY 4.0 grants no trademark rights.
 
-2. Everything else: all rights reserved.
+2. This repository: all rights reserved.
    The site's code, its other written content, its designs, the pin and
    button artwork, and The Upskilling Labs' name and marks are proprietary.
    No license is granted to copy, modify, publish, distribute, sublicense,

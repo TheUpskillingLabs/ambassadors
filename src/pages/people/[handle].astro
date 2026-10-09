@@ -5,7 +5,7 @@
 import Site from "../../layouts/Site.astro";
 import "../../styles/page.css";
 import { getCollection } from "astro:content";
-import { u } from "../../lib/url";
+import { u, roleHref } from "../../lib/url";
 import w from "../../../content/site/people.json";
 import roles from "../../../content/roles/roles.json";
 
@@ -26,7 +26,7 @@ const roleName = (slug: string) => roles.roles.find((r) => r.slug === slug)?.nam
         <h1 class="rise d1">{x.data.name}</h1>
         {x.data.bio && <p class="lede rise d2">{x.data.bio}</p>}
         <dl class="pg-facts rise d3">
-          {x.data.roles.length > 0 && <div><dt>{w.person.roles}</dt><dd>{x.data.roles.map((r, i) => <>{i > 0 && ", "}<a href={u(`/${r}/`)}>{roleName(r)}</a></>)}</dd></div>}
+          {x.data.roles.length > 0 && <div><dt>{w.person.roles}</dt><dd>{x.data.roles.map((r, i) => <>{i > 0 && ", "}<a href={roleHref(r)}>{roleName(r)}</a></>)}</dd></div>}
           {lab && <div><dt>{w.person.labs}</dt><dd><a href={u(`/labs/${lab.id}/`)}>{lab.data.city}</a></dd></div>}
           {cycles.length > 0 && <div><dt>{w.person.cycles}</dt><dd>{cycles.map((c, i) => <>{i > 0 && ", "}<a href={u(`/build-cycles/${c.id}/`)}>{c.data.title}</a></>)}</dd></div>}
         </dl>

@@ -1,6 +1,7 @@
 // The built site's links, checked after astro build: every internal link,
 // image and script resolves to a file in dist; every #anchor exists on its
 // page; and no live page links to a draft (a draft is built, but unlisted).
+// Links off the site (OLOS at theupskillinglabs.org, the live site, Luma) aren't checked.
 // The base path comes from BASE_PATH, as in the build.
 import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
@@ -8,7 +9,7 @@ import { routeStatus } from "./lib/meta.mjs";
 
 const DIST = "dist";
 const BASE = (process.env.BASE_PATH || "/").replace(/\/+$/, "");
-const ATTR = /\b(href|src|srcset|data-src|data-pin3d|data-art|data-apply-url)="([^"]*)"/g;
+const ATTR = /\b(href|src|srcset|data-src|data-pin3d|data-art)="([^"]*)"/g;
 
 async function walk(dir) {
   const out = [];

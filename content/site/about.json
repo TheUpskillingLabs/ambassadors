@@ -1,5 +1,5 @@
 {
-  "$comment": "/about/ — About, the owner page for how it's run: the story, what we believe, how The Labs is run (fiscal sponsorship, the board, built in the open), who it works with, and how to reach us. Every fact here is in the record already (content/site/apply.json, the footer's legal line); nothing is new. The board's names and the results stay on their own pages (about-board.json, about-results.json), drafts until the names are brought over from the live site and the first numbers are published.",
+  "$comment": "/about/ — About, the owner page for how it's run: the story, what we believe, how The Labs is run (fiscal sponsorship, the board, built in the open), who it works with, and how to reach us. Every fact here is in the record already (the old apply flow's agreement, now in OLOS; the footer's legal line); nothing is new. The board's names and the results stay on their own pages (about-board.json, about-results.json), drafts until the names are brought over from the live site and the first numbers are published.",
   "placeholder": false,
   "meta": {
     "route": "/about/",

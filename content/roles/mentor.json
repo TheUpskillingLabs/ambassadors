@@ -1,5 +1,5 @@
 {
-  "$comment": "Mentors: people who do the work, around when a Pod gets stuck (content/scenarios/mentor-time.json). From Brendan's journey interview (Sep 29, 2026): account first, then help at a workshop; mentoring Pods in a cycle comes from there. Buttons are new this cycle. Placeholders: any requirements.",
+  "$comment": "Mentors: people who do the work, around when a Pod gets stuck (the ambassador practice scenario mentor-time, now in OLOS). From Brendan's journey interview (Sep 29, 2026): account first, then help at a workshop; mentoring Pods in a cycle comes from there. Buttons are new this cycle. Placeholders: any requirements.",
   "placeholder": true,
   "meta": {
     "route": "/mentor/",

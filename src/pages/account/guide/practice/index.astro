@@ -1,9 +1,0 @@
----
-import { getEntry } from "astro:content";
-import StepPage from "../../../../components/StepPage.astro";
-import PracticeDeck from "../../../../components/PracticeDeck.astro";
-const entry = (await getEntry("steps", "practice"))!;
----
-<StepPage entry={entry} sticky={false}>
-  <PracticeDeck />
-</StepPage>

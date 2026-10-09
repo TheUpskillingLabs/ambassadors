@@ -1,31 +1,41 @@
 ---
-/* The ambassador tools moved inside the account (/account/…), and the guide's
-   first step gave up /labs/ for the Labs themselves (so /labs/ is Find a Lab
-   now). The other old addresses still work: each is a page that sends you on, keeping the query and the #hash
-   (a coordinator's invite link is /apply/#invite=…, and a plain redirect would
-   drop it). Static, so it works on GitHub Pages; the host turns these into
-   real redirects at launch. */
-import { u } from "../lib/url";
+/* The Ambassador role moved to OLOS (theupskillinglabs.org): its program
+   page, applying, the guide and its steps, the deck and the coordinator's
+   tools. Every address this site used for them, the account's (/account/…),
+   the program page's (/ambassador/) and the older top-level ones (/guide/,
+   /apply/, …), is a page here that sends you straight on, keeping the query
+   (the deck's ?short, ?notes, ?practice). An old invite link's #invite=… isn't
+   signed, so OLOS can't honor it, and it's dropped. Static, so it works on
+   GitHub Pages; the host can turn these into real redirects. */
+import { olos } from "../lib/url";
 
 // (getStaticPaths runs on its own, so the map lives inside it.)
 export function getStaticPaths() {
+  const steps = ["labs", "conversation", "your-story", "room", "practice"];
   const MOVED: Record<string, string> = {
-    guide: "/account/guide/",
-    conversation: "/account/guide/conversation/",
-    "your-story": "/account/guide/your-story/",
-    room: "/account/guide/room/",
-    practice: "/account/guide/practice/",
-    apply: "/account/apply/",
-    invite: "/account/invite/",
-    nominate: "/account/nominate/",
-    present: "/account/present/",
-    offline: "/account/offline/",
-    account: "/account/guide/",
+    // The account, where the tools last lived.
+    "account/apply": "/ambassador/start",
+    "account/guide": "/ambassador",
+    ...Object.fromEntries(steps.map((s) => [`account/guide/${s}`, `/ambassador/guide/${s}`])),
+    "account/present": "/ambassador/present",
+    "account/invite": "/ambassador/coordinator",
+    "account/nominate": "/ambassador/nominate",
+    "account/offline": "/ambassador",
+    // The program page.
+    ambassador: "/get-involved/ambassador",
+    // The first addresses, before the account.
+    guide: "/ambassador",
+    ...Object.fromEntries(steps.filter((s) => s !== "labs").map((s) => [s, `/ambassador/guide/${s}`])),
+    apply: "/ambassador/start",
+    invite: "/ambassador/coordinator",
+    nominate: "/ambassador/nominate",
+    present: "/ambassador/present",
+    offline: "/ambassador",
+    account: "/ambassador",
   };
-  return Object.keys(MOVED).map((moved) => ({ params: { moved }, props: { to: MOVED[moved] } }));
+  return Object.entries(MOVED).map(([moved, to]) => ({ params: { moved }, props: { to: olos(to) } }));
 }
 const { to } = Astro.props;
-const target = u(to);
 ---
 <!doctype html>
 <html lang="en">
@@ -33,11 +43,11 @@ const target = u(to);
     <meta charset="utf-8" />
     <meta name="robots" content="noindex" />
     <title>Moved · The Upskilling Labs</title>
-    <link rel="canonical" href={new URL(target, Astro.site)} />
-    <script is:inline define:vars={{ target }}>location.replace(target + location.search + location.hash);</script>
-    <noscript><meta http-equiv="refresh" content={`0;url=${target}`} /></noscript>
+    <link rel="canonical" href={to} />
+    <script is:inline define:vars={{ to }}>location.replace(to + location.search);</script>
+    <noscript><meta http-equiv="refresh" content={`0;url=${to}`} /></noscript>
   </head>
   <body>
-    <p>This page moved to <a href={target}>{target}</a>.</p>
+    <p>This page moved to <a href={to}>{to}</a>.</p>
   </body>
 </html>

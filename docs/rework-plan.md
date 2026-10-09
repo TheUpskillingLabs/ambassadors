@@ -8,6 +8,8 @@ Oct 3, 2026.
 
 This is a plan, not a commitment. Each PR below is a proposal to approve.
 
+> **Update, Oct 9, 2026:** the Ambassador role's signed-in tools (the apply flow, the guide and its steps, the deck, invites, nominating; the "roles and the guide" part of PR 8) were built in OLOS instead (see `docs/ambassadors/CLAUDE.md` in the OLOS repo; content in its `lib/ambassador/content/`). This repo no longer carries them: `/account/…`, `/ambassador/` and the older tool addresses redirect to theupskillinglabs.org, the steps, scenarios, faq, schedule and roster data moved with them, and the service worker that precached the account now only unregisters itself. Where this plan mentions those files, read it as history.
+
 ## 1. Where the repo is today
 
 - **Stack:**
@@ -261,6 +263,8 @@ Sizes are relative: S, M, L.
 - **Done when:** every playbook links to its source and shows its maturity.
 
 ### PR 8 · The account (L)
+
+*(Oct 9, 2026: the ambassador tools moved to OLOS instead; see the update at the top.)*
 
 The signed-in map, with fictional states switchable by a query value:
 - home by state (new, applied, in a cycle, after);

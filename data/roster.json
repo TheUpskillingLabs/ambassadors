@@ -1,5 +1,0 @@
-{
-  "$comment": "The founding ten, shown on the program page's launch section. Add each ambassador as they get in: first name and the part of town they're from. Empty slots read as open. Moving data, like schedule.json.",
-  "slots": 10,
-  "ambassadors": []
-}

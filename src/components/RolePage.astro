@@ -1,8 +1,9 @@
 ---
-/* A role's page, built around its button: one template for every public role
-   (Ambassador, Upskiller, Poderator, Mentor, Supporting Member), with each
-   role's words in content/roles/<slug>.json and the list of roles in
-   content/roles/roles.json.
+/* A role's page, built around its button: one template for the public roles
+   here (Upskiller, Poderator, Mentor, Supporting Member), with each role's
+   words in content/roles/<slug>.json and the list of roles in
+   content/roles/roles.json. (The Ambassador role's page lives in OLOS now,
+   /get-involved/ambassador; the comparison still lists it, linking there.)
 
    Most people who land here met someone wearing the button and want to know who
    that was and how to think of them; fewer came to take the role. So a role
@@ -11,8 +12,7 @@
    design/research/role-explainers.md): who they are, how to think of them,
    where you'd meet them, in the third person. The page turns to "Could this be
    you?" at "In short", and the role's own button comes after "How it works".
-   A role without `met` (the Ambassador program page, whose manifesto already
-   says why that person talked to you) keeps the original intro.
+   A role without `met` keeps the original intro.
 
    The structure follows two product pages for a single round object, Apple's
    AirTag and Lusion's Oryzo; the look is The Labs' own (ink, the teal and red
@@ -40,7 +40,7 @@
    (noindex) until the board approves the roles. */
 import Site from "../layouts/Site.astro";
 import "../styles/role.css";
-import { u } from "../lib/url";
+import { u, roleHref } from "../lib/url";
 import list from "../../content/roles/roles.json";
 import j from "../../content/site/join.json";
 
@@ -53,7 +53,7 @@ interface Role {
   hero: { eyebrow: string; title: string[]; alt: string };
   intro: { lede: string; strong: string; terms: string; cta: string; href: string; status: string };
   met?: Met;
-  moments: { kicker: string; title: string; items: { step: string; title: string; body: string; icon?: string }[] };
+  moments: { kicker: string; title: string; items: { step: string; title: string; body: string }[] };
   simple: { kicker: string; title: string; items: { icon: string; title: string; body: string }[] };
   path: { kicker: string; title: string; steps: Step[] };
   button: { kicker: string; title: string; body: string };
@@ -65,13 +65,9 @@ const { slug } = Astro.props;
 const all = import.meta.glob<{ default: Role }>("../../content/roles/*.json", { eager: true });
 const r = Object.entries(all).find(([p]) => p.endsWith(`/${slug}.json`))![1].default;
 
-// Ambassador's button already lives with the program page.
-const amb = slug === "ambassador";
-const still = amb ? u("/join/hero-button-760.webp") : u(`/roles/${slug}/hero-760.webp`);
-const stillSet = amb
-  ? `${u("/join/hero-button-760.webp")} 760w, ${u("/join/hero-button-1200.webp")} 1200w`
-  : `${u(`/roles/${slug}/hero-760.webp`)} 760w, ${u(`/roles/${slug}/hero-1200.webp`)} 1200w`;
-const art = amb ? u("/join/button-art.webp") : u(`/roles/${slug}/button-art.webp`);
+const still = u(`/roles/${slug}/hero-760.webp`);
+const stillSet = `${u(`/roles/${slug}/hero-760.webp`)} 760w, ${u(`/roles/${slug}/hero-1200.webp`)} 1200w`;
+const art = u(`/roles/${slug}/button-art.webp`);
 const small = (s: string) => u(`/roles/${s}/button-400.webp`);
 const pin3d = u("/join/pin3d.js");
 const href = u(r.intro.href);
@@ -80,8 +76,6 @@ const sizes = "(min-width: 1024px) min(75vh, 848px), min(128vw, 69svh)";
 const ph = (s: string) => s.includes("[PLACEHOLDER]") || s.includes("[N]");
 const ACCT = '<svg class="acct" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="10" r="3.2"/><path d="M6.2 18.4c1.3-2.2 3.4-3.4 5.8-3.4s4.5 1.2 5.8 3.4"/></svg>';
 const nos = ["01", "02", "03", "04", "05", "06"];
-// The brass moment pins are centred in their renders; each hangs flush left by its own inset (its left edge as a share of the image's width).
-const pinInset: Record<string, number> = { coffee: 0.096, mic: 0.194, handshake: 0.079 };
 const local = [
   { label: r.nav.why, href: "#intro", spy: "intro" },
   { label: r.nav.how, href: "#path", spy: "path" },
@@ -101,7 +95,7 @@ const icons: Record<string, string> = {
   vote: '<rect x="4.5" y="10" width="15" height="9.5" rx="1.5"/><path d="M9 10V5.5h6V10"/><path d="M5 5l14 14"/>',
 };
 ---
-<Site title={pageTitle} description={r.description} image={amb ? "/join/button-share.jpg" : `/roles/${slug}/hero-1200.webp`} bodyClass="rp" ctaOff local={local} note={note}>
+<Site title={pageTitle} description={r.description} image={`/roles/${slug}/hero-1200.webp`} bodyClass="rp" ctaOff local={local} note={note}>
   <Fragment slot="head"><link rel="preload" as="image" href={still} imagesrcset={stillSet} imagesizes={sizes} fetchpriority="high" /></Fragment>
     <main id="main">
       <!-- The hero: the role, one line, and its button, with rings spreading from it. -->
@@ -161,7 +155,6 @@ const icons: Record<string, string> = {
             {r.moments.items.map((m, i) => (
               <li class="rp-row reveal">
                 <p class="rp-step"><span class="no">{nos[i]}</span>{m.step}</p>
-                {m.icon && <img class="rp-row-pin" src={u(`/join/moment-${m.icon}.webp`)} alt="" width="480" height="480" loading="lazy" decoding="async" style={`--inset: ${pinInset[m.icon] ?? 0.1}`} />}
                 <h3>{m.title}</h3>
                 <p class:list={["rp-body", { ph: ph(m.body) }]}>{m.body}</p>
               </li>
@@ -263,7 +256,7 @@ const icons: Record<string, string> = {
                 <p class="time">{c.time}</p>
                 {c.slug === slug
                   ? <p class="here-tag">{list.here}</p>
-                  : <a class="textlink" href={u(`/${c.slug}/`)}>{list.more} <span class="sr">about {c.name}</span>→</a>}
+                  : <a class="textlink" href={roleHref(c.slug)}>{list.more} <span class="sr">about {c.name}</span>→</a>}
               </li>
             ))}
           </ul>
