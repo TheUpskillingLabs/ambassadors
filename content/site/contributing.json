@@ -1,53 +1,54 @@
 {
-  "$comment": "The Contributor Community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, and not linked from the program page) until the board approves the levels; the home page's Share path leads here, as the explainer for contributing. The one idea: The Labs is built by the people who learn here. Learning by doing, applied to The Labs itself: anyone can contribute (make something, take a role, teach what you know, or back it as a Supporting Member; roles open in order, and Poderator comes after a Build Cycle), and each level means you've worked hands-on in more of its workstreams, major and minor. The page is three chapters, and each cover's promise is paid off by the sections right under it: Start anywhere (the ways in), Go as far as you like (the levels), Yours for good (how the pin is given, active or emeritus, what won't change). The pins are the symbol: one section walks the levels, by scroll or by picking one, with a pin you can drag (live 3D on desktop). Summarises design/research/recognition-system.md. [PLACEHOLDER] marks what's still open. The covers reuse the program page's macro shots of the pin (src/components/JoinCover.astro): chapters[].shot picks the shot (join.json mission[n]); title is this page's tagline.",
+  "$comment": "The Contributor Community (/contributing/; /roles/, /pin/ and /contributors/ redirect here). Unlisted (noindex, and not linked from the program page) until the board approves it; the home page's Share path leads here, as the explainer for contributing. The one idea: every Lab is built by the people who learn in it. Everyone builds: every role works hands-on in OLOS, building with AI and working through review, because that's baseline now. Each Lab runs its own fork of OLOS. The gold (brass) pin is graduation: you learned enough to build something, it was reviewed and merged into the Lab's OLOS, and the Lab runs on it. Stewards (Reviewer, Committer, Maintainer) run the review, by invitation once you ask. The best of a Lab's work is proposed to the core, the national level of the same system (the nickel pin). The page is three chapters: Learn to build it (every role builds, how work gets in), Graduate (the gold pin, stewards, active or emeritus), Every Lab (the core, what stays true). Plan: docs/contributing-rework-plan.md. Roles are examples, still being worked out, and a Lab can make its own. [PLACEHOLDER] marks what's still open. The covers reuse the program page's macro shots of the pin (src/components/JoinCover.astro): chapters[].shot picks the shot (join.json mission[n]); title is this page's tagline.",
   "placeholder": true,
   "meta": {
     "route": "/contributing/",
-    "need": "As someone who wants to help, I need to know how contributing works and where to start, so that I can find my place.",
+    "need": "As someone in a Lab, I need to know how I learn to build, how my work gets into the Lab and beyond, and how that's recognized, so that I can take part in shaping it.",
     "owner": "national",
     "review": "2026-11-15",
     "status": "live",
     "index": false
   },
   "title": "Contributor Community",
-  "description": "The Labs is built by the people who learn here. Start anywhere, go as far as you like, and what you earn is yours for good.",
+  "description": "Every Lab is built by the people who learn in it. Build it in the Lab near you, prove it there, and the best of it ends up in every Lab.",
   "nav": {
     "brand": "Contributor Community",
-    "start": "Ways in",
-    "rings": "The way up",
-    "given": "The pin",
+    "start": "Every role builds",
+    "how": "How work gets in",
+    "rings": "The pin",
+    "core": "Every Lab",
     "program": "Ambassador program",
     "cta": "Become an ambassador",
     "ctaShort": "Join us",
     "menu": "Menu",
     "menuClose": "Close menu"
   },
-  "draft": "A working draft. The board hasn't approved the levels or the workstreams yet, and the pins are still being made.",
+  "draft": "A working draft. The board hasn't approved this yet, roles are still being worked out, and the pins are still being made.",
   "hero": {
     "title": [
       "Contributor",
       "Community"
     ],
-    "lede": "The Labs is built by the people who learn here. That's the whole idea. Here's how you become one of them.",
-    "cta": "See the ways in",
+    "lede": "Every Lab is built by the people who learn in it. Build it in the Lab near you. Prove it there. The best of it ends up in every Lab.",
+    "cta": "See how it works",
     "status": "The first pins go to our two steering committees",
-    "pinAlt": "The Contributing Member pin, turning to follow your pointer"
+    "pinAlt": "The gold pin, turning to follow your pointer"
   },
   "chapters": [
     {
       "id": "ch-together",
       "shot": 0,
-      "title": "Start anywhere."
+      "title": "Learn to build it."
     },
     {
       "id": "ch-levelup",
       "shot": 1,
-      "title": "Go as far as you like."
+      "title": "Graduate."
     },
     {
       "id": "ch-leader",
       "shot": 2,
-      "title": "Yours for good."
+      "title": "Every Lab."
     }
   ],
   "why": {
@@ -66,8 +67,8 @@
       },
       {
         "label": "Hands-on",
-        "title": "Learning is the point.",
-        "body": "Every job here teaches you something. And with AI tools, you'll end up building more than you thought you could."
+        "title": "Building is the baseline.",
+        "body": "Building with AI and working on shared things through review is becoming as basic as email. You'll learn it here, by doing it."
       },
       {
         "label": "Local",
@@ -77,156 +78,204 @@
     ]
   },
   "start": {
-    "kicker": "Ways in",
-    "title": "There's no front door. Come in wherever you like.",
-    "lede": "Somebody fixes a typo in the guide. Somebody else runs a whole room. It all counts, and none of it gets forgotten.",
+    "kicker": "Every role builds",
+    "title": "Whatever you run, you'll help build it too.",
+    "lede": "Every Lab runs on OLOS, its own copy of The Labs' shared system. Every role works in it. Running a pod or a chapter is how you find out what needs improving. Building is how you improve it.",
     "items": [
       {
-        "label": "If you make things",
-        "title": "Make something better.",
-        "body": "See something that could be better? Change it. A guide, a flyer, a talk, a bit of code. We'll credit you by name."
+        "label": "Chapter lead",
+        "title": "Run the Lab.",
+        "body": "And shape how it runs: the playbook, the calendar, the way new people find their footing."
       },
       {
-        "label": "If you want a job to do",
-        "title": "Take a role.",
-        "body": "Ambassador, Upskiller and Mentor are open now. Poderator comes after you've been through a Build Cycle yourself. Every role has its own training, and soon its own page."
+        "label": "Experience lead",
+        "title": "Run the room.",
+        "body": "And build the workshops: the agenda, the materials, the parts that worked better the fifth time."
       },
       {
-        "label": "If you've got something to teach",
-        "title": "Teach what you know.",
-        "body": "Everyone does. Mentor a pod, look over work you know well, and help newer people find their feet. Your time counts here, and we'll make sure people know it."
+        "label": "Poderator",
+        "title": "Run a pod.",
+        "body": "And improve how pods run: forming teams, keeping them moving, getting them to a finished build."
       },
       {
-        "label": "If you'd rather back it than build it",
-        "title": "Become a Supporting Member.",
-        "body": "Chip in a little each year, wear the button that says you back The Labs, and come to everything. You can always start here."
+        "label": "Community manager",
+        "title": "Bring people together.",
+        "body": "And build how they find each other: the welcome, the follow-up, the way people stay in touch."
       }
     ],
-    "note": "Whichever door you take, the pin works the same way. When The Labs runs on something you gave, the people who saw it happen put your name forward. Dues don't count toward it. Only the work does."
+    "note": "These are examples, and we're still working roles out. The Lab near you might come up with a new one. Whatever the role, you'll learn to build with AI and to collaborate through review, and you won't learn it alone: we'll teach the skills, pair you up, and celebrate your first contribution loudly. [PLACEHOLDER: link to the first guided contribution]"
+  },
+  "how": {
+    "kicker": "How work gets in",
+    "title": "Have an idea? Show us.",
+    "lede": "You don't have to wait for someone else to do it. You don't hand your workshop to someone and hope it gets added. You learn to put it in yourself.",
+    "steps": [
+      {
+        "title": "Build it.",
+        "body": "A tool, a guide, a workshop, a better way to run a pod. Build it with AI, in the Lab's OLOS."
+      },
+      {
+        "title": "Try it.",
+        "body": "Use it with a pod or at a workshop, and see what happens."
+      },
+      {
+        "title": "Propose it.",
+        "body": "Put it forward as a change, and work it through review with people in the Lab."
+      },
+      {
+        "title": "It's in.",
+        "body": "Merged into the Lab's OLOS. The Lab runs on it now, with your name on it."
+      }
+    ],
+    "note": "Nothing goes in unreviewed, and no one acts alone. But the work, and the credit for it, are yours."
   },
   "rings": {
-    "kicker": "The way up",
-    "title": "Four levels. Each one means you've had your hands on more of The Labs.",
-    "lede": "It isn't a ladder you have to climb. Plenty of people find the job they love and stay there for years. But if you want to see how the whole thing fits together, this is how you get there.",
+    "kicker": "The pin, and the people who look after it",
+    "title": "Graduate. Then, if you want to, look after it.",
+    "lede": "The gold pin means you've graduated: you learned enough to build something, it was reviewed and merged, and the Lab runs on it. Stewards run the review. Each steward role adds a ring behind the pin.",
     "readout": {
-      "label": "Hands-on in"
+      "label": "Trusted with"
     },
     "labels": {
       "how": "How you get there",
-      "trusted": "Trusted with"
+      "trusted": "What you do"
     },
     "steps": [
       {
         "id": "member",
         "rank": "Contributing Member",
-        "shows": "One part of The Labs",
-        "line": "Something you gave is now part of how The Labs runs.",
-        "how": "Your work, your time, or your know-how made a real difference, and the Lab wrote down what it was.",
-        "trusted": "Vouching for the next person who's ready."
+        "shows": "The gold pin",
+        "line": "You learned to build, and the Lab runs on something you built.",
+        "how": "Something you built was reviewed and merged into the Lab's OLOS. Not for showing up, not for hours, not for good intentions.",
+        "trusted": "Building more, and helping the next person get their first contribution in."
       },
       {
         "id": "reviewer",
         "rank": "Reviewer",
-        "shows": "Two major workstreams",
-        "line": "You've done it, so you can check it.",
-        "how": "You've worked hands-on in two major workstreams, and two people who already wear the pin have vouched for you.",
-        "trusted": "Checking work in the areas you know, and helping newer people get there."
+        "shows": "A steward. One ring",
+        "line": "You've built it, so you can check it.",
+        "how": "You've had work merged and you want the responsibility, so you ask. The Lab's stewards decide based on the quality of what you've built.",
+        "trusted": "Reviewing changes in the areas you've built in, and helping people get their work ready."
       },
       {
         "id": "committer",
-        "rank": "Approver",
-        "shows": "Every major workstream",
-        "line": "You've seen every part of The Labs up close.",
-        "how": "You've worked hands-on in every major workstream, and a few of the smaller ones.",
-        "trusted": "Saying yes to changes in the Lab's playbooks, and mentoring Reviewers."
+        "rank": "Committer",
+        "shows": "A steward. Two rings",
+        "line": "You say yes.",
+        "how": "Your reviews and your own work have held up. You ask, and the Lab's stewards decide.",
+        "trusted": "Merging reviewed changes into the Lab's OLOS, and mentoring Reviewers."
       },
       {
         "id": "maintainer",
         "rank": "Maintainer",
-        "shows": "Every workstream, major and minor",
-        "line": "You know how it all fits together.",
-        "how": "You've been hands-on across the board. The other Maintainers put your name forward, and the board says yes.",
-        "trusted": "Deciding where a workstream goes next. The board keeps the final say."
+        "shows": "A steward. Three rings",
+        "line": "You look after the whole of it.",
+        "how": "You've helped shape the Lab's OLOS across the board. You ask, and the other Maintainers decide.",
+        "trusted": "Deciding where the Lab's OLOS goes next, and looking after the people who look after it."
       }
     ],
-    "names": "Workstreams and level names are still drafts. Major workstreams (draft): Build Cycle, Learning Pathways, Community & Outreach, Platform (OLOS), Operations & Governance. Smaller ones include events, communications and research.",
+    "names": "If the answer is \"not yet\", the stewards tell you specifically what would change it. Stewards shape the system through review; the boards still look after money, people and the brand.",
     "picker": {
-      "legend": "Level",
+      "legend": "Role",
       "levels": [
         "Member",
         "Reviewer",
-        "Approver",
+        "Committer",
         "Maintainer"
       ],
       "hint": "Drag to turn it",
       "hintKeys": "Arrow keys turn it",
       "stageLabel": "The {rank} pin. Drag, or use the arrow keys, to turn it.",
       "alts": [
-        "The Contributing Member pin",
-        "The Reviewer pin",
-        "The Approver pin",
-        "The Maintainer pin"
+        "The gold pin",
+        "The gold pin with one ring, for a Reviewer",
+        "The gold pin with two rings, for a Committer",
+        "The gold pin with three rings, for a Maintainer"
       ]
     }
   },
   "given": {
-    "kicker": "How it's given",
-    "title": "It starts with the work. It ends with a handshake.",
+    "kicker": "How the gold pin is given",
+    "title": "Our version of graduation.",
     "steps": [
       {
-        "title": "Do the work.",
-        "body": "Give your time, your skills, or something you made."
+        "title": "Learn to build.",
+        "body": "In a Build Cycle, in your role, with someone pairing with you."
       },
       {
-        "title": "Two people vouch for you.",
-        "body": "Both of them already wear the pin. They help you get there, and then they say so."
+        "title": "Get something in.",
+        "body": "Reviewed and merged into the Lab's OLOS, and the Lab runs on it."
       },
       {
         "title": "It goes on the record.",
-        "body": "The Lab checks it and writes one line about what you did, next to your name."
+        "body": "One line about what you built, next to your name, in the Lab's OLOS."
       },
       {
         "title": "Pinned.",
-        "body": "At the next big get-together in your region, in front of everyone. The two people who vouched for you pin it on and say a few words."
+        "body": "At the next big get-together in your region, in front of everyone, by the people who reviewed your work."
       }
     ],
-    "note": "There's no clock on any of this. Take the time it takes, and every kind of help counts."
+    "note": "There's no clock on any of this. Some people get there in their first cycle, some take longer. Every role is on the path."
   },
   "status": {
     "kicker": "Active or emeritus",
     "title": "Once it's yours, it stays yours.",
-    "lede": "Your level doesn't go away. The only question is whether you're doing the work right now.",
+    "lede": "Your pin and your rings don't go away. The only question is whether you're doing the work right now.",
     "items": [
       {
         "label": "Active",
         "title": "In the thick of it.",
-        "body": "You've got a seat at the table, and the say that comes with it."
+        "body": "You're reviewing, merging or maintaining, and you have the say that comes with it."
       },
       {
         "label": "Emeritus",
         "title": "Taking a step back.",
-        "body": "You keep your level, your pin, and your voice. When a seat opens up, come on back."
+        "body": "You keep your pin, your rings and your voice. When you're ready, come on back."
       }
     ]
+  },
+  "core": {
+    "kicker": "From one Lab to every Lab",
+    "title": "The best of it ends up in every Lab.",
+    "lede": "HQ maintains the core: the shared OLOS every Lab starts from. It drives the major updates, rebuilds and new features. And it grows from what each Lab has proven.",
+    "steps": [
+      {
+        "title": "It works in the Lab.",
+        "body": "It's merged, the Lab runs on it, and you've seen what it changed."
+      },
+      {
+        "title": "It's proposed to the core.",
+        "body": "The Lab's stewards put it forward. They know your work and they've seen it run."
+      },
+      {
+        "title": "It's reviewed for every Lab.",
+        "body": "National stewards check that it works beyond the place it was built, and work with you on what needs to change."
+      },
+      {
+        "title": "Every Lab gets it.",
+        "body": "Merged into the core, with your name and the Lab's on it. That's the nickel pin."
+      }
+    ],
+    "note": "It's the same system, one level up. Nickel pins, and national Reviewers, Committers and Maintainers, work just like they do in a Lab."
   },
   "decides": {
     "kicker": "What stays true",
     "title": "A few things that won't change.",
     "rules": [
-      "The pin is a thank-you from the community, not a certificate. It says what you did, not what you're allowed to do.",
-      "No one can buy a pin, a level, or a vote.",
-      "Levels don't come with a vote, either. The boards look after programs, money, people and the brand.",
-      "The only way to lose a level is to seriously break the Code of Conduct."
+      "The people who build and look after OLOS shape it, through review. Nothing goes in unreviewed, and no one acts alone.",
+      "The boards look after the organization: money, people, legal and the brand.",
+      "No one can buy a pin, a ring, or a vote. Only the work counts.",
+      "The only way to lose a pin or a ring is to seriously break the Code of Conduct."
     ]
   },
   "join": {
-    "title": "Every pin starts with one small thing you did.",
+    "title": "Every pin starts with your first contribution.",
     "lede": "The simplest way to start is the ambassador program. Share your story, bring someone to their first workshop, and see what you end up building.",
     "cta": "Become an ambassador"
   },
   "footer": {
     "renders": "Images of the pin are 3D renders, not photos. The real pins are still being made.",
     "program": "The ambassador program",
-    "source": "Draft source: design/research/recognition-system.md"
+    "source": "Draft source: docs/contributing-rework-plan.md and design/research/recognition-system.md"
   }
 }

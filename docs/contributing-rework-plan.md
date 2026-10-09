@@ -1,6 +1,6 @@
 # Contributor Community page: rework plan (draft)
 
-Plan for reworking `/contributing/` (`content/site/contributing.json`, `src/pages/contributing/index.astro`) after the October 2026 feedback round. Nothing here is built yet.
+Plan for reworking `/contributing/` (`content/site/contributing.json`, `src/pages/contributing/index.astro`) after the October 2026 feedback round. The page itself is now rebuilt to this plan; the design docs are not yet updated.
 
 ## What changed in our thinking
 
@@ -26,7 +26,7 @@ The page tells one story: **learn to build → build in your Lab → graduate �
 | 3 | How work gets in (`how`) | new | "Have an idea? Show us." Four steps: build it, propose it, work it through review with your Lab, merged. Plus "You don't have to wait for someone else to do it. Nothing goes in unreviewed, but the work and the credit are yours." |
 | — | Cover 2: "Graduate." | "Go as far as you like." | |
 | 4 | The gold pin (`pin`) | How it's given (`given`) | Graduation: what it certifies, how it's given (merged → put forward → pinned at the regional get-together). Named builders from a Lab and what they built (placeholder until real names are approved). |
-| 5 | Looking after your Lab (`stewards`) | The way up (`rings`) | Reviewer, Approver, Maintainer described by what they do in review. Ask; invited on quality; "not yet" comes with specifics. Active and emeritus folded in here (replaces `status`). |
+| 5 | Looking after the Lab (`rings`, the steward picker) | The way up (`rings`) | Reviewer, Approver, Maintainer described by what they do in review. Ask; invited on quality; "not yet" comes with specifics. Active and emeritus folded in here (replaces `status`). |
 | — | Cover 3: "Every Lab." | "Yours for good." | |
 | 6 | From your Lab to every Lab (`core`) | new | Four steps: works in your Lab → put forward by your Lab's stewards → reviewed by national stewards → merged into the core with your name and your Lab's. HQ's role. The nickel pin. |
 | 7 | What stays true (`decides`) | What stays true | Rewritten: builders shape the system through review; the boards govern the organization (money, people, legal, brand); nothing goes in unreviewed; no one can buy a pin, role or vote; emeritus keeps the pin; only a serious Code of Conduct breach loses it. |
@@ -49,9 +49,9 @@ Nav becomes: Every role builds · How work gets in · The pin · Every Lab.
 
 ## Decisions needed before building
 
-1. **Do stewards get visible recognition?** Options: keep the backing plates (rings) for Reviewer/Approver/Maintainer, or drop them and list stewards by name. Dropping them keeps the pin about contribution only and removes the 3D level picker.
-2. **Nickel pin:** confirm it means "contributor to the core," with national stewardship as a separate, invited step (mirroring the Lab).
-3. **Role list:** which roles get a card (chapter lead, experience lead, poderator, community manager, ambassador, upskiller, mentor…) and what each typically builds.
+1. ~~Steward recognition~~ **Decided:** stewards are Reviewer, Committer and Maintainer (Approver is renamed Committer). Each adds a ring behind the gold pin; the level picker stays, now for the steward roles.
+2. ~~Nickel pin~~ **Decided:** the national/core level of the same system: nickel pin, and national Reviewers, Committers and Maintainers.
+3. ~~Role list~~ **Decided:** roles are still being worked out and a Lab can make its own. The page shows four examples (chapter lead, experience lead, poderator, community manager) and says so.
 4. **What lives in OLOS:** confirm that workshop and training materials, frameworks, journey maps and sample deliverables live there or will, since the pin depends on it.
 5. **The on-ramp:** what the first guided contribution is and who pairs with newcomers. The page shouldn't promise it before it exists.
 6. **Who puts work forward to the core:** a Lab's stewards (as drafted) or any individual.
@@ -65,3 +65,8 @@ Nav becomes: Every role builds · How work gets in · The pin · Every Lab.
 3. Rebuild the sections in `index.astro`; run the build and check the page on phone and desktop widths.
 4. Update the two design docs.
 5. Fill placeholders (named builders, on-ramp link) as decisions 5–7 land.
+
+## Notes from the build
+
+- The copy linter (`scripts/lint-copy.mjs`) bans "your Lab" ("no one owns a Lab"), so the page says "the Lab" and "the Lab near you".
+- Section ids kept where markup was reused (`start`, `given`, `rings`, `status`); new sections are `how` and `core`.

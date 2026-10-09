@@ -1,16 +1,19 @@
 ---
-/* /contributing/ — the contributor community: join it, and work your way up.
-   Anyone can contribute; roles are where you practise; the Contributing
-   Member pin recognizes work The Labs runs on; Reviewer, Approver and
-   Maintainer each add more of The Labs, hands on. Unlisted (noindex, and not
-   linked from the program page) until the board approves the levels; the home
-   page's Share path leads here, as the explainer for contributing.
-   /roles/, /pin/ and /contributors/ redirect here.
+/* /contributing/ — the contributor community: learn to build, get your work
+   into your Lab, graduate, and the best of it reaches every Lab. Every role
+   builds in OLOS; each Lab runs its own fork. The gold pin is graduation
+   (your work was reviewed and merged into your Lab's OLOS); Reviewer,
+   Committer and Maintainer are the stewards who run the review, each adding a
+   ring. The core is the same system one level up (the nickel pin). Unlisted
+   (noindex, and not linked from the program page) until the board approves
+   it; the home page's Share path leads here, as the explainer for
+   contributing. /roles/, /pin/ and /contributors/ redirect here.
+   Plan: docs/contributing-rework-plan.md.
 
    The pins are live 3D on desktop: public/join/pin3d.js (the program page's
    pin) plus rings built in src/scripts/rankpin.ts. Two views: the hero pin,
-   which turns to follow the pointer, and the way up, where each level's pin
-   builds as you scroll (or pick a level) and can be dragged to turn. Phones,
+   which turns to follow the pointer, and the stewards' picker, where each
+   role's pin builds as you scroll (or pick a role) and can be dragged to turn. Phones,
    reduced motion and machines without GPU WebGL get Cycles stills of the same
    pins from LabsPin.blend (public/contributing/), framed identically.
 
@@ -37,8 +40,9 @@ const apply = u("/account/apply/");
 const pageTitle = `${c.title} · The Upskilling Labs`;
 const local = [
   { label: c.nav.start, href: "#start", spy: "why ch-together start" },
-  { label: c.nav.rings, href: "#rings", spy: "ch-levelup rings" },
-  { label: c.nav.given, href: "#given", spy: "ch-leader given status decides" },
+  { label: c.nav.how, href: "#how", spy: "how" },
+  { label: c.nav.rings, href: "#given", spy: "ch-levelup given rings status" },
+  { label: c.nav.core, href: "#core", spy: "ch-leader core decides" },
   { label: c.nav.program, href: home },
 ];
 ---
@@ -82,7 +86,7 @@ const local = [
 
       <JoinCover n={c.chapters[0].shot} id={c.chapters[0].id} title={c.chapters[0].title} />
 
-      <!-- Ways in: make something, take a role, teach what you know, or back it as a Supporting Member. Then how the pin works, whichever door. -->
+      <!-- Every role builds: example roles, what each runs and what it builds in OLOS. Then the on-ramp. -->
       <section id="start" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
@@ -99,9 +103,42 @@ const local = [
         </div>
       </section>
 
+      <!-- How work gets in: show it working, then review. -->
+      <section id="how" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.how.kicker}</p>
+            <h2 class="h2">{c.how.title}</h2>
+            <p class="lede">{c.how.lede}</p>
+          </div>
+          <ol class="jp-steps reveal">
+            {c.how.steps.map((s, i) => (
+              <li class:list={{ milestone: i === c.how.steps.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
+            ))}
+          </ol>
+          <p class="cm-note">{c.how.note}</p>
+        </div>
+      </section>
+
       <JoinCover n={c.chapters[1].shot} id={c.chapters[1].id} title={c.chapters[1].title} />
 
-      <!-- The way up: one level at a time, by scroll (wide screens) or by picking one. The pin beside it can be dragged. -->
+      <!-- The gold pin: graduation, and how it's given. -->
+      <section id="given" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.given.kicker}</p>
+            <h2 class="h2">{c.given.title}</h2>
+          </div>
+          <ol class="jp-steps reveal">
+            {c.given.steps.map((s, i) => (
+              <li class:list={{ milestone: i === c.given.steps.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
+            ))}
+          </ol>
+          <p class="cm-note">{c.given.note}</p>
+        </div>
+      </section>
+
+      <!-- The stewards: one role at a time, by scroll (wide screens) or by picking one. The pin beside it can be dragged. -->
       <section id="rings" class="jp-sec cm-rings">
         <div class="wrap reveal">
           <p class="kicker">{c.rings.kicker}</p>
@@ -148,23 +185,6 @@ const local = [
         <p class="wrap cm-note">{c.rings.names}</p>
       </section>
 
-      <JoinCover n={c.chapters[2].shot} id={c.chapters[2].id} title={c.chapters[2].title} />
-
-      <section id="given" class="jp-sec">
-        <div class="wrap">
-          <div class="reveal">
-            <p class="kicker">{c.given.kicker}</p>
-            <h2 class="h2">{c.given.title}</h2>
-          </div>
-          <ol class="jp-steps reveal">
-            {c.given.steps.map((s, i) => (
-              <li class:list={{ milestone: i === c.given.steps.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
-            ))}
-          </ol>
-          <p class="cm-note">{c.given.note}</p>
-        </div>
-      </section>
-
       <section id="status" class="jp-sec">
         <div class="wrap">
           <div class="reveal">
@@ -177,6 +197,25 @@ const local = [
               <div class="jp-col" data-status={it.label.toLowerCase()}><p class="label">{it.label}</p><h3>{it.title}</h3><p>{it.body}</p></div>
             ))}
           </div>
+        </div>
+      </section>
+
+      <JoinCover n={c.chapters[2].shot} id={c.chapters[2].id} title={c.chapters[2].title} />
+
+      <!-- From your Lab to every Lab: the core, the same system one level up. -->
+      <section id="core" class="jp-sec">
+        <div class="wrap">
+          <div class="reveal">
+            <p class="kicker">{c.core.kicker}</p>
+            <h2 class="h2">{c.core.title}</h2>
+            <p class="lede">{c.core.lede}</p>
+          </div>
+          <ol class="jp-steps reveal">
+            {c.core.steps.map((s, i) => (
+              <li class:list={{ milestone: i === c.core.steps.length - 1 }}><span class="n">{String(i + 1).padStart(2, "0")}</span><h3>{s.title}</h3><p>{s.body}</p></li>
+            ))}
+          </ol>
+          <p class="cm-note">{c.core.note}</p>
         </div>
       </section>
 
