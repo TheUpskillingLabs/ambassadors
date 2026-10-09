@@ -1850,6 +1850,7 @@ const X0 = 11800; // particles above this index are free for the readout's own l
 const DATA_URL = "https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/data/";
 const PICK = { i: -1, key: null };
 const WALL_NAME = ["Volunteer", "Upskiller", "Upskiller · mid-career pivoters"]; // what each table picked for its wall
+const WALL_LIT = [1, 1, 1], WALL_OPEN = { k: -1 }; // on the walls slide: which wall is open, and how lit each wall's notes are (the open wall's stay lit, the others dim)
 const DATUM = (() => {
   const m = RD.moonshot, KT = { impact: 2, peer: 1, draft: 3, note: 3 }, KP = { learn: 1, build: 2, share: 3 };
   const NAME = { impact: "Impact card", peer: "Peer card", draft: "Headline draft, written alone", note: "Note on the group sheet" };
@@ -2163,7 +2164,7 @@ function goldenScene(opt = {}) {
       PATHS3.forEach((p) => { const A = atOf(c); out.push({ t: PN[p], cls: "lab-" + p, p: [A[0] + Math.cos(SEC_C[p]) * LAB_R * sc, A[1] + Math.sin(SEC_C[p]) * LAB_R * sc, A[2]], a: (opt.reveal === "paths" ? arrive(c, p, 0) : a) * tail }); });
       // each cell's count: to the right of its notes in the grid; just inside its ring in the circle
       const ca = opt.counts ? (cl) => opt.counts(c, m, cl) : () => a * (1 - ss(0.5, 0.6, m));
-      CELLS.forEach((cl) => out.push({ t: String(cl.n), cls: "lab-count", p: place(c, cl.pi, cl.p, (cl.qi - 1) * (CW + GAP) + 0.6, Q_R[cl.q] - 0.34, 0.15, 0.5, m, P()), a: ca(cl) }));
+      CELLS.forEach((cl) => out.push({ t: String(opt.cellN ? opt.cellN(cl) : cl.n), cls: "lab-count", p: place(c, cl.pi, cl.p, (cl.qi - 1) * (CW + GAP) + 0.6, Q_R[cl.q] - 0.34, 0.15, 0.5, m, P()), a: ca(cl) }));
       return out;
     },
     cam: opt.cam ?? ((c) => (tallOf(c) ? { t: [0, 0, 0], d: 10, yaw: 0, pitch: 0, fov: 34, sx: 0, sy: 0.4, zoom: 1 } : { t: [0, 0, 0], d: 13.5, yaw: 0, pitch: 0, fov: 34, sx: 0.34, sy: -0.04, zoom: 1 })),
@@ -2428,7 +2429,7 @@ const AFTER = {
 const sceneLabels = (c, key, items) => {
   const box = document.getElementById("scenelabels"); if (!box || !c || !c.project) return;
   if (box.dataset.key !== key) { box.dataset.key = key; box.innerHTML = items.map((it) => `<span class="${it.cls || ""}">${esc(it.t)}</span>`).join(""); }
-  items.forEach((it, k) => { const sp = box.children[k]; if (!sp) return; const q = c.project(it.p); sp.style.transform = `translate(calc(${q.x.toFixed(1)}px - ${it.al === "l" ? "0%" : it.al === "r" ? "100%" : "50%"}), calc(${q.y.toFixed(1)}px - 50%))`; sp.style.opacity = (it.a ?? 1).toFixed(2); });
+  items.forEach((it, k) => { const sp = box.children[k]; if (!sp) return; if (sp.textContent !== it.t) sp.textContent = it.t; const q = c.project(it.p); sp.style.transform = `translate(calc(${q.x.toFixed(1)}px - ${it.al === "l" ? "0%" : it.al === "r" ? "100%" : "50%"}), calc(${q.y.toFixed(1)}px - 50%))`; sp.style.opacity = (it.a ?? 1).toFixed(2); });
 };
 function labelsHud(c) { if (this.scene && this.scene.labels) sceneLabels(c, this.label, this.scene.labels(c)); }
 
@@ -2536,7 +2537,7 @@ const wallFold = (w) => `<ul class="wall">${["learn", "build", "share"].map((p) 
   return `<li class="p-${p}"><b>${p}</b><span><em>why</em>${cell("why")}</span><span><em>how</em>${cell("how")}</span><span><em>what</em>${cell("what")}</span></li>`;
 }).join("")}</ul>`;
 // one fold of a set: click its summary to open it; opening one closes the others in its set
-const fold = (set, head, body) => `<details name="${set}"><summary>${head}</summary><div class="fold-body">${body}</div></details>`;
+const fold = (set, head, body, attrs = "") => `<details name="${set}"${attrs}><summary>${head}</summary><div class="fold-body">${body}</div></details>`;
 
 /* the peer cards across groups, sorted by the kind of institution they name: our sorting, the cards as written */
 const PEER_KINDS = [
@@ -2904,12 +2905,19 @@ const SLIDES = [
     notes: ["“The second session was about our value prop and messaging. People are motivated when three needs are met: competence, autonomy and relatedness. Each table picked a persona, an Upskiller or a Volunteer, and filled one grid for them: Learn, Build and Share down the side; why they'd show up, how it should work, and what they'd get, across the top.”"],
   },
   {
-    label: "The second exercise · the walls", layer: "lab", hud: labelsHud, make: () => goldenScene({ walls: [0, 1, 2], morph: "grid", glyph: 13, at: (c) => [(c.aspect ?? 1.8) < 1.05 ? 0 : 1.1, 0, 0] }),
+    label: "The second exercise · the walls", layer: "lab",
+    make: () => goldenScene({ walls: [0, 1, 2], morph: "grid", glyph: 13, at: (c) => [(c.aspect ?? 1.8) < 1.05 ? 0 : 1.1, 0, 0], lit: (s, n) => WALL_LIT[n.wi],
+      cellN: (cl) => (WALL_OPEN.k < 0 ? cl.n : WALLS[WALL_OPEN.k].cards.filter((x) => x.path === cl.p && x.q === cl.q).length) }), // the counts follow the open wall
+    hud(c, el) { // each frame: ease every wall's notes toward lit (none open, or the open one) or dim
+      labelsHud.call(this, c);
+      const d = el.querySelector("details[open]"), k = (WALL_OPEN.k = d ? +d.dataset.wall : -1);
+      WALL_LIT.forEach((v, i) => { WALL_LIT[i] = v + ((k < 0 || i === k ? 1 : 0.12) - v) * 0.15; });
+    },
     words: `<p class="kicker">The second exercise · What the walls say</p>
       <h2 class="h h-board">One Volunteer wall, two Upskiller walls</h2>
       <p class="small">The Volunteer wall is labeled ${qt(wallLabel(WALLS[0]).more, ".")} The Upskiller walls picture our participants; one is labeled ${qt("mid-career pivoters", ".")}</p>
-      <div class="fold">${WALLS.map((w, k) => fold("walls", `${WALL_NAME[k]} · ${plural(w.cards.length, "sticky note", "sticky notes")}`, wallFold(w))).join("")}</div>
-      <p class="small">Click a wall to open it: every note as written, by way in and by question.</p>`,
+      <div class="fold">${WALLS.map((w, k) => fold("walls", `${WALL_NAME[k]} · ${plural(w.cards.length, "sticky note", "sticky notes")}`, wallFold(w), ` data-wall="${k}"`)).join("")}</div>
+      <p class="small">Click a wall to open it: every note as written, by way in and by question. Its notes stay lit on the grid, and the counts become its own.</p>`,
     notes: [`“Three walls came back: one Volunteer wall, with ${WALLS[0].cards.length} notes, and two Upskiller walls, with ${WALLS[1].cards.length} and ${WALLS[2].cards.length}. The second Upskiller wall is labeled mid-career pivoters.” Open a wall to read its notes.`],
   },
   {
