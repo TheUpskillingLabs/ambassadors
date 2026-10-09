@@ -2511,8 +2511,8 @@ const leaders = (list, again) => {
   return `${qt(cap(a.w))} leads${again ? " again" : ""}, with ${a.n} uses, then ${andList(next.map((w, k) => qt(w.w, k === next.length - 1 ? "," : "")))} with ${next[0].n}${next.length > 1 ? " each" : ""}.`;
 };
 
-/* the five headlines, together, in the order they were read */
-const voiceParts = `<ul class="byg wide hls">${ORDER.map((g) => `<li><b>Group ${g}</b><span>${esc(HL[g].text)}</span></li>`).join("")}</ul>`;
+/* the five headlines, together, A to E */
+const voiceParts = `<ul class="byg wide hls">${GROUPS.map((g) => `<li><b>Group ${g}</b><span>${esc(HL[g].text)}</span></li>`).join("")}</ul>`;
 
 /* the cards of one type, group by group, as written */
 const plural = (k, one, many) => `${k} ${k === 1 ? one : many}`;
@@ -2882,12 +2882,12 @@ const SLIDES = [
   {
     label: "Opening", make: () => openScene(),
     words: `<p class="kicker">The Labs retreat · October 3, 2026</p>
-      <h1 class="h h-xl">Setting the foundation for 2027 &amp; beyond</h1>
-      <p class="lead dim" data-at="1">On October 3 we held an offsite with our volunteer leads and recent Build Cycle participants. We planned the upcoming quarter and year, and talked through our longer-term strategy as an organization. Here's what the team wrote, word for word, and what we noticed.</p>
+      <h1 class="h">Setting the foundation for 2027 &amp; beyond</h1>
+      <p class="lead dim" data-at="1">On October 3 we held an offsite with our volunteer leads and recent Build Cycle participants. We planned the upcoming quarter and year, and talked through our longer-term strategy as an organization.</p>
       <p class="small" data-at="1">Point at or tap any mark to read the card or note behind it. Typed up from photos and from recordings of the groups reading aloud; group ${andList(missing("impact"))}'s cards weren't photographed.</p>`,
     notes: [
       "On screen as people come in: the day's cards, drifting in. Advance when ready.",
-      `“On October 3, we held an offsite with our volunteer leads and recent Build Cycle participants, to plan the upcoming quarter and year and to talk through our longer-term strategy. This is what the team wrote, word for word: five headlines, ${N_MOON} cards, ${N_NOTES} sticky notes on the walls and ${N_B_IDEAS} ideas from the breakouts. After that, what we noticed.”`,
+      `“On October 3, we held an offsite with our volunteer leads and recent Build Cycle participants, to plan the upcoming quarter and year and to talk through our longer-term strategy.”`,
     ],
   },
   {
@@ -2915,9 +2915,9 @@ const SLIDES = [
     label: "Five headlines", make: () => voicesScene({ all: true }),
     words: `<p class="kicker">The first exercise · Sketch the moonshot</p>
       <h2 class="h">Five headlines for 2036</h2>
-      <p class="small">Five groups, A to E, each wrote a 2036 headline for The Labs and read it aloud. In the order they were read:</p>
+      <p class="small">Five groups, A to E, each wrote a 2036 headline for The Labs and read it aloud.</p>
       ${voiceParts}`,
-    notes: [`“Five groups each wrote a headline for The Labs in 2036. In the order they were read: ${ORDER.map((g) => `group ${g}, ‘${inner(HL[g].text)}’`).join(" ")}”`],
+    notes: [`“Five groups each wrote a headline for The Labs in 2036. ${GROUPS.map((g) => `group ${g}, ‘${inner(HL[g].text)}’`).join(" ")}”`],
   },
   {
     label: "How far each headline reaches", make: () => Object.assign(adoptScene(), { dur: [0, 4.0] }),
