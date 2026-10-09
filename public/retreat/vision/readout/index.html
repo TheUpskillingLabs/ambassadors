@@ -2654,22 +2654,11 @@ const BREAKOUTS = [
   },
   ...BOARDS.map((_, bi) => boardSlide(bi)),
   {
-    label: "The breakouts · where the ideas went", layer: "lab", hud: labelsHud,
-    make: () => hmwScene({ counts: (c) => 1 - eio(c.sa[1] ?? 0), litStep: (s, n) => (s === 0 || /^(operating )?principle:/i.test(n.t) ? 1 : 0.12) }),
-    words: `<p class="kicker">The breakouts · Where the ideas went</p>
-      <h2 class="h">Where the ideas went</h2>
-      <p class="lead dim" data-at="0" data-only>${esc(B_RANK[0].b.short)} drew the most ideas: ${B_RANK[0].n}. Then ${andList(B_RANK.filter((x) => x.n === B_RANK[1].n).map((x) => esc(x.b.short)))}, with ${B_RANK[1].n}${B_RANK.filter((x) => x.n === B_RANK[1].n).length > 1 ? " each" : ""}. ${esc(B_RANK[B_RANK.length - 1].b.short)} drew ${B_RANK[B_RANK.length - 1].n === 1 ? "one" : B_RANK[B_RANK.length - 1].n}.</p>
-      <div data-at="1" data-only><p class="lead dim">Almost every note is a question. ${PRINCIPLES.length === 2 ? "Two" : PRINCIPLES.length} answer instead, both about the people who give their time:</p>
-        <ul class="byg wide">${PRINCIPLES.map((x) => `<li><b>${{ community: "Cohorts", volunteers: "Volunteers" }[x.b.id] || esc(x.b.short)}</b><span>${qt(x.n.t)}</span></li>`).join("")}</ul></div>`,
-    notes: [`“Here's where the ideas went. ${B_RANK[0].b.short} drew the most: ${B_RANK[0].n}.”`, `“And almost every note is a question. Two answer instead: ${PRINCIPLES.map((x) => x.n.t).join(" And: ")}”`],
-  },
-  {
-    label: "The breakouts · in their words", layer: "cloud", hud: cloudHud({ key: "hmw", label: "Word cloud: the words on the breakouts' sticky notes", groups: [{ words: CLOUDS.hmw }] }), make: () => cloudScene(),
-    words: `<p class="kicker">The breakouts · In their words</p>
-      <h2 class="h">The words on the sticky notes</h2>
-      <p class="lead dim">Every word on the breakouts' ${N_B_NOTES} sticky notes that shows up at least twice, sized by how often, with “how might we” itself set aside. ${leaders(CLOUDS.hmw)}</p>
-      <p class="small">The printed questions are left out: these are only the team's own notes. Word counts, not themes: the themes are in Part 2. Point at or tap a word to see the notes it's on.</p>`,
-    notes: [`“And the words on the breakouts' sticky notes. ${leaders(CLOUDS.hmw).replace(/[“”]/g, "")}”`],
+    label: "The breakouts · summary and research plan", layer: "lab", hud: labelsHud, make: () => hmwScene({}),
+    words: `<p class="kicker">The breakouts · Summary and research plan</p>
+      <h2 class="h">Summary and research plan</h2>
+      <p class="lead dim">Placeholder: this slide will show the breakouts' summary and the research plan, from the photos of the day.</p>`,
+    notes: ["Placeholder: to be replaced with the summary and research plan once the photos are in."],
   },
 ];
 /* ── Part 2: what we heard ──
@@ -2774,17 +2763,11 @@ const insightSlide = (n) => {
 };
 const HOW_WE_READ = {
   label: "Part 2 · How we read it", layer: "lab", hud: labelsHud,
-  make: () => Object.assign(themeScene({ layout: (s) => (s === 0 ? 0 : 1), lit: (s) => (s === 2 ? 0.35 : 1) }), { dur: [0, 2.6] }),
+  make: () => Object.assign(themeScene({ layout: () => 1 }), { dur: [0, 2.6] }),
   words: `<p class="kicker">Part 2 · What we noticed</p>
     <h2 class="h">How we read it</h2>
-    <div data-at="0" data-only><p class="kicker sub">What we had</p><p class="lead dim">${N_ITEMS} items, typed up word for word: the five headlines and ${N_MOON} cards from the 2036 exercise, the ${N_NOTES} sticky notes on the walls and the ${N_B_IDEAS} ideas from the breakouts. One pile per conversation, one mark per item.</p><p class="small">Groups ${andList(missing("impact"))}'s cards weren't photographed. We left out the ${N_B_PROMPTS} printed questions, which were written before the day.</p></div>
-    <div data-at="1" data-only><p class="kicker sub">How we read them</p><p class="lead dim">We read every item against one codebook of ${N_THEMES} themes. Each theme says what it means, what it takes in and what it leaves out, so anyone can check our calls. An item can carry more than one theme: ${N_MULTI} do, so they sit in more than one row.</p><p class="small">${cap(num(N_UNCLEAR))} items are hard to read in places; we coded only what they plainly say. The codebook and every item's themes are on the data page.</p></div>
-    <div data-at="2" data-only><p class="kicker sub">What it can't tell us</p><ul class="asks asks-s"><li>Counts are items, not people. One person can write several notes, and nobody voted.</li><li>Each conversation asked something different, and the breakout topics were set before the day, so what was asked shapes what came back.</li><li>The Upskiller and Volunteer walls are the team's picture, not interviews.</li><li>The themes are our reading. Another reader might draw some lines differently.</li></ul></div>`,
-  notes: [
-    `“Part 2 is what we noticed, so first, how we read it. We had ${N_ITEMS} items, typed up word for word: from the 2036 exercise, the walls and the breakouts. One pile per conversation.”`,
-    `“We read every item against one codebook of ${N_THEMES} themes, each with what it means, what it takes in and what it leaves out, so anyone can check our calls. An item can carry more than one theme. The codebook is on the data page.”`,
-    "“And what this can't tell us. Counts are items, not people, and nobody voted. Each conversation asked something different, so what was asked shapes what came back. The Upskiller and Volunteer walls are the team's picture, not interviews. And the themes are our reading.”",
-  ],
+    <p class="lead dim">We read every item against one codebook of ${N_THEMES} themes. Each theme says what it means, what it takes in and what it leaves out, so anyone can check our calls. An item can carry more than one theme: ${N_MULTI} do, so they sit in more than one row.</p><p class="small">${cap(num(N_UNCLEAR))} items are hard to read in places; we coded only what they plainly say. The codebook and every item's themes are on the data page.</p>`,
+  notes: [`“We read every item against one codebook of ${N_THEMES} themes, each with what it means, what it takes in and what it leaves out, so anyone can check our calls. An item can carry more than one theme. The codebook is on the data page.”`],
 };
 const THEMES_SLIDE = {
   label: "Themes across the day", layer: "lab", hud: labelsHud,
@@ -2840,42 +2823,7 @@ const PART2 = [
   },
   insightSlide(2),
   insightSlide(3),
-  {
-    label: "From draft to headline", make: () => groupCardsScene(["draft", "note"], ORDER, [["A", "B"]]),
-    words: `<p class="kicker">A closer look · From draft to headline</p>
-      <h2 class="h">Making it 10x bigger kept the reach and dropped the core idea</h2>
-      <ul class="flow">
-        <li><b>A, alone</b><span>${qt(ofType("draft", "A")[0].text.replace(/\.$/, ""))}</span></li>
-        <li><b>A, as a group</b><span>${qt("federated across every US community")} …</span></li>
-        <li><b>B, alone</b><span>${qt("Communities across the nation and globally can start up independent spaces to support learning and growth")} …</span></li>
-        <li><b>B, as a group</b><span>${qt("working with 100+ local + national govts + 10,000,000 upskillers")}</span></li>
-        <li data-at="1" class="back"><b>B, read aloud</b><span>${qt("keeping true to our main focus: helping local communities and individuals grow their skills, grow their confidence and build community.")}</span></li>
-      </ul>`,
-    notes: ["“Here's what happened between the drafts people wrote alone and the group headlines. Making it ten times bigger kept the reach and dropped the core idea. A's draft was about building knowledge and confidence; the headline is about spreading across the country. B's draft had communities starting their own spaces; the headline has governments.”", "“And B put the core idea straight back the moment they read the headline aloud.”"],
-  },
-  {
-    label: "Every number measures size", layer: "nums", make: () => numbersScene(),
-    words: `<p class="kicker">A closer look · The numbers</p>
-      <h2 class="h">Every number measures size</h2>
-      <p class="lead dim">100 cities in one draft, then 100+ governments, 10,000,000 upskillers and less than 10 years.</p>
-      <p class="lead" data-at="1">None of them measures what changes for a person: ${qt("gainfully employed in a fulfilling role", ",")} ${qt("grow their confidence", ",")} ${qt("something I can use in my day to day", ".")}</p>`,
-    notes: ["“Every number the team wrote measures size: cities, governments, people, years.”", "“None of them measures what changes for one person: a good job, more confidence, something they can use.”"],
-    hud(c) { numsHud(c, 0.8); },
-  },
-  {
-    label: "Two vocabularies", layer: "cloud", hud: cloudHud(CLOUD_SPECS.cmp), make: () => cloudScene(),
-    words: `<p class="kicker">A closer look · Two vocabularies</p>
-      <h2 class="h">Same team, two vocabularies</h2>
-      <p class="lead dim">The two exercises used about ${Math.round((CLOUDS.stats.vDistinct + CLOUDS.stats.wDistinct) / 20) * 10} different words each. Only ${CLOUDS.stats.shared} show up in both.</p>
-      <p class="small" data-at="1">The 2036 words are about systems: policy, citizens, the workforce, a country. The wall words are about one person: a problem, a skill, an experience, something to create. Both use community, learning, build and AI.</p>
-      <p class="small">Word counts, not themes: they show which words each exercise used, not what it meant.</p>`,
-    notes: [
-      `“Put the two exercises' words side by side, and they barely overlap. Each used about ${Math.round((CLOUDS.stats.vDistinct + CLOUDS.stats.wDistinct) / 20) * 10} different words; only ${CLOUDS.stats.shared} show up in both.”`,
-      "“The 2036 words are about systems: policy, citizens, the workforce. The wall words are about one person: a problem, a skill, something to create. They meet on community, learning, building and AI.”",
-    ],
-  },
   insightSlide(4),
-  NEXT_STEPS,
 ];
 
 const SLIDES = [
