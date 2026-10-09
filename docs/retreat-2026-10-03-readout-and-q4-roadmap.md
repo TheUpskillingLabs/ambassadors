@@ -29,7 +29,7 @@ We started from where we stand. In under a year, all on volunteer power, we've d
 | 1:30 | Building DC's founding team | Ann Marie | Reacted to a draft of who owns what between the board and a DC committee |
 | 1:50 | Closing circle | Sandra | Closed the day together |
 
-Everything the team wrote on the day, along with how we read it, is in the [retreat readout](https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/).
+Everything the team wrote on the day, along with how we read it, is in the [retreat readout](https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/#s1).
 
 ### The problem spaces
 
@@ -55,7 +55,7 @@ This quarter has three priorities.
 **1. Run an internal build cycle.** It kicks off October 13.
 
 - [ ] Say you're interested in **#c04-all** on Slack, and we'll invite you to the internal cycle on OLOS.
-- [ ] Review the How Might Wes in the [field survey]([link]) and the [retreat readout](https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/).
+- [ ] Review the How Might Wes in the [field survey]([link]) and the [retreat readout](https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/#s1).
 
 **2. Run this quarter's workshops.** Our public workshops keep running, both in person and virtual.
 
