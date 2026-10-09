@@ -10,7 +10,7 @@ This quarter, a big focus is setting the foundation for an ambitious 2027. We're
 
 **Join the internal build cycle.** It kicks off **October 13**, and we'll use it to improve The Labs itself. Anyone who has volunteered with us or completed a Build Cycle can join. To start, explore the [problem spaces](#the-problem-spaces) we named at the retreat. Look inside The Labs, and outside it too: what others do, and what the research says.
 
-**Help lead DC.** We're recruiting for DC's volunteer leadership committee. We're appointing interim leads now and taking nominations until [date]. After that, we'll open an application process for full 2027 terms.
+**Help lead DC.** We're recruiting for DC's volunteer leadership committee. We're appointing interim leads now and taking nominations until **Monday, October 12**, ahead of next week's board meeting. Post nominations in **#org-board-decisions** on Slack. After that, we'll open an application process for full 2027 terms.
 
 ## Retreat readout
 
@@ -64,7 +64,7 @@ This quarter has three priorities.
 - **Plan our grant deliveries,** including the IRB process for Johns Hopkins and scheduling workshops for Arlington County.
 - **Raise funds for a small full-time team,** with an executive director as our first hire.
 - **Recruit our volunteer leadership committee.**
-    - [ ] Nominate interim leads by [date]: [link].
+    - [ ] Nominate interim leads in **#org-board-decisions** on Slack by Monday, October 12.
     - We'll open an application process for full 2027 terms soon.
 
 ## What this sets us up for in 2027
