@@ -480,7 +480,7 @@
   "walls": [
    {
     "id": "upskiller-1",
-    "who": "Upskiller (volunteering with an upskiller, 2027 → 2050)",
+    "who": "Volunteer (volunteering with an upskiller, 2027 → 2050)",
     "photo": "wall-upskiller-1.webp",
     "cards": [
      {
@@ -769,7 +769,7 @@
    },
    {
     "id": "pivoters",
-    "who": "Mid-career pivoters",
+    "who": "Upskiller (mid-career pivoters)",
     "photo": "wall-pivoters.webp",
     "cards": [
      {
