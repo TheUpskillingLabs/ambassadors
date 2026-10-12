@@ -8,9 +8,9 @@ This quarter, a big focus is setting the foundation for an ambitious 2027. We're
 
 ## How you can get involved
 
-**Join the internal build cycle.** It kicks off **October 13**, and we'll use it to improve The Labs itself. Anyone who has volunteered with us or completed a Build Cycle can join. To start, explore the [problem spaces](#the-problem-spaces) we named at the retreat. Look inside The Labs, and outside it too: what others do, and what the research says.
+**Join the internal build cycle.** It kicks off **October 13**, and we'll use it to improve The Labs itself. Anyone who has volunteered with us or completed a Build Cycle can join. To start, explore the initial tensions we named at the retreat (below).
 
-**Help lead DC.** We're recruiting for DC's volunteer leadership committee. We're appointing interim leads now and taking nominations until **Tuesday, October 13**, ahead of next week's board meeting. Post nominations in **#org-board-decisions** on Slack. After that, we'll open an application process for full 2027 terms.
+**Help lead DC.** We're recruiting for DC's volunteer leadership committee. We're appointing interim leads now and taking nominations until **Tuesday, October 13**, ahead of Wednesday's board meeting. Post nominations in **#org-board-decisions** on Slack. After that, we'll open an application process for full 2027 terms.
 
 ## Retreat readout
 
