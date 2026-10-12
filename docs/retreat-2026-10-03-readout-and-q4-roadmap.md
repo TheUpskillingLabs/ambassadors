@@ -10,7 +10,7 @@ This quarter, a big focus is setting the foundation for an ambitious 2027. We're
 
 **Join the internal build cycle.** It kicks off **October 13**, and we'll use it to improve The Labs itself. Anyone who has volunteered with us or completed a Build Cycle can join. To start, explore the [problem spaces](#the-problem-spaces) we named at the retreat. Look inside The Labs, and outside it too: what others do, and what the research says.
 
-**Help lead DC.** We're recruiting for DC's volunteer leadership committee. We're appointing interim leads now and taking nominations until **Monday, October 12**, ahead of next week's board meeting. Post nominations in **#org-board-decisions** on Slack. After that, we'll open an application process for full 2027 terms.
+**Help lead DC.** We're recruiting for DC's volunteer leadership committee. We're appointing interim leads now and taking nominations until **Tuesday, October 13**, ahead of next week's board meeting. Post nominations in **#org-board-decisions** on Slack. After that, we'll open an application process for full 2027 terms.
 
 ## Retreat readout
 
@@ -46,7 +46,7 @@ In the afternoon breakouts we named eight tensions in how The Labs runs. They're
 | What we do vs. what we can prove | Showing what changes for people, not just how many we reach |
 | Grant dependence vs. diversified revenue | Relying on grants, or building other income |
 
-We've added every How Might We to the field survey in OLOS for this internal cycle, both the ones submitted before the retreat and the ones written after it. Add new ones through the [field survey]([link]).
+We've added every How Might We to the field survey in OLOS for this internal cycle, both the ones submitted before the retreat and the ones written after it. Add new ones through the [field survey](https://olos.theupskillinglabs.org/survey/internalq42026).
 
 ## Q4 roadmap
 
@@ -55,7 +55,7 @@ This quarter has three priorities.
 **1. Run an internal build cycle.** It kicks off October 13.
 
 - [ ] Say you're interested in **#c04-all** on Slack, and we'll invite you to the internal cycle on OLOS.
-- [ ] Review the How Might Wes in the [field survey]([link]) and the [retreat readout](https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/#s1).
+- [ ] Review the How Might Wes in the [field survey](https://olos.theupskillinglabs.org/survey/internalq42026) and the [retreat readout](https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/#s1).
 
 **2. Run this quarter's workshops.** Our public workshops keep running, both in person and virtual.
 
@@ -64,7 +64,7 @@ This quarter has three priorities.
 - **Plan our grant deliveries,** including the IRB process for Johns Hopkins and scheduling workshops for Arlington County.
 - **Raise funds for a small full-time team,** with an executive director as our first hire.
 - **Recruit our volunteer leadership committee.**
-    - [ ] Nominate interim leads in **#org-board-decisions** on Slack by Monday, October 12.
+    - [ ] Nominate interim leads in **#org-board-decisions** on Slack by Tuesday, October 13.
     - We'll open an application process for full 2027 terms soon.
 
 ## What this sets us up for in 2027
