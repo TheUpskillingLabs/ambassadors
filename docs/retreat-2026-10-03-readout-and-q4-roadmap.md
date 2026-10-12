@@ -57,6 +57,15 @@ This quarter has three priorities.
 - [ ] Say you're interested in **#c04-all** on Slack, and we'll invite you to the internal cycle on OLOS.
 - [ ] Review the How Might Wes in the [field survey](https://olos.theupskillinglabs.org/survey/internalq42026) and the [retreat readout](https://theupskillinglabs.github.io/ambassadors/retreat/vision/readout/#s1).
 
+Key dates for the internal cycle:
+
+| Date | Milestone |
+| --- | --- |
+| Tue, Oct 13 | Kickoff |
+| Sat, Oct 24 | Pods form |
+| Sat, Nov 14 | Projects form |
+| Tue, Dec 8 | Cycle ends |
+
 **2. Run this quarter's workshops.** Our public workshops keep running, both in person and virtual.
 
 **3. Prepare for 2027.**
